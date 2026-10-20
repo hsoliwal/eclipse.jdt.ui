@@ -115,7 +115,7 @@ public class BuildpathModifierActionEnablementTest {
 	}
 
 	private BuildpathModifierAction[] createActions() {
-		ISetSelectionTarget nullSelectionTarget= _ -> {};
+		ISetSelectionTarget nullSelectionTarget= unused -> {};
 
 		IRunnableContext context= PlatformUI.getWorkbench().getProgressService();
 

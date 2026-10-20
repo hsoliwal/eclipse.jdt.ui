@@ -309,7 +309,7 @@ public class FilteredPreferenceTree {
 
 		fRefreshJob= doCreateRefreshJob();
 		fRefreshJob.setSystem(true);
-		fParentComposite.addDisposeListener(_ -> fRefreshJob.cancel());
+		fParentComposite.addDisposeListener(unused -> fRefreshJob.cancel());
 	}
 
 	private void createDescription(String label) {
@@ -372,7 +372,7 @@ public class FilteredPreferenceTree {
 				setAllExpanded(null, expand);
 			}
 		});
-		item.addDisposeListener(_ -> {
+		item.addDisposeListener(unused -> {
 			createdImage.dispose();
 		});
 		return item;

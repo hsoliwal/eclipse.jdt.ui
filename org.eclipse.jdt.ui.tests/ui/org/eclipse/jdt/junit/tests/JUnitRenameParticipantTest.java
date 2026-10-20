@@ -134,7 +134,7 @@ public class JUnitRenameParticipantTest {
 		RefactoringStatus status= new RefactoringStatus();
 		RenameParticipant[] participants= ParticipantManager.loadRenameParticipants(status, refactoring.getProcessor(), type,
 				new RenameArguments("RenamedTest", true),
-				(configuration, _) -> "org.eclipse.jdt.junit.renameTypeParticipant".equals(configuration.getAttribute("id")),
+				(configuration, unused) -> "org.eclipse.jdt.junit.renameTypeParticipant".equals(configuration.getAttribute("id")),
 				new String[] { JavaCore.NATURE_ID }, new SharableParticipants());
 		assertTrue(status.isOK(), status::toString);
 		// The general debug participant also updates type names, so a successful rename alone

@@ -269,7 +269,7 @@ public class ModuleSelectionDialog extends TrayDialog {
 
 		TableViewer tableViewer= new TableViewer(composite, SWT.MULTI | SWT.BORDER);
 		tableViewer.setContentProvider(new ListContentProvider());
-		tableViewer.setLabelProvider(new ModulesLabelProvider(fKinds::get, _ -> false));
+		tableViewer.setLabelProvider(new ModulesLabelProvider(fKinds::get, unused -> false));
 		tableViewer.addSelectionChangedListener(this::selectionChanged);
 
 		PixelConverter converter= new PixelConverter(parent);
@@ -294,7 +294,7 @@ public class ModuleSelectionDialog extends TrayDialog {
 		fSelectAllCheckbox= new SelectionButtonDialogField(SWT.CHECK);
 		fSelectAllCheckbox.setLabelText(NewWizardMessages.ModuleSelectionDialog_selectAll_button);
 		fSelectAllCheckbox.setSelection(false);
-		fSelectAllCheckbox.setDialogFieldListener(_ -> selectAll(fSelectAllCheckbox.isSelected()));
+		fSelectAllCheckbox.setDialogFieldListener(unused -> selectAll(fSelectAllCheckbox.isSelected()));
 		fSelectAllCheckbox.doFillIntoGrid(composite, 2);
 
 		return composite;

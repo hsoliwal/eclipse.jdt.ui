@@ -59,7 +59,7 @@ public class MyJavadocExportWizardPage extends JavadocExportWizardPage {
 
 	@Override
 	public Control createContents(Composite parent) {
-		ModifyListener modifyListener= _ -> validateInputs();
+		ModifyListener modifyListener= unused -> validateInputs();
 
 		Composite composite= new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

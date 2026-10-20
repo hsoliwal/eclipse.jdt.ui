@@ -1,0 +1,281 @@
+repo	kind	path	line	text
+eclipse.jdt.ui	import_module	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ModuleImportsCleanUpCore.java	308	    import module java.base;
+eclipse.jdt.ui	import_module	org.eclipse.jdt.text.tests/testResources/semanticHighlightingTest1/Java25.java	1	import module java.base;
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/UnusedCodeFixCore.java	1007	    parametersToRemove.computeIfAbsent(method, (MethodDeclaration _) -> new LinkedHashSet<>()).add(parameter);
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	264	   try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	317	   try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	345	   try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	469	  try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	503	  try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	528	  try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	546	  try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	572	  try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	693	   try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	712	  try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_decl	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	719	  try (var _= fTestMethodsCache.runNestedCancelable()) {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.astview/src/org/eclipse/jdt/astview/views/ASTView.java	768	  fTrayUpdater= _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.astview/src/org/eclipse/jdt/astview/views/ASTView.java	781	  fTray.addDoubleClickListener(_ -> performTrayDoubleClick());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/views/BytecodeOutlineView.java	742	  textSelectionListener = _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/views/BytecodeOutlineView.java	748	  textListener = _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/JavaCodeTokenizer.java	247	  map.computeIfAbsent(name, _ -> new ArrayDeque<>()).push(depth);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java	108	         case R(_, long l) -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java	119	         case R(_, _) -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java	120	         case R _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/codemanipulation/StubUtility2Core.java	897	   ignoreTheseMethods= _->false;
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/AddUnimplementedMethodsOperation.java	160	     filter= _->false;
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	134	         case BooleanLiteral _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	135	         case CharacterLiteral _ ->{}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	136	         case StringLiteral _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	137	         case NumberLiteral _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	138	         case TypeLiteral _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	139	         case MethodReference _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	140	         case TextBlock _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	141	         case ThisExpression _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	142	         case PrefixExpression _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	143	         case PostfixExpression _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	144	         case ClassInstanceCreation _ -> {}
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/UnusedCodeFixCore.java	1007	    parametersToRemove.computeIfAbsent(method, (MethodDeclaration _) -> new LinkedHashSet<>()).add(parameter);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/helper/WhileToForEach.java	107	      WhileLoopToChangeHit hit= holder.computeIfAbsent(whilestatement, _ -> new WhileLoopToChangeHit());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/helper/WhileToForEach.java	221	  HelperVisitor.callMethodInvocationVisitor(iterDeclarationParent, dataholder, nodesprocessed, (mi, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/helper/WhileToForEach.java	244	  HelperVisitor.callSimpleNameVisitor(iterDeclarationParent, dataholder, nodesprocessed, (sn, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/helper/WhileToForEach.java	324	   HelperVisitor.callAssignmentVisitor(parent, dataholder, nodesprocessed, (assignment, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/helper/WhileToForEach.java	371	    HelperVisitor.callAssignmentVisitor(parent, dataholder, nodesprocessed, (assignment, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/helper/WhileToForEach.java	85	  HelperVisitor.callVariableDeclarationStatementVisitor(Iterator.class, compilationUnit, dataholder, nodesprocessed, (init_iterator, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.jeview/src/org/eclipse/jdt/jeview/views/JavaElementView.java	180	   fViewer.addSelectionChangedListener(_ -> fireSelectionChanged());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.jeview/src/org/eclipse/jdt/jeview/views/JavaElementView.java	904	  fViewer.addDoubleClickListener(_ -> fDoubleClickAction.run());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/launcher/JUnit5TestFinder.java	239	     typesByCompilationUnit.computeIfAbsent(compilationUnit, _ -> new ArrayList<>()).add(type);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/buildpath/JUnitContainerWizardPage.java	140	  fVersionCombo.addModifyListener(_ -> doSelectionChanged());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/CompareResultDialog.java	268	     control.addDisposeListener(_ -> compareConfiguration.dispose());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/CompareResultsAction.java	52	   fOpenDialog.getShell().addDisposeListener(_ -> fOpenDialog= null);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/CounterPanel.java	55	  addDisposeListener(_ -> disposeIcons());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/FailureTableDisplay.java	30	  fTable.getParent().addDisposeListener(_ -> disposeIcons());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/FailureTrace.java	101	  handler.addOpenListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/TestRunnerViewPart.java	2167	  fViewMenuListener= _ -> fActivateOnErrorAction.update();
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/util/CheckedTableSelectionDialog.java	230	  fViewer.addCheckStateListener(_ -> updateOKStatus());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	316	  fProjText.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	344	  fTestText.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	374	  fTestMethodText.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	417	  fContainerText.addModifyListener(_ -> updateLaunchConfigurationDialog());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchShortcut.java	254	    tree.compute(parentInTree, (_, value) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/wizards/NewTestCaseWizardPageTwo.java	171	  fMethodsTree.addCheckStateListener(_ -> doCheckedStateChanged());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/wizards/NewTestSuiteWizardPage.java	316	   fClassesInSuiteTable.addCheckStateListener(_ -> handleFieldChanged(CLASSES_IN_SUITE));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/launching/TomcatTab.java	109	  fTomcatDir.addModifyListener(_ -> updateLaunchConfigurationDialog());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/launching/TomcatTab.java	133	  fProjectText.addModifyListener(_ -> updateLaunchConfigurationDialog());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.examples.projects/examples/org/eclipse/jdt/internal/ui/exampleprojects/ExampleProjectCreationWizardPage.java	84	  fTextControl.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/examples/org/eclipse/jdt/ui/examples/MyJavadocExportWizardPage.java	62	  ModifyListener modifyListener= _ -> validateInputs();
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/test plugin/org/eclipse/jdt/testplugin/JavaProjectHelper.java	607	  IWorkspaceRunnable runnable= _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/test plugin/org/eclipse/jdt/testplugin/JavaProjectHelper.java	679	  IWorkspaceRunnable runnable= _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	192	  BiPredicate<MethodInvocation, ReferenceHolder<String, NodeFound>> after = (_,_)->{
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	245	   hv.add(ve, (node, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	252	   hv.addEnd(ve, (node, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	305	  BiPredicate<ASTNode, ReferenceHolder<ASTNode, String>> bs =(node,_)->{
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	309	  BiConsumer<ASTNode, ReferenceHolder<ASTNode, String>> bc = (node,_)->{
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	393	   Map<String, Object> pernodemap = holder.computeIfAbsent(node, _ -> new HashMap<>());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	432	  HelperVisitor.callVariableDeclarationStatementVisitor(Iterator.class, result2, dataholder,null, (init_iterator,_)->{
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	434	   HelperVisitor.callWhileStatementVisitor(init_iterator.getParent(), dataholder,null, (whilestatement,_)->{
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	438	      Map<String, Object> pernodemap2 = holder2.computeIfAbsent(whilestatement, _ -> new HashMap<>());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	597	  hv.addMethodInvocation("println",(node, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	616	  hv.addSingleVariableDeclaration((node, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	620	  hv.addVariableDeclarationFragment((node, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	624	  hv.addWhileStatement((node, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	628	  hv.addWhileStatement((node, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	633	  hv.addMethodInvocation("next",(methodinvocationnode, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/fix/CleanUpRegistry.java	233	     fOptionsProvider= _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/fix/ImportsFix.java	55	  IChooseImportQuery query= (_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ChangeExceptionsControl.java	152	  fTableViewer.addSelectionChangedListener(_ -> updateButtonsEnabledState());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ChangeParametersControl.java	325	  fTableViewer.addSelectionChangedListener(_ -> updateButtonsEnabledState());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ChangeSignatureWizard.java	221	    text.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ChangeSignatureWizard.java	252	    text.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ConvertAnonymousToNestedWizard.java	141	   classNameField.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/CreateTextFileChangePreviewViewer.java	76	   addDisposeListener(_ -> disposeImage());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractClassWizard.java	175	   text.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractClassWizard.java	217	   text.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractClassWizard.java	309	   tv.addSelectionChangedListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractInterfaceWizard.java	207	   fTableViewer.addCheckStateListener(_ -> ExtractInterfaceInputPage.this.updateUIElementEnablement());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractSupertypeMemberPage.java	110	   fViewer.addSelectionChangedListener(_ -> performSelectionChanged(((IStructuredSelection) fViewer.getSelection()).toArray()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractSupertypeMemberPage.java	111	   fViewer.addDoubleClickListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractSupertypeMemberPage.java	328	  fTableViewer.addSelectionChangedListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractSupertypeMemberPage.java	385	  fNameField.addModifyListener(_ -> handleNameChanged(fNameField.getText()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceFactoryInputPage.java	118	  fMethodName.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceFactoryInputPage.java	143	  factoryTypeName.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceIndirectionInputPage.java	142	  fIntermediaryMethodName.addModifyListener(_ -> validateInput());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceIndirectionInputPage.java	151	  fIntermediaryTypeName.addModifyListener(_ -> validateInput());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceParameterObjectWizard.java	226	   text.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceParameterObjectWizard.java	544	   tv.addSelectionChangedListener(_ -> updateButtons(tv, upButton, downButton, editButton));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceParameterObjectWizard.java	646	   text.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/MoveInnerToTopWizard.java	85	   fFieldNameEntryText.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/MoveInstanceMethodWizard.java	189	   fMethodNameField.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/MoveInstanceMethodWizard.java	208	   fTargetNameField.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PromoteTempWizard.java	113	   fNameField.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PullUpMemberPage.java	577	  fTableViewer.addDoubleClickListener(_ -> editSelectedMembers());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PullUpMethodPage.java	403	  fTreeViewer.addCheckStateListener(_ -> updateSelectionLabel());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PushDownWizard.java	370	   fTableViewer.addDoubleClickListener(_ -> PushDownInputPage.this.editSelectedMembers());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/QualifiedNameComponent.java	57	  fPatterns.addModifyListener(_ -> refactoring.setFilePatterns(fPatterns.getText()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/TextInputWizardPage.java	137	  fTextField.addModifyListener(_ -> textModified(getText()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/code/ExtractMethodInputPage.java	341	  result.addModifyListener(_ -> textModified(getText()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/nls/ExternalizeWizardPage.java	830	  fPrefixField.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/nls/PackageFragmentSelection.java	55	  text.addModifyListener(_ -> updateListener());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/DestinationContentProvider.java	136	  return classPathRoots.computeIfAbsent(javaProject.getPath(), _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameInformationPopup.java	114	   fPopup.addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameLinkedMode.java	390	      image= new Image(gc.getDevice(), (_, _, _) -> {}, size.x, size.y) ;
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameLinkedMode.java	462	    fEditor.getSite().getWorkbenchWindow().run(false, true, _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsOptionsDialog.java	121	  fExactStrategyRadio.setDialogFieldListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsOptionsDialog.java	126	  fEmbeddedStrategyRadio.setDialogFieldListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsOptionsDialog.java	131	  fSuffixStrategyRadio.setDialogFieldListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsPage.java	462	  fTreeViewer.addDoubleClickListener(_ -> RenameTypeWizardSimilarElementsPage.this.editCurrentElement());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/ExpandWithConstructorsDialog.java	65	  fConfigurationBlock= new ExpandWithConstructorsConfigurationBlock(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/FiltersDialog.java	102	        fMaxCallDepth.addModifyListener(_ -> validateInput());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/FiltersDialog.java	113	        fFilterOnNames.addSelectionListener(SelectionListener.widgetSelectedAdapter(_ -> validateInput()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/FiltersDialog.java	117	        fNames.addModifyListener(_ -> validateInput());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/GenerateToStringDialog.java	1236	  treeViewer.addSelectionChangedListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/GenerateToStringDialog.java	393	    templateName.addModifyListener(_ -> validate(templateName.getText()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/OpenTypeSelectionDialog.java	164	  control.addDisposeListener(_ -> hs.deactivateHandler(handlerActivation));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/OverrideMethodDialog.java	445	  filterText.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/SortMembersMessageDialog.java	157	  fNotSortAllRadio.setDialogFieldListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/TextFieldNavigationHandler.java	294	   control.addDisposeListener(_ -> deactivate());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/filtertable/JavaFilterTable.java	350	  fAddFilterButton= createPushButton(buttonContainer, config.addFilter, _ -> addFilter());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/filtertable/JavaFilterTable.java	352	  fAddTypeButton= createPushButton(buttonContainer, config.addType, _ -> addType());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/filtertable/JavaFilterTable.java	354	  fAddPackageButton= createPushButton(buttonContainer, config.addPackage, _ -> addPackage());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/filtertable/JavaFilterTable.java	356	  fEditFilterButton= createPushButton(buttonContainer, config.editFilter, _ -> editFilter(), false);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/filtertable/JavaFilterTable.java	358	  fRemoveFilterButton= createPushButton(buttonContainer, config.remove, _ -> removeFilters(), false);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/filtertable/JavaFilterTable.java	370	   fSelectAllButton= createPushButton(buttonContainer, config.selectAll, _ -> checkableViewer.setAllChecked(true));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/filtertable/JavaFilterTable.java	373	   fDeselectAllButton= createPushButton(buttonContainer, config.deselectAll, _ -> checkableViewer.setAllChecked(false));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/CleanUpRefactoringWizard.java	373	   fUseCustomField.setDialogFieldListener(_ -> updateEnableState(fUseCustomField.isSelected(), settingsField, configure, bulletListBlock));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/CleanUpSelectionDialog.java	150	  restoreDefaults.addSelectionListener(widgetSelectedAdapter((_) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/CleanUpSelectionDialog.java	157	  restoreValues.addSelectionListener(widgetSelectedAdapter((_) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/infoviews/JavadocView.java	679	  fInputSelectionProvider.addSelectionChangedListener(_ -> actionBars.setGlobalActionHandler(JdtActionConstants.OPEN_ATTACHED_JAVA_DOC, fOpenBrowserAction));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizardPage.java	230	  fTreeViewer.addSelectionChangedListener(_ -> handleInputChanged());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizardPage.java	255	  fLocationControl.getControl().addModifyListener(_ -> handleInputChanged());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/JarPackageWizardPage.java	404	  ICheckStateListener listener = _ -> update();
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocSpecificsWizardPage.java	170	  fOverViewText.addModifyListener(_ -> doValidation(OVERVIEWSTATUS));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocSpecificsWizardPage.java	210	  fAntText.addModifyListener(_ -> doValidation(ANTSTATUS));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocStandardWizardPage.java	223	  fStyleSheetText.addModifyListener(_ -> doValidation(STYLESHEETSTATUS));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	170	  fJavadocCommandText.addModifyListener(_ -> doValidation(JAVADOCSTATUS));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	202	  fInputGroup.addCheckStateListener(_ -> doValidation(TREESTATUS));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	313	  fDestinationText.addModifyListener(_ -> doValidation(STANDARDSTATUS));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	328	  fDocletTypeText.addModifyListener(_ -> doValidation(CUSTOMSTATUS));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	334	  fDocletText.addModifyListener(_ -> doValidation(CUSTOMSTATUS));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/ClassFileEditor.java	251	   fComposite.addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/CompilationUnitEditor.java	601	    extension.registerPostNotificationReplace(null, (_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaCodeMiningReconciler.java	87	  typeRootFutureByEditor.compute(fEditor, (_, existingFuture) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaEditor.java	3372	  fPostSelectionListenerWithAST= (_, selection, astRoot) -> updateOccurrenceAnnotations(selection, astRoot);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaEditorBreadcrumb.java	602	  fViewer.addSelectionChangedListener(_ -> fBreadcrumbActionGroup.setContext(new ActionContext(fViewer.getSelection())));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/breadcrumb/BreadcrumbItemDropDown.java	611	  shell.addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/breadcrumb/BreadcrumbViewer.java	116	  fContainer.addListener(SWT.Resize, _ -> refresh());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/saveparticipant/AbstractSaveParticipantPreferenceConfiguration.java	97	  fEnableField.setDialogFieldListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/selectionactions/SelectionHistory.java	39	  fSelectionListener= _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/packageview/PackageExplorerActionGroup.java	156	  fPart.getSite().getSelectionProvider().addSelectionChangedListener(_ -> fZoomInAction.update());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/packageview/PackageExplorerActionGroup.java	161	  fFrameList.addPropertyChangeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/EditTemplateDialog.java	463	  viewer.addSelectionChangedListener(_ -> updateSelectionDependentActions());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/EditTemplateDialog.java	482	  getShell().addDisposeListener(_ -> handlerService.deactivateHandlers(handlerActivations));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/FilterTextControl.java	142	  fTextControl.addModifyListener(_ -> updateClearButtonVisibility(fTextControl.getText().length() != 0));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/FilterTextControl.java	217	   clearButton.addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/FilteredPreferenceTree.java	312	  fParentComposite.addDisposeListener(_ -> fRefreshJob.cancel());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/FilteredPreferenceTree.java	375	  item.addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavaEditorColoringConfigurationBlock.java	664	  fTreeViewer.addSelectionChangedListener(_ -> handleSyntaxColorListSelection());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavaEditorHoverConfigurationBlock.java	350	  fModifierEditor.addModifyListener(_ -> handleModifierModified());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavaSourcePreviewerUpdater.java	60	  viewer.getTextWidget().addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/MembersOrderPreferencePage.java	180	  fUseVisibilitySortField.setDialogFieldListener(_ -> fVisibilityOrderList.setEnabled(fUseVisibilitySortField.isSelected()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/PreferenceHighlight.java	107	  parent.addMouseTrackListener(MouseTrackListener.mouseExitAdapter(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/PreferenceHighlight.java	116	   labelControl.addMouseListener(MouseListener.mouseDownAdapter(_ -> mainControl.setFocus()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/ProblemSeveritiesConfigurationBlock.java	659	   List<String> perTarget= namesPerTarget.computeIfAbsent(target1, _ -> new ArrayList<>());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/ProblemSeveritiesConfigurationBlock.java	665	    perTarget= namesPerTarget.computeIfAbsent(other, _ -> new ArrayList<>());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/ProjectSelectionDialog.java	93	  fTableViewer.addDoubleClickListener(_ -> okPressed());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/PropertiesFileEditorPreferencePage.java	117	   viewer.getTextWidget().addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/PropertiesFileEditorPreferencePage.java	498	  fHighlightingColorListViewer.addSelectionChangedListener(_ -> handleSyntaxColorListSelection());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/SmartTypingConfigurationBlock.java	318	  link.addDisposeListener(_ -> combinedStore.removePropertyChangeListener(propertyChangeListener));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpConfigurationBlock.java	116	  profileManager.addObserver((_, arg) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpConfigurationBlock.java	184	     fShowCleanUpWizardDialogField.setDialogFieldListener(_ -> doShowCleanUpWizard(fShowCleanUpWizardDialogField.isSelected()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpConfigurationBlock.java	208	  fShowCleanUpWizardDialogField.setDialogFieldListener(_ -> doShowCleanUpWizard(fShowCleanUpWizardDialogField.isSelected()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpTabPage.java	119	   preference.addObserver((_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpTabPage.java	166	  main.addObserver((_, _)-> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpTabPage.java	200	     master.addObserver((_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpTabPage.java	208	  master.addObserver((_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpTabPage.java	225	   slave.addObserver((_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpTabPage.java	243	     master.addObserver( (_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CodeFormatingTabPage.java	129	  sortMembersPref.addObserver((_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CodeFormatingTabPage.java	136	  sortAllPref.addObserver((_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CodeFormatingTabPage.java	81	   format.addObserver((_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CodeFormatingTabPage.java	95	  correctIndentation.addObserver((_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/AlreadyExistsDialog.java	93	  fNameText.addModifyListener( _ -> doValidation());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/CreateProfileDialog.java	109	  fNameText.addModifyListener( _ -> doValidation());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	1633	  Predicate<String> javadocChecker= _ -> DefaultCodeFormatterConstants.TRUE.equals(javadocMaster.getValue()) ||  DefaultCodeFormatterConstants.TRUE.equals(markdownMaster.getValue()) || DefaultCodeFormatterConstants.TRUE.equals(headerMaster.getValue());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	1634	  Predicate<String> blockChecker= _ -> DefaultCodeFormatterConstants.TRUE.equals(blockMaster.getValue()) || DefaultCodeFormatterConstants.TRUE.equals(headerMaster.getValue());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	473	   Predicate<String> valueChecker= _ -> spinner.getSelection() < Integer.parseInt(preserveLinesPref.getValue());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	849	  tabSizePref.setValueValidator(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	930	  Predicate<String> anyAlignChecker= _ -> DefaultCodeFormatterConstants.TRUE.equals(alignFieldsPref.getValue())
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	934	  Predicate<String> spacesChecker= anyAlignChecker.and(_ -> !JavaCore.SPACE.equals(tabCharPref.getValue()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterPreferenceSectionComposite.java	30	  textLabel.addListener(SWT.MouseEnter, _ -> fHasFocusBeforeClick= toggle.isFocusControl());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/JavaPreview.java	86	   fSourceViewer.getTextWidget().addDisposeListener(_ -> fPreferenceStore.removePropertyChangeListener(propertyListener));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	1055	   rootComposite.addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	1134	    control.addDisposeListener(_ -> font.dispose());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	1307	  fProfileNameField.setDialogFieldListener(_ -> doValidate());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	730	   fControl.addModifyListener(_ -> updateValue());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	901	    Predicate<String> validator = _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialogTabPage.java	379	   fNumberText.addModifyListener(_ -> fieldModified());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialogTabPage.java	544	   fText.addModifyListener(_ -> fieldModified());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialogTabPage.java	72	 protected final Observer fUpdater= (_, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialogTabPage.java	898	  b.addSelectionListener(widgetSelectedAdapter((_) -> { doSetAll(true); }));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialogTabPage.java	907	  b.addSelectionListener(widgetSelectedAdapter((_) -> { doSetAll(false); }));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/propertiesfileeditor/PropertyKeyHyperlink.java	346	  dialog.setLowerListComparator((_, _) -> 0);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/JavaSearchPage.java	1149	   provider.addScopeChangedListener((_) -> updateOKStatus());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/JavaSearchPage.java	647	  fPattern.addModifyListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/JavaReconciler.java	401	   Job.createSystem("Reconciler init", (ICoreRunnable) _ -> forceReconciling()).schedule();  //$NON-NLS-1$
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistLightBulbUpdater.java	121	  fListener= (_, selection, astRoot) -> doSelectionChanged(selection.getOffset(), selection.getLength(), astRoot);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/proposals/FixCorrectionProposal.java	107	  IRunnableContext context= (_, _, runnable) -> runnable.run(monitor == null ? new NullProgressMonitor() : monitor);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/LazyGenericTypeProposal.java	786	       ((IDocumentExtension) document).registerPostNotificationReplace(null, (d, _) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/AnnotationExpansionControl.java	471	  fViewportListener= _ -> dispose();
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/TemplateInformationControlCreator.java	54	  fControl.addDisposeListener(_ -> fControl= null);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/HistoryListAction.java	115	   fMaxEntriesField.setDialogFieldListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/javadoc/SignatureStylingMenuToolbarAction.java	157	  toolbar.addDisposeListener(_ -> JavaElementLinks.removeStylingConfigurationListener(this));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/AddSourceFolderWizardPage.java	112	   fVariables.setDialogFieldListener(_ -> handleVariablesButtonPressed());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathContainerDefaultPage.java	62	  fEntryField.setDialogFieldListener(_ -> validatePath());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathContainerSelectionPage.java	84	  fListViewer.addSelectionChangedListener(_ -> validatePage());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathContainerSelectionPage.java	85	  fListViewer.addDoubleClickListener(_ -> doDoubleClick());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathFixSelectionDialog.java	81	   context.run(true, true, _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleAddExportsBlock.java	408	   roots= findRoots(_ -> true);
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDependenciesList.java	169	  fViewer.addSelectionChangedListener(_ -> listener.accept(getSelectedElements(), getSelectedModule()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDependenciesPage.java	223	  fAddSystemModuleButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(_ -> addSystemModules()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDialog.java	220	  fIsModuleCheckbox.setDialogFieldListener(_ -> doSelectionChangedAllLists());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDialog.java	311	   switchButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDialog.java	469	  tableViewer.addDoubleClickListener(_ -> moveModuleEntry(idx, targetIdx));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDialog.java	471	  tableViewer.addSelectionChangedListener(_ -> validateContents());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDialog.java	497	  fAddIncludedButton.addSelectionListener(widgetSelectedAdapter(_ -> moveModuleEntry(IDX_AVAILABLE, IDX_INCLUDED)));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDialog.java	502	  fRemoveIncludedButton.addSelectionListener(widgetSelectedAdapter(_ -> moveModuleEntry(IDX_INCLUDED, IDX_AVAILABLE)));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDialog.java	509	  fPromoteIncludedButton.addSelectionListener(widgetSelectedAdapter(_ -> moveModuleEntry(IDX_IMPLICITLY_INCLUDED, IDX_INCLUDED)));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleSelectionDialog.java	272	  tableViewer.setLabelProvider(new ModulesLabelProvider(fKinds::get, _ -> false));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleSelectionDialog.java	297	  fSelectAllCheckbox.setDialogFieldListener(_ -> selectAll(fSelectAllCheckbox.isSelected()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/MultipleFolderSelectionDialog.java	180	  fViewer.addCheckStateListener(_ -> updateOKStatus());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ReleaseAttributeConfiguration.java	145	   viewer.addSelectionChangedListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/newsourcepage/DialogPackageExplorer.java	364	        parent.addDisposeListener(_ -> fContextMenu.dispose());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/newsourcepage/DialogPackageExplorer.java	451	         ResourcesPlugin.getWorkspace().run((IWorkspaceRunnable) _ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/newsourcepage/HintTextGroup.java	90	        fTopComposite.addDisposeListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/newsourcepage/NewSourceContainerWorkbookPage.java	214	        fUseFolderOutputs.setDialogFieldListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/dialogfields/StringDialogField.java	130	   fModifyListener= _ -> doModifyText();
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/AbstractWorkingSetWizardPage.java	167	   _ -> validateInput()
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/AbstractWorkingSetWizardPage.java	278	  fTree.addDoubleClickListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/AbstractWorkingSetWizardPage.java	297	  fTable.addDoubleClickListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/ViewActionGroup.java	61	   fChangeListener = _ -> {};
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/WorkingSetConfigurationDialog.java	209	  fTableViewer.addCheckStateListener(_ -> updateButtonAvailability());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/WorkingSetConfigurationDialog.java	217	  fTableViewer.addSelectionChangedListener(_ -> handleSelectionChanged());
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/WorkingSetConfigurationDialog.java	218	  fTableViewer.addDoubleClickListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/ProblemsLabelDecorator.java	419	      changed.compute(job, (_, v) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/ProblemsLabelDecorator.java	460	    queue.compute(task, (_,v) -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/actions/ExternalizeStringsAction.java	477	   getTableViewer().addSelectionChangedListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/actions/FindStringsToExternalizeAction.java	371	   getTableViewer().addSelectionChangedListener(_ -> {
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewAnnotationWizardPage.java	246	   fEnableButton.setDialogFieldListener(_ -> fEnumButtons.setEnabled(fEnableButton.isSelected()));
+eclipse.jdt.ui	unnamed_lambda	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	457	    .thenAcceptAsync(_ -> {
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java	108	         case R(_, long l) -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java	119	         case R(_, _) -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java	120	         case R _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	134	         case BooleanLiteral _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	135	         case CharacterLiteral _ ->{}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	136	         case StringLiteral _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	137	         case NumberLiteral _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	138	         case TypeLiteral _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	139	         case MethodReference _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	140	         case TextBlock _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	141	         case ThisExpression _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	142	         case PrefixExpression _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	143	         case PostfixExpression _ -> {}
+eclipse.jdt.ui	unnamed_pattern	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	144	         case ClassInstanceCreation _ -> {}

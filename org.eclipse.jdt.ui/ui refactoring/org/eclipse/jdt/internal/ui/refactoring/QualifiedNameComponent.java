@@ -54,7 +54,7 @@ public class QualifiedNameComponent extends Composite {
 		fPatterns.setText(text);
 		refactoring.setFilePatterns(text);
 
-		fPatterns.addModifyListener(_ -> refactoring.setFilePatterns(fPatterns.getText()));
+		fPatterns.addModifyListener(unused -> refactoring.setFilePatterns(fPatterns.getText()));
 	}
 
 	@Override

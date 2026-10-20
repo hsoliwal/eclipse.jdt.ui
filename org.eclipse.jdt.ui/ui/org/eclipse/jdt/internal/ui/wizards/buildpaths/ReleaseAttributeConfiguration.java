@@ -142,7 +142,7 @@ public class ReleaseAttributeConfiguration extends ClasspathAttributeConfigurati
 			} else {
 				viewer.setSelection(new StructuredSelection(NewWizardMessages.ReleaseAttributeConfiguration_defaultReleaseName));
 			}
-			viewer.addSelectionChangedListener(_ -> {
+			viewer.addSelectionChangedListener(unused -> {
 				fValue= (String) viewer.getStructuredSelection().getFirstElement();
 			});
 			Label pathLabel= new Label(composite, SWT.NONE);

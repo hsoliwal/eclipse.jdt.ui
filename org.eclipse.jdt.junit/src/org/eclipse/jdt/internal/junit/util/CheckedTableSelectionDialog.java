@@ -227,7 +227,7 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 
 		fViewer.setContentProvider(fContentProvider);
 		fViewer.setLabelProvider(fLabelProvider);
-		fViewer.addCheckStateListener(_ -> updateOKStatus());
+		fViewer.addCheckStateListener(unused -> updateOKStatus());
 
 		if (fFilters != null) {
 			for (ViewerFilter filter : fFilters)

@@ -62,7 +62,7 @@ class ExpandWithConstructorsDialog extends TrayDialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite composite) {
-		fConfigurationBlock= new ExpandWithConstructorsConfigurationBlock(_ -> {
+		fConfigurationBlock= new ExpandWithConstructorsConfigurationBlock(unused -> {
 			//Do nothing
 
 		}, null);

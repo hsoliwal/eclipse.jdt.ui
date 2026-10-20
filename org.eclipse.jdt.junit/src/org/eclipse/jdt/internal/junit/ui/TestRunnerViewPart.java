@@ -2164,7 +2164,7 @@ action enablement
 
 		fActivateOnErrorAction= new ActivateOnErrorAction();
 		viewMenu.add(fActivateOnErrorAction);
-		fViewMenuListener= _ -> fActivateOnErrorAction.update();
+		fViewMenuListener= unused -> fActivateOnErrorAction.update();
 
 		viewMenu.addMenuListener(fViewMenuListener);
 

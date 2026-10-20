@@ -727,7 +727,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		private StringPreference(Text control, String label, String key) {
 			super(control, label, key, FilteredPreferenceTree.TEXT_VALUE_MATCHER);
 
-			fControl.addModifyListener(_ -> updateValue());
+			fControl.addModifyListener(unused -> updateValue());
 
 			fControl.addFocusListener(new FocusAdapter() {
 				@Override
@@ -898,7 +898,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			super.addChild(parent, node);
 			fFocusManager.add(node);
 			if (node instanceof Preference<?>) {
-				Predicate<String> validator = _ -> {
+				Predicate<String> validator = unused -> {
 					doValidate();
 					return true;
 				};
@@ -1052,7 +1052,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		private Map<ImageDescriptor, Image> imagesMap= new HashMap<>();
 
 		protected Images(Composite rootComposite) {
-			rootComposite.addDisposeListener(_ -> {
+			rootComposite.addDisposeListener(unused -> {
 				for (Image image : imagesMap.values())
 					image.dispose();
 				imagesMap.clear();
@@ -1131,7 +1131,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 				int style= italic ? (fd.getStyle() | SWT.ITALIC) : (fd.getStyle() & ~SWT.ITALIC);
 				FontData fontData= new FontData(fd.getName(), fd.getHeight(), style);
 				Font font= new Font(control.getDisplay(), fontData);
-				control.addDisposeListener(_ -> font.dispose());
+				control.addDisposeListener(unused -> font.dispose());
 				control.setFont(font);
 				if (control instanceof Composite)
 					((Composite) control).layout();
@@ -1304,7 +1304,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		fProfileNameField.setText(fProfile.getName());
 		fProfileNameField.getLabelControl(nameComposite).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		fProfileNameField.getTextControl(nameComposite).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		fProfileNameField.setDialogFieldListener(_ -> doValidate());
+		fProfileNameField.setDialogFieldListener(unused -> doValidate());
 
 		fSaveButton= createButton(nameComposite, SAVE_BUTTON_ID, FormatterMessages.ModifyDialog_Export_Button, false);
 	}

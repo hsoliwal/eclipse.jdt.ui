@@ -347,7 +347,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 			}
 		});
 
-		fModifierEditor.addModifyListener(_ -> handleModifierModified());
+		fModifierEditor.addModifyListener(unused -> handleModifierModified());
 
 		// Description
 		Label descriptionLabel= new Label(hoverComposite, SWT.LEFT);

@@ -315,7 +315,7 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 			}
 		};
 		combinedStore.addPropertyChangeListener(propertyChangeListener);
-		link.addDisposeListener(_ -> combinedStore.removePropertyChangeListener(propertyChangeListener));
+		link.addDisposeListener(unused -> combinedStore.removePropertyChangeListener(propertyChangeListener));
 	}
 
 	private String getIndentMode() {

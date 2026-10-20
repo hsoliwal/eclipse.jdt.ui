@@ -177,7 +177,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 
 		public JEViewSelectionProvider(TreeViewer viewer) {
 			fViewer= viewer;
-			fViewer.addSelectionChangedListener(_ -> fireSelectionChanged());
+			fViewer.addSelectionChangedListener(unused -> fireSelectionChanged());
 		}
 
 		void fireSelectionChanged() {
@@ -901,7 +901,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 	}
 
 	private void hookDoubleClickAction() {
-		fViewer.addDoubleClickListener(_ -> fDoubleClickAction.run());
+		fViewer.addDoubleClickListener(unused -> fDoubleClickAction.run());
 	}
 
 	void showAndLogError(String message, CoreException e) {

@@ -74,7 +74,7 @@ public class ContentAssistAndThreadsTest extends AbstractCompletionTest {
 		JavaCompletionProcessor javaProcessor= new JavaCompletionProcessor(part, assistant, getContentType());
 		AtomicReference<Throwable> exception = new AtomicReference<>();
 		List<IStatus> errors = new ArrayList<>();
-		JavaPlugin.getDefault().getLog().addLogListener((status, _) -> {
+		JavaPlugin.getDefault().getLog().addLogListener((status, unused) -> {
 			if (status.getSeverity() >= IStatus.WARNING) {
 				errors.add(status);
 			}

@@ -73,7 +73,7 @@ public final class CreateTextFileChangePreviewViewer implements IChangePreviewVi
 
 		public CreateTextFilePreviewer(Composite parent, int style) {
 			super(parent, style);
-			addDisposeListener(_ -> disposeImage());
+			addDisposeListener(unused -> disposeImage());
 		}
 
 		/*package*/ void disposeImage() {

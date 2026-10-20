@@ -387,7 +387,7 @@ public class RenameLinkedMode {
 					Point size;
 					try {
 						size= composite.getSize();
-						image= new Image(gc.getDevice(), (_, _, _) -> {}, size.x, size.y) ;
+						image= new Image(gc.getDevice(), (unused, unused2, unused3) -> {}, size.x, size.y) ;
 						gc.copyArea(image, 0, 0);
 					} finally {
 						gc.dispose();
@@ -459,7 +459,7 @@ public class RenameLinkedMode {
 
 		try {
 			if (! fOriginalName.equals(newName)) {
-				fEditor.getSite().getWorkbenchWindow().run(false, true, _ -> {
+				fEditor.getSite().getWorkbenchWindow().run(false, true, unused -> {
 					if (viewer instanceof ITextViewerExtension6) {
 						IUndoManager undoManager= ((ITextViewerExtension6)viewer).getUndoManager();
 						if (undoManager instanceof IUndoManagerExtension) {

@@ -218,7 +218,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			TextFieldNavigationHandler.install(text);
 
 			if (getChangeMethodSignatureProcessor().canChangeNameAndReturnType()) {
-				text.addModifyListener(_ -> {
+				text.addModifyListener(unused -> {
 					getChangeMethodSignatureProcessor().setNewReturnTypeName(text.getText());
 					update(true);
 				});
@@ -249,7 +249,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			TextFieldNavigationHandler.install(text);
 
 			if (getChangeMethodSignatureProcessor().canChangeNameAndReturnType()) {
-				text.addModifyListener(_ -> {
+				text.addModifyListener(unused -> {
 					getChangeMethodSignatureProcessor().setNewMethodName(text.getText());
 					update(true);
 				});

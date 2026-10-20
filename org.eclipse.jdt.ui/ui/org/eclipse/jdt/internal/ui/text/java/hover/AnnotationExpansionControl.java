@@ -468,7 +468,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		fMouseListener= new MyMouseListener();
 		fMenuDetectListener= new MyMenuDetectListener();
 		fDisposeListener= new MyDisposeListener();
-		fViewportListener= _ -> dispose();
+		fViewportListener= unused -> dispose();
 		fLayouter= new LinearLayouter();
 
 		if (access instanceof IAnnotationAccessExtension)
