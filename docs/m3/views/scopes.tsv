@@ -1,0 +1,7 @@
+# view_id	paths
+org.eclipse.jdt.ui.PackageExplorer	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/packageview org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/StandardJavaElementContentProvider.java org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/WorkingSetModel.java
+jdt-java-outline	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaOutlinePage.java
+org.eclipse.jdt.ui.TypeHierarchy	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/typehierarchy
+org.eclipse.jdt.callhierarchy.view	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy
+jdt-browsing(Projects,Packages,Types,Members)	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/browsing
+jdt-infoviews(Javadoc,Declaration)	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/infoviews
