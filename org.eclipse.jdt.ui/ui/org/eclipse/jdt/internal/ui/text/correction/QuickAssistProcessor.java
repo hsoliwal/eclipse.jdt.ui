@@ -3701,6 +3701,8 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return matcher.matches();
 	}
 
+	private static final Pattern CONVERT_TO_CONSTANT_NAME_PATTERN = Pattern.compile("_{2,}"); //$NON-NLS-1$
+
 	public static String convertToConstantName(String identifier) {
 		StringBuilder constantNaming= new StringBuilder();
 		boolean lastCharWasUpperCase= false;
@@ -3716,7 +3718,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 				lastCharWasUpperCase= false;
 			}
 		}
-		return constantNaming.toString().replaceAll("_{2,}", "_"); //$NON-NLS-1$ //$NON-NLS-2$
+		return CONVERT_TO_CONSTANT_NAME_PATTERN.matcher(constantNaming.toString()).replaceAll("_"); //$NON-NLS-1$
 	}
 }
 

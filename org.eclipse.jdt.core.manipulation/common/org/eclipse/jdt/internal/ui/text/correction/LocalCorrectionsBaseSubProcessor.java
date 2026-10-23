@@ -23,6 +23,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.CoreException;
@@ -3181,6 +3182,8 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
+	private static final Pattern PARAMETERS1_PATTERN = Pattern.compile(", "); //$NON-NLS-1$
+
 	public void getOverrideDefaultMethodProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
 		CompilationUnit astRoot= context.getASTRoot();
 
@@ -3217,11 +3220,11 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 			String[] parameters1= {};
 			if (args[1] != null && args[1].length() != 0) {
-				parameters1= args[1].split(", "); //$NON-NLS-1$
+				parameters1= PARAMETERS1_PATTERN.split(args[1]);
 			}
 			String[] parameters2= {};
 			if (args[2] != null && args[2].length() != 0) {
-				parameters2= args[2].split(", "); //$NON-NLS-1$
+				parameters2= PARAMETERS1_PATTERN.split(args[2]);
 			}
 
 			addOverrideProposal(typeNode, typeBinding, methodName, parameters1, args[3], context, proposals);
@@ -3251,7 +3254,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			String paramString= arg0.substring(indexOfLParen + 1, indexOfRParen);
 			String[] parameters= {};
 			if (paramString != null && paramString.length() != 0) {
-				parameters= paramString.split(", "); //$NON-NLS-1$
+				parameters= PARAMETERS1_PATTERN.split(paramString);
 			}
 
 			addOverrideProposal(typeNode, typeBinding, methodName, parameters, args[1], context, proposals);
