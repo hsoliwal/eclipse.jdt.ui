@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.CoreException;
 
@@ -113,6 +114,10 @@ public class VarCleanUpCore extends AbstractMultiFix {
 			HashMap<Integer, String> map = new HashMap<>();
 			"""; //$NON-NLS-1$
 	}
+
+	private static final Pattern MAYBE_USE_VAR_PATTERN = Pattern.compile(".*[^lLdDfF]");
+
+	private static final Pattern MAYBE_USE_VAR_PATTERN_2 = Pattern.compile("0x.*[^lL]");
 
 	@Override
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
@@ -291,7 +296,7 @@ public class VarCleanUpCore extends AbstractMultiFix {
 					} else {
 						NumberLiteral literal= ASTNodes.as(initializer, NumberLiteral.class);
 
-				        if (literal != null && (literal.getToken().matches(".*[^lLdDfF]") || literal.getToken().matches("0x.*[^lL]"))) { //$NON-NLS-1$ //$NON-NLS-2$
+				        if (literal != null && (MAYBE_USE_VAR_PATTERN.matcher(literal.getToken()).matches() || MAYBE_USE_VAR_PATTERN_2.matcher(literal.getToken()).matches())) { //$NON-NLS-1$ //$NON-NLS-2$
 				            if (ASTNodes.hasType(variableType, long.class.getSimpleName())) {
 				            	rewriteOperations.add(new VarOperation(type, literal, 'L'));
 				                return false;

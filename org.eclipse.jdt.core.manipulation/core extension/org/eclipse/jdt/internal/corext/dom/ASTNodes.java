@@ -4080,6 +4080,7 @@ public class ASTNodes {
 	 * We have to eat them otherwise formatting is broken
 	 */
 	static final Pattern leadingspaces= Pattern.compile("\n[ \t]*"); //$NON-NLS-1$
+	private static final Pattern REPLACEMENT_CALL_STRING_PATTERN = Pattern.compile(","); //$NON-NLS-1$
 
 	/**
 	 * Replaces the provided node from the AST with the provided replacement node.
@@ -4108,7 +4109,7 @@ public class ASTNodes {
 			String visitedString= buffer.substring(visited.getStartPosition(), visited.getStartPosition() + visited.getLength());
 			// we are using the toString() method to get string representation of replace_with_Call so tweak string to
 			// add spaces between parameters
-			String replacementCallString= replace_with_Call.toString().replaceAll(",", ", "); //$NON-NLS-1$ //$NON-NLS-2$
+			String replacementCallString= REPLACEMENT_CALL_STRING_PATTERN.matcher(replace_with_Call.toString()).replaceAll(", "); //$NON-NLS-1$
 			String originalmodified= original.replace(visitedString, replacementCallString);
 			replacement= rewrite.createStringPlaceholder(originalmodified, st.getNodeType());
 			rewrite.replace(st, replacement, editGroup);

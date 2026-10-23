@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.FileTransfer;
@@ -683,6 +684,8 @@ public class PasteAction extends SelectionDispatchAction{
 			}
 		}
 
+		private static final Pattern PARSED_TEXT_PATTERN = Pattern.compile("\r\n?|\n"); //$NON-NLS-1$
+
 		@Override
 		public void paste(IJavaElement[] javaElements, IResource[] resources, final IWorkingSet[] selectedWorkingSets, TransferData[] availableTypes) throws JavaModelException, InterruptedException, InvocationTargetException{
 			if (fPatchStorage != null) {
@@ -792,7 +795,7 @@ public class PasteAction extends SelectionDispatchAction{
 								editorPart[0]= openCu(cu); //Open editor before overwriting to allow undo to restore original package declaration
 							}
 
-							parsedText= parsedText.replaceAll("\r\n?|\n", StubUtility.getLineDelimiterUsed(cu)); //$NON-NLS-1$
+							parsedText= PARSED_TEXT_PATTERN.matcher(parsedText).replaceAll(StubUtility.getLineDelimiterUsed(cu));
 							destinationPack.createCompilationUnit(cuName, parsedText, true, Progress.subMonitor(pm, 1));
 
 							if (! alreadyExists) {

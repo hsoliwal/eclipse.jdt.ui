@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
@@ -577,6 +578,8 @@ public class SourceProvider {
 		}
 	}
 
+	private static final Pattern TYPE_NAME_COMPONENTS_PATTERN = Pattern.compile("\\.|\\$"); //$NON-NLS-1$
+
 	private void updateTypeReferences(ASTRewrite rewriter, CallContext context) {
 		ImportRewrite importer= context.importer;
 		for (SimpleName simpleName : fAnalyzer.getTypesToImport()) {
@@ -595,7 +598,7 @@ public class SourceProvider {
 					IType[] types= context.compilationUnit.getAllTypes();
 					for (IType type : types) {
 						String typeName= type.getFullyQualifiedName();
-						String[] typeNameComponents= typeName.split("\\.|\\$"); //$NON-NLS-1$
+						String[] typeNameComponents= TYPE_NAME_COMPONENTS_PATTERN.split(typeName);
 						if (Arrays.equals(bindingNameComponents, typeNameComponents)) {
 							return;
 						}
@@ -883,6 +886,8 @@ public class SourceProvider {
 		return result;
 	}
 
+	private static final Pattern HAS_NLS_PATTERN = Pattern.compile(".*?//\\s?\\$NON-NLS-\\d+\\$.*$");
+
 	private boolean hasNLS(Statement s) {
 		ASTNode root= s.getRoot();
 		if (root instanceof CompilationUnit) {
@@ -893,7 +898,7 @@ public class SourceProvider {
 			if (element != null && element instanceof ICompilationUnit icu) {
 				try {
 					String statement= icu.getBuffer().getText(start, length);
-					if (statement.matches(".*?//\\s?\\$NON-NLS-\\d+\\$.*$")) { //$NON-NLS-1$
+					if (HAS_NLS_PATTERN.matcher(statement).matches()) { //$NON-NLS-1$
 						return true;
 					}
 				} catch (IndexOutOfBoundsException | JavaModelException e) {

@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -61,6 +62,7 @@ public class ShowJPMSOptionsDialog extends Dialog {
 
 	private static final String BLANK= " "; //$NON-NLS-1$
 	private static final String COMMA= ","; //$NON-NLS-1$
+	private static final Pattern COMMA_PATTERN = Pattern.compile(COMMA);
 	private static final String OPTION_START= "--"; //$NON-NLS-1$
 	private static final String ADD_MODULES= "--add-modules "; //$NON-NLS-1$
 	private static final String LIMIT_MODULES= "--limit-modules "; //$NON-NLS-1$
@@ -183,7 +185,7 @@ public class ShowJPMSOptionsDialog extends Dialog {
 	}
 
 	private void addLimitModules(StringBuilder buf, IJavaProject prj, String value) throws JavaModelException {
-		String[] modules= value.split(COMMA);
+		String[] modules= COMMA_PATTERN.split(value);
 		boolean isUnnamed= prj.getModuleDescription() == null;
 		if (isUnnamed) {
 			Set<String> selected= new HashSet<>(Arrays.asList(modules));

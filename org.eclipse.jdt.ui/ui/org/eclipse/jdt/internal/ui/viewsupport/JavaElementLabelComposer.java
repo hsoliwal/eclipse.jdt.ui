@@ -18,6 +18,7 @@ package org.eclipse.jdt.internal.ui.viewsupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.jar.Attributes.Name;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IPath;
 
@@ -545,14 +546,18 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		fgPkgNameAbbreviation= abbrs;
 	}
 
+	private static final Pattern PARSE_ABBREVIATION_PATTERN = Pattern.compile("\\s*(?:\r\n?|\n)\\s*");
+
+	private static final Pattern PARTS2_PATTERN = Pattern.compile("\\s*=\\s*"); //$NON-NLS-1$
+
 	public static PackageNameAbbreviation[] parseAbbreviationPattern(String pattern) {
 		ArrayList<PackageNameAbbreviation> result= new ArrayList<>();
 
-		for (String p : pattern.split("\\s*(?:\r\n?|\n)\\s*")) { //$NON-NLS-1$
+		for (String p : PARSE_ABBREVIATION_PATTERN.split(pattern)) { //$NON-NLS-1$
 			String part= p.trim();
 			if (part.length() == 0)
 				continue;
-			String[] parts2= part.split("\\s*=\\s*", 2); //$NON-NLS-1$
+			String[] parts2= PARTS2_PATTERN.split(part, 2);
 			if (parts2.length != 2)
 				return null;
 			String prefix= parts2[0].trim();
