@@ -57,9 +57,9 @@ public final class FatJarPackagerUtil {
 		return returnValue[0];
 	}
 
-	private static final Pattern NEXT_NUMBERED_FILE_NAME_PATTERN = Pattern.compile(".*[_]\\d+[.][^.]*");
+	private static final Pattern NEXT_NUMBERED_FILE_NAME_PATTERN = Pattern.compile(".*[_]\\d+[.][^.]*"); //$NON-NLS-1$
 	private static final Pattern NAME_PATTERN = Pattern.compile("(.*)[_](\\d+)([.][^.]*)"); //$NON-NLS-1$
-	private static final Pattern NEXT_NUMBERED_FILE_NAME_PATTERN_2 = Pattern.compile(".*[.][^.]*");
+	private static final Pattern NEXT_NUMBERED_FILE_NAME_PATTERN_2 = Pattern.compile(".*[.][^.]*"); //$NON-NLS-1$
 	private static final Pattern NAME_PATTERN_2 = Pattern.compile("(.*)([.][^.]*)"); //$NON-NLS-1$
 
 	/**
@@ -75,11 +75,11 @@ public final class FatJarPackagerUtil {
 		String name;
 		String number;
 		String ext;
-		if (NEXT_NUMBERED_FILE_NAME_PATTERN.matcher(fileName).matches()) { //$NON-NLS-1$
+		if (NEXT_NUMBERED_FILE_NAME_PATTERN.matcher(fileName).matches()) {
 			name= NAME_PATTERN.matcher(fileName).replaceFirst("$1"); //$NON-NLS-1$
 			number= NAME_PATTERN.matcher(fileName).replaceFirst("$2"); //$NON-NLS-1$
 			ext= NAME_PATTERN.matcher(fileName).replaceFirst("$3"); //$NON-NLS-1$
-		} else if (NEXT_NUMBERED_FILE_NAME_PATTERN_2.matcher(fileName).matches()) { //$NON-NLS-1$
+		} else if (NEXT_NUMBERED_FILE_NAME_PATTERN_2.matcher(fileName).matches()) {
 			name= NAME_PATTERN_2.matcher(fileName).replaceFirst("$1"); //$NON-NLS-1$
 			number= "1"; //$NON-NLS-1$
 			ext= NAME_PATTERN_2.matcher(fileName).replaceFirst("$2"); //$NON-NLS-1$
