@@ -295,7 +295,7 @@ public class InlineMethodFixCore implements IProposableFix {
 			String text=  replaceEdit.getText();
 			for (String name : localVarMap.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (text.contains(name)) {
-					text= text.replaceAll("([\\W]+)" + name + "([\\W]+)", //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					text= text.replaceAll("([\\W]+)" + name + "([\\W]+)", //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 							"$1" + localVarMap.get(name) + "$2"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
@@ -308,7 +308,7 @@ public class InlineMethodFixCore implements IProposableFix {
 					String text= insertEdit.getText();
 					for (String name : localVarMap.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (text.contains(name)) {
-							text= text.replaceAll("([\\W]+)" + name + "([\\W]+)", //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+							text= text.replaceAll("([\\W]+)" + name + "([\\W]+)", //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 									"$1" + localVarMap.get(name) + "$2"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					}

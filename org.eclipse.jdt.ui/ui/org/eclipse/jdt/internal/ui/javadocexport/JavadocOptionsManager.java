@@ -482,7 +482,7 @@ public class JavadocOptionsManager {
 
 		ArrayList<IContainer> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String string : sourcePaths.split(File.pathSeparator)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+		for (String string : sourcePaths.split(File.pathSeparator)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			IPath path= makeAbsolutePathFromRelative(new Path(string.trim()));
 			if (path != null) {
 				IContainer[] containers= root.findContainersForLocationURI(URIUtil.toURI(path.makeAbsolute()));
@@ -842,9 +842,9 @@ public class JavadocOptionsManager {
 		if (type != null)
 			encoding= type.getDefaultCharset();
 
-		file.getParentFile().mkdirs();
+		file.getParentFile().mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
-		try (FileOutputStream objectStreamOutput= new FileOutputStream(file)) {
+		try (FileOutputStream objectStreamOutput= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			JavadocWriter.writeDocument(javadocElement, encoding, objectStreamOutput);
 			return file;
 		} catch (IOException | TransformerException e) {
@@ -1142,11 +1142,11 @@ public class JavadocOptionsManager {
 		File installLocation= install.getInstallLocation();
 		if (installLocation != null) {
 			File javaDocCommand= new File(installLocation, "bin/javadoc"); //$NON-NLS-1$
-			if (javaDocCommand.isFile()) {
+			if (javaDocCommand.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return javaDocCommand;
 			}
 			javaDocCommand= new File(installLocation, "bin/javadoc.exe"); //$NON-NLS-1$
-			if (javaDocCommand.isFile()) {
+			if (javaDocCommand.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return javaDocCommand;
 			}
 		}

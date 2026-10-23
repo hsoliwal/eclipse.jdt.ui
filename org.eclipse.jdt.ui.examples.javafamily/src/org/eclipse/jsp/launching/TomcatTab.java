@@ -170,7 +170,7 @@ public class TomcatTab extends AbstractLaunchConfigurationTab {
 		String currentWorkingDir = fTomcatDir.getText();
 		if (!currentWorkingDir.trim().isEmpty()) {
 			File path = new File(currentWorkingDir);
-			if (path.exists()) {
+			if (path.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				dialog.setFilterPath(currentWorkingDir);
 			}
 		}
@@ -202,11 +202,11 @@ public class TomcatTab extends AbstractLaunchConfigurationTab {
 		}
 		if (workingDirPath.length() > 0) {
 			File dir = new File(expansion);
-			if (!dir.exists()) {
+			if (!dir.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				setErrorMessage(LaunchingMessages.TomcatTab_5);
 				return false;
 			}
-			if (!dir.isDirectory()) {
+			if (!dir.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				setErrorMessage(LaunchingMessages.TomcatTab_6);
 				return false;
 			}

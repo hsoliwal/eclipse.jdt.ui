@@ -3217,11 +3217,11 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 			String[] parameters1= {};
 			if (args[1] != null && args[1].length() != 0) {
-				parameters1= args[1].split(", "); //$NON-NLS-1$
+				parameters1= args[1].split(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 			String[] parameters2= {};
 			if (args[2] != null && args[2].length() != 0) {
-				parameters2= args[2].split(", "); //$NON-NLS-1$
+				parameters2= args[2].split(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 
 			addOverrideProposal(typeNode, typeBinding, methodName, parameters1, args[3], context, proposals);
@@ -3251,7 +3251,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			String paramString= arg0.substring(indexOfLParen + 1, indexOfRParen);
 			String[] parameters= {};
 			if (paramString != null && paramString.length() != 0) {
-				parameters= paramString.split(", "); //$NON-NLS-1$
+				parameters= paramString.split(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 
 			addOverrideProposal(typeNode, typeBinding, methodName, parameters, args[1], context, proposals);

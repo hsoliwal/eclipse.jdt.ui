@@ -801,7 +801,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable { //FLLDCIM:
 		String pref= JavaManipulation.getPreference(JavaManipulationPlugin.CODEASSIST_FAVORITE_STATIC_MEMBERS, importRewrite.getCompilationUnit().getJavaProject());
 		String[] favourites= new String [0];
 		if (pref != null && !pref.isBlank()) {
-			favourites= pref.split(";"); //$NON-NLS-1$
+			favourites= pref.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 
 		ICompilationUnit cu= importRewrite.getCompilationUnit().getPrimary();

@@ -127,21 +127,21 @@ public class UnpackJarBuilder extends FatJarBuilder {
 	protected void createBlankSubfolder(Shell parent, boolean allowOverwrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		File folder= fSubfolderPath.toFile();
 		// Test if directory exists
-		if (!folder.exists()) {
+		if (!folder.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			// create sub-folder
-			if (!folder.mkdirs())
+			if (!folder.mkdirs()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				throw JarPackagerUtil.createCoreException("Could not create lib-folder '" + folder.getAbsolutePath() + "'", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
-			if (!folder.canWrite())
+			if (!folder.canWrite()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				throw JarPackagerUtil.createCoreException("Folder '" + folder.getAbsolutePath() + "' is not writable", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (!allowOverwrite)
 				if (parent == null || !JarPackagerUtil.askForOverwriteFolderPermission(parent, fSubfolderPath, true))
 					throw JarPackagerUtil.createCoreException("Folder '" + folder.getAbsolutePath() + "' exists and should not be overwritten", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-			for (File jarFile : folder.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
-				if (!jarFile.isFile()) {
+			for (File jarFile : folder.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M31 M3FILE_IO CALL
+				if (!jarFile.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					throw JarPackagerUtil.createCoreException("Subfolder '" + jarFile.getAbsolutePath() + "' exists", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
-				if (!jarFile.delete()) {
+				if (!jarFile.delete()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					throw JarPackagerUtil.createCoreException("Could not delete file '" + jarFile.getAbsolutePath() + "'", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
@@ -158,7 +158,7 @@ public class UnpackJarBuilder extends FatJarBuilder {
 		jarNames.add(jarName);
 		File destJarPathFile= new File(fSubfolderPath.toFile(), jarName);
 		try {
-			Files.copy(jarPathFile.toPath(), destJarPathFile.toPath());
+			Files.copy(jarPathFile.toPath(), destJarPathFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

@@ -291,7 +291,7 @@ public class VarCleanUpCore extends AbstractMultiFix {
 					} else {
 						NumberLiteral literal= ASTNodes.as(initializer, NumberLiteral.class);
 
-				        if (literal != null && (literal.getToken().matches(".*[^lLdDfF]") || literal.getToken().matches("0x.*[^lL]"))) { //$NON-NLS-1$ //$NON-NLS-2$
+				        if (literal != null && (literal.getToken().matches(".*[^lLdDfF]") || literal.getToken().matches("0x.*[^lL]"))) { //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				            if (ASTNodes.hasType(variableType, long.class.getSimpleName())) {
 				            	rewriteOperations.add(new VarOperation(type, literal, 'L'));
 				                return false;

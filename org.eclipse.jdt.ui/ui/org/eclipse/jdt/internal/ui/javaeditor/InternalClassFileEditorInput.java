@@ -141,7 +141,7 @@ public class InternalClassFileEditorInput implements IClassFileEditorInput, IPer
 			File file= File.createTempFile(classFile.getElementName(), ".class"); //$NON-NLS-1$
 			file.deleteOnExit();
 			byte[] bytes= classFile.getBytes();
-			Files.write(file.toPath(), bytes);
+			Files.write(file.toPath(), bytes); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			return new Path(file.toString());
 		} catch (IOException e) {
 			JavaPlugin.log(e);

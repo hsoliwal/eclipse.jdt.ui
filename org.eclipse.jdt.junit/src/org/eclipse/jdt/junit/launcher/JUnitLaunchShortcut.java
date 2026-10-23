@@ -109,7 +109,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 	private static final String EMPTY_STRING= ""; //$NON-NLS-1$
 
 	// see org.junit.runner.Description.METHOD_AND_CLASS_NAME_PATTERN
-	private static final Pattern METHOD_AND_CLASS_NAME_PATTERN= Pattern.compile("(.*)\\((.*)\\)"); //$NON-NLS-1$
+	private static final Pattern METHOD_AND_CLASS_NAME_PATTERN= Pattern.compile("(.*)\\((.*)\\)"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * Default constructor.
@@ -470,7 +470,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 			case IJavaElement.TYPE:
 				if (fullTestName != null) {
 					Matcher matcher= METHOD_AND_CLASS_NAME_PATTERN.matcher(fullTestName); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-					if (matcher.matches()) {
+					if (matcher.matches()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						String typeFQN= matcher.group(2);
 						String testName= matcher.group(1);
 						int typeFQNDot= typeFQN.lastIndexOf('.');

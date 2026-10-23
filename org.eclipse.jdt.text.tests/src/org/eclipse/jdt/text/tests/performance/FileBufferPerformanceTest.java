@@ -75,7 +75,7 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 	@Override
 	protected void tearDown() throws Exception {
 		ResourceHelper.deleteProject("project");
-		fTempFile.delete();
+		fTempFile.delete(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		super.tearDown();
 	}
 

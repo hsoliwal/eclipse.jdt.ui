@@ -168,8 +168,8 @@ public abstract class History<K, V> {
 	public synchronized void load() {
 		IPath stateLocation= JavaPlugin.getDefault().getStateLocation().append(fFileName);
 		File file= stateLocation.toFile();
-		if (file.exists()) {
-			try (InputStreamReader reader= new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
+		if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			try (InputStreamReader reader= new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				load(new InputSource(reader));
 			} catch (IOException | CoreException e) {
 				JavaPlugin.log(e);
@@ -180,7 +180,7 @@ public abstract class History<K, V> {
 	public synchronized void save() {
 		IPath stateLocation= JavaPlugin.getDefault().getStateLocation().append(fFileName);
 		File file= stateLocation.toFile();
-		try (OutputStream out= new FileOutputStream(file)) {
+		try (OutputStream out= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			save(out);
 		} catch (IOException | CoreException | TransformerFactoryConfigurationError e) {
 			// The XML library can be misconficgured (e.g. via

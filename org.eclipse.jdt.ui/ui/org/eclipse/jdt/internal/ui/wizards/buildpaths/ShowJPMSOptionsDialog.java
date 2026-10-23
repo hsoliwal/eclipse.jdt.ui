@@ -183,7 +183,7 @@ public class ShowJPMSOptionsDialog extends Dialog {
 	}
 
 	private void addLimitModules(StringBuilder buf, IJavaProject prj, String value) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		String[] modules= value.split(COMMA);
+		String[] modules= value.split(COMMA); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		boolean isUnnamed= prj.getModuleDescription() == null;
 		if (isUnnamed) {
 			Set<String> selected= new HashSet<>(Arrays.asList(modules)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW

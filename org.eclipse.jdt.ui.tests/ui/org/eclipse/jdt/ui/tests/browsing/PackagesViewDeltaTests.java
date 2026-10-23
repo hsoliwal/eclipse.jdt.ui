@@ -467,7 +467,7 @@ public class PackagesViewDeltaTests {
 		//----------------Set up internal jar----------------------------
 		File myInternalJar= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/compoundtest.jar")); //$NON-NLS-1$
 		assertNotNull(myInternalJar, "lib not found"); //$NON-NLS-1$
-		assertTrue(myInternalJar.exists(), "lib not found"); //$NON-NLS-1$
+		assertTrue(myInternalJar.exists(), "lib not found"); //$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		fInternalJarRoot= JavaProjectHelper.addLibraryWithImport(fJProject, Path.fromOSString(myInternalJar.getPath()), null, null);
 		fInternalJarRoot.getPackageFragment(""); //$NON-NLS-1$
 		fInternalPack3= fInternalJarRoot.getPackageFragment("pack3"); //$NON-NLS-1$

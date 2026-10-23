@@ -229,7 +229,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 			if (importedSession != null) {
 				JUnitCorePlugin.getModel().removeTestRunSession(importedSession);
 			}
-			Files.deleteIfExists(file.toPath());
+			Files.deleteIfExists(file.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 

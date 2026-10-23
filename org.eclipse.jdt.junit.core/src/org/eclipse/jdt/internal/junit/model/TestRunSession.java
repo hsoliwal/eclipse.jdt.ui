@@ -431,8 +431,8 @@ public class TestRunSession implements ITestRunSession {
 
 	public void removeSwapFile() {
 		File swapFile= getSwapFile();
-		if (swapFile.exists())
-			swapFile.delete();
+		if (swapFile.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			swapFile.delete(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	private File getSwapFile() throws IllegalStateException {
@@ -572,7 +572,7 @@ public class TestRunSession implements ITestRunSession {
 			if (parameterTypesString.isEmpty()) {
 				parameterTypes= null;
 			} else {
-				parameterTypes= parameterTypesString.split(","); //$NON-NLS-1$
+				parameterTypes= parameterTypesString.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				Arrays.parallelSetAll(parameterTypes, i -> parameterTypes[i].trim());
 			}
 

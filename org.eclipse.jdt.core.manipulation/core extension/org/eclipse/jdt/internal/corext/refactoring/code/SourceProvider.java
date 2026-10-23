@@ -595,7 +595,7 @@ public class SourceProvider {
 					IType[] types= context.compilationUnit.getAllTypes();
 					for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String typeName= type.getFullyQualifiedName();
-						String[] typeNameComponents= typeName.split("\\.|\\$"); //$NON-NLS-1$
+						String[] typeNameComponents= typeName.split("\\.|\\$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						if (Arrays.equals(bindingNameComponents, typeNameComponents)) {
 							return;
 						}
@@ -893,7 +893,7 @@ public class SourceProvider {
 			if (element != null && element instanceof ICompilationUnit icu) {
 				try {
 					String statement= icu.getBuffer().getText(start, length);
-					if (statement.matches(".*?//\\s?\\$NON-NLS-\\d+\\$.*$")) { //$NON-NLS-1$
+					if (statement.matches(".*?//\\s?\\$NON-NLS-\\d+\\$.*$")) { //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						return true;
 					}
 				} catch (IndexOutOfBoundsException | JavaModelException e) {

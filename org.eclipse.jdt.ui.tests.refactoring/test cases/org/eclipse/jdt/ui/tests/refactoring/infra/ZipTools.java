@@ -54,7 +54,7 @@ public class ZipTools {
 	public static void compareWithZipped(IPackageFragmentRoot src, ZipInputStream zipInputStream, String zipFileEncoding) throws IOException, UnsupportedEncodingException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ArrayList<String> zipCus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ZipEntry ze;
-		while ((ze= zipInputStream.getNextEntry()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+		while ((ze= zipInputStream.getNextEntry()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 			String fileName= ze.getName();
 			if (fileName.endsWith(".java")) {
 				String packageName= getPackageName(fileName);

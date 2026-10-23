@@ -247,7 +247,7 @@ public class AdvancedJUnitLaunchConfigurationDelegateTest {
 		int indexSearchString= showCommandLine.indexOf(searchString);
 		assertThat(indexSearchString).overridingErrorMessage("%s argument not found", searchString).isGreaterThan(-1);
 		String filePath= extractPathForArgumentFile(showCommandLine, searchString, indexSearchString);
-		List<String> fileLines= Files.readAllLines(Paths.get(filePath));
+		List<String> fileLines= Files.readAllLines(Paths.get(filePath)); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		return fileLines;
 	}
 

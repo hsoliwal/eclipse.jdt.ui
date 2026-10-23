@@ -371,15 +371,15 @@ public class JavadocConfigurationBlock {
 
 		private void validateFile(URL location) throws MalformedURLException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			File folder = JavaDocLocations.toFile(location);
-			if (folder.isDirectory()) {
+			if (folder.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				File indexFile= new File(folder, "index.html"); //$NON-NLS-1$
-				if (indexFile.isFile()) {
+				if (indexFile.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					File packageList= new File(folder, "package-list"); //$NON-NLS-1$
 					File elementList= new File(folder, "element-list"); //$NON-NLS-1$
-					if (packageList.exists()) {
+					if (packageList.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						showConfirmValidationDialog(indexFile.toURI().toURL(), false);
 						return;
-					} else if (elementList.exists()) {
+					} else if (elementList.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						showConfirmValidationDialog(indexFile.toURI().toURL(), true);
 						return;
 					}
@@ -719,11 +719,11 @@ public class JavadocConfigurationBlock {
 						return status;
 					}
 					File jarFile= new File(jdocLocation);
-					if (jarFile.isDirectory())  {
+					if (jarFile.isDirectory())  { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						status.setError(PreferencesMessages.JavadocConfigurationBlock_error_notafile);
 						return status;
 					}
-					if (!jarFile.exists())  {
+					if (!jarFile.exists())  { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						status.setWarning(PreferencesMessages.JavadocConfigurationBlock_error_notafile);
 					}
 				}

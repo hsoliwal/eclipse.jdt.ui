@@ -72,12 +72,12 @@ public class FormatterProfileStore extends ProfileStore {
 		final String STORE_FILE= "code_formatter_profiles.xml"; //$NON-NLS-1$
 
 		File file= JavaPlugin.getDefault().getStateLocation().append(STORE_FILE).toFile();
-		if (!file.exists())
+		if (!file.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			return null;
 
 		try {
 			try ( // note that it's wrong to use a file reader when XML declares UTF-8: Kept for compatibility
-				FileReader reader= new FileReader(file)) {
+				FileReader reader= new FileReader(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				List<Profile> res= readProfilesFromStream(new InputSource(reader));
 				if (res != null) {
 					for (Profile re : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -85,7 +85,7 @@ public class FormatterProfileStore extends ProfileStore {
 					}
 					writeProfiles(res, instanceScope);
 				}
-				file.delete(); // remove after successful write
+				file.delete(); // remove after successful write //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return res;
 			}
 		} catch (CoreException | IOException e) {

@@ -132,7 +132,7 @@ public class CoreJavaElementLinks {
 
 	public static IJavaElement parseURI(URI uri) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String ssp= uri.getSchemeSpecificPart();
-		String[] segments= ssp.split(String.valueOf(LINK_SEPARATOR), -1);
+		String[] segments= ssp.split(String.valueOf(LINK_SEPARATOR), -1); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String refModuleName= null;
 		// replace '[' manually, since URI confuses it for an IPv6 address as per RFC 2732:
 		IJavaElement element= JavaCore.create(segments[1].replace(LINK_BRACKET_REPLACEMENT, '['));

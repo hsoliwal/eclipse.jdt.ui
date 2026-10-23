@@ -32,8 +32,8 @@ public class Util {
 
 	static char[] getFileCharContent(File file, String encoding) throws IOException {
 		System.out.println("****jdt.internal.compiler.util.Util.getFileCharContent: " + file + " " + encoding); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-		try (InputStream stream= new BufferedInputStream(new FileInputStream(file))) {
-			return Util.getInputStreamAsCharArray(stream, (int) file.length(), encoding);
+		try (InputStream stream= new BufferedInputStream(new FileInputStream(file))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
+			return Util.getInputStreamAsCharArray(stream, (int) file.length(), encoding); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 

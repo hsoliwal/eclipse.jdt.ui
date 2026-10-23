@@ -439,7 +439,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal { //
 
 			if (binding.isUpperbound()) {
 				// replace the wildcard ? with the type parameter name to get "E extends Bound" instead of "? extends Bound"
-				String contextName= name.replaceFirst("\\?", parameter.getElementName()); //$NON-NLS-1$
+				String contextName= name.replaceFirst("\\?", parameter.getElementName()); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				// upper bound - the upper bound is the bound itself
 				return new TypeArgumentProposal(binding.getBound().getName(), true, contextName);
 			}

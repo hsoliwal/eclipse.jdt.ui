@@ -96,8 +96,8 @@ public abstract class AbstractJunit4SelectionTestCase extends AbstractJunit4CUTe
 		String result= super.getFileContents(in);
 		initializeSelection(result);
 		if (fIgnoreSelectionMarker) {
-			result= result.replaceAll("/\\*\\[\\*/", "");
-			result= result.replaceAll("/\\*\\]\\*/", "");
+			result= result.replaceAll("/\\*\\[\\*/", ""); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			result= result.replaceAll("/\\*\\]\\*/", ""); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 		return result;
 	}

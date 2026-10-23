@@ -135,7 +135,7 @@ public class PlainJarExportTests {
 
 		File classFolder= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/externalClassFolder/"));//$NON-NLS-1$
 		assertNotNull("class folder not found", classFolder);//$NON-NLS-1$
-		assertTrue("class folder not found", classFolder.exists());//$NON-NLS-1$
+		assertTrue("class folder not found", classFolder.exists());//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		IPackageFragmentRoot externalRoot= JavaProjectHelper.addLibrary(fProject, Path.fromOSString(classFolder.getPath()), null, null);
 
@@ -177,7 +177,7 @@ public class PlainJarExportTests {
 
 	private static ArrayList<String> getSortedEntries(ZipFile jar) {
 		ArrayList<String> entries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
-		for (Enumeration<? extends ZipEntry> entriesEnum= jar.entries(); entriesEnum.hasMoreElements(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+		for (Enumeration<? extends ZipEntry> entriesEnum= jar.entries(); entriesEnum.hasMoreElements(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 			ZipEntry entry= entriesEnum.nextElement();
 			entries.add(entry.getName() + "\n"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}

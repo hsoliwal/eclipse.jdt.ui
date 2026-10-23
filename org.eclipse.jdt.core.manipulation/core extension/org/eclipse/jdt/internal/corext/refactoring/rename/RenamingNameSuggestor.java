@@ -566,7 +566,7 @@ public class RenamingNameSuggestor {
 
 	private String[] readCommaSeparatedPreference(IJavaProject project, String option) {
 		String list= project.getOption(option, true);
-		return list == null ? new String[0] : list.split(","); //$NON-NLS-1$
+		return list == null ? new String[0] : list.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 }

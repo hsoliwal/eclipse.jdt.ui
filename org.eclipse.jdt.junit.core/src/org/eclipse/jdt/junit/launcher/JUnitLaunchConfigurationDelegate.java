@@ -537,7 +537,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		if (hasIncludeTags) {
 			String includeTags= configuration.getAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_INCLUDE_TAGS, ""); //$NON-NLS-1$
 			if (includeTags != null && !includeTags.trim().isEmpty()) {
-				String[] tags= includeTags.split(","); //$NON-NLS-1$
+				String[] tags= includeTags.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				for (String tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					programArguments.add("--include-tag"); //$NON-NLS-1$
 					programArguments.add(tag.trim());
@@ -549,7 +549,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		if (hasExcludeTags) {
 			String excludeTags= configuration.getAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_EXCLUDE_TAGS, ""); //$NON-NLS-1$
 			if (excludeTags != null && !excludeTags.trim().isEmpty()) {
-				String[] tags= excludeTags.split(","); //$NON-NLS-1$
+				String[] tags= excludeTags.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				for (String tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					programArguments.add("--exclude-tag"); //$NON-NLS-1$
 					programArguments.add(tag.trim());
@@ -633,7 +633,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 			File file= File.createTempFile("packageNames", ".txt"); //$NON-NLS-1$ //$NON-NLS-2$
 			file.deleteOnExit();
 
-			try (BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
+			try (BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				if (testContainer instanceof IPackageFragment testFragment) {
 					addAllSubPackageFragments(testFragment, pkgNames);
 				} else if (testContainer instanceof IPackageFragmentRoot testFragmentRoot) {
@@ -675,7 +675,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 	private void addAllSubPackageFragments(IPackageFragment pkgFragment, Set<String> pkgNames) throws JavaModelException {
 		String elementName= getPackageName(pkgFragment.getElementName());
 		IPackageFragmentRoot pkgFragmentRoot= (IPackageFragmentRoot) pkgFragment.getParent();
-		Pattern packagePattern = Pattern.compile(elementName.replace(".", "\\.") + "(?:$|\\..*)"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		Pattern packagePattern = Pattern.compile(elementName.replace(".", "\\.") + "(?:$|\\..*)"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		for (IJavaElement child : pkgFragmentRoot.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(child instanceof IPackageFragment childFragment)) {
 				continue;
@@ -700,7 +700,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		try {
 			File file= File.createTempFile("testNames", ".txt"); //$NON-NLS-1$ //$NON-NLS-2$
 			file.deleteOnExit();
-			try (BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));) {
+			try (BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				for (IJavaElement testElement : testElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (testElement instanceof IType type) {
 						String testName= type.getFullyQualifiedName();

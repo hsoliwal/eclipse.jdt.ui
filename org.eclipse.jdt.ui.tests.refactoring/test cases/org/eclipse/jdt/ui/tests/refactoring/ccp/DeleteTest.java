@@ -907,7 +907,7 @@ public class DeleteTest extends GenericRefactoringTest {
 	public void testDeleteInternalJAR() throws Exception{
 		ParticipantTesting.reset();
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
-		assertTrue("lib does not exist",  lib.exists());
+		assertTrue("lib does not exist",  lib.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot internalJAR= JavaProjectHelper.addLibraryWithImport(rts.getProject(), Path.fromOSString(lib.getPath()), null, null);
 
 		Object[] elements= {internalJAR};

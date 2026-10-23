@@ -163,7 +163,7 @@ public class ChainCompletionProposalComputer implements IJavaCompletionProposalC
 
 		String excludedTypesVal = JavaManipulation.getPreference(PreferenceConstants.PREF_CHAIN_IGNORED_TYPES, ctx.getProject());
 		if (excludedTypesVal != null) {
-			excludedTypes= excludedTypesVal.split("\\|"); //$NON-NLS-1$
+			excludedTypes= excludedTypesVal.split("\\|"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			for (int i= 0; i < excludedTypes.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				excludedTypes[i]= "L" + excludedTypes[i].replace('.', '/'); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}

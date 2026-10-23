@@ -152,7 +152,7 @@ public class InlineMethodTestSetup extends RefactoringTestSetup {
 	}
 
 	private static void copyFilesFromResources(IProject project, String pathInRoot, String filePattern) throws CoreException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		String[] folders= pathInRoot.split("/");
+		String[] folders= pathInRoot.split("/"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		IFolder folder= project.getFolder(folders[0]);
 		folder.create(true, true, null);
 		for (int i= 1; i < folders.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP

@@ -60,7 +60,7 @@ public class FatJarRsrcUrlAntExporter extends FatJarAntExporter {
 	@Override
 	protected void buildANTScript(IPath antScriptLocation, String projectName, IPath absJarfile, String mainClass, SourceInfo[] sourceInfos) throws FileNotFoundException, IOException {
 		File antScriptFile= antScriptLocation.toFile();
-		try (FileOutputStream outputStream= new FileOutputStream(antScriptFile)) {
+		try (FileOutputStream outputStream= new FileOutputStream(antScriptFile)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			buildANTScript(outputStream, projectName, absJarfile, mainClass, sourceInfos);
 		}
 		copyJarInJarLoader(new File(antScriptFile.getParentFile(), FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP));
@@ -68,7 +68,7 @@ public class FatJarRsrcUrlAntExporter extends FatJarAntExporter {
 
 	private void copyJarInJarLoader(File targetFile) throws IOException {
 		try (InputStream is= JavaPlugin.getDefault().getBundle().getEntry(FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP).openStream();
-			OutputStream os= new FileOutputStream(targetFile);) {
+			OutputStream os= new FileOutputStream(targetFile);) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			byte[] buf= new byte[1024];
 			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int cnt= is.read(buf);

@@ -88,9 +88,9 @@ public class JarWriter2 {
 		try {
 			if (fJarPackage.usesManifest() && fJarPackage.areGeneratedFilesExported()) {
 				Manifest manifest=  fJarPackage.getManifestProvider().create(fJarPackage);
-				fJarOutputStream= new JarOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile()), manifest);
+				fJarOutputStream= new JarOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile()), manifest); //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			} else
-				fJarOutputStream= new JarOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile()));
+				fJarOutputStream= new JarOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile())); //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			String comment= jarPackage.getComment();
 			if (comment != null)
 				fJarOutputStream.setComment(comment);
@@ -172,7 +172,7 @@ public class JarWriter2 {
 			calculateCrcAndSize(newEntry, resource, readBuffer);
 		}
 
-		long lastModified= correspondingFile != null && correspondingFile.exists() ? correspondingFile.lastModified() : System.currentTimeMillis();
+		long lastModified= correspondingFile != null && correspondingFile.exists() ? correspondingFile.lastModified() : System.currentTimeMillis(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		// Set modification time
 		newEntry.setTime(lastModified);
 
@@ -236,8 +236,8 @@ public class JarWriter2 {
 
 			if (correspondingFile != null)
 				correspondingFile= correspondingFile.getParentFile();
-			long timeStamp= correspondingFile != null && correspondingFile.exists()
-				? correspondingFile.lastModified()
+			long timeStamp= correspondingFile != null && correspondingFile.exists() //FLLDCIM: MARK — M31 M3FILE_IO CALL
+				? correspondingFile.lastModified() //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				: System.currentTimeMillis();
 
 			JarEntry newEntry= new JarEntry(path);
@@ -267,8 +267,8 @@ public class JarWriter2 {
 	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canCreateJar(Shell parent) {
 		File file= fJarPackage.getAbsoluteJarLocation().toFile();
-		if (file.exists()) {
-			if (!file.canWrite())
+		if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (!file.canWrite()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return false;
 			if (fJarPackage.allowOverwrite())
 				return true;
@@ -281,9 +281,9 @@ public class JarWriter2 {
 		if (separatorIndex == -1) // i.e.- default directory, which is fine
 			return true;
 		File directory= new File(path.substring(0, separatorIndex));
-		if (!directory.exists()) {
+		if (!directory.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			if (JarPackagerUtil.askToCreateDirectory(parent, directory))
-				return directory.mkdirs();
+				return directory.mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			else
 				return false;
 		}

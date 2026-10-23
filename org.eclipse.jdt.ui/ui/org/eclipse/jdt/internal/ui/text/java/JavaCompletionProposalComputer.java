@@ -307,7 +307,7 @@ public class JavaCompletionProposalComputer implements IJavaCompletionProposalCo
 	private String[] getFavoriteStaticMembers() {
 		String serializedFavorites= PreferenceConstants.getPreferenceStore().getString(PreferenceConstants.CODEASSIST_FAVORITE_STATIC_MEMBERS);
 		if (serializedFavorites != null && serializedFavorites.length() > 0) {
-			return serializedFavorites.split(";"); //$NON-NLS-1$
+			return serializedFavorites.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 		return new String[0];
 	}

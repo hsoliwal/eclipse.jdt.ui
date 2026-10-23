@@ -350,7 +350,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertNotNull("TestClass.java", cu);
 
 		String expectedURI= makeEncodedMethodUri("p", "TestClass", "TestClass", "m1", "int []");
-		String expectedHtmlContent= """
+		String expectedHtmlContent= """ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				<h2>TestClass</h2>
 				<p>Simple link <code><a href='URI'>m1(int [])</a></code>.
 				Link with custom text <code><a href='URI'>method 1</a></code>.</p>
@@ -416,7 +416,7 @@ public class MarkdownCommentTests extends CoreTests {
 		String actualHtmlContent= getHoverHtmlContent(cu, method);
 		assertHtmlContent(expectedHtmlContent, actualHtmlContent);
 
-		expectedHtmlContent= """
+		expectedHtmlContent= """ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				<ul>
 				<li><code><a href='MODULE_URI'>the <code>java.base</code> module</a></code></li>
 				<li><code><a href='PACKAGE_URI'>the <code>java.util</code> package</a></code></li>

@@ -232,7 +232,7 @@ public class VariableCreationDialog extends StatusDialog {
 		if (path.length() > 0) { // empty path is ok
 			if (!Path.ROOT.isValidPath(path)) {
 				status.setError(NewWizardMessages.VariableCreationDialog_error_invalidpath);
-			} else if (!new File(path).exists()) {
+			} else if (!new File(path).exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				status.setWarning(NewWizardMessages.VariableCreationDialog_warning_pathnotexists);
 			}
 		}

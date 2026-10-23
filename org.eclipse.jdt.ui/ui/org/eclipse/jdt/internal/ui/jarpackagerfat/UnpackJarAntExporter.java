@@ -55,7 +55,7 @@ public class UnpackJarAntExporter extends FatJarAntExporter {
 
 	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void buildANTScript(IPath antScriptLocation, String projectName, IPath absJarfile, String mainClass, SourceInfo[] sourceInfos) throws IOException {
-		try (OutputStream outputStream = new FileOutputStream(antScriptLocation.toFile())) {
+		try (OutputStream outputStream = new FileOutputStream(antScriptLocation.toFile())) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			String absJarname= absJarfile.toString();
 			String subfolder= absJarfile.removeFileExtension().lastSegment() + "_lib"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String absSubfolder= absJarfile.removeLastSegments(1).append(subfolder).toString();

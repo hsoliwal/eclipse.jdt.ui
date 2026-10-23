@@ -67,7 +67,7 @@ public class MoveCompilationUnitTests extends GenericRefactoringTest {
 		for (int i= 0; i < qualifiedNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isNotNull(qualifiedNames[i]);
 			String qualifier= getQualifier(qualifiedNames[i]);
-			String[] sections= qualifier.split("[.]");
+			String[] sections= qualifier.split("[.]"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			if (sections.length == 2) {
 				cus[i]= createCUfromTestFile(getRoot().createPackageFragment(getQualifier(qualifiedNames[i]), true, null), getSimpleName(qualifiedNames[i]), sections[1] + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {

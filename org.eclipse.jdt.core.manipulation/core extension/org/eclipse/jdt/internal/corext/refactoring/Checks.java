@@ -932,7 +932,7 @@ public class Checks {
 				for (IImportDeclaration importDecl : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (Flags.isStatic(importDecl.getFlags())) {
 						String importName= importDecl.getElementName();
-						String[] fragments= importName.split("\\."); //$NON-NLS-1$
+						String[] fragments= importName.split("\\."); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						if (fragments.length > 0 && newName.equals(fragments[fragments.length - 1])) {
 							cu= convertICUtoCU(method.getCompilationUnit());
 							if (cu != null) {

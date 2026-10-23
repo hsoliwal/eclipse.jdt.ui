@@ -257,7 +257,7 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 
 			File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 			assertNotNull(junitSrcArchive);
-            assertTrue(junitSrcArchive.exists());
+            assertTrue(junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 			IPackageFragmentRoot src= JavaProjectHelper.addSourceContainerWithImport(javaProject, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
@@ -284,7 +284,7 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 
 			File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 			assertNotNull(junitSrcArchive);
-            assertTrue(junitSrcArchive.exists());
+            assertTrue(junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 			IPackageFragmentRoot src= JavaProjectHelper.addSourceContainerWithImport(javaProject, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 

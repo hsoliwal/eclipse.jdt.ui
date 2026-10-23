@@ -211,7 +211,7 @@ public class MultiMethodLaunchConfigurationDelegateTest {
 		if (Platform.OS.isWindows()) {
 			filePath= filePath.substring(1, filePath.length() - 1);
 		}
-		return Files.readAllLines(Paths.get(filePath));
+		return Files.readAllLines(Paths.get(filePath)); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 }

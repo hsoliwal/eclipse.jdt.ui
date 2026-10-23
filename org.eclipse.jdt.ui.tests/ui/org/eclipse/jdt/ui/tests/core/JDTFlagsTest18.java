@@ -259,7 +259,7 @@ public class JDTFlagsTest18 {
 	public void testIsStaticInBinaryFile() throws Exception {
 		File clsJarPath= JavaTestPlugin.getDefault().getFileInPlugin(new Path("/testresources/JDTFlagsTest18.zip"));
 		assertNotNull("lib not found", clsJarPath);//$NON-NLS-1$
-		assertTrue("lib not found", clsJarPath.exists());
+		assertTrue("lib not found", clsJarPath.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot jarRoot= JavaProjectHelper.addLibraryWithImport(fJProject1, new Path(clsJarPath.getAbsolutePath()), null, null);
 		fJProject1.open(null);
 		fJProject1.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -309,7 +309,7 @@ public class JDTFlagsTest18 {
 	public void testIsDefaultInBinaryFile() throws Exception {
 		File clsJarPath= JavaTestPlugin.getDefault().getFileInPlugin(new Path("/testresources/JDTFlagsTest18.zip"));
 		assertNotNull("lib not found", clsJarPath);//$NON-NLS-1$
-		assertTrue("lib not found", clsJarPath.exists());//$NON-NLS-1$
+		assertTrue("lib not found", clsJarPath.exists());//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot jarRoot= JavaProjectHelper.addLibraryWithImport(fJProject1, new Path(clsJarPath.getAbsolutePath()), null, null);
 		fJProject1.open(null);
 		fJProject1.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -439,7 +439,7 @@ public class JDTFlagsTest18 {
 	public void testExplicitAbstractInBinaryFile() throws Exception {
 		File clsJarPath= JavaTestPlugin.getDefault().getFileInPlugin(new Path("/testresources/JDTFlagsTest18.zip"));
 		assertNotNull("lib not found", clsJarPath);//$NON-NLS-1$
-		assertTrue("lib not found", clsJarPath.exists());//$NON-NLS-1$
+		assertTrue("lib not found", clsJarPath.exists());//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot jarRoot= JavaProjectHelper.addLibraryWithImport(fJProject1, new Path(clsJarPath.getAbsolutePath()), null, null);
 		fJProject1.open(null);
 		fJProject1.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -458,7 +458,7 @@ public class JDTFlagsTest18 {
 	public void testImplicitAbstractInBinaryFile() throws Exception {
 		File clsJarPath= JavaTestPlugin.getDefault().getFileInPlugin(new Path("/testresources/JDTFlagsTest18.zip"));
 		assertNotNull("lib not found", clsJarPath);//$NON-NLS-1$
-		assertTrue("lib not found", clsJarPath.exists());//$NON-NLS-1$
+		assertTrue("lib not found", clsJarPath.exists());//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot jarRoot= JavaProjectHelper.addLibraryWithImport(fJProject1, new Path(clsJarPath.getAbsolutePath()), null, null);
 		fJProject1.open(null);
 		fJProject1.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);

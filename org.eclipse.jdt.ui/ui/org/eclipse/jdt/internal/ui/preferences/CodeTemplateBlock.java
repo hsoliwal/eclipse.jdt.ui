@@ -616,8 +616,8 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		try {
 			TemplateReaderWriter reader= new TemplateReaderWriter();
 			File file= new File(path);
-			if (file.exists()) {
-				try (InputStream input= new BufferedInputStream(new FileInputStream(file))) {
+			if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+				try (InputStream input= new BufferedInputStream(new FileInputStream(file))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 					for (TemplatePersistenceData data : reader.read(input, null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						updateTemplate(data);
 					}
@@ -681,15 +681,15 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 			return;
 		}
 
-		if (file.exists() && !file.canWrite()) {
+		if (file.exists() && !file.canWrite()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			String title= PreferencesMessages.CodeTemplateBlock_export_error_title;
 			String message= Messages.format(PreferencesMessages.CodeTemplateBlock_export_error_canNotWrite, BasicElementLabels.getPathLabel(file));
 			MessageDialog.openError(getShell(), title, message);
 			return;
 		}
 
-		if (!file.exists() || confirmOverwrite(file)) {
-			try (OutputStream output= new BufferedOutputStream(new FileOutputStream(file))) {
+		if (!file.exists() || confirmOverwrite(file)) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			try (OutputStream output= new BufferedOutputStream(new FileOutputStream(file))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				TemplateReaderWriter writer= new TemplateReaderWriter();
 				writer.save(templates, output);
 				output.close();

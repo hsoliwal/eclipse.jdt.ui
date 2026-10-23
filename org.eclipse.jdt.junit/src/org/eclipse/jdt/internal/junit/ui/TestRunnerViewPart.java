@@ -1515,7 +1515,7 @@ public class TestRunnerViewPart extends ViewPart {
 			File file= File.createTempFile("testFailures", ".txt"); //$NON-NLS-1$ //$NON-NLS-2$
 			file.deleteOnExit();
 			TestElement[] failures= fTestRunSession.getAllFailedTestElements();
-			try (BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))){
+			try (BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))){ //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				for (TestElement testElement : failures) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					bw.write(testElement.getTestName());
 					bw.newLine();

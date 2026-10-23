@@ -34,9 +34,9 @@ public final class GenerateLeakTestVmArguments {
 		Path output= Path.of(args[0]).toAbsolutePath();
 		Path parent= output.getParent();
 		if (parent != null) {
-			Files.createDirectories(parent);
+			Files.createDirectories(parent); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
-		Files.write(output, createVmArguments(), StandardCharsets.UTF_8);
+		Files.write(output, createVmArguments(), StandardCharsets.UTF_8); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	static List<String> createVmArguments() {

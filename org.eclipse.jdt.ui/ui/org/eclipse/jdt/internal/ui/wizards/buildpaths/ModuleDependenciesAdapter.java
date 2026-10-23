@@ -663,7 +663,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		}
 		public Object[] getTargetModules() {
 			if (fTargetModules != null && !fTargetModules.isEmpty()) {
-				String[] targets= fTargetModules.split(COMMA);
+				String[] targets= fTargetModules.split(COMMA); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				Object[] result= new Object[targets.length];
 				for (int i= 0; i < targets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result[i]= new TargetModule(this, targets[i]);
@@ -676,7 +676,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			if (fTargetModules == null) {
 				return false;
 			}
-			List<String> targets= new ArrayList<>(Arrays.asList(fTargetModules.split(COMMA))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<String> targets= new ArrayList<>(Arrays.asList(fTargetModules.split(COMMA))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			if (targets.remove(module)) {
 				fTargetModules= String.join(COMMA, targets);
 			}

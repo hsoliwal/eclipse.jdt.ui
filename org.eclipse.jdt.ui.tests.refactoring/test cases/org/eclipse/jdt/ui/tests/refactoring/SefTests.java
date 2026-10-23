@@ -314,7 +314,7 @@ public class SefTests extends AbstractJunit4SelectionTestCase {
 		SelfEncapsulateFieldRefactoring refactoring= ((Checks.checkAvailability(field).hasFatalError() || !RefactoringAvailabilityTester.isSelfEncapsulateAvailable(field)) ? null : new SelfEncapsulateFieldRefactoring(field));
 		performTest(provider, refactoring, COMPARE_WITH_OUTPUT, getProofedContent("static_out", getName()), false);
 		String refContentOut= getProofedContent("static_ref_out", referenceName);
-		refContentOut= refContentOut.replaceAll("import static static_out", "import static static_in");
+		refContentOut= refContentOut.replaceAll("import static static_out", "import static static_in"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		compareSource(reference.getSource(), refContentOut);
 	}
 

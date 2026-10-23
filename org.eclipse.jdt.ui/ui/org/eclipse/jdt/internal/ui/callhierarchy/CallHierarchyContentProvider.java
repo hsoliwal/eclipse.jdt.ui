@@ -236,7 +236,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider { //FL
 		if (serializedMembers.length() == 0)
 			return false;
 
-		String[] defaultMemberPatterns= serializedMembers.split(";"); //$NON-NLS-1$
+		String[] defaultMemberPatterns= serializedMembers.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		String methodName= method.getElementName();
 		IType declaringType= method.getDeclaringType();

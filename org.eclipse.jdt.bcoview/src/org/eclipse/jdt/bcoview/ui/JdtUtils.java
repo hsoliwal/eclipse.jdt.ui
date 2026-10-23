@@ -701,7 +701,7 @@ public class JdtUtils {
 				return null;
 			}
 			try {
-				return Files.readAllBytes(Paths.get(classPath));
+				return Files.readAllBytes(Paths.get(classPath)); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			} catch (IOException e) {
 				// if autobuild is disabled, we get tons of this errors.
 				// but I think we cannot ignore them, therefore WARNING and not

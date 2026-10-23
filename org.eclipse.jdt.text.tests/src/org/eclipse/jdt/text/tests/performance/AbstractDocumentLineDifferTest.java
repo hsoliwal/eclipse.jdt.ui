@@ -74,11 +74,11 @@ public abstract class AbstractDocumentLineDifferTest extends TextPerformanceTest
 	static {
 		FAUST1= AbstractDocumentLineDifferTest.getFaust();
 
-		FAUST_FEW_CHANGES= FAUST1.replaceAll("MARGARETE", "GRETCHEN");
+		FAUST_FEW_CHANGES= FAUST1.replaceAll("MARGARETE", "GRETCHEN"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		SMALL_FAUST1= FAUST1.substring(0, 20000);
-		SMALL_FAUST_MANY_CHANGES= SMALL_FAUST1.replaceAll("\n", "\n_");
-		SMALL_FAUST_MANY_CHANGES_SAME_SIZE= SMALL_FAUST1.replaceAll(".\n", "_\n");
+		SMALL_FAUST_MANY_CHANGES= SMALL_FAUST1.replaceAll("\n", "\n_"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		SMALL_FAUST_MANY_CHANGES_SAME_SIZE= SMALL_FAUST1.replaceAll(".\n", "_\n"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	}
 	protected static final long MAX_WAIT= 10000; // wait 10 seconds at most

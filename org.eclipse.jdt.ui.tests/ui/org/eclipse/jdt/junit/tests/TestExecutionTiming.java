@@ -109,7 +109,7 @@ public class TestExecutionTiming extends AbstractTestRunListenerTest {
 
 		String startPayload= messages.get(0).substring(MessageIds.MSG_HEADER_LENGTH);
 		String testId= startPayload.substring(0, startPayload.indexOf(','));
-		String[] timing= messages.get(1).substring(MessageIds.MSG_HEADER_LENGTH).split(",", -1); //$NON-NLS-1$
+		String[] timing= messages.get(1).substring(MessageIds.MSG_HEADER_LENGTH).split(",", -1); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		assertEquals(5, timing.length);
 		assertEquals(testId, timing[0]);
 		assertTrue(Long.parseLong(timing[1]) >= 0);
@@ -169,7 +169,7 @@ public class TestExecutionTiming extends AbstractTestRunListenerTest {
 
 		assertEquals(1, messages.size());
 		assertEquals(1, flushCount[0]);
-		String[] timing= messages.get(0).substring(MessageIds.MSG_HEADER_LENGTH).split(",", -1); //$NON-NLS-1$
+		String[] timing= messages.get(0).substring(MessageIds.MSG_HEADER_LENGTH).split(",", -1); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		assertEquals(5, timing.length);
 		assertEquals("42", timing[0]); //$NON-NLS-1$
 		assertTrue(Long.parseLong(timing[1]) >= 0);

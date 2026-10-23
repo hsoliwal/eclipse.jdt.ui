@@ -107,7 +107,7 @@ public class TestKind implements ITestKind {
 
 	boolean precedes(ITestKind otherKind) {
 		final String precededKindId = getPrecededKindId();
-		String[] ids = precededKindId.split(","); //$NON-NLS-1$
+		String[] ids = precededKindId.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		for (String id : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.equals(otherKind.getId())) {
 				return true;

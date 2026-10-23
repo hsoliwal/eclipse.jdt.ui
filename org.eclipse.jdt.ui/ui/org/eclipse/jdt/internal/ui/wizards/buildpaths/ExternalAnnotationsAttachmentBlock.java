@@ -490,13 +490,13 @@ public class ExternalAnnotationsAttachmentBlock {
 			if (res != null) {
 				IPath location= res.getLocation();
 				if (location != null) {
-					exists= location.toFile().exists();
+					exists= location.toFile().exists(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				} else {
 					exists= res.exists();
 				}
 				isVirtual= res.isVirtual();
 			} else {
-				exists= file.exists();
+				exists= file.exists(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			}
 			if (!exists) {
 				String message= Messages.format(NewWizardMessages.AnnotationsAttachmentBlock_filename_error_filenotexists, BasicElementLabels.getPathLabel(filePath, false));

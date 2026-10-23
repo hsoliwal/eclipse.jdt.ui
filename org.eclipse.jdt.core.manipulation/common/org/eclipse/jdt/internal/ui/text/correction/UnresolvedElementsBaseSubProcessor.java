@@ -892,7 +892,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 			return;
 		}
 		File bundleFile= bundleFileLocation.get();
-		if (!bundleFile.isFile() || !bundleFile.canRead())
+		if (!bundleFile.isFile() || !bundleFile.canRead()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			return; // we only support a JAR'd bundle, so this won't work in the runtime if you have org.eclipse.jdt.annotation in source.
 
 		final String changeName= CorrectionMessages.UnresolvedElementsSubProcessor_copy_annotation_jar_description;
@@ -907,7 +907,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 							if (file.exists()) {
 								file.delete(false, pm);
 							}
-							file.create(new ByteArrayInputStream(Files.readAllBytes(bundleFile.toPath())), false, pm);
+							file.create(new ByteArrayInputStream(Files.readAllBytes(bundleFile.toPath())), false, pm); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							return new DeleteResourceChange(file.getFullPath(), false);
 						} catch (IOException e) {
 							throw new CoreException(new Status(IStatus.ERROR, JavaManipulationPlugin.getPluginId(), e.getMessage()));
@@ -1531,7 +1531,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		if (pref == null  || pref.isBlank()) {
 			return;
 		}
-		String[] favourites= pref.split(";"); //$NON-NLS-1$
+		String[] favourites= pref.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (favourites.length == 0) {
 			return;
 		}

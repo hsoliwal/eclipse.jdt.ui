@@ -194,7 +194,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringDialogField;
  */
 public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 
-	private static final Pattern NUM_PATTERN= Pattern.compile("[0-9]+$"); //$NON-NLS-1$
+	private static final Pattern NUM_PATTERN= Pattern.compile("[0-9]+$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * Class used in stub creation routines to add needed imports to a
@@ -789,7 +789,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 			while (resource == null || resource.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				typeName= Signature.getSimpleName(typeName);
 				Matcher m= NUM_PATTERN.matcher(typeName); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-				if (m.find()) {
+				if (m.find()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					// String ends with a number: increment it by 1
 					BigDecimal newNumber= null;
 					try {

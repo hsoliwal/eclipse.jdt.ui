@@ -68,7 +68,7 @@ public class PackageJavadocTests extends CoreTests {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/javadochoverhtml/JavaDocHoverTest.java"));
@@ -89,7 +89,7 @@ public class PackageJavadocTests extends CoreTests {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/javadochover/Activator.java"));
@@ -109,7 +109,7 @@ public class PackageJavadocTests extends CoreTests {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/javadochoverhtml/JavaDocHoverTest.java"));
@@ -128,7 +128,7 @@ public class PackageJavadocTests extends CoreTests {
 	public void testGetDocFromPackageInfoJava_archive() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/javadochoverhtml/JavaDocHoverTest.java"));
@@ -164,7 +164,7 @@ public class PackageJavadocTests extends CoreTests {
 	public void testGetDocFromSourceAttachmentRootPath() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/javadochoverhtml/JavaDocHoverTest.java"));
@@ -207,7 +207,7 @@ public class PackageJavadocTests extends CoreTests {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/javadochoverhtml/JavaDocHoverTest.java"));
@@ -261,7 +261,7 @@ public class PackageJavadocTests extends CoreTests {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/checkPackageInfo/TestNPEHover.java"));
@@ -280,7 +280,7 @@ public class PackageJavadocTests extends CoreTests {
 	public void testPackageWithNoJavadoc() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/javadochoverhtml/JavaDocHoverTest.java"));
@@ -321,7 +321,7 @@ public class PackageJavadocTests extends CoreTests {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
 		assertNotNull("JUnit src should be found", junitSrcArchive);
-		assertTrue("JUnit src should exist", junitSrcArchive.exists());
+		assertTrue("JUnit src should exist", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		ICompilationUnit cu= (ICompilationUnit)fJProject1.findElement(new Path("junit/javadochoverhtml/JavaDocHoverTest.java"));

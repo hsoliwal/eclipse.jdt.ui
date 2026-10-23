@@ -64,7 +64,7 @@ public class NLSHint {
 	 * a line terminator. A text block cannot be on a single line, nor can the contents of the text block follow
 	 * the three opening double-quotes (and maybe whitespace) immediately without a line terminator.
 	 */
-	private static final Pattern TEXT_BLOCK_START_PATTERN = Pattern.compile("^\"\"\"\\s*\r?\n"); //$NON-NLS-1$
+	private static final Pattern TEXT_BLOCK_START_PATTERN = Pattern.compile("^\"\"\"\\s*\r?\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	private String fAccessorName;
 	private IPackageFragment fAccessorPackage;

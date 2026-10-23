@@ -251,12 +251,12 @@ public class NewVariableEntryDialog extends StatusDialog {
 				CPVariableElement curr= selected.get(i);
 				fResultPaths[i]= new Path(curr.getName());
 				File file= curr.getPath().toFile();
-				if (!file.exists()) {
+				if (!file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					status.setError(NewWizardMessages.NewVariableEntryDialog_info_notexists);
 					isValidSelection= false;
 					break;
 				}
-				if (file.isDirectory()) {
+				if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					canExtend= true;
 				}
 			}

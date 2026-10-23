@@ -125,7 +125,7 @@ public class CodeCompletionTest extends AbstractCompletionTest {
 		System.out.print("file contents: |");
 		File file= cu.getResource().getLocation().toFile();
 		try {
-			try (BufferedReader reader= new BufferedReader(new FileReader(file))) {
+			try (BufferedReader reader= new BufferedReader(new FileReader(file))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				String line;
 				while ((line= reader.readLine()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					System.out.println(line);

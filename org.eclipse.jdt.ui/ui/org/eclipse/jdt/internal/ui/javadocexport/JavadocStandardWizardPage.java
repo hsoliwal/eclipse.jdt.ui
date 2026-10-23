@@ -328,7 +328,7 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 					} else {
 						File file= new File(filename);
 						String ext= filename.substring(filename.lastIndexOf('.') + 1);
-						if (!file.isFile()) {
+						if (!file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							fStyleSheetStatus.setError(JavadocExportMessages.JavadocStandardWizardPage_stylesheetnopath_error);
 						} else if (!"css".equalsIgnoreCase(ext)) { //$NON-NLS-1$
 							fStyleSheetStatus.setError(JavadocExportMessages.JavadocStandardWizardPage_stylesheetnotcss_error);

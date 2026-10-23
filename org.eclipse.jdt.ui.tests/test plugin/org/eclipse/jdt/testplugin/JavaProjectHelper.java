@@ -202,7 +202,7 @@ public class JavaProjectHelper {
 
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JUNIT_SRC_381);
 		assertNotNull(junitSrcArchive);
-		assertTrue(junitSrcArchive.exists());
+		assertTrue(junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(project, srcContainerName, junitSrcArchive, JUNIT_SRC_ENCODING);
 
@@ -913,7 +913,7 @@ public class JavaProjectHelper {
 	public static IPackageFragmentRoot addLibraryWithImport(IJavaProject jproject, IPath jarPath, IPath sourceAttachPath, IPath sourceAttachRoot) throws IOException, CoreException {
 		IProject project= jproject.getProject();
 		IFile newFile= project.getFile(jarPath.lastSegment());
-		try (InputStream inputStream= new FileInputStream(jarPath.toFile())) {
+		try (InputStream inputStream= new FileInputStream(jarPath.toFile())) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			newFile.create(inputStream, true, null);
 		}
 		return addLibrary(jproject, newFile.getFullPath(), sourceAttachPath, sourceAttachRoot);
@@ -1183,7 +1183,7 @@ public class JavaProjectHelper {
 	public static IPath[] findRtJar(IPath rtStubsPath) throws CoreException {
 		File rtStubs= JavaTestPlugin.getDefault().getFileInPlugin(rtStubsPath);
 		assertNotNull(rtStubs);
-		assertTrue(rtStubs.exists());
+		assertTrue(rtStubs.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		return new IPath[] {
 			Path.fromOSString(rtStubs.getPath()),
 			null,

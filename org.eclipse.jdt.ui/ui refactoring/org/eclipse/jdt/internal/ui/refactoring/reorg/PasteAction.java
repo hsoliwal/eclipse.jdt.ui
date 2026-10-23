@@ -792,7 +792,7 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 								editorPart[0]= openCu(cu); //Open editor before overwriting to allow undo to restore original package declaration
 							}
 
-							parsedText= parsedText.replaceAll("\r\n?|\n", StubUtility.getLineDelimiterUsed(cu)); //$NON-NLS-1$
+							parsedText= parsedText.replaceAll("\r\n?|\n", StubUtility.getLineDelimiterUsed(cu)); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 							destinationPack.createCompilationUnit(cuName, parsedText, true, Progress.subMonitor(pm, 1));
 
 							if (! alreadyExists) {

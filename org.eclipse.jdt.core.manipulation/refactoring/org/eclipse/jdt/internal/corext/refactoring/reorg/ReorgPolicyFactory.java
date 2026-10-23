@@ -2558,9 +2558,9 @@ public final class ReorgPolicyFactory {
 				fileExtension= str.substring(lastIndexOfDot);
 				fileNameNoExtension= str.substring(0, lastIndexOfDot);
 			}
-			Pattern p= Pattern.compile("[0-9]+$"); //$NON-NLS-1$
+			Pattern p= Pattern.compile("[0-9]+$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			Matcher m= p.matcher(fileNameNoExtension); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-			if (m.find()) {
+			if (m.find()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				// String ends with a number: increment it by 1
 				String numberStr;
 				BigDecimal newNumber = null;

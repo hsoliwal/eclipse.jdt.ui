@@ -217,7 +217,7 @@ public class JUnitPlugin extends AbstractUIPlugin {
 		Set<String> defaultFavorites= new LinkedHashSet<>();
 		String defaultPreferenceValue= PreferenceConstants.getPreferenceStore().getDefaultString(PreferenceConstants.CODEASSIST_FAVORITE_STATIC_MEMBERS);
 		if (defaultPreferenceValue != null && defaultPreferenceValue.length() > 0) {
-			defaultFavorites.addAll(Arrays.asList(defaultPreferenceValue.split(";"))); //$NON-NLS-1$
+			defaultFavorites.addAll(Arrays.asList(defaultPreferenceValue.split(";"))); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 		defaultFavorites.addAll(favoritesToAdd);
 		String newDefaultPreferenceValue= defaultFavorites.stream().collect(Collectors.joining(";")); //$NON-NLS-1$

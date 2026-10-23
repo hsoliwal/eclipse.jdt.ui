@@ -202,11 +202,11 @@ public class TestRunListenerTest6 extends AbstractTestRunListenerTest {
 			String name = "lib" + i + ".jar"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			IPath entryPath= entry.getPath();
 			IFile copy= project.getFile(name);
-			Files.copy(entryPath.toPath(), copy.getLocation().toPath());
+			Files.copy(entryPath.toPath(), copy.getLocation().toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			copy.refreshLocal(IResource.DEPTH_INFINITE, null);
 			JavaProjectHelper.addToClasspath(fProject, JavaCore.newLibraryEntry(project.getLocation().append(name), null, null));
 		}
-		List<String> lines = Files.readAllLines(fProject.getProject().getLocation().append(".classpath").toPath());
+		List<String> lines = Files.readAllLines(fProject.getProject().getLocation().append(".classpath").toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		lines.stream().forEach(System.out::println);
 		String source=
 				"""

@@ -276,7 +276,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 
 			if (directoryName.length() > 0) {
 				final File path = new File(directoryName);
-				if (path.exists())
+				if (path.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					dialog.setFilterPath(directoryName);
 			}
 			final String selectedDirectory = dialog.open();
@@ -1096,11 +1096,11 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 					return false;
 				} else {
 					final File directory= fLocationGroup.getLocation().append(name).toFile();
-					return directory.isDirectory();
+					return directory.isDirectory(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				}
 			} else {
 				final File directory= fLocationGroup.getLocation().toFile();
-				return directory.isDirectory();
+				return directory.isDirectory(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			}
 		}
 
@@ -1187,10 +1187,10 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			}
 
 			IPath projectLocation= ResourcesPlugin.getWorkspace().getRoot().getLocation().append(name);
-			if (projectLocation.toFile().exists()) {
+			if (projectLocation.toFile().exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				try {
 					//correct casing
-					String canonicalPath= projectLocation.toFile().getCanonicalPath();
+					String canonicalPath= projectLocation.toFile().getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					projectLocation= new Path(canonicalPath);
 				} catch (IOException e) {
 					JavaPlugin.log(e);
@@ -1225,7 +1225,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			IPath projectPath= null;
 			if (!fLocationGroup.isUseDefaultSelected()) {
 				projectPath= Path.fromOSString(location);
-				if (!projectPath.toFile().exists()) {
+				if (!projectPath.toFile().exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					// check non-existing external location
 					if (!canCreate(projectPath.toFile())) {
 						setErrorMessage(NewWizardMessages.NewJavaProjectWizardPageOne_Message_cannotCreateAtExternalLocation);
@@ -1272,13 +1272,13 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 		}
 
 		private boolean canCreate(File file) {
-			while (!file.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (!file.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				file= file.getParentFile();
 				if (file == null)
 					return false;
 			}
 
-			return file.canWrite();
+			return file.canWrite(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 

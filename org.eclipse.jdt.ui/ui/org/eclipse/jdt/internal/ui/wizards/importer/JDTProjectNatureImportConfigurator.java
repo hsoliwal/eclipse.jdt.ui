@@ -128,7 +128,7 @@ public class JDTProjectNatureImportConfigurator implements ProjectConfigurator {
 			int index = path.indexOf(File.separator + BIN + File.separator); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (index >= 0) {
 				File potentialClasspathFile = new File(path.substring(0, index), CLASSPATH);
-				if (potentialClasspathFile.isFile()) {
+				if (potentialClasspathFile.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					toRemove.add(directory);
 				}
 			}

@@ -104,7 +104,7 @@ public abstract class JavadocWizardPage extends NewElementWizardPage {
 		String dirName= text.getText();
 		if (!dirName.isEmpty()) {
 			File path= new File(dirName);
-			if (path.exists())
+			if (path.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				dialog.setFilterPath(dirName);
 
 		}
@@ -121,7 +121,7 @@ public abstract class JavadocWizardPage extends NewElementWizardPage {
 		String res= dialog.open();
 		if (res != null) {
 			File file= new File(res);
-			if (file.isDirectory())
+			if (file.isDirectory()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return res;
 		}
 		return dir;

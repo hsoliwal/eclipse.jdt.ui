@@ -214,7 +214,7 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 						int startOffset= root.getExtendedStartPosition(stmt);
 						int endLength= root.getExtendedLength(stmt);
 						String text= buffer.getText(startOffset,  endLength);
-						String[] textLines= text.split("\n"); //$NON-NLS-1$
+						String[] textLines= text.split("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						for (String textLine : textLines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							blockBuilder.append(fIndent + textLine.trim() + "\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
@@ -223,7 +223,7 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 					int startOffset= root.getExtendedStartPosition(innerIf.getThenStatement());
 					int endLength= root.getExtendedLength(innerIf.getThenStatement());
 					String text= buffer.getText(startOffset,  endLength);
-					String[] textLines= text.split("\n"); //$NON-NLS-1$
+					String[] textLines= text.split("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					for (String textLine : textLines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						blockBuilder.append(fIndent + textLine.trim() + "\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}

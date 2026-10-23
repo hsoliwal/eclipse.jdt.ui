@@ -612,10 +612,10 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 						fDestinationStatus.setError(JavadocExportMessages.JavadocTreeWizardPage_nodestination_error);
 					}
 					File file= new File(dest);
-					if (!Path.ROOT.isValidPath(dest) || file.isFile()) {
+					if (!Path.ROOT.isValidPath(dest) || file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						fDestinationStatus.setError(JavadocExportMessages.JavadocTreeWizardPage_invaliddestination_error);
 					}
-					if (new File(dest, "package-list").exists() || new File(dest, "index.html").exists()) //$NON-NLS-1$//$NON-NLS-2$
+					if (new File(dest, "package-list").exists() || new File(dest, "index.html").exists()) //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						fDestinationStatus.setWarning(JavadocExportMessages.JavadocTreeWizardPage_warning_mayoverwritefiles);
 					updateStatus(findMostSevereStatus());
 				}
@@ -638,7 +638,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 					fJavadocStatus.setError(JavadocExportMessages.JavadocTreeWizardPage_javadoccmd_error_enterpath);
 				} else {
 					File file= new File(text);
-					if (!file.isFile()) {
+					if (!file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						fJavadocStatus.setError(JavadocExportMessages.JavadocTreeWizardPage_javadoccmd_error_notexists);
 					}
 				}
@@ -675,7 +675,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		StringTokenizer tokens= new StringTokenizer(docletPath, ";"); //$NON-NLS-1$
 		while (tokens.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			File file= new File(tokens.nextToken());
-			if (!file.exists())
+			if (!file.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return false;
 		}
 		return true;

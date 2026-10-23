@@ -143,7 +143,7 @@ public class TestRunHandler extends DefaultHandler {
 				String paramTypesStr= attributes.getValue(IXMLTags.ATTR_PARAMETER_TYPES);
 				String[] paramTypes;
 				if (paramTypesStr != null && !paramTypesStr.trim().isEmpty()) {
-					paramTypes= paramTypesStr.split(","); //$NON-NLS-1$
+					paramTypes= paramTypesStr.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					Arrays.parallelSetAll(paramTypes, i -> paramTypes[i].trim());
 				} else {
 					paramTypes= null;
@@ -170,7 +170,7 @@ public class TestRunHandler extends DefaultHandler {
 				String paramTypesStr= attributes.getValue(IXMLTags.ATTR_PARAMETER_TYPES);
 				String[] paramTypes;
 				if (paramTypesStr != null && !paramTypesStr.trim().isEmpty()) {
-					paramTypes= paramTypesStr.split(","); //$NON-NLS-1$
+					paramTypes= paramTypesStr.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					Arrays.parallelSetAll(paramTypes, i -> paramTypes[i].trim());
 				} else {
 					paramTypes= null;

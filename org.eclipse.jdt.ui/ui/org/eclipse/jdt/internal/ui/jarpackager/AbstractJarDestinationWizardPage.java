@@ -216,13 +216,13 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 	 * @return boolean
 	 */
 	protected boolean ensureTargetFileIsValid(File targetFile) {
-		if (targetFile.exists() && targetFile.isDirectory() && fDestinationNamesCombo.getText().length() > 0) {
+		if (targetFile.exists() && targetFile.isDirectory() && fDestinationNamesCombo.getText().length() > 0) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			setErrorMessage(JarPackagerMessages.JarPackageWizardPage_error_exportDestinationMustNotBeDirectory);
 			fDestinationNamesCombo.setFocus();
 			return false;
 		}
-		if (targetFile.exists()) {
-			if (!targetFile.canWrite()) {
+		if (targetFile.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (!targetFile.canWrite()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				setErrorMessage(JarPackagerMessages.JarPackageWizardPage_error_jarFileExistsAndNotWritable);
 				fDestinationNamesCombo.setFocus();
 				return false;

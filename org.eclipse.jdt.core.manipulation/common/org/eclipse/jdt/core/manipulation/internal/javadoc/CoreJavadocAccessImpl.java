@@ -427,11 +427,11 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	}
 
 	protected void handleBlockTagsHidden() {
-		String replaceAll= fBuf.toString().replaceAll(getBlockTagStart(), "<dl hidden>"); //$NON-NLS-1$
-		replaceAll= replaceAll.replaceAll(getBlockTagTitleStart(), "<dt hidden>"); //$NON-NLS-1$
-		replaceAll= replaceAll.replaceAll(getBlockTagEntryStart(), "<dd hidden>"); //$NON-NLS-1$
+		String replaceAll= fBuf.toString().replaceAll(getBlockTagStart(), "<dl hidden>"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		replaceAll= replaceAll.replaceAll(getBlockTagTitleStart(), "<dt hidden>"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		replaceAll= replaceAll.replaceAll(getBlockTagEntryStart(), "<dd hidden>"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		// For tags like deprecated
-		replaceAll= replaceAll.replaceAll(getParamNameStart(), "<b hidden>"); //$NON-NLS-1$
+		replaceAll= replaceAll.replaceAll(getParamNameStart(), "<b hidden>"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		fBuf.setLength(0);
 		fBuf.append(replaceAll);
 	}
@@ -795,11 +795,11 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	protected void handleInLineTextElement(TextElement te, boolean skipLeadingWhitespace, TagElement tagElement, ASTNode previousNode) {
 		String text= te.getText();
 		if (skipLeadingWhitespace) {
-			text= text.replaceFirst("^\\s", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			text= text.replaceFirst("^\\s", ""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 
 		// workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=233481 :
-		text= text.replaceAll("(\r\n?|\n)([ \t]*\\*)", "$1"); //$NON-NLS-1$ //$NON-NLS-2$
+		text= text.replaceAll("(\r\n?|\n)([ \t]*\\*)", "$1"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		text= handlePreCounter(tagElement, text);
 		handleInLineText(text, previousNode);
 	}
@@ -812,7 +812,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			if (fPreCounter == fInPreCodeCounter) {
 				fInPreCodeCounter= -1;
 			}
-		} else if (tagElement == null && fPreCounter > 0 && text.matches("}\\s*</pre>")) { //$NON-NLS-1$
+		} else if (tagElement == null && fPreCounter > 0 && text.matches("}\\s*</pre>")) { //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			// this is a temporary workaround for https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/316
 			// as the parser for @code is treating the first } it finds as the end of the code
 			// sequence but this is not the case for a <pre>{@code sequence which goes over
@@ -837,7 +837,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	protected String removeDocLineIntros(String textWithStars) {
 		String lineBreakGroup= "(\\r\\n?|\\n)"; //$NON-NLS-1$
 		String noBreakSpace= "[^\r\n&&\\s]"; //$NON-NLS-1$
-		return textWithStars.replaceAll(lineBreakGroup + noBreakSpace + "*\\*" /*+ noBreakSpace + '?'*/, "$1"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		return textWithStars.replaceAll(lineBreakGroup + noBreakSpace + "*\\*" /*+ noBreakSpace + '?'*/, "$1"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	protected void handleText(String text) {
@@ -1026,7 +1026,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		int lookaheadEnd= Math.min(nodeEnd + 40, fSource.length());
 		if (nodeEnd < lookaheadEnd) {
 			String following= fSource.substring(nodeEnd, lookaheadEnd);
-			String stripped= following.replaceAll("(?s)[\\s*/]+", " ").trim(); //$NON-NLS-1$ //$NON-NLS-2$
+			String stripped= following.replaceAll("(?s)[\\s*/]+", " ").trim(); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			return stripped.startsWith("```") || stripped.startsWith("<pre>"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return false;

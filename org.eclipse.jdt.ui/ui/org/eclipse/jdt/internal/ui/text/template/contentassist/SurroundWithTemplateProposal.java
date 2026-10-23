@@ -68,7 +68,7 @@ public class SurroundWithTemplateProposal extends TemplateProposal { //FLLDCIM: 
 
 	private static class SurroundWithTemplate extends SurroundWith {
 
-		private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		private final Template fTemplate;
 		private final IJavaProject fCurrentProject;
@@ -90,17 +90,17 @@ public class SurroundWithTemplateProposal extends TemplateProposal { //FLLDCIM: 
 		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected boolean isNewContext() {
 
-			final Pattern templateVariableRegEx= Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$
+			final Pattern templateVariableRegEx= Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 			String template= fTemplate.getPattern();
 			Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-			int currentPosition= lineSelectionMatcher.find() ? lineSelectionMatcher.start() : -1;
+			int currentPosition= lineSelectionMatcher.find() ? lineSelectionMatcher.start() : -1; //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			int insertionPosition= -1;
 			while (currentPosition != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				insertionPosition= currentPosition;
 				template= templateVariableRegEx.matcher(template).replaceFirst(""); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-				currentPosition= lineSelectionMatcher.find() ? lineSelectionMatcher.start() : -1;
+				currentPosition= lineSelectionMatcher.find() ? lineSelectionMatcher.start() : -1; //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 			template= templateVariableRegEx.matcher(template).replaceAll(""); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 

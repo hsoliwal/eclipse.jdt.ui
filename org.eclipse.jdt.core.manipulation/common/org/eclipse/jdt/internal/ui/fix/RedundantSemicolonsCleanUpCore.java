@@ -62,7 +62,7 @@ public class RedundantSemicolonsCleanUpCore extends AbstractMultiFix implements 
 	private TextEditGroup[] fEditGroups;
 	private String fName;
 	private ICompilationUnit fCompilationUnit;
-	final static Pattern pattern= Pattern.compile("^((\\s*;)+)"); //$NON-NLS-1$
+	final static Pattern pattern= Pattern.compile("^((\\s*;)+)"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	public RedundantSemicolonsCleanUpCore() {
 		this(Collections.emptyMap());
@@ -201,7 +201,7 @@ public class RedundantSemicolonsCleanUpCore extends AbstractMultiFix implements 
 	private int findTrailingSemicolons(String contents, int startLocation) {
 		int i= startLocation;
 		Matcher matcher= pattern.matcher(contents.substring(i)); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-		if (matcher.find(0)) {
+		if (matcher.find(0)) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			return matcher.end(2);
 		}
 		return -1;

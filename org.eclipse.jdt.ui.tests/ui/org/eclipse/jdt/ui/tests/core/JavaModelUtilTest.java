@@ -82,13 +82,13 @@ public class JavaModelUtilTest {
 
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
 		File mylibJar= JavaTestPlugin.getDefault().getFileInPlugin(LIB);
 		assertNotNull("lib not found", junitSrcArchive);
-		assertTrue("lib not found", junitSrcArchive.exists());
+		assertTrue("lib not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addLibraryWithImport(fJProject1, Path.fromOSString(mylibJar.getPath()), null, null);
 

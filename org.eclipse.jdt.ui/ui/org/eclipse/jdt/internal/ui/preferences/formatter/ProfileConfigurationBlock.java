@@ -204,7 +204,7 @@ public abstract class ProfileConfigurationBlock {
 			JavaPlugin.getDefault().getDialogSettings().put(fLastSaveLoadPathKey + ".savepath", dialog.getFilterPath()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			final File file= new File(path);
-			if (file.exists() && !MessageDialog.openQuestion(fComposite.getShell(), FormatterMessages.CodingStyleConfigurationBlock_export_profiles_overwrite_title, Messages.format(FormatterMessages.CodingStyleConfigurationBlock_export_profiles_overwrite_message, BasicElementLabels.getPathLabel(file)))) {
+			if (file.exists() && !MessageDialog.openQuestion(fComposite.getShell(), FormatterMessages.CodingStyleConfigurationBlock_export_profiles_overwrite_title, Messages.format(FormatterMessages.CodingStyleConfigurationBlock_export_profiles_overwrite_message, BasicElementLabels.getPathLabel(file)))) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return;
 			}
 			String encoding= ProfileStore.ENCODING;

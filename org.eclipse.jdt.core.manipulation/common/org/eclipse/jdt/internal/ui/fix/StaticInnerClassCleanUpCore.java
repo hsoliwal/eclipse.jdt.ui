@@ -386,7 +386,7 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 						}
 					} else {
 						String qualifiedName= dynamicClassInstanceCreation.getExpression().resolveTypeBinding().getErasure().getQualifiedName();
-						String[] qualifiedNameTokens= qualifiedName.split("\\."); //$NON-NLS-1$
+						String[] qualifiedNameTokens= qualifiedName.split("\\."); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						Name newQualifiedName= null;
 
 						for (String qualifiedNameToken : qualifiedNameTokens) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP

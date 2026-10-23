@@ -180,16 +180,16 @@ public class CoreJavadocContentAccessUtility {
 				}
 			}
 
-			if (file == null || !file.exists())
+			if (file == null || !file.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				file= sourceAttachmentPath.toFile();
 
-			if (file.isDirectory()) {
+			if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				//the path is an absolute filesystem path to the source folder
 				IPath packagedocPath= sourceAttachmentPath.append(filePath);
-				if (packagedocPath.toFile().exists())
+				if (packagedocPath.toFile().exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return getFileContent(packagedocPath.toFile());
 
-			} else if (file.exists()) {
+			} else if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				//the package documentation is in a Jar/Zip
 				IPath sourceAttachmentRootPath= root.getSourceAttachmentRootPath();
 				String packagedocPath;
@@ -205,7 +205,7 @@ public class CoreJavadocContentAccessUtility {
 					zipFile= new ZipFile(file, ZipFile.OPEN_READ); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 					ZipEntry packagedocFile= zipFile.getEntry(packagedocPath);
 					if (packagedocFile != null) {
-						in= zipFile.getInputStream(packagedocFile);
+						in= zipFile.getInputStream(packagedocFile); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 						if (encoding == null)
 							encoding= getSourceAttachmentEncoding(root);
 						return getContentsFromInputStream(in, encoding);

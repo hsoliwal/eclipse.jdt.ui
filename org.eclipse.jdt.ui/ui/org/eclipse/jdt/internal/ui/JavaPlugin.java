@@ -1272,7 +1272,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 		// default value - enabled
 		Set<String> defaultEnabled= new LinkedHashSet<>();
 		String defaultEnabledString= PreferenceConstants.getPreferenceStore().getDefaultString(PreferenceConstants.TYPEFILTER_ENABLED);
-		defaultEnabled.addAll(Arrays.asList(defaultEnabledString.split(";"))); //$NON-NLS-1$
+		defaultEnabled.addAll(Arrays.asList(defaultEnabledString.split(";"))); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		defaultEnabled.addAll(enabledFiltersToAdd);
 		String newDefaultEnabledString= defaultEnabled.stream().collect(Collectors.joining(";")); //$NON-NLS-1$
 		PreferenceConstants.getPreferenceStore().setDefault(PreferenceConstants.TYPEFILTER_ENABLED, newDefaultEnabledString);
@@ -1280,7 +1280,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 		// default value - disabled
 		Set<String> defaultDisabled= new LinkedHashSet<>();
 		String defaultDisabledString= PreferenceConstants.getPreferenceStore().getDefaultString(PreferenceConstants.TYPEFILTER_DISABLED);
-		defaultDisabled.addAll(Arrays.asList(defaultDisabledString.split(";"))); //$NON-NLS-1$
+		defaultDisabled.addAll(Arrays.asList(defaultDisabledString.split(";"))); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		defaultDisabled.addAll(disabledFiltersToAdd);
 		String newDefaultDisabledString= defaultDisabled.stream().collect(Collectors.joining(";")); //$NON-NLS-1$
 		PreferenceConstants.getPreferenceStore().setDefault(PreferenceConstants.TYPEFILTER_DISABLED, newDefaultDisabledString);
@@ -1292,13 +1292,13 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 		// current values
 		Set<String> currentEnabled= new LinkedHashSet<>();
 		String currentEnabledString= PreferenceConstants.getPreferenceStore().getString(PreferenceConstants.TYPEFILTER_ENABLED);
-		currentEnabled.addAll(Arrays.asList(currentEnabledString.split(";"))); //$NON-NLS-1$
+		currentEnabled.addAll(Arrays.asList(currentEnabledString.split(";"))); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		currentEnabled.remove("org.graalvm.*"); //$NON-NLS-1$
 		currentEnabled.remove("java.awt.*"); //$NON-NLS-1$
 
 		Set<String> currentDisabled= new LinkedHashSet<>();
 		String currentDisabledString= PreferenceConstants.getPreferenceStore().getString(PreferenceConstants.TYPEFILTER_DISABLED);
-		currentDisabled.addAll(Arrays.asList(currentDisabledString.split(";"))); //$NON-NLS-1$
+		currentDisabled.addAll(Arrays.asList(currentDisabledString.split(";"))); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		enabledFiltersToAdd.removeAll(currentEnabled);
 		enabledFiltersToAdd.removeAll(currentDisabled);

@@ -116,7 +116,7 @@ public class JarWriter4 extends JarWriter3 {
 
 		JarEntry newEntry= new JarEntry(path.toString().replace(File.separatorChar, '/'));
 
-		byte[] allBytes= Files.readAllBytes(file.toPath());
+		byte[] allBytes= Files.readAllBytes(file.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		if (fJarPackage.isCompressed())
 			newEntry.setMethod(ZipEntry.DEFLATED);
 			// Entry is filled automatically.
@@ -125,7 +125,7 @@ public class JarWriter4 extends JarWriter3 {
 				JarPackagerUtil.setCrcAndSize(newEntry, allBytes);
 		}
 
-		newEntry.setTime(file.lastModified());
+		newEntry.setTime(file.lastModified()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		@SuppressWarnings("resource")
 		JarOutputStream jarOutputStream= getJarOutputStream();

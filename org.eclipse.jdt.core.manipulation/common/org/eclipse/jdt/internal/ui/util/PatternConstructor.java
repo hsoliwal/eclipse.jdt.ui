@@ -37,9 +37,9 @@ public class PatternConstructor {
 		}
 
 		if (!isCaseSensitive)
-			return Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.MULTILINE);
+			return Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.MULTILINE); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-		return Pattern.compile(pattern, Pattern.MULTILINE);
+		return Pattern.compile(pattern, Pattern.MULTILINE); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	/**

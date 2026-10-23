@@ -203,12 +203,12 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 	protected void assertRefactoringResultAsExpectedIgnoreHashValue(ICompilationUnit[] cus, String[] expected) throws CoreException {
 		performRefactoring(cus, null);
 
-		Pattern regex= Pattern.compile("long serialVersionUID = .*L;");
+		Pattern regex= Pattern.compile("long serialVersionUID = .*L;"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		String[] previews= new String[cus.length];
 		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= cus[i];
-			previews[i]= cu.getBuffer().getContents().replaceAll(regex.pattern(), "long serialVersionUID = 1L;");
+			previews[i]= cu.getBuffer().getContents().replaceAll(regex.pattern(), "long serialVersionUID = 1L;"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 
 		assertEqualStringsIgnoreOrder(previews, expected);

@@ -149,7 +149,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 
 			if (directoryName.length() > 0) {
 				final File path = new File(directoryName);
-				if (path.exists())
+				if (path.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					dialog.setFilterPath(directoryName);
 			}
 			final String selectedDirectory = dialog.open();
@@ -638,8 +638,8 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 		String resolvedLinkTarget= resolvedPath.toOSString();
 
 		File linkTargetFile= new Path(resolvedLinkTarget).toFile();
-		if (linkTargetFile.exists()) {
-			if (!linkTargetFile.isDirectory())
+		if (linkTargetFile.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (!linkTargetFile.isDirectory()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	            return new StatusInfo(IStatus.ERROR, NewWizardMessages.NewFolderDialog_linkTargetNotFolder);
 		} else {
 			return new StatusInfo(IStatus.ERROR, NewWizardMessages.NewFolderDialog_linkTargetNonExistent);

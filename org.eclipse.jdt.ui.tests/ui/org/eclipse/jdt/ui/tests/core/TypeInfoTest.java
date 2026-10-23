@@ -81,7 +81,7 @@ public class TypeInfoTest {
 		// add Junit source to project 2
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("Junit source", junitSrcArchive);
-		assertTrue("Junit source", junitSrcArchive.exists());
+		assertTrue("Junit source", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		JavaProjectHelper.addSourceContainerWithImport(fJProject2, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		// source folder
 		IPackageFragmentRoot root1= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -157,7 +157,7 @@ public class TypeInfoTest {
 		// add Junit source to project 2
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("Junit source", junitSrcArchive);
-		assertTrue("Junit source", junitSrcArchive.exists());
+		assertTrue("Junit source", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		JavaProjectHelper.addSourceContainerWithImport(fJProject2, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
 

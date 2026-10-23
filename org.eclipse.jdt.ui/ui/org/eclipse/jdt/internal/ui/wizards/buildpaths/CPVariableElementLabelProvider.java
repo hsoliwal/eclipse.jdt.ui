@@ -61,7 +61,7 @@ public class CPVariableElementLabelProvider extends LabelProvider {
 		if (element instanceof CPVariableElement) {
 			CPVariableElement curr= (CPVariableElement) element;
 			IPath path= curr.getPath();
-			if (path.toFile().isFile()) {
+			if (path.toFile().isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return curr.isDeprecated() ? fDeprecatedJARImage : fJARImage;
 			}
 			return curr.isDeprecated() ? fDeprecatedFolderImage : fFolderImage;

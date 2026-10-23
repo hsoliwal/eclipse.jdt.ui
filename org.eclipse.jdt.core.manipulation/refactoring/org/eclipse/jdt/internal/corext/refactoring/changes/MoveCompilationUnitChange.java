@@ -111,7 +111,7 @@ public class MoveCompilationUnitChange extends CompilationUnitReorgChange {
 
 	private IPackageFragment[] createDestination(IPackageFragmentRoot root, IPackageFragment destination, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String packageName= destination.getElementName();
-		String[] split= packageName.split("\\."); //$NON-NLS-1$
+		String[] split= packageName.split("\\."); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		ArrayList<IPackageFragment> created= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 

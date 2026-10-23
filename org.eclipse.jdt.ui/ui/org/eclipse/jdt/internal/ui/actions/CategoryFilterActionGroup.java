@@ -297,12 +297,12 @@ public class CategoryFilterActionGroup extends ActionGroup {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		String string= store.getString(getPreferenceKey());
 		if (string != null && string.length() > 0) {
-			String[] categories= string.split(";"); //$NON-NLS-1$
+			String[] categories= string.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			fFilteredCategories.addAll(Arrays.asList(categories));
 		}
 		string= store.getString(getPreferenceKey()+".LRU"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (string != null && string.length() > 0) {
-			String[] categories= string.split(";"); //$NON-NLS-1$
+			String[] categories= string.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			for (int i= categories.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fLRUList.put(categories[i], categories[i]);
 			}

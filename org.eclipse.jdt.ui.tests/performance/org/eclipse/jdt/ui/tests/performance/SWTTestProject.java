@@ -62,7 +62,7 @@ public class SWTTestProject {
 		FileTool.unzip(FileTool.getFileInPlugin(JavaTestPlugin.getDefault(), new Path(PROJECT_ZIP)), new File(workspacePath));
 		File oldFile= new File(workspacePath + PROJECT + "/.classpath_win32"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File newFile= new File(workspacePath + PROJECT + "/.classpath"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-		Assert.assertTrue(oldFile.renameTo(newFile));
+		Assert.assertTrue(oldFile.renameTo(newFile)); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		IProject project= createExistingProject(PROJECT);
 		fProject= JavaCore.create(project);

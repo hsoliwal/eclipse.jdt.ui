@@ -87,7 +87,7 @@ public class SampleSqlSemanticTokensProvider implements ISemanticTokensProvider 
 		}
 		List<SemanticToken> tokens = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Matcher matcher= Pattern.compile("[\\w*=><!]+").matcher(text); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-		while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+		while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			String token = matcher.group();
 			if (!token.isBlank()) {
 				int start = matcher.start();

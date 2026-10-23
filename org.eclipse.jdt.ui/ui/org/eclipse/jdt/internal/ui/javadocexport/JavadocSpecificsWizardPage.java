@@ -240,7 +240,7 @@ public class JavadocSpecificsWizardPage extends JavadocWizardPage {
 					} else {
 						File file= new File(filename);
 						String ext= filename.substring(filename.lastIndexOf('.') + 1);
-						if (!file.isFile()) {
+						if (!file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							fOverviewStatus.setError(JavadocExportMessages.JavadocSpecificsWizardPage_overviewnotfound_error);
 						} else if (!"html".equalsIgnoreCase(ext)) { //$NON-NLS-1$
 							fOverviewStatus.setError(JavadocExportMessages.JavadocSpecificsWizardPage_overviewincorrect_error);
@@ -257,9 +257,9 @@ public class JavadocSpecificsWizardPage extends JavadocWizardPage {
 					} else {
 						File file= new File(filename);
 						String ext= filename.substring(filename.lastIndexOf('.') + 1);
-						if (file.isDirectory() || !("xml".equalsIgnoreCase(ext))) //$NON-NLS-1$
+						if (file.isDirectory() || !("xml".equalsIgnoreCase(ext))) //$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							fAntStatus.setError(JavadocExportMessages.JavadocSpecificsWizardPage_antfileincorrect_error);
-						else if (file.exists())
+						else if (file.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							fAntStatus.setWarning(JavadocExportMessages.JavadocSpecificsWizardPage_antfileoverwrite_warning);
 					}
 				}

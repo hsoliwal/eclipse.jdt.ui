@@ -173,7 +173,7 @@ public class NativeLibrariesConfigurationBlock {
 		}
 		Path path= new Path(val);
 		if (path.isAbsolute()) {
-			if (!path.toFile().isDirectory()) {
+			if (!path.toFile().isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				status.setWarning(NewWizardMessages.NativeLibrariesDialog_error_external_not_existing);
 				return status;
 			}

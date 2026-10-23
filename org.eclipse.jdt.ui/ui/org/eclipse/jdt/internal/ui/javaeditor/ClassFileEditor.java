@@ -1067,13 +1067,13 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 
 	private Map<MethodIdentifier, LineRegion> createCache() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String message = NLS.bind(org.eclipse.jdt.internal.core.util.Messages.classfileformat_methoddescriptor, "\\d+", "(.+)");  //$NON-NLS-1$//$NON-NLS-2$
-		Pattern methodDescriptorPattern = Pattern.compile("^\\s+" + message + "$"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		Pattern methodDescriptorPattern = Pattern.compile("^\\s+" + message + "$"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		StyledTextContent content= fNoSourceTextWidget.getContent();
 		Map<MethodIdentifier, LineRegion> cache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		for(int currentLine = 0; currentLine < content.getLineCount(); currentLine++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String line= content.getLine(currentLine);
 			Matcher descriptorMatcher= methodDescriptorPattern.matcher(line); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-			if (descriptorMatcher.matches()) {
+			if (descriptorMatcher.matches()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				String methodSignature = descriptorMatcher.group(1);
 				for(; currentLine < content.getLineCount(); currentLine++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// skip lines with leading slashes
@@ -1116,7 +1116,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 
 	private void initInstructionPointerColor() {
 		String color= getPreferenceStore().getString(IUIConstants.INSTRUCTION_POINTER_COLOR_PREFERENCE_KEY);
-		String[] splitColor = color.split(","); //$NON-NLS-1$
+		String[] splitColor = color.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (splitColor.length != 3) {
 			return;
 		}

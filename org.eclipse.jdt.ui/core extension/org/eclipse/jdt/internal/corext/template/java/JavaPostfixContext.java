@@ -94,9 +94,9 @@ public class JavaPostfixContext extends JavaContext {
 
 	private static final String ID_SEPARATOR= "��"; //$NON-NLS-1$
 
-	private static final Pattern INNER_EXPRESSION_PATTERN= Pattern.compile("\\$\\{([a-zA-Z]*):" + InnerExpressionResolver.INNER_EXPRESSION_VAR + "\\(([^\\$|\\{|\\}]*)\\)\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final Pattern INNER_EXPRESSION_PATTERN= Pattern.compile("\\$\\{([a-zA-Z]*):" + InnerExpressionResolver.INNER_EXPRESSION_VAR + "\\(([^\\$|\\{|\\}]*)\\)\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-	private static final Pattern CLASS_NAME_PATTERN= Pattern.compile("[a-zA-Z0-9$_\\.]+"); //$NON-NLS-1$
+	private static final Pattern CLASS_NAME_PATTERN= Pattern.compile("[a-zA-Z0-9$_\\.]+"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	private ASTNode selectedNode;
 
@@ -252,7 +252,7 @@ public class JavaPostfixContext extends JavaContext {
 		Matcher m= CLASS_NAME_PATTERN.matcher(className); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		List<String> classNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Map<String, String> classNameMapping= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
-		while (m.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+		while (m.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			classNames.add(className.substring(m.start(), m.end()));
 		}
 		/*
@@ -332,8 +332,8 @@ public class JavaPostfixContext extends JavaContext {
 		Matcher matcher= INNER_EXPRESSION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		boolean result= true;
 
-		while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
-			String[] types= matcher.group(2).split(","); //$NON-NLS-1$
+		while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			String[] types= matcher.group(2).split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			for (String s : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Arrays.asList(InnerExpressionResolver.FLAGS).contains(s)) {
 					result= false;

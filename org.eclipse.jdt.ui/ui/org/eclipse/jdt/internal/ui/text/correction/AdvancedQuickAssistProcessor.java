@@ -2616,7 +2616,7 @@ public class AdvancedQuickAssistProcessor implements IQuickAssistProcessor {
 		}
 
 		// add correction proposal
-		String source= ASTNodes.asString(switchExpression).replaceAll("\r\n?|\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
+		String source= ASTNodes.asString(switchExpression).replaceAll("\r\n?|\n", " "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String label= preserveNPE ? Messages.format(CorrectionMessages.AdvancedQuickAssistProcessor_convertSwitchToIf_preserveNPE, source) : CorrectionMessages.AdvancedQuickAssistProcessor_convertSwitchToIf;
 		ASTRewriteCorrectionProposal proposal= new ASTRewriteCorrectionProposal(label, context.getCompilationUnit(), rewrite, IProposalRelevance.CONVERT_SWITCH_TO_IF_ELSE);
 		proposal.setImportRewrite(importRewrite);
@@ -2923,7 +2923,7 @@ public class AdvancedQuickAssistProcessor implements IQuickAssistProcessor {
 
 				rewrite.replace(coveringNode, newIfStatement, null);
 
-				String source= ASTNodes.asString(switchExpression).replaceAll("\r\n?|\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
+				String source= ASTNodes.asString(switchExpression).replaceAll("\r\n?|\n", " "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				String label= Messages.format(CorrectionMessages.AdvancedQuickAssistProcessor_convertIfElseToSwitch_handleNullArg, source);
 				ASTRewriteCorrectionProposal proposal= new ASTRewriteCorrectionProposal(label, context.getCompilationUnit(), rewrite, IProposalRelevance.CONVERT_IF_ELSE_TO_SWITCH);
 				proposal.setImportRewrite(importRewrite);

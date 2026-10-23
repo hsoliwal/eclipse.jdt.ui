@@ -1,3 +1,4 @@
+org.eclipse.jdt.astview/src/org/eclipse/jdt/astview/views/ASTViewLabelProvider.java	67	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledClass.java	269	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	51	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	56	M10	M3_PRIMITIVE_LANES	FIELD
@@ -11,15 +12,54 @@ org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	20
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	252	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	262	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/preferences/BCOConstants.java	136	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/ui/JdtUtils.java	704	M31	M3FILE_IO	CALL
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/ui/JdtUtils.java	857	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/ui/JdtUtils.java	990	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/views/BytecodeOutlineView.java	1096	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/CodeStyleConfiguration.java	39	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/CodeStyleConfiguration.java	107	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/OrganizeImportsOperation.java	804	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/TypeNameMatchCollector.java	65	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/TypeNameMatchCollector.java	86	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	465	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	468	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	469	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	496	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	500	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	503	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	545	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	549	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavaDocSnippetStringEvaluator.java	550	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	430	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	431	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	432	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	434	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	798	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	802	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	815	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	840	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocAccessImpl.java	1029	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocContentAccessUtility.java	183	M31	M3FILE_IO	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocContentAccessUtility.java	186	M31	M3FILE_IO	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocContentAccessUtility.java	189	M31	M3FILE_IO	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocContentAccessUtility.java	192	M31	M3FILE_IO	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocContentAccessUtility.java	205	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreJavadocContentAccessUtility.java	208	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreMarkdownAccessImpl.java	84	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreMarkdownAccessImpl.java	112	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreMarkdownAccessImpl.java	113	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/CoreMarkdownAccessImpl.java	117	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/JavaCodeTokenizer.java	115	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/JavaCodeTokenizer.java	251	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/JavaCodeTokenizer.java	257	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/common/VisitorEnum.java	261	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/core/manipulation/JavaElementPropertyTester.java	102	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/core/manipulation/StubUtility.java	533	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/core/manipulation/StubUtility.java	1177	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/jarpackager/JarPackagerUtilCore.java	84	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/jarpackager/JarPackagerUtilCore.java	87	M31	M3FILE_IO	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/jarpackager/JarPackagerUtilCore.java	94	M31	M3FILE_IO	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/jarpackager/JarPackagerUtilCore.java	186	M25	M3FILE_ARCHIVE_STREAM	CALL
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	142	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	212	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	220	M10	M3_PRIMITIVE_LANES	PARAMETER
@@ -28,11 +68,56 @@ org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/Control
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	334	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	461	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	463	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/EmbeddedIfCleanUpCore.java	217	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/EmbeddedIfCleanUpCore.java	226	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RedundantSemicolonsCleanUpCore.java	65	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RedundantSemicolonsCleanUpCore.java	203	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RedundantSemicolonsCleanUpCore.java	204	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/StaticInnerClassCleanUpCore.java	389	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/VarCleanUpCore.java	294	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainElement.java	171	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainElement.java	208	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainElement.java	228	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainElement.java	240	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainFinder.java	39	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/correction/LocalCorrectionsBaseSubProcessor.java	3220	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/correction/LocalCorrectionsBaseSubProcessor.java	3224	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/correction/LocalCorrectionsBaseSubProcessor.java	3254	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsBaseSubProcessor.java	895	M31	M3FILE_IO	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsBaseSubProcessor.java	910	M31	M3FILE_IO	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsBaseSubProcessor.java	1534	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/util/PatternConstructor.java	40	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/util/PatternConstructor.java	42	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/viewsupport/CoreJavaElementLinks.java	135	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/codemanipulation/RedundantNullnessTypeAnnotationsFilter.java	97	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/codemanipulation/StubUtility2Core.java	530	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4072	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4077	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4082	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4105	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4106	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4107	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4111	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4142	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4146	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4148	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/dom/ASTNodes.java	4149	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/AbstractSerialVersionOperationCore.java	128	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ControlStatementsFix.java	232	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ControlStatementsFix.java	330	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ControlStatementsFix.java	343	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ControlStatementsFix.java	344	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToMessageFormatFixCore.java	62	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToMessageFormatFixCore.java	343	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToMessageFormatFixCore.java	376	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToMessageFormatFixCore.java	379	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToStringBufferFixCore.java	308	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToStringFormatFixCore.java	60	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToStringFormatFixCore.java	327	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToStringFormatFixCore.java	360	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/ConvertToStringFormatFixCore.java	363	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/InlineMethodFixCore.java	298	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/InlineMethodFixCore.java	311	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	84	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	86	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	99	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
@@ -40,11 +125,20 @@ org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	574	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	748	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	758	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/Checks.java	935	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/code/CallInliner.java	771	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/code/CallInliner.java	779	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/code/CallInliner.java	824	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/code/CallInliner.java	826	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/code/CallInliner.java	891	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/code/SourceProvider.java	598	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/code/SourceProvider.java	896	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/generics/InferTypeArgumentsConstraintsSolver.java	324	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenameAnalyzeUtil.java	297	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenameAnalyzeUtil.java	315	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenameAnalyzeUtil.java	316	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenameAnalyzeUtil.java	332	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenamingNameSuggestor.java	569	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/structure/IntroduceParameterObjectProcessor.java	354	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/typeconstraints/ConstraintVariableFactory.java	45	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/typeconstraints/types/HierarchyType.java	65	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
@@ -56,22 +150,97 @@ org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/util/Resources.java	127	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/util/Resources.java	139	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/binary/StubCreator.java	252	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/MoveCompilationUnitChange.java	114	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/RenamePackageChange.java	55	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/RenamePackageChange.java	64	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/RenamePackageChange.java	72	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/RenamePackageChange.java	101	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/nls/NLSHint.java	67	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/nls/NLSHint.java	143	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/nls/NLSHint.java	273	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/rename/RenameTypeProcessor.java	167	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/reorg/ReorgPolicyFactory.java	2561	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/reorg/ReorgPolicyFactory.java	2562	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/reorg/ReorgPolicyFactory.java	2563	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/structure/PullUpRefactoringProcessor.java	489	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/structure/PullUpRefactoringProcessor.java	499	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/structure/PullUpRefactoringProcessor.java	564	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/structure/PullUpRefactoringProcessor.java	642	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/JUnitCorePlugin.java	286	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/JUnitCorePlugin.java	287	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	149	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	151	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	195	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	202	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	206	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	207	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	286	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	290	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	304	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java	306	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/P2Utils.java	107	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/launcher/TestKind.java	110	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/JUnitModel.java	410	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/JUnitModel.java	488	M31	M3FILE_IO	NEW
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/RemoteTestRunnerClient.java	453	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunHandler.java	146	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunHandler.java	173	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSession.java	434	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSession.java	435	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSession.java	575	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	110	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	115	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	122	M31	M3FILE_IO	NEW
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	158	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	201	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	261	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	279	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	301	M31	M3FILE_IO	NEW
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	471	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	481	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	489	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	502	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	504	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	510	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	581	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	679	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/model/TestRunSessionHistory.java	680	M31	M3FILE_IO	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationDelegate.java	540	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationDelegate.java	552	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationDelegate.java	636	M31	M3FILE_IO	NEW
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationDelegate.java	678	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationDelegate.java	686	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit.core/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationDelegate.java	703	M31	M3FILE_IO	NEW
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/launcher/JUnitLaunchIncludeExcludeTagsDialog.java	107	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/launcher/JUnitLaunchIncludeExcludeTagsDialog.java	120	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/CopyFailureListAction.java	78	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/EnumSourceValidator.java	107	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/EnumSourceValidator.java	669	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/EnumSourceValidator.java	672	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/JUnitPlugin.java	220	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/OpenTestAction.java	81	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/OpenTestAction.java	82	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/OpenTestAction.java	83	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/OpenTestAction.java	87	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/OpenTestAction.java	88	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/TestRunnerViewPart.java	1518	M31	M3FILE_IO	NEW
 org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/util/Resources.java	113	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/util/Resources.java	120	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/util/Resources.java	131	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/wizards/NewTestCaseCreationWizard.java	309	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchShortcut.java	112	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchShortcut.java	472	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchShortcut.java	473	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/wizards/NewTestCaseWizardPageOne.java	695	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/JavaParameterListValidatorTest.java	130	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/contentassist/CodeCompletionTest.java	128	M31	M3FILE_IO	NEW
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/AbstractDocumentLineDifferTest.java	77	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/AbstractDocumentLineDifferTest.java	80	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/AbstractDocumentLineDifferTest.java	81	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/EditorTestHelper.java	522	M31	M3FILE_IO	CALL
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/EditorTestHelper.java	523	M31	M3FILE_IO	CALL
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/EditorTestHelper.java	525	M31	M3FILE_IO	CALL
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/FileBufferPerformanceTest.java	78	M31	M3FILE_IO	CALL
 org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/InvocationCountExampleTest.java	40	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/InvocationCountPerformanceMeter.java	232	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/InvocationCountPerformanceMeter.java	269	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
@@ -79,12 +248,251 @@ org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/ResourceTe
 org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/ResourceTestHelper.java	162	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/ResourceTestHelper.java	168	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/ResourceTestHelper.java	178	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/semantictokens/SampleSqlSemanticTokensProvider.java	89	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/semantictokens/SampleSqlSemanticTokensProvider.java	90	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/Util.java	35	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/Util.java	36	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/launching/TomcatClasspathProvider.java	66	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/launching/TomcatLaunchDelegate.java	73	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/launching/TomcatTab.java	173	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/launching/TomcatTab.java	205	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/launching/TomcatTab.java	209	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.examples.projects/examples/org/eclipse/jdt/internal/ui/exampleprojects/ExampleProjectCreationOperation.java	187	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/AbstractJunit4SelectionTestCase.java	99	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/AbstractJunit4SelectionTestCase.java	100	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ChangeSignatureTests.java	337	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ChangeSignatureTests.java	363	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/GenericRefactoringTest.java	549	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/InferTypeArgumentsTests.java	260	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/InferTypeArgumentsTests.java	287	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/InlineMethodTestSetup.java	155	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/MoveCompilationUnitTests.java	70	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/MoveInstanceMethodTests.java	95	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/MoveInstanceMethodTests.java	210	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/RefactoringScannerTests.java	71	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/RefactoringScannerTests.java	75	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/RenamePackageTests.java	972	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/RenamePackageTests.java	1036	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/RenameRecordElementsTests.java	296	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/RenameTests18.java	151	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ReplaceInvocationsTests.java	66	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ReplaceInvocationsTests.java	72	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ReplaceInvocationsTests.java	74	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/SefTests.java	317	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ccp/DeleteTest.java	910	M31	M3FILE_IO	CALL
 org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ccp/MockReorgQueries.java	33	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/infra/ZipTools.java	57	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/nls/NLSHintHelperTest.java	85	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/examples/org/eclipse/jdt/ui/examples/MyRenameTypeParticipant.java	102	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/leaks/org/eclipse/jdt/ui/leaktest/generator/GenerateLeakTestVmArguments.java	37	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/leaks/org/eclipse/jdt/ui/leaktest/generator/GenerateLeakTestVmArguments.java	39	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/FileTool.java	42	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/FileTool.java	43	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/FileTool.java	54	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/FileTool.java	55	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/FileTool.java	56	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/SWTTestProject.java	65	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/views/PackageExplorerPerfTest.java	126	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui.tests/test plugin/org/eclipse/jdt/testplugin/JavaProjectHelper.java	205	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/test plugin/org/eclipse/jdt/testplugin/JavaProjectHelper.java	857	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui.tests/test plugin/org/eclipse/jdt/testplugin/JavaProjectHelper.java	916	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui.tests/test plugin/org/eclipse/jdt/testplugin/JavaProjectHelper.java	955	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui.tests/test plugin/org/eclipse/jdt/testplugin/JavaProjectHelper.java	1186	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/ui/callhierarchy/FiltersDialogTest.java	54	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/ui/compare/JavaIgnoreWhitespaceContributorTest.java	54	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/ui/compare/JavaIgnoreWhitespaceContributorTest.java	56	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/ui/compare/JavaIgnoreWhitespaceContributorTest.java	57	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/launcher/AdvancedJUnitLaunchConfigurationDelegateTest.java	250	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/launcher/MultiMethodLaunchConfigurationDelegateTest.java	214	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractDisabledParameterizedTestRunSupport.java	108	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunListenerTest.java	345	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunListenerTest.java	356	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunListenerTest.java	357	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunListenerTest.java	361	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunListenerTest.java	362	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	132	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	136	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	140	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	144	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	150	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	152	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	153	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	163	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	246	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/AbstractTestRunSessionSerializationTests.java	267	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/DisabledParameterizedTestViewTest.java	232	M31	M3FILE_IO	CALL
 org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/DisabledParameterizedTestViewTest.java	291	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/EnumSourceValidationTest.java	109	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/ImportedTestRunReloadTest.java	60	M24	M3FILE_STREAMS	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/ImportedTestRunReloadTest.java	63	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestExecutionTiming.java	112	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestExecutionTiming.java	172	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunListenerTest5.java	230	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunListenerTest5.java	234	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunListenerTest6.java	205	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunListenerTest6.java	209	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	149	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	165	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	361	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	379	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	380	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	384	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	400	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	421	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	433	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	455	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	456	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	457	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	466	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	468	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	469	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	474	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	475	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	485	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	490	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	491	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	492	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	499	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	502	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	503	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	504	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	513	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	514	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	515	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	520	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	521	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	532	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	602	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	605	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/TestRunSessionHistoryTests.java	625	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/browsing/PackagesViewContentProviderTests.java	405	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/browsing/PackagesViewContentProviderTests.java	429	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/browsing/PackagesViewContentProviderTests2.java	366	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/browsing/PackagesViewContentProviderTests2.java	390	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/browsing/PackagesViewDeltaTests.java	470	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/AbstractBindingLabelsTest.java	46	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/AbstractBindingLabelsTest.java	47	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/AbstractBindingLabelsTest.java	49	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/AbstractBindingLabelsTest.java	54	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/AbstractBindingLabelsTest.java	55	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/AbstractBindingLabelsTest.java	57	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ClassPathDetectorTest.java	144	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ClassPathDetectorTest.java	150	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ClassPathDetectorTest.java	182	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ClassPathDetectorTest.java	226	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ClassPathDetectorTest.java	272	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ClassPathDetectorTest.java	315	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ImportOrganizeTest.java	141	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ImportOrganizeTest.java	187	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ImportOrganizeTest.java	234	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ImportOrganizeTest.java	259	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ImportOrganizeTest.java	285	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/JDTFlagsTest18.java	262	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/JDTFlagsTest18.java	312	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/JDTFlagsTest18.java	442	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/JDTFlagsTest18.java	461	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/JavaElementPropertyTesterTest.java	84	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/JavaModelUtilTest.java	85	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/JavaModelUtilTest.java	91	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/TypeInfoTest.java	84	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/TypeInfoTest.java	160	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/rules/Java15ProjectTestSetup.java	70	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/rules/Java1d8ProjectTestSetup.java	46	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/dialogs/WizardsTest.java	226	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/dialogs/WizardsTest.java	231	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/dialogs/WizardsTest.java	232	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/dialogs/WizardsTest.java	233	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/JavadocHoverTests.java	625	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/JavadocHoverTests.java	626	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/JavadocHoverTests.java	628	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/JavadocHoverTests.java	632	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/JavadocHoverTests.java	633	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/JavadocHoverTests.java	635	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/MarkdownCommentTests.java	353	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/MarkdownCommentTests.java	419	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	71	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	92	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	112	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	131	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	167	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	210	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	264	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	283	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/hover/PackageJavadocTests.java	324	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/FatJarExportTests.java	188	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/FatJarExportTests.java	247	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/FatJarExportTests.java	266	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/FatJarExportTests.java	289	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/FatJarExportTests.java	291	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/FatJarExportTests.java	466	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/FatJarExportTests.java	665	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/FatJarExportTests.java	983	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/PlainJarExportTests.java	138	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/jarexport/PlainJarExportTests.java	180	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/packageview/ContentProviderTests1.java	369	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/packageview/ContentProviderTests2.java	241	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/packageview/ContentProviderTests3.java	340	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/packageview/ContentProviderTests3.java	371	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/packageview/ContentProviderTests4.java	253	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/CleanUpTestCase.java	206	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/CleanUpTestCase.java	211	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	121	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	123	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	128	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	129	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	130	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	142	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	252	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	266	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	290	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	303	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	307	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	318	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	354	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	384	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	406	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	437	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	438	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	482	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	508	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	512	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	516	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	520	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	524	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	533	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	545	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	546	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	632	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	633	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	680	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	687	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	689	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	694	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	697	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/NullAnnotationsCleanUpTest1d8.java	82	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/NullAnnotationsQuickFixTest1d8.java	107	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/ReorgQuickFixTest.java	1035	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/ReorgQuickFixTest.java	1074	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/ReorgQuickFixTest.java	1111	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/wizardapi/ImporterTest.java	74	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/wizardapi/ImporterTest.java	88	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/wizardapi/ImporterTest.java	94	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/JavaPostfixContext.java	97	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/JavaPostfixContext.java	99	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/JavaPostfixContext.java	252	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/JavaPostfixContext.java	255	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/JavaPostfixContext.java	332	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/JavaPostfixContext.java	335	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/JavaPostfixContext.java	336	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/TemplateSet.java	94	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/TemplateSet.java	201	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/template/java/Templates.java	62	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/util/History.java	171	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/util/History.java	172	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/util/History.java	183	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/util/InfoFilesUtil.java	111	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/util/InfoFilesUtil.java	112	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/util/InfoFilesUtil.java	114	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/util/OpenTypeHistory.java	171	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/InputPageUtil.java	49	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/InputPageUtil.java	93	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
@@ -98,10 +506,21 @@ org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PushDo
 org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/UseSupertypeWizard.java	145	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/UseSupertypeWizard.java	329	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/UseSupertypeWizard.java	330	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/PasteAction.java	795	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsPage.java	594	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsPage.java	627	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/sef/SelfEncapsulateFieldInputPage.java	586	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/JavaPlugin.java	165	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/JavaPlugin.java	1275	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/JavaPlugin.java	1283	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/JavaPlugin.java	1295	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/JavaPlugin.java	1301	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/actions/CategoryFilterActionGroup.java	300	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/actions/CategoryFilterActionGroup.java	305	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/CallHierarchyContentProvider.java	239	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/ExpandWithConstructorsConfigurationBlock.java	621	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/FiltersDialog.java	272	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/FiltersDialog.java	278	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/compare/JavaIgnoreWhitespaceContributor.java	33	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/SourceActionDialog.java	132	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/SourceActionDialog.java	516	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
@@ -109,44 +528,307 @@ org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/MergeConditionalBlocksClea
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/MergeConditionalBlocksCleanUp.java	175	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/MergeConditionalBlocksCleanUp.java	283	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/MergeConditionalBlocksCleanUp.java	285	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/ObjectsEqualsCleanUp.java	291	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizard.java	107	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizard.java	108	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizard.java	111	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizardPage.java	351	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizardPage.java	356	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizardPage.java	371	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizardPage.java	429	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizardPage.java	430	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/AbstractJarDestinationWizardPage.java	219	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/AbstractJarDestinationWizardPage.java	224	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/AbstractJarDestinationWizardPage.java	225	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/JarFileExportOperation.java	1035	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/JarPackagerUtil.java	283	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/OpenJarExportWizardEditorLauncher.java	58	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/OpenJarExportWizardEditorLauncher.java	64	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarAntExporter.java	141	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarAntExporter.java	148	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarAntExporter.java	155	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarAntExporter.java	238	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarAntExporter.java	240	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarAntExporter.java	298	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarManifestProvider.java	71	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarManifestProvider.java	75	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackageWizardPage.java	614	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackageWizardPage.java	619	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackageWizardPage.java	620	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackageWizardPage.java	1064	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackageWizardPage.java	1065	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackageWizardPage.java	1081	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackageWizardPage.java	1083	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackagerUtil.java	72	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackagerUtil.java	73	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackagerUtil.java	74	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackagerUtil.java	75	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackagerUtil.java	76	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackagerUtil.java	77	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarPackagerUtil.java	79	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarRsrcUrlAntExporter.java	63	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarRsrcUrlAntExporter.java	71	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarRsrcUrlBuilder.java	114	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarRsrcUrlBuilder.java	126	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/FatJarRsrcUrlBuilder.java	133	M25	M3FILE_ARCHIVE_STREAM	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/JarWriter4.java	119	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/JarWriter4.java	128	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackFatJarAntExporter.java	54	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackJarAntExporter.java	58	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackJarBuilder.java	130	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackJarBuilder.java	132	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackJarBuilder.java	135	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackJarBuilder.java	140	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackJarBuilder.java	141	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackJarBuilder.java	144	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackagerfat/UnpackJarBuilder.java	161	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocOptionsManager.java	485	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocOptionsManager.java	845	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocOptionsManager.java	847	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocOptionsManager.java	1145	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocOptionsManager.java	1149	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocSpecificsWizardPage.java	243	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocSpecificsWizardPage.java	260	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocSpecificsWizardPage.java	262	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocStandardWizardPage.java	331	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	615	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	618	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	641	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	678	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocWizard.java	175	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocWizard.java	305	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocWizard.java	513	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocWizardPage.java	107	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocWizardPage.java	124	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/ClassFileEditor.java	1070	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/ClassFileEditor.java	1075	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/ClassFileEditor.java	1076	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/ClassFileEditor.java	1119	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/InternalClassFileEditorInput.java	144	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaSourceViewer.java	569	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	72	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	73	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	74	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	75	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	76	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	77	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	80	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	205	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	206	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	213	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	274	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	275	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	282	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/selectionactions/GoToNextPreviousMemberAction.java	206	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/selectionactions/GoToNextPreviousMemberAction.java	217	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/selectionactions/GoToNextPreviousMemberAction.java	262	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/CodeAssistFavoritesConfigurationBlock.java	470	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/CodeTemplateBlock.java	619	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/CodeTemplateBlock.java	620	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/CodeTemplateBlock.java	684	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/CodeTemplateBlock.java	691	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/CodeTemplateBlock.java	692	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/ImportOrganizeConfigurationBlock.java	359	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/ImportOrganizeConfigurationBlock.java	395	M31	M3FILE_IO	NEW
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavaEditorHoverConfigurationBlock.java	540	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavadocConfigurationBlock.java	374	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavadocConfigurationBlock.java	376	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavadocConfigurationBlock.java	379	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavadocConfigurationBlock.java	382	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavadocConfigurationBlock.java	580	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavadocConfigurationBlock.java	585	M25	M3FILE_ARCHIVE_STREAM	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavadocConfigurationBlock.java	722	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavadocConfigurationBlock.java	726	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/NativeLibrariesConfigurationBlock.java	176	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/OptionsConfigurationBlock.java	539	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/ProblemSeveritiesConfigurationBlock.java	305	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/SpellingConfigurationBlock.java	199	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/SpellingConfigurationBlock.java	201	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/UserLibraryPreferencePage.java	372	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/UserLibraryPreferencePage.java	446	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/UserLibraryPreferencePage.java	455	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/UserLibraryPreferencePage.java	538	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/UserLibraryPreferencePage.java	549	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/UserLibraryPreferencePage.java	560	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/UserLibraryPreferencePage.java	635	M31	M3FILE_IO	NEW
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	380	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	413	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	417	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	565	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterProfileStore.java	75	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterProfileStore.java	80	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterProfileStore.java	88	M31	M3FILE_IO	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	550	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	681	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	1081	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	1402	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	1616	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	1617	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialogTabPage.java	628	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ProfileConfigurationBlock.java	207	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ProfileStore.java	209	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ProfileStore.java	241	M31	M3FILE_IO	NEW
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/JavaSearchResultPage.java	221	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/OccurrencesSearchQuery.java	77	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/OccurrencesSearchQuery.java	104	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/LineComparator.java	37	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/SmartBackspaceManager.java	170	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/AdvancedQuickAssistProcessor.java	2619	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/AdvancedQuickAssistProcessor.java	2926	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java	281	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java	2472	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java	3700	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java	3701	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java	3719	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickFixProcessor.java	367	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickTemplateProcessor.java	76	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickTemplateProcessor.java	77	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickTemplateProcessor.java	218	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickTemplateProcessor.java	219	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickTemplateProcessor.java	221	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickTemplateProcessor.java	224	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/ChainCompletionProposalComputer.java	166	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/CompletionProposalComputerRegistry.java	342	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/ContentAssistHistory.java	271	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/ContentAssistHistory.java	274	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/ContentAssistHistory.java	397	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/JavaCompletionProposalComputer.java	310	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/JavaParameterListValidator.java	310	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/LazyGenericTypeProposal.java	442	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	122	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	305	M10	M3_PRIMITIVE_LANES	FIELD
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	307	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	313	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	338	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	433	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	436	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	437	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	464	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	468	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	471	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	513	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	517	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/javadoc/JavaDocSnippetStringEvaluator.java	518	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/spelling/SpellCheckEngine.java	87	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/spelling/SpellCheckEngine.java	89	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/spelling/SpellCheckEngine.java	426	M31	M3FILE_IO	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/spelling/SpellCheckIterator.java	70	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/spelling/engine/PersistentSpellDictionary.java	66	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/SurroundWithTemplateProposal.java	71	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/SurroundWithTemplateProposal.java	93	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/SurroundWithTemplateProposal.java	96	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/SurroundWithTemplateProposal.java	97	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/SurroundWithTemplateProposal.java	101	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/SurroundWithTemplateProposal.java	102	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/SurroundWithTemplateProposal.java	103	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/SurroundWithTemplateProposal.java	105	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/TemplateEngine.java	54	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/TemplateEngine.java	56	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/TemplateEngine.java	174	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/TemplateEngine.java	175	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/TemplateEngine.java	176	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/util/JavadocHelpContext.java	187	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/ImagesOnFileSystemRegistry.java	56	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/ImagesOnFileSystemRegistry.java	60	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/ImagesOnFileSystemRegistry.java	61	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/ImagesOnFileSystemRegistry.java	63	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/ImagesOnFileSystemRegistry.java	75	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/ImagesOnFileSystemRegistry.java	76	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/ImagesOnFileSystemRegistry.java	80	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/ImagesOnFileSystemRegistry.java	131	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/JavaElementLabelComposer.java	551	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/JavaElementLabelComposer.java	555	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/JavaElementLinks.java	161	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/JavaElementLinks.java	221	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/JavaElementLinks.java	948	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/AddSourceFolderWizardPage.java	152	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/AddSourceFolderWizardPage.java	641	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/AddSourceFolderWizardPage.java	642	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/CPListElement.java	734	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/CPListElement.java	752	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/CPVariableElementLabelProvider.java	64	M31	M3FILE_IO	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathFixSelectionDialog.java	221	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/EditVariableEntryDialog.java	278	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/EditVariableEntryDialog.java	307	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ExternalAnnotationsAttachmentBlock.java	493	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ExternalAnnotationsAttachmentBlock.java	499	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/JARFileSelectionDialog.java	84	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/JARFileSelectionDialog.java	109	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/JARFileSelectionDialog.java	156	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/JARFileSelectionDialog.java	161	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/JARFileSelectionDialog.java	185	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/JARFileSelectionDialog.java	211	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/LibrariesWorkbookPage.java	886	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/LibrariesWorkbookPage.java	1323	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDependenciesAdapter.java	666	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDependenciesAdapter.java	679	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleEncapsulationDetail.java	113	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleEncapsulationDetail.java	152	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleEncapsulationDetail.java	153	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleEncapsulationDetail.java	168	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleEncapsulationDetail.java	208	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleEncapsulationDetail.java	304	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleEncapsulationDetail.java	404	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleEncapsulationDetail.java	466	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/NewVariableEntryDialog.java	254	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/NewVariableEntryDialog.java	259	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ShowJPMSOptionsDialog.java	186	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/SourceAttachmentBlock.java	457	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/SourceAttachmentBlock.java	520	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/SourceAttachmentBlock.java	546	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/SourceAttachmentBlock.java	551	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/VariableCreationDialog.java	235	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/importer/JDTProjectNatureImportConfigurator.java	131	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/PreferenceConstants.java	4479	M12	REGEX_PRECOMPUTE	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/ProblemsLabelDecorator.java	352	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	90	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	92	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	142	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	143	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	219	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	220	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	250	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	251	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	264	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter.java	266	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	91	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	93	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	175	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	239	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	240	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	270	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	271	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	284	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter2.java	286	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	131	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	133	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	330	M31	M3FILE_IO	NEW
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	336	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	351	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	352	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	365	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	367	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/jarpackager/JarWriter3.java	459	M31	M3FILE_IO	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1228	M10	M3_PRIMITIVE_LANES	PARAMETER
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1504	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1681	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1725	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1736	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/BuildPathDialogAccess.java	537	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/BuildPathDialogAccess.java	567	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewAnnotationWizardPage.java	447	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	279	M31	M3FILE_IO	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	672	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1099	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1103	M31	M3FILE_IO	CALL
 org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1143	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1190	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1193	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1228	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1275	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1281	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageTwo.java	436	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageTwo.java	442	M31	M3FILE_IO	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewTypeWizardPage.java	197	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewTypeWizardPage.java	791	M12	REGEX_PRECOMPUTE	CALL
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewTypeWizardPage.java	792	M12	REGEX_PRECOMPUTE	CALL

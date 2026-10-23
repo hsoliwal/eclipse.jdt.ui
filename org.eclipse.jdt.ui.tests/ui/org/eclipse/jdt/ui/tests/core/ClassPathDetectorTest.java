@@ -141,13 +141,13 @@ public class ClassPathDetectorTest {
 
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
 		File mylibJar= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
 		assertNotNull("lib not found", junitSrcArchive);
-		assertTrue("lib not found", junitSrcArchive.exists());
+		assertTrue("lib not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addLibraryWithImport(fJProject1, Path.fromOSString(mylibJar.getPath()), null, null);
 
@@ -179,7 +179,7 @@ public class ClassPathDetectorTest {
 
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src1", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
@@ -223,7 +223,7 @@ public class ClassPathDetectorTest {
 
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		IPath[] exclusionFilter= new IPath[] { new Path("src2/") };
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src1", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING, exclusionFilter);
@@ -269,7 +269,7 @@ public class ClassPathDetectorTest {
 
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
 		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -312,7 +312,7 @@ public class ClassPathDetectorTest {
 
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
 		assertNotNull("lib not found", lib);
-		assertTrue("lib not found", lib.exists());
+		assertTrue("lib not found", lib.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		IPackageFragmentRoot cfroot= JavaProjectHelper.addClassFolderWithImport(fJProject1, "cf", null, null, lib);
 

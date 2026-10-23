@@ -462,11 +462,11 @@ public class CoreJavaDocSnippetStringEvaluator {
 			String subStringValue= getPropertyValue("substring", tagProperties); //$NON-NLS-1$
 			Pattern regexPattern= null;
 			if (regExValue != null) {
-				regexPattern= Pattern.compile(regExValue);
+				regexPattern= Pattern.compile(regExValue); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 			if (regexPattern != null) {
 				Matcher matcher= regexPattern.matcher(text); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					actionElements.add(new ActionElement(matcher.start(), matcher.end(), startDefHighlight, endDefHighlight));
 				}
 			} else if (subStringValue != null) {
@@ -493,14 +493,14 @@ public class CoreJavaDocSnippetStringEvaluator {
 			String substitution= getPropertyValue("replacement", tagProperties); //$NON-NLS-1$
 			Pattern regexPattern= null;
 			if (regExValue != null) {
-				regexPattern= Pattern.compile(regExValue);
+				regexPattern= Pattern.compile(regExValue); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 			String modifiedText= text;
 			if (regexPattern != null) {
 				Matcher matcher= regexPattern.matcher(modifiedText); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				StringBuilder strBuild= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				int finalMatchIndex= 0;
-				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					finalMatchIndex= matcher.end();
 					modifyPrevActionItemsReplacement(matcher.start(), matcher.end(), substitution.length(), actionElements);
 					matcher.appendReplacement(strBuild, substitution);
@@ -542,12 +542,12 @@ public class CoreJavaDocSnippetStringEvaluator {
 			String endDefLink= additionalEndTag + "</a>"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Pattern regexPattern= null;
 			if (regExValue != null) {
-				regexPattern= Pattern.compile(regExValue);
+				regexPattern= Pattern.compile(regExValue); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 			String modifiedText= text;
 			if (regexPattern != null) {
 				Matcher matcher= regexPattern.matcher(modifiedText); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					actionElements.add(new ActionElement(matcher.start(), matcher.end(), startDefLink, endDefLink));
 				}
 			} else if (subStringValue != null) {

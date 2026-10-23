@@ -81,7 +81,7 @@ public class JavaElementPropertyTesterTest {
 
 		File file= JavaTestPlugin.getDefault().getFileInPlugin(LIB);
 		assertNotNull("lib not found", file);
-		assertTrue("lib not found", file.exists());
+		assertTrue("lib not found", file.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		fLocalArchive= JavaProjectHelper.addLibraryWithImport(fJProject1, Path.fromOSString(file.getPath()), null, null);
 

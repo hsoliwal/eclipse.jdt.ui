@@ -146,9 +146,9 @@ public class BuildPathSupport {
 				IPath bundleLocation = P2Utils.getBundleLocationPath(bundleInfo);
 				if(bundleLocation != null) {
 					File bundleLoc = bundleLocation.toFile();
-					if(bundleLoc.isDirectory() && new File(bundleLoc, filePath).exists()) {
+					if(bundleLoc.isDirectory() && new File(bundleLoc, filePath).exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						return bundleLocation.append(filePath);
-					} else if (bundleLoc.isFile() && bundleLoc.getName().endsWith(".jar")) { //$NON-NLS-1$
+					} else if (bundleLoc.isFile() && bundleLoc.getName().endsWith(".jar")) { //$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						return extractArchiveEntry(bundleInfo, bundleLoc, filePath);
 					}
 				}
@@ -192,19 +192,19 @@ public class BuildPathSupport {
 		private IPath extractArchiveEntry(BundleInfo bundleInfo, File bundleLoc, String filePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPath container= JUnitCorePlugin.getDefault().getStateLocation().append(bundleInfo.getSymbolicName()).append(bundleInfo.getVersion());
 			IPath extractedPath= container.append(filePath);
-			if (extractedPath.toFile().exists()) {
+			if (extractedPath.toFile().exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				// previously extracted
 				return extractedPath;
 			}
 			try (JarFile jar= new JarFile(bundleLoc)) {
 				ZipEntry entry= jar.getEntry(filePath);
 				if (entry != null) {
-					if (!container.toFile().exists() && !container.toFile().mkdirs()) {
+					if (!container.toFile().exists() && !container.toFile().mkdirs()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						LOG.error("Unable to create directory to hold " + filePath); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						return null;
 					}
-					try (InputStream input= jar.getInputStream(entry);
-							OutputStream output= Files.newOutputStream(extractedPath.toFile().toPath())) {
+					try (InputStream input= jar.getInputStream(entry); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
+							OutputStream output= Files.newOutputStream(extractedPath.toFile().toPath())) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						int bytesRead;
 						byte[] buffer= new byte[8192];
 						while ((bytesRead= input.read(buffer)) > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -283,11 +283,11 @@ public class BuildPathSupport {
 			IPath srcLocation= null;
 			if (bundleLocationPath != null) {
 				File bundleFile= bundleLocationPath.toFile();
-				if (bundleFile.isDirectory()) {
+				if (bundleFile.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					File srcFile= null;
 					final int starIdx= entryInBundle.indexOf('*');
 					if (starIdx != -1) {
-						File[] files= bundleFile.listFiles(new FilenameFilter() {
+						File[] files= bundleFile.listFiles(new FilenameFilter() { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							private String pre= entryInBundle.substring(0, starIdx);
 							private String post= entryInBundle.substring(starIdx + 1);
 							@Override
@@ -301,9 +301,9 @@ public class BuildPathSupport {
 					}
 					if (srcFile == null)
 						srcFile= new File(bundleFile, entryInBundle);
-					if (srcFile.exists()) {
+					if (srcFile.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						srcLocation= new Path(srcFile.getPath());
-						if (srcFile.isDirectory()) {
+						if (srcFile.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							srcLocation= srcLocation.addTrailingSeparator();
 						}
 					}

@@ -229,7 +229,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 			int bodyLine= cuRoot.getLineNumber(fBody.getStartPosition());
 			IBuffer cuBuffer= cuRewrite.getCu().getBuffer();
 			// Get extended body text and convert multiple indent tabs to be just one tab as they will be relative to control statement
-			String bodyString= cuBuffer.getText(cuRoot.getExtendedStartPosition(fBody), cuRoot.getExtendedLength(fBody))
+			String bodyString= cuBuffer.getText(cuRoot.getExtendedStartPosition(fBody), cuRoot.getExtendedLength(fBody)) //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					.replaceAll("\\r\\n|\\r|\\n(\\t|\\s)*", System.lineSeparator() + "\t"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String commentString= ""; //$NON-NLS-1$
 			boolean needToManuallyAddNLS= false;
@@ -327,7 +327,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 			rewrite.set(fControlStatement, fBodyProperty, replacingBody, group);
 		}
 
-		private static Pattern nlsPattern= Pattern.compile("//\\s*\\$NON-NLS-(\\d+)\\$"); //$NON-NLS-1$
+		private static Pattern nlsPattern= Pattern.compile("//\\s*\\$NON-NLS-(\\d+)\\$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		private List<String> getLineNLSComments(int start, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode root= node.getRoot();
 			List<String> nlsList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
@@ -341,7 +341,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 					try {
 						String statement= icu.getBuffer().getText(start, length);
 						Matcher m= nlsPattern.matcher(statement); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-						while (m.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						while (m.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 							nlsList.add(m.group());
 						}
 					} catch (IndexOutOfBoundsException | JavaModelException e) {

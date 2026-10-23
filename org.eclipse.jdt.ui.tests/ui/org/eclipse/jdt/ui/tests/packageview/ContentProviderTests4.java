@@ -250,7 +250,7 @@ public class ContentProviderTests4{
 		//add an internal jar
 		myInternalLibJar = JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/myinternallib.jar"));//$NON-NLS-1$
 		assertNotNull(myInternalLibJar, "lib not found"); //$NON-NLS-1$
-		assertTrue(myInternalLibJar.exists(), "lib not found"); //$NON-NLS-1$
+		assertTrue(myInternalLibJar.exists(), "lib not found"); //$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		fInternalRoot1= JavaProjectHelper.addLibraryWithImport(fJProject3, Path.fromOSString(myInternalLibJar.getPath()), null, null);
 
 		//create internal PackageFragments

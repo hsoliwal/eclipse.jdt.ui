@@ -356,7 +356,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 			dialogSettings.put(DIALOGSETTING_LASTLOADPATH, dialog.getFilterPath());
 
 			Properties properties= new Properties();
-			try (FileInputStream fis= new FileInputStream(fileName)) {
+			try (FileInputStream fis= new FileInputStream(fileName)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				properties.load(fis);
 				List<ImportOrderEntry> res= loadFromProperties(properties);
 				if (res != null) {
@@ -392,7 +392,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 				ImportOrderEntry entry= elements.get(i);
 				properties.setProperty(String.valueOf(i), entry.serialize());
 			}
-			try (FileOutputStream fos= new FileOutputStream(fileName)) {
+			try (FileOutputStream fos= new FileOutputStream(fileName)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				properties.store(fos, "Organize Import Order"); //$NON-NLS-1$
 			} catch (IOException e) {
 				JavaPlugin.log(e);

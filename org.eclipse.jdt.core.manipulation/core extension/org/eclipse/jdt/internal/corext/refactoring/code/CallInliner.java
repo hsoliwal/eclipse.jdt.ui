@@ -768,7 +768,7 @@ public class CallInliner {
 			for (int i= 0; i < blocks.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allblocks += blocks[i];
 			}
-			String[] lines= allblocks.split("\n"); //$NON-NLS-1$
+			String[] lines= allblocks.split("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			separator= lines.length == 1 ? "" : "\n\t"; //$NON-NLS-1$ //$NON-NLS-2$
 			for (int i= 0; i < lines.length - 1; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				builder.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
@@ -776,7 +776,7 @@ public class CallInliner {
 				separator= "\n\t"; //$NON-NLS-1$
 			}
 			builder.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			String[] statements= lines[lines.length - 1].split(";"); //$NON-NLS-1$
+			String[] statements= lines[lines.length - 1].split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			for (int i= 0; i < statements.length - 1; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				builder.append(statements[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				builder.append("; "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
@@ -821,9 +821,9 @@ public class CallInliner {
 				allblocks += blocks[i];
 			}
 			StringBuilder builder= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-			String[] lines= allblocks.split("\n"); //$NON-NLS-1$
+			String[] lines= allblocks.split("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			if (fSourceProvider.getMarkerMode() == SourceProvider.EXPRESSION_MODE) {
-				String[] lastLines= lines[lines.length - 1].split(";"); //$NON-NLS-1$
+				String[] lastLines= lines[lines.length - 1].split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (lastLines.length > 1) {
 					lines= Arrays.copyOf(lines, lines.length + 1);
 					lines[lines.length - 2]= lastLines[0] + ";"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
@@ -888,7 +888,7 @@ public class CallInliner {
 					status.addWarning(RefactoringCoreMessages.CallInliner_cannot_synchronize_error,
 							JavaStatusContext.create(fCUnit, fInvocation));
 				}
-				String[] segments= block.split(";"); //$NON-NLS-1$
+				String[] segments= block.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (segments.length == 2 && !segments[1].trim().isEmpty()) {
 					Statement targetStatement= ASTNodes.getFirstAncestorOrNull(fTargetNode, Statement.class);
 					if (targetStatement != null) {

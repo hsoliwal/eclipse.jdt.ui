@@ -83,7 +83,7 @@ public class TypeNameMatchCollector extends TypeNameMatchRequestor {
 					curr = curr.replace(".", "\\."); //$NON-NLS-1$ //$NON-NLS-2$
 					curr = curr.replace("*", ".*"); //$NON-NLS-1$ //$NON-NLS-2$
 					curr = curr.replace("?", "."); //$NON-NLS-1$ //$NON-NLS-2$
-					fStringMatchers[i]= Pattern.compile(curr);
+					fStringMatchers[i]= Pattern.compile(curr); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				}
 			}
 		}

@@ -467,7 +467,7 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private static String[] deserializeFavorites(String str) {
-		return str.split(";"); //$NON-NLS-1$
+		return str.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	private static String serializeFavorites(List<String> favorites) {

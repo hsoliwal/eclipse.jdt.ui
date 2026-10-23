@@ -534,7 +534,7 @@ public final class BuildPathDialogAccess {
 		}
 
 		File file= new File(res);
-		if (file.isDirectory())
+		if (file.isDirectory()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			return new IPath[] { new Path(file.getAbsolutePath()) };
 
 		return null;
@@ -564,7 +564,7 @@ public final class BuildPathDialogAccess {
 		}
 
 		File file= new File(res);
-		if (file.isDirectory())
+		if (file.isDirectory()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			return new Path(file.getAbsolutePath());
 
 		return null;

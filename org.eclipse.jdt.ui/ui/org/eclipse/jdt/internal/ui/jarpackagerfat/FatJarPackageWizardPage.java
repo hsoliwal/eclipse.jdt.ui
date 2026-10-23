@@ -611,13 +611,13 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 * @return boolean
 	 */
 	private boolean ensureAntScriptFileIsValid(File antScriptFile) {
-		if (antScriptFile.exists() && antScriptFile.isDirectory() && fAntScriptNamesCombo.getText().length() > 0) {
+		if (antScriptFile.exists() && antScriptFile.isDirectory() && fAntScriptNamesCombo.getText().length() > 0) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			setErrorMessage(FatJarPackagerMessages.FatJarPackageWizardPage_error_antScriptLocationIsDir);
 			fAntScriptNamesCombo.setFocus();
 			return false;
 		}
-		if (antScriptFile.exists()) {
-			if (!antScriptFile.canWrite()) {
+		if (antScriptFile.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (!antScriptFile.canWrite()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				setErrorMessage(FatJarPackagerMessages.FatJarPackageWizardPage_error_antScriptLocationUnwritable);
 				fAntScriptNamesCombo.setFocus();
 				return false;
@@ -1061,8 +1061,8 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	private boolean canCreateAntScript(Shell parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		File file= fAntScriptLocation.toFile();
-		if (file.exists()) {
-			if (!file.canWrite())
+		if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (!file.canWrite()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return false;
 
 			if (fJarPackage.allowOverwrite())
@@ -1078,9 +1078,9 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 			return true;
 
 		File directory= new File(path.substring(0, separatorIndex));
-		if (!directory.exists()) {
+		if (!directory.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			if (FatJarPackagerUtil.askToCreateAntScriptDirectory(parent, directory))
-				return directory.mkdirs();
+				return directory.mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			else
 				return false;
 		}

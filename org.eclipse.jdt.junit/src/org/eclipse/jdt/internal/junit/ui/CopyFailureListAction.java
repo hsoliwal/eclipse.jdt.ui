@@ -75,7 +75,7 @@ public class CopyFailureListAction extends Action {
 			buf.append(failure.getTestName()).append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String failureTrace= failure.getTrace();
 			if (failureTrace != null) {
-				failureTrace = failureTrace.replaceAll("\\r\\n|\\r|\\n", lineDelim); //$NON-NLS-1$
+				failureTrace = failureTrace.replaceAll("\\r\\n|\\r|\\n", lineDelim); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				buf.append(failureTrace); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}

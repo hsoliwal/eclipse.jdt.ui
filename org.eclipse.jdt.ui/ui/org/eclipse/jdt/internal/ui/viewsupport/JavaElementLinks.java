@@ -218,7 +218,7 @@ public class JavaElementLinks {
 			String packageName= null;
 			StringBuilder strBuffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-			for (String lastSegmentName : javaElementName.split("\\.")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String lastSegmentName : javaElementName.split("\\.")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (packageName != null) {
 					strBuffer.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					packageName= packageName + '.' + lastSegmentName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT

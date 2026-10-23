@@ -94,7 +94,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 		nonNullByDefaultNames.add(nonNullByDefaultName);
 		String secondaryNNBDNames= javaProject.getOption(JavaCore.COMPILER_NONNULL_BY_DEFAULT_ANNOTATION_SECONDARY_NAMES, true);
 		if (secondaryNNBDNames != null) {
-			for (String string : secondaryNNBDNames.split(",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String string : secondaryNNBDNames.split(",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				string= string.trim();
 				if (string.length() > 0) {
 					nonNullByDefaultNames.add(string);

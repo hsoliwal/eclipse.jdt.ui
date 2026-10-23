@@ -185,7 +185,7 @@ public class FatJarExportTests {
 		// run newly generated jar and check stdout
 		String stdout= runJar(project, data.getJarLocation().toOSString());
 		// normalize EndOfLine to \n
-		stdout= stdout.replaceAll("\r\n", "\n").replaceAll("\r", "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		stdout= stdout.replaceAll("\r\n", "\n").replaceAll("\r", "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		// check for successful call of Foo
 		String expected= "created mylib.Foo\n"; //$NON-NLS-1$
 		assertEquals(expected, stdout);
@@ -244,7 +244,7 @@ public class FatJarExportTests {
 			int minorVersion;
 			int majorVersion;
 			try ( // check version of class file JarRsrcLoader (jdk 1.6 = version 50.0)
-					InputStream in = generatedArchive.getInputStream(loaderClassEntry)) {
+					InputStream in = generatedArchive.getInputStream(loaderClassEntry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 				magic = 0;
 				for (int i= 0; i < 4; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					magic = (magic << 8) + in.read();
@@ -263,7 +263,7 @@ public class FatJarExportTests {
 
 		// check that jar-rsrc-loader.zip file was created next to build.xml
 		IPath zipLocation= antScriptLocation(testName).removeLastSegments(1).append(FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP);
-		assertTrue("loader zip missing: " + zipLocation.toOSString(), zipLocation.toFile().exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("loader zip missing: " + zipLocation.toOSString(), zipLocation.toFile().exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		return data;
 	}
@@ -286,9 +286,9 @@ public class FatJarExportTests {
 
 			// check for libraries sub-folder
 			File jarFile= new File(generatedArchive.getName());
-			String subFolderName= jarFile.getName().replaceFirst("^(.*)[.]jar$", "$1_lib"); //$NON-NLS-1$//$NON-NLS-2$
+			String subFolderName= jarFile.getName().replaceFirst("^(.*)[.]jar$", "$1_lib"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			File subFolderDir= new File(jarFile.getParentFile(), subFolderName);
-			assertTrue("actual: '" + subFolderDir.toString() + "'", subFolderDir.isDirectory()); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertTrue("actual: '" + subFolderDir.toString() + "'", subFolderDir.isDirectory()); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 
 		MultiStatus status= new MultiStatus(JavaUI.ID_PLUGIN, 0, "", null); //$NON-NLS-1$
@@ -463,7 +463,7 @@ public class FatJarExportTests {
 	}
 
 	private static void assertAntScriptCopy(String archiveName, IPath antScriptLocation, String[] filesets, String[] zipfilesets) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		String subfolderName= archiveName.replaceFirst("^(.*)[.]jar$", "$1_lib"); //$NON-NLS-1$//$NON-NLS-2$
+		String subfolderName= archiveName.replaceFirst("^(.*)[.]jar$", "$1_lib"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		String projectNameValue= "Create Runnable Jar for Project TestSetupProject"; //$NON-NLS-1$
 		projectNameValue+= " with libraries in sub-folder"; //$NON-NLS-1$
@@ -662,7 +662,7 @@ public class FatJarExportTests {
 	 * @throws Exception if anything went wrong
 	 */
 	private static Element readXML(IPath xmlFilePath) throws Exception {
-		try (InputStream in = new FileInputStream(xmlFilePath.toFile())) {
+		try (InputStream in = new FileInputStream(xmlFilePath.toFile())) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			DocumentBuilder parser= XmlProcessorFactoryJdtJunit.createDocumentBuilderFactoryWithErrorOnDOCTYPE().newDocumentBuilder();
 			parser.setErrorHandler(new DefaultHandler());
 			Element root= parser.parse(new InputSource(in)).getDocumentElement();
@@ -980,7 +980,7 @@ public class FatJarExportTests {
 	public void externalClassFolder() throws Exception {
 		File classFolder= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/externalClassFolder/"));//$NON-NLS-1$
 		assertNotNull("class folder not found", classFolder);//$NON-NLS-1$
-		assertTrue("class folder not found", classFolder.exists());
+		assertTrue("class folder not found", classFolder.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot externalRoot= JavaProjectHelper.addLibrary(fProject, Path.fromOSString(classFolder.getPath()), null, null);
 
 		try {

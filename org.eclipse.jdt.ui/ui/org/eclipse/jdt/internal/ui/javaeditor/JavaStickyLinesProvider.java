@@ -69,12 +69,12 @@ import org.eclipse.jdt.ui.JavaUI;
 public class JavaStickyLinesProvider implements IStickyLinesProvider {
 
 	private final static int IGNORE_LINE_INDENTATION= -1;
-	private final static Pattern ELSE_PATTERN= Pattern.compile("else[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern DO_PATTERN= Pattern.compile("do[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern WHILE_PATTERN= Pattern.compile("while[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern FOR_PATTERN= Pattern.compile("for[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern TRY_PATTERN= Pattern.compile("try[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern NEW_PATTERN= Pattern.compile("new[\\s,{]"); //$NON-NLS-1$
+	private final static Pattern ELSE_PATTERN= Pattern.compile("else[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern DO_PATTERN= Pattern.compile("do[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern WHILE_PATTERN= Pattern.compile("while[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern FOR_PATTERN= Pattern.compile("for[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern TRY_PATTERN= Pattern.compile("try[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern NEW_PATTERN= Pattern.compile("new[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	private static Map<ITypeRoot, CompilationUnit> cuMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private static Map<ITypeRoot, Long> timeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
@@ -203,7 +203,7 @@ public class JavaStickyLinesProvider implements IStickyLinesProvider {
 											}
 											String stmtLine= textWidget.getLine(lineIndex);
 											Matcher m= p.matcher(stmtLine); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-											while (!m.find() && nodeLineNumber > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+											while (!m.find() && nodeLineNumber > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 												nodeLineNumber--;
 												lineIndex = mapLineNumberToWidget(sourceViewer, nodeLineNumber - 1);
 												if (lineIndex < 0) {
@@ -272,7 +272,7 @@ public class JavaStickyLinesProvider implements IStickyLinesProvider {
 										}
 										String stmtLine= textWidget.getLine(lineIndex);
 										Matcher m= pattern.matcher(stmtLine); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-										while (!m.find() && nodeLineNumber > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+										while (!m.find() && nodeLineNumber > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 											nodeLineNumber--;
 											lineIndex = mapLineNumberToWidget(sourceViewer, nodeLineNumber - 1);
 											if (lineIndex < 0) {

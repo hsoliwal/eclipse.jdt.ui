@@ -622,17 +622,17 @@ public class JavadocHoverTests extends CoreTests {
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
 			String actualHtmlContent= hoverInfo.getHtml();
-			Pattern pattern = Pattern.compile("<a\\b[^>]*>.*?</a>", Pattern.DOTALL);
+			Pattern pattern = Pattern.compile("<a\\b[^>]*>.*?</a>", Pattern.DOTALL); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	        Matcher matcher = pattern.matcher(actualHtmlContent); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	        String lastAnchor = null;
-	        while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+	        while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	            lastAnchor = matcher.group();
 	        }
 	        assertNotNull("Anchor tag not found", lastAnchor);
-            Pattern codePattern = Pattern.compile("<code>(.*?)</code>");
+            Pattern codePattern = Pattern.compile("<code>(.*?)</code>"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
             Matcher codeMatcher = codePattern.matcher(lastAnchor); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-            assertTrue("Code tag not found inside anchor", codeMatcher.find());
+            assertTrue("Code tag not found inside anchor", codeMatcher.find()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
         	assertEquals("sequence doesn't match", "ArrayList", codeMatcher.group(1));
 		}
 	}

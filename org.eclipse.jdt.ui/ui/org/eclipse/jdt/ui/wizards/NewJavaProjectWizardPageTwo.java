@@ -433,13 +433,13 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 
 	private void copyFile(IFileStore source, File target) throws IOException, CoreException {
 		try(InputStream is= source.openInputStream(EFS.NONE, null)) {
-			Files.copy(is, target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(is, target.toPath(), StandardCopyOption.REPLACE_EXISTING); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 
 	private void copyFile(File source, IFileStore target, IProgressMonitor monitor) throws IOException, CoreException {
 		try(OutputStream os= target.openOutputStream(EFS.NONE, monitor)){
-			Files.copy(source.toPath(), os);
+			Files.copy(source.toPath(), os); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 

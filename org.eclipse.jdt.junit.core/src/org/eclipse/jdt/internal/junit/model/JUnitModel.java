@@ -407,7 +407,7 @@ public final class JUnitModel {
 	 */
 	public static TestRunSession importTestRunSession(String url, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		monitor.beginTask(ModelMessages.JUnitModel_importing_from_url, IProgressMonitor.UNKNOWN);
-		final String trimmedUrl= url.trim().replaceAll("\r\n?|\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		final String trimmedUrl= url.trim().replaceAll("\r\n?|\n", ""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		final TestRunHandler handler= new TestRunHandler(monitor);
 
 		final CoreException[] exception= { null };
@@ -485,7 +485,7 @@ public final class JUnitModel {
 	 * @throws CoreException if an error occurred
 	 */
 	public static void exportTestRunSession(TestRunSession testRunSession, File file) throws CoreException {
-		try (FileOutputStream out= new FileOutputStream(file)) {
+		try (FileOutputStream out= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			exportTestRunSession(testRunSession, out);
 		} catch (IOException | TransformerException e) {
 			throw new CoreException(org.eclipse.core.runtime.Status.error(

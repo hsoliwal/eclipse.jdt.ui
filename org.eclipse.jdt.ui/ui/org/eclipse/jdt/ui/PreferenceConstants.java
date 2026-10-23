@@ -4476,7 +4476,7 @@ public class PreferenceConstants {
 		// compatibility code
 		String str= store.getString(CallHierarchyContentProvider.OLD_PREF_DEFAULT_EXPAND_WITH_CONSTRUCTORS);
 		if (str.length() > 0) {
-			String[] oldPrefStr= str.split(";"); //$NON-NLS-1$
+			String[] oldPrefStr= str.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			for (int i= 0; i < oldPrefStr.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				oldPrefStr[i]= oldPrefStr[i] + (".*"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}

@@ -278,7 +278,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 	public static final String FIELD_NAMING_CONVENTION_ID= "org.eclipse.jdt.ui.correction.convertToConstantNamingConvention.assist"; //$NON-NLS-1$
 
-	public static final Pattern FIELD_NAMING_PATTERN= Pattern.compile("^[A-Z0-9]+(_[A-Z0-9]+)*$"); //$NON-NLS-1$
+	public static final Pattern FIELD_NAMING_PATTERN= Pattern.compile("^[A-Z0-9]+(_[A-Z0-9]+)*$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	public QuickAssistProcessor() {
 		super();
@@ -2469,7 +2469,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	}
 
 	private static String[] deserializeFavorites(String str) {
-		return str.split(";"); //$NON-NLS-1$
+		return str.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	private static boolean getArrayInitializerToArrayCreation(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
@@ -3698,7 +3698,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	private boolean isValidConstantName(String identifier) {
 		Pattern pattern= FIELD_NAMING_PATTERN;
 		Matcher matcher= pattern.matcher(identifier); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-		return matcher.matches();
+		return matcher.matches(); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	public static String convertToConstantName(String identifier) {
@@ -3716,7 +3716,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 				lastCharWasUpperCase= false;
 			}
 		}
-		return constantNaming.toString().replaceAll("_{2,}", "_"); //$NON-NLS-1$ //$NON-NLS-2$
+		return constantNaming.toString().replaceAll("_{2,}", "_"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 }
 

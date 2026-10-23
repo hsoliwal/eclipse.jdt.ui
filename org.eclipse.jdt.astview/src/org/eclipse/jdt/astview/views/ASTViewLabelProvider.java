@@ -64,7 +64,7 @@ public class ASTViewLabelProvider extends LabelProvider implements IColorProvide
 
 		fSelectedElemBGColor= new Color(232, 242, 254);
 		String currLineColor= EditorsUI.getPreferenceStore().getString(AbstractDecoratedTextEditorPreferenceConstants.EDITOR_CURRENT_LINE_COLOR);
-		String[] rgb= currLineColor.split(","); //$NON-NLS-1$
+		String[] rgb= currLineColor.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (rgb.length == 3) {
 			try {
 				fSelectedElemBGColor= new Color(Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2]));

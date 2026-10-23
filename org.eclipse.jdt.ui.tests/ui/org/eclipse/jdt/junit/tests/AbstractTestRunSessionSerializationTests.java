@@ -129,25 +129,25 @@ public class AbstractTestRunSessionSerializationTests {
 		/*
 		 * Strips &#13; and &#10;
 		 */
-		Pattern regex0= Pattern.compile("&#1[03];");
+		Pattern regex0= Pattern.compile("&#1[03];"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		/*
 		 * Avoid comparing stack traces (which are VM-dependent)
 		 */
-		Pattern regex= Pattern.compile("(?m)^\\s*at\\s+[/\\w\\.\\:\\;\\$\\(\\)\\[ \\t]+$\r?\n?");
+		Pattern regex= Pattern.compile("(?m)^\\s*at\\s+[/\\w\\.\\:\\;\\$\\(\\)\\[ \\t]+$\r?\n?"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		/*
 		 * Strips lines like " ... 18 more"
 		 */
-		Pattern regex2= Pattern.compile("(?m)^\\s*\\.{3}\\s+\\d+\\s+more\\s+$\r?\n?");
+		Pattern regex2= Pattern.compile("(?m)^\\s*\\.{3}\\s+\\d+\\s+more\\s+$\r?\n?"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		/*
 		 * Strips running times
 		 */
-		Pattern regex3= Pattern.compile("(?<=time=\\\")\\d+\\.\\d+(?=\\\")");
+		Pattern regex3= Pattern.compile("(?<=time=\\\")\\d+\\.\\d+(?=\\\")"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		/*
 		 * CPU timings are optional and VM-dependent. Their persistence is covered by
 		 * TestRunSessionHistoryTests, while these legacy golden files verify the rest
 		 * of the exported XML independently of the availability and exact CPU values.
 		 */
-		Pattern regexCpuTimes= Pattern.compile("\\s+(?:cpuTime|userTime)=\\\"\\d+(?:\\.\\d+)?\\\"");
+		Pattern regexCpuTimes= Pattern.compile("\\s+(?:cpuTime|userTime)=\\\"\\d+(?:\\.\\d+)?\\\""); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String replacement= "";
 		expected= regexCpuTimes.matcher(regex3.matcher(regex2.matcher(regex.matcher(regex0.matcher(expected).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		actual= regexCpuTimes.matcher(regex3.matcher(regex2.matcher(regex.matcher(regex0.matcher(actual).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
@@ -160,7 +160,7 @@ public class AbstractTestRunSessionSerializationTests {
 		String replacement4= "</actual>";
 		String regex5= "\\s*</failure>";
 		String replacement5= " </failure>";
-		actual= actual.replaceAll(regex4, replacement4).replaceAll(regex5, replacement5);
+		actual= actual.replaceAll(regex4, replacement4).replaceAll(regex5, replacement5); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		/*
 		 * Strip all whitespace
@@ -243,7 +243,7 @@ public class AbstractTestRunSessionSerializationTests {
 
 		Path expectedPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "xml/" + test + ".xml"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File expectedFile= JavaTestPlugin.getDefault().getFileInPlugin(expectedPath);
-		String expected=  Files.readString(expectedFile.toPath());
+		String expected=  Files.readString(expectedFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		runExportImport(aTestCase, expected);
 
 		runImportAntResult(test);
@@ -264,7 +264,7 @@ public class AbstractTestRunSessionSerializationTests {
 
 		Path expectedPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "xml/" + testType + "_" + method + ".xml"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File expectedFile= JavaTestPlugin.getDefault().getFileInPlugin(expectedPath);
-		String expected= Files.readString(expectedFile.toPath());
+		String expected= Files.readString(expectedFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		runExportImport(testMethod, expected);
 
 		//ant cannot run single test methods

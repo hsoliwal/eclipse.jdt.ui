@@ -73,8 +73,8 @@ import org.eclipse.jdt.internal.ui.text.template.contentassist.TemplateProposal;
  */
 public class QuickTemplateProcessor implements IQuickAssistProcessor {
 
-	private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-	private static final Pattern $_WORD_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.WordSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private static final Pattern $_WORD_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.WordSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	public QuickTemplateProcessor() {
 	}
@@ -218,10 +218,10 @@ public class QuickTemplateProcessor implements IQuickAssistProcessor {
 		Matcher wordSelectionMatcher= $_WORD_SELECTION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (JavaDocContextType.ID.equals(contextId)) {
-			if (!template.matches("", contextId) || !lineSelectionMatcher.find() && !wordSelectionMatcher.find()) //$NON-NLS-1$
+			if (!template.matches("", contextId) || !lineSelectionMatcher.find() && !wordSelectionMatcher.find()) //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				return false;
 		} else {
-			if (template.matches("", JavaDocContextType.ID) || !lineSelectionMatcher.find() //$NON-NLS-1$
+			if (template.matches("", JavaDocContextType.ID) || !lineSelectionMatcher.find() //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					|| template.matches("", JavaContextType.ID_EMPTY)) //$NON-NLS-1$
 				return false;
 		}

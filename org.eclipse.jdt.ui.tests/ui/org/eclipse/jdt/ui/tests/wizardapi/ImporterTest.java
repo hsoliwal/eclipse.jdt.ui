@@ -85,13 +85,13 @@ public class ImporterTest{
 					toCreate = new File(target, path);
 				}
 				if (importStructureProvider.isFolder(current)) {
-					toCreate.mkdirs();
+					toCreate.mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				} else {
 					try (InputStream content = importStructureProvider.getContents(current)) {
 						// known IImportStructureProviders already log an
 						// exception before returning null
 						if (content != null) {
-							Files.copy(content, toCreate.toPath());
+							Files.copy(content, toCreate.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						}
 					}
 				}

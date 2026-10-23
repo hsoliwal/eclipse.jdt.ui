@@ -283,8 +283,8 @@ public class JUnitCorePlugin extends Plugin {
 
 	public static File getHistoryDirectory() throws IllegalStateException {
 		File historyDir= getDefault().getStateLocation().append(HISTORY_DIR_NAME).toFile();
-		if (! historyDir.isDirectory()) {
-			historyDir.mkdir();
+		if (! historyDir.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			historyDir.mkdir(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 		return historyDir;
 	}

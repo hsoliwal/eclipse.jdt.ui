@@ -223,14 +223,14 @@ public class WizardsTest extends TestCase {
 
 		IFile jardescRewritten= outputProject.getFile("rewritten.jardesc");
 		JarPackageData packageData = new JarPackageData();
-		try (InputStream packageDataFileStream = Files.newInputStream(jardescReverseOrder.getLocation().toPath())) {
+		try (InputStream packageDataFileStream = Files.newInputStream(jardescReverseOrder.getLocation().toPath())) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			new JarPackageReader(packageDataFileStream).read(packageData);
 		}
 		exportJardesc(outputProject, packageData).move(jardescRewritten.getFullPath(), true, null);
 
-		assertThat("JAR descriptions written for elements in original and reverse order differ", Files.readString(jardescProperOrder.getLocation().toPath()),
-				is(Files.readString(jardescReverseOrder.getLocation().toPath())));
-		assertThat("original and rewritten JAR descriptions differ", Files.readString(jardescProperOrder.getLocation().toPath()), is(Files.readString(jardescRewritten.getLocation().toPath())));
+		assertThat("JAR descriptions written for elements in original and reverse order differ", Files.readString(jardescProperOrder.getLocation().toPath()), //FLLDCIM: MARK — M31 M3FILE_IO CALL
+				is(Files.readString(jardescReverseOrder.getLocation().toPath()))); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertThat("original and rewritten JAR descriptions differ", Files.readString(jardescProperOrder.getLocation().toPath()), is(Files.readString(jardescRewritten.getLocation().toPath()))); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		for (IResource root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.delete(root.getProject());

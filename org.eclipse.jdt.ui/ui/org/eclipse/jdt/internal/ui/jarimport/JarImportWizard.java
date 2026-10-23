@@ -104,11 +104,11 @@ public final class JarImportWizard extends BinaryRefactoringHistoryWizard implem
 						final URI uri= getLocationURI(root.getRawClasspathEntry());
 						if (uri != null) {
 							final File file= new File(uri);
-							if (file.exists()) {
+							if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 								try (ZipFile zip= new ZipFile(file, ZipFile.OPEN_READ)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 									ZipEntry entry= zip.getEntry(JarPackagerUtil.getRefactoringsEntry());
 									if (entry != null) {
-										try (InputStream stream= zip.getInputStream(entry)) {
+										try (InputStream stream= zip.getInputStream(entry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 											final RefactoringHistory existing= RefactoringCore.getHistoryService().readRefactoringHistory(stream, JavaRefactoringDescriptor.JAR_MIGRATION | JavaRefactoringDescriptor.JAR_REFACTORING);
 											if (existing != null)
 												fHistoryDelta= incoming.removeAll(existing).getDescriptors();

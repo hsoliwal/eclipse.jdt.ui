@@ -363,7 +363,7 @@ public class PackagesViewContentProviderTests2 {
 		java.io.File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 
 		assertNotNull(junitSrcArchive, "junit src not found");//$NON-NLS-1$
-		assertTrue(junitSrcArchive.exists(), "junit src not found");//$NON-NLS-1$
+		assertTrue(junitSrcArchive.exists(), "junit src not found");//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		fArchiveFragmentRoot= JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);//$NON-NLS-1$
 
@@ -387,7 +387,7 @@ public class PackagesViewContentProviderTests2 {
 		//----------------Set up internal jar----------------------------
 		File myInternalJar= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/compoundtest.jar"));//$NON-NLS-1$
 		assertNotNull(myInternalJar, "lib not found");//$NON-NLS-1$
-		assertTrue(myInternalJar.exists(), "lib not found");//$NON-NLS-1$
+		assertTrue(myInternalJar.exists(), "lib not found");//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		fInternalJarRoot= JavaProjectHelper.addLibraryWithImport(fJProject2, Path.fromOSString(myInternalJar.getPath()), null, null);
 

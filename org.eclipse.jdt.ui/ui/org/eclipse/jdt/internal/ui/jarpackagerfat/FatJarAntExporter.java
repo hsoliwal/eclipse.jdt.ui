@@ -138,21 +138,21 @@ public abstract class FatJarAntExporter {
 		fAntScriptLocation= antScriptLocation;
 		pathSubstituter= new PathSubstituter();
 		try {
-			fBuildfileDir= antScriptLocation.toFile().getParentFile().getCanonicalPath();
+			fBuildfileDir= antScriptLocation.toFile().getParentFile().getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			pathSubstituter.addSubstitution(fBuildfileDir, ANT_PROPERTY_DIR_BUILDFILE);
 		} catch (Exception e) {
 			JavaPlugin.log(e);
 			fBuildfileDir= "?"; //$NON-NLS-1$
 		}
 		try {
-			fJarfileDir= jarLocation.toFile().getParentFile().getCanonicalPath();
+			fJarfileDir= jarLocation.toFile().getParentFile().getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			pathSubstituter.addSubstitution(fJarfileDir, ANT_PROPERTY_DIR_JARFILE);
 		} catch (Exception e) {
 			JavaPlugin.log(e);
 			fJarfileDir= "?"; //$NON-NLS-1$
 		}
 		try {
-			fWorkspaceDir= ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile().getCanonicalPath();
+			fWorkspaceDir= ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile().getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			pathSubstituter.addSubstitution(fWorkspaceDir, ANT_PROPERTY_DIR_WORKSPACE);
 		} catch (Exception e) {
 			JavaPlugin.log(e);
@@ -235,9 +235,9 @@ public abstract class FatJarAntExporter {
 		for (int i= 0; i < classpath.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath path= classpath[i];
 			if (path != null) {
-				if (path.toFile().isDirectory()) {
+				if (path.toFile().isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					result[i]= new SourceInfo(false, path.toString(), ""); //$NON-NLS-1$
-				} else if (path.toFile().isFile()) {
+				} else if (path.toFile().isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					// TODO: check for ".jar" extension?
 					result[i]= new SourceInfo(true, path.toString(), ""); //$NON-NLS-1$
 				}
@@ -295,7 +295,7 @@ public abstract class FatJarAntExporter {
 	protected String substituteBaseDirs(String absFilename) {
 		String canonicleFilename;
 		try {
-			canonicleFilename= new File(absFilename).getCanonicalPath();
+			canonicleFilename= new File(absFilename).getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		} catch (IOException e) {
 			e.printStackTrace();
 			return absFilename;

@@ -444,7 +444,7 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 		protected String labelFor(Enum<?> en) {
 			String label= super.labelFor(en);
 			String mnemonic= MNEMONICS[en.ordinal()];
-			return label.replaceFirst(mnemonic, "&" + mnemonic); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			return label.replaceFirst(mnemonic, "&" + mnemonic); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 
 		@Override

@@ -104,7 +104,7 @@ public class JUnitLaunchIncludeExcludeTagsDialog extends StatusDialog {
 		if (input.isEmpty())
 			return EMPTY_STRING;
 		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		String[] strings= input.split(System.lineSeparator());
+		String[] strings= input.split(System.lineSeparator()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		for (int i= 0; i < strings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0)
 				buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
@@ -117,7 +117,7 @@ public class JUnitLaunchIncludeExcludeTagsDialog extends StatusDialog {
 		if (input.isEmpty())
 			return EMPTY_STRING;
 		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		String[] strings= input.split(","); //$NON-NLS-1$
+		String[] strings= input.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		for (int i= 0; i < strings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0)
 				buf.append(System.lineSeparator()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL

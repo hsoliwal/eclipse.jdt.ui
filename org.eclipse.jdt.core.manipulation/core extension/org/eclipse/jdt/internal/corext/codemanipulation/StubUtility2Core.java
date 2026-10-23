@@ -527,7 +527,7 @@ public final class StubUtility2Core {
 				if (snippetStringSupport) {
 					final String ESCAPE_DOLLAR= "\\\\\\$"; //$NON-NLS-1$
 					final String DOLLAR= "\\$"; //$NON-NLS-1$
-					bodyStatement= bodyStatement.replaceAll(DOLLAR, ESCAPE_DOLLAR);
+					bodyStatement= bodyStatement.replaceAll(DOLLAR, ESCAPE_DOLLAR); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				}
 				String bodyContent= CodeGeneration.getMethodBodyContent(unit, type, binding.getName(), false, useAlternativeMethodBody, bodyStatement, delimiter);
 

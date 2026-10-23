@@ -128,9 +128,9 @@ public class JarWriter3 {
 		try {
 			if (fJarPackage.usesManifest() && fJarPackage.areGeneratedFilesExported()) {
 				Manifest manifest= fJarPackage.getManifestProvider().create(fJarPackage);
-				jos= new JarOutputStream(new BufferedOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile())), manifest);
+				jos= new JarOutputStream(new BufferedOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile())), manifest); //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			} else {
-				jos= new JarOutputStream(new BufferedOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile())));
+				jos= new JarOutputStream(new BufferedOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile()))); //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			}
 			String comment= jarPackage.getComment();
 			if (comment != null)
@@ -327,13 +327,13 @@ public class JarWriter3 {
 			return 0;
 		});
 		File file= File.createTempFile("history", null); //$NON-NLS-1$
-		try (OutputStream output= new BufferedOutputStream(new FileOutputStream(file))) {
+		try (OutputStream output= new BufferedOutputStream(new FileOutputStream(file))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			RefactoringCore.getHistoryService().writeRefactoringDescriptors(proxies, output, RefactoringDescriptor.NONE, false, monitor);
 			writeMetaData(data, file, path);
 		} catch (IOException exception) {
 			// Do nothing
 		} finally {
-			file.delete();
+			file.delete(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 
@@ -348,8 +348,8 @@ public class JarWriter3 {
 	 */
 	protected boolean canCreateJar(Shell parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		File file= fJarPackage.getAbsoluteJarLocation().toFile();
-		if (file.exists()) {
-			if (!file.canWrite())
+		if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (!file.canWrite()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return false;
 			if (fJarPackage.allowOverwrite())
 				return true;
@@ -362,9 +362,9 @@ public class JarWriter3 {
 		if (separatorIndex == -1) // i.e.- default directory, which is fine
 			return true;
 		File directory= new File(path.substring(0, separatorIndex));
-		if (!directory.exists()) {
+		if (!directory.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			if (JarPackagerUtil.askToCreateDirectory(parent, directory))
-				return directory.mkdirs();
+				return directory.mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			else
 				return false;
 		}
@@ -456,7 +456,7 @@ public class JarWriter3 {
 		Assert.isNotNull(file);
 		Assert.isNotNull(path);
 		final JarEntry entry= new JarEntry(path.toString().replace(File.separatorChar, '/'));
-		byte[] allBytes= Files.readAllBytes(file.toPath());
+		byte[] allBytes= Files.readAllBytes(file.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		if (data.isCompressed())
 			entry.setMethod(ZipEntry.DEFLATED);
 		else {

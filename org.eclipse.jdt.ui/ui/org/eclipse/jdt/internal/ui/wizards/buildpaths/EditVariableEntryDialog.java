@@ -275,7 +275,7 @@ public class EditVariableEntryDialog extends StatusDialog {
 				return status;
 			}
 			File file= resolvedPath.toFile();
-			if (!file.exists()) {
+			if (!file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				String message= Messages.format(NewWizardMessages.EditVariableEntryDialog_filename_error_filenotexists, BasicElementLabels.getPathLabel(resolvedPath, true));
 				if (deprecationMessage != null) {
 					message= deprecationMessage + "\n" + message; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
@@ -304,7 +304,7 @@ public class EditVariableEntryDialog extends StatusDialog {
 	private boolean canBrowseFileName() {
 		// to browse with a variable JAR, the variable name must point to a directory
 		if (fFileVariablePath != null) {
-			return fFileVariablePath.toFile().isDirectory();
+			return fFileVariablePath.toFile().isDirectory(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 		return false;
 	}

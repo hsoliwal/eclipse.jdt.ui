@@ -51,10 +51,10 @@ public class JavaIgnoreWhitespaceContributorTest {
 
 	private String extractSelection(String source, Map<String, ITextSelection> selections) {
 		var result= new StringBuilder(source); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		var pattern = Pattern.compile("#([a-z0-9_]+)#");
+		var pattern = Pattern.compile("#([a-z0-9_]+)#"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Matcher matcher= pattern.matcher(result); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-			if (matcher.find()) {
+			if (matcher.find()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				int start= matcher.start();
 				int end= matcher.end();
 				String name= matcher.group(1);

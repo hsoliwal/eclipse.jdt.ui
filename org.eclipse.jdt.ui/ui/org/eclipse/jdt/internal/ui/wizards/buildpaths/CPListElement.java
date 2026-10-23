@@ -731,7 +731,7 @@ public class CPListElement {
 				break;
 			case IClasspathEntry.CPE_VARIABLE:
 				IPath resolvedPath= JavaCore.getResolvedVariablePath(path);
-				isMissing=  root.findMember(resolvedPath) == null && !resolvedPath.toFile().exists();
+				isMissing=  root.findMember(resolvedPath) == null && !resolvedPath.toFile().exists(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				break;
 			case IClasspathEntry.CPE_LIBRARY:
 				res= root.findMember(path);
@@ -749,7 +749,7 @@ public class CPListElement {
 						if (roots.length == 1)
 							rawPath= roots[0].getPath();
 					}
-					isMissing= !rawPath.toFile().exists(); // look for external JARs and folders
+					isMissing= !rawPath.toFile().exists(); // look for external JARs and folders //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				} else if (res.isLinked()) {
 					linkTarget= res.getLocation();
 				}

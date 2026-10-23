@@ -206,7 +206,7 @@ public class ProfileStore {
 	 * @return returns a list of <code>CustomProfile</code> or <code>null</code>
 	 */
 	public List<Profile> readProfilesFromFile(File file) throws CoreException {
-		try (FileInputStream reader= new FileInputStream(file)) {
+		try (FileInputStream reader= new FileInputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			return readProfilesFromStream(new InputSource(reader));
 		} catch (IOException e) {
 			throw createException(e, FormatterMessages.CodingStyleConfigurationBlock_error_reading_xml_message);
@@ -238,7 +238,7 @@ public class ProfileStore {
 	 * @param encoding the encoding to use
 	 */
 	public void writeProfilesToFile(Collection<Profile> profiles, File file, String encoding) throws CoreException {
-		try (OutputStream stream= new FileOutputStream(file)) {
+		try (OutputStream stream= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			writeProfilesToStream(profiles, stream, encoding, fProfileVersioner);
 		} catch (IOException e) {
 			throw createException(e, FormatterMessages.CodingStyleConfigurationBlock_error_serializing_xml_message);

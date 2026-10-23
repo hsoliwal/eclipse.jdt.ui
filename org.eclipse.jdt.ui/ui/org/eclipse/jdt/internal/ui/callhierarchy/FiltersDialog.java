@@ -269,13 +269,13 @@ class FiltersDialog extends StatusDialog {
 		}
 
 		// Split into several patterns separated by commas
-		String[] allPatterns= namesGlob.split(","); //$NON-NLS-1$
+		String[] allPatterns= namesGlob.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		return Arrays.stream(allPatterns).map(String::trim).allMatch(this::isValidMethodNameGlob);
 	}
 
 	private boolean isValidMethodNameGlob(String input) {
-		return input != null && input.matches(METHOD_NAME_GLOB_PATTERN);
+		return input != null && input.matches(METHOD_NAME_GLOB_PATTERN); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 

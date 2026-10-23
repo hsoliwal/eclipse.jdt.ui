@@ -566,7 +566,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 				int partitionEnd= Math.min(lineLength, lineOffset + partition.getLength());
 				while (++lineOffset < partitionEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isMismatchingLevel(bidi.getLevelAt(lineOffset), baseLevel)
-							&& String.valueOf(lineText.charAt(lineOffset)).matches(BIDI_DELIMITERS)) {
+							&& String.valueOf(lineText.charAt(lineOffset)).matches(BIDI_DELIMITERS)) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						// For default content types, indicate a segment before
 						// a delimiting character with a mismatching embedding
 						// level.

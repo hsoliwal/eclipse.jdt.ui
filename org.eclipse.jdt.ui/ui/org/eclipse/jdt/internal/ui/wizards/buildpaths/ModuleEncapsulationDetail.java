@@ -110,7 +110,7 @@ public abstract class ModuleEncapsulationDetail {
 
 		public static Collection<ModulePatch> fromMultiString(CPListElementAttribute attribElem, String values) {
 			List<ModulePatch> patches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
-			for (String value : values.split("::")) { // see comment in #encodeFiltered(..) //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String value : values.split("::")) { // see comment in #encodeFiltered(..) //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				ModulePatch patch= fromString(attribElem, value);
 				if (patch != null)
 					patches.add(patch);
@@ -149,8 +149,8 @@ public abstract class ModuleEncapsulationDetail {
 		}
 
 		public ModulePatch removeLocations(String locations) {
-			Set<String> toRemove= new HashSet<>(Arrays.asList(locations.split(File.pathSeparator))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
-			List<String> current= new ArrayList<>(Arrays.asList(fPaths.split(File.pathSeparator))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			Set<String> toRemove= new HashSet<>(Arrays.asList(locations.split(File.pathSeparator))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			List<String> current= new ArrayList<>(Arrays.asList(fPaths.split(File.pathSeparator))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			current.removeAll(toRemove);
 			String newPaths= String.join(File.pathSeparator, current);
 			if (newPaths.isEmpty()) {
@@ -165,7 +165,7 @@ public abstract class ModuleEncapsulationDetail {
 		}
 
 		public String[] getPathArray() {
-			return fPaths.split(File.pathSeparator);
+			return fPaths.split(File.pathSeparator); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 
 		@Override
@@ -205,7 +205,7 @@ public abstract class ModuleEncapsulationDetail {
 		}
 
 		public String toAbsolutePathsString(IJavaProject focusProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-			String[] paths= fPaths.split(File.pathSeparator);
+			String[] paths= fPaths.split(File.pathSeparator); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			String[] absPaths= new String[paths.length];
 			IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 			for (int i= 0; i < paths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -301,7 +301,7 @@ public abstract class ModuleEncapsulationDetail {
 
 		public static Collection<ModuleAddExpose> fromMultiString(CPListElementAttribute attribElem, String values, boolean isExports) {
 			List<ModuleAddExpose> exports= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
-			for (String value : values.split(":")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String value : values.split(":")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				ModuleAddExpose export= fromString(attribElem, value, isExports);
 				if (export != null)
 					exports.add(export);
@@ -401,7 +401,7 @@ public abstract class ModuleEncapsulationDetail {
 
 		public static Collection<ModuleAddReads> fromMultiString(CPListElementAttribute attribElem, String values) {
 			List<ModuleAddReads> readss= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
-			for (String value : values.split(":")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String value : values.split(":")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				ModuleAddReads reads= fromString(attribElem, value);
 				if (reads != null)
 					readss.add(reads);
@@ -463,7 +463,7 @@ public abstract class ModuleEncapsulationDetail {
 	static class LimitModules extends ModuleEncapsulationDetail {
 
 		public static LimitModules fromString(CPListElementAttribute attribElem, String value) {
-			String[] modules= value.split(","); //$NON-NLS-1$
+			String[] modules= value.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			for (int i= 0; i < modules.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				modules[i]= modules[i].trim();
 			}

@@ -40,7 +40,7 @@ public class FileTool {
 	 */
 	public static void unzip(File zFile, File dstDir) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try (ZipFile zipFile= new ZipFile(zFile)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
-			Enumeration<? extends ZipEntry> entries= zipFile.entries();
+			Enumeration<? extends ZipEntry> entries= zipFile.entries(); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 			while (entries.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ZipEntry entry= entries.nextElement();
 				if (entry.isDirectory()) {
@@ -51,9 +51,9 @@ public class FileTool {
 					throw new RuntimeException("Bad zip entry: " + entryName); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				File file= new File(dstDir, changeSeparator(entryName, '/', File.separatorChar));
-				file.getParentFile().mkdirs();
-				try (InputStream inputStream= zipFile.getInputStream(entry)) {
-					Files.write(file.toPath(), inputStream.readAllBytes());
+				file.getParentFile().mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+				try (InputStream inputStream= zipFile.getInputStream(entry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
+					Files.write(file.toPath(), inputStream.readAllBytes()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				}
 			}
 		}

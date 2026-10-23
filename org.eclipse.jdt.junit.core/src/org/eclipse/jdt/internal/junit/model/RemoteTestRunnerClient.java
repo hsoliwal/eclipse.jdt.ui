@@ -450,7 +450,7 @@ public class RemoteTestRunnerClient {
 	}
 
 	private void scanTestTiming(String arg) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		String[] timing= arg.split(",", -1); //$NON-NLS-1$
+		String[] timing= arg.split(",", -1); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (timing.length != 5 || timing[0].isEmpty())
 			return;
 		try {

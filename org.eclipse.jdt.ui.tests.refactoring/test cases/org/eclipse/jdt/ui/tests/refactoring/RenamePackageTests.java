@@ -969,7 +969,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		fRenameSubpackages= true;
 
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
-		Assert.assertTrue(junitSrcArchive != null && junitSrcArchive.exists());
+		Assert.assertTrue(junitSrcArchive != null && junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot src= JavaProjectHelper.addSourceContainerWithImport(getRoot().getJavaProject(), "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
 		String[] packageNames= new String[]{"junit", "junit.extensions", "junit.framework", "junit.runner", "junit.samples", "junit.samples.money", "junit.tests", "junit.tests.extensions", "junit.tests.framework", "junit.tests.runner", "junit.textui"};
@@ -1033,7 +1033,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		assertFalse("new package still exists", newPackage.exists());
 		assertTrue("original package does not exist: " + rename.fPackageNames[0], src.getPackageFragment(rename.fPackageNames[0]).exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		try (ZipInputStream zis= new ZipInputStream(new BufferedInputStream(new FileInputStream(junitSrcArchive)))) {
+		try (ZipInputStream zis= new ZipInputStream(new BufferedInputStream(new FileInputStream(junitSrcArchive)))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			ZipTools.compareWithZipped(src, zis, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		}
 	}

@@ -36,7 +36,7 @@ import org.eclipse.jdt.core.dom.rewrite.ImportRewrite;
  */
 public class CodeStyleConfiguration {
 
-	private static final Pattern SEMICOLON_PATTERN= Pattern.compile(";"); //$NON-NLS-1$
+	private static final Pattern SEMICOLON_PATTERN= Pattern.compile(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * A named preference that holds a list of semicolon separated package names. The list specifies the import order used by

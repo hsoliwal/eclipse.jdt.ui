@@ -81,17 +81,17 @@ public class JarPackagerUtilCore {
 	public static void writeArchive(ZipFile zipFile, boolean areDirectoryEntriesIncluded, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean isCompressed, JarOutputStream jarOutputStream,
 			Set<String> directories, MultiStatus status, IProgressMonitor progressMonitor) {
-		Enumeration<? extends ZipEntry> jarEntriesEnum= zipFile.entries();
+		Enumeration<? extends ZipEntry> jarEntriesEnum= zipFile.entries(); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 		File zipFile1= new File(zipFile.getName());
 		try {
-			String zipFileCanonical= zipFile1.getCanonicalPath();
+			String zipFileCanonical= zipFile1.getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 			while (jarEntriesEnum.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ZipEntry zipEntry= jarEntriesEnum.nextElement();
 				if (!zipEntry.isDirectory()) {
 					String entryName= zipEntry.getName();
 					File zipEntryFile= new File(zipFile1, entryName);
-					String zipEntryCanonical= zipEntryFile.getCanonicalPath();
+					String zipEntryCanonical= zipEntryFile.getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					if (zipEntryCanonical.startsWith(zipFileCanonical + File.separator)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						addFile(entryName, zipEntry, zipFile, areDirectoryEntriesIncluded, isCompressed, jarOutputStream, directories, status);
 					} else {
@@ -183,7 +183,7 @@ public class JarPackagerUtilCore {
 
 		// Set modification time
 		newEntry.setTime(lastModified);
-		try (InputStream content= zipFile.getInputStream(zipEntry);) {
+		try (InputStream content= zipFile.getInputStream(zipEntry);) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 			jarOutputStream.putNextEntry(newEntry);
 			content.transferTo(jarOutputStream);
 		}

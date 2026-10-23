@@ -43,18 +43,18 @@ public abstract class AbstractBindingLabelsTest extends CoreTests {
 	}
 
 	protected void assertLink(String lab, String display) {
-		Pattern pattern= Pattern.compile("<a class='header' href='eclipse-javadoc:.*'>(.*)</a>");
+		Pattern pattern= Pattern.compile("<a class='header' href='eclipse-javadoc:.*'>(.*)</a>"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		Matcher matcher= pattern.matcher(lab); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		assertEquals("number of match groups", 1, matcher.groupCount());
-		assertTrue("Label doesn't match against expected pattern: "+lab, matcher.matches()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("Label doesn't match against expected pattern: "+lab, matcher.matches()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		assertEquals("display label", display, matcher.group(1));
 	}
 
 	protected void assertLink(String lab, String display, String title) {
-		Pattern pattern= Pattern.compile("<a class='header' href='eclipse-javadoc:.*' title='(.*)'>(.*)</a>");
+		Pattern pattern= Pattern.compile("<a class='header' href='eclipse-javadoc:.*' title='(.*)'>(.*)</a>"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		Matcher matcher= pattern.matcher(lab); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		assertEquals("number of match groups", 2, matcher.groupCount());
-		assertTrue("Label doesn't match against expected pattern: "+lab, matcher.matches()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("Label doesn't match against expected pattern: "+lab, matcher.matches()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		assertEquals("title", title, matcher.group(1));
 		assertEquals("display label", display, matcher.group(2));
 	}

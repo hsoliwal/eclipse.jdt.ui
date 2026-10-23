@@ -454,7 +454,7 @@ public class SourceAttachmentBlock {
 		}
 		// to browse with a variable JAR, the variable name must point to a directory
 		if (fFileVariablePath != null) {
-			return fFileVariablePath.toFile().isDirectory();
+			return fFileVariablePath.toFile().isDirectory(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 		return false;
 	}
@@ -517,7 +517,7 @@ public class SourceAttachmentBlock {
 					return status;
 				}
 				File file= resolvedPath.toFile();
-				if (!file.exists()) {
+				if (!file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					String message= Messages.format(NewWizardMessages.SourceAttachmentBlock_filename_error_filenotexists, BasicElementLabels.getPathLabel(resolvedPath, true));
 					status.setWarning(message);
 					return status;
@@ -543,12 +543,12 @@ public class SourceAttachmentBlock {
 				if (res != null) {
 					IPath location= res.getLocation();
 					if (location != null) {
-						exists= location.toFile().exists();
+						exists= location.toFile().exists(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					} else {
 						exists= res.exists();
 					}
 				} else {
-					exists= file.exists();
+					exists= file.exists(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				}
 				if (!exists) {
 					String message=  Messages.format(NewWizardMessages.SourceAttachmentBlock_filename_error_filenotexists, BasicElementLabels.getPathLabel(filePath, false));

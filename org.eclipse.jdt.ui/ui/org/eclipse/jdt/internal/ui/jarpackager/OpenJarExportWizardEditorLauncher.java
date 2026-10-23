@@ -55,13 +55,13 @@ public class OpenJarExportWizardEditorLauncher implements IEditorLauncher {
 		JarPackageData jarPackage= null;
 		try {
 			File file= filePath.toFile();
-			if (!file.isFile() || !file.getName().endsWith('.' + JarPackagerUtil.DESCRIPTION_EXTENSION)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			if (!file.isFile() || !file.getName().endsWith('.' + JarPackagerUtil.DESCRIPTION_EXTENSION)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				openErrorDialog(Messages.format(JarPackagerMessages.OpenJarPackageWizardDelegate_onlyJardesc, JarPackagerUtil.DESCRIPTION_EXTENSION));
 				return;
 			}
 
 			jarPackage= new JarPackageData();
-			try (InputStream is= new FileInputStream(file)){
+			try (InputStream is= new FileInputStream(file)){ //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				reader= jarPackage.createJarDescriptionReader(is);
 				reader.read(jarPackage);
 			} finally {

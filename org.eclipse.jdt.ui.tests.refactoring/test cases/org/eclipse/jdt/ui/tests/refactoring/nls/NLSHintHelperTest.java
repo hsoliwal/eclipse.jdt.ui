@@ -82,7 +82,7 @@ public class NLSHintHelperTest {
 		fJProject= pts.getProject();
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.NLS_LIB);
 		assertNotNull("lib does not exist", lib);
-		assertTrue("lib does not exist", lib.exists());
+		assertTrue("lib does not exist", lib.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		fLibrary= JavaProjectHelper.addLibrary(fJProject, Path.fromOSString(lib.getPath())); // add library to project
 	}
 

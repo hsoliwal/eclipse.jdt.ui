@@ -4069,17 +4069,17 @@ public class ASTNodes {
 	/**
 	 * Should match the last NLS comment before end of the line
 	 */
-	static final Pattern comment= Pattern.compile("([ ]*\\/\\/\\$NON-NLS-[0-9]\\$) *$"); //$NON-NLS-1$
+	static final Pattern comment= Pattern.compile("([ ]*\\/\\/\\$NON-NLS-[0-9]\\$) *$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * Should match leading whitespaces - not sure why eclipse does not allow to use \h instead of [ \t]
 	 */
-	static final Pattern leadingspaces_start= Pattern.compile("^[ \t]*"); //$NON-NLS-1$
+	static final Pattern leadingspaces_start= Pattern.compile("^[ \t]*"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	/**
 	 * Should match all leading whitespaces at each start of a line
 	 * We have to eat them otherwise formatting is broken
 	 */
-	static final Pattern leadingspaces= Pattern.compile("\n[ \t]*"); //$NON-NLS-1$
+	static final Pattern leadingspaces= Pattern.compile("\n[ \t]*"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * Replaces the provided node from the AST with the provided replacement node.
@@ -4108,7 +4108,7 @@ public class ASTNodes {
 			String visitedString= buffer.substring(visited.getStartPosition(), visited.getStartPosition() + visited.getLength());
 			// we are using the toString() method to get string representation of replace_with_Call so tweak string to
 			// add spaces between parameters
-			String replacementCallString= replace_with_Call.toString().replaceAll(",", ", "); //$NON-NLS-1$ //$NON-NLS-2$
+			String replacementCallString= replace_with_Call.toString().replaceAll(",", ", "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			String originalmodified= original.replace(visitedString, replacementCallString);
 			replacement= rewrite.createStringPlaceholder(originalmodified, st.getNodeType());
 			rewrite.replace(st, replacement, editGroup);

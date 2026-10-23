@@ -293,7 +293,7 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 		RefactoringStatus result= performRefactoring(refactoring);
 		assertNotNull("was supposed to fail", result);
 		assertTrue("should have errors", result.hasError());
-		assertEquals(failMsg.replaceAll("TestProject", projName), result.toString());
+		assertEquals(failMsg.replaceAll("TestProject", projName), result.toString()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	private void renameRecord(String recordName, String newRecordName, boolean updateReferences) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD

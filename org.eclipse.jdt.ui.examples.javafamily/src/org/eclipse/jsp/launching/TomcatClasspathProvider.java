@@ -63,7 +63,7 @@ public class TomcatClasspathProvider extends StandardClasspathProvider {
 			if (!tools) {
 				// add a tools.jar
 				IPath toolsPath = new Path(vm.getInstallLocation().getAbsolutePath()).append("lib").append("tools.jar"); //$NON-NLS-1$ //$NON-NLS-2$
-				if (toolsPath.toFile().exists()) {
+				if (toolsPath.toFile().exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					r = JavaRuntime.newArchiveRuntimeClasspathEntry(toolsPath);
 					r.setClasspathProperty(IRuntimeClasspathEntry.USER_CLASSES);
 					rtes.add(r);

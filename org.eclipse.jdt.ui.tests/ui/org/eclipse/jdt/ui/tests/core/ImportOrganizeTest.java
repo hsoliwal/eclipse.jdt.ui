@@ -138,7 +138,7 @@ public class ImportOrganizeTest extends CoreTests {
 	public void test1() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
@@ -184,7 +184,7 @@ public class ImportOrganizeTest extends CoreTests {
 	public void test1WithOrder() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
@@ -231,7 +231,7 @@ public class ImportOrganizeTest extends CoreTests {
 	public void test2() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
@@ -256,7 +256,7 @@ public class ImportOrganizeTest extends CoreTests {
 	public void test3() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
@@ -282,7 +282,7 @@ public class ImportOrganizeTest extends CoreTests {
 	public void test4() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
-		assertTrue("junit src not found", junitSrcArchive.exists());
+		assertTrue("junit src not found", junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 

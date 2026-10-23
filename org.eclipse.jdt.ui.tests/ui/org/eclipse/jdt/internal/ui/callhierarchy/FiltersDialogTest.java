@@ -51,6 +51,6 @@ public class FiltersDialogTest {
 	}
 
 	private boolean matches(String string) {
-		return string.matches(FiltersDialog.METHOD_NAME_GLOB_PATTERN);
+		return string.matches(FiltersDialog.METHOD_NAME_GLOB_PATTERN); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 }

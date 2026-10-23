@@ -104,7 +104,7 @@ public final class EnumSourceValidator {
 	// [engine:junit-jupiter]/[class:p.T]/[test-template:testColor(p.Color)]/[test-template-invocation:#2]
 	// The one-based #2 maps to index 1 in the source's effective enum values.
 	private static final Pattern INVOCATION_INDEX_PATTERN=
-			Pattern.compile("\\[test-template-invocation:#(\\d+)\\]"); //$NON-NLS-1$
+			Pattern.compile("\\[test-template-invocation:#(\\d+)\\]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	private enum ArgumentsSourceStatus {
 		FOUND,
@@ -669,7 +669,7 @@ public final class EnumSourceValidator {
 		Matcher matcher= INVOCATION_INDEX_PATTERN.matcher(uniqueId); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		int oneBasedIndex= -1;
 		try {
-			while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				oneBasedIndex= Integer.parseInt(matcher.group(1));
 			}
 		} catch (NumberFormatException e) {

@@ -1399,7 +1399,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		JavaPlugin.getDefault().getDialogSettings().put(fLastSaveLoadPathKey + ".savepath", dialog.getFilterPath()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		final File file= new File(path);
-		if (file.exists() && !MessageDialog.openQuestion(getShell(), FormatterMessages.CodingStyleConfigurationBlock_save_profile_overwrite_title, Messages.format(FormatterMessages.CodingStyleConfigurationBlock_save_profile_overwrite_message, BasicElementLabels.getPathLabel(file)))) {
+		if (file.exists() && !MessageDialog.openQuestion(getShell(), FormatterMessages.CodingStyleConfigurationBlock_save_profile_overwrite_title, Messages.format(FormatterMessages.CodingStyleConfigurationBlock_save_profile_overwrite_message, BasicElementLabels.getPathLabel(file)))) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			return;
 		}
 		String encoding= ProfileStore.ENCODING;
@@ -1613,8 +1613,8 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 
 		int endIndex= fPreviewSources.indexOf(END_PREFIX + key + '\n'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String previewCode= fPreviewSources.substring(startIndex, endIndex);
-		previewCode= previewCode.replaceAll(START_PREFIX + ".*\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-		previewCode= previewCode.replaceAll(END_PREFIX + ".*\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		previewCode= previewCode.replaceAll(START_PREFIX + ".*\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		previewCode= previewCode.replaceAll(END_PREFIX + ".*\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		return previewCode;
 	}
 

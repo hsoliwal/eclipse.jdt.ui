@@ -342,7 +342,7 @@ public class AbstractTestRunListenerTest {
 	 * dispatch order across classes is implementation-defined.
 	 */
 	protected static void assertMultiMethodRun(String[] log, String... expectedClassHashMethod) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		Pattern p= Pattern.compile("testCaseMethod: (.+?)\\s*[\\r\\n]+\\s*class: (\\S+)");
+		Pattern p= Pattern.compile("testCaseMethod: (.+?)\\s*[\\r\\n]+\\s*class: (\\S+)"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		int sessionStartedCount= 0;
 		int sessionFinishedCount= 0;
 		Set<String> started= new TreeSet<>();
@@ -354,12 +354,12 @@ public class AbstractTestRunListenerTest {
 				sessionFinishedCount++;
 			} else if (entry.startsWith("testCaseStarted-")) {
 				Matcher m= p.matcher(entry); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-				if (m.find()) {
+				if (m.find()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					started.add(m.group(2) + "#" + m.group(1)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} else if (entry.startsWith("testCaseFinished-")) {
 				Matcher m= p.matcher(entry); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-				if (m.find()) {
+				if (m.find()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					finished.add(m.group(2) + "#" + m.group(1)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}

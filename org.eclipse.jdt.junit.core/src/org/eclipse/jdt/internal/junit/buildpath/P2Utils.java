@@ -104,7 +104,7 @@ class P2Utils {
 					Version version= new Version(bundleInfo.getVersion());
 					if (versionRange.includes(version)) {
 						IPath path= getBundleLocationPath(bundleInfo);
-						if ((bestVersion == null || bestVersion.compareTo(version) < 0) && path != null && path.toFile().exists()) {
+						if ((bestVersion == null || bestVersion.compareTo(version) < 0) && path != null && path.toFile().exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							bestMatch= bundleInfo;
 							bestVersion= version;
 						}

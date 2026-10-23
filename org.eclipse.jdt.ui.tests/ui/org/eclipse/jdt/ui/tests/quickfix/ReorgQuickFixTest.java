@@ -1032,7 +1032,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		try {
 			File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
 			assertNotNull("lib does not exist", lib);
-			assertTrue("lib does not exist", lib.exists());
+			assertTrue("lib does not exist", lib.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			IPackageFragmentRoot otherRoot= JavaProjectHelper.addLibraryWithImport(otherProject, Path.fromOSString(lib.getPath()), null, null);
 
 			MultiStatus status= new MultiStatus(JavaUI.ID_PLUGIN, IStatus.OK, "", null);
@@ -1071,7 +1071,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		try {
 			File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
 			assertNotNull("lib does not exist", lib);
-			assertTrue("lib does not exist", lib.exists());
+			assertTrue("lib does not exist", lib.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 			IPath path= Path.fromOSString(lib.getPath());
 
@@ -1108,7 +1108,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		try {
 			File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
 			assertNotNull("lib does not exist", lib);
-			assertTrue("lib does not exist", lib.exists());
+			assertTrue("lib does not exist", lib.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			IPath path= Path.fromOSString(lib.getPath());
 			final IClasspathEntry[] entries= { JavaCore.newLibraryEntry(path, null, null) };
 			final IPath containerPath= new Path(JavaCore.USER_LIBRARY_CONTAINER_ID).append("MyUserLibrary");

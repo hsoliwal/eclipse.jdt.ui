@@ -51,9 +51,9 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
 public class TemplateEngine {
 
-	private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-	private static final Pattern $_WORD_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.WordSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final Pattern $_WORD_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.WordSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	private static String Switch_Name = "switch"; //$NON-NLS-1$
 	private static String Switch_Default = "switch case statement"; //$NON-NLS-1$
@@ -173,7 +173,7 @@ public class TemplateEngine {
 				{
 					Matcher wordSelectionMatcher= $_WORD_SELECTION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
-					if ((!multipleLinesSelected && wordSelectionMatcher.find()) || (multipleLinesSelected && lineSelectionMatcher.find())) {
+					if ((!multipleLinesSelected && wordSelectionMatcher.find()) || (multipleLinesSelected && lineSelectionMatcher.find())) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						fProposals.add(new TemplateProposal(template, context, region, getImage()));
 					}
 				}

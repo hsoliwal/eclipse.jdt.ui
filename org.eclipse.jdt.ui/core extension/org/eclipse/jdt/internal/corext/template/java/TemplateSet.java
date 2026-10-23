@@ -91,7 +91,7 @@ public class TemplateSet {
 	 */
 	@Deprecated
 	public void addFromFile(File file, boolean allowDuplicates) throws CoreException {
-		try (InputStream stream= new FileInputStream(file)) {
+		try (InputStream stream= new FileInputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			addFromStream(stream, allowDuplicates);
 		} catch (IOException e) {
 			throwReadException(e);
@@ -198,7 +198,7 @@ public class TemplateSet {
 	 */
 	@Deprecated
 	public void saveToFile(File file) throws CoreException {
-		try (OutputStream stream= new FileOutputStream(file)) {
+		try (OutputStream stream= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			saveToStream(stream);
 		} catch (IOException e) {
 			throwWriteException(e);

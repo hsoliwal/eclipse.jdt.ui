@@ -369,7 +369,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			dialog.setText(label);
 			dialog.setFilterExtensions(new String[] {"*.userlibraries", "*.*"}); //$NON-NLS-1$ //$NON-NLS-2$
 			String lastPath= fLocationField.getText();
-			if (lastPath.length() == 0 || !new File(lastPath).exists()) {
+			if (lastPath.length() == 0 || !new File(lastPath).exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				lastPath= fSettings.get(PREF_LASTPATH);
 			}
 			if (lastPath != null) {
@@ -443,7 +443,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		protected void okPressed() {
 			if (isSave()) {
 				final File file= new File(fLocationField.getText());
-				if (file.exists()) {
+				if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					String title= PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_overwrite_title;
 					String message= PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_overwrite_message;
 					if (!MessageDialog.openQuestion(getShell(), title, message)) {
@@ -452,7 +452,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 				}
 				try {
 					String encoding= "UTF-8"; //$NON-NLS-1$
-					IPath filePath= Path.fromOSString(file.getCanonicalPath());
+					IPath filePath= Path.fromOSString(file.getCanonicalPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					final IPath workspacePath= ResourcesPlugin.getWorkspace().getRoot().getLocation();
 					if (filePath.matchingFirstSegments(workspacePath) == workspacePath.segmentCount()) {
 						IPath path= filePath.removeFirstSegments(workspacePath.segmentCount());
@@ -535,7 +535,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 					return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_location_error_save_enterlocation);
 				}
 				File file= new File(name);
-				if (file.isDirectory()) {
+				if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_location_error_save_invalid);
 				}
 				if (fExportImportList.getCheckedSize() == 0) {
@@ -546,7 +546,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 				if (name.length() == 0) {
 					return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_location_error_load_enterlocation);
 				}
-				if (!new File(name).isFile()) {
+				if (!new File(name).isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_location_error_load_invalid);
 				}
 				if (fExportImportList.getSize() > 0 && fExportImportList.getCheckedSize() == 0) {
@@ -557,7 +557,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		}
 
 		protected static void saveLibraries(List<CPUserLibraryElement> libraries, File file, String encoding, IProgressMonitor monitor) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-			try (OutputStream stream= new FileOutputStream(file)) {
+			try (OutputStream stream= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
 				factory.setValidating(false);
 				DocumentBuilder docBuilder= factory.newDocumentBuilder();
@@ -632,7 +632,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 
 		private static List<CPUserLibraryElement> loadLibraries(File file) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Element cpElement;
-			try (InputStream stream= new FileInputStream(file)) {
+			try (InputStream stream= new FileInputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				DocumentBuilder parser = XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE().newDocumentBuilder();
 				parser.setErrorHandler(new DefaultHandler());
 				cpElement = parser.parse(new InputSource(stream)).getDocumentElement();

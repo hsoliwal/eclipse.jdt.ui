@@ -57,7 +57,7 @@ public class ConvertToStringFormatFixCore extends CompilationUnitRewriteOperatio
 	/**
 	 * Should match the last NLS comment before end of the line
 	 */
-	static final Pattern comment= Pattern.compile("([ ]*\\/\\/\\$NON-NLS-[0-9]\\$) *$"); //$NON-NLS-1$
+	static final Pattern comment= Pattern.compile("([ ]*\\/\\/\\$NON-NLS-[0-9]\\$) *$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	public ConvertToStringFormatFixCore(String name, CompilationUnit compilationUnit, CompilationUnitRewriteOperation operation) {
 		super(name, compilationUnit, operation);
@@ -324,7 +324,7 @@ public class ConvertToStringFormatFixCore extends CompilationUnitRewriteOperatio
 				buf.append("\"\"\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				buffer.append(buf.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buffer.append("\"" + formatString.toString().replaceAll("\"", "\\\"") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append("\"" + formatString.toString().replaceAll("\"", "\\\"") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 
 			for (String formatArgument : formatArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP

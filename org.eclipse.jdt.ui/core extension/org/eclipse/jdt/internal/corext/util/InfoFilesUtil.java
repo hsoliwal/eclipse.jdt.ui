@@ -108,10 +108,10 @@ public class InfoFilesUtil {
 
 	public static String getModuleComment(String fileName, IPackageFragment pack, String fileContent, String lineDelimiterUsed) throws CoreException {
 		ICompilationUnit cu= pack.getCompilationUnit(fileName);
-		Pattern p= Pattern.compile("\\s*module\\s*(\\w*).*"); //$NON-NLS-1$
+		Pattern p= Pattern.compile("\\s*module\\s*(\\w*).*"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		Matcher m= p.matcher(fileContent); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String moduleName= ""; //$NON-NLS-1$
-		if (m.matches()) {
+		if (m.matches()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			moduleName= m.group(1);
 		}
 		return CodeGeneration.getModuleComment(cu, moduleName, new String[0], new String[0], lineDelimiterUsed);

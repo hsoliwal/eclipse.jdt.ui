@@ -302,7 +302,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 				value= value.trim();
 				if (value.isEmpty())
 					return;
-				for (String string : value.split(",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (String string : value.split(",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					addElement(new AnnotationWrapper(string.trim()));
 				}
 			}

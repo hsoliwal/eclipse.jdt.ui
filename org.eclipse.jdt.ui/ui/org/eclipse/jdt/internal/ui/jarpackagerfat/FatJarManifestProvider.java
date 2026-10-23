@@ -68,11 +68,11 @@ public class FatJarManifestProvider implements IManifestProvider {
 					if (element instanceof IPackageFragmentRoot && ((IPackageFragmentRoot) element).isArchive()) {
 						try (ZipFile zip= JarPackagerUtil.createZipFile(((IPackageFragmentRoot) element).getPath())) {
 							openZips.add(zip);
-							Enumeration<? extends ZipEntry> entries= zip.entries();
+							Enumeration<? extends ZipEntry> entries= zip.entries(); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 							while (entries.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								ZipEntry entry= entries.nextElement();
 								if ("META-INF/MANIFEST.MF".equalsIgnoreCase(entry.getName())) { //$NON-NLS-1$
-									try (InputStream inputStream= zip.getInputStream(entry)) {
+									try (InputStream inputStream= zip.getInputStream(entry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 										Manifest otherManifest= new Manifest(inputStream);
 										otherManifests.add(otherManifest);
 									} catch (IOException e) {

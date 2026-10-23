@@ -883,7 +883,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 			IResource resource= elem.getResource();
 			if (resource == null) {
 				File file= elem.getPath().toFile();
-				if (file.isDirectory()) {
+				if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					res= openExternalClassFolderDialog(elem);
 				} else {
 					res= openExtJarFileDialog(elem);
@@ -1320,7 +1320,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	private CPListElement createCPVariableElement(IPath path) {
 		CPListElement elem= new CPListElement(fCurrJProject, IClasspathEntry.CPE_VARIABLE, path, null);
 		IPath resolvedPath= JavaCore.getResolvedVariablePath(path);
-		elem.setIsMissing((resolvedPath == null) || !resolvedPath.toFile().exists());
+		elem.setIsMissing((resolvedPath == null) || !resolvedPath.toFile().exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		return elem;
 	}
 

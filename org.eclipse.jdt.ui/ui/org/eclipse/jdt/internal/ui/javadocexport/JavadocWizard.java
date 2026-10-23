@@ -172,7 +172,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 		}
 
 		fDestination= Path.fromOSString(fStore.getDestination());
-		fDestination.toFile().mkdirs();
+		fDestination.toFile().mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		fOpenInBrowser= fStore.doOpenInBrowser();
 
@@ -302,7 +302,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 			File file= File.createTempFile("javadoc-arguments", ".tmp");  //$NON-NLS-1$//$NON-NLS-2$
 			vmArgs.add('@' + file.getAbsolutePath()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-			try (BufferedWriter writer= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), getEncoding(vmArgs)))) {
+			try (BufferedWriter writer= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), getEncoding(vmArgs)))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				for (String progArg : progArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String curr= progArg;
 					curr= checkForSpaces(curr);
@@ -510,7 +510,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 		public void launchesRemoved(ILaunch[] launches) {
 			if (containsJavadocLaunch(launches)) {
 				try {
-					fFile.delete();
+					fFile.delete(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					fLaunch= null;
 				} finally {
 					DebugPlugin.getDefault().getLaunchManager().removeLaunchListener(this);

@@ -104,7 +104,7 @@ public class NullAnnotationsQuickFixTest1d8 extends QuickFixTest {
 			String version= "[2.0.0,3.0.0)"; // tests run at 1.8, need the "new" null annotations
 			Bundle[] bundles= Platform.getBundles("org.eclipse.jdt.annotation", version);
 			File bundleFile= FileLocator.getBundleFileLocation(bundles[0]).get();
-			if (bundleFile.isDirectory())
+			if (bundleFile.isDirectory()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				this.ANNOTATION_JAR_PATH= bundleFile.getPath() + "/bin"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
 				this.ANNOTATION_JAR_PATH= bundleFile.getPath();

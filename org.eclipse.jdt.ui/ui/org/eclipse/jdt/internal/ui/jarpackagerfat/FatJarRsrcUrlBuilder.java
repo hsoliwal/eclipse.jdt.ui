@@ -111,7 +111,7 @@ public class FatJarRsrcUrlBuilder extends FatJarBuilder {
 		JarEntry newEntry = new JarEntry(jarName);
 		newEntry.setMethod(ZipEntry.STORED);
 		try {
-			byte[] allBytes= Files.readAllBytes(jarPathFile.toPath());
+			byte[] allBytes= Files.readAllBytes(jarPathFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			if (!fJarPackage.isCompressed()) {
 				JarPackagerUtil.setCrcAndSize(newEntry, allBytes);
 			}
@@ -123,14 +123,14 @@ public class FatJarRsrcUrlBuilder extends FatJarBuilder {
 
 	public void writeRsrcUrlClasses() throws IOException {
 		try (ZipInputStream zis= new ZipInputStream(JavaPlugin.getDefault().getBundle().getEntry(JAR_RSRC_LOADER_ZIP).openStream())){
-			ZipEntry zipEntry= zis.getNextEntry();
+			ZipEntry zipEntry= zis.getNextEntry(); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 			while (zipEntry != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!zipEntry.isDirectory()) {
 					String entryName= zipEntry.getName();
 					byte[] content= zis.readAllBytes();
 					getJarWriter().addZipEntryStream(zipEntry, content, entryName);
 				}
-				zipEntry= zis.getNextEntry();
+				zipEntry= zis.getNextEntry(); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 			}
 		}
 	}

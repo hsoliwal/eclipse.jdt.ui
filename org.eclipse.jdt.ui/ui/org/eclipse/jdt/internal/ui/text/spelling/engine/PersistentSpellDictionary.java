@@ -63,7 +63,7 @@ public class PersistentSpellDictionary extends AbstractSpellDictionary {
 			byteBuffer.get(byteArray);
 		}
 
-		try (FileOutputStream fileStream= new FileOutputStream(fLocation.getPath(), true)) {
+		try (FileOutputStream fileStream= new FileOutputStream(fLocation.getPath(), true)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 
 			// Encoding UTF-16 charset writes a BOM. In which case we need to cut it away if the file isn't empty
 			int bomCutSize= 0;

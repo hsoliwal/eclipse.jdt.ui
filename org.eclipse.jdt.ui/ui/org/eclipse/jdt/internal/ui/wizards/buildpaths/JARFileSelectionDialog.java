@@ -81,7 +81,7 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 		public Image getImage(Object element) {
 			if (element instanceof File) {
 				File curr= (File) element;
-				if (curr.isDirectory()) {
+				if (curr.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return IMG_FOLDER;
 				} else {
 					return IMG_JAR;
@@ -106,7 +106,7 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 		@Override
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof File) {
-				File[] children= ((File) parentElement).listFiles();
+				File[] children= ((File) parentElement).listFiles(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				if (children != null) {
 					return children;
 				}
@@ -153,12 +153,12 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 		public boolean select(Viewer viewer, Object parent, Object element) {
 			if (element instanceof File) {
 				File file= (File) element;
-				if (file.isFile()) {
+				if (file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return isArchive(file);
 				} else if (fAcceptFolders) {
 					return true;
 				} else {
-					File[] listFiles= file.listFiles();
+					File[] listFiles= file.listFiles(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					if (listFiles != null) {
 						for (File f : listFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (select(viewer, file, f)) {
@@ -182,7 +182,7 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 		@Override
 		public int category(Object element) {
 			if (element instanceof File) {
-				if (((File) element).isFile()) {
+				if (((File) element).isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return 1;
 				}
 			}
@@ -208,7 +208,7 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 			for (Object curr : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr instanceof File) {
 					File file= (File) curr;
-					if (!fAcceptFolders && !file.isFile()) {
+					if (!fAcceptFolders && !file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						return new StatusInfo(IStatus.ERROR, "");  //$NON-NLS-1$
 					}
 				}

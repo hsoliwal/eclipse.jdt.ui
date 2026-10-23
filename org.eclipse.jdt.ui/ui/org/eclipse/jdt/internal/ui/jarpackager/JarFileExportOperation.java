@@ -1032,7 +1032,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 			return false;
 		}
 		File targetFile= fJarPackage.getAbsoluteJarLocation().toFile();
-		if (targetFile.exists() && !targetFile.canWrite()) {
+		if (targetFile.exists() && !targetFile.canWrite()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			addError(JarPackagerMessages.JarFileExportOperation_jarFileExistsAndNotWritable, null);
 			return false;
 		}

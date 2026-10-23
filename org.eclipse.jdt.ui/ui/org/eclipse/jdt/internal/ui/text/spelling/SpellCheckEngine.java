@@ -84,9 +84,9 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 		try {
 			URL url= FileLocator.toFileURL(location);
 			File file= new File(url.getFile());
-			if (!file.isDirectory())
+			if (!file.isDirectory()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return Collections.emptySet();
-			fileNames= file.list();
+			fileNames= file.list(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			if (fileNames == null)
 				return Collections.emptySet();
 		} catch (IOException ex) {
@@ -423,7 +423,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 		if (filePath.length() > 0) {
 			try {
 				File file= new File(filePath);
-				if (!file.exists() && !file.createNewFile())
+				if (!file.exists() && !file.createNewFile()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return;
 
 				final URL url= new URL("file", null, filePath); //$NON-NLS-1$

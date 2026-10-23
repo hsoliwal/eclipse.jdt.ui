@@ -196,9 +196,9 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 			if (path.length() > 0) {
 
 				final File file= new File(path);
-				if (!file.exists() && (!file.isAbsolute() || !file.getParentFile().canWrite()))
+				if (!file.exists() && (!file.isAbsolute() || !file.getParentFile().canWrite())) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					status.setError(PreferencesMessages.SpellingPreferencePage_dictionary_error);
-				else if (file.exists() && (!file.isFile() || !file.isAbsolute() || !file.canRead() || !file.canWrite()))
+				else if (file.exists() && (!file.isFile() || !file.isAbsolute() || !file.canRead() || !file.canWrite())) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					status.setError(PreferencesMessages.SpellingPreferencePage_dictionary_error);
 			}
 		} catch (CoreException e) {

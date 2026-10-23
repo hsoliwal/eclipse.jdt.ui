@@ -146,7 +146,7 @@ public class TestRunSessionHistoryTests {
 		assertEquals(2, sessions.size());
 		assertEquals("newest", sessions.get(0).getTestRunName()); //$NON-NLS-1$
 		assertEquals("middle", sessions.get(1).getTestRunName()); //$NON-NLS-1$
-		assertTrue(oldest.file(historyDirectory).isFile());
+		assertTrue(oldest.file(historyDirectory).isFile()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
@@ -162,7 +162,7 @@ public class TestRunSessionHistoryTests {
 
 			TestRunSessionHistory.store(List.of(imported), historyDirectory, 10);
 			assertEquals(1, xmlFiles(historyDirectory).size());
-			assertTrue(xmlFiles(historyDirectory).get(0).getName().matches(
+			assertTrue(xmlFiles(historyDirectory).get(0).getName().matches( //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					"history-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.xml")); //$NON-NLS-1$
 
 			Locale.setDefault(Locale.GERMANY);
@@ -358,7 +358,7 @@ public class TestRunSessionHistoryTests {
 		TestRunSessionHistory.store(List.of(current), historyDirectory, 10);
 		List<TestRunSession> restored= TestRunSessionHistory.load(historyDirectory, 10);
 
-		assertFalse(staleFile.exists());
+		assertFalse(staleFile.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		assertEquals(1, xmlFiles(historyDirectory).size());
 		assertEquals(1, restored.size());
 		assertEquals("current", restored.get(0).getTestRunName()); //$NON-NLS-1$
@@ -376,12 +376,12 @@ public class TestRunSessionHistoryTests {
 
 		assertEquals(1, sessions.size());
 		assertEquals("older", sessions.get(0).getTestRunName()); //$NON-NLS-1$
-		assertTrue(newer.file(historyDirectory).isFile());
-		assertTrue(older.file(historyDirectory).isFile());
+		assertTrue(newer.file(historyDirectory).isFile()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertTrue(older.file(historyDirectory).isFile()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		TestRunSessionHistory.store(sessions, historyDirectory, 1);
 
-		assertFalse(newer.file(historyDirectory).exists());
+		assertFalse(newer.file(historyDirectory).exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
@@ -397,7 +397,7 @@ public class TestRunSessionHistoryTests {
 		writeHistory(historyDirectory, entry);
 		TestRunSession session= TestRunSessionHistory.load(historyDirectory, 1).get(0);
 		session.getChildren();
-		Files.delete(entry.file(historyDirectory).toPath());
+		Files.delete(entry.file(historyDirectory).toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		TestRunSessionHistory.store(List.of(session), historyDirectory, 10);
 		List<TestRunSession> restored= TestRunSessionHistory.load(historyDirectory, 10);
@@ -418,7 +418,7 @@ public class TestRunSessionHistoryTests {
 		TestRunSessionHistory.store(List.of(session), historyDirectory, 10);
 
 		assertTrue(TestRunSessionHistory.load(historyDirectory, 10).isEmpty());
-		assertTrue(entry.file(historyDirectory).isFile());
+		assertTrue(entry.file(historyDirectory).isFile()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	@Test
@@ -430,7 +430,7 @@ public class TestRunSessionHistoryTests {
 		Files.writeString(invalidEntry.file(historyDirectory).toPath(), "broken"); //$NON-NLS-1$
 
 		assertEquals(0, invalidSession.getChildren().length);
-		assertFalse(invalidEntry.file(historyDirectory).isFile());
+		assertFalse(invalidEntry.file(historyDirectory).isFile()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		TestRunSession currentSession= new TestRunSession("current", null); //$NON-NLS-1$
 		TestRunSessionHistory.store(List.of(currentSession, invalidSession), historyDirectory, 10);
@@ -452,9 +452,9 @@ public class TestRunSessionHistoryTests {
 
 		assertTrue(TestRunSessionHistory.load(historyDirectory, 10).isEmpty());
 
-		assertFalse(historyFile.exists());
-		assertFalse(swapFile.exists());
-		assertFalse(legacyFile.exists());
+		assertFalse(historyFile.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertFalse(swapFile.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertFalse(legacyFile.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	@Test
@@ -463,16 +463,16 @@ public class TestRunSessionHistoryTests {
 		HistoryEntry entry= emptyEntry("future", 1_788_336_011_000L); //$NON-NLS-1$
 		writeHistory(historyDirectory, entry);
 		File indexFile= new File(historyDirectory, INDEX_FILE_NAME);
-		String index= Files.readString(indexFile.toPath());
+		String index= Files.readString(indexFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		Files.writeString(indexFile.toPath(), index.replace("formatVersion=2", "formatVersion=999")); //$NON-NLS-1$ //$NON-NLS-2$
-		byte[] indexBefore= Files.readAllBytes(indexFile.toPath());
-		byte[] xmlBefore= Files.readAllBytes(entry.file(historyDirectory).toPath());
+		byte[] indexBefore= Files.readAllBytes(indexFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		byte[] xmlBefore= Files.readAllBytes(entry.file(historyDirectory).toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		assertTrue(TestRunSessionHistory.load(historyDirectory, 10).isEmpty());
 		TestRunSessionHistory.store(List.of(), historyDirectory, 10);
 
-		assertArrayEquals(indexBefore, Files.readAllBytes(indexFile.toPath()));
-		assertArrayEquals(xmlBefore, Files.readAllBytes(entry.file(historyDirectory).toPath()));
+		assertArrayEquals(indexBefore, Files.readAllBytes(indexFile.toPath())); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertArrayEquals(xmlBefore, Files.readAllBytes(entry.file(historyDirectory).toPath())); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
@@ -482,26 +482,26 @@ public class TestRunSessionHistoryTests {
 		HistoryEntry invalidEntry= emptyEntry("invalid", 1_788_336_011_000L); //$NON-NLS-1$
 		writeHistory(historyDirectory, validEntry, invalidEntry);
 		File indexFile= new File(historyDirectory, INDEX_FILE_NAME);
-		String index= Files.readString(indexFile.toPath());
+		String index= Files.readString(indexFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		String invalidIdProperty= "entry.1.id=" + invalidEntry.fId; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue(index.contains(invalidIdProperty));
 		Files.writeString(indexFile.toPath(),
 				index.replace(invalidIdProperty, "entry.1.id=invalid")); //$NON-NLS-1$
-		byte[] indexBefore= Files.readAllBytes(indexFile.toPath());
-		byte[] validXmlBefore= Files.readAllBytes(validEntry.file(historyDirectory).toPath());
-		byte[] invalidXmlBefore= Files.readAllBytes(invalidEntry.file(historyDirectory).toPath());
+		byte[] indexBefore= Files.readAllBytes(indexFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		byte[] validXmlBefore= Files.readAllBytes(validEntry.file(historyDirectory).toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		byte[] invalidXmlBefore= Files.readAllBytes(invalidEntry.file(historyDirectory).toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		List<TestRunSession> sessions= TestRunSessionHistory.load(historyDirectory, 10);
 
 		assertEquals(1, sessions.size());
 		assertEquals("valid", sessions.get(0).getTestRunName()); //$NON-NLS-1$
 		sessions.get(0).removeSwapFile();
-		assertTrue(validEntry.file(historyDirectory).isFile());
+		assertTrue(validEntry.file(historyDirectory).isFile()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		TestRunSessionHistory.store(sessions, historyDirectory, 10);
 
-		assertArrayEquals(indexBefore, Files.readAllBytes(indexFile.toPath()));
-		assertArrayEquals(validXmlBefore, Files.readAllBytes(validEntry.file(historyDirectory).toPath()));
-		assertArrayEquals(invalidXmlBefore, Files.readAllBytes(invalidEntry.file(historyDirectory).toPath()));
+		assertArrayEquals(indexBefore, Files.readAllBytes(indexFile.toPath())); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertArrayEquals(validXmlBefore, Files.readAllBytes(validEntry.file(historyDirectory).toPath())); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertArrayEquals(invalidXmlBefore, Files.readAllBytes(invalidEntry.file(historyDirectory).toPath())); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	@Test
@@ -510,15 +510,15 @@ public class TestRunSessionHistoryTests {
 		HistoryEntry entry= emptyEntry("unreadable-index", 1_788_336_012_000L); //$NON-NLS-1$
 		writeHistory(historyDirectory, entry);
 		File indexFile= new File(historyDirectory, INDEX_FILE_NAME);
-		byte[] xmlBefore= Files.readAllBytes(entry.file(historyDirectory).toPath());
-		Files.delete(indexFile.toPath());
-		assertTrue(indexFile.mkdir());
+		byte[] xmlBefore= Files.readAllBytes(entry.file(historyDirectory).toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		Files.delete(indexFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertTrue(indexFile.mkdir()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		assertTrue(TestRunSessionHistory.load(historyDirectory, 10).isEmpty());
 		TestRunSessionHistory.store(List.of(), historyDirectory, 10);
 
-		assertTrue(indexFile.isDirectory());
-		assertArrayEquals(xmlBefore, Files.readAllBytes(entry.file(historyDirectory).toPath()));
+		assertTrue(indexFile.isDirectory()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+		assertArrayEquals(xmlBefore, Files.readAllBytes(entry.file(historyDirectory).toPath())); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	@Test
@@ -529,7 +529,7 @@ public class TestRunSessionHistoryTests {
 
 		TestRunSessionHistory.load(historyDirectory, 10);
 
-		assertFalse(temporaryFile.exists());
+		assertFalse(temporaryFile.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	private static ILaunchConfiguration createLaunchConfiguration() throws Exception {
@@ -599,10 +599,10 @@ public class TestRunSessionHistoryTests {
 			properties.setProperty(prefix + "errorCount", Integer.toString(entry.fErrorCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			properties.setProperty(prefix + "ignoredCount", Integer.toString(entry.fIgnoredCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			properties.setProperty(prefix + "assumptionFailureCount", Integer.toString(entry.fAssumptionFailureCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-			properties.setProperty(prefix + "fileLength", Long.toString(file.length())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "fileLength", Long.toString(file.length())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 		try (BufferedOutputStream output= new BufferedOutputStream(
-				new FileOutputStream(new File(directory, INDEX_FILE_NAME)))) {
+				new FileOutputStream(new File(directory, INDEX_FILE_NAME)))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			properties.store(output, null);
 		}
 	}
@@ -622,7 +622,7 @@ public class TestRunSessionHistoryTests {
 	}
 
 	private static List<File> xmlFiles(File directory) throws Exception {
-		File[] files= directory.listFiles(file -> file.isFile() && file.getName().endsWith(XML_SUFFIX));
+		File[] files= directory.listFiles(file -> file.isFile() && file.getName().endsWith(XML_SUFFIX)); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		List<File> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (files != null)
 			result.addAll(List.of(files));

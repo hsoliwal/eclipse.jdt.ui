@@ -519,10 +519,10 @@ public class EditorTestHelper {
 
 	private static void addJavaFiles(File dir, List<File> collection) throws IOException {
 		List<File> subDirs= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
-		for (File file : dir.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
-			if (file.isFile()) {
+		for (File file : dir.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				collection.add(file);
-			} else if (file.isDirectory()) {
+			} else if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				subDirs.add(file);
 			}
 		}

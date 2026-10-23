@@ -69,9 +69,9 @@ public class ReplaceInvocationsTests extends AbstractJunit4SelectionTestCase {
 			(\\r\\n?|\\n)\
 			(.+)\
 			\\*/""").matcher(commentString);
-		assertTrue(matcher.find());
+		assertTrue(matcher.find()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String paramsString= matcher.group(1);
-		String[] params= paramsString.length() == 0 ? new String[0] : paramsString.split("[\\s,]+");
+		String[] params= paramsString.length() == 0 ? new String[0] : paramsString.split("[\\s,]+"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String body= matcher.group(3);
 
 		ReplaceInvocationsRefactoring refactoring= new ReplaceInvocationsRefactoring(unit, selection[0], selection[1]);

@@ -107,19 +107,19 @@ public final class TestRunSessionHistory {
 		deleteTransientSwapFiles(historyDirectory);
 
 		File indexFile= new File(historyDirectory, INDEX_FILE_NAME);
-		if (!indexFile.exists()) {
+		if (!indexFile.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			BLOCKED_HISTORY_DIRECTORIES.remove(historyPath);
 			deleteOrphanedXmlFiles(historyDirectory, Set.of(), true);
 			return List.of();
 		}
-		if (!indexFile.isFile()) {
+		if (!indexFile.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			BLOCKED_HISTORY_DIRECTORIES.add(historyPath);
 			LOG.error("Could not read the JUnit history index: " + indexFile); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return List.of();
 		}
 
 		Properties properties= new Properties();
-		try (BufferedInputStream input= new BufferedInputStream(new FileInputStream(indexFile))) {
+		try (BufferedInputStream input= new BufferedInputStream(new FileInputStream(indexFile))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			properties.load(input);
 		} catch (IOException | IllegalArgumentException e) {
 			BLOCKED_HISTORY_DIRECTORIES.add(historyPath);
@@ -155,7 +155,7 @@ public final class TestRunSessionHistory {
 				if (!seenIds.add(storedSession.fId))
 					throw new IllegalArgumentException("Duplicate JUnit history identifier: " + storedSession.fId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				File historyFile= storedSession.fHistoryFile;
-				if (!historyFile.isFile() || historyFile.length() != storedSession.fFileLength) {
+				if (!historyFile.isFile() || historyFile.length() != storedSession.fFileLength) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					LOG.error("Ignoring incomplete JUnit history file: " + historyFile); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					indexFullyUnderstood= false;
 					continue;
@@ -198,7 +198,7 @@ public final class TestRunSessionHistory {
 		}
 
 		try {
-			Files.createDirectories(historyDirectory.toPath());
+			Files.createDirectories(historyDirectory.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		} catch (IOException e) {
 			LOG.error("Could not create the JUnit history directory", e); //$NON-NLS-1$
 			return;
@@ -258,7 +258,7 @@ public final class TestRunSessionHistory {
 
 	static void exportAtomically(TestRunSession session, File targetFile) throws CoreException, IOException {
 		File directory= targetFile.getParentFile();
-		Files.createDirectories(directory.toPath());
+		Files.createDirectories(directory.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		File temporaryFile= Files.createTempFile(directory.toPath(), targetFile.getName() + '.', TEMP_SUFFIX).toFile(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try {
 			JUnitModel.exportTestRunSession(session, temporaryFile);
@@ -276,7 +276,7 @@ public final class TestRunSessionHistory {
 		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			id= UUID.randomUUID().toString();
 			historyFile= new File(historyDirectory, historyFileName(id));
-		} while (historyFile.exists());
+		} while (historyFile.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		exportAtomically(session, historyFile);
 		return StoredSession.from(session, id, historyFile, historyTimestamp(session.getStartTime()));
 	}
@@ -298,7 +298,7 @@ public final class TestRunSessionHistory {
 		}
 
 		try {
-			try (BufferedOutputStream output= new BufferedOutputStream(new FileOutputStream(temporaryFile))) {
+			try (BufferedOutputStream output= new BufferedOutputStream(new FileOutputStream(temporaryFile))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				properties.store(output, null);
 			}
 			moveReplacing(temporaryFile, indexFile);
@@ -468,7 +468,7 @@ public final class TestRunSessionHistory {
 	}
 
 	private static void deleteTransientSwapFiles(File historyDirectory) {
-		File[] swapFiles= historyDirectory.listFiles(file -> file.isFile()
+		File[] swapFiles= historyDirectory.listFiles(file -> file.isFile() //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				&& file.getName().startsWith(SWAP_FILE_PREFIX)
 				&& file.getName().endsWith(XML_SUFFIX));
 		if (swapFiles != null) {
@@ -478,7 +478,7 @@ public final class TestRunSessionHistory {
 	}
 
 	private static void deleteTemporaryFiles(File historyDirectory) {
-		File[] temporaryFiles= historyDirectory.listFiles(file -> file.isFile() && file.getName().endsWith(TEMP_SUFFIX));
+		File[] temporaryFiles= historyDirectory.listFiles(file -> file.isFile() && file.getName().endsWith(TEMP_SUFFIX)); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		if (temporaryFiles != null) {
 			for (File temporaryFile : temporaryFiles) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				delete(temporaryFile);
@@ -486,7 +486,7 @@ public final class TestRunSessionHistory {
 	}
 
 	private static void deleteOrphanedXmlFiles(File historyDirectory, Set<String> retainedFileNames, boolean deleteLegacyFiles) {
-		File[] historyFiles= historyDirectory.listFiles(file -> file.isFile() && file.getName().endsWith(XML_SUFFIX));
+		File[] historyFiles= historyDirectory.listFiles(file -> file.isFile() && file.getName().endsWith(XML_SUFFIX)); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		if (historyFiles != null) {
 			for (File historyFile : historyFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String fileName= historyFile.getName();
@@ -499,15 +499,15 @@ public final class TestRunSessionHistory {
 
 	private static void moveReplacing(File source, File target) throws IOException {
 		try {
-			Files.move(source.toPath(), target.toPath(), StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+			Files.move(source.toPath(), target.toPath(), StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		} catch (AtomicMoveNotSupportedException e) {
-			Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 
 	private static void delete(File file) {
 		try {
-			Files.deleteIfExists(file.toPath());
+			Files.deleteIfExists(file.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		} catch (IOException e) {
 			LOG.error("Could not delete obsolete JUnit history file", e); //$NON-NLS-1$
 		}
@@ -578,7 +578,7 @@ public final class TestRunSessionHistory {
 					launchMode= null;
 				}
 			}
-			return new StoredSession(id, historyFile, historyFile.length(), session.getTestRunName(),
+			return new StoredSession(id, historyFile, historyFile.length(), session.getTestRunName(), //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					project == null ? null : project.getElementName(), launchConfigurationMemento, launchMode,
 					session.getStartTime(), historyTimestamp, session.isStopped(), session.getTestResult(true),
 					session.getTotalCount(), session.getStartedCount(), session.getFailureCount(), session.getErrorCount(),
@@ -676,8 +676,8 @@ public final class TestRunSessionHistory {
 		}
 
 		StoredSession reusableStoredSession() {
-			if (fValid && fStoredSession.fHistoryFile.isFile()
-					&& fStoredSession.fHistoryFile.length() == fStoredSession.fFileLength)
+			if (fValid && fStoredSession.fHistoryFile.isFile() //FLLDCIM: MARK — M31 M3FILE_IO CALL
+					&& fStoredSession.fHistoryFile.length() == fStoredSession.fFileLength) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return fStoredSession;
 			return null;
 		}

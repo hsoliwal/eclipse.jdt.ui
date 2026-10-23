@@ -337,7 +337,7 @@ public class ContentProviderTests3{
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 
 		assertNotNull(junitSrcArchive, "junit src not found");//$NON-NLS-1$
-		assertTrue(junitSrcArchive.exists(), "junit src not found");//$NON-NLS-1$
+		assertTrue(junitSrcArchive.exists(), "junit src not found");//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		fArchiveFragmentRoot= JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);//$NON-NLS-1$
 
@@ -368,7 +368,7 @@ public class ContentProviderTests3{
 
 		File mylibJar= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
 		assertNotNull(mylibJar, "lib not found");//$NON-NLS-1$
-		assertTrue(mylibJar.exists(), "lib not found");//$NON-NLS-1$
+		assertTrue(mylibJar.exists(), "lib not found");//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		JavaProjectHelper.addLibraryWithImport(fJProject1, Path.fromOSString(mylibJar.getPath()), null, null);
 
 		//set up project #2: file system structure with in a source folder

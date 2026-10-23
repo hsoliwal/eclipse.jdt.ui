@@ -57,10 +57,10 @@ public class ImportedTestRunReloadTest {
 			}
 		}
 		if (fTemporaryDirectory != null) {
-			try (Stream<Path> paths= Files.walk(fTemporaryDirectory)) {
+			try (Stream<Path> paths= Files.walk(fTemporaryDirectory)) { //FLLDCIM: MARK — M24 M3FILE_STREAMS CALL
 				paths.sorted(Comparator.reverseOrder()).forEach(path -> {
 					try {
-						Files.deleteIfExists(path);
+						Files.deleteIfExists(path); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					} catch (Exception e) {
 						// Best-effort cleanup.
 					}

@@ -288,7 +288,7 @@ public class ObjectsEqualsCleanUp extends AbstractMultiFix implements ICleanUpFi
 		private Name newTypeName(final AST ast, final String objectNameText) {
 			Name qualifiedName= null;
 
-			for (String packageName : objectNameText.split("\\.")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String packageName : objectNameText.split("\\.")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (qualifiedName == null) {
 					qualifiedName= ast.newSimpleName(packageName);
 				} else {

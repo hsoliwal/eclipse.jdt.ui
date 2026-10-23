@@ -546,7 +546,7 @@ public abstract class GenericRefactoringTest {
 		for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType memberType;
 			if (name.indexOf('.') != -1) {
-				String[] path= name.split("\\.");
+				String[] path= name.split("\\."); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				memberType= type.getType(path[0]);
 				for (int j= 1; j < path.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					memberType= memberType.getType(path[j]);

@@ -348,7 +348,7 @@ public final class JarImportWizardPage extends WizardPage {
 				return;
 			} else {
 				final File file= new File(path);
-				if (!file.exists()) {
+				if (!file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					setErrorMessage(JarImportMessages.JarImportWizardPage_invalid_location);
 					setPageComplete(false);
 					return;
@@ -368,7 +368,7 @@ public final class JarImportWizardPage extends WizardPage {
 						setPageComplete(true);
 						return;
 					}
-					try (InputStream stream= zip.getInputStream(entry)) {
+					try (InputStream stream= zip.getInputStream(entry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 						data.setRefactoringHistory(
 								RefactoringCore.getHistoryService().readRefactoringHistory(stream, JavaRefactoringDescriptor.JAR_MIGRATION | JavaRefactoringDescriptor.JAR_REFACTORING));
 					} catch (IOException exception) {
@@ -426,7 +426,7 @@ public final class JarImportWizardPage extends WizardPage {
 				final URI uri= BinaryRefactoringHistoryWizard.getLocationURI(root.getRawClasspathEntry());
 				if (uri != null) {
 					final File file= new File(uri);
-					if (file.exists()) {
+					if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 						try (ZipFile zip= new ZipFile(file, ZipFile.OPEN_READ)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 							ZipEntry entry= zip.getEntry(JarPackagerUtil.getRefactoringsEntry());
 							if (entry != null) {
