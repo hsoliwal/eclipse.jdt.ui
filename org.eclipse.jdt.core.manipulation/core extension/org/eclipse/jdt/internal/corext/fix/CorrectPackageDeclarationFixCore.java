@@ -57,7 +57,7 @@ public class CorrectPackageDeclarationFixCore implements IProposableFix {
 		return new CorrectPackageDeclarationFixCore(cu, location);
 	}
 
-	private static boolean isValidProposal(ICompilationUnit cu) {
+	private static boolean isValidProposal(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isValid= true;
 		IPackageFragment parentPack= (IPackageFragment) cu.getParent();
 		try {
@@ -86,7 +86,7 @@ public class CorrectPackageDeclarationFixCore implements IProposableFix {
 		return isValid;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public CompilationUnitChange createChange(IProgressMonitor progressMonitor) throws CoreException {
 
 		IPackageFragment parentPack= (IPackageFragment) fCompilationUnit.getParent();
@@ -96,13 +96,13 @@ public class CorrectPackageDeclarationFixCore implements IProposableFix {
 		MultiTextEdit root= new MultiTextEdit();
 
 		if (parentPack.isDefaultPackage() && decls.length > 0) {
-			for (IPackageDeclaration decl : decls) {
+			for (IPackageDeclaration decl : decls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ISourceRange range= decl.getSourceRange();
 				root.addChild(new DeleteEdit(range.getOffset(), range.getLength()));
 			}
 		} else if (!parentPack.isDefaultPackage() && decls.length == 0) {
 			String lineDelim= StubUtility.getLineDelimiterUsed(fCompilationUnit);
-			String str= "package " + parentPack.getElementName() + ';' + lineDelim + lineDelim; //$NON-NLS-1$
+			String str= "package " + parentPack.getElementName() + ';' + lineDelim + lineDelim; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			root.addChild(new InsertEdit(0, str));
 		} else {
 			root.addChild(new ReplaceEdit(fLocation.getOffset(), fLocation.getLength(), parentPack.getElementName()));

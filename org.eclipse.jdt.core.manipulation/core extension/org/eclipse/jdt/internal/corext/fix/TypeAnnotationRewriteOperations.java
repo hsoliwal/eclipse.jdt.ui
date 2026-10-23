@@ -95,7 +95,7 @@ public class TypeAnnotationRewriteOperations {
 		 * @return The ASTNode that the annotation should be moved to: Either null or an
 		 *         {@link AnnotatableType} or a {@link Dimension}
 		 */
-		public static ASTNode determineNewAnnotationTarget(Annotation annotation) {
+		public static ASTNode determineNewAnnotationTarget(Annotation annotation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Type type;
 			ASTNode parent= annotation.getParent();
 			if (parent instanceof MethodDeclaration) {
@@ -146,7 +146,7 @@ public class TypeAnnotationRewriteOperations {
 	 * @param newAnnotation the Annotation to be added
 	 * @param group the TextEditGroup
 	 */
-	public static void addTypeAnnotation(ASTRewrite astRewrite, ASTNode target, Annotation newAnnotation, TextEditGroup group) {
+	public static void addTypeAnnotation(ASTRewrite astRewrite, ASTNode target, Annotation newAnnotation, TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (target instanceof AnnotatableType) {
 			AnnotatableType annotatableType= (AnnotatableType) target;
 			if(annotatableType.isSimpleType()) {

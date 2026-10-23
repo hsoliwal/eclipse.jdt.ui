@@ -149,8 +149,8 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 		return file.exists();
 	}
 
-	private IStatus changeToNewProject() {
-		class UpdateRunnable implements IRunnableWithProgress {
+	private IStatus changeToNewProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		class UpdateRunnable implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 			public IStatus infoStatus= Status.OK_STATUS;
 
 			@Override
@@ -198,7 +198,7 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 		return location;
 	}
 
-	private final IStatus updateProject(IProgressMonitor monitor) throws CoreException, InterruptedException {
+	private final IStatus updateProject(IProgressMonitor monitor) throws CoreException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus result= StatusInfo.OK_STATUS;
 		if (monitor == null) {
 			monitor= new NullProgressMonitor();
@@ -267,7 +267,7 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 	 * @param monitor the progress monitor
 	 * @throws CoreException thrown when initializing the build path failed
 	 */
-	protected void initializeBuildPath(IJavaProject javaProject, IProgressMonitor monitor) throws CoreException {
+	protected void initializeBuildPath(IJavaProject javaProject, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null) {
 			monitor= new NullProgressMonitor();
 		}
@@ -289,10 +289,10 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 					monitor.worked(2);
 				}
 			} else {
-				List<IClasspathEntry> cpEntries= new ArrayList<>();
+				List<IClasspathEntry> cpEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				IWorkspaceRoot root= project.getWorkspace().getRoot();
 
-				for (IClasspathEntry sourceClasspathEntry : fFirstPage.getSourceClasspathEntries()) {
+				for (IClasspathEntry sourceClasspathEntry : fFirstPage.getSourceClasspathEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPath path= sourceClasspathEntry.getPath();
 					if (path.segmentCount() > 1) {
 						IFolder folder= root.getFolder(path);
@@ -332,10 +332,10 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 	}
 
 	private void rememberExisitingFolders(URI projectLocation) {
-		fOrginalFolders= new HashSet<>();
+		fOrginalFolders= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		try {
-			for (IFileStore child : EFS.getStore(projectLocation).childStores(EFS.NONE, null)) {
+			for (IFileStore child : EFS.getStore(projectLocation).childStores(EFS.NONE, null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child.isDirectory()) {
 					fOrginalFolders.add(child);
 				}
@@ -345,10 +345,10 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 		}
 	}
 
-	private void restoreExistingFolders(URI projectLocation) {
-		HashSet<IFileStore> foldersToKeep= new HashSet<>(fOrginalFolders);
+	private void restoreExistingFolders(URI projectLocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<IFileStore> foldersToKeep= new HashSet<>(fOrginalFolders); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		// workaround for bug 319054: Eclipse deletes all files when I cancel a project creation (symlink in project location path)
-		for (IFileStore originalFileStore : fOrginalFolders) {
+		for (IFileStore originalFileStore : fOrginalFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				File localFile= originalFileStore.toLocalFile(EFS.NONE, null);
 				if (localFile != null) {
@@ -363,14 +363,14 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 		}
 
 		try {
-			for (IFileStore child : EFS.getStore(projectLocation).childStores(EFS.NONE, null)) {
+			for (IFileStore child : EFS.getStore(projectLocation).childStores(EFS.NONE, null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child.isDirectory() && !foldersToKeep.contains(child)) {
 					child.delete(EFS.NONE, null);
 					fOrginalFolders.remove(child);
 				}
 			}
 
-			for (IFileStore deleted : fOrginalFolders) {
+			for (IFileStore deleted : fOrginalFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				deleted.mkdir(EFS.NONE, null);
 			}
 		} catch (CoreException e) {
@@ -395,7 +395,7 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 		}
 	}
 
-	private void restoreExistingFiles(URI projectLocation, IProgressMonitor monitor) throws CoreException {
+	private void restoreExistingFiles(URI projectLocation, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int ticks= ((fDotProjectBackup != null ? 1 : 0) + (fDotClasspathBackup != null ? 1 : 0)) * 2;
 		monitor.beginTask("", ticks); //$NON-NLS-1$
 		try {
@@ -422,7 +422,7 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 
 	private File createBackup(IFileStore source, String name) throws CoreException {
 		try {
-			File bak= File.createTempFile("eclipse-" + name, ".bak");  //$NON-NLS-1$//$NON-NLS-2$
+			File bak= File.createTempFile("eclipse-" + name, ".bak");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			copyFile(source, bak);
 			return bak;
 		} catch (IOException e) {
@@ -450,7 +450,7 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 	 * @throws CoreException thrown when the project creation or configuration failed
 	 * @throws InterruptedException thrown when the user cancelled the project creation
 	 */
-	public void performFinish(IProgressMonitor monitor) throws CoreException, InterruptedException {
+	public void performFinish(IProgressMonitor monitor) throws CoreException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(NewWizardMessages.NewJavaProjectWizardPageTwo_operation_create, 3);
 			if (fCurrProject == null) {
@@ -487,7 +487,7 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 	 * Removes the provisional project. The provisional project is typically removed when the user cancels the wizard or goes
 	 * back to the first page.
 	 */
-	protected void removeProvisonalProject() {
+	protected void removeProvisonalProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fCurrProject.exists()) {
 			fCurrProject= null;
 			return;
@@ -506,7 +506,7 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 		}
 	}
 
-	private final void doRemoveProject(IProgressMonitor monitor) throws InvocationTargetException {
+	private final void doRemoveProject(IProgressMonitor monitor) throws InvocationTargetException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final boolean noProgressMonitor= (fCurrProjectLocation == null); // inside workspace
 		if (monitor == null || noProgressMonitor) {
 			monitor= new NullProgressMonitor();
@@ -556,17 +556,17 @@ public class NewJavaProjectWizardPageTwo extends JavaCapabilityConfigurationPage
 		IPackageFragment pkgFragment= (packageFragmentRoot == null) ? null : packageFragmentRoot.getPackageFragment(""); //$NON-NLS-1$
 		if (createModuleInfoFile && pkgFragment != null) {
 			String moduleName= fFirstPage.getModuleName();
-			String moduleContent= "module " + moduleName + " {" +  System.lineSeparator() + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			String moduleContent= "module " + moduleName + " {" +  System.lineSeparator() + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			InfoFilesUtil.createInfoJavaFile(JavaModelUtil.MODULE_INFO_JAVA, moduleContent, pkgFragment, fFirstPage.getGenerateCommentsInModuleInfoFile(), new NullProgressMonitor());
 		}
 	}
 
-	private IPackageFragmentRoot getPackageFragmentRoot() {
+	private IPackageFragmentRoot getPackageFragmentRoot() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= getJavaProject();
 		try {
 			IPackageFragmentRoot[] packageFragmentRoots= javaProject.getPackageFragmentRoots();
-			List<IPackageFragmentRoot> packageFragmentRootsAsList= new ArrayList<>(Arrays.asList(packageFragmentRoots));
-			for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) {
+			List<IPackageFragmentRoot> packageFragmentRootsAsList= new ArrayList<>(Arrays.asList(packageFragmentRoots)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource res= packageFragmentRoot.getCorrespondingResource();
 				if (res == null || res.getType() != IResource.FOLDER || packageFragmentRoot.getKind() != IPackageFragmentRoot.K_SOURCE) {
 					packageFragmentRootsAsList.remove(packageFragmentRoot);

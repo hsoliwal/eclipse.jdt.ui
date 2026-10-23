@@ -45,14 +45,14 @@ public class JUnitProgressBar extends Canvas {
 	public JUnitProgressBar(Composite parent) {
 		super(parent, SWT.NONE);
 
-		addControlListener(new ControlAdapter() {
+		addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlResized(ControlEvent e) {
 				fColorBarWidth= scale(fCurrentTickCount);
 				redraw();
 			}
 		});
-		addPaintListener(this::paint);
+		addPaintListener(this::paint); //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 		fFailureColor= new Color(159, 63, 63);
 		fOKColor= new Color(95, 191, 95);
 		fStoppedColor= new Color(120, 120, 120);

@@ -45,7 +45,7 @@ public class AddInferredLambdaParameterTypesFixCore extends CompilationUnitRewri
 		super(name, compilationUnit, operation);
 	}
 
-	public static AddInferredLambdaParameterTypesFixCore createAddInferredLambdaParameterTypesFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static AddInferredLambdaParameterTypesFixCore createAddInferredLambdaParameterTypesFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LambdaExpression lambda= null;
 		boolean isLambdaParamVarType= false;
 		ASTNode parent= node.getParent();
@@ -112,7 +112,7 @@ public class AddInferredLambdaParameterTypesFixCore extends CompilationUnitRewri
 		}
 
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			AST ast= cuRewrite.getAST();
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -121,7 +121,7 @@ public class AddInferredLambdaParameterTypesFixCore extends CompilationUnitRewri
 			rewrite.set(lambda, LambdaExpression.PARENTHESES_PROPERTY, Boolean.TRUE, null);
 			ContextSensitiveImportRewriteContext importRewriteContext= new ContextSensitiveImportRewriteContext(lambda, importRewrite);
 			ITypeBinding[] parameterTypes= methodBinding.getParameterTypes();
-			for (int i= 0; i < noOfLambdaParams; i++) {
+			for (int i= 0; i < noOfLambdaParams; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclaration param= lambdaParameters.get(i);
 				SingleVariableDeclaration newParam= ast.newSingleVariableDeclaration();
 				newParam.setName(ast.newSimpleName(param.getName().getIdentifier()));

@@ -110,7 +110,7 @@ public class ExtractClassWizard extends RefactoringWizard {
 			validateRefactoring();
 		}
 
-		private void createLocationInput(Composite parent) {
+		private void createLocationInput(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Label l= new Label(parent, SWT.NONE);
 			l.setText(RefactoringMessages.ExtractClassWizard_label_destination);
 
@@ -126,7 +126,7 @@ public class ExtractClassWizard extends RefactoringWizard {
 
 			final Button topLvlRadio= new Button(composite, SWT.RADIO);
 			topLvlRadio.setText(RefactoringMessages.ExtractClassWizard_radio_top_level);
-			topLvlRadio.addSelectionListener(new SelectionAdapter() {
+			topLvlRadio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					boolean fAsTopLevel= topLvlRadio.getSelection();
@@ -145,10 +145,10 @@ public class ExtractClassWizard extends RefactoringWizard {
 
 		}
 
-		private void createGetterSetterInput(Composite result) {
+		private void createGetterSetterInput(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Button button= new Button(result, SWT.CHECK);
 			button.setText(RefactoringMessages.ExtractClassWizard_checkbox_create_gettersetter);
-			button.addSelectionListener(new SelectionAdapter() {
+			button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -172,7 +172,7 @@ public class ExtractClassWizard extends RefactoringWizard {
 			text.setText(fDescriptor.getClassName());
 			text.selectAll();
 			text.setFocus();
-			text.addModifyListener(unused -> {
+			text.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				fDescriptor.setClassName(text.getText());
 				validateRefactoring();
 			});
@@ -182,7 +182,7 @@ public class ExtractClassWizard extends RefactoringWizard {
 		}
 
 
-		protected void updateDecoration(ControlDecoration decoration, RefactoringStatus status) {
+		protected void updateDecoration(ControlDecoration decoration, RefactoringStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			RefactoringStatusEntry highestSeverity= status.getEntryWithHighestSeverity();
 			if (highestSeverity != null) {
 				Image newImage= null;
@@ -214,7 +214,7 @@ public class ExtractClassWizard extends RefactoringWizard {
 			final Text text= new Text(group, SWT.BORDER);
 			fParameterNameDecoration= new ControlDecoration(text, SWT.TOP | SWT.LEAD);
 			text.setText(fDescriptor.getFieldName());
-			text.addModifyListener(unused -> {
+			text.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				fDescriptor.setFieldName(text.getText());
 				validateRefactoring();
 			});
@@ -223,7 +223,7 @@ public class ExtractClassWizard extends RefactoringWizard {
 			text.setLayoutData(gridData);
 		}
 
-		private void createTable(Composite parent) {
+		private void createTable(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite result= new Composite(parent, SWT.NONE);
 			GridLayout layout= new GridLayout(2, false);
 			layout.marginHeight= 0;
@@ -255,8 +255,8 @@ public class ExtractClassWizard extends RefactoringWizard {
 			gridData= new GridData(GridData.FILL_BOTH);
 			table.setLayoutData(gridData);
 			Field[] fields= fDescriptor.getFields();
-			tv.setInput(fields);
-			for (Field field : fields) {
+			tv.setInput(fields); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+			for (Field field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tv.setChecked(field, field.isCreateField());
 			}
 
@@ -277,8 +277,8 @@ public class ExtractClassWizard extends RefactoringWizard {
 			editButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			editButton.setEnabled(!tv.getSelection().isEmpty());
 			SWTUtil.setButtonDimensionHint(editButton);
-			editButton.addSelectionListener(new SelectionAdapter() {
-				@Override
+			editButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void widgetSelected(SelectionEvent e) {
 					ISelection selection= tv.getSelection();
 					if (selection instanceof IStructuredSelection) {
@@ -294,19 +294,19 @@ public class ExtractClassWizard extends RefactoringWizard {
 						});
 						if (inputDialog.open() == Window.OK) {
 							selected.setNewFieldName(inputDialog.getValue());
-							tv.refresh(selected);
+							tv.refresh(selected); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 						}
 
 					}
 				}
 			});
-			tv.addCheckStateListener(event -> {
+			tv.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 				Field element= (Field) event.getElement();
 				element.setCreateField(event.getChecked());
 				validateRefactoring();
-				tv.refresh(element, true);
+				tv.refresh(element, true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			});
-			tv.addSelectionChangedListener(unused -> {
+			tv.addSelectionChangedListener(unused -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				IStructuredSelection selection= (IStructuredSelection) tv.getSelection();
 				Field field= (Field) selection.getFirstElement();
 				if (selection.isEmpty()) {
@@ -372,11 +372,11 @@ public class ExtractClassWizard extends RefactoringWizard {
 			}
 		}
 
-		private void createColumns(final CheckboxTableViewer tv) {
+		private void createColumns(final CheckboxTableViewer tv) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			TextCellEditor cellEditor= new TextCellEditor(tv.getTable());
 
 			TableViewerColumn viewerColumn= new TableViewerColumn(tv, SWT.LEAD);
-			viewerColumn.setLabelProvider(new FieldInfoLabelProvider() {
+			viewerColumn.setLabelProvider(new FieldInfoLabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				@Override
 				protected String doGetValue(Field pi) {
 					IField field= fDescriptor.getType().getField(pi.getFieldName());
@@ -391,7 +391,7 @@ public class ExtractClassWizard extends RefactoringWizard {
 			TableColumn column= viewerColumn.getColumn();
 			column.setText(RefactoringMessages.ExtractClassWizard_column_type);
 			viewerColumn= new TableViewerColumn(tv, SWT.LEAD);
-			viewerColumn.setLabelProvider(new FieldInfoLabelProvider() {
+			viewerColumn.setLabelProvider(new FieldInfoLabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				@Override
 				protected String doGetValue(Field pi) {
 					if (pi.isCreateField())
@@ -455,7 +455,7 @@ public class ExtractClassWizard extends RefactoringWizard {
 			return status;
 		}
 
-		protected RefactoringStatus validateRefactoring() {
+		protected RefactoringStatus validateRefactoring() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			RefactoringStatus status= new RefactoringStatus();
 			setErrorMessage(null);
 			setMessage(null);

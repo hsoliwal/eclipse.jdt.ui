@@ -52,7 +52,7 @@ class SizingTestPass implements IDialogTestPass {
 	 */
 	@Override
 	public ArrayList<String> checkListTexts() {
-		ArrayList<String> list = new ArrayList<>(CHECKLIST_SIZE);
+		ArrayList<String> list = new ArrayList<>(CHECKLIST_SIZE); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.add("&1) the correct dialog displays.");
 		list.add("&2) the dialog is an appropriate size for the required resolution (1024x768).");
 		list.add("&3) the texts are correct and not cut off.");

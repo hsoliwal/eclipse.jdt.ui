@@ -78,7 +78,7 @@ public class SuppressWarningsFixCore extends CompilationUnitRewriteOperationsFix
 	public static IProposableFix createFix(CompilationUnit compilationUnit, ASTNode node, ChildListPropertyDescriptor property,
 			String warningToken, String name) {
 		String label= Messages.format(CorrectionMessages.SuppressWarningsSubProcessor_suppress_warnings_label, new String[] { warningToken, name });
-		Map<ASTNode, ChildListPropertyDescriptor> nodeMap= new HashMap<>();
+		Map<ASTNode, ChildListPropertyDescriptor> nodeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		nodeMap.put(node, property);
 		return new SuppressWarningsFixCore(label, compilationUnit, new AddNeededSuppressWarningsOperation(nodeMap, warningToken), warningToken);
 	}
@@ -91,7 +91,7 @@ public class SuppressWarningsFixCore extends CompilationUnitRewriteOperationsFix
 	public static IProposableFix createAllFix(CompilationUnit compilationUnit, String warningToken) {
 		IProblem[] problems= compilationUnit.getProblems();
 		IProblemLocation[] problemLocations= new IProblemLocation[problems.length];
-		for (int i= 0; i < problems.length; ++i) {
+		for (int i= 0; i < problems.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblemLocation location= new ProblemLocation(problems[i]);
 			problemLocations[i]= location;
 		}
@@ -99,8 +99,8 @@ public class SuppressWarningsFixCore extends CompilationUnitRewriteOperationsFix
 	}
 
 	public static IProposableFix createAllFix(CompilationUnit compilationUnit, IProblemLocation[] problems, String warningToken) {
-		Map<ASTNode, ChildListPropertyDescriptor> nodeMap= new HashMap<>();
-		for (int i= 0; i < problems.length; i++) {
+		Map<ASTNode, ChildListPropertyDescriptor> nodeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblemLocation location= problems[i];
 			if (CorrectionEngine.getWarningToken(location.getProblemId()).equals(warningToken)) {
 				ASTNode node= location.getCoveringNode(compilationUnit);
@@ -112,7 +112,7 @@ public class SuppressWarningsFixCore extends CompilationUnitRewriteOperationsFix
 		return new SuppressWarningsFixCore(label, compilationUnit, new AddNeededSuppressWarningsOperation(nodeMap, warningToken), null);
 	}
 
-	public static ChildListPropertyDescriptor getChildListPropertyDescriptor(ASTNode node, String warningToken) {
+	public static ChildListPropertyDescriptor getChildListPropertyDescriptor(ASTNode node, String warningToken) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (node.getNodeType()) {
 			case ASTNode.SINGLE_VARIABLE_DECLARATION:
 				if (node.getParent() instanceof PatternInstanceofExpression && warningToken.equals("preview")) //$NON-NLS-1$
@@ -157,16 +157,16 @@ public class SuppressWarningsFixCore extends CompilationUnitRewriteOperationsFix
 			this.fWarningToken= warningToken;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 
-			Set<ASTNode> coveredNodes= new HashSet<>();
+			Set<ASTNode> coveredNodes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-			for (Entry<ASTNode, ChildListPropertyDescriptor> location : fNodeMap.entrySet()) {
+			for (Entry<ASTNode, ChildListPropertyDescriptor> location : fNodeMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode coveringNode= location.getKey();
 				ChildListPropertyDescriptor property= location.getValue();
 
-				while (property == null && coveringNode != null) {
+				while (property == null && coveringNode != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					coveringNode= coveringNode.getParent();
 					property= getChildListPropertyDescriptor(coveringNode, fWarningToken);
 				}
@@ -231,7 +231,7 @@ public class SuppressWarningsFixCore extends CompilationUnitRewriteOperationsFix
 		}
 
 		private static Expression findValue(List<MemberValuePair> keyValues) {
-			for (MemberValuePair curr : keyValues) {
+			for (MemberValuePair curr : keyValues) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ("value".equals(curr.getName().getIdentifier())) { //$NON-NLS-1$
 					return curr.getValue();
 				}
@@ -239,8 +239,8 @@ public class SuppressWarningsFixCore extends CompilationUnitRewriteOperationsFix
 			return null;
 		}
 
-		private static Annotation findExistingAnnotation(List<? extends ASTNode> modifiers) {
-			for (ASTNode curr : modifiers) {
+		private static Annotation findExistingAnnotation(List<? extends ASTNode> modifiers) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			for (ASTNode curr : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr instanceof NormalAnnotation || curr instanceof SingleMemberAnnotation) {
 					Annotation annotation= (Annotation) curr;
 					ITypeBinding typeBinding= annotation.resolveTypeBinding();

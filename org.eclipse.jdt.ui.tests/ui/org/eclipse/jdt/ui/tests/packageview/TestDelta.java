@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 /**
  * @author Jen's account
  */
-public class TestDelta implements IJavaElementDelta {
+public class TestDelta implements IJavaElementDelta { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 	private final int fKind;
 	private final IJavaElement fElement;
@@ -136,7 +136,7 @@ public class TestDelta implements IJavaElementDelta {
 		TestDelta fragmentDelta= new TestDelta(IJavaElementDelta.CHANGED, parent);
 
 		TestDelta[] deltas= new TestDelta[cu.length];
-		for (int i= 0; i < cu.length; i++) {
+		for (int i= 0; i < cu.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			deltas[i]= new TestDelta(action, cu[i]);
 		}
 

@@ -1457,7 +1457,7 @@ public class PreferenceConstants {
 	 * in bold. If <code>false</code> the are rendered using no font style attribute.
 	 * </p>
 	 */
-	public final static String EDITOR_MULTI_LINE_COMMENT_BOLD= IJavaColorConstants.JAVA_MULTI_LINE_COMMENT + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_MULTI_LINE_COMMENT_BOLD= IJavaColorConstants.JAVA_MULTI_LINE_COMMENT + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether multi-line comments are rendered in italic.
@@ -1468,7 +1468,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_MULTI_LINE_COMMENT_ITALIC= IJavaColorConstants.JAVA_MULTI_LINE_COMMENT + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_MULTI_LINE_COMMENT_ITALIC= IJavaColorConstants.JAVA_MULTI_LINE_COMMENT + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether multi-line comments are rendered in strikethrough.
@@ -1479,7 +1479,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_MULTI_LINE_COMMENT_STRIKETHROUGH= IJavaColorConstants.JAVA_MULTI_LINE_COMMENT + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_MULTI_LINE_COMMENT_STRIKETHROUGH= IJavaColorConstants.JAVA_MULTI_LINE_COMMENT + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether multi-line comments are rendered in underline.
@@ -1490,7 +1490,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_MULTI_LINE_COMMENT_UNDERLINE= IJavaColorConstants.JAVA_MULTI_LINE_COMMENT + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_MULTI_LINE_COMMENT_UNDERLINE= IJavaColorConstants.JAVA_MULTI_LINE_COMMENT + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render single line comments.
@@ -1511,7 +1511,7 @@ public class PreferenceConstants {
 	 * in bold. If <code>false</code> the are rendered using no font style attribute.
 	 * </p>
 	 */
-	public final static String EDITOR_SINGLE_LINE_COMMENT_BOLD= IJavaColorConstants.JAVA_SINGLE_LINE_COMMENT + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_SINGLE_LINE_COMMENT_BOLD= IJavaColorConstants.JAVA_SINGLE_LINE_COMMENT + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether single line comments are rendered in italic.
@@ -1522,7 +1522,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_SINGLE_LINE_COMMENT_ITALIC= IJavaColorConstants.JAVA_SINGLE_LINE_COMMENT + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_SINGLE_LINE_COMMENT_ITALIC= IJavaColorConstants.JAVA_SINGLE_LINE_COMMENT + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether single line comments are rendered in strikethrough.
@@ -1533,7 +1533,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_SINGLE_LINE_COMMENT_STRIKETHROUGH= IJavaColorConstants.JAVA_SINGLE_LINE_COMMENT + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_SINGLE_LINE_COMMENT_STRIKETHROUGH= IJavaColorConstants.JAVA_SINGLE_LINE_COMMENT + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether single line comments are rendered in underline.
@@ -1544,7 +1544,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_SINGLE_LINE_COMMENT_UNDERLINE= IJavaColorConstants.JAVA_SINGLE_LINE_COMMENT + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_SINGLE_LINE_COMMENT_UNDERLINE= IJavaColorConstants.JAVA_SINGLE_LINE_COMMENT + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render java keywords.
@@ -1564,7 +1564,7 @@ public class PreferenceConstants {
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
 	 */
-	public final static String EDITOR_JAVA_KEYWORD_BOLD= IJavaColorConstants.JAVA_KEYWORD + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVA_KEYWORD_BOLD= IJavaColorConstants.JAVA_KEYWORD + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether keywords are rendered in italic.
@@ -1574,7 +1574,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVA_KEYWORD_ITALIC= IJavaColorConstants.JAVA_KEYWORD + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVA_KEYWORD_ITALIC= IJavaColorConstants.JAVA_KEYWORD + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether keywords are rendered in strikethrough.
@@ -1584,7 +1584,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVA_KEYWORD_STRIKETHROUGH= IJavaColorConstants.JAVA_KEYWORD + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVA_KEYWORD_STRIKETHROUGH= IJavaColorConstants.JAVA_KEYWORD + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether keywords are rendered in underline.
@@ -1594,7 +1594,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVA_KEYWORD_UNDERLINE= IJavaColorConstants.JAVA_KEYWORD + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVA_KEYWORD_UNDERLINE= IJavaColorConstants.JAVA_KEYWORD + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render string constants.
@@ -1614,7 +1614,7 @@ public class PreferenceConstants {
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
 	 */
-	public final static String EDITOR_STRING_BOLD= IJavaColorConstants.JAVA_STRING + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_STRING_BOLD= IJavaColorConstants.JAVA_STRING + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether string constants are rendered in italic.
@@ -1624,7 +1624,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_STRING_ITALIC= IJavaColorConstants.JAVA_STRING + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_STRING_ITALIC= IJavaColorConstants.JAVA_STRING + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether string constants are rendered in strikethrough.
@@ -1634,7 +1634,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_STRING_STRIKETHROUGH= IJavaColorConstants.JAVA_STRING + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_STRING_STRIKETHROUGH= IJavaColorConstants.JAVA_STRING + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether string constants are rendered in underline.
@@ -1644,7 +1644,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_STRING_UNDERLINE= IJavaColorConstants.JAVA_STRING + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_STRING_UNDERLINE= IJavaColorConstants.JAVA_STRING + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render method names.
@@ -1671,7 +1671,7 @@ public class PreferenceConstants {
 	 * @deprecated the method name highlighting has been replaced by a semantic highlighting, see {@link org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlightings#METHOD}
 	 */
 	@Deprecated
-	public final static String EDITOR_JAVA_METHOD_NAME_BOLD= IJavaColorConstants.JAVA_METHOD_NAME + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVA_METHOD_NAME_BOLD= IJavaColorConstants.JAVA_METHOD_NAME + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether method names are rendered in italic.
@@ -1683,7 +1683,7 @@ public class PreferenceConstants {
 	 * @deprecated the method name highlighting has been replaced by a semantic highlighting, see {@link org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlightings#METHOD}
 	 */
 	@Deprecated
-	public final static String EDITOR_JAVA_METHOD_NAME_ITALIC= IJavaColorConstants.JAVA_METHOD_NAME + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVA_METHOD_NAME_ITALIC= IJavaColorConstants.JAVA_METHOD_NAME + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render the 'return' keyword.
@@ -1706,7 +1706,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVA_KEYWORD_RETURN_BOLD= IJavaColorConstants.JAVA_KEYWORD_RETURN + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVA_KEYWORD_RETURN_BOLD= IJavaColorConstants.JAVA_KEYWORD_RETURN + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether 'return' keyword is rendered in italic.
@@ -1716,7 +1716,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVA_KEYWORD_RETURN_ITALIC= IJavaColorConstants.JAVA_KEYWORD_RETURN + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVA_KEYWORD_RETURN_ITALIC= IJavaColorConstants.JAVA_KEYWORD_RETURN + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether 'return' keyword is rendered in strikethrough.
@@ -1726,7 +1726,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVA_KEYWORD_RETURN_STRIKETHROUGH= IJavaColorConstants.JAVA_KEYWORD_RETURN + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVA_KEYWORD_RETURN_STRIKETHROUGH= IJavaColorConstants.JAVA_KEYWORD_RETURN + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether 'return' keyword is rendered in italic.
@@ -1736,7 +1736,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVA_KEYWORD_RETURN_UNDERLINE= IJavaColorConstants.JAVA_KEYWORD_RETURN + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVA_KEYWORD_RETURN_UNDERLINE= IJavaColorConstants.JAVA_KEYWORD_RETURN + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render operators.
@@ -1759,7 +1759,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVA_OPERATOR_BOLD= IJavaColorConstants.JAVA_OPERATOR + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVA_OPERATOR_BOLD= IJavaColorConstants.JAVA_OPERATOR + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether operators are rendered in italic.
@@ -1769,7 +1769,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVA_OPERATOR_ITALIC= IJavaColorConstants.JAVA_OPERATOR + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVA_OPERATOR_ITALIC= IJavaColorConstants.JAVA_OPERATOR + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether operators are rendered in strikethrough.
@@ -1779,7 +1779,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVA_OPERATOR_STRIKETHROUGH= IJavaColorConstants.JAVA_OPERATOR + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVA_OPERATOR_STRIKETHROUGH= IJavaColorConstants.JAVA_OPERATOR + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether operators are rendered in underline.
@@ -1789,7 +1789,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVA_OPERATOR_UNDERLINE= IJavaColorConstants.JAVA_OPERATOR + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVA_OPERATOR_UNDERLINE= IJavaColorConstants.JAVA_OPERATOR + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render brackets.
@@ -1812,7 +1812,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.3
 	 */
-	public final static String EDITOR_JAVA_BRACKET_BOLD= IJavaColorConstants.JAVA_BRACKET + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVA_BRACKET_BOLD= IJavaColorConstants.JAVA_BRACKET + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether brackets are rendered in italic.
@@ -1822,7 +1822,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.3
 	 */
-	public final static String EDITOR_JAVA_BRACKET_ITALIC= IJavaColorConstants.JAVA_BRACKET + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVA_BRACKET_ITALIC= IJavaColorConstants.JAVA_BRACKET + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether brackets are rendered in strikethrough.
@@ -1832,7 +1832,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.3
 	 */
-	public final static String EDITOR_JAVA_BRACKET_STRIKETHROUGH= IJavaColorConstants.JAVA_BRACKET + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVA_BRACKET_STRIKETHROUGH= IJavaColorConstants.JAVA_BRACKET + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether brackets are rendered in underline.
@@ -1842,7 +1842,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.3
 	 */
-	public final static String EDITOR_JAVA_BRACKET_UNDERLINE= IJavaColorConstants.JAVA_BRACKET + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVA_BRACKET_UNDERLINE= IJavaColorConstants.JAVA_BRACKET + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render annotations.
@@ -1869,7 +1869,7 @@ public class PreferenceConstants {
 	 * @deprecated the annotation highlighting has been replaced by a semantic highlighting, see {@link org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlightings#ANNOTATION}
 	 */
 	@Deprecated
-	public final static String EDITOR_JAVA_ANNOTATION_BOLD= IJavaColorConstants.JAVA_ANNOTATION + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVA_ANNOTATION_BOLD= IJavaColorConstants.JAVA_ANNOTATION + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether annotations are rendered in italic.
@@ -1881,7 +1881,7 @@ public class PreferenceConstants {
 	 * @deprecated the annotation highlighting has been replaced by a semantic highlighting, see {@link org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlightings#ANNOTATION}
 	 */
 	@Deprecated
-	public final static String EDITOR_JAVA_ANNOTATION_ITALIC= IJavaColorConstants.JAVA_ANNOTATION + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVA_ANNOTATION_ITALIC= IJavaColorConstants.JAVA_ANNOTATION + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether annotations are rendered in strikethrough.
@@ -1893,7 +1893,7 @@ public class PreferenceConstants {
 	 * @deprecated the annotation highlighting has been replaced by a semantic highlighting, see {@link org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlightings#ANNOTATION}
 	 */
 	@Deprecated
-	public final static String EDITOR_JAVA_ANNOTATION_STRIKETHROUGH= IJavaColorConstants.JAVA_ANNOTATION + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVA_ANNOTATION_STRIKETHROUGH= IJavaColorConstants.JAVA_ANNOTATION + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether annotations are rendered in underline.
@@ -1905,7 +1905,7 @@ public class PreferenceConstants {
 	 * @deprecated the annotation highlighting has been replaced by a semantic highlighting, see {@link org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlightings#ANNOTATION}
 	 */
 	@Deprecated
-	public final static String EDITOR_JAVA_ANNOTATION_UNDERLINE= IJavaColorConstants.JAVA_ANNOTATION + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVA_ANNOTATION_UNDERLINE= IJavaColorConstants.JAVA_ANNOTATION + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render java default text.
@@ -1925,7 +1925,7 @@ public class PreferenceConstants {
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
 	 */
-	public final static String EDITOR_JAVA_DEFAULT_BOLD= IJavaColorConstants.JAVA_DEFAULT + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVA_DEFAULT_BOLD= IJavaColorConstants.JAVA_DEFAULT + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether Java default text is rendered in italic.
@@ -1935,7 +1935,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVA_DEFAULT_ITALIC= IJavaColorConstants.JAVA_DEFAULT + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVA_DEFAULT_ITALIC= IJavaColorConstants.JAVA_DEFAULT + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/**
 	 * A named preference that controls whether Java default text is rendered in strikethrough.
 	 * <p>
@@ -1944,7 +1944,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVA_DEFAULT_STRIKETHROUGH= IJavaColorConstants.JAVA_DEFAULT + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVA_DEFAULT_STRIKETHROUGH= IJavaColorConstants.JAVA_DEFAULT + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether Java default text is rendered in underline.
@@ -1954,7 +1954,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVA_DEFAULT_UNDERLINE= IJavaColorConstants.JAVA_DEFAULT + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVA_DEFAULT_UNDERLINE= IJavaColorConstants.JAVA_DEFAULT + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render task tags.
@@ -1976,7 +1976,7 @@ public class PreferenceConstants {
 	 * </p>
 	 * @since 2.1
 	 */
-	public final static String EDITOR_TASK_TAG_BOLD= IJavaColorConstants.TASK_TAG + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_TASK_TAG_BOLD= IJavaColorConstants.TASK_TAG + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether task tags are rendered in italic.
@@ -1986,7 +1986,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_TASK_TAG_ITALIC= IJavaColorConstants.TASK_TAG + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_TASK_TAG_ITALIC= IJavaColorConstants.TASK_TAG + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/**
 	 * A named preference that controls whether task tags are rendered in strikethrough.
 	 * <p>
@@ -1995,7 +1995,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_TASK_TAG_STRIKETHROUGH= IJavaColorConstants.TASK_TAG + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_TASK_TAG_STRIKETHROUGH= IJavaColorConstants.TASK_TAG + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether task tags are rendered in underline.
@@ -2005,7 +2005,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_TASK_TAG_UNDERLINE= IJavaColorConstants.TASK_TAG + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_TASK_TAG_UNDERLINE= IJavaColorConstants.TASK_TAG + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render javadoc keywords.
@@ -2025,7 +2025,7 @@ public class PreferenceConstants {
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
 	 */
-	public final static String EDITOR_JAVADOC_KEYWORD_BOLD= IJavaColorConstants.JAVADOC_KEYWORD + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVADOC_KEYWORD_BOLD= IJavaColorConstants.JAVADOC_KEYWORD + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc keywords are rendered in italic.
@@ -2035,7 +2035,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVADOC_KEYWORD_ITALIC= IJavaColorConstants.JAVADOC_KEYWORD + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVADOC_KEYWORD_ITALIC= IJavaColorConstants.JAVADOC_KEYWORD + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc keywords are rendered in strikethrough.
@@ -2045,7 +2045,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVADOC_KEYWORD_STRIKETHROUGH= IJavaColorConstants.JAVADOC_KEYWORD + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVADOC_KEYWORD_STRIKETHROUGH= IJavaColorConstants.JAVADOC_KEYWORD + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc keywords are rendered in underline.
@@ -2055,7 +2055,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVADOC_KEYWORD_UNDERLINE= IJavaColorConstants.JAVADOC_KEYWORD + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVADOC_KEYWORD_UNDERLINE= IJavaColorConstants.JAVADOC_KEYWORD + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render javadoc tags.
@@ -2075,7 +2075,7 @@ public class PreferenceConstants {
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
 	 */
-	public final static String EDITOR_JAVADOC_TAG_BOLD= IJavaColorConstants.JAVADOC_TAG + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVADOC_TAG_BOLD= IJavaColorConstants.JAVADOC_TAG + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc tags are rendered in italic.
@@ -2085,7 +2085,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVADOC_TAG_ITALIC= IJavaColorConstants.JAVADOC_TAG + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVADOC_TAG_ITALIC= IJavaColorConstants.JAVADOC_TAG + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc tags are rendered in strikethrough.
@@ -2095,7 +2095,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVADOC_TAG_STRIKETHROUGH= IJavaColorConstants.JAVADOC_TAG + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVADOC_TAG_STRIKETHROUGH= IJavaColorConstants.JAVADOC_TAG + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc tags are rendered in underline.
@@ -2105,7 +2105,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVADOC_TAG_UNDERLINE= IJavaColorConstants.JAVADOC_TAG + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVADOC_TAG_UNDERLINE= IJavaColorConstants.JAVADOC_TAG + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render javadoc links.
@@ -2125,7 +2125,7 @@ public class PreferenceConstants {
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
 	 */
-	public final static String EDITOR_JAVADOC_LINKS_BOLD= IJavaColorConstants.JAVADOC_LINK + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVADOC_LINKS_BOLD= IJavaColorConstants.JAVADOC_LINK + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc links are rendered in italic.
@@ -2135,7 +2135,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVADOC_LINKS_ITALIC= IJavaColorConstants.JAVADOC_LINK + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVADOC_LINKS_ITALIC= IJavaColorConstants.JAVADOC_LINK + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc links are rendered in strikethrough.
@@ -2145,7 +2145,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVADOC_LINKS_STRIKETHROUGH= IJavaColorConstants.JAVADOC_LINK + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVADOC_LINKS_STRIKETHROUGH= IJavaColorConstants.JAVADOC_LINK + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc links are rendered in underline.
@@ -2155,7 +2155,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVADOC_LINKS_UNDERLINE= IJavaColorConstants.JAVADOC_LINK + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVADOC_LINKS_UNDERLINE= IJavaColorConstants.JAVADOC_LINK + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render javadoc default text.
@@ -2175,7 +2175,7 @@ public class PreferenceConstants {
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
 	 */
-	public final static String EDITOR_JAVADOC_DEFAULT_BOLD= IJavaColorConstants.JAVADOC_DEFAULT + EDITOR_BOLD_SUFFIX;
+	public final static String EDITOR_JAVADOC_DEFAULT_BOLD= IJavaColorConstants.JAVADOC_DEFAULT + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc default text is rendered in italic.
@@ -2185,7 +2185,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.0
 	 */
-	public final static String EDITOR_JAVADOC_DEFAULT_ITALIC= IJavaColorConstants.JAVADOC_DEFAULT + EDITOR_ITALIC_SUFFIX;
+	public final static String EDITOR_JAVADOC_DEFAULT_ITALIC= IJavaColorConstants.JAVADOC_DEFAULT + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/**
 	 * A named preference that controls whether javadoc default text is rendered in strikethrough.
 	 * <p>
@@ -2194,7 +2194,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVADOC_DEFAULT_STRIKETHROUGH= IJavaColorConstants.JAVADOC_DEFAULT + EDITOR_STRIKETHROUGH_SUFFIX;
+	public final static String EDITOR_JAVADOC_DEFAULT_STRIKETHROUGH= IJavaColorConstants.JAVADOC_DEFAULT + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether javadoc default text is rendered in underline.
@@ -2204,7 +2204,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public final static String EDITOR_JAVADOC_DEFAULT_UNDERLINE= IJavaColorConstants.JAVADOC_DEFAULT + EDITOR_UNDERLINE_SUFFIX;
+	public final static String EDITOR_JAVADOC_DEFAULT_UNDERLINE= IJavaColorConstants.JAVADOC_DEFAULT + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used for 'linked-mode' underline.
@@ -2569,7 +2569,7 @@ public class PreferenceConstants {
 	 *             {@link SemanticHighlightings#affectsEnablement(IPreferenceStore, org.eclipse.jface.util.PropertyChangeEvent)}
 	 */
 	@Deprecated
-	public static final String EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED=EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + "enabled"; //$NON-NLS-1$
+	public static final String EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED=EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + "enabled"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference suffix that controls a semantic highlighting's color.
@@ -3628,7 +3628,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_KEY_BOLD= PROPERTIES_FILE_COLORING_KEY + EDITOR_BOLD_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_KEY_BOLD= PROPERTIES_FILE_COLORING_KEY + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether keys in a properties file are rendered in italic.
@@ -3638,7 +3638,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_KEY_ITALIC= PROPERTIES_FILE_COLORING_KEY + EDITOR_ITALIC_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_KEY_ITALIC= PROPERTIES_FILE_COLORING_KEY + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether keys in a properties file are rendered in strikethrough.
@@ -3648,7 +3648,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_KEY_STRIKETHROUGH= PROPERTIES_FILE_COLORING_KEY + EDITOR_STRIKETHROUGH_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_KEY_STRIKETHROUGH= PROPERTIES_FILE_COLORING_KEY + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether keys in a properties file are rendered in underline.
@@ -3658,7 +3658,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_KEY_UNDERLINE= PROPERTIES_FILE_COLORING_KEY + EDITOR_UNDERLINE_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_KEY_UNDERLINE= PROPERTIES_FILE_COLORING_KEY + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render comments in a properties file.
@@ -3681,7 +3681,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_COMMENT_BOLD= PROPERTIES_FILE_COLORING_COMMENT + EDITOR_BOLD_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_COMMENT_BOLD= PROPERTIES_FILE_COLORING_COMMENT + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether comments in a properties file are rendered in italic.
@@ -3691,7 +3691,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_COMMENT_ITALIC= PROPERTIES_FILE_COLORING_COMMENT + EDITOR_ITALIC_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_COMMENT_ITALIC= PROPERTIES_FILE_COLORING_COMMENT + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether comments in a properties file are rendered in strikethrough.
@@ -3701,7 +3701,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_COMMENT_STRIKETHROUGH= PROPERTIES_FILE_COLORING_COMMENT + EDITOR_STRIKETHROUGH_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_COMMENT_STRIKETHROUGH= PROPERTIES_FILE_COLORING_COMMENT + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether comments in a properties file are rendered in underline.
@@ -3711,7 +3711,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_COMMENT_UNDERLINE= PROPERTIES_FILE_COLORING_COMMENT + EDITOR_UNDERLINE_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_COMMENT_UNDERLINE= PROPERTIES_FILE_COLORING_COMMENT + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render values in a properties file.
@@ -3734,7 +3734,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_VALUE_BOLD= PROPERTIES_FILE_COLORING_VALUE + EDITOR_BOLD_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_VALUE_BOLD= PROPERTIES_FILE_COLORING_VALUE + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether values in a properties file are rendered in italic.
@@ -3744,7 +3744,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_VALUE_ITALIC= PROPERTIES_FILE_COLORING_VALUE + EDITOR_ITALIC_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_VALUE_ITALIC= PROPERTIES_FILE_COLORING_VALUE + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether values in a properties file are rendered in strikethrough.
@@ -3754,7 +3754,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_VALUE_STRIKETHROUGH= PROPERTIES_FILE_COLORING_VALUE + EDITOR_STRIKETHROUGH_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_VALUE_STRIKETHROUGH= PROPERTIES_FILE_COLORING_VALUE + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether values in a properties file are rendered in underline.
@@ -3764,7 +3764,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_VALUE_UNDERLINE= PROPERTIES_FILE_COLORING_VALUE + EDITOR_UNDERLINE_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_VALUE_UNDERLINE= PROPERTIES_FILE_COLORING_VALUE + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render assignments in a properties file.
@@ -3787,7 +3787,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_ASSIGNMENT_BOLD= PROPERTIES_FILE_COLORING_ASSIGNMENT + EDITOR_BOLD_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_ASSIGNMENT_BOLD= PROPERTIES_FILE_COLORING_ASSIGNMENT + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether assignments in a properties file are rendered in italic.
@@ -3797,7 +3797,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_ASSIGNMENT_ITALIC= PROPERTIES_FILE_COLORING_ASSIGNMENT + EDITOR_ITALIC_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_ASSIGNMENT_ITALIC= PROPERTIES_FILE_COLORING_ASSIGNMENT + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether assignments in a properties file are rendered in strikethrough.
@@ -3807,7 +3807,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_ASSIGNMENT_STRIKETHROUGH= PROPERTIES_FILE_COLORING_ASSIGNMENT + EDITOR_STRIKETHROUGH_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_ASSIGNMENT_STRIKETHROUGH= PROPERTIES_FILE_COLORING_ASSIGNMENT + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether assignments in a properties file are rendered in underline.
@@ -3817,7 +3817,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_ASSIGNMENT_UNDERLINE= PROPERTIES_FILE_COLORING_ASSIGNMENT + EDITOR_UNDERLINE_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_ASSIGNMENT_UNDERLINE= PROPERTIES_FILE_COLORING_ASSIGNMENT + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that holds the color used to render arguments in a properties file.
@@ -3840,7 +3840,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_ARGUMENT_BOLD= PROPERTIES_FILE_COLORING_ARGUMENT + EDITOR_BOLD_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_ARGUMENT_BOLD= PROPERTIES_FILE_COLORING_ARGUMENT + EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether arguments in a properties file are rendered in italic.
@@ -3850,7 +3850,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_ARGUMENT_ITALIC= PROPERTIES_FILE_COLORING_ARGUMENT + EDITOR_ITALIC_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_ARGUMENT_ITALIC= PROPERTIES_FILE_COLORING_ARGUMENT + EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether arguments in a properties file are rendered in strikethrough.
@@ -3860,7 +3860,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_ARGUMENT_STRIKETHROUGH= PROPERTIES_FILE_COLORING_ARGUMENT + EDITOR_STRIKETHROUGH_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_ARGUMENT_STRIKETHROUGH= PROPERTIES_FILE_COLORING_ARGUMENT + EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that controls whether arguments in a properties file are rendered in underline.
@@ -3870,7 +3870,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 3.1
 	 */
-	public static final String PROPERTIES_FILE_COLORING_ARGUMENT_UNDERLINE= PROPERTIES_FILE_COLORING_ARGUMENT + EDITOR_UNDERLINE_SUFFIX;
+	public static final String PROPERTIES_FILE_COLORING_ARGUMENT_UNDERLINE= PROPERTIES_FILE_COLORING_ARGUMENT + EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A named preference that stores the content assist LRU history
@@ -4127,7 +4127,7 @@ public class PreferenceConstants {
 	 *
 	 * @since 2.1
 	 */
-	public static void initializeDefaultValues(IPreferenceStore store) {
+	public static void initializeDefaultValues(IPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		store.setDefault(PreferenceConstants.EDITOR_SHOW_SEGMENTS, false);
 
@@ -4333,11 +4333,11 @@ public class PreferenceConstants {
 		int sourceHoverModifier= SWT.MOD2;
 		String sourceHoverModifierName= Action.findModifierString(sourceHoverModifier);	// Shift
 		int nlsHoverModifier= SWT.MOD1 + SWT.MOD3;
-		String nlsHoverModifierName= Action.findModifierString(SWT.MOD1) + "+" + Action.findModifierString(SWT.MOD3);	// Ctrl + Alt //$NON-NLS-1$
+		String nlsHoverModifierName= Action.findModifierString(SWT.MOD1) + "+" + Action.findModifierString(SWT.MOD3);	// Ctrl + Alt //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int javadocHoverModifier= SWT.MOD1 + SWT.MOD2;
-		String javadocHoverModifierName= Action.findModifierString(SWT.MOD1) + "+" + Action.findModifierString(SWT.MOD2); // Ctrl + Shift //$NON-NLS-1$
-		store.setDefault(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIERS, "org.eclipse.jdt.ui.BestMatchHover;0;org.eclipse.jdt.ui.JavaSourceHover;" + sourceHoverModifierName + ";org.eclipse.jdt.ui.NLSStringHover;" + nlsHoverModifierName + ";org.eclipse.jdt.ui.JavadocHover;" + javadocHoverModifierName); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		store.setDefault(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIER_MASKS, "org.eclipse.jdt.ui.BestMatchHover;0;org.eclipse.jdt.ui.JavaSourceHover;" + sourceHoverModifier + ";org.eclipse.jdt.ui.NLSStringHover;" + nlsHoverModifier + ";org.eclipse.jdt.ui.JavadocHover;" + javadocHoverModifier); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String javadocHoverModifierName= Action.findModifierString(SWT.MOD1) + "+" + Action.findModifierString(SWT.MOD2); // Ctrl + Shift //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		store.setDefault(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIERS, "org.eclipse.jdt.ui.BestMatchHover;0;org.eclipse.jdt.ui.JavaSourceHover;" + sourceHoverModifierName + ";org.eclipse.jdt.ui.NLSStringHover;" + nlsHoverModifierName + ";org.eclipse.jdt.ui.JavadocHover;" + javadocHoverModifierName); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		store.setDefault(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIER_MASKS, "org.eclipse.jdt.ui.BestMatchHover;0;org.eclipse.jdt.ui.JavaSourceHover;" + sourceHoverModifier + ";org.eclipse.jdt.ui.NLSStringHover;" + nlsHoverModifier + ";org.eclipse.jdt.ui.JavadocHover;" + javadocHoverModifier); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		store.setDefault(PreferenceConstants.EDITOR_SMART_TAB, true);
 		store.setDefault(PreferenceConstants.EDITOR_SMART_BACKSPACE, true);
@@ -4477,8 +4477,8 @@ public class PreferenceConstants {
 		String str= store.getString(CallHierarchyContentProvider.OLD_PREF_DEFAULT_EXPAND_WITH_CONSTRUCTORS);
 		if (str.length() > 0) {
 			String[] oldPrefStr= str.split(";"); //$NON-NLS-1$
-			for (int i= 0; i < oldPrefStr.length; i++) {
-				oldPrefStr[i]= oldPrefStr[i] + (".*"); //$NON-NLS-1$
+			for (int i= 0; i < oldPrefStr.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				oldPrefStr[i]= oldPrefStr[i] + (".*"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			store.setValue(PREF_DEFAULT_EXPAND_WITH_CONSTRUCTORS_MEMBERS, ExpandWithConstructorsConfigurationBlock.serializeMembers(Arrays.asList(oldPrefStr)));
 			store.setToDefault(CallHierarchyContentProvider.OLD_PREF_DEFAULT_EXPAND_WITH_CONSTRUCTORS);
@@ -4576,7 +4576,7 @@ public class PreferenceConstants {
 		String encodedPreference= getPreference(CODEASSIST_EXCLUDED_CATEGORIES, null);
 		StringTokenizer tokenizer= new StringTokenizer(encodedPreference, "\0"); //$NON-NLS-1$
 		String[] result= new String[tokenizer.countTokens()];
-		for (int i= 0; i < result.length; i++) {
+		for (int i= 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= tokenizer.nextToken();
 		}
 		return result;
@@ -4592,10 +4592,10 @@ public class PreferenceConstants {
 	 */
 	public static void setExcludedCompletionProposalCategories(String[] categories) {
 		Assert.isLegal(categories != null);
-		StringBuilder buf= new StringBuilder(50 * categories.length);
-		for (String category : categories) {
-			buf.append(category);
-			buf.append('\0');
+		StringBuilder buf= new StringBuilder(50 * categories.length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String category : categories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(category); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append('\0'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		getPreferenceStore().setValue(CODEASSIST_EXCLUDED_CATEGORIES, buf.toString());
 		CompletionProposalComputerRegistry.getDefault().reload();
@@ -4635,7 +4635,7 @@ public class PreferenceConstants {
 	 * @param store the preference store
 	 * @since 3.6
 	 */
-	private static void initializeDeprecatedColorConstants(IPreferenceStore store) {
+	private static void initializeDeprecatedColorConstants(IPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RGB bgRGB= null;
 		RGB fgRGB= null;
 

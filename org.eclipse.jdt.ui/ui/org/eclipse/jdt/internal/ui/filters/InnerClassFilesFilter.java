@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jdt.core.IClassFile;
 
 
-public class InnerClassFilesFilter extends ViewerFilter {
+public class InnerClassFilesFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	public InnerClassFilesFilter() {
 	}

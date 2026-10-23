@@ -64,7 +64,7 @@ public class VariableCreationDialog extends StatusDialog {
 
 	private List<CPVariableElement> fExistingNames;
 
-	public VariableCreationDialog(Shell parent, CPVariableElement element, List<CPVariableElement> existingNames) {
+	public VariableCreationDialog(Shell parent, CPVariableElement element, List<CPVariableElement> existingNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 		if (element == null) {
 			setTitle(NewWizardMessages.VariableCreationDialog_titlenew);
@@ -121,7 +121,7 @@ public class VariableCreationDialog extends StatusDialog {
 	/*
 	 * @see Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 
@@ -216,7 +216,7 @@ public class VariableCreationDialog extends StatusDialog {
 		if (fElement != null && fElement.getName().equals(name)) {
 			return false;
 		}
-		for (CPVariableElement existingName : fExistingNames) {
+		for (CPVariableElement existingName : fExistingNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(existingName.getName())){
 				return true;
 			}

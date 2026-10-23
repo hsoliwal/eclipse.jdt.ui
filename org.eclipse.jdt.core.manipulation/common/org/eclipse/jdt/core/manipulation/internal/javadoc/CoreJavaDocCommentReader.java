@@ -55,17 +55,17 @@ public class CoreJavaDocCommentReader extends SingleCharacterReader {
 	/**
 	 * @see java.io.Reader#read()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int read() {
 		if (fCurrPos < fEndPos) {
 			char ch= getChar(fCurrPos++);
 			if (fWasNewLine && !IndentManipulation.isLineDelimiterChar(ch)) {
-				while (fCurrPos < fEndPos && Character.isWhitespace(ch)) {
+				while (fCurrPos < fEndPos && Character.isWhitespace(ch)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ch= getChar(fCurrPos++);
 				}
 				if (ch == '*') {
 					if (fCurrPos < fEndPos) {
-						do {
+						do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ch= getChar(fCurrPos++);
 						} while (ch == '*');
 					} else {

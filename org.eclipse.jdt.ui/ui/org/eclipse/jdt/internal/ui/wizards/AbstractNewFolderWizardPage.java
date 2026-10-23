@@ -138,7 +138,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 	protected abstract IClasspathEntry createNewClassPathEntry(IPath path, IPath[] inclusionPatterns, IPath[] exclusionPatterns,IPath newOutputPath, IClasspathAttribute[] attributes);
 	protected abstract IPath createNewOutputPath();
 
-	public AbstractNewFolderWizardPage(String page_name) {
+	public AbstractNewFolderWizardPage(String page_name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(page_name);
 		fWorkspaceRoot= ResourcesPlugin.getWorkspace().getRoot();
 
@@ -177,7 +177,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 		fRootDialogField.setText(""); //$NON-NLS-1$
 	}
 
-	private String getProjectPath(IStructuredSelection selection) {
+	private String getProjectPath(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object selectedElement= null;
 		if (selection == null || selection.isEmpty()) {
 			selectedElement= EditorUtility.getActiveEditorJavaInput();
@@ -205,7 +205,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 	/*
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -243,7 +243,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 		}
 	}
 
-	protected void packRootChangeControlPressed(DialogField field) {
+	protected void packRootChangeControlPressed(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (field == fRootDialogField) {
 			IPath initialPath= new Path(fRootDialogField.getText());
 			String title= NewWizardMessages.NewSourceFolderWizardPage_ChooseExistingRootDialog_title;
@@ -276,7 +276,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 	}
 
 
-	private void updateProjectStatus() {
+	private void updateProjectStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fCurrJProject= null;
 		fIsProjectAsSourceFolder= false;
 
@@ -314,7 +314,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 		fProjectStatus.setError(NewWizardMessages.NewSourceFolderWizardPage_error_NotAJavaProject);
 	}
 
-	private void updateRootStatus() {
+	private void updateRootStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fRootDialogField.enableButton(fCurrJProject != null);
 		fIsProjectAsSourceFolder= false;
 		if (fCurrJProject == null) {
@@ -362,10 +362,10 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 						}
 					}
 				}
-				ArrayList<IClasspathEntry> newEntries= new ArrayList<>(fEntries.length + 1);
+				ArrayList<IClasspathEntry> newEntries= new ArrayList<>(fEntries.length + 1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				int projectEntryIndex= -1;
 
-				for (int i= 0; i < fEntries.length; i++) {
+				for (int i= 0; i < fEntries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IClasspathEntry curr= fEntries[i];
 					if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 						if (path.equals(curr.getPath())) {
@@ -389,7 +389,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 				IPath newOutputPath = createNewOutputPath();
 				IClasspathEntry newEntry =createNewClassPathEntry(path, null, null, newOutputPath, attributes);
 
-				Set<IClasspathEntry> modified= new HashSet<>();
+				Set<IClasspathEntry> modified= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				if (fExcludeInOthersFields.isSelected()) {
 					addExclusionPatterns(newEntry, newEntries, modified);
 					IClasspathEntry entry= JavaCore.newSourceEntry(path, null, null, newOutputPath, attributes);
@@ -440,16 +440,16 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 		}
 	}
 
-	private void insertAtEndOfCategory(IClasspathEntry entry, List<IClasspathEntry> entries) {
+	private void insertAtEndOfCategory(IClasspathEntry entry, List<IClasspathEntry> entries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length= entries.size();
 		IClasspathEntry[] elements= entries.toArray(new IClasspathEntry[length]);
 		int i= 0;
-		while (i < length && elements[i].getEntryKind() != entry.getEntryKind()) {
+		while (i < length && elements[i].getEntryKind() != entry.getEntryKind()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
 		}
 		if (i < length) {
 			i++;
-			while (i < length && elements[i].getEntryKind() == entry.getEntryKind()) {
+			while (i < length && elements[i].getEntryKind() == entry.getEntryKind()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i++;
 			}
 			entries.add(i, entry);
@@ -470,9 +470,9 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 		}
 	}
 
-	private void addExclusionPatterns(IClasspathEntry newEntry, List<IClasspathEntry> existing, Set<IClasspathEntry> modifiedEntries) {
+	private void addExclusionPatterns(IClasspathEntry newEntry, List<IClasspathEntry> existing, Set<IClasspathEntry> modifiedEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath entryPath= newEntry.getPath();
-		for (int i= 0; i < existing.size(); i++) {
+		for (int i= 0; i < existing.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= existing.get(i);
 			IPath currPath= curr.getPath();
 			if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE && currPath.isPrefixOf(entryPath)) {
@@ -501,7 +501,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 		return fCurrJProject.getProject().getFolder(fRootDialogField.getText());
 	}
 
-	public void createPackageFragmentRoot(IProgressMonitor monitor) throws CoreException, InterruptedException {
+	public void createPackageFragmentRoot(IProgressMonitor monitor) throws CoreException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null) {
 			monitor= new NullProgressMonitor();
 		}
@@ -536,7 +536,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 
 	// ------------- choose dialogs
 
-	private IFolder chooseFolder(String title, String message, IPath initialPath) {
+	private IFolder chooseFolder(String title, String message, IPath initialPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?>[] acceptedClasses= new Class[] { IFolder.class };
 		ISelectionStatusValidator validator= new TypedElementSelectionValidator(acceptedClasses, false);
 		ViewerFilter filter= new TypedViewerFilter(acceptedClasses, null);
@@ -550,7 +550,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 		dialog.setValidator(validator);
 		dialog.setTitle(title);
 		dialog.setMessage(message);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(currProject);
 		dialog.setComparator(new ResourceComparator(ResourceComparator.NAME));
 		IResource res= currProject.findMember(initialPath);
@@ -564,7 +564,7 @@ public abstract class AbstractNewFolderWizardPage extends NewElementWizardPage {
 		return null;
 	}
 
-	private IJavaProject chooseProject() {
+	private IJavaProject chooseProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject[] projects;
 		try {
 			projects= JavaCore.create(fWorkspaceRoot).getJavaProjects();

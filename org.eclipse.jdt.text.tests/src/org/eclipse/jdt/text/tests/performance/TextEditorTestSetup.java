@@ -70,7 +70,7 @@ public abstract class TextEditorTestSetup extends TestSetup {
 		else if (test instanceof TestDecorator)
 			setEditor(((TestDecorator) test).getTest(), editor);
 		else if (test instanceof TestSuite)
-			for (Enumeration<Test> iter= ((TestSuite) test).tests(); iter.hasMoreElements();)
+			for (Enumeration<Test> iter= ((TestSuite) test).tests(); iter.hasMoreElements();) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				setEditor(iter.nextElement(), editor);
 	}
 }

@@ -32,7 +32,7 @@ public class ToggleViewAction extends Action {
 	private ITypeHierarchyViewPart fViewPart;
 	private int fViewerIndex;
 
-	public ToggleViewAction(ITypeHierarchyViewPart v, int viewerIndex) {
+	public ToggleViewAction(ITypeHierarchyViewPart v, int viewerIndex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", AS_RADIO_BUTTON); //$NON-NLS-1$
 		String contextHelpId= null;
 		switch (viewerIndex) {

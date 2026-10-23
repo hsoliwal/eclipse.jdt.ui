@@ -79,25 +79,25 @@ public class PushDownNegationCleanUp extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (isEnabled(CleanUpConstants.PUSH_DOWN_NEGATION)) {
-			bld.append("boolean b = (myInt <= 0);\n"); //$NON-NLS-1$
-			bld.append("boolean b2 = (!isEnabled && !isValid);\n"); //$NON-NLS-1$
+			bld.append("boolean b = (myInt <= 0);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("boolean b2 = (!isEnabled && !isValid);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("boolean b = !(myInt > 0);\n"); //$NON-NLS-1$
-			bld.append("boolean b2 = !(isEnabled || isValid);\n"); //$NON-NLS-1$
+			bld.append("boolean b = !(myInt > 0);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("boolean b2 = !(isEnabled || isValid);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.PUSH_DOWN_NEGATION)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			PrefixExpression secondNotOperator= null;
@@ -115,7 +115,7 @@ public class PushDownNegationCleanUp extends AbstractMultiFix {
 				return pushDown(node, node.getOperand());
 			}
 
-			private boolean pushDown(final PrefixExpression node, Expression operand) {
+			private boolean pushDown(final PrefixExpression node, Expression operand) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				operand= ASTNodes.getUnparenthesedExpression(operand);
 
 				if (operand instanceof PrefixExpression) {
@@ -152,7 +152,7 @@ public class PushDownNegationCleanUp extends AbstractMultiFix {
 		}
 
 		RemoveDoubleNegationOperation lastDoubleNegation= null;
-		for (CompilationUnitRewriteOperationWithSourceRange op : rewriteOperations) {
+		for (CompilationUnitRewriteOperationWithSourceRange op : rewriteOperations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (op instanceof ReplacementOperation) {
 				ReplacementOperation chainedOp= (ReplacementOperation) op;
 				if (lastDoubleNegation != null && chainedOp.getNode().subtreeMatch(new ASTMatcher(), lastDoubleNegation.getReplacementExpression())) {

@@ -94,7 +94,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 	private final class LinkFields implements IStringButtonAdapter, IDialogFieldListener{
 		private StringButtonDialogField fLinkLocation;
 
-		private static final String DIALOGSTORE_LAST_EXTERNAL_LOC= JavaUI.ID_PLUGIN + ".last.external.project"; //$NON-NLS-1$
+		private static final String DIALOGSTORE_LAST_EXTERNAL_LOC= JavaUI.ID_PLUGIN + ".last.external.project"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		private RootFieldAdapter fAdapter;
 
@@ -134,7 +134,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 			fLinkLocation.setText(path.toOSString());
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void changeControlPressed(DialogField field) {
 			final DirectoryDialog dialog= new DirectoryDialog(getShell(), SWT.SHEET);
 			dialog.setText(NewWizardMessages.AddSourceFolderWizardPage_dialog_title);
@@ -215,7 +215,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 	private final boolean fCanCommitConflictingBuildpath;
 	private final IContainer fParent;
 
-	public AddSourceFolderWizardPage(CPListElement newElement, List<CPListElement> existingEntries, IPath outputLocation,
+	public AddSourceFolderWizardPage(CPListElement newElement, List<CPListElement> existingEntries, IPath outputLocation, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean linkedMode, boolean canCommitConflictingBuildpath,
 			boolean allowIgnoreConflicts, boolean allowRemoveProjectFolder, boolean allowAddExclusionPatterns, IContainer parent) {
 
@@ -232,7 +232,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 		fOrginalInclusionFilters= new Hashtable<>();
 		fOrginalExlusionFiltersCopy= new Hashtable<>();
 		fOrginalInclusionFiltersCopy= new Hashtable<>();
-		for (CPListElement existingEntry : existingEntries) {
+		for (CPListElement existingEntry : existingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath[] exlusions= (IPath[])existingEntry.getAttribute(CPListElement.EXCLUSION);
 			if (exlusions != null) {
 				IPath[] save= new IPath[exlusions.length];
@@ -263,8 +263,8 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 
 		fNewElement= newElement;
 		fExistingEntries= existingEntries;
-		fModifiedElements= new ArrayList<>();
-		fRemovedElements= new ArrayList<>();
+		fModifiedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fRemovedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fOutputLocation= outputLocation;
 
 		RootFieldAdapter adapter= new RootFieldAdapter();
@@ -316,7 +316,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 	/*
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -400,7 +400,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 		updateStatus(new IStatus[] {status});
 	}
 
-	private StatusInfo updateRootStatus() {
+	private StatusInfo updateRootStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= fNewElement.getJavaProject();
 		IProject project= javaProject.getProject();
 
@@ -430,7 +430,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 		boolean createFolderForExisting= false;
 
 		IFolder folder= fParent.getFolder(new Path(fRootDialogField.getText()));
-		for (int i= 0; i < fExistingEntries.size(); i++) {
+		for (int i= 0; i < fExistingEntries.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= fExistingEntries.get(i).getClasspathEntry();
 			if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 				if (path.equals(curr.getPath()) && fExistingEntries.get(i) != fNewElement) {
@@ -460,7 +460,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 			fNewElement.setLinkTarget(fLinkFields.getLinkTarget());
 		}
 		fRemovedElements.clear();
-		Set<CPListElement> modified= new HashSet<>();
+		Set<CPListElement> modified= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		boolean isProjectSourceFolderReplaced= false;
 		if (fAddExclusionPatterns.isSelected()) {
 			if (fOrginalPath == null) {
@@ -508,7 +508,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 			//Don't know what the problem is, report to user
 			fNewOutputLocation= null;
 			if (fCanCommitConflictingBuildpath) {
-				result.setInfo(NewWizardMessages.AddSourceFolderWizardPage_conflictWarning + status.getMessage());
+				result.setInfo(NewWizardMessages.AddSourceFolderWizardPage_conflictWarning + status.getMessage()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				result.setError(status.getMessage());
 			}
@@ -535,7 +535,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 	}
 
 	public void restore() {
-		for (CPListElement existingEntry : fExistingEntries) {
+		for (CPListElement existingEntry : fExistingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fOrginalExlusionFilters.containsKey(existingEntry)) {
 				existingEntry.setAttribute(CPListElement.EXCLUSION, fOrginalExlusionFiltersCopy.get(existingEntry));
 			}
@@ -546,9 +546,9 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 		fNewElement.setPath(fOrginalPath);
 	}
 
-	private void restoreCPElements() {
+	private void restoreCPElements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fNewElement.getPath() != null) {
-			for (CPListElement existingEntry : fExistingEntries) {
+			for (CPListElement existingEntry : fExistingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fOrginalExlusionFilters.containsKey(existingEntry)) {
 					existingEntry.setAttribute(CPListElement.EXCLUSION, fOrginalExlusionFilters.get(existingEntry));
 				}
@@ -566,7 +566,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 		}
 	}
 
-	private void updateFilters(IPath oldPath, IPath newPath) {
+	private void updateFilters(IPath oldPath, IPath newPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (oldPath == null)
 			return;
 
@@ -578,7 +578,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 			newPath= newPath.removeFirstSegments(projPath.segmentCount()).addTrailingSeparator();
 		}
 
-		for (CPListElement existingEntry : fExistingEntries) {
+		for (CPListElement existingEntry : fExistingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath elementPath= existingEntry.getPath();
 			if (projPath.isPrefixOf(elementPath)) {
 				elementPath= elementPath.removeFirstSegments(projPath.segmentCount());
@@ -588,7 +588,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 
 			IPath[] exlusions= (IPath[])existingEntry.getAttribute(CPListElement.EXCLUSION);
 			if (exlusions != null) {
-				for (int i= 0; i < exlusions.length; i++) {
+				for (int i= 0; i < exlusions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (elementPath.append(exlusions[i]).equals(oldPath)) {
 						fModifiedElements.add(existingEntry);
 						exlusions[i]= newPath.removeFirstSegments(elementPath.segmentCount());
@@ -599,7 +599,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 
 			IPath[] inclusion= (IPath[])existingEntry.getAttribute(CPListElement.INCLUSION);
 			if (inclusion != null) {
-				for (int i= 0; i < inclusion.length; i++) {
+				for (int i= 0; i < inclusion.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (elementPath.append(inclusion[i]).equals(oldPath)) {
 						fModifiedElements.add(existingEntry);
 						inclusion[i]= newPath.removeFirstSegments(elementPath.segmentCount());
@@ -617,7 +617,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 	 * @return IStatus indicating the validation result. IStatus.OK if the
 	 *  specified link target is valid given the linkHandle.
 	 */
-	private IStatus validateLinkLocation(String folderName) {
+	private IStatus validateLinkLocation(String folderName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspace workspace= JavaPlugin.getWorkspace();
 		IPath path= Path.fromOSString(fLinkFields.fLinkLocation.getText());
 
@@ -650,7 +650,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 		return new StatusInfo(locationStatus.getSeverity(), locationStatus.getMessage());
 	}
 
-	private static StatusInfo validatePathName(String str, IContainer parent) {
+	private static StatusInfo validatePathName(String str, IContainer parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo result= new StatusInfo();
 		result.setOK();
 
@@ -699,7 +699,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 
 	private void addExclusionPatterns(CPListElement newEntry, List<CPListElement> existing, Set<CPListElement> modifiedEntries) {
 		IPath entryPath= newEntry.getPath();
-		for (CPListElement curr : existing) {
+		for (CPListElement curr : existing) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath currPath= curr.getPath();
 			if (curr != newEntry && curr.getEntryKind() == IClasspathEntry.CPE_SOURCE && currPath.isPrefixOf(entryPath)) {
 				boolean added= curr.addToExclusions(entryPath);
@@ -724,7 +724,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 
 	// ------------- choose dialogs
 
-	private IFolder chooseFolder(String title, String message, IPath initialPath) {
+	private IFolder chooseFolder(String title, String message, IPath initialPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?>[] acceptedClasses= new Class[] { IFolder.class };
 		ISelectionStatusValidator validator= new TypedElementSelectionValidator(acceptedClasses, false);
 		ViewerFilter filter= new TypedViewerFilter(acceptedClasses, null);
@@ -745,7 +745,7 @@ public class AddSourceFolderWizardPage extends NewElementWizardPage {
 		dialog.setValidator(validator);
 		dialog.setTitle(title);
 		dialog.setMessage(message);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(currProject);
 		dialog.setComparator(new ResourceComparator(ResourceComparator.NAME));
 		IResource res= currProject.findMember(initialPath);

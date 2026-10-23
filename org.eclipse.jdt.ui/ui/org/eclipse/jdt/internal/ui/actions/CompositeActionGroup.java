@@ -54,7 +54,7 @@ public class CompositeActionGroup extends ActionGroup {
 		super.dispose();
 		if (fGroups == null)
 			return;
-		for (ActionGroup group : fGroups) {
+		for (ActionGroup group : fGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			group.dispose();
 		}
 	}
@@ -64,7 +64,7 @@ public class CompositeActionGroup extends ActionGroup {
 		super.fillActionBars(actionBars);
 		if (fGroups == null)
 			return;
-		for (ActionGroup group : fGroups) {
+		for (ActionGroup group : fGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			group.fillActionBars(actionBars);
 		}
 	}
@@ -74,7 +74,7 @@ public class CompositeActionGroup extends ActionGroup {
 		super.fillContextMenu(menu);
 		if (fGroups == null)
 			return;
-		for (ActionGroup group : fGroups) {
+		for (ActionGroup group : fGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			group.fillContextMenu(menu);
 		}
 	}
@@ -84,7 +84,7 @@ public class CompositeActionGroup extends ActionGroup {
 		super.setContext(context);
 		if (fGroups == null)
 			return;
-		for (ActionGroup group : fGroups) {
+		for (ActionGroup group : fGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			group.setContext(context);
 		}
 	}
@@ -94,7 +94,7 @@ public class CompositeActionGroup extends ActionGroup {
 		super.updateActionBars();
 		if (fGroups == null)
 			return;
-		for (ActionGroup group : fGroups) {
+		for (ActionGroup group : fGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			group.updateActionBars();
 		}
 	}

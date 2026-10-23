@@ -75,7 +75,7 @@ public class ParameterEditDialog extends StatusDialog {
 		newShell.setText(RefactoringMessages.ParameterEditDialog_title);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite result= (Composite)super.createDialogArea(parent);
 		GridLayout layout= (GridLayout)result.getLayout();
@@ -100,8 +100,8 @@ public class ParameterEditDialog extends StatusDialog {
 			gd= new GridData(GridData.FILL_HORIZONTAL);
 			fType.setLayoutData(gd);
 			fType.setText(fParameter.getNewTypeName());
-			fType.addModifyListener(
-				e -> validate((Text)e.widget));
+			fType.addModifyListener( //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+				e -> validate((Text)e.widget)); //FLLDCIM: MARK — T02  LAMBDA
 			TextFieldNavigationHandler.install(fType);
 			JavaTypeCompletionProcessor processor= new JavaTypeCompletionProcessor(true, false);
 			processor.setCompletionContext(fContext.getCuHandle(), fContext.getBeforeString(), fContext.getAfterString());
@@ -116,8 +116,8 @@ public class ParameterEditDialog extends StatusDialog {
 		gd.widthHint= convertWidthInCharsToPixels(45);
 		fName.setLayoutData(gd);
 		fName.setText(newName);
-		fName.addModifyListener(
-			e -> validate((Text)e.widget));
+		fName.addModifyListener( //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+			e -> validate((Text)e.widget)); //FLLDCIM: MARK — T02  LAMBDA
 		TextFieldNavigationHandler.install(fName);
 
 		if (fEditDefault && fParameter.isAdded()) {
@@ -127,8 +127,8 @@ public class ParameterEditDialog extends StatusDialog {
 			gd= new GridData(GridData.FILL_HORIZONTAL);
 			fDefaultValue.setLayoutData(gd);
 			fDefaultValue.setText(fParameter.getDefaultValue());
-			fDefaultValue.addModifyListener(
-				e -> validate((Text)e.widget));
+			fDefaultValue.addModifyListener( //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+				e -> validate((Text)e.widget)); //FLLDCIM: MARK — T02  LAMBDA
 			TextFieldNavigationHandler.install(fDefaultValue);
 		}
 		applyDialogFont(result);
@@ -147,7 +147,7 @@ public class ParameterEditDialog extends StatusDialog {
 		super.okPressed();
 	}
 
-	private void validate(Text first) {
+	private void validate(Text first) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus[] result= new IStatus[3];
 		if (first == fType) {
 			result[0]= validateType();
@@ -162,7 +162,7 @@ public class ParameterEditDialog extends StatusDialog {
 			result[1]= validateName();
 			result[2]= validateType();
 		}
-		for (IStatus status : result) {
+		for (IStatus status : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (status != null && !status.isOK()) {
 				updateStatus(status);
 				return;

@@ -83,7 +83,7 @@ public abstract class NullAnnotationsCorrectionProcessorCore<T> {
 			getNullAnnotationInSignatureProposal(context, problem, proposals, changeKind, isArgumentProblem);
 	}
 
-	public void getNullAnnotationInSignatureProposal(IInvocationContext context, IProblemLocation problem,
+	public void getNullAnnotationInSignatureProposal(IInvocationContext context, IProblemLocation problem, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<T> proposals, ChangeKind changeKind, boolean isArgumentProblem) {
 		NullAnnotationsFixCore fix= NullAnnotationsFixCore.createNullAnnotationInSignatureFix(context.getASTRoot(), problem,
 				changeKind, isArgumentProblem);
@@ -168,7 +168,7 @@ public abstract class NullAnnotationsCorrectionProcessorCore<T> {
 		proposals.add(fixCorrectionProposalCoreToT(proposal, CORRECTION_CHANGE));
 	}
 
-	public void getExtractCheckedLocalProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getExtractCheckedLocalProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit compilationUnit = context.getASTRoot();
 		ICompilationUnit cu= (ICompilationUnit) compilationUnit.getJavaElement();
 
@@ -188,7 +188,7 @@ public abstract class NullAnnotationsCorrectionProcessorCore<T> {
 		proposals.add(extractToNullCheckedLocalProposalCoreToT(proposal, CORRECTION_CHANGE));
 	}
 
-	private static SimpleName findProblemFieldName(ASTNode selectedNode, int problemID) {
+	private static SimpleName findProblemFieldName(ASTNode selectedNode, int problemID) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// if a field access occurs in an compatibility situation (assignment/return/argument)
 		// with expected type declared @NonNull we first need to find the SimpleName inside:
 		if (selectedNode instanceof FieldAccess)
@@ -208,7 +208,7 @@ public abstract class NullAnnotationsCorrectionProcessorCore<T> {
 		return null;
 	}
 
-	public void getLocalVariableAnnotationProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getLocalVariableAnnotationProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		CompilationUnit astRoot= context.getASTRoot();
 

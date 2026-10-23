@@ -22,7 +22,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 
 
-public abstract class EditorTracker implements IWindowListener, IPageListener, IPartListener {
+public abstract class EditorTracker implements IWindowListener, IPageListener, IPartListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	//--- Window listener
 

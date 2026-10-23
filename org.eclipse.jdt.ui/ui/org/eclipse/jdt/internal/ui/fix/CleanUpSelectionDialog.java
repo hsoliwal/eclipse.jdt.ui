@@ -87,7 +87,7 @@ public abstract class CleanUpSelectionDialog extends StatusDialog implements IMo
 		setTitle(title);
 		fWorkingValues= settings;
 		setStatusLineAboveButtons(false);
-		fTabPages= new ArrayList<>();
+		fTabPages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fDialogSettings= JavaPlugin.getDefault().getDialogSettings();
 	}
 
@@ -142,26 +142,26 @@ public abstract class CleanUpSelectionDialog extends StatusDialog implements IMo
 		((IModifyDialogTabPage) fTabFolder.getSelection()[0].getData()).setInitialFocus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		Button restoreDefaults= createButton(parent, IDialogConstants.CLIENT_ID + 1,
 				MultiFixMessages.CleanUpSelectionDialog_restoreDefaults_label, false);
-		restoreDefaults.addSelectionListener(widgetSelectedAdapter((unused) -> {
-			for (CleanUpTabPage page : fPages) {
+		restoreDefaults.addSelectionListener(widgetSelectedAdapter((unused) -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			for (CleanUpTabPage page : fPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				page.setDefaults();
 			}
 		}));
 		Button restoreValues= createButton(parent, IDialogConstants.CLIENT_ID + 2,
 				MultiFixMessages.CleanUpSelectionDialog_resetProfile_label, false);
-		restoreValues.addSelectionListener(widgetSelectedAdapter((unused) -> {
-			for (CleanUpTabPage page : fPages) {
+		restoreValues.addSelectionListener(widgetSelectedAdapter((unused) -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			for (CleanUpTabPage page : fPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				page.resetValues();
 			}
 		}));
 
 	}
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		final Composite composite= (Composite) super.createDialogArea(parent);
 
@@ -173,7 +173,7 @@ public abstract class CleanUpSelectionDialog extends StatusDialog implements IMo
 
 		fPages= new CleanUpTabPage[pages.length];
 
-		for (int i= 0; i < pages.length; i++) {
+		for (int i= 0; i < pages.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fPages[i]= pages[i].getPage();
 			addTabPage(pages[i].getName(), fPages[i]);
 		}
@@ -184,7 +184,7 @@ public abstract class CleanUpSelectionDialog extends StatusDialog implements IMo
 
 		applyDialogFont(composite);
 
-		fTabFolder.addSelectionListener(new SelectionListener() {
+		fTabFolder.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -206,7 +206,7 @@ public abstract class CleanUpSelectionDialog extends StatusDialog implements IMo
 	@Override
 	public void updateStatus(IStatus status) {
 		int count= 0;
-		for (CleanUpTabPage page : fPages) {
+		for (CleanUpTabPage page : fPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			count+= page.getSelectedCleanUpCount();
 		}
 		if (count == 0) {
@@ -262,7 +262,7 @@ public abstract class CleanUpSelectionDialog extends StatusDialog implements IMo
 
 	private void updateCountLabel() {
 		int size= 0, count= 0;
-		for (CleanUpTabPage page : fPages) {
+		for (CleanUpTabPage page : fPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			size+= page.getCleanUpCount();
 			count+= page.getSelectedCleanUpCount();
 		}
@@ -271,23 +271,23 @@ public abstract class CleanUpSelectionDialog extends StatusDialog implements IMo
 	}
 
 	private String getPreferenceKeyWidth() {
-		return getPreferenceKeyPrefix() + DS_KEY_PREFERRED_WIDTH;
+		return getPreferenceKeyPrefix() + DS_KEY_PREFERRED_WIDTH; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getPreferenceKeyHeight() {
-		return getPreferenceKeyPrefix() + DS_KEY_PREFERRED_HEIGHT;
+		return getPreferenceKeyPrefix() + DS_KEY_PREFERRED_HEIGHT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getPreferenceKeyPositionY() {
-		return getPreferenceKeyPrefix() + DS_KEY_PREFERRED_Y;
+		return getPreferenceKeyPrefix() + DS_KEY_PREFERRED_Y; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getPreferenceKeyFocus() {
-		return getPreferenceKeyPrefix() + DS_KEY_LAST_FOCUS;
+		return getPreferenceKeyPrefix() + DS_KEY_LAST_FOCUS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getPreferenceKeyPositionX() {
-		return getPreferenceKeyPrefix() + DS_KEY_PREFERRED_X;
+		return getPreferenceKeyPrefix() + DS_KEY_PREFERRED_X; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

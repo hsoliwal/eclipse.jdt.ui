@@ -29,9 +29,9 @@ public class JspTranslatorResultCollector implements ITranslatorResultCollector 
 	private StringBuffer fContent= new StringBuffer();
 	private StringBuffer fLocalDeclarations= new StringBuffer();
 
-	private ArrayList fContentLines= new ArrayList();
-	private ArrayList fDeclarationLines= new ArrayList();
-	private ArrayList fLocalDeclarationLines= new ArrayList();
+	private ArrayList fContentLines= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private ArrayList fDeclarationLines= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private ArrayList fLocalDeclarationLines= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	public JspTranslatorResultCollector(StringBuffer declarations, StringBuffer localDeclarations, StringBuffer content, ArrayList declarationLines, ArrayList localDeclarationLines, ArrayList contentLines) {
 		fDeclarations= declarations;

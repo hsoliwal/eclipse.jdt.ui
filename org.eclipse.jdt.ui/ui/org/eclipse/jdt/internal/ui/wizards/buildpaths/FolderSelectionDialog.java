@@ -40,7 +40,7 @@ import org.eclipse.ui.views.navigator.ResourceComparator;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 
-public class FolderSelectionDialog extends ElementTreeSelectionDialog implements ISelectionChangedListener {
+public class FolderSelectionDialog extends ElementTreeSelectionDialog implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private Button fNewFolderButton;
 	private IContainer fSelectedContainer;
@@ -50,15 +50,15 @@ public class FolderSelectionDialog extends ElementTreeSelectionDialog implements
 		setComparator(new ResourceComparator(ResourceComparator.NAME));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite result= (Composite)super.createDialogArea(parent);
 
-		getTreeViewer().addSelectionChangedListener(this);
+		getTreeViewer().addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		Button button = new Button(result, SWT.PUSH);
 		button.setText(NewWizardMessages.FolderSelectionDialog_button);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				newFolderButtonPressed();
@@ -90,7 +90,7 @@ public class FolderSelectionDialog extends ElementTreeSelectionDialog implements
 		NewFolderDialog dialog= new NewFolderDialog(getShell(), fSelectedContainer);
 		if (dialog.open() == Window.OK) {
 			TreeViewer treeViewer= getTreeViewer();
-			treeViewer.refresh(fSelectedContainer);
+			treeViewer.refresh(fSelectedContainer); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			Object createdFolder= dialog.getResult()[0];
 			treeViewer.reveal(createdFolder);
 			treeViewer.setSelection(new StructuredSelection(createdFolder));

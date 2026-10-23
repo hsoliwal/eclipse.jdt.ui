@@ -178,7 +178,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 		@Override
 		public boolean select(IConfigurationElement element, RefactoringStatus status) {
-			for (IConfigurationElement param : element.getChildren(PARAM)) {
+			for (IConfigurationElement param : element.getChildren(PARAM)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ("handlesSimilarDeclarations".equals(param.getAttribute(NAME)) && //$NON-NLS-1$
 						"false".equals(param.getAttribute(VALUE))) { //$NON-NLS-1$
 					return false;
@@ -314,7 +314,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 	@Override
 	protected IFile[] getChangedFiles() throws CoreException {
-		List<IFile> result= new ArrayList<>(Arrays.asList(ResourceUtil.getFiles(fChangeManager.getAllCompilationUnits())));
+		List<IFile> result= new ArrayList<>(Arrays.asList(ResourceUtil.getFiles(fChangeManager.getAllCompilationUnits()))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fQualifiedNameSearchResult != null)
 			result.addAll(Arrays.asList(fQualifiedNameSearchResult.getAllFiles()));
 		if (willRenameCU())
@@ -465,7 +465,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		return Checks.checkIfCuBroken(fType);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException {
 		Assert.isNotNull(fType, "type"); //$NON-NLS-1$
 		Assert.isNotNull(getNewElementName(), "newName"); //$NON-NLS-1$
@@ -587,7 +587,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	 * @throws JavaModelException some fundamental error with the underlying model
 	 * @throws OperationCanceledException if user canceled the task
 	 */
-	public RefactoringStatus initializeReferences(IProgressMonitor monitor) throws JavaModelException, OperationCanceledException {
+	public RefactoringStatus initializeReferences(IProgressMonitor monitor) throws JavaModelException, OperationCanceledException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(fType);
 		Assert.isNotNull(getNewElementName());
@@ -622,8 +622,8 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 			binaryRefs.addErrorIfNecessary(fCachedRefactoringStatus);
 			fReferences= Checks.excludeCompilationUnits(fReferences, fCachedRefactoringStatus);
 
-			fPreloadedElementToName= new LinkedHashMap<>();
-			fPreloadedElementToSelection= new HashMap<>();
+			fPreloadedElementToName= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+			fPreloadedElementToSelection= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 			final String unQualifiedTypeName= fType.getElementName();
 
@@ -633,20 +633,20 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 				RenamingNameSuggestor sugg= new RenamingNameSuggestor(fRenamingStrategy);
 
-				for (SearchResultGroup reference : fReferences) {
+				for (SearchResultGroup reference : fReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final ICompilationUnit cu= reference.getCompilationUnit();
 					if (cu == null)
 						continue;
 
 					final SearchMatch[] results= reference.getSearchResults();
 
-					for (SearchMatch result : results) {
+					for (SearchMatch result : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 						if (! (result instanceof TypeReferenceMatch))
 							continue;
 
 						final TypeReferenceMatch match= (TypeReferenceMatch) result;
-						final List<IJavaElement> matches= new ArrayList<>();
+						final List<IJavaElement> matches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 						if (match.getLocalElement() != null) {
 							if (match.getLocalElement() instanceof ILocalVariable) {
@@ -661,7 +661,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 						if (others != null)
 							matches.addAll(Arrays.asList(others));
 
-						for (IJavaElement element : matches) {
+						for (IJavaElement element : matches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (! (element instanceof IMethod) && ! (element instanceof IField) && ! (element instanceof ILocalVariable))
 								continue;
 
@@ -703,10 +703,10 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 				}
 			}
 
-			for (IJavaElement element : fPreloadedElementToName.keySet()) {
+			for (IJavaElement element : fPreloadedElementToName.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fPreloadedElementToSelection.put(element, Boolean.TRUE);
 			}
-			fPreloadedElementToNameDefault= new LinkedHashMap<>(fPreloadedElementToName);
+			fPreloadedElementToNameDefault= new LinkedHashMap<>(fPreloadedElementToName); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 		} catch (OperationCanceledException e) {
 			fReferences= null;
@@ -753,11 +753,11 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		String notRename= RefactoringCoreMessages.RenameTypeRefactoring_will_not_rename;
 		IStatus status= c.getWorkspace().validateName(getNewElementName(), IResource.FILE);
 		if (status.getSeverity() == IStatus.ERROR)
-			return RefactoringStatus.createWarningStatus(status.getMessage() + ". " + notRename); //$NON-NLS-1$
+			return RefactoringStatus.createWarningStatus(status.getMessage() + ". " + notRename); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		status= c.getWorkspace().validatePath(createNewPath(getNewElementName()), IResource.FILE);
 		if (status.getSeverity() == IStatus.ERROR)
-			return RefactoringStatus.createWarningStatus(status.getMessage() + ". " + notRename); //$NON-NLS-1$
+			return RefactoringStatus.createWarningStatus(status.getMessage() + ". " + notRename); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		return new RefactoringStatus();
 	}
@@ -814,7 +814,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	}
 
 	private static IType findEnclosedType(IType type, String newName) throws CoreException {
-		for (IType enclosedType : type.getTypes()) {
+		for (IType enclosedType : type.getTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (newName.equals(enclosedType.getElementName()) || findEnclosedType(enclosedType, newName) != null)
 				return enclosedType;
 		}
@@ -823,7 +823,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 	private static IType findEnclosingType(IType type, String newName) {
 		IType enclosing= type.getDeclaringType();
-		while (enclosing != null){
+		while (enclosing != null){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (newName.equals(enclosing.getElementName()))
 				return enclosing;
 			else
@@ -833,8 +833,8 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	}
 
 	private static IImportDeclaration getImportedType(ICompilationUnit cu, String typeName) throws CoreException {
-		String dotTypeName= "." + typeName; //$NON-NLS-1$
-		for (IImportDeclaration _import : cu.getImports()) {
+		String dotTypeName= "." + typeName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (IImportDeclaration _import : cu.getImports()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (_import.getElementName().endsWith(dotTypeName))
 				return _import;
 		}
@@ -842,7 +842,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	}
 
 	private RefactoringStatus checkForMethodsWithConstructorNames()  throws CoreException{
-		for (IMethod method : fType.getMethods()) {
+		for (IMethod method : fType.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.isConstructor())
 				continue;
 			RefactoringStatus check= Checks.checkIfConstructorName(method, method.getElementName(), getNewElementName());
@@ -854,7 +854,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 	private RefactoringStatus checkImportedTypes() throws CoreException {
 		RefactoringStatus result= new RefactoringStatus();
-		for (IImportDeclaration _import : fType.getCompilationUnit().getImports())
+		for (IImportDeclaration _import : fType.getCompilationUnit().getImports()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			analyzeImportDeclaration(_import, result);
 		return result;
 	}
@@ -872,13 +872,13 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		return result;
 	}
 
-	private RefactoringStatus analyseEnclosedTypes() throws CoreException {
+	private RefactoringStatus analyseEnclosedTypes() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ISourceRange typeRange= fType.getSourceRange();
 		final RefactoringStatus result= new RefactoringStatus();
 		CompilationUnit cuNode= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(fType.getCompilationUnit(), false);
 		cuNode.accept(new ASTVisitor(){
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(TypeDeclaration node){ // enums and annotations can't be local
 				if (node.getStartPosition() <= typeRange.getOffset())
 					return true;
@@ -900,7 +900,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 						result.addError(msg, context);
 				}
 
-				for (MethodDeclaration method : node.getMethods()) {
+				for (MethodDeclaration method : node.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (Modifier.isNative(method.getModifiers())){
 						RefactoringStatusContext	context= JavaStatusContext.create(fType.getCompilationUnit(), method);
 						String msg= Messages.format(RefactoringCoreMessages.RenameTypeRefactoring_enclosed_type_native, BasicElementLabels.getJavaElementName(node.getName().getIdentifier()));
@@ -918,7 +918,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	}
 
 	private void analyzeImportedTypes(IType[] types, RefactoringStatus result, IImportDeclaration imp) throws CoreException {
-		for (IType type : types) {
+		for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//could this be a problem (same package imports)?
 			if (JdtFlags.isPublic(type) && type.getElementName().equals(getNewElementName())){
 				String msg= Messages.format(RefactoringCoreMessages.RenameTypeRefactoring_name_conflict1,
@@ -945,7 +945,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 			return;
 
 		if (imported instanceof IPackageFragment){
-			for (ICompilationUnit cu : ((IPackageFragment)imported).getCompilationUnits()) {
+			for (ICompilationUnit cu : ((IPackageFragment)imported).getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				analyzeImportedTypes(cu.getTypes(), result, imp);
 			}
 		} else {
@@ -967,7 +967,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		return result;
 	}
 
-	private RefactoringStatus checkConflictingTypes(IProgressMonitor pm) throws CoreException {
+	private RefactoringStatus checkConflictingTypes(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		IJavaSearchScope scope= RefactoringScopeFactory.create(fType);
 		SearchPattern pattern= SearchPattern.createPattern(getNewElementName(),
@@ -982,12 +982,12 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 		Set<ICompilationUnit> conflicts= getIntersection(cusWithReferencesToRenamedType, cusWithReferencesToConflictingTypes);
 		if (cusWithReferencesToConflictingTypes.length > 0) {
-			cus: for (ICompilationUnit cu : cusWithReferencesToConflictingTypes) {
+			cus: for (ICompilationUnit cu : cusWithReferencesToConflictingTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String packageName= fType.getPackageFragment().getElementName();
 				if (((IPackageFragment) cu.getParent()).getElementName().equals(packageName)) {
 					boolean hasOnDemandImport= false;
 					IImportDeclaration[] imports= cu.getImports();
-					for (IImportDeclaration importDecl : imports) {
+					for (IImportDeclaration importDecl : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (importDecl.isOnDemand()) {
 							hasOnDemandImport= true;
 						} else {
@@ -1008,7 +1008,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 			}
 		}
 
-		for (ICompilationUnit conflict : conflicts) {
+		for (ICompilationUnit conflict : conflicts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			RefactoringStatusContext context= JavaStatusContext.create(conflict);
 			String message= Messages.format(RefactoringCoreMessages.RenameTypeRefactoring_another_type,
 				new String[] { getNewElementLabel(), BasicElementLabels.getFileName(conflict)});
@@ -1018,15 +1018,15 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	}
 
 	private static Set<ICompilationUnit> getIntersection(ICompilationUnit[] a1, ICompilationUnit[] a2){
-		Set<ICompilationUnit> set1= new HashSet<>(Arrays.asList(a1));
-		Set<ICompilationUnit> set2= new HashSet<>(Arrays.asList(a2));
+		Set<ICompilationUnit> set1= new HashSet<>(Arrays.asList(a1)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<ICompilationUnit> set2= new HashSet<>(Arrays.asList(a2)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		set1.retainAll(set2);
 		return set1;
 	}
 
 	private static ICompilationUnit[] getCus(SearchResultGroup[] searchResultGroups){
-		List<ICompilationUnit> cus= new ArrayList<>(searchResultGroups.length);
-		for (SearchResultGroup searchResultGroup : searchResultGroups) {
+		List<ICompilationUnit> cus= new ArrayList<>(searchResultGroups.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SearchResultGroup searchResultGroup : searchResultGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= searchResultGroup.getCompilationUnit();
 			if (cu != null)
 				cus.add(cu);
@@ -1034,7 +1034,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		return cus.toArray(new ICompilationUnit[cus.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor monitor) throws CoreException {
 		try {
 			monitor.beginTask(RefactoringCoreMessages.RenameTypeRefactoring_creating_change, 4);
@@ -1111,7 +1111,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		if (ext == null)
 			renamedResourceName= getNewElementName();
 		else
-			renamedResourceName= getNewElementName() + '.' + ext;
+			renamedResourceName= getNewElementName() + '.' + ext; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		result.add(new RenameResourceChange(type.getCompilationUnit().getPath(), renamedResourceName));
 	}
 
@@ -1139,7 +1139,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		return true;
 	}
 
-	private void createChanges(IProgressMonitor pm) throws CoreException {
+	private void createChanges(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try{
 			pm.beginTask("", 12); //$NON-NLS-1$
 			pm.setTaskName(RefactoringCoreMessages.RenameTypeProcessor_creating_changes);
@@ -1186,7 +1186,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	protected void addConstructorRenames(TextChangeManager manager) throws CoreException {
 		ICompilationUnit cu= fType.getCompilationUnit();
 		int typeNameLength= fType.getElementName().length();
-		for (IMethod method : fType.getMethods()) {
+		for (IMethod method : fType.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.isConstructor()) {
 				/*
 				 * constructor declarations cannot be fully qualified so we can use simple replace here
@@ -1202,14 +1202,14 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 	private void addReferenceUpdates(TextChangeManager manager, IProgressMonitor pm) {
 		pm.beginTask("", fReferences.length); //$NON-NLS-1$
-		for (SearchResultGroup reference : fReferences) {
+		for (SearchResultGroup reference : fReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= reference.getCompilationUnit();
 			if (cu == null)
 				continue;
 
 			String name= RefactoringCoreMessages.RenameTypeRefactoring_update_reference;
 
-			for (SearchMatch match : reference.getSearchResults()) {
+			for (SearchMatch match : reference.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ReplaceEdit replaceEdit= new ReplaceEdit(match.getOffset(), match.getLength(), getNewElementName());
 				TextChangeCompatibility.addTextEdit(manager.get(cu), name, replaceEdit, CATEGORY_TYPE_RENAME);
 			}
@@ -1222,11 +1222,11 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		if (fQualifiedNameSearchResult == null)
 			fQualifiedNameSearchResult= new QualifiedNameSearchResult();
 		QualifiedNameFinder.process(fQualifiedNameSearchResult, fType.getFullyQualifiedName(),
-			fragment.getElementName() + "." + getNewElementName(), //$NON-NLS-1$
+			fragment.getElementName() + "." + getNewElementName(), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fFilePatterns, fType.getJavaProject().getProject(), pm);
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -1286,16 +1286,16 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	 * @return status
 	 * @throws CoreException should not happen
 	 */
-	private RefactoringStatus initializeSimilarElementsRenameProcessors(IProgressMonitor progressMonitor, CheckConditionsContext context) throws CoreException {
+	private RefactoringStatus initializeSimilarElementsRenameProcessors(IProgressMonitor progressMonitor, CheckConditionsContext context) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(fPreloadedElementToName);
 		Assert.isNotNull(fPreloadedElementToSelection);
 
 		final RefactoringStatus status= new RefactoringStatus();
-		final Set<IMethod> handledTopLevelMethods= new HashSet<>();
-		final Set<Warning> warnings= new HashSet<>();
-		final List<RefactoringProcessor> processors= new ArrayList<>();
-		fFinalSimilarElementToName= new HashMap<>();
+		final Set<IMethod> handledTopLevelMethods= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final Set<Warning> warnings= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final List<RefactoringProcessor> processors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fFinalSimilarElementToName= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		CompilationUnit currentResolvedCU= null;
 		ICompilationUnit currentCU= null;
@@ -1306,7 +1306,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		progressMonitor.beginTask("", max * 3); //$NON-NLS-1$
 		progressMonitor.setTaskName(RefactoringCoreMessages.RenameTypeProcessor_checking_similarly_named_declarations_refactoring_conditions);
 
-		for (Entry<IJavaElement, String> entry : fPreloadedElementToName.entrySet()) {
+		for (Entry<IJavaElement, String> entry : fPreloadedElementToName.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			IJavaElement element= entry.getKey();
 			current++;
@@ -1388,7 +1388,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 					processor= createVirtualMethodRenameProcessor(currentMethod, newName, ripples, hierarchy);
 					fFinalSimilarElementToName.put(currentMethod, newName);
-					for (IMethod ripple : ripples) {
+					for (IMethod ripple : ripples) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fFinalSimilarElementToName.put(ripple, newName);
 					}
 				} else {
@@ -1433,7 +1433,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		return status;
 	}
 
-	private void checkCUCompleteConditions(final RefactoringStatus status, CompilationUnit currentResolvedCU, ICompilationUnit currentCU, List<RefactoringProcessor> processors) throws CoreException {
+	private void checkCUCompleteConditions(final RefactoringStatus status, CompilationUnit currentResolvedCU, ICompilationUnit currentCU, List<RefactoringProcessor> processors) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// check local variable conditions
 		List<RefactoringProcessor> locals= getProcessorsOfType(processors, RenameLocalVariableProcessor.class);
@@ -1443,11 +1443,11 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 			int current= 0;
 			TextChange textChange= manager.get(currentCU);
 			textChange.setKeepPreviewEdits(true);
-			for (RefactoringProcessor refactoringProcessor : locals) {
+			for (RefactoringProcessor refactoringProcessor : locals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				RenameLocalVariableProcessor localProcessor= (RenameLocalVariableProcessor) refactoringProcessor;
 				RenameAnalyzeUtil.LocalAnalyzePackage analyzePackage= localProcessor.getLocalAnalyzePackage();
 				analyzePackages[current]= analyzePackage;
-				for (TextEdit occurenceEdit : analyzePackage.fOccurenceEdits) {
+				for (TextEdit occurenceEdit : analyzePackage.fOccurenceEdits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TextChangeCompatibility.addTextEdit(textChange, "", occurenceEdit, GroupCategorySet.NONE); //$NON-NLS-1$
 				}
 				current++;
@@ -1464,8 +1464,8 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	}
 
 	private List<RefactoringProcessor> getProcessorsOfType(List<RefactoringProcessor> processors, Class<RenameLocalVariableProcessor> type) {
-		List<RefactoringProcessor> tmp= new ArrayList<>();
-		for (RefactoringProcessor element : processors) {
+		List<RefactoringProcessor> tmp= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (RefactoringProcessor element : processors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getClass().equals(type))
 				tmp.add(element);
 		}
@@ -1484,14 +1484,14 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	 *
 	 * @see #checkForConflictingRename(IField, String)
 	 */
-	private RefactoringStatus checkForConflictingRename(IMethod[] methods, String newName) {
+	private RefactoringStatus checkForConflictingRename(IMethod[] methods, String newName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus status= new RefactoringStatus();
-		for (Entry<IJavaElement, String> entry : fFinalSimilarElementToName.entrySet()) {
+		for (Entry<IJavaElement, String> entry : fFinalSimilarElementToName.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element= entry.getKey();
 			if (element instanceof IMethod) {
 				IMethod alreadyRegisteredMethod= (IMethod) element;
 				String alreadyRegisteredMethodName= entry.getValue();
-				for (IMethod method2 : methods) {
+				for (IMethod method2 : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ( (alreadyRegisteredMethodName.equals(newName)) && (method2.getDeclaringType().equals(alreadyRegisteredMethod.getDeclaringType()))
 							&& (sameParams(alreadyRegisteredMethod, method2))) {
 						String message= Messages.format(RefactoringCoreMessages.RenameTypeProcessor_cannot_rename_methods_same_new_name,
@@ -1515,7 +1515,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		String[] params= method.getParameterTypes();
 		String[] params2= method2.getParameterTypes();
 
-		for (int i= 0; i < params.length; i++) {
+		for (int i= 0; i < params.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String t1= Signature.getSimpleName(Signature.toString(params[i]));
 			String t2= Signature.getSimpleName(Signature.toString(params2[i]));
 			if (!t1.equals(t2)) {
@@ -1538,9 +1538,9 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	 * @param newName new name
 	 * @return status
 	 */
-	private RefactoringStatus checkForConflictingRename(IField currentField, String newName) {
+	private RefactoringStatus checkForConflictingRename(IField currentField, String newName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus status= new RefactoringStatus();
-		for (Entry<IJavaElement, String> entry : fFinalSimilarElementToName.entrySet()) {
+		for (Entry<IJavaElement, String> entry : fFinalSimilarElementToName.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element= entry.getKey();
 			if (element instanceof IField) {
 				IField alreadyRegisteredField= (IField) element;
@@ -1561,11 +1561,11 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 		return status;
 	}
 
-	private RefactoringStatus addWarnings(final Set<Warning> warnings) {
+	private RefactoringStatus addWarnings(final Set<Warning> warnings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus status= new RefactoringStatus();
 
 		// Remove deleted ripple methods from user selection and add warnings
-		for (Warning warning : warnings) {
+		for (Warning warning : warnings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IMethod[] elements= warning.getRipple();
 			if (warning.isSelectionWarning()) {
 				String message= Messages.format(RefactoringCoreMessages.RenameTypeProcessor_deselected_method_is_overridden,
@@ -1580,7 +1580,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 								JavaElementLabelsCore.getElementLabel(elements[0].getDeclaringType(), JavaElementLabelsCore.ALL_DEFAULT) });
 				status.addWarning(message);
 			}
-			for (IMethod element : elements)
+			for (IMethod element : elements) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fPreloadedElementToSelection.put(element, Boolean.FALSE);
 		}
 		return status;
@@ -1590,11 +1590,11 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	 * If one of the methods of this ripple was deselected or renamed by
 	 * the user, deselect the whole chain and add warnings.
 	 */
-	private boolean checkForWarnings(final Set<Warning> warnings, final String newName, final IMethod[] ripples) {
+	private boolean checkForWarnings(final Set<Warning> warnings, final String newName, final IMethod[] ripples) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		boolean addSelectionWarning= false;
 		boolean addNameWarning= false;
-		for (IMethod ripple : ripples) {
+		for (IMethod ripple : ripples) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String newNameOfRipple= fPreloadedElementToName.get(ripple);
 			Boolean selected= fPreloadedElementToSelection.get(ripple);
 
@@ -1691,12 +1691,12 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	 * @param monitor progress monitor
 	 * @throws CoreException if updating failed
 	 */
-	private void addSimilarElementsTextualUpdates(TextChangeManager manager, IProgressMonitor monitor) throws CoreException {
+	private void addSimilarElementsTextualUpdates(TextChangeManager manager, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		final Map<String, String> simpleNames= new HashMap<>();
-		final List<String> forbiddenSimpleNames= new ArrayList<>();
+		final Map<String, String> simpleNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		final List<String> forbiddenSimpleNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Entry<IJavaElement, String> entry : fFinalSimilarElementToName.entrySet()) {
+		for (Entry<IJavaElement, String> entry : fFinalSimilarElementToName.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element= entry.getKey();
 			if (element instanceof IField) {
 
@@ -1712,7 +1712,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 			}
 		}
 
-		for (Entry<IJavaElement, String> entry : fFinalSimilarElementToName.entrySet()) {
+		for (Entry<IJavaElement, String> entry : fFinalSimilarElementToName.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element= entry.getKey();
 			if (element instanceof IField) {
 				final IField field= (IField) element;
@@ -1751,7 +1751,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 	 */
 	public void resetSelectedSimilarElements() {
 		Assert.isNotNull(fPreloadedElementToName);
-		for (Entry<IJavaElement, String> entry : fPreloadedElementToNameDefault.entrySet()) {
+		for (Entry<IJavaElement, String> entry : fPreloadedElementToNameDefault.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element= entry.getKey();
 			fPreloadedElementToName.put(element, entry.getValue());
 			fPreloadedElementToSelection.put(element, Boolean.TRUE);

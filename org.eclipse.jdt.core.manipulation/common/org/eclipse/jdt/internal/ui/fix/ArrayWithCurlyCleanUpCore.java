@@ -58,7 +58,7 @@ public class ArrayWithCurlyCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (isEnabled(CleanUpConstants.ARRAY_WITH_CURLY)) {
 			result.add(MultiFixMessages.ArrayWithCurlyCleanup_description);

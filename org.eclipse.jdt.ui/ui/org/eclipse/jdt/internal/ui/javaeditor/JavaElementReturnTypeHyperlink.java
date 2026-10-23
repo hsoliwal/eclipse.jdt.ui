@@ -90,7 +90,7 @@ public class JavaElementReturnTypeHyperlink implements IHyperlink {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void open() {
 		try {
 			String returnTypeSignature= fMethod.getReturnType();

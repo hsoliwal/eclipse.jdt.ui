@@ -31,8 +31,8 @@ public final class ContentAssistComputerParameter implements IParameterValues {
 	@Override
 	public Map<String, String> getParameterValues() {
 		Collection<CompletionProposalCategory> descriptors= CompletionProposalComputerRegistry.getDefault().getProposalCategories();
-		Map<String, String> map= new HashMap<>(descriptors.size());
-		for (CompletionProposalCategory category : descriptors) {
+		Map<String, String> map= new HashMap<>(descriptors.size()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (CompletionProposalCategory category : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			map.put(category.getDisplayName(), category.getId());
 		}
 		return map;

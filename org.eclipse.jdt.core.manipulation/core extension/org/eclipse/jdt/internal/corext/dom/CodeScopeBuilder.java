@@ -52,12 +52,12 @@ public class CodeScopeBuilder extends ASTVisitor {
 		}
 		private void addChild(Scope child) {
 			if (fChildren == null)
-				fChildren= new ArrayList<>(2);
+				fChildren= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fChildren.add(child);
 		}
 		private void addName(String name) {
 			if (fNames == null)
-				fNames= new ArrayList<>(2);
+				fNames= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fNames.add(name);
 		}
 		public Scope getParent() {
@@ -67,7 +67,7 @@ public class CodeScopeBuilder extends ASTVisitor {
 			if (fStart <= start && start + length <= fStart + fLength) {
 				if (fChildren == null)
 					return this;
-				for (Scope child : fChildren) {
+				for (Scope child : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Scope scope= child.findScope(start, length);
 					if (scope != null)
 						return scope;
@@ -79,8 +79,8 @@ public class CodeScopeBuilder extends ASTVisitor {
 		public String createName(String candidate, boolean add) {
 			int i= 1;
 			String result= candidate;
-			while(isInUse(result)) {
-				result= candidate + i++;
+			while(isInUse(result)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				result= candidate + i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			if (add)
 				addName(result);
@@ -90,7 +90,7 @@ public class CodeScopeBuilder extends ASTVisitor {
 			if (internalIsInUse(name))
 				return true;
 			if (fChildren != null) {
-				for (Scope child : fChildren) {
+				for (Scope child : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fCursorOffset < child.fStart && child.isInUseDown(name)) {
 						return true;
 					}
@@ -111,7 +111,7 @@ public class CodeScopeBuilder extends ASTVisitor {
 				return true;
 			if (fChildren == null)
 				return false;
-			for (Scope scope : fChildren) {
+			for (Scope scope : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (scope.isInUseDown(name))
 					return true;
 			}
@@ -138,13 +138,13 @@ public class CodeScopeBuilder extends ASTVisitor {
 
 	private CodeScopeBuilder(ASTNode node, IBinding ignore) {
 		fScope= new Scope(null, node.getStartPosition(), node.getLength());
-		fScopes= new ArrayList<>();
+		fScopes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fIgnoreBinding= ignore;
 	}
 
 	private CodeScopeBuilder(ASTNode node, Selection ignore) {
 		fScope= new Scope(null, node.getStartPosition(), node.getLength());
-		fScopes= new ArrayList<>();
+		fScopes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fIgnoreRange= ignore;
 	}
 
@@ -226,7 +226,7 @@ public class CodeScopeBuilder extends ASTVisitor {
 		int size;
 		if (list == null || (size= list.size()) == 0)
 			return;
-		for (int i= 0; i < size; i++) {
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.get(i).accept(this);
 		}
 	}

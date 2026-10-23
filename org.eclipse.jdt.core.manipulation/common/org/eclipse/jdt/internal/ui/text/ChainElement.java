@@ -55,7 +55,7 @@ public class ChainElement {
 		initializeReturnType();
 	}
 
-	private void initializeReturnType() {
+	private void initializeReturnType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String signature= null;
 		IJavaProject proj= element.getJavaProject();
 		IType declType;
@@ -157,9 +157,9 @@ public class ChainElement {
 	public String toString() {
 		if (elementType == ElementType.METHOD) {
 			final IMethod m= (IMethod) element;
-			StringBuilder ret= new StringBuilder(m.getElementName());
+			StringBuilder ret= new StringBuilder(m.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			try {
-				return ret.append(m.getSignature()).toString();
+				return ret.append(m.getSignature()).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} catch (JavaModelException e1) {
 				return ret.toString();
 			}
@@ -167,10 +167,10 @@ public class ChainElement {
 		return element.toString();
 	}
 
-	public static String createChainCode(final Chain chain, final boolean createAsTitle, final int expectedDimension) {
-		final Map<String, Integer> varNames= new HashMap<>();
-		StringBuilder sb= new StringBuilder(64);
-		for (final ChainElement edge : chain.getElements()) {
+	public static String createChainCode(final Chain chain, final boolean createAsTitle, final int expectedDimension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, Integer> varNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		StringBuilder sb= new StringBuilder(64); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (final ChainElement edge : chain.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (edge.getElementType()) {
 				case FIELD:
 				case TYPE:
@@ -182,9 +182,9 @@ public class ChainElement {
 					if (createAsTitle) {
 						StringBuffer tmp= new StringBuffer(sb.toString());
 						JavaElementLabelsCore.getMethodLabel(method, JavaElementLabelsCore.ALL_DEFAULT, tmp);
-						sb= new StringBuilder(tmp.toString());
+						sb= new StringBuilder(tmp.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					} else {
-						sb.append(method.getElementName());
+						sb.append(method.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						appendParameters(sb, method, varNames);
 					}
 					break;
@@ -192,7 +192,7 @@ public class ChainElement {
 			}
 			final boolean appendVariables= !createAsTitle;
 			appendArrayDimensions(sb, edge.getReturnTypeDimension(), expectedDimension, appendVariables, varNames);
-			sb.append("."); //$NON-NLS-1$
+			sb.append("."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		deleteLastChar(sb);
 		return sb.toString();
@@ -200,50 +200,50 @@ public class ChainElement {
 
 	private static void appendVariableString(final ChainElement edge, final StringBuilder sb) {
 		if (edge.requiresThisForQualification() && sb.length() == 0) {
-			sb.append("this."); //$NON-NLS-1$
+			sb.append("this."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		sb.append((edge.getElement()).getElementName());
+		sb.append((edge.getElement()).getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
-	private static void appendParameters(final StringBuilder sb, final IMethod method, final Map<String, Integer> varNames) {
-		sb.append("("); //$NON-NLS-1$
-		for (final String typeSig : method.getParameterTypes()) {
+	private static void appendParameters(final StringBuilder sb, final IMethod method, final Map<String, Integer> varNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		sb.append("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (final String typeSig : method.getParameterTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String parameterName= Signature.getSignatureSimpleName(Signature.getElementType(typeSig));
-			parameterName= parameterName.substring(0, 1).toLowerCase() + parameterName.substring(1);
+			parameterName= parameterName.substring(0, 1).toLowerCase() + parameterName.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			int index= parameterName.indexOf('<');
 			if (index != -1) {
 				parameterName= parameterName.substring(0, index);
 			}
 			appendTemplateVariable(sb, parameterName, varNames);
-			sb.append(", "); //$NON-NLS-1$
+			sb.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (method.getParameterTypes().length > 0) {
 			deleteLastChar(sb);
 			deleteLastChar(sb);
 		}
-		sb.append(")"); //$NON-NLS-1$
+		sb.append(")"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private static void appendTemplateVariable(final StringBuilder sb, final String varname,
 			final Map<String, Integer> varNames) {
 		int val= varNames.containsKey(varname) ? varNames.get(varname) : 0;
 		varNames.put(varname, val + 1);
-		sb.append("${").append(varname); //$NON-NLS-1$
+		sb.append("${").append(varname); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		final int count= varNames.get(varname);
 		if (count > 1) {
-			sb.append(count);
+			sb.append(count); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		sb.append("}"); //$NON-NLS-1$
+		sb.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private static void appendArrayDimensions(final StringBuilder sb, final int dimension, final int expectedDimension,
 			final boolean appendVariables, final Map<String, Integer> varNames) {
-		for (int i= dimension; i-- > expectedDimension;) {
-			sb.append("["); //$NON-NLS-1$
+		for (int i= dimension; i-- > expectedDimension;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			sb.append("["); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (appendVariables) {
 				appendTemplateVariable(sb, "i", varNames); //$NON-NLS-1$
 			}
-			sb.append("]"); //$NON-NLS-1$
+			sb.append("]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 	}
 

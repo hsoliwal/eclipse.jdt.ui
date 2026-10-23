@@ -75,7 +75,7 @@ public class JavaTestCase  {
 
 		System.out.println("methods of A");
 		IMethod[] methods= type.getMethods();
-		for (IMethod method : methods) {
+		for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			System.out.println(method.getElementName());
 		}
 		assertEquals(2, methods.length, "Should contain 2 methods");

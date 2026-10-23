@@ -139,7 +139,7 @@ public class EditorTestHelper {
 
 	public static AbstractTextEditor[] openInEditor(IFile[] files, String editorId) throws PartInitException {
 		AbstractTextEditor editors[]= new AbstractTextEditor[files.length];
-		for (int i= 0; i < files.length; i++) {
+		for (int i= 0; i < files.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			editors[i]= (AbstractTextEditor) openInEditor(files[i], editorId, true);
 			joinReconciler(getSourceViewer(editors[i]), 100, 10000, 100);
 		}
@@ -166,9 +166,9 @@ public class EditorTestHelper {
 	}
 
 	public static void closeAllEditors() {
-		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
-			for (IWorkbenchPage page : window.getPages()) {
-				for (IEditorReference editorReference : page.getEditorReferences()) {
+		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IWorkbenchPage page : window.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IEditorReference editorReference : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					closeEditor(editorReference.getEditor(false));
 				}
 			}
@@ -193,7 +193,7 @@ public class EditorTestHelper {
 	}
 
 	public static void runEventQueue(Display display) {
-		while (display.readAndDispatch()) {
+		while (display.readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// do nothing
 		}
 	}
@@ -262,12 +262,12 @@ public class EditorTestHelper {
 		joinReconciler(sourceViewer, 500, 0, 500);
 	}
 
-	public static void joinBackgroundActivities() throws CoreException {
+	public static void joinBackgroundActivities() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Join Building
 		Logger.getGlobal().entering("EditorTestHelper", "joinBackgroundActivities");
 		Logger.getGlobal().finer("join builder");
 		boolean interrupted= true;
-		while (interrupted) {
+		while (interrupted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
 				interrupted= false;
@@ -317,7 +317,7 @@ public class EditorTestHelper {
 
 	public static boolean allJobsQuiet() {
 		IJobManager jobManager= Job.getJobManager();
-		for (Job job : jobManager.find(null)) {
+		for (Job job : jobManager.find(null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int state= job.getState();
 			if (state == Job.RUNNING || state == Job.WAITING) {
 				Logger.getGlobal().finest(job.toString());
@@ -352,7 +352,7 @@ public class EditorTestHelper {
 		reconcilerAccessor.invoke("forceReconciling", new Object[0]);
 	}
 
-	public static boolean joinReconciler(SourceViewer sourceViewer, long minTime, long maxTime, long intervalTime) {
+	public static boolean joinReconciler(SourceViewer sourceViewer, long minTime, long maxTime, long intervalTime) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Logger.getGlobal().entering("EditorTestHelper", "joinReconciler");
 		runEventQueue(minTime);
 
@@ -476,7 +476,7 @@ public class EditorTestHelper {
 	}
 
 	public static IFile[] findFiles(IResource resource) throws CoreException {
-		List<IResource> files= new ArrayList<>();
+		List<IResource> files= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		findFiles(resource, files);
 		return files.toArray(new IFile[files.size()]);
 	}
@@ -487,7 +487,7 @@ public class EditorTestHelper {
 			return;
 		}
 		if (resource instanceof IContainer) {
-			for (IResource res : ((IContainer) resource).members()) {
+			for (IResource res : ((IContainer) resource).members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				findFiles(res, files);
 			}
 		}
@@ -503,7 +503,7 @@ public class EditorTestHelper {
 	public static void importFilesFromDirectory(File rootDir, IPath destPath, IProgressMonitor monitor) throws CoreException {
 		try {
 			IImportStructureProvider structureProvider= FileSystemStructureProvider.INSTANCE;
-			List<File> files= new ArrayList<>(100);
+			List<File> files= new ArrayList<>(100); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			addJavaFiles(rootDir, files);
 			ImportOperation op= new ImportOperation(destPath, rootDir, structureProvider, new ImportOverwriteQuery(), files);
 			op.setCreateContainerStructure(false);
@@ -518,8 +518,8 @@ public class EditorTestHelper {
 	}
 
 	private static void addJavaFiles(File dir, List<File> collection) throws IOException {
-		List<File> subDirs= new ArrayList<>(2);
-		for (File file : dir.listFiles()) {
+		List<File> subDirs= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (File file : dir.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (file.isFile()) {
 				collection.add(file);
 			} else if (file.isDirectory()) {
@@ -527,7 +527,7 @@ public class EditorTestHelper {
 			}
 		}
 		Iterator<File> iter= subDirs.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			File subDir= iter.next();
 			addJavaFiles(subDir, collection);
 		}

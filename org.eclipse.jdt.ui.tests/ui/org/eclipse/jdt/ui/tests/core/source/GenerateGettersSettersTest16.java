@@ -80,7 +80,7 @@ public class GenerateGettersSettersTest16 extends SourceTestCase16 {
 	/**
 	 * No setter for final fields (if skipped by user, as per parameter)
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug561413() throws Exception {
 
 		runOperation(fRecordA.getRecordComponents(), NOFIELDS, NOFIELDS);

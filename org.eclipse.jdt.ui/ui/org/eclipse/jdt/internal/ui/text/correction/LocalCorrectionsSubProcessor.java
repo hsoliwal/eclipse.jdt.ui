@@ -162,14 +162,14 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 		QuickAssistProcessor.getCatchClauseToThrowsProposals(context, selectedNode, proposals);
 	}
 
-	public static void addNLSProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) throws CoreException {
+	public static void addNLSProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ICompilationUnit cu= context.getCompilationUnit();
 		if (cu == null || !cu.exists()) {
 			return;
 		}
 		String name= CorrectionMessages.LocalCorrectionsSubProcessor_externalizestrings_description;
 
-		ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(name, null, IProposalRelevance.EXTERNALIZE_STRINGS, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE)) {
+		ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(name, null, IProposalRelevance.EXTERNALIZE_STRINGS, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE)) { //FLLDCIM: MARK — T30  ANONYMOUS
 			@Override
 			public void apply(IDocument document) {
 				ExternalizeWizard.open(cu, JavaPlugin.getActiveWorkbenchShell());
@@ -282,7 +282,7 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 		new LocalCorrectionsSubProcessor().getInterfaceExtendsClassProposalsBase(context, problem, proposals);
 	}
 
-	public static void createNewTypeAsPermittedSubTypeProposal(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals, int relevance) throws JavaModelException {
+	public static void createNewTypeAsPermittedSubTypeProposal(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals, int relevance) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode == null) {
 			return;
@@ -360,10 +360,10 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 		new LocalCorrectionsSubProcessor().getValueForAnnotationProposals(context, problem, proposals);
 	}
 
-	public static void addTypePrametersToRawTypeReference(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) {
+	public static void addTypePrametersToRawTypeReference(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProposableFix fix= Java50FixCore.createRawTypeReferenceFix(context.getASTRoot(), problem);
 		if (fix != null) {
-			for (ICommandAccess element : proposals) {
+			for (ICommandAccess element : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof FixCorrectionProposal) {
 					FixCorrectionProposal fixProp= (FixCorrectionProposal) element;
 					if (RAW_TYPE_REFERENCE_ID.equals(fixProp.getCommandId())) {
@@ -381,7 +381,7 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 
 		//Infer Generic Type Arguments... proposal
 		boolean hasInferTypeArgumentsProposal= false;
-		for (ICommandAccess completionProposal : proposals) {
+		for (ICommandAccess completionProposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (completionProposal instanceof ChangeCorrectionProposal) {
 				if (IJavaEditorActionDefinitionIds.INFER_TYPE_ARGUMENTS_ACTION.equals(((ChangeCorrectionProposal) completionProposal).getCommandId())) {
 					hasInferTypeArgumentsProposal= true;
@@ -394,8 +394,8 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 			if (referencesVar(problem, context.getASTRoot()))  {
 				return;
 			}
-			ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(CorrectionMessages.LocalCorrectionsSubProcessor_InferGenericTypeArguments, null,
-					IProposalRelevance.INFER_GENERIC_TYPE_ARGUMENTS, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE)) {
+			ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(CorrectionMessages.LocalCorrectionsSubProcessor_InferGenericTypeArguments, null, //FLLDCIM: MARK — T30  ANONYMOUS
+					IProposalRelevance.INFER_GENERIC_TYPE_ARGUMENTS, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE)) { //FLLDCIM: MARK — T30  IMPLEMENTS
 				@Override
 				public void apply(IDocument document) {
 					IEditorInput input= new FileEditorInput((IFile) cu.getResource());
@@ -424,7 +424,7 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 		new LocalCorrectionsSubProcessor().getTypeArgumentsFromContext(context, problem, proposals, new UnresolvedElementsSubProcessor());
 	}
 
-	private static boolean referencesVar(IProblemLocation problem, CompilationUnit compilationUnit) {
+	private static boolean referencesVar(IProblemLocation problem, CompilationUnit compilationUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= problem.getCoveredNode(compilationUnit);
 		if (node instanceof ClassInstanceCreation) {
 			Type rawReference= (Type)node.getStructuralProperty(ClassInstanceCreation.TYPE_PROPERTY);
@@ -503,7 +503,7 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 		new LocalCorrectionsSubProcessor().getMissingDefaultCaseProposal(context, problem, proposals);
 	}
 
-	public static void addMissingHashCodeProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) {
+	public static void addMissingHashCodeProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ICompilationUnit cu= context.getCompilationUnit();
 
 		CompilationUnit astRoot= context.getASTRoot();
@@ -526,7 +526,7 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 		final IType type= (IType) binding.getJavaElement();
 
 		boolean hasInstanceFields= false;
-		for (IVariableBinding declaredField : binding.getDeclaredFields()) {
+		for (IVariableBinding declaredField : binding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Modifier.isStatic(declaredField.getModifiers())) {
 				hasInstanceFields= true;
 				break;
@@ -536,7 +536,7 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 			//Generate hashCode() and equals()... proposal
 			String label= CorrectionMessages.LocalCorrectionsSubProcessor_generate_hashCode_equals_description;
 			Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
-			ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(label, null, IProposalRelevance.GENERATE_HASHCODE_AND_EQUALS, image) {
+			ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(label, null, IProposalRelevance.GENERATE_HASHCODE_AND_EQUALS, image) { //FLLDCIM: MARK — T30  ANONYMOUS
 				@Override
 				public void apply(IDocument document) {
 					IEditorInput input= new FileEditorInput((IFile) cu.getResource());
@@ -659,7 +659,7 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 		return new AssignToVariableAssistProposal(core);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICommandAccess fixCorrectionProposalToT(FixCorrectionProposalCore core, int uid) {
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
 		switch (uid) {
@@ -701,7 +701,7 @@ public class LocalCorrectionsSubProcessor extends LocalCorrectionsBaseSubProcess
 		return new CreateVariableReferenceProposal(core);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICommandAccess astRewriteCorrectionProposalToT(ASTRewriteCorrectionProposalCore core, int uid) {
 		Image image= ISharedImages.get().getImage(ISharedImages.IMG_TOOL_DELETE);
 		switch (uid) {

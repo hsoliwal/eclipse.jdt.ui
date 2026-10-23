@@ -63,7 +63,7 @@ public class JavadocReader implements AutoCloseable {
 			fInputStream.close();
 	}
 
-	public Element readXML() throws IOException, SAXException {
+	public Element readXML() throws IOException, SAXException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
 		factory.setValidating(false);
@@ -82,13 +82,13 @@ public class JavadocReader implements AutoCloseable {
 
 		NodeList targets= xmlJavadocDesc.getChildNodes();
 
-		for (int i= 0; i < targets.getLength(); i++) {
+		for (int i= 0; i < targets.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node target= targets.item(i);
 
 			//look through the XML file for the javadoc task
 			if ("target".equals(target.getNodeName())) { //$NON-NLS-1$
 				NodeList children= target.getChildNodes();
-				for (int j= 0; j < children.getLength(); j++) {
+				for (int j= 0; j < children.getLength(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Node child= children.item(j);
 					if ("javadoc".equals(child.getNodeName()) && (child.getNodeType() == Node.ELEMENT_NODE)) { //$NON-NLS-1$
 						return (Element) child;

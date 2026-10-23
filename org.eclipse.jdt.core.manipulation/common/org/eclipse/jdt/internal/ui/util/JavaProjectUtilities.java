@@ -70,7 +70,7 @@ public class JavaProjectUtilities {
 	/*
 	 * Moved from org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathsBlock
 	 */
-	public static void addJavaNature(IProject project, IProgressMonitor monitor) throws CoreException {
+	public static void addJavaNature(IProject project, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor != null && monitor.isCanceled()) {
 			throw new OperationCanceledException();
 		}
@@ -92,7 +92,7 @@ public class JavaProjectUtilities {
 	/*
 	 * Moved from org.eclipse.jdt.internal.ui.actions.SelectionConverter
 	 */
-	public static IJavaElement resolveEnclosingElement(IJavaElement input, int offset, int length) throws JavaModelException {
+	public static IJavaElement resolveEnclosingElement(IJavaElement input, int offset, int length) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement atOffset= null;
 		if (input instanceof ICompilationUnit) {
 			ICompilationUnit cunit= (ICompilationUnit)input;
@@ -111,7 +111,7 @@ public class JavaProjectUtilities {
 			IJavaElement result= atOffset;
 			if (atOffset instanceof ISourceReference) {
 				ISourceRange range= ((ISourceReference)atOffset).getSourceRange();
-				while (range.getOffset() + range.getLength() < selectionEnd) {
+				while (range.getOffset() + range.getLength() < selectionEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result= result.getParent();
 					if (! (result instanceof ISourceReference)) {
 						result= input;

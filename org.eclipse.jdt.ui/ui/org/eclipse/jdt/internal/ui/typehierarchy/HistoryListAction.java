@@ -54,7 +54,7 @@ public class HistoryListAction extends Action {
 		private IStatus fHistoryStatus;
 		private IJavaElement[] fResult;
 
-		private HistoryListDialog(Shell shell, IJavaElement[][] elements) {
+		private HistoryListDialog(Shell shell, IJavaElement[][] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(shell);
 			setTitle(TypeHierarchyMessages.HistoryListDialog_title);
 

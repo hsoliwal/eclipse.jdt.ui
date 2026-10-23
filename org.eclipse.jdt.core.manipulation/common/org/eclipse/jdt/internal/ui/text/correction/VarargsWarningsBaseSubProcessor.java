@@ -41,7 +41,7 @@ public abstract class VarargsWarningsBaseSubProcessor<T> {
 	public VarargsWarningsBaseSubProcessor() {
 	}
 
-	public void createAddSafeVarargsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void createAddSafeVarargsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode coveringNode= problem.getCoveringNode(context.getASTRoot());
 
 		MethodDeclaration methodDeclaration= ASTResolving.findParentMethodDeclaration(coveringNode);
@@ -62,7 +62,7 @@ public abstract class VarargsWarningsBaseSubProcessor<T> {
 			proposals.add(proposal);
 	}
 
-	public void createAddSafeVarargsToDeclarationProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void createAddSafeVarargsToDeclarationProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode coveringNode= problem.getCoveringNode(context.getASTRoot());
 		IMethodBinding methodBinding;
 		if (coveringNode instanceof MethodInvocation) {
@@ -93,14 +93,14 @@ public abstract class VarargsWarningsBaseSubProcessor<T> {
 		}
 	}
 
-	public void createRemoveSafeVarargsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void createRemoveSafeVarargsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode coveringNode= problem.getCoveringNode(context.getASTRoot());
 		if (!(coveringNode instanceof MethodDeclaration methodDeclaration))
 			return;
 
 		MarkerAnnotation annotation= null;
 
-		for (ASTNode node : (List<? extends ASTNode>) methodDeclaration.modifiers()) {
+		for (ASTNode node : (List<? extends ASTNode>) methodDeclaration.modifiers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof MarkerAnnotation) {
 				annotation= (MarkerAnnotation) node;
 				if ("SafeVarargs".equals(annotation.resolveAnnotationBinding().getName())) { //$NON-NLS-1$

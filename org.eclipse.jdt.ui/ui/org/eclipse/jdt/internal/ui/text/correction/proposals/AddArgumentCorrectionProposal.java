@@ -20,7 +20,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class AddArgumentCorrectionProposal extends LinkedCorrectionProposal {
+public class AddArgumentCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public AddArgumentCorrectionProposal(AddArgumentCorrectionProposalCore core) {
 		super(core.getName(), core.getCompilationUnit(), null, core.getRelevance(), JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE),core);
 	}

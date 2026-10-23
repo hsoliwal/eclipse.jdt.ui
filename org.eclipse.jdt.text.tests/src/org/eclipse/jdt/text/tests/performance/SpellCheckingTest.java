@@ -67,7 +67,7 @@ public class SpellCheckingTest extends TextPerformanceTestCase {
 		return new PerformanceTestSetup(new TestSuite(THIS));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setUp() throws Exception {
 		super.setUp();
 		setWarmUpRuns(WARM_UP_RUNS);
@@ -109,7 +109,7 @@ public class SpellCheckingTest extends TextPerformanceTestCase {
 
 	private void measure(PerformanceMeter performanceMeter, int runs, boolean printDebugInfo) {
 		SpellingService spellingService= EditorsUI.getSpellingService();
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			performanceMeter.start();
 			spellingService.check(fDocument, fSpellingContext, new SpellingProblemCollector(printDebugInfo && i == 0), null);
 			performanceMeter.stop();
@@ -151,7 +151,7 @@ public class SpellCheckingTest extends TextPerformanceTestCase {
 		@Override
 		public void endCollecting() {
 			if (fPrintCount)
-				System.out.println("No of spelling problems : " + fProblemCount);
+				System.out.println("No of spelling problems : " + fProblemCount); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

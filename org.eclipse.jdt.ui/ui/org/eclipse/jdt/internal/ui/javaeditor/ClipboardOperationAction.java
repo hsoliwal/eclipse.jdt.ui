@@ -131,7 +131,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 			int count= dataIn.readInt();
 
 			String[] array= new String[count];
-			for (int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				array[i]= dataIn.readUTF();
 			}
 			return array;
@@ -139,7 +139,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 
 		private static void writeArray(DataOutputStream dataOut, String[] array) throws IOException {
 			dataOut.writeInt(array.length);
-			for (String a : array) {
+			for (String a : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				dataOut.writeUTF(a);
 			}
 		}
@@ -170,7 +170,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 
 	private static class ClipboardTransfer extends ByteArrayTransfer {
 
-		private static final String TYPE_NAME = "source-with-imports-transfer-format" + System.currentTimeMillis(); //$NON-NLS-1$
+		private static final String TYPE_NAME = "source-with-imports-transfer-format" + System.currentTimeMillis(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		private static final int TYPEID = registerType(TYPE_NAME);
 
@@ -226,7 +226,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 	 * @param editor the text editor
 	 * @param operationCode the operation code
 	 */
-	public ClipboardOperationAction(ResourceBundle bundle, String prefix, ITextEditor editor, int operationCode) {
+	public ClipboardOperationAction(ResourceBundle bundle, String prefix, ITextEditor editor, int operationCode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(bundle, prefix, editor);
 		fOperationCode= operationCode;
 
@@ -351,7 +351,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 		}
 	}
 
-	protected void internalDoOperation() {
+	protected void internalDoOperation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fOperationCode == RAW_PASTE) {
 			if (isSmartInsertMode()) {
 				setInsertMode(ITextEditorExtension3.INSERT);
@@ -396,7 +396,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 	}
 
 
-	private void doCutCopyWithImportsOperation() {
+	private void doCutCopyWithImportsOperation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITextEditor editor= getTextEditor();
 		ITypeRoot inputElement= JavaUI.getEditorInputTypeRoot(editor.getEditorInput());
 		ISelection selection= editor.getSelectionProvider().getSelection();
@@ -427,8 +427,8 @@ public final class ClipboardOperationAction extends TextEditorAction {
 				if (textData == null)
 					return;
 
-				ArrayList<Object> datas= new ArrayList<>(4);
-				ArrayList<ByteArrayTransfer> transfers= new ArrayList<>(4);
+				ArrayList<Object> datas= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				ArrayList<ByteArrayTransfer> transfers= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				datas.add(textData);
 				transfers.add(TextTransfer.getInstance());
 
@@ -471,7 +471,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 		if (selection.getLength() < 30) {
 			String text= selection.getText();
 			if (text != null) {
-				for (char c : text.toCharArray()) {
+				for (char c : text.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!Character.isJavaIdentifierPart(c)) {
 						return true;
 					}
@@ -483,7 +483,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 	}
 
 
-	private ClipboardData getClipboardData(ITypeRoot inputElement, int offset, int length) {
+	private ClipboardData getClipboardData(ITypeRoot inputElement, int offset, int length) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Since this call happens in the UI thread, pass WAIT_NO as parameter
 		// so that the call can not reach the wait call that causes UI freezes.
 		// The cost of doing so is that the method could return null from time
@@ -505,8 +505,8 @@ public final class ClipboardOperationAction extends TextEditorAction {
 			}
 		}
 
-		ArrayList<SimpleName> typeImportsRefs= new ArrayList<>();
-		ArrayList<SimpleName> staticImportsRefs= new ArrayList<>();
+		ArrayList<SimpleName> typeImportsRefs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<SimpleName> staticImportsRefs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		ImportReferencesCollector.collect(astRoot, inputElement.getJavaProject(), new Region(offset, length), typeImportsRefs, staticImportsRefs);
 
@@ -514,8 +514,8 @@ public final class ClipboardOperationAction extends TextEditorAction {
 			return null;
 		}
 
-		HashSet<String> namesToImport= new HashSet<>(typeImportsRefs.size());
-		for (SimpleName curr : typeImportsRefs) {
+		HashSet<String> namesToImport= new HashSet<>(typeImportsRefs.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (SimpleName curr : typeImportsRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IBinding binding= curr.resolveBinding();
 			if (binding != null && binding.getKind() == IBinding.TYPE) {
 				ITypeBinding typeBinding= (ITypeBinding) binding;
@@ -535,13 +535,13 @@ public final class ClipboardOperationAction extends TextEditorAction {
 			}
 		}
 
-		HashSet<String> staticsToImport= new HashSet<>(staticImportsRefs.size());
-		for (SimpleName curr : staticImportsRefs) {
+		HashSet<String> staticsToImport= new HashSet<>(staticImportsRefs.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (SimpleName curr : staticImportsRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IBinding binding= curr.resolveBinding();
 			if (binding != null) {
-				StringBuilder buf= new StringBuilder(Bindings.getImportName(binding));
+				StringBuilder buf= new StringBuilder(Bindings.getImportName(binding)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (binding.getKind() == IBinding.METHOD) {
-					buf.append("()"); //$NON-NLS-1$
+					buf.append("()"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				staticsToImport.add(buf.toString());
 			}
@@ -557,7 +557,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 		return new ClipboardData(inputElement, typeImports, staticImports);
 	}
 
-	private void doPasteWithImportsOperation() {
+	private void doPasteWithImportsOperation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITextEditor editor= getTextEditor();
 		IJavaElement inputElement= JavaUI.getEditorInputTypeRoot(editor.getEditorInput());
 
@@ -590,7 +590,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 		}
 	}
 
-	private boolean targetIsInString() {
+	private boolean targetIsInString() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITextEditor editor= getTextEditor();
 		IDocument document= editor.getDocumentProvider().getDocument(editor.getEditorInput());
 		if (document != null) {
@@ -609,14 +609,14 @@ public final class ClipboardOperationAction extends TextEditorAction {
 		return false;
 	}
 
-	private void addImports(final ICompilationUnit unit, ClipboardData data) throws CoreException {
+	private void addImports(final ICompilationUnit unit, ClipboardData data) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ImportRewrite rewrite= StubUtility.createImportRewrite(unit, true);
-		for (String type : data.getTypeImports()) {
+		for (String type : data.getTypeImports()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.indexOf('.') != -1) {
 				rewrite.addImport(type);
 			}
 		}
-		for (String staticImport : data.getStaticImports()) {
+		for (String staticImport : data.getStaticImports()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= Signature.getSimpleName(staticImport);
 			boolean isField= !name.endsWith("()"); //$NON-NLS-1$
 			if (!isField) {
@@ -627,7 +627,7 @@ public final class ClipboardOperationAction extends TextEditorAction {
 		}
 
 		try {
-			getProgressService().busyCursorWhile(monitor -> {
+			getProgressService().busyCursorWhile(monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					JavaModelUtil.applyEdit(unit, rewrite.rewriteImports(monitor), false, null);
 				} catch (CoreException e) {

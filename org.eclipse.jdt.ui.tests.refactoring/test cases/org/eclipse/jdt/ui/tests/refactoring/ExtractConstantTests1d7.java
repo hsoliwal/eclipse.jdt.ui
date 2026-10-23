@@ -44,9 +44,9 @@ public class ExtractConstantTests1d7 extends ExtractConstantTests {
 
 	@Override
 	protected String getTestFileName(boolean canExtract, boolean input) {
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canExtract ? "canExtract17/" : "cannotExtract17/");
-		return fileName.append(getSimpleTestFileName(canExtract, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canExtract ? "canExtract17/" : "cannotExtract17/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canExtract, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private void failHelper2(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean allowLoadtime, String constantName, String errorMsg, boolean checkMsg) throws Exception{

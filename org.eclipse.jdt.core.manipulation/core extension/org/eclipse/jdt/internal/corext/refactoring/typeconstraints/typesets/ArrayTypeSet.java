@@ -102,7 +102,7 @@ public class ArrayTypeSet extends TypeSet {
 
 			return fElemTypeSet.containsAll(ats.fElemTypeSet);
 		}
-		for(Iterator<TType> iter= s.iterator(); iter.hasNext(); ) {
+		for(Iterator<TType> iter= s.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType t= iter.next();
 			if (!contains(t))
 				return false;
@@ -110,7 +110,7 @@ public class ArrayTypeSet extends TypeSet {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Iterator<TType> iterator() {
 		if (fEnumCache != null) return fEnumCache.iterator();
 
@@ -138,7 +138,7 @@ public class ArrayTypeSet extends TypeSet {
 		if (fEnumCache == null) {
 			fEnumCache= new EnumeratedTypeSet(getTypeSetEnvironment());
 
-			for(Iterator<TType> iter= fElemTypeSet.iterator(); iter.hasNext(); ) {
+			for(Iterator<TType> iter= fElemTypeSet.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType t= iter.next();
 				fEnumCache.add(TTypes.createArrayType(t, 1));
 			}
@@ -180,6 +180,6 @@ public class ArrayTypeSet extends TypeSet {
 
 	@Override
 	public String toString() {
-		return "{" + fID + ": array(" + fElemTypeSet + ")}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "{" + fID + ": array(" + fElemTypeSet + ")}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

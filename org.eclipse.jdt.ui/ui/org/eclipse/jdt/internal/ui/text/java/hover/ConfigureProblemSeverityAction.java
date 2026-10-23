@@ -80,7 +80,7 @@ public class ConfigureProblemSeverityAction extends Action {
 		setToolTipText(JavaHoverMessages.ProblemHover_action_configureProblemSeverity);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		boolean showPropertyPage;
 
@@ -116,7 +116,7 @@ public class ConfigureProblemSeverityAction extends Action {
 			showPropertyPage= true;
 		}
 
-		Map<String, Object> data= new HashMap<>();
+		Map<String, Object> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String pageId;
 		switch (fPreferencePage) {
 			case JAVADOC:
@@ -174,7 +174,7 @@ public class ConfigureProblemSeverityAction extends Action {
 		}
 	}
 
-	private boolean hasProjectSpecificOptions() {
+	private boolean hasProjectSpecificOptions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Key[] keys;
 		switch(fPreferencePage) {
 			case COMPILER:

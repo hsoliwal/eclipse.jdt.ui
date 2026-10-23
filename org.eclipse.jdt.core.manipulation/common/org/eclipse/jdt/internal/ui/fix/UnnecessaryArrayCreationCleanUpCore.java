@@ -74,7 +74,7 @@ public class UnnecessaryArrayCreationCleanUpCore extends AbstractMultiFix {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		UnnecessaryArrayCreationFixCore.UnnecessaryArrayCreationFinder finder= new UnnecessaryArrayCreationFixCore.UnnecessaryArrayCreationFinder(true, rewriteOperations);
 		unit.accept(finder);

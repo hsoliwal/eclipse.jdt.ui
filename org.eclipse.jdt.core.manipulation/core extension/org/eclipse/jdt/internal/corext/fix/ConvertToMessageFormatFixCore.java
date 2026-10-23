@@ -65,7 +65,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 		super(name, compilationUnit, operation);
 	}
 
-	public static ConvertToMessageFormatFixCore createConvertToMessageFormatFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static ConvertToMessageFormatFixCore createConvertToMessageFormatFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BodyDeclaration parentDecl= ASTResolving.findParentBodyDeclaration(node);
 		if (!(parentDecl instanceof MethodDeclaration) && !(parentDecl instanceof Initializer))
 			return null;
@@ -83,7 +83,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 		}
 
 		InfixExpression oldInfixExpression= null;
-		while (node instanceof InfixExpression) {
+		while (node instanceof InfixExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			InfixExpression curr= (InfixExpression) node;
 			if (curr.resolveTypeBinding() == stringBinding && curr.getOperator() == InfixExpression.Operator.PLUS) {
 				oldInfixExpression= curr; // is a infix expression we can use
@@ -97,14 +97,14 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 		}
 
 		// collect operands
-		List<Expression> operands= new ArrayList<>();
+		List<Expression> operands= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectInfixPlusOperands(oldInfixExpression, operands);
 
 		boolean foundNoneLiteralOperand= false;
 		boolean seenTag= false;
 		boolean seenNoTag= false;
 		// we need to loop through all to exclude any null binding scenarios.
-		for (Expression operand : operands) {
+		for (Expression operand : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(operand instanceof StringLiteral)) {
 				foundNoneLiteralOperand= true;
 			} else {
@@ -112,7 +112,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 				ICompilationUnit cu= (ICompilationUnit)compilationUnit.getJavaElement();
 				NLSLine nlsLine= scanCurrentLine(cu, operand);
 				if (nlsLine != null) {
-					for (NLSElement element : nlsLine.getElements()) {
+					for (NLSElement element : nlsLine.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (element.getPosition().getOffset() == compilationUnit.getColumnNumber(operand.getStartPosition())) {
 							if (element.hasTag()) {
 								if (seenNoTag) {
@@ -157,7 +157,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 		return null;
 	}
 
-	private static String indentOf(ICompilationUnit cu, Expression exp) {
+	private static String indentOf(ICompilationUnit cu, Expression exp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit cUnit= (CompilationUnit)exp.getRoot();
 		int startLine= cUnit.getLineNumber(exp.getStartPosition());
 		int startLinePos= cUnit.getPosition(startLine, 0);
@@ -167,7 +167,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 		try {
 			buffer= cu.getBuffer();
 			String line= buffer.getText(startLinePos, endOfLine - startLinePos);
-			for (int i= 0; i < line.length(); ++i) {
+			for (int i= 0; i < line.length(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char ch= line.charAt(i);
 				if (Character.isSpaceChar(ch)) {
 					indent+= ch;
@@ -188,7 +188,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 			collectInfixPlusOperands(infixExpression.getLeftOperand(), collector);
 			collectInfixPlusOperands(infixExpression.getRightOperand(), collector);
 			List<Expression> extendedOperands= infixExpression.extendedOperands();
-			for (Expression expression2 : extendedOperands) {
+			for (Expression expression2 : extendedOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collectInfixPlusOperands(expression2, collector);
 			}
 
@@ -205,9 +205,9 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 			this.infixExpression= infixExpression;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
-			final List<String> fLiterals= new ArrayList<>();
+			final List<String> fLiterals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			String fIndent= ""; //$NON-NLS-1$
 			ICompilationUnit cu= cuRewrite.getCu();
 			boolean is15OrHigher= JavaModelUtil.is15OrHigher(cu.getJavaProject());
@@ -220,11 +220,11 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 			ContextSensitiveImportRewriteContext importContext= new ContextSensitiveImportRewriteContext(root, infixExpression.getStartPosition(), importRewrite);
 
 			// collect operands
-			List<Expression> operands= new ArrayList<>();
+			List<Expression> operands= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			collectInfixPlusOperands(infixExpression, operands);
 
-			List<String> formatArguments= new ArrayList<>();
-			StringBuilder formatString= new StringBuilder();
+			List<String> formatArguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			StringBuilder formatString= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int i= 0;
 			int tagsCount= 0;
 			boolean isFirstStringLiteral= true;
@@ -234,7 +234,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 			Expression firstArgumentExpression= operands.get(0);
 			Expression lastArgumentExpression= firstArgumentExpression;
 			int totalSize= 0;
-			for (Expression operand : operands) {
+			for (Expression operand : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (operand instanceof StringLiteral) {
 					if (isFirstStringLiteral) {
 						fIndent= indentOf(cu, operand);
@@ -244,7 +244,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 					lastStringLiteral= operand;
 					NLSLine nlsLine= scanCurrentLine(cu, operand);
 					if (nlsLine != null) {
-						for (NLSElement element : nlsLine.getElements()) {
+						for (NLSElement element : nlsLine.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (element.getPosition().getOffset() == root.getColumnNumber(operand.getStartPosition())) {
 								if (element.hasTag()) {
 									++tagsCount;
@@ -260,15 +260,15 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 					value= value.replace("'{''}'", "'{}'"); //$NON-NLS-1$ //$NON-NLS-2$
 					fLiterals.add(value);
 					value= value.substring(1, value.length() - 1);
-					formatString.append(value);
+					formatString.append(value); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
 					if (isFirstArgument) {
 						firstArgumentExpression= operand;
 						isFirstArgument= false;
 					}
 					lastArgumentExpression= operand;
-					fLiterals.add("\"{" + Integer.toString(i) + "}\""); //$NON-NLS-1$ //$NON-NLS-2$
-					formatString.append("{").append(i).append("}"); //$NON-NLS-1$ //$NON-NLS-2$
+					fLiterals.add("\"{" + Integer.toString(i) + "}\""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					formatString.append("{").append(i).append("}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 					int origStart= root.getExtendedStartPosition(operand);
 					int origLength= root.getExtendedLength(operand);
@@ -281,8 +281,8 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 
 			importRewrite.addImport("java.text.MessageFormat", importContext); //$NON-NLS-1$
 
-			StringBuilder buffer= new StringBuilder();
-			buffer.append("MessageFormat.format("); //$NON-NLS-1$
+			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buffer.append("MessageFormat.format("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			int minOffset= firstStringLiteral.getStartPosition() < firstArgumentExpression.getStartPosition() ? firstStringLiteral.getStartPosition() : firstArgumentExpression.getStartPosition();
 			int maxOffset= lastStringLiteral.getStartPosition() > lastArgumentExpression.getStartPosition() ?
@@ -291,62 +291,62 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 			boolean isLessThanThreeLines= root.getLineNumber(maxOffset) - root.getLineNumber(minOffset) < 2;
 
 			if (is15OrHigher && !isLessThanThreeLines && totalSize > 80) {
-				StringBuilder buf= new StringBuilder();
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-				List<String> parts= new ArrayList<>();
+				List<String> parts= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				fLiterals.stream().forEach((t) -> { parts.addAll(StringConcatToTextBlockFixCore.unescapeBlock(t.substring(1, t.length() - 1))); });
 
 
-				buf.append("\"\"\"\n"); //$NON-NLS-1$
+				buf.append("\"\"\"\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				boolean newLine= false;
 				boolean allWhiteSpaceStart= true;
 				boolean allEmpty= true;
-				for (String part : parts) {
+				for (String part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (buf.length() > 4) {// the first part has been added after the text block delimiter and newline
 						if (!newLine) {
 							// no line terminator in this part: merge the line by emitting a line continuation escape
-							buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$
+							buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 					newLine= part.endsWith(System.lineSeparator());
 					allWhiteSpaceStart= allWhiteSpaceStart && (part.isEmpty() || Character.isWhitespace(part.charAt(0)));
 					allEmpty= allEmpty && part.isEmpty();
-					buf.append(fIndent).append(part);
+					buf.append(fIndent).append(part); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 
 				if (newLine || allEmpty) {
-					buf.append(fIndent);
+					buf.append(fIndent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else if (allWhiteSpaceStart) {
-					buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$
-					buf.append(fIndent);
+					buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(fIndent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
 					// Replace trailing un-escaped quotes with escaped quotes before adding text block end
 					int readIndex= buf.length() - 1;
 					int count= 0;
-					while (readIndex >= 0 && buf.charAt(readIndex) == '"' && count <= 3) {
+					while (readIndex >= 0 && buf.charAt(readIndex) == '"' && count <= 3) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						--readIndex;
 						++count;
 					}
 					if (readIndex >= 0 && buf.charAt(readIndex) == '\\') {
 						--count;
 					}
-					for (int i1= count; i1 > 0; --i1) {
+					for (int i1= count; i1 > 0; --i1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						buf.deleteCharAt(buf.length() - 1);
 					}
-					for (int i1= count; i1 > 0; --i1) {
-						buf.append("\\\""); //$NON-NLS-1$
+					for (int i1= count; i1 > 0; --i1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						buf.append("\\\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
-				buf.append("\"\"\""); //$NON-NLS-1$
-				buffer.append(buf.toString());
+				buf.append("\"\"\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(buf.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buffer.append("\"" + formatString.toString().replaceAll("\"", "\\\"") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				buffer.append("\"" + formatString.toString().replaceAll("\"", "\\\"") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
-			for (String formatArgument : formatArguments) {
-				buffer.append(", " + formatArgument); //$NON-NLS-1$
+			for (String formatArgument : formatArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buffer.append(", " + formatArgument); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buffer.append(")"); //$NON-NLS-1$
+			buffer.append(")"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			if (tagsCount > 1) {
 				if (is15OrHigher) {
@@ -354,7 +354,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 					NLSLine nlsLine= scanCurrentLine(cu, lastOperand);
 					tagsCount= 0;
 					if (nlsLine != null) {
-						for (NLSElement element : nlsLine.getElements()) {
+						for (NLSElement element : nlsLine.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (element.hasTag()) {
 								++tagsCount;
 							}
@@ -373,19 +373,19 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 						String completeStatement= cu.getBuffer().getText(extendedStart, extendedLength);
 						if (tagsCount > 1) {
 							// remove all non-NLS comments and then replace with just one
-							Matcher commentMatcher= comment.matcher(completeStatement);
-							while (tagsCount-- > 0) {
+							Matcher commentMatcher= comment.matcher(completeStatement); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+							while (tagsCount-- > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								completeStatement= commentMatcher.replaceFirst(""); //$NON-NLS-1$
-								commentMatcher= comment.matcher(completeStatement);
+								commentMatcher= comment.matcher(completeStatement); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 							}
 							extendedLength= completeStatement.length();
 						}
-						StringBuilder newBuffer= new StringBuilder();
-						newBuffer= newBuffer.append(completeStatement.substring(0, infixExpression.getStartPosition() - extendedStart));
-						newBuffer= newBuffer.append(buffer.toString());
+						StringBuilder newBuffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+						newBuffer= newBuffer.append(completeStatement.substring(0, infixExpression.getStartPosition() - extendedStart)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						newBuffer= newBuffer.append(buffer.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						int infixExpressionEnd= infixExpression.getStartPosition() + infixExpression.getLength();
-						newBuffer= newBuffer.append(cu.getBuffer().getText(infixExpressionEnd, extendedStart + extendedLength - infixExpressionEnd));
-						newBuffer= newBuffer.append(" //$NON-NLS-1$"); //$NON-NLS-1$
+						newBuffer= newBuffer.append(cu.getBuffer().getText(infixExpressionEnd, extendedStart + extendedLength - infixExpressionEnd)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						newBuffer= newBuffer.append(" //$NON-NLS-1$"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						Statement newStatement= (Statement)rewrite.createStringPlaceholder(newBuffer.toString(), statement.getNodeType());
 						rewrite.replace(statement, newStatement, null);
 					} else {

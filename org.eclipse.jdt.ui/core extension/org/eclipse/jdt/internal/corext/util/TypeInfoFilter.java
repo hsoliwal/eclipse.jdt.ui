@@ -47,7 +47,7 @@ public class TypeInfoFilter {
 	private static final int TYPE_MODIFIERS= Flags.AccEnum | Flags.AccAnnotation | Flags.AccInterface;
 
 	/* reduces filenames and stack traces to class name */
-	public static String simplifySearchText(String input) {
+	public static String simplifySearchText(String input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String s= input;
 		try {
 			int i;
@@ -94,7 +94,7 @@ public class TypeInfoFilter {
 			}
 			// partially qualified names need a asterisk wildcard to be found by Open Type dialog:
 			if (inner > 0 && !input.trim().equals(s.trim()) && countContains(s, '.') == inner && !s.contains("*")) { //$NON-NLS-1$
-				s= "*." + s; //$NON-NLS-1$
+				s= "*." + s; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} catch (Exception e) {
 			// just in case anything bad happened:
@@ -134,7 +134,7 @@ public class TypeInfoFilter {
 		return s;
 	}
 
-	public TypeInfoFilter(String text, IJavaSearchScope scope, int elementKind, ITypeInfoFilterExtension extension) {
+	public TypeInfoFilter(String text, IJavaSearchScope scope, int elementKind, ITypeInfoFilterExtension extension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fText= text;
 		fSearchScope= scope;
 		fIsWorkspaceScope= fSearchScope.equals(SearchEngine.createWorkspaceScope());
@@ -148,7 +148,7 @@ public class TypeInfoFilter {
 		} else {
 			if (Character.isUpperCase(text.charAt(0))) {
 				// might be referring to class so add wild-card at front
-				fPackageMatcher= new PatternMatcher(evaluatePackagePattern("*" + text.substring(0, index))); //$NON-NLS-1$
+				fPackageMatcher= new PatternMatcher(evaluatePackagePattern("*" + text.substring(0, index))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				fPackageMatcher= new PatternMatcher(evaluatePackagePattern(text.substring(0, index)));
 			}
@@ -162,27 +162,27 @@ public class TypeInfoFilter {
 	/*
 	 * Transforms o.e.j  to o*.e*.j*
 	 */
-	private String evaluatePackagePattern(String s) {
-		StringBuilder buf= new StringBuilder();
+	private String evaluatePackagePattern(String s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean hasWildCard= false;
 		int len= s.length();
-		for (int i= 0; i < len; i++) {
+		for (int i= 0; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= s.charAt(i);
 			if (ch == '.') {
 				if (!hasWildCard) {
-					buf.append('*');
+					buf.append('*'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				hasWildCard= false;
 			} else if (ch == '*' || ch == '?') {
 				hasWildCard= true;
 			}
-			buf.append(ch);
+			buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (!hasWildCard) {
 			if (len == 0) {
-				buf.append('?');
+				buf.append('?'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append('*');
+			buf.append('*'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -290,7 +290,7 @@ public class TypeInfoFilter {
 		return fSearchScope.encloses(type.getType());
 	}
 
-	private boolean matchesModifiers(TypeNameMatch type) {
+	private boolean matchesModifiers(TypeNameMatch type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fElementKind == IJavaSearchConstants.TYPE)
 			return true;
 		int modifiers= type.getModifiers() & TYPE_MODIFIERS;

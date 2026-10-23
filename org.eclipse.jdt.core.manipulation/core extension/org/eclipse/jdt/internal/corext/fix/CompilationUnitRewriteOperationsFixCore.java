@@ -119,7 +119,7 @@ public class CompilationUnitRewriteOperationsFixCore extends AbstractFixCore {
 		CompilationUnitRewrite cuRewrite= new CompilationUnitRewrite((ICompilationUnit)fCompilationUnit.getJavaElement(), fCompilationUnit);
 
 		fLinkedProposalModel.clear();
-		for (CompilationUnitRewriteOperation operation : fOperations) {
+		for (CompilationUnitRewriteOperation operation : fOperations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			operation.rewriteAST(cuRewrite, fLinkedProposalModel);
 		}
 
@@ -132,11 +132,11 @@ public class CompilationUnitRewriteOperationsFixCore extends AbstractFixCore {
 
 	@Override
 	public String getAdditionalProposalInfo(){
-		StringBuilder sb= new StringBuilder();
-		for (CompilationUnitRewriteOperation operation : fOperations) {
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (CompilationUnitRewriteOperation operation : fOperations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String info= operation.getAdditionalInfo();
 			if (info != null)
-				sb.append(info);
+				sb.append(info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (sb.length() == 0)

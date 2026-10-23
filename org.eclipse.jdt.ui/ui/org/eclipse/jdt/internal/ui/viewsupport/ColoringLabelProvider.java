@@ -55,7 +55,7 @@ public class ColoringLabelProvider extends DecoratingStyledCellLabelProvider imp
 		ColoredViewersManager.uninstall(this);
 	}
 
-	public void update() {
+	public void update() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ColumnViewer viewer= getViewer();
 
 		if (viewer == null) {

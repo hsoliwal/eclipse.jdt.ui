@@ -55,7 +55,7 @@ public class UnpackJarBuilder extends FatJarBuilder {
 	private Set<String> jarNames;
 
 	public UnpackJarBuilder(JarPackageData jarPackage) {
-		fSubfolder= jarPackage.getAbsoluteJarLocation().removeFileExtension().lastSegment() + SUBFOLDER_SUFFIX;
+		fSubfolder= jarPackage.getAbsoluteJarLocation().removeFileExtension().lastSegment() + SUBFOLDER_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fSubfolderPath= jarPackage.getAbsoluteJarLocation().removeLastSegments(1).append(fSubfolder);
 		fJarPackage= jarPackage;
 	}
@@ -88,22 +88,22 @@ public class UnpackJarBuilder extends FatJarBuilder {
 		return new FatJarManifestProvider(this);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getManifestClasspath() {
-		ArrayList<String> renamedJarNames= new ArrayList<>();
-		for (Object element : fJarPackage.getElements()) {
+		ArrayList<String> renamedJarNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : fJarPackage.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IPackageFragmentRoot && ((IPackageFragmentRoot)element).isArchive()) {
 				String jarName= ((IPackageFragmentRoot)element).getPath().toFile().getName();
-				while (renamedJarNames.contains(jarName)) {
+				while (renamedJarNames.contains(jarName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					jarName= FatJarPackagerUtil.nextNumberedFileName(jarName);
 				}
 				renamedJarNames.add(jarName);
 			}
 		}
-		StringBuilder result= new StringBuilder();
-		result.append("."); //$NON-NLS-1$
-		for (String jarName : renamedJarNames) {
-			result.append(" ").append(fSubfolder).append("/").append(jarName); //$NON-NLS-1$ //$NON-NLS-2$
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append("."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (String jarName : renamedJarNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(" ").append(fSubfolder).append("/").append(jarName); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}
@@ -112,7 +112,7 @@ public class UnpackJarBuilder extends FatJarBuilder {
 	public void open(JarPackageData jarPackage, Shell displayShell, MultiStatus status) throws CoreException {
 		super.open(jarPackage, displayShell, status);
 		fJarPackage= jarPackage;
-		jarNames= new HashSet<>();
+		jarNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		createBlankSubfolder(displayShell, jarPackage.allowOverwrite());
 	}
 
@@ -124,25 +124,25 @@ public class UnpackJarBuilder extends FatJarBuilder {
 	 * @param allowOverwrite true if the packager is allowed to overwrite existing folders
 	 * @throws CoreException if creation of folder failed
 	 */
-	protected void createBlankSubfolder(Shell parent, boolean allowOverwrite) throws CoreException {
+	protected void createBlankSubfolder(Shell parent, boolean allowOverwrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		File folder= fSubfolderPath.toFile();
 		// Test if directory exists
 		if (!folder.exists()) {
 			// create sub-folder
 			if (!folder.mkdirs())
-				throw JarPackagerUtil.createCoreException("Could not create lib-folder '" + folder.getAbsolutePath() + "'", null); //$NON-NLS-1$ //$NON-NLS-2$
+				throw JarPackagerUtil.createCoreException("Could not create lib-folder '" + folder.getAbsolutePath() + "'", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			if (!folder.canWrite())
-				throw JarPackagerUtil.createCoreException("Folder '" + folder.getAbsolutePath() + "' is not writable", null); //$NON-NLS-1$ //$NON-NLS-2$
+				throw JarPackagerUtil.createCoreException("Folder '" + folder.getAbsolutePath() + "' is not writable", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (!allowOverwrite)
 				if (parent == null || !JarPackagerUtil.askForOverwriteFolderPermission(parent, fSubfolderPath, true))
-					throw JarPackagerUtil.createCoreException("Folder '" + folder.getAbsolutePath() + "' exists and should not be overwritten", null); //$NON-NLS-1$ //$NON-NLS-2$
-			for (File jarFile : folder.listFiles()) {
+					throw JarPackagerUtil.createCoreException("Folder '" + folder.getAbsolutePath() + "' exists and should not be overwritten", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			for (File jarFile : folder.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!jarFile.isFile()) {
-					throw JarPackagerUtil.createCoreException("Subfolder '" + jarFile.getAbsolutePath() + "' exists", null); //$NON-NLS-1$ //$NON-NLS-2$
+					throw JarPackagerUtil.createCoreException("Subfolder '" + jarFile.getAbsolutePath() + "' exists", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				if (!jarFile.delete()) {
-					throw JarPackagerUtil.createCoreException("Could not delete file '" + jarFile.getAbsolutePath() + "'", null); //$NON-NLS-1$ //$NON-NLS-2$
+					throw JarPackagerUtil.createCoreException("Could not delete file '" + jarFile.getAbsolutePath() + "'", null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -152,7 +152,7 @@ public class UnpackJarBuilder extends FatJarBuilder {
 	public void writeArchive(ZipFile jarFile, IProgressMonitor progressMonitor) {
 		File jarPathFile= new File(jarFile.getName());
 		String jarName= jarPathFile.getName();
-		while (jarNames.contains(jarName)) {
+		while (jarNames.contains(jarName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			jarName= FatJarPackagerUtil.nextNumberedFileName(jarName);
 		}
 		jarNames.add(jarName);

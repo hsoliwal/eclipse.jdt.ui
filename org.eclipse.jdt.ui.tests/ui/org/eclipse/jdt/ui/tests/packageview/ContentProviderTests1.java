@@ -193,7 +193,7 @@ public class ContentProviderTests1 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		// Force events from dispaly
-		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {}
+		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {} //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 		assertTrue(fMyPart.hasRemoveHappened(), "Remove happened");//$NON-NLS-1$
 		assertTrue(fMyPart.getRemovedObjects().contains(fPack2), "Correct Remove");//$NON-NLS-1$
@@ -210,7 +210,7 @@ public class ContentProviderTests1 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		// Force events from dispaly
-		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {}
+		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {} //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 		assertTrue(fMyPart.hasAddHappened(), "Add happened"); //$NON-NLS-1$
 		assertEquals(test, fMyPart.getAddedObject(), "Correct Add"); //$NON-NLS-1$
@@ -225,7 +225,7 @@ public class ContentProviderTests1 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		// Force events from display
-		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {}
+		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {} //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 		assertEquals(0, fMyPart.getRefreshedObject().size(), "No refresh happened"); //$NON-NLS-1$
 	}
@@ -239,7 +239,7 @@ public class ContentProviderTests1 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		// Force events from display
-		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {}
+		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {} //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 		assertEquals(0, fMyPart.getRefreshedObject().size(), "No refresh happened");//$NON-NLS-1$
 	}
@@ -252,7 +252,7 @@ public class ContentProviderTests1 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		// Force events from display
-		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {}
+		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {} //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 		// removing more than one CU now results in a refresh.
 		assertEquals(1, fMyPart.getRefreshedObject().size(), "One refresh"); //$NON-NLS-1$
@@ -266,7 +266,7 @@ public class ContentProviderTests1 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		// Force events from display
-		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {}
+		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {} //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 		assertTrue(fMyPart.hasRemoveHappened(), "Remove happened"); //$NON-NLS-1$
 		assertTrue(fMyPart.getRemovedObjects().contains(fCU2), "Correct refresh"); //$NON-NLS-1$
@@ -323,7 +323,7 @@ public class ContentProviderTests1 {
 //	}
 
 
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fWorkspace= ResourcesPlugin.getWorkspace();
 		assertNotNull(fWorkspace);
@@ -342,7 +342,7 @@ public class ContentProviderTests1 {
 
 		fJProject1.setRawClasspath(new IClasspathEntry[0], null);
 
-		for (Object object : fJProject2.getNonJavaResources()) {
+		for (Object object : fJProject2.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(object instanceof IFile){
 				IFile file = (IFile) object;
 				if(".classpath".equals(file.getName()))//$NON-NLS-1$
@@ -407,7 +407,7 @@ public class ContentProviderTests1 {
 		setUpMockView();
 	}
 
-	public void setUpMockView() throws Exception {
+	public void setUpMockView() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fWorkbench= PlatformUI.getWorkbench();
 		assertNotNull(fWorkbench);
 
@@ -447,10 +447,10 @@ public class ContentProviderTests1 {
 	 * Method compareArrays. Both arrays must be of IPackageFragments or compare will fail.
 	 * @return boolean
 	 */
-	private boolean compareArrays(Object[] children, Object[] expectedChildren) {
+	private boolean compareArrays(Object[] children, Object[] expectedChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(children.length!=expectedChildren.length)
 			return false;
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IJavaElement) {
 				IJavaElement el= (IJavaElement) child;
 				if(!contains(el, expectedChildren))
@@ -471,7 +471,7 @@ public class ContentProviderTests1 {
 	 * @return boolean
 	 */
 	private boolean contains(IResource res, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource) {
 				IResource expres= (IResource) object;
 				if(expres.equals(res))
@@ -487,7 +487,7 @@ public class ContentProviderTests1 {
 	 * @return boolean
 	 */
 	private boolean contains(IJavaElement fragment, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IJavaElement) {
 				IJavaElement expfrag= (IJavaElement) object;
 				if(expfrag.equals(fragment))

@@ -145,7 +145,7 @@ public class CopyTest extends GenericRefactoringTest {
 	private void verifyValidDestination(JavaCopyProcessor processor, Object destination, int location) throws Exception {
 		RefactoringStatus status= processor.setDestination(ReorgDestinationFactory.createDestination(destination, location));
 
-		assertEquals("destination was expected to be valid: " + status.getMessageMatchingSeverity(status.getSeverity()), RefactoringStatus.OK, status.getSeverity());
+		assertEquals("destination was expected to be valid: " + status.getMessageMatchingSeverity(status.getSeverity()), RefactoringStatus.OK, status.getSeverity()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void verifyCopyingOfSubCuElements(ICompilationUnit[] cus, Object destination, IJavaElement[] javaElements) throws JavaModelException, Exception, IOException {
@@ -157,8 +157,8 @@ public class CopyTest extends GenericRefactoringTest {
 		verifyValidDestination(processor, destination, location);
 		RefactoringStatus status= performRefactoring(new CopyRefactoring(processor), false);
 		assertNull("failed precondition", status);
-		for (ICompilationUnit cu : cus) {
-			assertEqualLines("different source in " + cu.getElementName(), getFileContents(getOutputTestFileName(removeExtension(cu.getElementName()))), cu.getSource());
+		for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertEqualLines("different source in " + cu.getElementName(), getFileContents(getOutputTestFileName(removeExtension(cu.getElementName()))), cu.getSource()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -615,7 +615,7 @@ public class CopyTest extends GenericRefactoringTest {
 		verifyInvalidDestination(ref, destination);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_folder_no_3() throws Exception {
 		IProject superFolder= rts.getProject().getProject();
 		IFolder folder= superFolder.getFolder("folder");
@@ -1039,7 +1039,7 @@ public class CopyTest extends GenericRefactoringTest {
 		verifyValidDestination(ref, destination);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_folder_yes_6() throws Exception {
 		IProject superFolder= rts.getProject().getProject();
 		IFolder folder= superFolder.getFolder("folder");
@@ -1363,7 +1363,7 @@ public class CopyTest extends GenericRefactoringTest {
 		verifyCopyingOfSubCuElements(new ICompilationUnit[]{otherCu, cu}, destination, javaElements);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_type_yes_package() throws Exception {
 		ICompilationUnit cu= getPackageP().createCompilationUnit("A.java", "package p;class A{}", true, new NullProgressMonitor());
 		ParticipantTesting.reset();
@@ -1380,11 +1380,11 @@ public class CopyTest extends GenericRefactoringTest {
 		RefactoringStatus status= performRefactoring(ref, false);
 		assertNull(status);
 		assertTrue("source cu does not exist after copying", cu.exists());
-		ICompilationUnit newCu= getPackageP().getCompilationUnit(MockNewNameQueries.NEW_CU_NAME + ".java");
+		ICompilationUnit newCu= getPackageP().getCompilationUnit(MockNewNameQueries.NEW_CU_NAME + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("new cu does not exist after copying", newCu.exists());
 		ReorgExecutionLog executionLog= new ReorgExecutionLog();
-		executionLog.setNewName(type.getCompilationUnit(), MockNewNameQueries.NEW_CU_NAME + ".java");
-		executionLog.setNewName(mapping, MockNewNameQueries.NEW_CU_NAME + ".java");
+		executionLog.setNewName(type.getCompilationUnit(), MockNewNameQueries.NEW_CU_NAME + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		executionLog.setNewName(mapping, MockNewNameQueries.NEW_CU_NAME + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		executionLog.markAsProcessed(type.getCompilationUnit());
 		executionLog.markAsProcessed(mapping);
 		ParticipantTesting.testCopy(handles, new CopyArguments[] {
@@ -1393,7 +1393,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_type_canel_package() throws Exception {
 		ICompilationUnit cu= getPackageP().createCompilationUnit("A.java", "package p;class A{}", true, new NullProgressMonitor());
 		ParticipantTesting.reset();
@@ -1419,7 +1419,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_type_yes_other_package() throws Exception {
 		ICompilationUnit cu= getPackageP().createCompilationUnit("A.java", "package p;class A{}", true, new NullProgressMonitor());
 		IPackageFragment otherPackage= getRoot().createPackageFragment("other", true, new NullProgressMonitor());
@@ -1538,7 +1538,7 @@ public class CopyTest extends GenericRefactoringTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_Folder() throws Exception {
 		ParticipantTesting.reset();
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
@@ -1577,7 +1577,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_Same_Folder() throws Exception {
 		ParticipantTesting.reset();
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
@@ -1615,7 +1615,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertEquals("a2.txt", ((MockNewNameQueries)queries).getResourceInitialSuggestedName());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_Same_Folder_Cancel() throws Exception {
 		ParticipantTesting.reset();
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
@@ -1648,7 +1648,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_Itself() throws Exception {
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
 		String fileName= "a.txt";
@@ -1700,7 +1700,7 @@ public class CopyTest extends GenericRefactoringTest {
 		copy_File_to_Itself_impl("..fileNameStartingWithTwoDots", ".2.fileNameStartingWithTwoDots", ".3.fileNameStartingWithTwoDots");
 	}
 
-	public void copy_File_to_Itself_impl(String fileName, String conflictingFileName, String initialSuggestedName) throws Exception {
+	public void copy_File_to_Itself_impl(String fileName, String conflictingFileName, String initialSuggestedName) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFolder parentFolder= (IFolder)getPackageP().getResource();
 		IFile file= parentFolder.getFile(fileName);
 		file.create(getStream("123"), true, null);
@@ -1728,7 +1728,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertEquals(initialSuggestedName, ((MockNewNameQueries)queries).getResourceInitialSuggestedName());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_AnotherFile() throws Exception {
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
 		String fileName= "a.txt";
@@ -1758,7 +1758,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_Package() throws Exception {
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
 		String fileName= "a.txt";
@@ -1786,7 +1786,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_DefaultPackage() throws Exception {
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
 		String fileName= "a.txt";
@@ -1816,7 +1816,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_SourceFolder() throws Exception {
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
 		String fileName= "a.txt";
@@ -1843,7 +1843,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_JavaProject() throws Exception {
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
 		String fileName= "a.txt";
@@ -1870,7 +1870,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_Cu() throws Exception {
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
 		String fileName= "a.txt";
@@ -1898,7 +1898,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_File_to_SimpleProject() throws Exception {
 		IFolder parentFolder= (IFolder) getPackageP().getResource();
 		String fileName= "a.txt";
@@ -1932,7 +1932,7 @@ public class CopyTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_Folder() throws Exception {
 		String fileName= "A.java";
 		ICompilationUnit cu= getPackageP().createCompilationUnit(fileName, "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -1961,7 +1961,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new cu does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Bug67124() throws Exception {
 		String fileName= "A.java";
 		ICompilationUnit cu= getPackageP().createCompilationUnit(fileName, "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -2004,7 +2004,7 @@ public class CopyTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_Same_Package() throws Exception {
 		ParticipantTesting.reset();
 		String fileName= "A.java";
@@ -2028,7 +2028,7 @@ public class CopyTest extends GenericRefactoringTest {
 
 		assertTrue("source cu does not exist after copying", cu.exists());
 
-		String newName= MockNewNameQueries.NEW_CU_NAME + ".java";
+		String newName= MockNewNameQueries.NEW_CU_NAME + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ICompilationUnit newCu= getPackageP().getCompilationUnit(newName);
 		assertTrue("new cu does not exist after copying", newCu.exists());
 		ReorgExecutionLog log= new ReorgExecutionLog();
@@ -2041,7 +2041,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_Same_Package_Cancel() throws Exception {
 		ParticipantTesting.reset();
 		String fileName= "A.java";
@@ -2071,7 +2071,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_type_yes_type() throws Exception {
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit otherCu= createCUfromTestFile(getPackageP(), "C");
@@ -2092,11 +2092,11 @@ public class CopyTest extends GenericRefactoringTest {
 
 		assertTrue("source cu does not exist after copying", cu.exists());
 
-		ICompilationUnit newCu= getPackageP().getCompilationUnit(MockNewNameQueries.NEW_CU_NAME + ".java");
+		ICompilationUnit newCu= getPackageP().getCompilationUnit(MockNewNameQueries.NEW_CU_NAME + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("new cu does not exist after copying", newCu.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_Itself() throws Exception {
 		String fileName= "A.java";
 		ICompilationUnit cu= getPackageP().createCompilationUnit(fileName, "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -2117,12 +2117,12 @@ public class CopyTest extends GenericRefactoringTest {
 
 		assertTrue("source file does not exist after copying", cu.exists());
 
-		ICompilationUnit newCu= getPackageP().getCompilationUnit(MockNewNameQueries.NEW_CU_NAME + ".java");
+		ICompilationUnit newCu= getPackageP().getCompilationUnit(MockNewNameQueries.NEW_CU_NAME + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("new file does not exist after copying", newCu.exists());
 		assertEquals("A2", ((MockNewNameQueries)queries).getCuInitialSuggestedName());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_OtherPackage() throws Exception {
 		ParticipantTesting.reset();
 		String fileName= "A.java";
@@ -2157,7 +2157,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_DefaultPackage() throws Exception {
 		ParticipantTesting.reset();
 		String fileName= "A.java";
@@ -2194,7 +2194,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_SourceFolder() throws Exception {
 		String fileName= "A.java";
 		ICompilationUnit cu= getPackageP().createCompilationUnit(fileName, "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -2219,7 +2219,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newCu.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_JavaProject() throws Exception {
 		String fileName= "A.java";
 		ICompilationUnit cu= getPackageP().createCompilationUnit(fileName, "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -2244,7 +2244,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_File_In_Package() throws Exception {
 		String fileName= "A.java";
 		ICompilationUnit cu= getPackageP().createCompilationUnit(fileName, "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -2270,14 +2270,14 @@ public class CopyTest extends GenericRefactoringTest {
 
 		assertTrue("source file does not exist after copying", cu.exists());
 
-		ICompilationUnit newCu= getPackageP().getCompilationUnit(MockNewNameQueries.NEW_CU_NAME + ".java");
+		ICompilationUnit newCu= getPackageP().getCompilationUnit(MockNewNameQueries.NEW_CU_NAME + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("new file does not exist after copying", newCu.exists());
 
-		String expectedSource= "package p;class "+ MockNewNameQueries.NEW_CU_NAME +"{void foo(){}class Inner{}}";
+		String expectedSource= "package p;class "+ MockNewNameQueries.NEW_CU_NAME +"{void foo(){}class Inner{}}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("source compare failed", expectedSource, newCu.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_File_In_Resource_Folder() throws Exception {
 		String fileName= "A.java";
 		ICompilationUnit cu= getPackageP().createCompilationUnit(fileName, "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -2306,7 +2306,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new file does not exist after copying", newFile.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Cu_to_SimpleProject() throws Exception {
 		String fileName= "A.java";
 		ICompilationUnit cu= getPackageP().createCompilationUnit(fileName, "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -2339,7 +2339,7 @@ public class CopyTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Package_to_Its_Root() throws Exception {
 		ParticipantTesting.reset();
 		INewNameQueries queries= new MockNewNameQueries();
@@ -2373,7 +2373,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Package_to_Its_Root_Cancel() throws Exception {
 		ParticipantTesting.reset();
 		INewNameQueries queries= new MockCancelNameQueries();
@@ -2401,7 +2401,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Package_to_Itself() throws Exception {
 		ParticipantTesting.reset();
 		INewNameQueries queries= new MockNewNameQueries();
@@ -2435,7 +2435,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Package_to_Another_Root() throws Exception {
 		IPackageFragmentRoot otherRoot= JavaProjectHelper.addSourceContainer(rts.getProject(), "otherRoot");
 		String packageName= getPackageP().getElementName();
@@ -2459,7 +2459,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("new package does not exist after copying", newPackage.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_Package_to_JavaProject_That_Is_Root() throws Exception {
 		IJavaProject otherProject= JavaProjectHelper.createJavaProject("otherProject", null);
 		JavaProjectHelper.addSourceContainer(otherProject, null);
@@ -2481,7 +2481,7 @@ public class CopyTest extends GenericRefactoringTest {
 			assertTrue("source package does not exist after copying", getPackageP().exists());
 
 			IPackageFragment newPackage= null;
-			for (IPackageFragmentRoot root : otherProject.getAllPackageFragmentRoots()) {
+			for (IPackageFragmentRoot root : otherProject.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ReorgUtilsCore.isSourceFolder(root)) {
 					newPackage= root.getPackageFragment(getPackageP().getElementName());
 					assertTrue("new package does not exist after copying", newPackage.exists());
@@ -2493,7 +2493,7 @@ public class CopyTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_folder_to_other_folder() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -2527,7 +2527,7 @@ public class CopyTest extends GenericRefactoringTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_folder_to_same_container() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -2558,7 +2558,7 @@ public class CopyTest extends GenericRefactoringTest {
 		ParticipantTesting.testCopy(handles, new CopyArguments[] {
 				new CopyArguments(destination, log)
 		});
-		assertEquals(folderName + "2", ((MockNewNameQueries)queries).getResourceInitialSuggestedName());
+		assertEquals(folderName + "2", ((MockNewNameQueries)queries).getResourceInitialSuggestedName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	}
 
@@ -2573,7 +2573,7 @@ public class CopyTest extends GenericRefactoringTest {
 		copy_folder_to_same_container_impl(".folderNameStartingWithDot");
 	}
 
-	public void copy_folder_to_same_container_impl(String folderName) throws Exception {
+	public void copy_folder_to_same_container_impl(String folderName) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
 		IFolder folder= superFolder.getFolder(folderName);
@@ -2582,7 +2582,7 @@ public class CopyTest extends GenericRefactoringTest {
 		IResource[] resources= { folder };
 		INewNameQueries queries= new MockNewNameQueries();
 
-		IFolder secondFolder= superFolder.getFolder(folderName + "2");
+		IFolder secondFolder= superFolder.getFolder(folderName + "2"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		secondFolder.create(true, true, null);
 
 		JavaCopyProcessor ref= verifyEnabled(resources, javaElements, queries, createReorgQueries());
@@ -2605,11 +2605,11 @@ public class CopyTest extends GenericRefactoringTest {
 		ParticipantTesting.testCopy(handles, new CopyArguments[] {
 				new CopyArguments(destination, log)
 		});
-		assertEquals(folderName + "3", ((MockNewNameQueries)queries).getResourceInitialSuggestedName());
+		assertEquals(folderName + "3", ((MockNewNameQueries)queries).getResourceInitialSuggestedName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_folder_to_same_container_cancel() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -2639,7 +2639,7 @@ public class CopyTest extends GenericRefactoringTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_folder_Java_project() throws Exception {
 		IProject superFolder= rts.getProject().getProject();
 		String folderName= "folder";
@@ -2662,7 +2662,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("copied folder does not exist after copying", rts.getProject().getProject().getFolder(folderName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_folder_to_source_folder() throws Exception {
 		IProject superFolder= rts.getProject().getProject();
 		String folderName= "folder";
@@ -2685,7 +2685,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("copied folder does not exist after copying", ((IFolder)getRoot().getResource()).getFolder(folderName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_folder_to_package() throws Exception {
 		IProject superFolder= rts.getProject().getProject();
 		String folderName= "folder";
@@ -2706,7 +2706,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("copied folder does not exist after copying", ((IFolder)destination.getResource()).getFolder(folderName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_folder_to_cu() throws Exception {
 		IProject superFolder= rts.getProject().getProject();
 		String folderName= "folder";
@@ -2728,7 +2728,7 @@ public class CopyTest extends GenericRefactoringTest {
 		assertTrue("copied folder does not exist after copying", ((IFolder)getPackageP().getResource()).getFolder(folderName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_folder_to_simple_project() throws Exception {
 		IProject superFolder= rts.getProject().getProject();
 		String folderName= "folder";
@@ -2756,7 +2756,7 @@ public class CopyTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_root_to_same_Java_project() throws Exception {
 		ParticipantTesting.reset();
 		// Delete the unnamed folder so that the delta is a ADD not a CHANGED
@@ -2792,7 +2792,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_root_to_same_Java_project_cancel() throws Exception {
 		ParticipantTesting.reset();
 		IJavaElement[] javaElements= { getRoot()};
@@ -2815,7 +2815,7 @@ public class CopyTest extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopy_root_to_other_Java_project() throws Exception {
 		ParticipantTesting.reset();
 		IJavaProject otherJavaProject= JavaProjectHelper.createJavaProject("other", "bin");

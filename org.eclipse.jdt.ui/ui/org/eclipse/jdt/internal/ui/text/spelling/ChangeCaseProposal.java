@@ -25,7 +25,7 @@ import org.eclipse.jdt.internal.ui.JavaUIMessages;
  *
  * @since 3.0
  */
-public class ChangeCaseProposal extends WordCorrectionProposal {
+public class ChangeCaseProposal extends WordCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/**
 	 * Creates a new change case proposal.
@@ -37,7 +37,7 @@ public class ChangeCaseProposal extends WordCorrectionProposal {
 	 * @param locale The locale to use for the case change
 	 */
 	public ChangeCaseProposal(final String[] arguments, final int offset, final int length, final IQuickAssistInvocationContext context, final Locale locale) {
-		super(Character.isLowerCase(arguments[0].charAt(0)) ? Character.toUpperCase(arguments[0].charAt(0)) + arguments[0].substring(1) : arguments[0], arguments, offset, length, context, Integer.MAX_VALUE);
+		super(Character.isLowerCase(arguments[0].charAt(0)) ? Character.toUpperCase(arguments[0].charAt(0)) + arguments[0].substring(1) : arguments[0], arguments, offset, length, context, Integer.MAX_VALUE); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/*

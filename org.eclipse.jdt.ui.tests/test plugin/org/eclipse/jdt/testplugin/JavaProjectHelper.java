@@ -148,7 +148,7 @@ public class JavaProjectHelper {
 	 * @return Returns the Java project handle
 	 * @throws CoreException Project creation failed
 	 */
-	public static IJavaProject createJavaProject(String projectName, String binFolderName) throws CoreException {
+	public static IJavaProject createJavaProject(String projectName, String binFolderName) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 		IProject project= root.getProject(projectName);
 		if (!project.exists()) {
@@ -604,7 +604,7 @@ public class JavaProjectHelper {
 		if (ASSERT_NO_MIXED_LINE_DELIMIERS)
 			MixedLineDelimiterDetector.assertNoMixedLineDelimiters(elem);
 
-		IWorkspaceRunnable runnable= unused -> {
+		IWorkspaceRunnable runnable= unused -> { //FLLDCIM: MARK — T09  LAMBDA
 			performDummySearch();
 			if (elem instanceof IJavaProject) {
 				IJavaProject jproject= (IJavaProject) elem;
@@ -623,8 +623,8 @@ public class JavaProjectHelper {
 	 * @param resource the resource to delete
 	 * @throws CoreException if operation failed
 	 */
-	public static void delete(IResource resource) throws CoreException {
-		for (int i= 0; i < MAX_RETRY; i++) {
+	public static void delete(IResource resource) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i= 0; i < MAX_RETRY; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				resource.delete(IResource.FORCE | IResource.ALWAYS_DELETE_PROJECT_CONTENT, null);
 				i= MAX_RETRY;
@@ -634,7 +634,7 @@ public class JavaProjectHelper {
 					throw e;
 				}
 				try {
-					JavaPlugin.log(new IllegalStateException("sleep before retrying JavaProjectHelper.delete() for " + resource.getLocationURI()));
+					JavaPlugin.log(new IllegalStateException("sleep before retrying JavaProjectHelper.delete() for " + resource.getLocationURI())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					Thread.sleep(RETRY_DELAY); // give other threads time to close the file
 				} catch (InterruptedException e1) {
 				}
@@ -649,8 +649,8 @@ public class JavaProjectHelper {
 	 * @param pack the package to delete
 	 * @throws CoreException if operation failed
 	 */
-	public static void deletePackage(IPackageFragment pack) throws CoreException {
-		for (int i= 0; i < MAX_RETRY; i++) {
+	public static void deletePackage(IPackageFragment pack) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i= 0; i < MAX_RETRY; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				pack.delete(true, null);
 				i= MAX_RETRY;
@@ -660,7 +660,7 @@ public class JavaProjectHelper {
 					throw e;
 				}
 				try {
-					JavaPlugin.log(new IllegalStateException("sleep before retrying JavaProjectHelper.delete() for package " + pack.getHandleIdentifier()));
+					JavaPlugin.log(new IllegalStateException("sleep before retrying JavaProjectHelper.delete() for package " + pack.getHandleIdentifier())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					Thread.sleep(RETRY_DELAY); // give other threads time to close the file
 				} catch (InterruptedException e1) {
 				}
@@ -676,10 +676,10 @@ public class JavaProjectHelper {
 	 */
 	public static void clear(final IJavaProject jproject, final IClasspathEntry[] entries) throws Exception {
 		performDummySearch();
-		IWorkspaceRunnable runnable= unused -> {
+		IWorkspaceRunnable runnable= unused -> { //FLLDCIM: MARK — T09  LAMBDA
 			jproject.setRawClasspath(entries, null);
 
-			for (IResource resource : jproject.getProject().members()) {
+			for (IResource resource : jproject.getProject().members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!resource.getName().startsWith(".")) {
 					delete(resource);
 				}
@@ -707,7 +707,7 @@ public class JavaProjectHelper {
 		performDummySearch(SearchEngine.createJavaSearchScope(new IJavaElement[] { element }), PERFORM_DUMMY_SEARCH > 0);
 	}
 
-	private static void performDummySearch(IJavaSearchScope searchScope, boolean doIt) throws JavaModelException {
+	private static void performDummySearch(IJavaSearchScope searchScope, boolean doIt) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Workaround for intermittent test failures. The problem is that the Java indexer
 		 * may still be reading a file that has just been created, but a test already tries to delete
@@ -797,7 +797,7 @@ public class JavaProjectHelper {
 	 * @return The handle to the new source container
 	 * @throws CoreException Creation failed
 	 */
-	public static IPackageFragmentRoot addSourceContainer(IJavaProject jproject, String containerName, IPath[] inclusionFilters, IPath[] exclusionFilters, String outputLocation, IClasspathAttribute[] attributes) throws CoreException {
+	public static IPackageFragmentRoot addSourceContainer(IJavaProject jproject, String containerName, IPath[] inclusionFilters, IPath[] exclusionFilters, String outputLocation, IClasspathAttribute[] attributes) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProject project= jproject.getProject();
 		IContainer container= null;
 		if (containerName == null || containerName.length() == 0) {
@@ -854,7 +854,7 @@ public class JavaProjectHelper {
 	 * @throws IOException Creation failed
 	 */
 	public static IPackageFragmentRoot addSourceContainerWithImport(IJavaProject jproject, String containerName, File zipFile, String containerEncoding, IPath[] exclusionFilters) throws InvocationTargetException, CoreException, IOException {
-		try (ZipFile file= new ZipFile(zipFile)) {
+		try (ZipFile file= new ZipFile(zipFile)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 			IPackageFragmentRoot root= addSourceContainer(jproject, containerName, exclusionFilters);
 			((IContainer) root.getCorrespondingResource()).setDefaultCharset(containerEncoding, null);
 			importFilesFromZip(file, root.getPath(), null);
@@ -952,7 +952,7 @@ public class JavaProjectHelper {
 	 * @return The handle of the created root
 	 */
 	public static IPackageFragmentRoot addClassFolderWithImport(IJavaProject jproject, String containerName, IPath sourceAttachPath, IPath sourceAttachRoot, File zipFile) throws IOException, CoreException, InvocationTargetException {
-		try (ZipFile file= new ZipFile(zipFile)) {
+		try (ZipFile file= new ZipFile(zipFile)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 			IPackageFragmentRoot root= addClassFolder(jproject, containerName, sourceAttachPath, sourceAttachRoot);
 			importFilesFromZip(file, root.getPath(), null);
 			return root;
@@ -1106,7 +1106,7 @@ public class JavaProjectHelper {
 	 * @return the new package fragment root
 	 * @throws CoreException Creation failed
 	 */
-	private static IPackageFragmentRoot addVariableRTJar(IJavaProject jproject, IPath rtStubsPath, String libVarName, String srcVarName, String srcrootVarName) throws CoreException {
+	private static IPackageFragmentRoot addVariableRTJar(IJavaProject jproject, IPath rtStubsPath, String libVarName, String srcVarName, String srcrootVarName) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath[] rtJarPaths= findRtJar(rtStubsPath);
 		IPath libVarPath= new Path(libVarName);
 		IPath srcVarPath= null;
@@ -1151,8 +1151,8 @@ public class JavaProjectHelper {
 	public static void removeFromClasspath(IJavaProject jproject, IPath path) throws JavaModelException {
 		IClasspathEntry[] oldEntries= jproject.getRawClasspath();
 		int nEntries= oldEntries.length;
-		ArrayList<IClasspathEntry> list= new ArrayList<>(nEntries);
-		for (int i= 0 ; i < nEntries ; i++) {
+		ArrayList<IClasspathEntry> list= new ArrayList<>(nEntries); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0 ; i < nEntries ; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= oldEntries[i];
 			if (!path.equals(curr.getPath())) {
 				list.add(curr);
@@ -1164,7 +1164,7 @@ public class JavaProjectHelper {
 
 	public static void addToClasspath(IJavaProject jproject, IClasspathEntry cpe) throws JavaModelException {
 		IClasspathEntry[] oldEntries= jproject.getRawClasspath();
-		for (IClasspathEntry oldEntry : oldEntries) {
+		for (IClasspathEntry oldEntry : oldEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (oldEntry.equals(cpe)) {
 				return;
 			}
@@ -1221,9 +1221,9 @@ public class JavaProjectHelper {
 	 * @throws CoreException import failed
 	 * @throws IOException import failed
 	 */
-	public static void importResources(IContainer importTarget, Bundle bundle, String bundleSourcePath) throws CoreException, IOException {
+	public static void importResources(IContainer importTarget, Bundle bundle, String bundleSourcePath) throws CoreException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Enumeration<String> entryPaths= bundle.getEntryPaths(bundleSourcePath);
-		while (entryPaths.hasMoreElements()) {
+		while (entryPaths.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String path= entryPaths.nextElement();
 			IPath name= new Path(path.substring(bundleSourcePath.length()));
 			if (path.endsWith("/")) {
@@ -1250,7 +1250,7 @@ public class JavaProjectHelper {
 	private static class Requestor extends TypeNameRequestor{
 	}
 
-	public static void emptyDisplayLoop() {
+	public static void emptyDisplayLoop() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean showDebugInfo= false;
 
 		Display display= Display.getCurrent();
@@ -1260,13 +1260,13 @@ public class JavaProjectHelper {
 					Synchronizer synchronizer= display.getSynchronizer();
 					Field field= Synchronizer.class.getDeclaredField("messageCount");
 					field.setAccessible(true);
-					System.out.println("Processing " + field.getInt(synchronizer) + " messages in queue");
+					System.out.println("Processing " + field.getInt(synchronizer) + " messages in queue"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} catch (Exception e) {
 					// ignore
 					System.out.println(e);
 				}
 			}
-			while (display.readAndDispatch()) { /*loop*/ }
+			while (display.readAndDispatch()) { /*loop*/ } //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		}
 	}
 

@@ -51,7 +51,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ConvertToRecordAction extends SelectionDispatchAction {
+public class ConvertToRecordAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final JavaEditor fEditor;
 
@@ -110,7 +110,7 @@ public class ConvertToRecordAction extends SelectionDispatchAction {
 		}
 	}
 
-	private IType getElement(IStructuredSelection selection) {
+	private IType getElement(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.size() != 1)
 			return null;
 		Object element= selection.getFirstElement();

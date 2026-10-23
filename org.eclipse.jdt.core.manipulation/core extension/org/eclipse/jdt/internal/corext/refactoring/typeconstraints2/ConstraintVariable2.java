@@ -39,7 +39,7 @@ public abstract class ConstraintVariable2 {
 		if (fDatas == null) {
 			return null;
 		} else {
-			for (int i= 0; i < fDatas.length; i+= 2) {
+			for (int i= 0; i < fDatas.length; i+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String key= (String) fDatas[i];
 				if (key.equals(name))
 					return fDatas[i + 1];
@@ -64,10 +64,10 @@ public abstract class ConstraintVariable2 {
 		return fTypeEquivalenceSet.getTypeEstimate();
 	}
 
-	public void setData(String name, Object data) {
+	public void setData(String name, Object data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int index= 0;
 		if (fDatas != null) {
-			while (index < fDatas.length) {
+			while (index < fDatas.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (name.equals(fDatas[index]))
 					break;
 				index+= 2;
@@ -114,6 +114,6 @@ public abstract class ConstraintVariable2 {
 
 		String name= getClass().getName();
 		int dot= name.lastIndexOf('.');
-		return name.substring(dot + 1) + ": " + (fType != null ? fType.getPrettySignature() : "<NONE>"); //$NON-NLS-1$ //$NON-NLS-2$
+		return name.substring(dot + 1) + ": " + (fType != null ? fType.getPrettySignature() : "<NONE>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

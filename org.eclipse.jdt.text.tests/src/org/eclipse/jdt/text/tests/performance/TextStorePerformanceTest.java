@@ -36,12 +36,12 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 	protected static final String FAUST1;
 	protected static final String FAUST100;
 	protected static final String FAUST500;
-	protected static final Map<String, String> LOCAL_FINGERPRINTS= new HashMap<>();
+	protected static final Map<String, String> LOCAL_FINGERPRINTS= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	static {
 		FAUST1 = AbstractDocumentLineDifferTest.getFaust();
-		FAUST100 = FAUST1.substring(0, 100).intern();
-		FAUST500 = FAUST1.substring(0, 500).intern();
+		FAUST100 = FAUST1.substring(0, 100).intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
+		FAUST500 = FAUST1.substring(0, 500).intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
 	}
 
 	abstract protected ITextStore createTextStore();
@@ -65,7 +65,7 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 
 	public void measureSet(PerformanceMeter meter) {
 		meter.start();
-		for (int accumulated = 0; accumulated < 400; accumulated++)
+		for (int accumulated = 0; accumulated < 400; accumulated++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTextStore.set(FAUST1);
 		meter.stop();
 	}
@@ -75,7 +75,7 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 		int OFFSET = 12;
 		int REPLACE_LENGTH = FAUST100.length();
 		meter.start();
-		for (int times = 0; times < 200000; times++)
+		for (int times = 0; times < 200000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTextStore.replace(OFFSET, REPLACE_LENGTH, FAUST100);
 		meter.stop();
 	}
@@ -84,8 +84,8 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 		fTextStore.set(FAUST1);
 		int offset = 12;
 		meter.start();
-		for (int times = 0; times < 9000000; times++)
-			while (offset++ < 400)
+		for (int times = 0; times < 9000000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (offset++ < 400) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fTextStore.replace(offset, 0, ";");
 		meter.stop();
 	}
@@ -94,8 +94,8 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 		fTextStore.set(FAUST500);
 		int offset = 12;
 		meter.start();
-		for (int times = 0; times < 9000000; times++)
-			while (offset++ < 400)
+		for (int times = 0; times < 9000000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (offset++ < 400) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fTextStore.replace(offset, 0, ";");
 		meter.stop();
 	}
@@ -103,7 +103,7 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 	public void measureInsertAtStart(PerformanceMeter meter) {
 		fTextStore.set(FAUST1);
 		meter.start();
-		for (int times = 0; times < 1000; times++)
+		for (int times = 0; times < 1000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTextStore.replace(0, 0, FAUST100);
 		meter.stop();
 	}
@@ -113,7 +113,7 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 		int offset = fTextStore.getLength();
 		int length = FAUST100.length();
 		meter.start();
-		for (int times = 0; times < 3000; times++) {
+		for (int times = 0; times < 3000; times++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTextStore.replace(offset, 0, FAUST100);
 			offset += length;
 		}
@@ -125,30 +125,30 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 		int OFFSET = 12;
 		int REPLACE_LENGTH = 100;
 		meter.start();
-		for (int times = 0; times < 1000; times++)
+		for (int times = 0; times < 1000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// delete phase
 			fTextStore.replace(OFFSET, REPLACE_LENGTH, null);
-		for (int times = 0; times < 1000; times++)
+		for (int times = 0; times < 1000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// insert phase
 			fTextStore.replace(OFFSET, 0, FAUST100);
 		meter.stop();
 	}
 
-	public void measureRandomReplace(PerformanceMeter meter) {
+	public void measureRandomReplace(PerformanceMeter meter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTextStore.set(FAUST1);
 
 		Random rand = new Random(132498029834234L);
 		int[] indices = new int[1000];
 		int REPLACE_LENGTH = 100; // chosen to fit in the gap text store size
-		for (int i = 0; i < indices.length; i++)
+		for (int i = 0; i < indices.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			indices[i] = rand.nextInt(FAUST1.length() - REPLACE_LENGTH);
 		char[] replacement = new char[REPLACE_LENGTH];
 		Arrays.fill(replacement, ' ');
 		String replace = new String(replacement);
 
 		meter.start();
-		for (int times = 0; times < 4; times++)
-			for (int index : indices) {
+		for (int times = 0; times < 4; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int index : indices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fTextStore.replace(index, REPLACE_LENGTH, null);
 				fTextStore.replace(index, 0, replace);
 			}
@@ -161,8 +161,8 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 		tracker.set(FAUST1);
 		int lines = tracker.getNumberOfLines();
 		meter.start();
-		for (int times = 0; times < 100; times++) {
-			for (int line = 0; line < lines; line++) {
+		for (int times = 0; times < 100; times++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int line = 0; line < lines; line++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IRegion lineInfo = tracker.getLineInformation(line);
 				fTextStore.get(lineInfo.getOffset(), lineInfo.getLength());
 			}
@@ -174,8 +174,8 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 		fTextStore.set(FAUST1);
 		int length = fTextStore.getLength();
 		meter.start();
-		for (int times = 0; times < 150; times++)
-			for (int offset = 0; offset < length; offset++)
+		for (int times = 0; times < 150; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int offset = 0; offset < length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fTextStore.get(offset);
 		meter.stop();
 	}
@@ -184,7 +184,7 @@ public abstract class TextStorePerformanceTest extends TextPerformanceTestCase2 
 		fTextStore.set(FAUST1);
 		int length = fTextStore.getLength();
 		meter.start();
-		for (int times = 0; times < 500; times++)
+		for (int times = 0; times < 500; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTextStore.get(0, length);
 		meter.stop();
 	}

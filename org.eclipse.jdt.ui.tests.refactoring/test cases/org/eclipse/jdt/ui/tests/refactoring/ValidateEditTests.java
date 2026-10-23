@@ -72,7 +72,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		RepositoryProvider.unmap(getRoot().getJavaProject().getProject());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageRename1() throws Exception {
 		IPackageFragment fragment= getRoot().createPackageFragment("org.test", true, null);
 
@@ -106,7 +106,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		assertTrue(validatedEditPaths.contains(cu2.getPath()));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageRename2() throws Exception {
 		// A readonly and moved, B moved, C changes
 
@@ -152,7 +152,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		assertTrue(validatedEditPaths.contains(cu3.getPath()));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageRenameWithResource() throws Exception {
 		// MyClass readonly and moved, x.properties readonly moved
 
@@ -185,7 +185,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageRenameWithResource2() throws Exception {
 		// MyClass readonly and moved, x.properties readonly moved
 
@@ -221,7 +221,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		assertTrue(validatedEditPaths.contains(file.getFullPath()));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCURename() throws Exception {
 
 		IPackageFragment fragment= getRoot().createPackageFragment("org.test", true, null);
@@ -256,7 +256,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		assertTrue(validatedEditPaths.contains(cu2.getPath()));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeRename() throws Exception {
 
 		IPackageFragment fragment= getRoot().createPackageFragment("org.test", true, null);
@@ -291,7 +291,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		assertTrue(validatedEditPaths.contains(cu2.getPath()));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMoveCU2() throws Exception {
 		// Move CU and file: Only CU be validated as file doesn't change
 
@@ -335,7 +335,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		assertTrue(validatedEditPaths.contains(cu2.getPath())); // changed
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMoveFileWithReplace() throws Exception {
 		// Move file to a existing location
 
@@ -367,7 +367,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		assertTrue(validatedEditPaths.contains(file2.getFullPath())); // replaced
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMoveCuWithReplace() throws Exception {
 		// Move CU to an existing location
 
@@ -408,7 +408,7 @@ public class ValidateEditTests extends GenericRefactoringTest {
 		assertTrue(validatedEditPaths.contains(cu2.getPath())); // replaced
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCopyCuWithReplace() throws Exception {
 		// Copy CU to a existing location
 

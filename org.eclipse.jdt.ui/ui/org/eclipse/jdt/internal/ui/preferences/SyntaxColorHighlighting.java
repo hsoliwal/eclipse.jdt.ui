@@ -22,7 +22,7 @@ public record SyntaxColorHighlighting(String label, String preferenceKey) {
 
 	private static SyntaxColorHighlighting[] fgSyntaxColorHighlighting = null;
 
-	public static SyntaxColorHighlighting[] getSyntaxColorHighlightings() {
+	public static SyntaxColorHighlighting[] getSyntaxColorHighlightings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fgSyntaxColorHighlighting == null) {
 			fgSyntaxColorHighlighting = new SyntaxColorHighlighting[] {
 					new SyntaxColorHighlighting(PreferencesMessages.JavaEditorPreferencePage_javaDocKeywords, PreferenceConstants.EDITOR_JAVADOC_KEYWORD_COLOR),
@@ -44,19 +44,19 @@ public record SyntaxColorHighlighting(String label, String preferenceKey) {
 	}
 
 	public String getBoldPreferenceKey() {
-		return preferenceKey + BOLD;
+		return preferenceKey + BOLD; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public String getItalicPreferenceKey() {
-		return preferenceKey + ITALIC;
+		return preferenceKey + ITALIC; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public String getStrikethroughPreferenceKey() {
-		return preferenceKey + STRIKETHROUGH;
+		return preferenceKey + STRIKETHROUGH; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public String getUnderlinePreferenceKey() {
-		return preferenceKey + UNDERLINE;
+		return preferenceKey + UNDERLINE; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

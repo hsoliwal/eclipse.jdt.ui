@@ -118,7 +118,7 @@ public abstract class OptionsConfigurationBlock {
 		}
 
 		public String getStoredValue(IScopeContext[] lookupOrder, boolean ignoreTopScope, IWorkingCopyManager manager) {
-			for (int i= ignoreTopScope ? 1 : 0; i < lookupOrder.length; i++) {
+			for (int i= ignoreTopScope ? 1 : 0; i < lookupOrder.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String value= getStoredValue(lookupOrder[i], manager);
 				if (value != null) {
 					return value;
@@ -137,7 +137,7 @@ public abstract class OptionsConfigurationBlock {
 
 		@Override
 		public String toString() {
-			return fQualifier + '/' + fKey;
+			return fQualifier + '/' + fKey; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		public String getQualifier() {
@@ -154,7 +154,7 @@ public abstract class OptionsConfigurationBlock {
 
 		private LocalKey(String key) {
 			super("local", key); //$NON-NLS-1$
-			fValues= new HashMap<>();
+			fValues= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 
 		@Override
@@ -196,7 +196,7 @@ public abstract class OptionsConfigurationBlock {
 
 		public int getSelection(String value) {
 			if (value != null) {
-				for (int i= 0; i < fValues.length; i++) {
+				for (int i= 0; i < fValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (value.equals(fValues[i])) {
 						return i;
 					}
@@ -329,7 +329,7 @@ public abstract class OptionsConfigurationBlock {
 
 	private int fRebuildCount; /// used to prevent multiple dialogs that ask for a rebuild
 
-	public OptionsConfigurationBlock(IStatusChangeListener context, IProject project, Key[] allKeys, IWorkbenchPreferenceContainer container) {
+	public OptionsConfigurationBlock(IStatusChangeListener context, IProject project, Key[] allKeys, IWorkbenchPreferenceContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fContext= context;
 		fProject= project;
 		fAllKeys= allKeys;
@@ -356,20 +356,20 @@ public abstract class OptionsConfigurationBlock {
 		if (fProject == null || hasProjectSpecificOptions(fProject)) {
 			fDisabledProjectSettings= null;
 		} else {
-			fDisabledProjectSettings= new IdentityHashMap<>();
-			for (Key curr : allKeys) {
+			fDisabledProjectSettings= new IdentityHashMap<>(); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
+			for (Key curr : allKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDisabledProjectSettings.put(curr, curr.getStoredValue(fLookupOrder, false, fManager));
 			}
 		}
 
 		settingsUpdated();
 
-		fCheckBoxes= new ArrayList<>();
-		fComboBoxes= new ArrayList<>();
-		fTextBoxes= new ArrayList<>(2);
-		fLinks= new ArrayList<>(2);
-		fLabels= new HashMap<>();
-		fExpandableComposites= new ArrayList<>();
+		fCheckBoxes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fComboBoxes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fTextBoxes= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fLinks= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fLabels= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fExpandableComposites= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fRebuildCount= getRebuildCount();
 	}
@@ -399,10 +399,10 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	private void testIfOptionsComplete(Key[] allKeys) {
-		for (Key key : allKeys) {
+		for (Key key : allKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(key instanceof LocalKey)) {
 				if (key.getStoredValue(fLookupOrder, false, fManager) == null) {
-					JavaPlugin.logErrorMessage("preference option missing: " + key + " (" + this.getClass().getName() + ')'); //$NON-NLS-1$//$NON-NLS-2$
+					JavaPlugin.logErrorMessage("preference option missing: " + key + " (" + this.getClass().getName() + ')'); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -424,20 +424,20 @@ public abstract class OptionsConfigurationBlock {
 
 
 	public void selectOption(String key, String qualifier) {
-		for (Key curr : fAllKeys) {
+		for (Key curr : fAllKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getName().equals(key) && curr.getQualifier().equals(qualifier)) {
 				selectOption(curr);
 			}
 		}
 	}
 
-	public void selectOption(Key key) {
+	public void selectOption(Key key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Control control= findControl(key);
 		if (control != null) {
 			if (!fExpandableComposites.isEmpty()) {
 				ExpandableComposite expandable= getParentExpandableComposite(control);
 				if (expandable != null) {
-					for (ExpandableComposite curr : fExpandableComposites) {
+					for (ExpandableComposite curr : fExpandableComposites) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						curr.setExpanded(curr == expandable);
 					}
 					expandedStateChanged(expandable);
@@ -461,7 +461,7 @@ public abstract class OptionsConfigurationBlock {
 	public static boolean hasProjectSpecificOptions(IProject project, Key[] allKeys, IWorkingCopyManager manager) {
 		if (project != null) {
 			IScopeContext projectContext= new ProjectScope(project);
-			for (Key key : allKeys) {
+			for (Key key : allKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (key.getStoredValue(projectContext, manager) != null) {
 					return true;
 				}
@@ -480,7 +480,7 @@ public abstract class OptionsConfigurationBlock {
 
 	protected abstract Control createContents(Composite parent);
 
-	protected Button addCheckBox(Composite parent, String label, Key key, String[] values, int indent, boolean addToCheckBoxesList) {
+	protected Button addCheckBox(Composite parent, String label, Key key, String[] values, int indent, boolean addToCheckBoxesList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ControlData data= new ControlData(key, values);
 
 		GridData gd= new GridData(GridData.HORIZONTAL_ALIGN_FILL);
@@ -492,7 +492,7 @@ public abstract class OptionsConfigurationBlock {
 		checkBox.setText(label);
 		checkBox.setData(data);
 		checkBox.setLayoutData(gd);
-		checkBox.addSelectionListener(getSelectionListener());
+		checkBox.addSelectionListener(getSelectionListener()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		makeScrollableCompositeAware(checkBox);
 
@@ -509,7 +509,7 @@ public abstract class OptionsConfigurationBlock {
 		return addCheckBox(parent, label, key, values, indent, true);
 	}
 
-	protected Button addCheckBoxWithLink(Composite parent, final String label, Key key, String[] values, int indent, int widthHint, final SelectionListener listener) {
+	protected Button addCheckBoxWithLink(Composite parent, final String label, Key key, String[] values, int indent, int widthHint, final SelectionListener listener) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LinkControlData data= new LinkControlData(key, values);
 
 		GridData gd= new GridData(GridData.FILL, GridData.FILL, true, false);
@@ -532,7 +532,7 @@ public abstract class OptionsConfigurationBlock {
 		gd.widthHint= checkBox.computeSize(SWT.DEFAULT, SWT.DEFAULT).x + offset;
 		checkBox.setLayoutData(gd);
 		checkBox.setData(data);
-		checkBox.addSelectionListener(getSelectionListener());
+		checkBox.addSelectionListener(getSelectionListener()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		checkBox.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 			@Override
 			public void getName(AccessibleEvent e) {
@@ -551,7 +551,7 @@ public abstract class OptionsConfigurationBlock {
 
 		// toggle checkbox when user clicks unlinked text in link:
 		final boolean[] linkSelected= { false };
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				linkSelected[0]= true;
@@ -560,7 +560,7 @@ public abstract class OptionsConfigurationBlock {
 				}
 			}
 		});
-		link.addMouseListener(new MouseAdapter() {
+		link.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDown(MouseEvent e) {
 				linkSelected[0]= false;
@@ -575,7 +575,7 @@ public abstract class OptionsConfigurationBlock {
 				}
 			}
 		});
-		link.addTraverseListener(e -> {
+		link.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit == true) {
 				e.detail= SWT.TRAVERSE_NONE;
 				checkBox.setSelection(!checkBox.getSelection());
@@ -596,7 +596,7 @@ public abstract class OptionsConfigurationBlock {
 		return checkBox;
 	}
 
-	protected Combo addComboBox(Composite parent, String label, Key key, String[] values, String[] valueLabels, int indent) {
+	protected Combo addComboBox(Composite parent, String label, Key key, String[] values, String[] valueLabels, int indent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData gd= new GridData(GridData.BEGINNING, GridData.CENTER, true, false, 2, 1);
 		gd.horizontalIndent= indent;
 
@@ -615,7 +615,7 @@ public abstract class OptionsConfigurationBlock {
 		return comboBox;
 	}
 
-	protected Combo addInversedComboBox(Composite parent, String label, Key key, String[] values, String[] valueLabels, int indent) {
+	protected Combo addInversedComboBox(Composite parent, String label, Key key, String[] values, String[] valueLabels, int indent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData gd= new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalIndent= indent;
 		gd.horizontalSpan= 3;
@@ -646,7 +646,7 @@ public abstract class OptionsConfigurationBlock {
 		Combo comboBox= new Combo(composite, SWT.READ_ONLY);
 		comboBox.setItems(valueLabels);
 		comboBox.setData(data);
-		comboBox.addSelectionListener(getSelectionListener());
+		comboBox.addSelectionListener(getSelectionListener()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		comboBox.setFont(JFaceResources.getDialogFont());
 		SWTUtil.setDefaultVisibleItemCount(comboBox);
 
@@ -658,7 +658,7 @@ public abstract class OptionsConfigurationBlock {
 		return comboBox;
 	}
 
-	protected Text addTextField(Composite parent, String label, Key key, int indent, int widthHint) {
+	protected Text addTextField(Composite parent, String label, Key key, int indent, int widthHint) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label labelControl= new Label(parent, SWT.WRAP);
 		labelControl.setText(label);
 		labelControl.setFont(JFaceResources.getDialogFont());
@@ -675,7 +675,7 @@ public abstract class OptionsConfigurationBlock {
 
 		updateText(textBox);
 
-		textBox.addModifyListener(getTextModifyListener());
+		textBox.addModifyListener(getTextModifyListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		GridData data= new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		if (widthHint != 0) {
@@ -688,7 +688,7 @@ public abstract class OptionsConfigurationBlock {
 		return textBox;
 	}
 
-	protected Link addLink(Composite parent, String label, Key key, SelectionListener linkListener, int indent, int widthHint) {
+	protected Link addLink(Composite parent, String label, Key key, SelectionListener linkListener, int indent, int widthHint) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData gd= new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan= 3;
 		gd.horizontalIndent= indent;
@@ -699,7 +699,7 @@ public abstract class OptionsConfigurationBlock {
 		link.setText(label);
 		link.setData(key);
 		link.setLayoutData(gd);
-		link.addSelectionListener(linkListener);
+		link.addSelectionListener(linkListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		makeScrollableCompositeAware(link);
 
@@ -708,15 +708,15 @@ public abstract class OptionsConfigurationBlock {
 		return link;
 	}
 
-	protected Link createIgnoreOptionalProblemsLink(Composite parent) {
+	protected Link createIgnoreOptionalProblemsLink(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IClasspathEntry sourceFolderEntry= getSourceFolderIgnoringOptionalProblems();
 		if (sourceFolderEntry != null) {
 			Link link= new Link(parent, SWT.NONE);
 			link.setText(PreferencesMessages.OptionsConfigurationBlock_IgnoreOptionalProblemsLink);
-			link.addSelectionListener(new SelectionAdapter() {
+			link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					HashMap<Object, Object> data= new HashMap<>(1);
+					HashMap<Object, Object> data= new HashMap<>(1); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					data.put(BuildPathsPropertyPage.DATA_REVEAL_ENTRY, sourceFolderEntry);
 					data.put(BuildPathsPropertyPage.DATA_REVEAL_ATTRIBUTE_KEY, IClasspathAttribute.IGNORE_OPTIONAL_PROBLEMS);
 					getPreferenceContainer().openPage(BuildPathsPropertyPage.PROP_ID, data);
@@ -727,7 +727,7 @@ public abstract class OptionsConfigurationBlock {
 		return null;
 	}
 
-	private IClasspathEntry getSourceFolderIgnoringOptionalProblems() {
+	private IClasspathEntry getSourceFolderIgnoringOptionalProblems() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fProject == null) {
 			return null;
 		}
@@ -736,9 +736,9 @@ public abstract class OptionsConfigurationBlock {
 			return null;
 		}
 		try {
-			for (IClasspathEntry entry : javaProject.getRawClasspath()) {
+			for (IClasspathEntry entry : javaProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-					for (IClasspathAttribute attrib : entry.getExtraAttributes()) {
+					for (IClasspathAttribute attrib : entry.getExtraAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (IClasspathAttribute.IGNORE_OPTIONAL_PROBLEMS.equals(attrib.getName())) {
 							if ("true".equals(attrib.getValue())) { //$NON-NLS-1$
 								return entry;
@@ -757,7 +757,7 @@ public abstract class OptionsConfigurationBlock {
 
 	protected ScrolledPageContent getParentScrolledComposite(Control control) {
 		Control parent= control.getParent();
-		while (!(parent instanceof ScrolledPageContent) && parent != null) {
+		while (!(parent instanceof ScrolledPageContent) && parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		if (parent != null) {
@@ -768,7 +768,7 @@ public abstract class OptionsConfigurationBlock {
 
 	protected ExpandableComposite getParentExpandableComposite(Control control) {
 		Control parent= control.getParent();
-		while (!(parent instanceof ExpandableComposite) && parent != null) {
+		while (!(parent instanceof ExpandableComposite) && parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		if (parent != null) {
@@ -788,7 +788,7 @@ public abstract class OptionsConfigurationBlock {
 		return createStyleSection(parent, label, nColumns, null);
 	}
 
-	protected ExpandableComposite createStyleSection(Composite parent, String label, int nColumns, Key key) {
+	protected ExpandableComposite createStyleSection(Composite parent, String label, int nColumns, Key key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ExpandableComposite excomposite= new ExpandableComposite(parent, SWT.NONE, ExpandableComposite.TWISTIE | ExpandableComposite.CLIENT_INDENT);
 		excomposite.setText(label);
 		if (key != null) {
@@ -816,20 +816,20 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	protected void restoreSectionExpansionStates(IDialogSettings settings) {
-		for (int i= 0; i < fExpandableComposites.size(); i++) {
+		for (int i= 0; i < fExpandableComposites.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ExpandableComposite excomposite= fExpandableComposites.get(i);
 			if (settings == null) {
 				excomposite.setExpanded(i == 0); // only expand the first node by default
 			} else {
-				excomposite.setExpanded(settings.getBoolean(SETTINGS_EXPANDED + String.valueOf(i)));
+				excomposite.setExpanded(settings.getBoolean(SETTINGS_EXPANDED + String.valueOf(i))); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
 
 	protected void storeSectionExpansionStates(IDialogSettings settings) {
-		for (int i= 0; i < fExpandableComposites.size(); i++) {
+		for (int i= 0; i < fExpandableComposites.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ExpandableComposite curr= fExpandableComposites.get(i);
-			settings.put(SETTINGS_EXPANDED + String.valueOf(i), curr.isExpanded());
+			settings.put(SETTINGS_EXPANDED + String.valueOf(i), curr.isExpanded()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -847,7 +847,7 @@ public abstract class OptionsConfigurationBlock {
 
 	protected ModifyListener getTextModifyListener() {
 		if (fTextModifyListener == null) {
-			fTextModifyListener= e -> textChanged((Text) e.widget);
+			fTextModifyListener= e -> textChanged((Text) e.widget); //FLLDCIM: MARK — T02  LAMBDA
 		}
 		return fTextModifyListener;
 	}
@@ -974,7 +974,7 @@ public abstract class OptionsConfigurationBlock {
 	 * @since 3.5
 	 */
 	protected void revertValues(Key[] keys) {
-		for (Key curr : keys) {
+		for (Key curr : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String origValue= curr.getStoredValue(fLookupOrder, false, null);
 			setValue(curr, origValue);
 		}
@@ -994,16 +994,16 @@ public abstract class OptionsConfigurationBlock {
 		StringTokenizer tok= new StringTokenizer(text, separator);
 		int nTokens= tok.countTokens();
 		String[] res= new String[nTokens];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res[i]= tok.nextToken().trim();
 		}
 		return res;
 	}
 
-	private boolean getChanges(IScopeContext currContext, List<Key> changedSettings) {
+	private boolean getChanges(IScopeContext currContext, List<Key> changedSettings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean completeSettings= fProject != null && fDisabledProjectSettings == null; // complete when project settings are enabled
 		boolean needsBuild= false;
-		for (Key key : fAllKeys) {
+		for (Key key : fAllKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String oldVal= key.getStoredValue(currContext, null);
 			String val= key.getStoredValue(currContext, fManager);
 			if (val == null) {
@@ -1023,11 +1023,11 @@ public abstract class OptionsConfigurationBlock {
 		return needsBuild;
 	}
 
-	public void useProjectSpecificSettings(boolean enable) {
+	public void useProjectSpecificSettings(boolean enable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean hasProjectSpecificOption= fDisabledProjectSettings == null;
 		if (enable != hasProjectSpecificOption && fProject != null) {
 			if (enable) {
-				for (Key curr : fAllKeys) {
+				for (Key curr : fAllKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String val= fDisabledProjectSettings.get(curr);
 					curr.setStoredValue(fLookupOrder[0], val, fManager);
 				}
@@ -1035,8 +1035,8 @@ public abstract class OptionsConfigurationBlock {
 				updateControls();
 				validateSettings(null, null, null);
 			} else {
-				fDisabledProjectSettings= new IdentityHashMap<>();
-				for (Key curr : fAllKeys) {
+				fDisabledProjectSettings= new IdentityHashMap<>(); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
+				for (Key curr : fAllKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String oldSetting= curr.getStoredValue(fLookupOrder, false, fManager);
 					fDisabledProjectSettings.put(curr, oldSetting);
 					curr.setStoredValue(fLookupOrder[0], null, fManager); // clear project settings
@@ -1058,11 +1058,11 @@ public abstract class OptionsConfigurationBlock {
 		return processChanges(null); // apply directly
 	}
 
-	protected boolean processChanges(IWorkbenchPreferenceContainer container) {
+	protected boolean processChanges(IWorkbenchPreferenceContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IScopeContext currContext= fLookupOrder[0];
 
 
-		List<Key> changedOptions= new ArrayList<>();
+		List<Key> changedOptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean needsBuild= getChanges(currContext, changedOptions);
 		if (changedOptions.isEmpty()) {
 			return true;
@@ -1137,7 +1137,7 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	private boolean hasJdtCoreSettings(List<Key> options) {
-		for (Key option : options) {
+		for (Key option : options) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String qualifier = option.getQualifier();
 			if (JavaCore.PLUGIN_ID.equals(qualifier)) {
 				return true;
@@ -1147,7 +1147,7 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	public void performDefaults() {
-		for (Key curr : fAllKeys) {
+		for (Key curr : fAllKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String defValue= curr.getStoredValue(fLookupOrder, true, fManager);
 			setValue(curr, defValue);
 		}
@@ -1181,13 +1181,13 @@ public abstract class OptionsConfigurationBlock {
 	 * by code.
 	 */
 	protected void updateControls() {
-		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updateCheckBox(fCheckBoxes.get(i));
 		}
-		for (int i= fComboBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fComboBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updateCombo(fComboBoxes.get(i));
 		}
-		for (int i= fTextBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fTextBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updateText(fTextBoxes.get(i));
 		}
 	}
@@ -1216,7 +1216,7 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	protected ExpandableComposite getExpandableComposite(Key key) {
-		for (int i= fExpandableComposites.size() - 1; i >= 0; i--) {
+		for (int i= fExpandableComposites.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ExpandableComposite curr= fExpandableComposites.get(i);
 			Key data= (Key)curr.getData();
 			if (key.equals(data)) {
@@ -1227,7 +1227,7 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	protected Button getCheckBox(Key key) {
-		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button curr= fCheckBoxes.get(i);
 			ControlData data= (ControlData) curr.getData();
 			if (key.equals(data.getKey())) {
@@ -1241,7 +1241,7 @@ public abstract class OptionsConfigurationBlock {
 		if (fCheckBoxes == null)
 			return null;
 
-		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button curr= fCheckBoxes.get(i);
 			ControlData data= (ControlData) curr.getData();
 			if (key.equals(data.getKey()) && data instanceof LinkControlData) {
@@ -1252,7 +1252,7 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	protected Combo getComboBox(Key key) {
-		for (int i= fComboBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fComboBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Combo curr= fComboBoxes.get(i);
 			ControlData data= (ControlData) curr.getData();
 			if (key.equals(data.getKey())) {
@@ -1263,7 +1263,7 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	protected Text getTextControl(Key key) {
-		for (int i= fTextBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fTextBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Text curr= fTextBoxes.get(i);
 			Key data= (Key)curr.getData();
 			if (key.equals(data)) {
@@ -1274,7 +1274,7 @@ public abstract class OptionsConfigurationBlock {
 	}
 
 	protected Link getLink(Key key) {
-		for (int i= fLinks.size() - 1; i >= 0; i--) {
+		for (int i= fLinks.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Link curr= fLinks.get(i);
 			Key data= (Key)curr.getData();
 			if (key.equals(data)) {
@@ -1284,7 +1284,7 @@ public abstract class OptionsConfigurationBlock {
 		return null;
 	}
 
-	protected Control findControl(Key key) {
+	protected Control findControl(Key key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Combo comboBox= getComboBox(key);
 		if (comboBox != null) {
 			return comboBox;

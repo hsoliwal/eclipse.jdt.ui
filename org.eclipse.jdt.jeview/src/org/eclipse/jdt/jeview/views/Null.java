@@ -47,7 +47,7 @@ public class Null extends JEAttribute {
 
 	@Override
 	public String getLabel() {
-		return fName + ": null";
+		return fName + ": null"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

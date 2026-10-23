@@ -45,7 +45,7 @@ import org.eclipse.jdt.internal.ui.actions.MultiFormatAction;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class FormatAllAction extends SelectionDispatchAction {
+public class FormatAllAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private MultiFormatAction fCleanUpDelegate;
 

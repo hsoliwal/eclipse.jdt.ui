@@ -65,7 +65,7 @@ public class JavaElementReferenceConverter extends AbstractParameterValueConvert
 
 	private static final char PARAM_END_CHAR= Signature.C_PARAM_END;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object convertToObject(String parameterValue) throws ParameterValueConversionException {
 
 		if (parameterValue == null) {
@@ -144,7 +144,7 @@ public class JavaElementReferenceConverter extends AbstractParameterValueConvert
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String convertToString(Object parameterValue) throws ParameterValueConversionException {
 
 		if (!(parameterValue instanceof IJavaElement)) {
@@ -167,19 +167,19 @@ public class JavaElementReferenceConverter extends AbstractParameterValueConvert
 			if (javaElement instanceof IMethod) {
 				IMethod method= (IMethod) javaElement;
 				buffer= composeTypeReference(method.getDeclaringType());
-				buffer.append(TYPE_END_CHAR);
-				buffer.append(method.getElementName());
-				buffer.append(PARAM_START_CHAR);
-				for (String parameterType : method.getParameterTypes()) {
-					buffer.append(parameterType);
+				buffer.append(TYPE_END_CHAR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(method.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(PARAM_START_CHAR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				for (String parameterType : method.getParameterTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buffer.append(parameterType); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buffer.append(PARAM_END_CHAR);
+				buffer.append(PARAM_END_CHAR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else
 				if (javaElement instanceof IField) {
 					IField field= (IField) javaElement;
 					buffer= composeTypeReference(field.getDeclaringType());
-					buffer.append(TYPE_END_CHAR);
-					buffer.append(field.getElementName());
+					buffer.append(TYPE_END_CHAR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buffer.append(field.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
 					throw new ParameterValueConversionException("Unsupported IJavaElement type"); //$NON-NLS-1$
 				}
@@ -188,10 +188,10 @@ public class JavaElementReferenceConverter extends AbstractParameterValueConvert
 	}
 
 	private StringBuilder composeTypeReference(IType type) {
-		StringBuilder buffer= new StringBuilder();
-		buffer.append(type.getJavaProject().getElementName());
-		buffer.append(PROJECT_END_CHAR);
-		buffer.append(type.getFullyQualifiedName());
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(type.getJavaProject().getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(PROJECT_END_CHAR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(type.getFullyQualifiedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buffer;
 	}
 

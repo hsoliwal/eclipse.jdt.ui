@@ -36,7 +36,7 @@ public class JavaImplementorFinder implements IImplementorFinder {
             typeHierarchy = type.newTypeHierarchy(progressMonitor);
 
             IType[] implementingTypes = typeHierarchy.getAllClasses();
-            HashSet<IType> result = new HashSet<>(Arrays.asList(implementingTypes));
+            HashSet<IType> result = new HashSet<>(Arrays.asList(implementingTypes)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
             return result;
         } catch (JavaModelException e) {
@@ -54,7 +54,7 @@ public class JavaImplementorFinder implements IImplementorFinder {
             typeHierarchy = type.newSupertypeHierarchy(progressMonitor);
 
             IType[] interfaces = typeHierarchy.getAllSuperInterfaces(type);
-            HashSet<IType> result = new HashSet<>(Arrays.asList(interfaces));
+            HashSet<IType> result = new HashSet<>(Arrays.asList(interfaces)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
             return result;
         } catch (JavaModelException e) {

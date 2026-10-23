@@ -97,29 +97,29 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 	/**
 	 * The string used to mark the beginning of the generated code
 	 */
-	public static final String START_MARKER= COMMENT_START + NON_COMMENT_START_MARKER;
+	public static final String START_MARKER= COMMENT_START + NON_COMMENT_START_MARKER; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The string used to mark the end of the generated code
 	 */
-	public static final String END_MARKER= COMMENT_START + NON_COMMENT_END_MARKER;
+	public static final String END_MARKER= COMMENT_START + NON_COMMENT_END_MARKER; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private final static String PAGE_NAME= "NewTestSuiteCreationWizardPage"; //$NON-NLS-1$
 
 	/** Field ID of the class in suite field. */
-	public final static String CLASSES_IN_SUITE= PAGE_NAME + ".classesinsuite"; //$NON-NLS-1$
+	public final static String CLASSES_IN_SUITE= PAGE_NAME + ".classesinsuite"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Field ID of the junit4 toggle field.
 	 *
 	 * @since 3.7
 	 */
-	public final static String JUNIT4TOGGLE= PAGE_NAME + ".junit4toggle"; //$NON-NLS-1$
+	public final static String JUNIT4TOGGLE= PAGE_NAME + ".junit4toggle"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Field ID of the junit5 toggle field.
 	 */
-	private final static String JUNIT5TOGGLE= PAGE_NAME + ".junit5toggle"; //$NON-NLS-1$
+	private final static String JUNIT5TOGGLE= PAGE_NAME + ".junit5toggle"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private CheckboxTableViewer fClassesInSuiteTable;
 	private IStatus fClassesInSuiteStatus;
@@ -147,7 +147,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 		fClassesInSuiteStatus= new JUnitStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -187,7 +187,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 	 *
 	 * @param selection the initial selection
 	 */
-	public void init(IStructuredSelection selection) {
+	public void init(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement jelem= getInitialJavaElement(selection);
 		initContainerPage(jelem, true);
 		initSuitePage(jelem);
@@ -281,7 +281,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 				else
 					return;
 			}
-			fClassesInSuiteTable.setInput(pack);
+			fClassesInSuiteTable.setInput(pack); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fClassesInSuiteTable.setAllChecked(true);
 			ensureNoRecursiveTestSuiteInclusion();
 			updateSelectedClassesLabel();
@@ -295,7 +295,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 	 * @param parent the parent composite
 	 * @param nColumns number of columns to span
 	 */
-	protected void createClassesInSuiteControl(Composite parent, int nColumns) {
+	protected void createClassesInSuiteControl(Composite parent, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fClassesInSuiteTable == null) {
 
 			Label label = new Label(parent, SWT.LEFT);
@@ -312,8 +312,8 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 
 			fClassesInSuiteTable.getTable().setLayoutData(gd);
 			fClassesInSuiteTable.setContentProvider(new SuiteClassesContentProvider(isJUnit4(), isJUnit5()));
-			fClassesInSuiteTable.setLabelProvider(new JavaElementLabelProvider());
-			fClassesInSuiteTable.addCheckStateListener(unused -> handleFieldChanged(CLASSES_IN_SUITE));
+			fClassesInSuiteTable.setLabelProvider(new JavaElementLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+			fClassesInSuiteTable.addCheckStateListener(unused -> handleFieldChanged(CLASSES_IN_SUITE)); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 
 			Composite buttonContainer= new Composite(parent, SWT.NONE);
 			gd= new GridData(GridData.FILL_VERTICAL);
@@ -328,7 +328,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 			GridData bgd= new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 			bgd.widthHint = LayoutUtil.getButtonWidthHint(selectAllButton);
 			selectAllButton.setLayoutData(bgd);
-			selectAllButton.addSelectionListener(new SelectionAdapter() {
+			selectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fClassesInSuiteTable.setAllChecked(true);
@@ -341,7 +341,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 			bgd= new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 			bgd.widthHint = LayoutUtil.getButtonWidthHint(deselectAllButton);
 			deselectAllButton.setLayoutData(bgd);
-			deselectAllButton.addSelectionListener(new SelectionAdapter() {
+			deselectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fClassesInSuiteTable.setAllChecked(false);
@@ -372,9 +372,9 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 	 */
 	private String getSuiteMethodString(IType type) {
 		String typeName= type.getElementName();
-		StringBuilder suite= new StringBuilder("public static Test suite () {TestSuite suite= new TestSuite(" + typeName + ".class.getName());\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		suite.append(getUpdatableString());
-		suite.append("\nreturn suite;}"); //$NON-NLS-1$
+		StringBuilder suite= new StringBuilder("public static Test suite () {TestSuite suite= new TestSuite(" + typeName + ".class.getName());\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		suite.append(getUpdatableString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		suite.append("\nreturn suite;}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return suite.toString();
 	}
 
@@ -385,7 +385,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 	@Override
 	public void createType(IProgressMonitor monitor) throws CoreException, InterruptedException {
 		IPackageFragment pack= getPackageFragment();
-		ICompilationUnit cu= pack.getCompilationUnit(getTypeName() + ".java"); //$NON-NLS-1$
+		ICompilationUnit cu= pack.getCompilationUnit(getTypeName() + ".java"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (!cu.exists()) {
 			super.createType(monitor);
@@ -396,7 +396,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 		}
 	}
 
-	private void updateExistingType(ICompilationUnit cu, IProgressMonitor monitor) throws JavaModelException {
+	private void updateExistingType(ICompilationUnit cu, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!UpdateTestSuite.checkValidateEditStatus(cu, getShell()))
 			return;
 		IType suiteType= cu.getType(getTypeName());
@@ -477,7 +477,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 		fSelectedClassesLabel.setText(Messages.format(key, Integer.valueOf(noOfClassesChecked)));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IStatus typeNameChanged() {
 		super.typeNameChanged();
 
@@ -495,7 +495,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 
 		IPackageFragment pack= getPackageFragment();
 		if (pack != null) {
-			ICompilationUnit cu= pack.getCompilationUnit(typeName + ".java"); //$NON-NLS-1$
+			ICompilationUnit cu= pack.getCompilationUnit(typeName + ".java"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			//if this cu already exists, we need to disable the
 			//junit 3 option if it is a junit 4 suite and vice versa
 			if (cu.exists()) {
@@ -510,10 +510,10 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 
 		IStatus val= JavaConventionsUtil.validateJavaTypeName(typeName, getJavaProject());
 		if (val.getSeverity() == IStatus.ERROR) {
-			status.setError(WizardMessages.NewTestSuiteWizPage_typeName_error_name_not_valid+val.getMessage());
+			status.setError(WizardMessages.NewTestSuiteWizPage_typeName_error_name_not_valid+val.getMessage()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return status;
 		} else if (val.getSeverity() == IStatus.WARNING) {
-			status.setWarning(WizardMessages.NewTestSuiteWizPage_typeName_error_name_name_discouraged+val.getMessage());
+			status.setWarning(WizardMessages.NewTestSuiteWizPage_typeName_error_name_name_discouraged+val.getMessage()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			// continue checking
 		}
 
@@ -522,7 +522,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 			return recursiveSuiteInclusionStatus;
 
 		if (pack != null) {
-			ICompilationUnit cu= pack.getCompilationUnit(typeName + ".java"); //$NON-NLS-1$
+			ICompilationUnit cu= pack.getCompilationUnit(typeName + ".java"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (cu.exists()) {
 				status.setWarning(isJUnit4()
 						? WizardMessages.NewTestSuiteWizPage_typeName_warning_already_exists_junit4
@@ -546,7 +546,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 		String typeName= getTypeName();
 		JUnitStatus status= new JUnitStatus();
 		Object[] checkedClasses= fClassesInSuiteTable.getCheckedElements();
-		for (Object checkedClass : checkedClasses) {
+		for (Object checkedClass : checkedClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (((IType)checkedClass).getElementName().equals(typeName)){
 				status.setWarning(WizardMessages.NewTestSuiteCreationWizardPage_infinite_recursion);
 				return status;
@@ -560,7 +560,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 			return;
 		String typeName= getTypeName();
 		Object[] checkedClasses= fClassesInSuiteTable.getCheckedElements();
-		for (Object checkedClass : checkedClasses) {
+		for (Object checkedClass : checkedClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (((IType)checkedClass).getElementName().equals(typeName)) {
 				fClassesInSuiteTable.setChecked(checkedClass, false);
 				return;
@@ -613,7 +613,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 	 *
 	 * @since 3.7
 	 */
-	protected void createJUnit4Controls(Composite composite, int nColumns) {
+	protected void createJUnit4Controls(Composite composite, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite inner= new Composite(composite, SWT.NONE);
 		inner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, nColumns, 1));
 		GridLayout layout= new GridLayout(3, false);
@@ -648,14 +648,14 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 		fJUnit4Toggle.setSelection(fIsJunit4);
 		fJUnit4Toggle.setEnabled(fIsJunit4Enabled);
 		fJUnit4Toggle.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, false, false, 1, 1));
-		fJUnit4Toggle.addSelectionListener(listener);
+		fJUnit4Toggle.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fJUnit5Toggle= new Button(inner, SWT.RADIO);
 		fJUnit5Toggle.setText(WizardMessages.NewTestClassWizPage_junit5_radio_label);
 		fJUnit5Toggle.setSelection(fIsJunit5);
 		fJUnit5Toggle.setEnabled(fIsJunit5Enabled);
 		fJUnit5Toggle.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, false, false, 1, 1));
-		fJUnit5Toggle.addSelectionListener(listener2);
+		fJUnit5Toggle.addSelectionListener(listener2); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	/**
@@ -771,45 +771,45 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 		return super.constructCUContent(cu, typeContent, lineDelimiter);
 	}
 
-	private String appendAnnotations(String typeContent, String lineDelimiter) {
+	private String appendAnnotations(String typeContent, String lineDelimiter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] checkedElements= fClassesInSuiteTable.getCheckedElements();
-		StringBuilder buffer = new StringBuilder("@RunWith(Suite.class)"); //$NON-NLS-1$
-		buffer.append(lineDelimiter);
-		buffer.append("@SuiteClasses({"); //$NON-NLS-1$
-		for (int i= 0; i < checkedElements.length; i++) {
+		StringBuilder buffer = new StringBuilder("@RunWith(Suite.class)"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append("@SuiteClasses({"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < checkedElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (checkedElements[i] instanceof IType) {
 				IType testType= (IType) checkedElements[i];
-				buffer.append(testType.getElementName());
-				buffer.append(".class"); //$NON-NLS-1$
+				buffer.append(testType.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(".class"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if(i<checkedElements.length-1)
-					buffer.append(',');
+					buffer.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			}
 		}
-		buffer.append("})"); //$NON-NLS-1$
-		buffer.append(lineDelimiter);
-		buffer.append(typeContent);
+		buffer.append("})"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(typeContent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buffer.toString();
 	}
 
-	private String appendAnnotations5(String typeContent, String lineDelimiter) {
+	private String appendAnnotations5(String typeContent, String lineDelimiter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] checkedElements= fClassesInSuiteTable.getCheckedElements();
-		StringBuilder buffer = new StringBuilder("@Suite"); //$NON-NLS-1$
-		buffer.append(lineDelimiter);
-		buffer.append("@SelectClasses({"); //$NON-NLS-1$
-		for (int i= 0; i < checkedElements.length; i++) {
+		StringBuilder buffer = new StringBuilder("@Suite"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append("@SelectClasses({"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < checkedElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (checkedElements[i] instanceof IType) {
 				IType testType= (IType) checkedElements[i];
-				buffer.append(testType.getElementName());
-				buffer.append(".class"); //$NON-NLS-1$
+				buffer.append(testType.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(".class"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if(i<checkedElements.length-1)
-					buffer.append(',');
+					buffer.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			}
 		}
-		buffer.append("})"); //$NON-NLS-1$
-		buffer.append(lineDelimiter);
-		buffer.append(typeContent);
+		buffer.append("})"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(typeContent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buffer.toString();
 	}
 }

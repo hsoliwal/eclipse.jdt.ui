@@ -43,7 +43,7 @@ public class PackagesViewTreeViewer extends ProblemTreeViewer implements IPackag
 	public void mapElement(Object element, Widget item) {
 		if (element instanceof LogicalPackage && item instanceof Item) {
 			LogicalPackage cp= (LogicalPackage) element;
-			for (IPackageFragment fragment : cp.getFragments()) {
+			for (IPackageFragment fragment : cp.getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fResourceToItemsMapper.addToMap(fragment, (Item) item);
 			}
 		}
@@ -58,7 +58,7 @@ public class PackagesViewTreeViewer extends ProblemTreeViewer implements IPackag
 
 		if (element instanceof LogicalPackage && item instanceof Item) {
 			LogicalPackage cp= (LogicalPackage) element;
-			for (IPackageFragment fragment : cp.getFragments()) {
+			for (IPackageFragment fragment : cp.getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fResourceToItemsMapper.removeFromMap((Object)fragment, (Item)item);
 			}
 		}
@@ -74,7 +74,7 @@ public class PackagesViewTreeViewer extends ProblemTreeViewer implements IPackag
 		return res;
 	}
 
-	private boolean isEssential(Object object) {
+	private boolean isEssential(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (object instanceof IPackageFragment) {
 				IPackageFragment fragment = (IPackageFragment) object;

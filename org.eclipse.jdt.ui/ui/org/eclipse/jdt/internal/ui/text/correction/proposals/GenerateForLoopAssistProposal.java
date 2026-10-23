@@ -25,7 +25,7 @@ import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
  * Generates a proposal for quick assist, to loop over a variable or method result which represents
  * an {@link Iterable} or an array.
  */
-public class GenerateForLoopAssistProposal extends LinkedCorrectionProposal {
+public class GenerateForLoopAssistProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public static final int GENERATE_FOREACH= GenerateForLoopAssistProposalCore.GENERATE_FOREACH;
 

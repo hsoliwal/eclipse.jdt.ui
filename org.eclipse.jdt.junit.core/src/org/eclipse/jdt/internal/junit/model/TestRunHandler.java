@@ -86,7 +86,7 @@ public class TestRunHandler extends DefaultHandler {
 	public void startDocument() throws SAXException {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		if (fLocator != null && fMonitor != null) {
 			int line= fLocator.getLineNumber();
@@ -138,7 +138,7 @@ public class TestRunHandler extends DefaultHandler {
 					fTestRunSession= new TestRunSession(name, null);
 					fTestSuite= fTestRunSession.getTestRoot();
 				}	String pack= attributes.getValue(IXMLTags.ATTR_PACKAGE);
-				String suiteName= pack == null ? name : pack + "." + name; //$NON-NLS-1$
+				String suiteName= pack == null ? name : pack + "." + name; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				String displayName= attributes.getValue(IXMLTags.ATTR_DISPLAY_NAME);
 				String paramTypesStr= attributes.getValue(IXMLTags.ATTR_PARAMETER_TYPES);
 				String[] paramTypes;
@@ -164,7 +164,7 @@ public class TestRunHandler extends DefaultHandler {
 			{
 				String name= attributes.getValue(IXMLTags.ATTR_NAME);
 				String classname= attributes.getValue(IXMLTags.ATTR_CLASSNAME);
-				String testName= name + '(' + classname + ')';
+				String testName= name + '(' + classname + ')'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				boolean isDynamicTest= Boolean.parseBoolean(attributes.getValue(IXMLTags.ATTR_DYNAMIC_TEST));
 				String displayName= attributes.getValue(IXMLTags.ATTR_DISPLAY_NAME);
 				String paramTypesStr= attributes.getValue(IXMLTags.ATTR_PARAMETER_TYPES);
@@ -220,7 +220,7 @@ public class TestRunHandler extends DefaultHandler {
 			}
 			break;
 		default:
-			throw new SAXParseException("unknown node '" + qName + "'", fLocator);  //$NON-NLS-1$//$NON-NLS-2$
+			throw new SAXParseException("unknown node '" + qName + "'", fLocator);  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -265,7 +265,7 @@ public class TestRunHandler extends DefaultHandler {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		switch (qName) {
 		// OK
@@ -358,9 +358,9 @@ public class TestRunHandler extends DefaultHandler {
 
 	private void handleUnknownNode(String qName) throws SAXException {
 		//TODO: just log if debug option is enabled?
-		StringBuilder msg= new StringBuilder("unknown node '").append(qName).append("'"); //$NON-NLS-1$//$NON-NLS-2$
+		StringBuilder msg= new StringBuilder("unknown node '").append(qName).append("'"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (fLocator != null) {
-			msg.append(" at line ").append(fLocator.getLineNumber()).append(", column ").append(fLocator.getColumnNumber());  //$NON-NLS-1$//$NON-NLS-2$
+			msg.append(" at line ").append(fLocator.getLineNumber()).append(", column ").append(fLocator.getColumnNumber());  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		throw new SAXException(msg.toString());
 	}

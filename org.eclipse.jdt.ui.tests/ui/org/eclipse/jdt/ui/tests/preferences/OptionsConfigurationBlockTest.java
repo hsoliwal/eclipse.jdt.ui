@@ -43,10 +43,10 @@ public class OptionsConfigurationBlockTest {
 	 *
 	 * @throws Exception should not
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testKeysForOptions() throws Exception {
-		HashMap<String, String> coreFieldLookup= new HashMap<>();
-		for (Field field : JavaCore.class.getDeclaredFields()) {
+		HashMap<String, String> coreFieldLookup= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Field field : JavaCore.class.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= field.getName();
 			if (name.startsWith("COMPILER_")
 				|| name.startsWith("CORE_")
@@ -84,7 +84,7 @@ public class OptionsConfigurationBlockTest {
 	 * @deprecated to hide deprecation warnings
 	 * @param coreFieldLookup lookup
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private void removeUnusedOptions(HashMap<String, String> coreFieldLookup) {
 		coreFieldLookup.keySet().removeAll(Arrays.asList(
 				JavaCore.COMPILER_PB_INCONSISTENT_NULL_CHECK,
@@ -109,7 +109,7 @@ public class OptionsConfigurationBlockTest {
 				JavaCore.CODEASSIST_FORBIDDEN_REFERENCE_CHECK));   // is on the Type Filters page now, see https://bugs.eclipse.org/218487
 	}
 
-	private void checkConfigurationBlock(Class<?> configurationBlock, HashMap<String, String> coreFieldLookup) throws Exception {
+	private void checkConfigurationBlock(Class<?> configurationBlock, HashMap<String, String> coreFieldLookup) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Method keysMethod;
 		try {
 			keysMethod= configurationBlock.getDeclaredMethod("getKeys");
@@ -122,21 +122,21 @@ public class OptionsConfigurationBlockTest {
 		}
 		keysMethod.setAccessible(true);
 		Key[] keys= (Key[]) (keysMethod.getParameterTypes().length > 0 ? keysMethod.invoke(null, Boolean.FALSE) : keysMethod.invoke(null));
-		HashSet<Key> keySet= new HashSet<>(Arrays.asList(keys));
+		HashSet<Key> keySet= new HashSet<>(Arrays.asList(keys)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (Field field : configurationBlock.getDeclaredFields()) {
+		for (Field field : configurationBlock.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			field.setAccessible(true);
 			if (field.getType() == Key.class) {
 				Key key= (Key)field.get(null);
 				boolean keyWasInKeySet= keySet.remove(key);
 				if (JavaCore.PLUGIN_ID.equals(key.getQualifier())) {
 					Object fieldName= coreFieldLookup.remove(key.getName());
-					assertNotNull("No core constant for key " + key.getName() + " in class " + configurationBlock.getName(), fieldName);
-					assertTrue(configurationBlock.getName() + "#getKeys() is missing key '" + key.getName() + "'", keyWasInKeySet);
+					assertNotNull("No core constant for key " + key.getName() + " in class " + configurationBlock.getName(), fieldName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					assertTrue(configurationBlock.getName() + "#getKeys() is missing key '" + key.getName() + "'", keyWasInKeySet); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
 
-		assertEquals(configurationBlock.getName() + "#getKeys() includes keys that are not declared in the class", Collections.emptySet(), keySet);
+		assertEquals(configurationBlock.getName() + "#getKeys() includes keys that are not declared in the class", Collections.emptySet(), keySet); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

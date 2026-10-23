@@ -64,11 +64,11 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.text.correction.AssistContext;
 import org.eclipse.jdt.internal.ui.text.correction.SurroundWith;
 
-public class SurroundWithTemplateProposal extends TemplateProposal {
+public class SurroundWithTemplateProposal extends TemplateProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private static class SurroundWithTemplate extends SurroundWith {
 
-		private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$
+		private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		private final Template fTemplate;
 		private final IJavaProject fCurrentProject;
@@ -84,25 +84,25 @@ public class SurroundWithTemplateProposal extends TemplateProposal {
 		protected List<VariableDeclaration> getVariableDeclarationReadsInside(ASTNode[] selectedNodes, int maxVariableId) {
 			if (isNewContext())
 				return super.getVariableDeclarationReadsInside(selectedNodes, maxVariableId);
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected boolean isNewContext() {
 
 			final Pattern templateVariableRegEx= Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$
 
 			String template= fTemplate.getPattern();
-			Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template);
+			Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			int currentPosition= lineSelectionMatcher.find() ? lineSelectionMatcher.start() : -1;
 			int insertionPosition= -1;
-			while (currentPosition != -1) {
+			while (currentPosition != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				insertionPosition= currentPosition;
-				template= templateVariableRegEx.matcher(template).replaceFirst(""); //$NON-NLS-1$
-				lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template);
+				template= templateVariableRegEx.matcher(template).replaceFirst(""); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+				lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				currentPosition= lineSelectionMatcher.find() ? lineSelectionMatcher.start() : -1;
 			}
-			template= templateVariableRegEx.matcher(template).replaceAll(""); //$NON-NLS-1$
+			template= templateVariableRegEx.matcher(template).replaceAll(""); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 			AST ast= getAst();
 			ASTParser parser= ASTParser.newParser(ast.apiLevel());
@@ -159,7 +159,7 @@ public class SurroundWithTemplateProposal extends TemplateProposal {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.template.contentassist.TemplateProposal#getAdditionalProposalInfo()
 	 */
-	public String getPreviewContent() {
+	public String getPreviewContent() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IDocument document= new Document(fCompilationUnit.getBuffer().getContents());
 			CompilationUnitContext context= createNewContext(document);
@@ -196,7 +196,7 @@ public class SurroundWithTemplateProposal extends TemplateProposal {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.template.contentassist.TemplateProposal#apply(org.eclipse.jface.text.ITextViewer, char, int, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(ITextViewer viewer, char trigger, int stateMask, int offset) {
 		try {
 			setRedraw(viewer, false);
@@ -236,7 +236,7 @@ public class SurroundWithTemplateProposal extends TemplateProposal {
 		}
 	}
 
-	private CompilationUnitContext createNewContext(IDocument document) throws CoreException, BadLocationException {
+	private CompilationUnitContext createNewContext(IDocument document) throws CoreException, BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AssistContext invocationContext= new AssistContext(fCompilationUnit, fContext.getStart(), fContext.getEnd() - fContext.getStart());
 
 		SurroundWithTemplate surroundWith= new SurroundWithTemplate(invocationContext, fSelectedNodes, fTemplate);

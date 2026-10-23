@@ -167,8 +167,8 @@ public class EditTemplateDialog extends StatusDialog {
 
 	private StatusInfo fValidationStatus;
 	private boolean fSuppressError= true; // https://bugs.eclipse.org/bugs/show_bug.cgi?id=4354
-	private Map<String, TextViewerAction> fGlobalActions= new HashMap<>(10);
-	private List<String> fSelectionActions = new ArrayList<>(3);
+	private Map<String, TextViewerAction> fGlobalActions= new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private List<String> fSelectionActions = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private String[][] fContextTypes;
 
 	private ContextTypeRegistry fContextTypeRegistry;
@@ -184,7 +184,7 @@ public class EditTemplateDialog extends StatusDialog {
 	 * @param isNameModifiable whether the name of the template may be modified
 	 * @param registry the context type registry to use
 	 */
-	public EditTemplateDialog(Shell parent, Template template, boolean edit, boolean isNameModifiable, ContextTypeRegistry registry) {
+	public EditTemplateDialog(Shell parent, Template template, boolean edit, boolean isNameModifiable, ContextTypeRegistry registry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 
 		String title= edit
@@ -197,15 +197,15 @@ public class EditTemplateDialog extends StatusDialog {
 
 		String delim= new Document().getLegalLineDelimiters()[0];
 
-		List<String[]> contexts= new ArrayList<>();
-		for (Iterator<TemplateContextType> it= registry.contextTypes(); it.hasNext();) {
+		List<String[]> contexts= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<TemplateContextType> it= registry.contextTypes(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TemplateContextType type= it.next();
 			if ("javadoc".equals(type.getId())) //$NON-NLS-1$
-				contexts.add(new String[] { type.getId(), type.getName(), "/**" + delim }); //$NON-NLS-1$
+				contexts.add(new String[] { type.getId(), type.getName(), "/**" + delim }); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
 				contexts.add(0, new String[] { type.getId(), type.getName(), "" }); //$NON-NLS-1$
 		}
-		Collections.sort(contexts, new Comparator<String[]>() {
+		Collections.sort(contexts, new Comparator<String[]>() { //FLLDCIM: MARK — M16 SORT_LANE CALL
 			Collator fCollator= Collator.getInstance();
 			@Override
 			public int compare(String[] o1, String[] o2) {
@@ -244,7 +244,7 @@ public class EditTemplateDialog extends StatusDialog {
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite ancestor) {
 		Composite parent= new Composite(ancestor, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -257,7 +257,7 @@ public class EditTemplateDialog extends StatusDialog {
 		parent.setLayout(layout);
 		parent.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		ModifyListener listener= e -> doTextWidgetChanged(e.widget);
+		ModifyListener listener= e -> doTextWidgetChanged(e.widget); //FLLDCIM: MARK — T02  LAMBDA
 
 		if (fIsNameModifiable) {
 			createLabel(parent, PreferencesMessages.EditTemplateDialog_name);
@@ -271,7 +271,7 @@ public class EditTemplateDialog extends StatusDialog {
 			composite.setLayout(layout);
 
 			fNameText= createText(composite);
-			fNameText.addFocusListener(new FocusListener() {
+			fNameText.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 
 				@Override
 				public void focusGained(FocusEvent e) {
@@ -291,11 +291,11 @@ public class EditTemplateDialog extends StatusDialog {
 			fContextCombo= new Combo(composite, SWT.READ_ONLY);
 			SWTUtil.setDefaultVisibleItemCount(fContextCombo);
 
-			for (String[] fContextType : fContextTypes) {
+			for (String[] fContextType : fContextTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fContextCombo.add(fContextType[1]);
 			}
 
-			fContextCombo.addModifyListener(listener);
+			fContextCombo.addModifyListener(listener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 			fAutoInsertCheckbox= createCheckbox(composite, PreferencesMessages.EditTemplateDialog_autoinsert);
 			fAutoInsertCheckbox.setSelection(fTemplate.isAutoInsertable());
@@ -307,7 +307,7 @@ public class EditTemplateDialog extends StatusDialog {
 		fDescriptionText= new Text(parent, descFlags );
 		fDescriptionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		fDescriptionText.addModifyListener(listener);
+		fDescriptionText.addModifyListener(listener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		BidiUtils.applyBidiProcessing(fDescriptionText, BidiUtils.BTD_DEFAULT);
 
 		Label patternLabel= createLabel(parent, PreferencesMessages.EditTemplateDialog_pattern);
@@ -327,7 +327,7 @@ public class EditTemplateDialog extends StatusDialog {
 		fInsertVariableButton= new Button(composite, SWT.NONE);
 		fInsertVariableButton.setLayoutData(getButtonGridData());
 		fInsertVariableButton.setText(PreferencesMessages.EditTemplateDialog_insert_variable);
-		fInsertVariableButton.addSelectionListener(new SelectionListener() {
+		fInsertVariableButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fPatternEditor.getTextWidget().setFocus();
@@ -341,7 +341,7 @@ public class EditTemplateDialog extends StatusDialog {
 		fDescriptionText.setText(fTemplate.getDescription());
 		if (fIsNameModifiable) {
 			fNameText.setText(fTemplate.getName());
-			fNameText.addModifyListener(listener);
+			fNameText.addModifyListener(listener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			fContextCombo.select(getIndex(fTemplate.getContextTypeId()));
 		} else {
 			fPatternEditor.getControl().setFocus();
@@ -361,7 +361,7 @@ public class EditTemplateDialog extends StatusDialog {
 			fTemplateProcessor.setContextType(fContextTypeRegistry.getContextType(contextId));
 			IDocument document= fPatternEditor.getDocument();
 			String prefix= getPrefix();
-			document.set(prefix + getPattern());
+			document.set(prefix + getPattern()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fPatternEditor.setVisibleRegion(prefix.length(), document.getLength() - prefix.length());
 			updateStatusAndButtons();
 		} else if (w == fDescriptionText) {
@@ -372,7 +372,7 @@ public class EditTemplateDialog extends StatusDialog {
 	private String getContextId() {
 		if (fContextCombo != null && !fContextCombo.isDisposed()) {
 			String name= fContextCombo.getText();
-			for (String[] fContextType : fContextTypes) {
+			for (String[] fContextType : fContextTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (name.equals(fContextType[1])) {
 					return fContextType[0];
 				}
@@ -426,9 +426,9 @@ public class EditTemplateDialog extends StatusDialog {
 		return text;
 	}
 
-	private SourceViewer createEditor(Composite parent) {
+	private SourceViewer createEditor(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String prefix= getPrefix();
-		IDocument document= new Document(prefix + fTemplate.getPattern());
+		IDocument document= new Document(prefix + fTemplate.getPattern()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		JavaTextTools tools= JavaPlugin.getDefault().getJavaTextTools();
 		tools.setupJavaDocumentPartitioner(document, IJavaPartitions.JAVA_PARTITIONING);
 		IPreferenceStore store= JavaPlugin.getDefault().getCombinedPreferenceStore();
@@ -455,12 +455,12 @@ public class EditTemplateDialog extends StatusDialog {
 		data.heightHint= convertHeightInCharsToPixels(nLines);
 		control.setLayoutData(data);
 
-		viewer.addTextListener(event -> {
+		viewer.addTextListener(event -> { //FLLDCIM: MARK — T28 DOCUMENT_DELTA CALL
 			if (event .getDocumentEvent() != null)
 				doSourceChanged(event.getDocumentEvent().getDocument());
 		});
 
-		viewer.addSelectionChangedListener(unused -> updateSelectionDependentActions());
+		viewer.addSelectionChangedListener(unused -> updateSelectionDependentActions()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		return viewer;
 	}
@@ -474,14 +474,14 @@ public class EditTemplateDialog extends StatusDialog {
 			return ""; //$NON-NLS-1$
 	}
 
-	private void initializeActions() {
-		final ArrayList<IHandlerActivation> handlerActivations= new ArrayList<>(3);
+	private void initializeActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final ArrayList<IHandlerActivation> handlerActivations= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final IHandlerService handlerService= PlatformUI.getWorkbench().getAdapter(IHandlerService.class);
 		final Expression expression= new ActiveShellExpression(fPatternEditor.getControl().getShell());
 
-		getShell().addDisposeListener(unused -> handlerService.deactivateHandlers(handlerActivations));
+		getShell().addDisposeListener(unused -> handlerService.deactivateHandlers(handlerActivations)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
-		fPatternEditor.getTextWidget().addFocusListener(new FocusListener() {
+		fPatternEditor.getTextWidget().addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(FocusEvent e) {
 				handlerService.deactivateHandlers(handlerActivations);
@@ -539,7 +539,7 @@ public class EditTemplateDialog extends StatusDialog {
 		// create context menu
 		MenuManager manager= new MenuManager(null, null);
 		manager.setRemoveAllWhenShown(true);
-		manager.addMenuListener(this::fillContextMenu);
+		manager.addMenuListener(this::fillContextMenu); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 
 		StyledText text= fPatternEditor.getTextWidget();
 		Menu menu= manager.createContextMenu(text);
@@ -564,7 +564,7 @@ public class EditTemplateDialog extends StatusDialog {
 
 	protected void updateSelectionDependentActions() {
 		Iterator<String> iterator= fSelectionActions.iterator();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updateAction(iterator.next());
 	}
 
@@ -579,7 +579,7 @@ public class EditTemplateDialog extends StatusDialog {
 		if (contextid == null)
 			return -1;
 
-		for (int i= 0; i < fContextTypes.length; i++) {
+		for (int i= 0; i < fContextTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (contextid.equals(fContextTypes[i][0])) {
 				return i;
 			}
@@ -622,7 +622,7 @@ public class EditTemplateDialog extends StatusDialog {
 	 * @since 3.6
 	 */
 	private boolean isValidPattern(String pattern) {
-		for (int i= 0; i < pattern.length(); i++) {
+		for (int i= 0; i < pattern.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= pattern.charAt(i);
 			if ((ch != 9) && (ch != 10) && (ch != 13) && (ch < 32))
 				return false;
@@ -676,7 +676,7 @@ public class EditTemplateDialog extends StatusDialog {
 	 */
 	@Override
 	protected IDialogSettings getDialogBoundsSettings() {
-		String sectionName= getClass().getName() + "_dialogBounds"; //$NON-NLS-1$
+		String sectionName= getClass().getName() + "_dialogBounds"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IDialogSettings settings= JavaPlugin.getDefault().getDialogSettings();
 		IDialogSettings section= settings.getSection(sectionName);
 		if (section == null)

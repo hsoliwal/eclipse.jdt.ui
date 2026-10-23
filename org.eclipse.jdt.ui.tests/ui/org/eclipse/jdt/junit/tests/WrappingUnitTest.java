@@ -39,11 +39,11 @@ public class WrappingUnitTest {
 		trace.display((unused, label) -> assertEquals("12345", label), 5);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test01wrappingSystemTestRunTestsWaitsForCorrectNumberOfLines()
 			throws Exception {
 		final boolean[] wasCalled = { false };
-		WrappingSystemTest test = new WrappingSystemTest() {
+		WrappingSystemTest test = new WrappingSystemTest() { //FLLDCIM: MARK — T27  ANONYMOUS
 			@Override
 			protected void launchTests(String prefixForErrorMessage,
 					int howManyNumbersInErrorString) throws CoreException,
@@ -66,7 +66,7 @@ public class WrappingUnitTest {
 	@Test
 	public void test02waitForTableToFillWaitsForNumberOfLines()
 			throws Exception {
-		WrappingSystemTest test = new WrappingSystemTest() {
+		WrappingSystemTest test = new WrappingSystemTest() { //FLLDCIM: MARK — T27  ANONYMOUS
 			@Override
 			protected boolean stillWaiting(int numExpectedTableLines, boolean lastItemHasImage)
 					throws PartInitException {
@@ -77,10 +77,10 @@ public class WrappingUnitTest {
 		test.waitForTableToFill(17, 30000, false);
 	}
 
-	@Ignore("java.lang.AssertionError")
+	@Ignore("java.lang.AssertionError") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void test03waitForTableToFillObeysTimeout() throws Exception {
-		final WrappingSystemTest test = new WrappingSystemTest() {
+		final WrappingSystemTest test = new WrappingSystemTest() { //FLLDCIM: MARK — T27  ANONYMOUS
 			@Override
 			protected void dispatchEvents() {
 				// do nothing (avoid accessing display from non-UI thread)
@@ -122,7 +122,7 @@ public class WrappingUnitTest {
 	@Test
 	public void test04stillWaitingChecksForProperNumberOfLines()
 			throws Exception {
-		WrappingSystemTest test = new WrappingSystemTest() {
+		WrappingSystemTest test = new WrappingSystemTest() { //FLLDCIM: MARK — T27  ANONYMOUS
 			@Override
 			protected int getNumTableItems() throws PartInitException {
 				return 2;

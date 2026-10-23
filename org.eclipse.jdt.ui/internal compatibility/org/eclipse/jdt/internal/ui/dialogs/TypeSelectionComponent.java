@@ -148,7 +148,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		void setText(String text);
 	}
 
-	public TypeSelectionComponent(Composite parent, int style, String message, boolean multi,
+	public TypeSelectionComponent(Composite parent, int style, String message, boolean multi, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaSearchScope scope, int elementKind, String initialFilter, ITitleLabel titleLabel,
 			TypeSelectionExtension extension) {
 		super(parent, style);
@@ -183,7 +183,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		return fScope;
 	}
 
-	private void createContent(final String message, int elementKind) {
+	private void createContent(final String message, int elementKind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridLayout layout= new GridLayout();
 		layout.numColumns= 2;
 		layout.marginWidth= 0; layout.marginHeight= 0;
@@ -203,8 +203,8 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		gd= new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan= 2;
 		fFilter.setLayoutData(gd);
-		fFilter.addModifyListener(event -> patternChanged((Text)event.widget));
-		fFilter.addKeyListener(new KeyListener() {
+		fFilter.addModifyListener(event -> patternChanged((Text)event.widget)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+		fFilter.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyReleased(KeyEvent e) {
 			}
@@ -226,7 +226,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		Label label= new Label(this, SWT.NONE);
 		label.setFont(font);
 		label.setText(JavaUIMessages.TypeSelectionComponent_label);
-		label.addTraverseListener(event -> {
+		label.addTraverseListener(event -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (event.detail == SWT.TRAVERSE_MNEMONIC && event.doit) {
 				event.detail= SWT.TRAVERSE_NONE;
 				fViewer.setFocus();
@@ -274,7 +274,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 			fLabel= new CLabel(fForm, SWT.FLAT);
 			fLabel.setFont(fForm.getFont());
 			fForm.setContent(fLabel);
-			table.addSelectionListener(new SelectionAdapter() {
+			table.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				private TypeNameMatchLabelProvider fLabelProvider= new TypeNameMatchLabelProvider(
 					TypeNameMatchLabelProvider.SHOW_TYPE_CONTAINER_ONLY + TypeNameMatchLabelProvider.SHOW_ROOT_POSTFIX);
 				@Override
@@ -291,14 +291,14 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 				}
 			});
 		}
-		addDisposeListener(event -> disposeComponent());
+		addDisposeListener(event -> disposeComponent()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		if (fTypeSelectionExtension != null) {
 			fTypeSelectionExtension.initialize(this);
 		}
 	}
 
 	public void addSelectionListener(SelectionListener listener) {
-		fViewer.getTable().addSelectionListener(listener);
+		fViewer.getTable().addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	public void populate(int selectionMode) {
@@ -320,7 +320,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		fViewer.setSearchPattern(text.getText());
 	}
 
-	private Control createHeader(Composite parent, Font font, String message) {
+	private Control createHeader(Composite parent, Font font, String message) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite header= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
 		layout.numColumns= 2;
@@ -330,7 +330,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		Label label= new Label(header, SWT.NONE);
 		label.setText(message);
 		label.setFont(font);
-		label.addTraverseListener(event -> {
+		label.addTraverseListener(event -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (event.detail == SWT.TRAVERSE_MNEMONIC && event.doit) {
 				event.detail= SWT.TRAVERSE_NONE;
 				fFilter.setFocus();
@@ -343,7 +343,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		return header;
 	}
 
-	private void createViewMenu(Composite parent) {
+	private void createViewMenu(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fToolBar= new ToolBar(parent, SWT.FLAT);
 		fToolItem= new ToolItem(fToolBar, SWT.PUSH, 0);
 
@@ -353,7 +353,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 
 		fToolItem.setImage(JavaPluginImages.get(JavaPluginImages.IMG_ELCL_VIEW_MENU));
 		fToolItem.setToolTipText(JavaUIMessages.TypeSelectionComponent_menu);
-		fToolItem.addSelectionListener(new SelectionAdapter() {
+		fToolItem.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				showViewMenu();
@@ -376,7 +376,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		menu.setVisible(true);
 	}
 
-	private void fillViewMenu(IMenuManager viewMenu) {
+	private void fillViewMenu(IMenuManager viewMenu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fMultipleSelection) {
 			ToggleStatusLineAction showStatusLineAction= new ToggleStatusLineAction();
 			showStatusLineAction.setChecked(fSettings.getBoolean(SHOW_STATUS_LINE));
@@ -388,7 +388,7 @@ public class TypeSelectionComponent extends Composite implements ITypeSelectionC
 		if (fScope == null) {
 			fFilterActionGroup= new WorkingSetFilterActionGroup(getShell(),
 				JavaPlugin.getActivePage(),
-				event -> {
+				event -> { //FLLDCIM: MARK — T06  LAMBDA
 					IWorkingSet ws= (IWorkingSet)event.getNewValue();
 					if (ws == null || (ws.isAggregateWorkingSet() && ws.isEmpty())) {
 						fScope= SearchEngine.createWorkspaceScope();

@@ -60,7 +60,7 @@ public final class SuperTypeConstraintsModel {
 	private static class HashedSet<E> extends AbstractSet<E> {
 
 		/** The backing hash map */
-		private final Map<E, E> fImplementation= new HashMap<>();
+		private final Map<E, E> fImplementation= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		/*
 		 * @see java.util.AbstractCollection#add(java.lang.Object)
@@ -183,7 +183,7 @@ public final class SuperTypeConstraintsModel {
 			Collection<ITypeConstraint2> collection= (Collection<ITypeConstraint2>) data;
 			collection.add(constraint);
 		} else {
-			final Collection<Object> usage= new ArrayList<>(2);
+			final Collection<Object> usage= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			usage.add(data);
 			usage.add(constraint);
 			variable.setData(DATA_USAGE, usage);
@@ -191,7 +191,7 @@ public final class SuperTypeConstraintsModel {
 	}
 
 	/** The cast variables (element type: <code>CastVariable2</code>) */
-	private final Collection<CastVariable2> fCastVariables= new ArrayList<>();
+	private final Collection<CastVariable2> fCastVariables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/** The compliance level */
 	private int fCompliance= 3;
@@ -200,7 +200,7 @@ public final class SuperTypeConstraintsModel {
 	private final HashedSet<ConstraintVariable2> fConstraintVariables= new HashedSet<>();
 
 	/** The covariant type constraints (element type: <code>CovariantTypeConstraint</code>) */
-	private final Collection<ITypeConstraint2> fCovariantTypeConstraints= new ArrayList<>();
+	private final Collection<ITypeConstraint2> fCovariantTypeConstraints= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/** The type environment to use */
 	private TypeEnvironment fEnvironment;
@@ -223,7 +223,7 @@ public final class SuperTypeConstraintsModel {
 	};
 
 	/** The set of type constraints (element type: <code>ITypeConstraint2</code>) */
-	private final Set<ITypeConstraint2> fTypeConstraints= new HashSet<>();
+	private final Set<ITypeConstraint2> fTypeConstraints= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Creates a new super type constraints model.
@@ -319,7 +319,7 @@ public final class SuperTypeConstraintsModel {
 	 * @param left the left typeconstraint variable
 	 * @param right the right typeconstraint variable
 	 */
-	public void createEqualityConstraint(final ConstraintVariable2 left, final ConstraintVariable2 right) {
+	public void createEqualityConstraint(final ConstraintVariable2 left, final ConstraintVariable2 right) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (left != null && right != null) {
 			final TypeEquivalenceSet first= left.getTypeEquivalenceSet();
 			final TypeEquivalenceSet second= right.getTypeEquivalenceSet();
@@ -341,7 +341,7 @@ public final class SuperTypeConstraintsModel {
 				else {
 					final ConstraintVariable2[] variables= second.getContributingVariables();
 					first.addAll(variables);
-					for (ConstraintVariable2 variable : variables) {
+					for (ConstraintVariable2 variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						variable.setTypeEquivalenceSet(first);
 					}
 				}
@@ -400,7 +400,7 @@ public final class SuperTypeConstraintsModel {
 	 * @param index the index of the parameter
 	 * @return the created method parameter variable, or <code>null</code>
 	 */
-	public ConstraintVariable2 createMethodParameterVariable(final IMethodBinding method, final int index) {
+	public ConstraintVariable2 createMethodParameterVariable(final IMethodBinding method, final int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ITypeBinding[] parameters= method.getParameterTypes();
 		if (parameters.length < 1)
 			return null;
@@ -512,7 +512,7 @@ public final class SuperTypeConstraintsModel {
 	 * @param binding the variable binding
 	 * @return the created variable variable, or <code>null</code>
 	 */
-	public ConstraintVariable2 createVariableVariable(final IVariableBinding binding) {
+	public ConstraintVariable2 createVariableVariable(final IVariableBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding type= binding.getType();
 		if (type.isArray())
 			type= type.getElementType();

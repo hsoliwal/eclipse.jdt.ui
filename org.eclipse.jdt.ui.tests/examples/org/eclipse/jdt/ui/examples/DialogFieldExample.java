@@ -59,13 +59,13 @@ public class DialogFieldExample {
 			if (columnIndex == 0) {
 				return element.toString();
 			} else {
-				return "" + columnIndex;
+				return "" + columnIndex; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
 
 
-	public DialogFieldExample open () {
+	public DialogFieldExample open () { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fShell= new Shell ();
 		fShell.setText("Message Dialog Example");
 		fShell.setLayout(new GridLayout());
@@ -102,8 +102,8 @@ public class DialogFieldExample {
 
 		list.setTableColumns(new ListDialogField.ColumnsDescription(columnHeaders, true));
 
-		for (int i= 0; i < 30; i++) {
-				list.addElement(i + "firstxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		for (int i= 0; i < 30; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				list.addElement(i + "firstxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		SelectionButtonDialogField selButton= new SelectionButtonDialogField(SWT.PUSH);
@@ -140,7 +140,7 @@ public class DialogFieldExample {
 		@Override
 		public void customButtonPressed(ListDialogField<String> field, int index) {
 			if (field != null) {
-				field.addElement("elementxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-" + fgRandom.nextInt());
+				field.addElement("elementxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-" + fgRandom.nextInt()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -158,7 +158,7 @@ public class DialogFieldExample {
 
 	public DialogFieldExample run () {
 		Display display= fShell.getDisplay ();
-		while (!fShell.isDisposed ()) {
+		while (!fShell.isDisposed ()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!display.readAndDispatch ()) display.sleep ();
 		}
 		return this;

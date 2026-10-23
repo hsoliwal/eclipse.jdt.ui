@@ -108,7 +108,7 @@ public class PackagesViewContentProviderTests2 {
 		assertTrue(compareArrays(children, expectedChildren), "Wrong children found for PackageFragment"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetElementsProject() throws Exception {
 
 		LogicalPackage cp3= new LogicalPackage(fPack31);
@@ -158,7 +158,7 @@ public class PackagesViewContentProviderTests2 {
 		assertTrue(fMyPart.getRemovedObject().contains(fPack12), "Correct package removed"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemovePackageInTwoPackageLogicalPackage() throws Exception {
 
 		//initialise map
@@ -186,7 +186,7 @@ public class PackagesViewContentProviderTests2 {
 		assertEquals(fInternalPack10, addedObject, "Correct guy added"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemovePackageFromLogicalPackage() throws Exception {
 
 		//initialise map
@@ -206,14 +206,14 @@ public class PackagesViewContentProviderTests2 {
 		assertFalse(fMyPart.hasRefreshHappened(), "Refresh did not happened"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveCUFromPackageNotLogicalPackage() throws Exception {
 
 		//initialise Map
 		ICompilationUnit cu= fPack81.createCompilationUnit("Object.java", "", true, null); //$NON-NLS-1$//$NON-NLS-2$
 
 		//make sure parent is visible
-		fMyPart.fViewer.setInput(fJProject2);
+		fMyPart.fViewer.setInput(fJProject2); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		fMyPart.clear();
 
@@ -229,17 +229,17 @@ public class PackagesViewContentProviderTests2 {
 
 	private void assertPack81RefreshedOnce() {
 		assertTrue(fMyPart.hasRefreshHappened(), "Refresh happened"); //$NON-NLS-1$
-		assertTrue(fMyPart.getRefreshedObject().contains(fPack81), "fPack81 not refreshed:\n" + fMyPart.getRefreshedObject());
-		assertEquals(1, fMyPart.getRefreshedObject().size(), "Too many refreshes (" + fMyPart.getRefreshedObject().size() + "):\n" + fMyPart.getRefreshedObject());
+		assertTrue(fMyPart.getRefreshedObject().contains(fPack81), "fPack81 not refreshed:\n" + fMyPart.getRefreshedObject()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(1, fMyPart.getRefreshedObject().size(), "Too many refreshes (" + fMyPart.getRefreshedObject().size() + "):\n" + fMyPart.getRefreshedObject()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddCUFromPackageNotLogicalPackage() throws Exception {
 
 		ICompilationUnit cu= fPack81.createCompilationUnit("Object.java", "", true, null); //$NON-NLS-1$//$NON-NLS-2$
 
 		//initialise Map
-		fMyPart.fViewer.setInput(fJProject2);
+		fMyPart.fViewer.setInput(fJProject2); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		fMyPart.clear();
 
@@ -252,11 +252,11 @@ public class PackagesViewContentProviderTests2 {
 
 		assertPack81RefreshedOnce();
 		assertTrue(fMyPart.hasRefreshHappened(), "Refresh happened"); //$NON-NLS-1$
-		assertTrue(fMyPart.getRefreshedObject().contains(fPack81), "fPack81 not refreshed:\n" + fMyPart.getRefreshedObject());
-		assertEquals(1, fMyPart.getRefreshedObject().size(), "Too many refreshes (" + fMyPart.getRefreshedObject().size() + "):\n" + fMyPart.getRefreshedObject());
+		assertTrue(fMyPart.getRefreshedObject().contains(fPack81), "fPack81 not refreshed:\n" + fMyPart.getRefreshedObject()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(1, fMyPart.getRefreshedObject().size(), "Too many refreshes (" + fMyPart.getRefreshedObject().size() + "):\n" + fMyPart.getRefreshedObject()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddFragmentToLogicalPackage() throws Exception {
 
 		//create package fragment to be added
@@ -279,7 +279,7 @@ public class PackagesViewContentProviderTests2 {
 		assertFalse(fMyPart.hasRefreshHappened(), "Refresh did not happened"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddPackageNotLogicalPackage() throws Exception {
 
 		//initialise Map
@@ -299,7 +299,7 @@ public class PackagesViewContentProviderTests2 {
 		assertTrue(fMyPart.getAddedObject().contains(test), "Correct package added"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddPackageToCreateLogicalPackage() throws Exception {
 		//initialise map
 		fProvider.getElements(fJProject2);
@@ -335,7 +335,7 @@ public class PackagesViewContentProviderTests2 {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fWorkspace= ResourcesPlugin.getWorkspace();
 		assertNotNull(fWorkspace);
@@ -437,7 +437,7 @@ public class PackagesViewContentProviderTests2 {
 		setUpMockView();
 	}
 
-	public void setUpMockView() throws Exception{
+	public void setUpMockView() throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fWorkbench= PlatformUI.getWorkbench();
 		assertNotNull(fWorkbench);
@@ -476,10 +476,10 @@ public class PackagesViewContentProviderTests2 {
 			CoreUtility.setAutoBuilding(true);
 	}
 
-	private boolean compareArrays(Object[] children, Object[] expectedChildren) {
+	private boolean compareArrays(Object[] children, Object[] expectedChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(children.length!=expectedChildren.length)
 			return false;
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IJavaElement) {
 				IJavaElement el= (IJavaElement) child;
 				if(!contains(el, expectedChildren))
@@ -498,7 +498,7 @@ public class PackagesViewContentProviderTests2 {
 	}
 
 	private boolean canFindEqualCompoundElement(LogicalPackage compoundElement, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(object instanceof LogicalPackage){
 				LogicalPackage el= (LogicalPackage) object;
 				if(el.getElementName().equals(compoundElement.getElementName()) && (el.getJavaProject().equals(compoundElement.getJavaProject()))){
@@ -511,7 +511,7 @@ public class PackagesViewContentProviderTests2 {
 	}
 
 	private boolean contains(IResource res, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource) {
 				IResource expres= (IResource) object;
 				if(expres.equals(res))
@@ -522,7 +522,7 @@ public class PackagesViewContentProviderTests2 {
 	}
 
 	private boolean contains(IJavaElement fragment, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IJavaElement) {
 				IJavaElement expfrag= (IJavaElement) object;
 				if(expfrag.equals(fragment))

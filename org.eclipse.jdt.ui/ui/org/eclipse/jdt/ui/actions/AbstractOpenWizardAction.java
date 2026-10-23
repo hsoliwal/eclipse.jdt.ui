@@ -68,7 +68,7 @@ public abstract class AbstractOpenWizardAction extends Action {
 		fCreatedElement= null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		Shell shell= getShell();
 		if (!doCreateProjectFirstOnEmptyWorkspace(shell)) {

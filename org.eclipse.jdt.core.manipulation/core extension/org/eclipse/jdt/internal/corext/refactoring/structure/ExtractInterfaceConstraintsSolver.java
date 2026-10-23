@@ -51,7 +51,7 @@ public final class ExtractInterfaceConstraintsSolver extends SuperTypeConstraint
 		final TType type= variable.getType();
 		if (variable instanceof ImmutableTypeVariable2 || !type.getErasure().equals(fModel.getSubType().getErasure()))
 			return SuperTypeSet.createTypeSet(type);
-		for (TType t : type.getInterfaces()) {
+		for (TType t : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (t.getName().startsWith(fName) && t.getErasure().equals(fModel.getSuperType().getErasure())) {
 				return SuperTypeSet.createTypeSet(type, t);
 			}

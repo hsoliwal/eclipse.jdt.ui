@@ -82,6 +82,6 @@ public final class CovariantTypeConstraint implements ITypeConstraint2 {
 	 */
 	@Override
 	public String toString() {
-		return fDescendant.toString() + " <<= " + fAncestor.toString(); //$NON-NLS-1$
+		return fDescendant.toString() + " <<= " + fAncestor.toString(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

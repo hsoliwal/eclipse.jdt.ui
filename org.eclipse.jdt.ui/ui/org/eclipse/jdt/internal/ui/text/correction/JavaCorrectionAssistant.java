@@ -71,7 +71,7 @@ public class JavaCorrectionAssistant extends QuickAssistAssistant {
 	 * Constructor for JavaCorrectionAssistant.
 	 * @param editor the editor
 	 */
-	public JavaCorrectionAssistant(ITextEditor editor) {
+	public JavaCorrectionAssistant(ITextEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		Assert.isNotNull(editor);
 		fEditor= editor;
@@ -147,7 +147,7 @@ public class JavaCorrectionAssistant extends QuickAssistAssistant {
 	 *
 	 * @see IQuickAssistAssistant#showPossibleQuickAssists()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String showPossibleQuickAssists() {
 		boolean isReinvoked= false;
 		fIsProblemLocationAvailable= false;
@@ -169,7 +169,7 @@ public class JavaCorrectionAssistant extends QuickAssistAssistant {
 			return super.showPossibleQuickAssists();
 
 
-		ArrayList<Annotation> resultingAnnotations= new ArrayList<>(20);
+		ArrayList<Annotation> resultingAnnotations= new ArrayList<>(20); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
 			Point selectedRange= fViewer.getSelectedRange();
 			int currOffset= selectedRange.x;
@@ -207,7 +207,7 @@ public class JavaCorrectionAssistant extends QuickAssistAssistant {
 		return document.getLineInformationOfOffset(invocationLocation);
 	}
 
-	public static int collectQuickFixableAnnotations(ITextEditor editor, int invocationLocation, boolean goToClosest, ArrayList<Annotation> resultingAnnotations) throws BadLocationException {
+	public static int collectQuickFixableAnnotations(ITextEditor editor, int invocationLocation, boolean goToClosest, ArrayList<Annotation> resultingAnnotations) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAnnotationModel model= JavaUI.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
 		if (model == null) {
 			return invocationLocation;
@@ -224,10 +224,10 @@ public class JavaCorrectionAssistant extends QuickAssistAssistant {
 			int rangeStart= lineInfo.getOffset();
 			int rangeEnd= rangeStart + lineInfo.getLength();
 
-			ArrayList<Annotation> allAnnotations= new ArrayList<>();
-			ArrayList<Position> allPositions= new ArrayList<>();
+			ArrayList<Annotation> allAnnotations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			ArrayList<Position> allPositions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			int bestOffset= Integer.MAX_VALUE;
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Annotation annot= iter.next();
 				if (JavaCorrectionProcessor.isQuickFixableType(annot)) {
 					Position pos= model.getPosition(annot);
@@ -241,7 +241,7 @@ public class JavaCorrectionAssistant extends QuickAssistAssistant {
 			if (bestOffset == Integer.MAX_VALUE) {
 				bestOffset= invocationLocation;
 			}
-			for (int i= 0; i < allPositions.size(); i++) {
+			for (int i= 0; i < allPositions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Position pos= allPositions.get(i);
 				if (isInside(bestOffset, pos.offset, pos.offset + pos.length)) {
 					resultingAnnotations.add(allAnnotations.get(i));
@@ -249,7 +249,7 @@ public class JavaCorrectionAssistant extends QuickAssistAssistant {
 			}
 			return bestOffset;
 		} else {
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Annotation annot= iter.next();
 				if (JavaCorrectionProcessor.isQuickFixableType(annot)) {
 					Position pos= model.getPosition(annot);

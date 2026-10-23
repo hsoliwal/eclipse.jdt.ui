@@ -128,7 +128,7 @@ public class WorkingSetDropAdapterTest {
 	public void testMoveProject() throws Exception {
 		IWorkingSet source= PlatformUI.getWorkbench().getWorkingSetManager().createWorkingSet(
 			"Source", new IAdaptable[] {fProject});
-		List<TreePath> treePathes= new ArrayList<>();
+		List<TreePath> treePathes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		treePathes.add(new TreePath(new Object[] {source, fProject}));
 		ITreeSelection selection= createSelection(fProject, treePathes);
 
@@ -142,11 +142,11 @@ public class WorkingSetDropAdapterTest {
 		assertEquals(0, elements.length);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMoveToOthersProject() throws Exception {
 		IWorkingSet source= PlatformUI.getWorkbench().getWorkingSetManager().createWorkingSet(
 			"Source", new IAdaptable[] {fProject});
-		List<TreePath> treePathes= new ArrayList<>();
+		List<TreePath> treePathes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		treePathes.add(new TreePath(new Object[] {source, fProject}));
 		ITreeSelection selection= createSelection(fProject, treePathes);
 
@@ -177,13 +177,13 @@ public class WorkingSetDropAdapterTest {
 
 	private static IWorkingSet[] createJavaWorkingSets(String[] names) {
 		IWorkingSetManager workingSetManager= PlatformUI.getWorkbench().getWorkingSetManager();
-		for (String name : names) {
+		for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet workingSet= workingSetManager.getWorkingSet(name);
 			if (workingSet != null)
 				workingSetManager.removeWorkingSet(workingSet);
 		}
 		IWorkingSet[] sets= new IWorkingSet[names.length];
-		for (int i= 0; i < names.length; i++) {
+		for (int i= 0; i < names.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet workingSet= workingSetManager.createWorkingSet(names[i], new IAdaptable[0]);
 			workingSet.setId(IWorkingSetIDs.JAVA);
 			workingSetManager.addWorkingSet(workingSet);
@@ -231,7 +231,7 @@ public class WorkingSetDropAdapterTest {
 
 	private ITreeSelection createSelection(Object selectedElement, List<TreePath> treePathes) {
 		if (treePathes == null) {
-			treePathes= new ArrayList<>();
+			treePathes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			treePathes.add(new TreePath(new Object[] { selectedElement }));
 		}
 		return new TreeSelection(treePathes.toArray(new TreePath[treePathes.size()]),

@@ -271,7 +271,7 @@ public class Checks {
 	}
 
 	public static boolean isInsideLocalType(IType type) throws JavaModelException {
-		while (type != null) {
+		while (type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.isLocal())
 				return true;
 			type= type.getDeclaringType();
@@ -290,7 +290,7 @@ public class Checks {
 
 	public static RefactoringStatus checkForMainAndNativeMethods(IType[] types) throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
-		for (IType type : types) {
+		for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.merge(checkForMainAndNativeMethods(type));
 		}
 		return result;
@@ -305,7 +305,7 @@ public class Checks {
 
 	private static RefactoringStatus checkForMainAndNativeMethods(IMethod[] methods) throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
-		for (IMethod method : methods) {
+		for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (JdtFlags.isNative(method)) {
 				String typeName= JavaElementLabelsCore.getElementLabel(method.getDeclaringType(), JavaElementLabelsCore.ALL_FULLY_QUALIFIED);
 				String methodName= JavaElementLabelsCore.getElementLabel(method, JavaElementLabelsCore.ALL_DEFAULT);
@@ -352,7 +352,7 @@ public class Checks {
 	 * </ul>
 	 * @return the status
 	 */
-	public static RefactoringStatus checkMethodInHierarchy(ITypeBinding type, String methodName, ITypeBinding returnType, ITypeBinding[] parameters) {
+	public static RefactoringStatus checkMethodInHierarchy(ITypeBinding type, String methodName, ITypeBinding returnType, ITypeBinding[] parameters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		IMethodBinding method= Bindings.findMethodInHierarchy(type, methodName, parameters);
 		if (method != null) {
@@ -403,7 +403,7 @@ public class Checks {
 			if (ASTHelper.isSwitchCaseExpressionsSupportedInAST(node.getAST())) {
 				List<Expression> expressions= caze.expressions();
 				boolean isEnumConst= true;
-				for (Expression expression : expressions) {
+				for (Expression expression : expressions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					isEnumConst= isEnumConst && isEnumConst(expression);
 				}
 				return isEnumConst;
@@ -438,7 +438,7 @@ public class Checks {
 	}
 
 	public static boolean isInsideJavadoc(ASTNode node) {
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node.getNodeType() == ASTNode.JAVADOC)
 				return true;
 			node= node.getParent();
@@ -455,7 +455,7 @@ public class Checks {
 	 * @return RefactoringStatus based on the given status or the name, if
 	 *         empty.
 	 */
-	public static RefactoringStatus checkName(String name, IStatus status) {
+	public static RefactoringStatus checkName(String name, IStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		if ("".equals(name)) //$NON-NLS-1$
 			return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.Checks_Choose_name);
@@ -506,7 +506,7 @@ public class Checks {
 	}
 
 	public static IMethod findMethod(String name, int parameters, boolean isConstructor, IMethod[] methods) throws JavaModelException {
-		for (int i= methods.length-1; i >= 0; i--) {
+		for (int i= methods.length-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod curr= methods[i];
 			if (name.equals(curr.getElementName())) {
 				if (isConstructor == curr.isConstructor()) {
@@ -537,7 +537,7 @@ public class Checks {
 	 */
 	public static IMethod findSimilarMethod(IMethod method, IMethod[] methods) throws JavaModelException {
 		boolean isConstructor= method.isConstructor();
-		for (IMethod otherMethod : methods) {
+		for (IMethod otherMethod : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (otherMethod.isConstructor() == isConstructor && method.isSimilar(otherMethod))
 				return otherMethod;
 		}
@@ -550,7 +550,7 @@ public class Checks {
 	public static boolean compareParamTypes(String[] paramTypes1, String[] paramTypes2) {
 		if (paramTypes1.length == paramTypes2.length) {
 			int i= 0;
-			while (i < paramTypes1.length) {
+			while (i < paramTypes1.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String t1= Signature.getSimpleName(Signature.toString(paramTypes1[i]));
 				String t2= Signature.getSimpleName(Signature.toString(paramTypes2[i]));
 				if (!t1.equals(t2)) {
@@ -583,10 +583,10 @@ public class Checks {
 	 * @param status a refactoring status to collect errors and problems
 	 * @return the array of search result groups
 	 */
-	public static SearchResultGroup[] excludeCompilationUnits(SearchResultGroup[] grouped, RefactoringStatus status) throws JavaModelException{
-		List<SearchResultGroup> result= new ArrayList<>();
+	public static SearchResultGroup[] excludeCompilationUnits(SearchResultGroup[] grouped, RefactoringStatus status) throws JavaModelException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<SearchResultGroup> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean wasEmpty= grouped.length == 0;
-		for (SearchResultGroup g : grouped) {
+		for (SearchResultGroup g : grouped) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= g.getResource();
 			IJavaElement element= JavaCore.create(resource);
 			if (! (element instanceof ICompilationUnit))
@@ -608,7 +608,7 @@ public class Checks {
 
 	public static RefactoringStatus checkCompileErrorsInAffectedFiles(SearchResultGroup[] grouped) throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
-		for (SearchResultGroup g : grouped) {
+		for (SearchResultGroup g : grouped) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			checkCompileErrorsInAffectedFile(result, g.getResource());
 		}
 		return result;
@@ -621,7 +621,7 @@ public class Checks {
 
 	public static RefactoringStatus checkCompileErrorsInAffectedFiles(SearchResultGroup[] references, IResource declaring) throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
-		for (SearchResultGroup reference : references) {
+		for (SearchResultGroup reference : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= reference.getResource();
 			if (resource.equals(declaring))
 				declaring= null;
@@ -634,7 +634,7 @@ public class Checks {
 
 	private static boolean hasCompileErrors(IResource resource) throws JavaModelException {
 		try {
-			for (IMarker problemMarker : resource.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE)) {
+			for (IMarker problemMarker : resource.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (problemMarker.getAttribute(IMarker.SEVERITY, -1) == IMarker.SEVERITY_ERROR) {
 					return true;
 				}
@@ -662,7 +662,7 @@ public class Checks {
 		return false;
 	}
 
-	public static boolean isReadOnly(IResource res) throws JavaModelException {
+	public static boolean isReadOnly(IResource res) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ResourceAttributes attributes= res.getResourceAttributes();
 		if (attributes != null && attributes.isReadOnly())
 			return true;
@@ -672,7 +672,7 @@ public class Checks {
 
 		IContainer container= (IContainer)res;
 		try {
-			for (IResource child : container.members()) {
+			for (IResource child : container.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isReadOnly(child)) {
 					return true;
 				}
@@ -699,13 +699,13 @@ public class Checks {
 
 	//-------- validateEdit checks ----
 
-	public static RefactoringStatus validateModifiesFiles(IFile[] filesToModify, Object context, IProgressMonitor pm) throws CoreException {
+	public static RefactoringStatus validateModifiesFiles(IFile[] filesToModify, Object context, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		IStatus status= Resources.checkInSync(filesToModify);
 		if (!status.isOK()) {
 			boolean autoRefresh= Platform.getPreferencesService().getBoolean(ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PREF_LIGHTWEIGHT_AUTO_REFRESH, false, null);
 			if (autoRefresh) {
-				for (IFile resource : filesToModify) {
+				for (IFile resource : filesToModify) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					resource.refreshLocal(IResource.DEPTH_INFINITE, pm);
 				}
 				status= Resources.checkInSync(filesToModify);
@@ -728,13 +728,13 @@ public class Checks {
 		ResourceChangeChecker checker= context.getChecker(ResourceChangeChecker.class);
 		IResourceChangeDescriptionFactory deltaFactory= checker.getDeltaFactory();
 
-		for (IFile file : filesToModify) {
+		for (IFile file : filesToModify) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			deltaFactory.change(file);
 		}
 	}
 
 
-	public static RefactoringStatus validateEdit(ICompilationUnit unit, Object context, IProgressMonitor pm) throws CoreException {
+	public static RefactoringStatus validateEdit(ICompilationUnit unit, Object context, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= unit.getPrimary().getResource();
 		RefactoringStatus result= new RefactoringStatus();
 		if (resource == null)
@@ -813,7 +813,7 @@ public class Checks {
 		Assert.isTrue(!pack.isReadOnly());
 
 		String packageName= pack.getElementName();
-		elementName= packageName.length() > 0 ? packageName + '.' + elementName : elementName;
+		elementName= packageName.length() > 0 ? packageName + '.' + elementName : elementName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		return pack.getJavaProject().findType(elementName, (IProgressMonitor) null);
 	}
@@ -831,7 +831,7 @@ public class Checks {
 		RefactoringStatus result= Checks.checkFieldName(newName, context);
 		if (result.hasFatalError())
 			return result;
-		for (int i= 0; i < newName.length(); i++) {
+		for (int i= 0; i < newName.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= newName.charAt(i);
 			if (Character.isLetter(c) && !Character.isUpperCase(c)) {
 				result.addWarning(RefactoringCoreMessages.RenameEnumConstRefactoring_convention);
@@ -845,7 +845,7 @@ public class Checks {
 		RefactoringStatus result= Checks.checkFieldName(newName, context);
 		if (result.hasFatalError())
 			return result;
-		for (int i= 0; i < newName.length(); i++) {
+		for (int i= 0; i < newName.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= newName.charAt(i);
 			if (Character.isLetter(c) && !Character.isUpperCase(c)) {
 				result.addWarning(RefactoringCoreMessages.ExtractConstantRefactoring_convention);
@@ -860,7 +860,7 @@ public class Checks {
 			if (! iType.isClass())
 				return false;
 			IType[] superTypes= iType.newSupertypeHierarchy(pm).getAllSupertypes(iType);
-			for (IType superType : superTypes) {
+			for (IType superType : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ("java.lang.Throwable".equals(superType.getFullyQualifiedName())) { //$NON-NLS-1$
 					return true;
 				}
@@ -878,7 +878,7 @@ public class Checks {
 	 *          Checks.NOT_RVALUE_VOID  	if e is not an rvalue because its type is void
 	 *          Checks.NOT_RVALUE_MISC  	if e is not an rvalue for some other reason
 	 */
-	public static int checkExpressionIsRValue(Expression e) {
+	public static int checkExpressionIsRValue(Expression e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (e instanceof Name) {
 			if(!(((Name) e).resolveBinding() instanceof IVariableBinding)) {
 				return NOT_RVALUE_MISC;
@@ -924,12 +924,12 @@ public class Checks {
 		return (CompilationUnit) parser.createAST(null);
 	}
 
-	public static IImportDeclaration findMatchingStaticMethodImport(IMethod method, String newName) {
+	public static IImportDeclaration findMatchingStaticMethodImport(IMethod method, String newName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (method.getCompilationUnit() != null) {
 			try {
 				IImportDeclaration[] imports=method.getCompilationUnit().getImports();
 				CompilationUnit cu= null;
-				for (IImportDeclaration importDecl : imports) {
+				for (IImportDeclaration importDecl : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (Flags.isStatic(importDecl.getFlags())) {
 						String importName= importDecl.getElementName();
 						String[] fragments= importName.split("\\."); //$NON-NLS-1$
@@ -937,7 +937,7 @@ public class Checks {
 							cu= convertICUtoCU(method.getCompilationUnit());
 							if (cu != null) {
 								List<ImportDeclaration> importList= cu.imports();
-								for (ImportDeclaration importListDecl : importList) {
+								for (ImportDeclaration importListDecl : importList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (importListDecl.getName().getFullyQualifiedName().equals(importName)) {
 										IBinding binding= importListDecl.resolveBinding();
 										if (binding instanceof IMethodBinding) {

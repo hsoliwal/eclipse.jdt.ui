@@ -100,8 +100,8 @@ public class OccurrencesFinder extends ASTVisitor implements IOccurrencesFinder 
 
 	private void performSearch() {
 		if (fResult == null) {
-			fResult= new ArrayList<>();
-			fWriteUsages= new HashSet<>();
+			fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fWriteUsages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			fRoot.accept(this);
 		}
 	}
@@ -192,7 +192,7 @@ public class OccurrencesFinder extends ASTVisitor implements IOccurrencesFinder 
 	/*
 	 * @see org.eclipse.jdt.core.dom.ASTVisitor#visit(org.eclipse.jdt.core.dom.ConstructorInvocation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(ClassInstanceCreation node) {
 		// match with the constructor and the type.
 

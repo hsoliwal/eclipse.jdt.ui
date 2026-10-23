@@ -53,11 +53,11 @@ public class UnpackJarAntExporter extends FatJarAntExporter {
 		super(antScriptLocation, jarLocation, launchConfiguration);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void buildANTScript(IPath antScriptLocation, String projectName, IPath absJarfile, String mainClass, SourceInfo[] sourceInfos) throws IOException {
 		try (OutputStream outputStream = new FileOutputStream(antScriptLocation.toFile())) {
 			String absJarname= absJarfile.toString();
-			String subfolder= absJarfile.removeFileExtension().lastSegment() + "_lib"; //$NON-NLS-1$
+			String subfolder= absJarfile.removeFileExtension().lastSegment() + "_lib"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String absSubfolder= absJarfile.removeLastSegments(1).append(subfolder).toString();
 
 			DocumentBuilder docBuilder= null;
@@ -74,7 +74,7 @@ public class UnpackJarAntExporter extends FatJarAntExporter {
 
 			// Create the document
 			Element project= document.createElement("project"); //$NON-NLS-1$
-			project.setAttribute("name", "Create Runnable Jar for Project " + projectName + " with libraries in sub-folder"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			project.setAttribute("name", "Create Runnable Jar for Project " + projectName + " with libraries in sub-folder"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			project.setAttribute("default", "create_run_jar"); //$NON-NLS-1$ //$NON-NLS-2$
 			comment= document.createComment("this file was created by Eclipse Runnable JAR Export Wizard"); //$NON-NLS-1$
 			project.appendChild(comment);
@@ -101,11 +101,11 @@ public class UnpackJarAntExporter extends FatJarAntExporter {
 
 			attribute= document.createElement("attribute"); //$NON-NLS-1$
 			attribute.setAttribute("name", "Class-Path"); //$NON-NLS-1$ //$NON-NLS-2$s
-			StringBuilder classPath= new StringBuilder();
-			classPath.append("."); //$NON-NLS-1$
-			for (SourceInfo sourceInfo : sourceInfos) {
+			StringBuilder classPath= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			classPath.append("."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (SourceInfo sourceInfo : sourceInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (sourceInfo.isJar) {
-					classPath.append(" ").append(subfolder).append("/") //$NON-NLS-1$ //$NON-NLS-2$
+					classPath.append(" ").append(subfolder).append("/") //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						.append(new File(sourceInfo.absPath).getName());
 				}
 			}
@@ -113,7 +113,7 @@ public class UnpackJarAntExporter extends FatJarAntExporter {
 			manifest.appendChild(attribute);
 
 			// add folders
-			for (SourceInfo sourceInfo : sourceInfos) {
+			for (SourceInfo sourceInfo : sourceInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!sourceInfo.isJar) {
 					Element fileset= document.createElement("fileset"); //$NON-NLS-1$
 					fileset.setAttribute("dir", substituteBaseDirs(sourceInfo.absPath)); //$NON-NLS-1$
@@ -131,7 +131,7 @@ public class UnpackJarAntExporter extends FatJarAntExporter {
 			target.appendChild(mkdir);
 
 			// add libraries
-			for (SourceInfo sourceInfo : sourceInfos) {
+			for (SourceInfo sourceInfo : sourceInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (sourceInfo.isJar) {
 					Element copy= document.createElement("copy"); //$NON-NLS-1$
 					copy.setAttribute("file", substituteBaseDirs(sourceInfo.absPath)); //$NON-NLS-1$
@@ -140,7 +140,7 @@ public class UnpackJarAntExporter extends FatJarAntExporter {
 				}
 			}
 			// add folders
-			for (SourceInfo sourceInfo : sourceInfos) {
+			for (SourceInfo sourceInfo : sourceInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!sourceInfo.isJar) {
 				}
 			}

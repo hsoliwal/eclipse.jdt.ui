@@ -62,14 +62,14 @@ class CallHierarchyViewer extends TreeViewer {
         setAutoExpandLevel(2);
         fContentProvider = new CallHierarchyContentProvider(fPart);
         setContentProvider(fContentProvider);
-        setLabelProvider(new ColoringLabelProvider(new CallHierarchyLabelProvider()));
+        setLabelProvider(new ColoringLabelProvider(new CallHierarchyLabelProvider())); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 
         clearViewer();
     }
 
     void setMethodWrappers(MethodWrapper[] wrappers) {
-        setInput(getTreeRoot(wrappers));
+        setInput(getTreeRoot(wrappers)); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
         setFocus();
         if (wrappers != null && wrappers.length > 0)
@@ -90,7 +90,7 @@ class CallHierarchyViewer extends TreeViewer {
     }
 
     void addKeyListener(KeyListener keyListener) {
-        getControl().addKeyListener(keyListener);
+        getControl().addKeyListener(keyListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
     }
 
     /**
@@ -132,14 +132,14 @@ class CallHierarchyViewer extends TreeViewer {
     void initContextMenu(IMenuListener menuListener, IWorkbenchPartSite viewSite, ISelectionProvider selectionProvider) {
         MenuManager menuMgr= new MenuManager();
         menuMgr.setRemoveAllWhenShown(true);
-        menuMgr.addMenuListener(menuListener);
+        menuMgr.addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
         Menu menu= menuMgr.createContextMenu(getTree());
         getTree().setMenu(menu);
         viewSite.registerContextMenu(menuMgr, selectionProvider);
     }
 
     void clearViewer() {
-        setInput(TreeRoot.EMPTY_ROOT);
+        setInput(TreeRoot.EMPTY_ROOT); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fDummyRoot= null;
     }
 

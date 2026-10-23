@@ -69,7 +69,7 @@ public class ArrayWithCurlyFixCore extends CompilationUnitRewriteOperationsFixCo
 		private boolean isVoid(final ArrayCreation visited) {
 			List<Expression> dimensions= visited.dimensions();
 
-			for (Expression dimension : dimensions) {
+			for (Expression dimension : dimensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Long.valueOf(0L).equals(ASTNodes.getIntegerLiteral(dimension))) {
 					return false;
 				}
@@ -104,7 +104,7 @@ public class ArrayWithCurlyFixCore extends CompilationUnitRewriteOperationsFixCo
 			this.visited= visited;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -130,7 +130,7 @@ public class ArrayWithCurlyFixCore extends CompilationUnitRewriteOperationsFixCo
 
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<ArrayWithCurlyFixOperation> operations= new ArrayList<>();
+		List<ArrayWithCurlyFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ArrayWithCurlyFinder finder= new ArrayWithCurlyFinder(operations);
 		compilationUnit.accept(finder);
 

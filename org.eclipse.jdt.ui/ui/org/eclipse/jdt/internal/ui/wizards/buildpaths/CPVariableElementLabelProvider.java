@@ -69,7 +69,7 @@ public class CPVariableElementLabelProvider extends LabelProvider {
 		return super.getImage(element);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getText(Object element) {
 		if (element instanceof CPVariableElement) {
 			CPVariableElement curr= (CPVariableElement)element;
@@ -77,7 +77,7 @@ public class CPVariableElementLabelProvider extends LabelProvider {
 			IPath path= curr.getPath();
 
 			String result= name;
-			ArrayList<String> restrictions= new ArrayList<>(2);
+			ArrayList<String> restrictions= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			if (curr.isReadOnly() && fHighlightReadOnly) {
 				restrictions.add(NewWizardMessages.CPVariableElementLabelProvider_read_only);

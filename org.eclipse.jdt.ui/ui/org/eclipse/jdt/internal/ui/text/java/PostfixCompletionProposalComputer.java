@@ -82,7 +82,7 @@ public class PostfixCompletionProposalComputer extends AbstractTemplateCompletio
 		return new PostfixTemplateEngine(contextType);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TemplateEngine computeCompletionEngine(JavaContentAssistInvocationContext context) {
 		ICompilationUnit unit= context.getCompilationUnit();
 		if (unit == null) {
@@ -116,7 +116,7 @@ public class PostfixCompletionProposalComputer extends AbstractTemplateCompletio
 		return null;
 	}
 
-	private void analyzeCoreContext(JavaContentAssistInvocationContext context,
+	private void analyzeCoreContext(JavaContentAssistInvocationContext context, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CompletionContext coreContext) {
 		// If the coreContext is not extended atm for some reason we have to extend it ourself in order get to the needed information
 		if (coreContext.isExtended()) {
@@ -140,7 +140,7 @@ public class PostfixCompletionProposalComputer extends AbstractTemplateCompletio
 		}
 	}
 
-	private void updateTemplateEngine(CompletionContext context) {
+	private void updateTemplateEngine(CompletionContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement enclosingElement= context.getEnclosingElement();
 		if (enclosingElement == null) {
 			return;
@@ -238,7 +238,7 @@ public class PostfixCompletionProposalComputer extends AbstractTemplateCompletio
 				 * Handle {@link MethodInvocation}, {@link SuperMethodInvocation}
 				 * and {@link ClassInstanceCreation}
 				 */
-				public boolean visit(Expression node) {
+				public boolean visit(Expression node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					/*
 					 * Do not consider a method invocation node as the best node
 					 * if it is RECOVERED. A recovered node may in fact be open
@@ -282,12 +282,12 @@ public class PostfixCompletionProposalComputer extends AbstractTemplateCompletio
 	 * @return {@link ASTNode} which either is the parent of the given node or another predecessor
 	 *         {@link ASTNode} in the abstract syntax tree.
 	 */
-	private ASTNode findBestMatchingParentNode(ASTNode node) {
+	private ASTNode findBestMatchingParentNode(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode result= node.getParent();
 		if (result instanceof InfixExpression) {
 			ASTNode completionNodeGrandParent= result.getParent();
 			int safeGuard= 0;
-			while (completionNodeGrandParent instanceof ParenthesizedExpression && safeGuard++ < 64) {
+			while (completionNodeGrandParent instanceof ParenthesizedExpression && safeGuard++ < 64) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result= completionNodeGrandParent;
 				completionNodeGrandParent= result.getParent();
 			}

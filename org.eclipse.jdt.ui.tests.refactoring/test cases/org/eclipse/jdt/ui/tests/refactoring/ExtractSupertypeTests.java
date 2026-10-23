@@ -83,7 +83,7 @@ public final class ExtractSupertypeTests extends GenericRefactoringTest {
 		return REFACTORING_PATH;
 	}
 
-	private void helper1(String[] methodNames, String[][] signatures, String[] fieldNames, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods, boolean replaceOccurences) throws Exception {
+	private void helper1(String[] methodNames, String[][] signatures, String[] fieldNames, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods, boolean replaceOccurences) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType type= getType(cu, "B");
 		IMethod[] methods= getMethods(type, methodNames, signatures);

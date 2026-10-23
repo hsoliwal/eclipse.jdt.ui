@@ -21,7 +21,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 /**
  * Viewer filter used in selection dialogs.
  */
-public class TypedViewerFilter extends ViewerFilter {
+public class TypedViewerFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	private Class<?>[] fAcceptedTypes;
 	private Object[] fRejectedElements;
@@ -53,13 +53,13 @@ public class TypedViewerFilter extends ViewerFilter {
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		if (fRejectedElements != null) {
-			for (Object rejectedelement : fRejectedElements) {
+			for (Object rejectedelement : fRejectedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.equals(rejectedelement)) {
 					return false;
 				}
 			}
 		}
-		for (Class<?> type : fAcceptedTypes) {
+		for (Class<?> type : fAcceptedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.isInstance(element)) {
 				return true;
 			}

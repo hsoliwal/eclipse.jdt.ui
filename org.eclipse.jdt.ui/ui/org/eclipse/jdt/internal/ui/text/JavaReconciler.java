@@ -69,7 +69,7 @@ public class JavaReconciler extends MonoReconciler {
 	/**
 	 * Internal part listener for activating the reconciler.
 	 */
-	private class PartListener implements IPartListener2 {
+	private class PartListener implements IPartListener2 { //FLLDCIM: MARK — T20  IMPLEMENTS
 		@Override
 		public void partVisible(IWorkbenchPartReference partRef) {
 			if (partRef.getPart(false) == fTextEditor) {
@@ -130,7 +130,7 @@ public class JavaReconciler extends MonoReconciler {
 	 *
 	 * @since 3.0
 	 */
-	private class ElementChangedListener implements IElementChangedListener {
+	private class ElementChangedListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 		/*
 		 * @see org.eclipse.jdt.core.IElementChangedListener#elementChanged(org.eclipse.jdt.core.ElementChangedEvent)
 		 */
@@ -155,7 +155,7 @@ public class JavaReconciler extends MonoReconciler {
 		 * @return <code>true</code> if the given delta
 		 * @since 3.5
 		 */
-		private boolean canIgnore(IJavaElementDelta[] delta) {
+		private boolean canIgnore(IJavaElementDelta[] delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (delta.length != 1)
 				return false;
 
@@ -182,7 +182,7 @@ public class JavaReconciler extends MonoReconciler {
 	 *
 	 * @since 3.0
 	 */
-	class ResourceChangeListener implements IResourceChangeListener {
+	class ResourceChangeListener implements IResourceChangeListener { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 		private IResource getResource() {
 			IEditorInput input= fTextEditor.getEditorInput();
@@ -196,7 +196,7 @@ public class JavaReconciler extends MonoReconciler {
 		/*
 		 * @see IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void resourceChanged(IResourceChangeEvent e) {
 			if (isRunningInReconcilerThread())
 				return;
@@ -208,7 +208,7 @@ public class JavaReconciler extends MonoReconciler {
 				if (child != null) {
 					IMarkerDelta[] deltas= child.getMarkerDeltas();
 					int i= deltas.length;
-					while (--i >= 0) {
+					while (--i >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (deltas[i].isSubtypeOf(IMarker.PROBLEM)) {
 							forceReconciling();
 							return;
@@ -273,7 +273,7 @@ public class JavaReconciler extends MonoReconciler {
 	 * @param strategy the reconcile strategy
 	 * @param isIncremental <code>true</code> if this is an incremental reconciler
 	 */
-	public JavaReconciler(ITextEditor editor, JavaCompositeReconcilingStrategy strategy, boolean isIncremental) {
+	public JavaReconciler(ITextEditor editor, JavaCompositeReconcilingStrategy strategy, boolean isIncremental) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(strategy, isIncremental);
 		fTextEditor= editor;
 
@@ -296,7 +296,7 @@ public class JavaReconciler extends MonoReconciler {
 	/*
 	 * @see org.eclipse.jface.text.reconciler.IReconciler#install(org.eclipse.jface.text.ITextViewer)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void install(ITextViewer textViewer) {
 		super.install(textViewer);
 
@@ -310,13 +310,13 @@ public class JavaReconciler extends MonoReconciler {
 		shell.addShellListener(fActivationListener);
 
 		fJavaElementChangedListener= new ElementChangedListener();
-		JavaCore.addElementChangedListener(fJavaElementChangedListener);
+		JavaCore.addElementChangedListener(fJavaElementChangedListener); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 
 		fResourceChangeListener= new ResourceChangeListener();
 		IWorkspace workspace= JavaPlugin.getWorkspace();
 		workspace.addResourceChangeListener(fResourceChangeListener);
 
-		fPropertyChangeListener= event -> {
+		fPropertyChangeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (SpellingService.PREFERENCE_SPELLING_ENABLED.equals(event.getProperty()) || SpellingService.PREFERENCE_SPELLING_ENGINE.equals(event.getProperty()))
 				forceReconciling();
 		};
@@ -328,7 +328,7 @@ public class JavaReconciler extends MonoReconciler {
 	/*
 	 * @see org.eclipse.jface.text.reconciler.IReconciler#uninstall()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void uninstall() {
 
 		IWorkbenchPartSite site= fTextEditor.getSite();
@@ -398,7 +398,7 @@ public class JavaReconciler extends MonoReconciler {
 			super.initialProcess();
 		}
 		if (initialProcessDone()) {
-			Job.createSystem("Reconciler init", (ICoreRunnable) unused -> forceReconciling()).schedule();  //$NON-NLS-1$
+			Job.createSystem("Reconciler init", (ICoreRunnable) unused -> forceReconciling()).schedule();  //$NON-NLS-1$ //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 		}
 	}
 

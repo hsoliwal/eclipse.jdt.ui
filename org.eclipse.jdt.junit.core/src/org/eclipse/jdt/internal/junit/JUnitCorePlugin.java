@@ -57,8 +57,8 @@ public class JUnitCorePlugin extends Plugin {
 	 * @see #CORE_PLUGIN_ID
 	 */
 	public static final String PLUGIN_ID= "org.eclipse.jdt.junit"; //$NON-NLS-1$
-	public static final String ID_EXTENSION_POINT_TESTRUN_LISTENERS= PLUGIN_ID + "." + "testRunListeners"; //$NON-NLS-1$ //$NON-NLS-2$
-	public static final String ID_EXTENSION_POINT_TEST_KINDS= PLUGIN_ID + "." + "internal_testKinds"; //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String ID_EXTENSION_POINT_TESTRUN_LISTENERS= PLUGIN_ID + "." + "testRunListeners"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String ID_EXTENSION_POINT_TEST_KINDS= PLUGIN_ID + "." + "internal_testKinds"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public final static String TEST_SUPERCLASS_NAME= "junit.framework.TestCase"; //$NON-NLS-1$
 	public final static String TEST_INTERFACE_NAME= "junit.framework.Test"; //$NON-NLS-1$
@@ -166,19 +166,19 @@ public class JUnitCorePlugin extends Plugin {
 	 * Initializes TestRun Listener extensions
 	 * @deprecated to avoid deprecation warning
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private synchronized void loadTestRunListeners() {
 		if (fLegacyTestRunListeners != null)
 			return;
 
-		fLegacyTestRunListeners= new ArrayList<>();
+		fLegacyTestRunListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IExtensionPoint extensionPoint= Platform.getExtensionRegistry().getExtensionPoint(ID_EXTENSION_POINT_TESTRUN_LISTENERS);
 		if (extensionPoint == null) {
 			return;
 		}
 		IConfigurationElement[] configs= extensionPoint.getConfigurationElements();
 		MultiStatus status= new MultiStatus(CORE_PLUGIN_ID, IStatus.OK, "Could not load some testRunner extension points", null); //$NON-NLS-1$
-		for (IConfigurationElement config : configs) {
+		for (IConfigurationElement config : configs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Object testRunListener= config.createExecutableExtension("class"); //$NON-NLS-1$
 				if (testRunListener instanceof TestRunListener) {
@@ -250,7 +250,7 @@ public class JUnitCorePlugin extends Plugin {
 	public void addTestRunListener(org.eclipse.jdt.junit.ITestRunListener newListener) {
 		loadTestRunListeners();
 
-		for (org.eclipse.jdt.junit.ITestRunListener o : fLegacyTestRunListeners) {
+		for (org.eclipse.jdt.junit.ITestRunListener o : fLegacyTestRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o == newListener)
 				return;
 		}

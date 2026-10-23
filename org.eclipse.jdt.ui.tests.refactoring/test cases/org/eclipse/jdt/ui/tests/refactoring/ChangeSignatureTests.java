@@ -69,20 +69,20 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 	}
 
 	private String getSimpleTestFileName(boolean canReorder, boolean input){
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (canReorder)
-			fileName.append(input ? "_in": "_out");
-		return fileName.append(".java").toString();
+			fileName.append(input ? "_in": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private String getTestFileName(boolean canReorder, boolean input){
 		String fileName= getTestFolderPath(canReorder);
-		return fileName + getSimpleTestFileName(canReorder, input);
+		return fileName + getSimpleTestFileName(canReorder, input); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getTestFolderPath(boolean canModify) {
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canModify ? "canModify/": "cannotModify/");
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canModify ? "canModify/": "cannotModify/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return fileName.toString();
 	}
 
@@ -96,7 +96,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		if (newTypes == null)
 			return new ParameterInfo[0];
 		ParameterInfo[] result= new ParameterInfo[newTypes.length];
-		for (int i= 0; i < newDefaultValues.length; i++) {
+		for (int i= 0; i < newDefaultValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= ParameterInfo.createInfoForAddedParameter(newTypes[i], newNames[i], newDefaultValues[i]);
 		}
 		return result;
@@ -105,7 +105,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 	static void addInfos(List<ParameterInfo> list, ParameterInfo[] newParamInfos, int[] newIndices) {
 		if (newParamInfos == null || newIndices == null)
 			return;
-		for (int i= newIndices.length - 1; i >= 0; i--) {
+		for (int i= newIndices.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.add(newIndices[i], newParamInfos[i]);
 		}
 	}
@@ -114,7 +114,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperAdd(signature, newParamInfos, newIndices, false);
 	}
 
-	private void helperAdd(String[] signature, ParameterInfo[] newParamInfos, int[] newIndices, boolean createDelegate) throws Exception {
+	private void helperAdd(String[] signature, ParameterInfo[] newParamInfos, int[] newIndices, boolean createDelegate) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		IType classA= getType(cu, "A");
 		IMethod method = classA.getMethod("m", signature);
@@ -130,7 +130,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		RefactoringStatus initialConditions= ref.checkInitialConditions(testMonitor);
 		testMonitor.assertUsedUp();
 
-		assertTrue("precondition was supposed to pass:"+initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK());
+		assertTrue("precondition was supposed to pass:"+initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		JavaRefactoringDescriptor descriptor= processor.createDescriptor();
 		RefactoringStatus result= performRefactoring(descriptor);
 		assertNull("precondition was supposed to pass", result);
@@ -138,7 +138,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String expectedFileContents= getFileContents(getTestFileName(true, false));
 		assertEqualLines("invalid renaming", expectedFileContents, newcu.getSource());
 
@@ -166,11 +166,11 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 	/*
 	 * Rename method 'm(signature)' to 'newMethodName(signature)'
 	 */
-	private void helperRenameMethod(String[] signature, String newMethodName, boolean createDelegate, boolean markAsDeprecated, String typeName) throws Exception {
+	private void helperRenameMethod(String[] signature, String newMethodName, boolean createDelegate, boolean markAsDeprecated, String typeName) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		IType classType= getType(cu, typeName);
 		IMethod method = classType.getMethod("m", signature);
-		assertTrue("method m does not exist in " +typeName, method.exists());
+		assertTrue("method m does not exist in " +typeName, method.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("refactoring not available", RefactoringAvailabilityTester.isChangeSignatureAvailable(method));
 
 		ChangeSignatureProcessor processor= new ChangeSignatureProcessor(method);
@@ -190,7 +190,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String expectedFileContents= getFileContents(getTestFileName(true, false));
 		assertEqualLines("invalid change of method name", expectedFileContents, newcu.getSource());
 
@@ -200,11 +200,11 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 	/*
 	 * Rename method 'm(signature)' to 'newMethodName(signature)'
 	 */
-	private void helperRenameMethodFail(String[] signature, String newMethodName, int expectedSeverity, boolean createDelegate, boolean markAsDeprecated, String typeName) throws Exception {
+	private void helperRenameMethodFail(String[] signature, String newMethodName, int expectedSeverity, boolean createDelegate, boolean markAsDeprecated, String typeName) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), false, true);
 		IType classType= getType(cu, typeName);
 		IMethod method = classType.getMethod("m", signature);
-		assertTrue("method m does not exist in " +typeName, method.exists());
+		assertTrue("method m does not exist in " +typeName, method.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("refactoring not available", RefactoringAvailabilityTester.isChangeSignatureAvailable(method));
 
 		ChangeSignatureProcessor processor= new ChangeSignatureProcessor(method);
@@ -237,11 +237,11 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		IType classA= getType(cu, typeName);
 		IMethod method = classA.getMethod(methodName, signature);
-		assertTrue("method " + methodName +" does not exist", method.exists());
+		assertTrue("method " + methodName +" does not exist", method.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		helperDoAll(method, newParamInfos, newIndices, oldParamNames, newParamNames, newParameterTypeNames, permutation, newVisibility, deleted, returnTypeName, createDelegate);
 	}
 
-	private void helperDoAll(IMethod method, ParameterInfo[] newParamInfos, int[] newIndices, String[] oldParamNames, String[] newParamNames, String[] newParameterTypeNames, int[] permutation, int newVisibility, int[] deleted, String returnTypeName, boolean createDelegate) throws Exception {
+	private void helperDoAll(IMethod method, ParameterInfo[] newParamInfos, int[] newIndices, String[] oldParamNames, String[] newParamNames, String[] newParameterTypeNames, int[] permutation, int newVisibility, int[] deleted, String returnTypeName, boolean createDelegate) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertTrue("refactoring not available", RefactoringAvailabilityTester.isChangeSignatureAvailable(method));
 
 		ChangeSignatureProcessor processor= new ChangeSignatureProcessor(method);
@@ -267,7 +267,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)method.getCompilationUnit().getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String expectedFileContents= getFileContents(getTestFileName(true, false));
 		assertEqualLines(expectedFileContents, newcu.getSource());
 
@@ -284,7 +284,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 	private void markAsDeleted(List<ParameterInfo> list, int[] deleted) {
 		if (deleted == null)
 			return;
-		for (int element : deleted) {
+		for (int element : deleted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.get(element).markAsDeleted();
 		}
 	}
@@ -301,7 +301,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helper1(newOrder, signature, oldNames, newNames, false);
 	}
 
-	private void helper1(String[] newOrder, String[] signature, String[] oldNames, String[] newNames, boolean createDelegate) throws Exception{
+	private void helper1(String[] newOrder, String[] signature, String[] oldNames, String[] newNames, boolean createDelegate) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		IType classA= getType(cu, "A");
 		IMethod method = classA.getMethod("m", signature);
@@ -324,7 +324,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String expectedFileContents= getFileContents(getTestFileName(true, false));
 //		assertEquals("invalid renaming", expectedFileContents, newcu.getSource());
 		assertEqualLines(expectedFileContents, newcu.getSource());
@@ -332,12 +332,12 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		assertParticipant(classA);
 	}
 
-	private void modifyInfos(List<ParameterInfo> infos, ParameterInfo[] newParamInfos, int[] newIndices, String[] oldParamNames, String[] newParamNames, String[] newParamTypeNames, int[] permutation) {
+	private void modifyInfos(List<ParameterInfo> infos, ParameterInfo[] newParamInfos, int[] newIndices, String[] oldParamNames, String[] newParamNames, String[] newParamTypeNames, int[] permutation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addInfos(infos, newParamInfos, newIndices);
-		List<Integer> swapped= new ArrayList<>(infos.size());
+		List<Integer> swapped= new ArrayList<>(infos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<String> oldNameList= Arrays.asList(oldParamNames);
 		List<String> newNameList= Arrays.asList(newParamNames);
-		for (int i= 0; i < permutation.length; i++) {
+		for (int i= 0; i < permutation.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (infos.get(i).isAdded())
 				continue;
 			if (! swapped.contains(Integer.valueOf(i))){
@@ -358,12 +358,12 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		}
 	}
 
-	private static void modifyInfos(List<ParameterInfo> infos, String[] newOrder, String[] oldNames, String[] newNames) {
+	private static void modifyInfos(List<ParameterInfo> infos, String[] newOrder, String[] oldNames, String[] newNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int[] permutation= createPermutation(infos, newOrder);
-		List<Integer> swapped= new ArrayList<>(infos.size());
+		List<Integer> swapped= new ArrayList<>(infos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (oldNames == null || newNames == null){
 			ParameterInfo[] newInfos= new  ParameterInfo[infos.size()];
-			for (int i= 0; i < permutation.length; i++) {
+			for (int i= 0; i < permutation.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newInfos[i]= infos.get(permutation[i]);
 			}
 			infos.clear();
@@ -372,7 +372,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		} else {
 			List<String> oldNameList= Arrays.asList(oldNames);
 			List<String> newNameList= Arrays.asList(newNames);
-			for (int i= 0; i < permutation.length; i++) {
+			for (int i= 0; i < permutation.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! swapped.contains(Integer.valueOf(i))){
 					swapped.add(permutation[i]);
 					ParameterInfo infoI= infos.get(i);
@@ -393,14 +393,14 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 
 	private static int[] createPermutation(List<ParameterInfo> infos, String[] newOrder) {
 		int[] result= new int[infos.size()];
-		for (int i= 0; i < result.length; i++) {
+		for (int i= 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= indexOfOldName(infos, newOrder[i]);
 		}
 		return result;
 	}
 
 	private static int indexOfOldName(List<ParameterInfo> infos, String string) {
-		for (ParameterInfo info : infos) {
+		for (ParameterInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.getOldName().equals(string))
 				return infos.indexOf(info);
 		}
@@ -408,7 +408,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		return -1;
 	}
 
-	private void helperFail(String[] newOrder, String[] signature, int expectedSeverity) throws Exception{
+	private void helperFail(String[] newOrder, String[] signature, int expectedSeverity) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType classA= getType(createCUfromTestFile(getPackageP(), false, false), "A");
 		IMethod method= classA.getMethod("m", signature);
 		assertTrue("refactoring not available", RefactoringAvailabilityTester.isChangeSignatureAvailable(method));
@@ -433,7 +433,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		assertEquals("Severity:", expectedSeverity, result.getSeverity());
 	}
 
-	private void helperAddFail(String[] signature, ParameterInfo[] newParamInfos, int[] newIndices, int expectedSeverity) throws Exception{
+	private void helperAddFail(String[] signature, ParameterInfo[] newParamInfos, int[] newIndices, int expectedSeverity) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType classA= getType(createCUfromTestFile(getPackageP(), false, false), "A");
 		IMethod method= classA.getMethod("m", signature);
 		assertTrue("refactoring not available", RefactoringAvailabilityTester.isChangeSignatureAvailable(method));
@@ -451,10 +451,10 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 			result= performRefactoring(descriptor, true);
 		}
 		assertNotNull("precondition was supposed to fail", result);
-		assertEquals("Severity:" + result.getMessageMatchingSeverity(result.getSeverity()), expectedSeverity, result.getSeverity());
+		assertEquals("Severity:" + result.getMessageMatchingSeverity(result.getSeverity()), expectedSeverity, result.getSeverity()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void helperDoAllFail(String methodName,
+	private void helperDoAllFail(String methodName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								String[] signature,
 							  	ParameterInfo[] newParamInfos,
 							  	int[] newIndices,
@@ -486,10 +486,10 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 			result= performRefactoring(descriptor);
 		}
 		assertNotNull("precondition was supposed to fail", result);
-		assertEquals("Severity:" + result.getMessageMatchingSeverity(result.getSeverity()), expectedSeverity, result.getSeverity());
+		assertEquals("Severity:" + result.getMessageMatchingSeverity(result.getSeverity()), expectedSeverity, result.getSeverity()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void helperDoAllWithExceptions(String typeName,
+	private void helperDoAllWithExceptions(String typeName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String methodName,
 		  	String[] signature,
 		  	ParameterInfo[] newParamInfos,
@@ -506,7 +506,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		IType classA= getType(cu, typeName);
 		IMethod method = classA.getMethod(methodName, signature);
-		assertTrue("method " + methodName +" does not exist", method.exists());
+		assertTrue("method " + methodName +" does not exist", method.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("refactoring not available", RefactoringAvailabilityTester.isChangeSignatureAvailable(method));
 
 		ChangeSignatureProcessor processor= new ChangeSignatureProcessor(method);
@@ -539,13 +539,13 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String expectedFileContents= getFileContents(getTestFileName(true, false));
 		assertEqualLines(expectedFileContents, newcu.getSource());
 	}
 
 
-	private void helperException(String[] signature, String[] removeExceptions, String[] addExceptions) throws Exception {
+	private void helperException(String[] signature, String[] removeExceptions, String[] addExceptions) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		IType classA= getType(cu, "A");
 		IMethod method = classA.getMethod("m", signature);
@@ -575,21 +575,21 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String expectedFileContents= getFileContents(getTestFileName(true, false));
 		assertEqualLines("invalid renaming", expectedFileContents, newcu.getSource());
 	}
 
 
 	private void mangleExceptions(List<ExceptionInfo> list, String[] removeExceptions, String[] addExceptions, ICompilationUnit cu) throws Exception {
-		for (ExceptionInfo info : list) {
+		for (ExceptionInfo info : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= info.getFullyQualifiedName();
-			for (String removeException : removeExceptions) {
+			for (String removeException : removeExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (name.equals(removeException))
 					info.markAsDeleted();
 			}
 		}
-		for (String addException : addExceptions) {
+		for (String addException : addExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType type= cu.getJavaProject().findType(addException);
 			list.add(ExceptionInfo.createInfoForAddedException(type));
 		}
@@ -748,7 +748,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAllFail("m", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deletedIndices, expectedSeverity);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFailVararg02() throws Exception {
 		//cannot introduce vararg in non-last position
 		String[] signature= {"I", "[QString;"};
@@ -768,7 +768,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAllFail("m", signature, newParamInfo, newIndices, oldParamNames, newParamNames, newParamTypeNames, permutation, newVisibility, deletedIndices, expectedSeverity);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFailVararg03() throws Exception {
 		//cannot change parameter type which is vararg in overriding method
 		String[] signature= {"I", "[QString;"};
@@ -788,7 +788,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAllFail("m", signature, newParamInfo, newIndices, oldParamNames, newParamNames, newParamTypeNames, permutation, newVisibility, deletedIndices, expectedSeverity);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFailVararg04() throws Exception {
 		//cannot change vararg to non-vararg
 		String[] signature= {"I", "[QString;"};
@@ -1001,7 +1001,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		String newReturnTypeName= null;
 		helperDoAll("A", "A", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deleted, newReturnTypeName);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test24() throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 //		if (true){
@@ -1362,7 +1362,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "m", signature, newParamInfo, newIndices, oldParamNames, newParamNames, newParamTypeNames, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll46()throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 
@@ -1382,7 +1382,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "A", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll47()throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 
@@ -1402,7 +1402,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "A", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll48()throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 
@@ -1422,7 +1422,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "A", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll49()throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 
@@ -1442,7 +1442,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "A", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll50()throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 
@@ -1462,7 +1462,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "A", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll51()throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 
@@ -1482,7 +1482,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "A", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll52()throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 
@@ -1551,7 +1551,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll56()throws Exception{
 		assumeFalse("disabled for constructors for now",RUN_CONSTRUCTOR_TEST);
 
@@ -1572,7 +1572,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("HistoryFrame", "HistoryFrame", signature, newParamInfo, newIndices, oldParamNames, newParamNames, null, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll57()throws Exception{
 //		printTestDisabledMessage("test for 39633 classcast exception when refactoring change method signature [refactoring]");
 //		if (true)
@@ -1630,7 +1630,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "getList", signature, newParamInfo, newIndices, oldParamNames, newParamNames, newParameterTypeNames, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAll60() throws Exception{
 		String[] signature= {"I", "J"};
 		String[] newNames= {"l"};
@@ -1740,7 +1740,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 	public void testAddSyntaxError01()throws Exception{ // https://bugs.eclipse.org/bugs/show_bug.cgi?id=191349
 		String refNameIn= "A_testAddSyntaxError01_Ref_in.java";
 		String refNameOut= "A_testAddSyntaxError01_Ref_out.java";
-		ICompilationUnit refCu= createCU(getPackageP(), refNameIn, getFileContents(getTestFolderPath(true) + refNameIn));
+		ICompilationUnit refCu= createCU(getPackageP(), refNameIn, getFileContents(getTestFolderPath(true) + refNameIn)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String[] signature= {"QString;"};
 		String[] newNames= {"newParam"};
@@ -1750,7 +1750,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		int[] newIndices= { 1 };
 		helperAdd(signature, newParamInfos, newIndices);
 
-		String expectedRefContents= getFileContents(getTestFolderPath(true) + refNameOut);
+		String expectedRefContents= getFileContents(getTestFolderPath(true) + refNameOut); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines(expectedRefContents, refCu.getSource());
 	}
 
@@ -1932,7 +1932,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "m", signature, newParamInfo, newIndices, oldParamNames, newParamNames, newParamTypeNames, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImport07() throws Exception {
 		// printTestDisabledMessage("49772: Change method signature: remove unused imports [refactoring]");
 		String[] signature= {"QList;"};
@@ -1952,7 +1952,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "m", signature, newParamInfo, newIndices, oldParamNames, newParamNames, newParamTypeNames, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImport08() throws Exception {
 		// printTestDisabledMessage("68504: Refactor -> Change Method Signature removes import [refactoring]");
 		String[] signature= {"QString;", "QVector;"};
@@ -2322,7 +2322,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 		helperDoAll("A", "m", signature, newParamInfo, newIndices, oldParamNames, newParamNames, newParameterTypeNames, permutation, newVisibility, deletedIndices, newReturnTypeName);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGenerics05() throws Exception {
 		String[] signature= { "QClass;" };
 		String[] newNames= {};

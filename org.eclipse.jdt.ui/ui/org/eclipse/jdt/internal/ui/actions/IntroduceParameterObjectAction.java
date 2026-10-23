@@ -37,7 +37,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaTextSelection;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
-public class IntroduceParameterObjectAction extends SelectionDispatchAction {
+public class IntroduceParameterObjectAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -158,7 +158,7 @@ public class IntroduceParameterObjectAction extends SelectionDispatchAction {
 		return (IMethod)element;
 	}
 
-	private IMethod getSingleSelectedMethod(ITextSelection selection) throws JavaModelException {
+	private IMethod getSingleSelectedMethod(ITextSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// - when caret/selection on method name (call or declaration) -> that method
 		// - otherwise: caret position's enclosing method declaration
 		// - when caret inside argument list of method declaration -> enclosing method declaration

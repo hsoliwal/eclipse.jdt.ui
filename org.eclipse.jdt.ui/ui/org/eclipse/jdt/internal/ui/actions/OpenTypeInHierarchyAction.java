@@ -45,7 +45,7 @@ public class OpenTypeInHierarchyAction extends Action implements IWorkbenchWindo
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this, IJavaHelpContextIds.OPEN_TYPE_IN_HIERARCHY_ACTION);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		Shell parent= JavaPlugin.getActiveWorkbenchShell();
 		OpenTypeSelectionDialog dialog= new OpenTypeSelectionDialog(parent, false,

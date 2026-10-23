@@ -167,7 +167,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.javadoc.SignatureStylingMenuToolb
  *
  * @since 3.0
  */
-public class JavadocView extends AbstractInfoView {
+public class JavadocView extends AbstractInfoView { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	/**
 	 * Implementation of a {@link BrowserInput} using
@@ -298,7 +298,7 @@ public class JavadocView extends AbstractInfoView {
 	 *
 	 * @since 3.6
 	 */
-	private static class OpenInBrowserAction extends OpenAttachedJavadocAction {
+	private static class OpenInBrowserAction extends OpenAttachedJavadocAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		/**
 		 * Create a new ShowExternalJavadocAction
@@ -499,11 +499,11 @@ public class JavadocView extends AbstractInfoView {
 		 *
 		 * @param control	the widget
 		 */
-		public SelectionProvider(Control control) {
+		public SelectionProvider(Control control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Assert.isNotNull(control);
 			fControl= control;
 			if (fControl instanceof StyledText styledText) {
-				styledText.addSelectionListener(new SelectionAdapter() {
+				styledText.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						fireSelectionChanged();
@@ -525,7 +525,7 @@ public class JavadocView extends AbstractInfoView {
 		public void fireSelectionChanged() {
 			ISelection selection= getSelection();
 			SelectionChangedEvent event= new SelectionChangedEvent(this, selection);
-			for (ISelectionChangedListener selectionChangedListener : fListeners) {
+			for (ISelectionChangedListener selectionChangedListener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				selectionChangedListener.selectionChanged(event);
 			}
 		}
@@ -557,7 +557,7 @@ public class JavadocView extends AbstractInfoView {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void internalCreatePartControl(Composite parent) {
 		try {
 			fBrowser= new Browser(parent, SWT.NONE);
@@ -597,7 +597,7 @@ public class JavadocView extends AbstractInfoView {
 			fText.setEditable(false);
 			fPresenter= new FallbackInformationPresenter();
 
-			fText.addControlListener(new ControlAdapter() {
+			fText.addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 				@Override
 				public void controlResized(ControlEvent e) {
 					doSetInput(fOriginalInput);
@@ -615,15 +615,15 @@ public class JavadocView extends AbstractInfoView {
 	 *
 	 * @since 3.3
 	 */
-	private void listenForFontChanges() {
-		fFontListener= event -> {
+	private void listenForFontChanges() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fFontListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (PreferenceConstants.APPEARANCE_JAVADOC_FONT.equals(event.getProperty())) {
 				fgStyleSheetLoaded= false;
 				// trigger reloading, but make sure other listeners have already run, so that
 				// the style sheet gets reloaded only once.
 				final Display display= getSite().getPage().getWorkbenchWindow().getWorkbench().getDisplay();
 				if (!display.isDisposed()) {
-					display.asyncExec(() -> {
+					display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (!display.isDisposed()) {
 							initStyleSheet();
 							refresh();
@@ -632,7 +632,7 @@ public class JavadocView extends AbstractInfoView {
 				}
 			}
 		};
-		JFaceResources.getFontRegistry().addListener(fFontListener);
+		JFaceResources.getFontRegistry().addListener(fFontListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	private static void initStyleSheet() {
@@ -642,7 +642,7 @@ public class JavadocView extends AbstractInfoView {
 		fgStyleSheet= JavadocHover.loadStyleSheet("/JavadocViewStyleSheet.css"); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createActions() {
 		super.createActions();
 		fSelectAllAction= new SelectAllAction(getControl(), (SelectionProvider) getSelectionProvider());
@@ -657,7 +657,7 @@ public class JavadocView extends AbstractInfoView {
 		fOpenBrowserAction.setSpecialSelectionProvider(fInputSelectionProvider);
 		fOpenBrowserAction.setImageDescriptor(JavaPluginImages.DESC_ELCL_OPEN_BROWSER);
 		fOpenBrowserAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.OPEN_ATTACHED_JAVADOC);
-		fInputSelectionProvider.addSelectionChangedListener(fOpenBrowserAction);
+		fInputSelectionProvider.addSelectionChangedListener(fOpenBrowserAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		IJavaElement input= getOrignalInput();
 		StructuredSelection selection;
@@ -676,11 +676,11 @@ public class JavadocView extends AbstractInfoView {
 		actionBars.setGlobalActionHandler(ActionFactory.BACK.getId(), fBackAction);
 		actionBars.setGlobalActionHandler(ActionFactory.FORWARD.getId(), fForthAction);
 
-		fInputSelectionProvider.addSelectionChangedListener(unused -> actionBars.setGlobalActionHandler(JdtActionConstants.OPEN_ATTACHED_JAVA_DOC, fOpenBrowserAction));
+		fInputSelectionProvider.addSelectionChangedListener(unused -> actionBars.setGlobalActionHandler(JdtActionConstants.OPEN_ATTACHED_JAVA_DOC, fOpenBrowserAction)); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void fillToolBar(IToolBarManager tbm) {
 		tbm.add(fBackAction);
 		tbm.add(fForthAction);
@@ -697,7 +697,7 @@ public class JavadocView extends AbstractInfoView {
 				// we take advantage of this method being called after toolbar item creation (in ActionContributionItem.fill()) which happens when whole toolbar is being re-created to be displayed
 				@Override
 				public void addPropertyChangeListener(IPropertyChangeListener listener) {
-					super.addPropertyChangeListener(listener);
+					super.addPropertyChangeListener(listener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 					setup(((ToolBarManager) tbm).getControl());
 				}
 			};
@@ -791,7 +791,7 @@ public class JavadocView extends AbstractInfoView {
 		getControl().setFocus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object computeInput(Object input) {
 		if (getControl() == null || ! (input instanceof IJavaElement))
 			return null;
@@ -819,7 +819,7 @@ public class JavadocView extends AbstractInfoView {
 		return computeInput(part, selection, (IJavaElement) input, new NullProgressMonitor());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object computeInput(IWorkbenchPart part, ISelection selection, IJavaElement input, IProgressMonitor monitor) {
 		if (getControl() == null || input == null)
 			return null;
@@ -892,13 +892,13 @@ public class JavadocView extends AbstractInfoView {
 	 *
 	 * @param input a String containing the HTML to be shown in the view, or <code>null</code>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doSetInput(Object input) {
 		String javadocHtml;
 		if (input instanceof String s) {
 			javadocHtml= s;
 		} else {
-			StringBuilder buffer= new StringBuilder();
+			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			HTMLPrinter.insertPageProlog(buffer, 0, fForegroundColorRGB, fBackgroundColorRGB, fgStyleSheet);
 			HTMLPrinter.addPageEpilog(buffer);
 			javadocHtml= buffer.toString();
@@ -918,7 +918,7 @@ public class JavadocView extends AbstractInfoView {
 			if (javadocHtml != null && javadocHtml.length() > 0) {
 				boolean RTL= (getSite().getShell().getStyle() & SWT.RIGHT_TO_LEFT) != 0;
 				if (RTL) {
-					StringBuilder buffer= new StringBuilder(javadocHtml);
+					StringBuilder buffer= new StringBuilder(javadocHtml); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					HTMLPrinter.insertStyles(buffer, new String[] { "direction:rtl" } ); //$NON-NLS-1$
 					javadocHtml= buffer.toString();
 				}
@@ -937,7 +937,7 @@ public class JavadocView extends AbstractInfoView {
 			fText.setText(javadocHtml);
 			TextPresentation.applyTextPresentation(fPresentation, fText);
 		}
-		for (IInputChangedListener listener : fInputChangeListeners) {
+		for (IInputChangedListener listener : fInputChangeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.inputChanged(javadocHtml);
 		}
 	}
@@ -951,8 +951,8 @@ public class JavadocView extends AbstractInfoView {
 	 * @param monitor a monitor to report progress to
 	 * @return a string with the Javadoc in HTML format, or <code>null</code> if none
 	 */
-	private String getJavadocHtml(IJavaElement[] result, IWorkbenchPart activePart, ISelection selection, IProgressMonitor monitor) {
-		StringBuilder buffer= new StringBuilder();
+	private String getJavadocHtml(IJavaElement[] result, IWorkbenchPart activePart, ISelection selection, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int nResults= result.length;
 
 		if (nResults == 0)
@@ -960,7 +960,7 @@ public class JavadocView extends AbstractInfoView {
 
 		String base= null;
 		if (nResults > 1) {
-			for (IJavaElement r : result) {
+			for (IJavaElement r : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				HTMLPrinter.startBulletList(buffer);
 				IJavaElement curr= r;
 				if (curr instanceof IMember || curr instanceof IPackageFragment || curr instanceof IPackageDeclaration || curr.getElementType() == IJavaElement.LOCAL_VARIABLE) {
@@ -972,7 +972,7 @@ public class JavadocView extends AbstractInfoView {
 			IJavaElement curr= result[0];
 			if (curr instanceof IPackageDeclaration || curr instanceof IPackageFragment) {
 				HTMLPrinter.addSmallHeader(buffer, getInfoText(curr, null, null, true));
-				buffer.append("<br>"); //$NON-NLS-1$
+				buffer.append("<br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				Reader reader= null;
 				String content= null;
 				try {
@@ -1061,7 +1061,7 @@ public class JavadocView extends AbstractInfoView {
 				HTMLPrinter.addSmallHeader(buffer, getInfoText(element, constantValue, defaultValue, true));
 
 				if (typeRoot != null && hoverRegion != null) {
-					buffer.append("<br>"); //$NON-NLS-1$
+					buffer.append("<br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					JavadocHover.addAnnotations(buffer, curr, typeRoot, hoverRegion);
 				}
 
@@ -1105,7 +1105,7 @@ public class JavadocView extends AbstractInfoView {
 		HTMLPrinter.insertPageProlog(buffer, 0, fForegroundColorRGB, fBackgroundColorRGB, JavadocHover.substituteJavaSyntaxColors(JavaElementLinks.modifyCssStyleSheet(fgStyleSheet, buffer)));
 		if (base != null) {
 			int endHeadIdx= buffer.indexOf("</head>"); //$NON-NLS-1$
-			buffer.insert(endHeadIdx, "\n<base href='" + base + "'>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			buffer.insert(endHeadIdx, "\n<base href='" + base + "'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		HTMLPrinter.addPageEpilog(buffer);
 		return buffer.toString();
@@ -1121,7 +1121,7 @@ public class JavadocView extends AbstractInfoView {
 	 * @param allowImage <code>true</code> if the Java element image should be shown
 	 * @return a string containing the member's label
 	 */
-	private String getInfoText(IJavaElement member, String constantValue, String defaultValue, boolean allowImage) {
+	private String getInfoText(IJavaElement member, String constantValue, String defaultValue, boolean allowImage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long flags= JavadocHover.getHeaderFlags(member);
 		IBinding binding= JavadocHover.getHoverBinding(member, null);
 		StringBuffer label;
@@ -1143,7 +1143,7 @@ public class JavadocView extends AbstractInfoView {
 		return JavadocHover.getImageAndLabel(member, allowImage, label.toString());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean isIgnoringNewInput(IJavaElement je, IWorkbenchPart part, ISelection selection) {
 		if (fCurrent != null && fCurrent.getInputElement() instanceof URL)
 			return false;
@@ -1176,7 +1176,7 @@ public class JavadocView extends AbstractInfoView {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IJavaElement findSelectedJavaElement(IWorkbenchPart part, ISelection selection) {
 		IJavaElement element= super.findSelectedJavaElement(part, selection);
 		try {
@@ -1255,7 +1255,7 @@ public class JavadocView extends AbstractInfoView {
 	 *   the progress monitor was cancelled
 	 * @since 3.4
 	 */
-	private String computeFieldConstant(IWorkbenchPart activePart, ISelection selection, IField resolvedField, IProgressMonitor monitor) {
+	private String computeFieldConstant(IWorkbenchPart activePart, ISelection selection, IField resolvedField, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!JavadocHover.isStaticFinal(resolvedField))
 			return null;
@@ -1272,7 +1272,7 @@ public class JavadocView extends AbstractInfoView {
 		}
 
 		if (constantValue != null)
-			return JavadocHover.CONSTANT_VALUE_SEPARATOR + formatCompilerConstantValue(constantValue);
+			return JavadocHover.CONSTANT_VALUE_SEPARATOR + formatCompilerConstantValue(constantValue); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		return null;
 	}
@@ -1286,7 +1286,7 @@ public class JavadocView extends AbstractInfoView {
 	 *   (or if the progress was cancelled).
 	 * @since 3.4
 	 */
-	public static Object computeFieldConstantFromTypeAST(IField constantField, IProgressMonitor monitor) {
+	public static Object computeFieldConstantFromTypeAST(IField constantField, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor != null && monitor.isCanceled())
 			return null;
 
@@ -1357,15 +1357,15 @@ public class JavadocView extends AbstractInfoView {
 	 */
 	private static String formatCompilerConstantValue(Object constantValue) {
 		if (constantValue instanceof String stringConstant) {
-			StringBuilder result= new StringBuilder();
-			result.append('"');
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			result.append('"'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (stringConstant.length() > 80) {
-				result.append(stringConstant.substring(0, 80));
-				result.append(JavaElementLabels.ELLIPSIS_STRING);
+				result.append(stringConstant.substring(0, 80)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(JavaElementLabels.ELLIPSIS_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				result.append(stringConstant);
+				result.append(stringConstant); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			result.append('"');
+			result.append('"'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return result.toString();
 
 		} else {
@@ -1381,7 +1381,7 @@ public class JavadocView extends AbstractInfoView {
 	 * @param browser the browser to add a listener to
 	 * @since 3.4
 	 */
-	private void addLinkListener(Browser browser) {
+	private void addLinkListener(Browser browser) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		browser.addLocationListener(JavaElementLinks.createLocationListener(new JavaElementLinks.ILinkHandler() {
 
 			@Override

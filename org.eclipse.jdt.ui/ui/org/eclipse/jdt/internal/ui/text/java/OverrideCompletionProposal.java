@@ -60,7 +60,7 @@ import org.eclipse.jdt.internal.corext.dom.IASTSharedValues;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
 
-public class OverrideCompletionProposal extends JavaTypeCompletionProposal {
+public class OverrideCompletionProposal extends JavaTypeCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private String fMethodName;
 	private String[] fParamTypes;
@@ -75,9 +75,9 @@ public class OverrideCompletionProposal extends JavaTypeCompletionProposal {
 		fParamTypes= paramTypes;
 		fMethodName= methodName;
 
-		StringBuilder buffer= new StringBuilder();
-		buffer.append(completionProposal);
-		buffer.append(" {};"); //$NON-NLS-1$
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(completionProposal); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(" {};"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		setReplacementString(buffer.toString());
 	}
@@ -90,7 +90,7 @@ public class OverrideCompletionProposal extends JavaTypeCompletionProposal {
 		return fMethodName;
 	}
 
-	private CompilationUnit getRecoveredAST(IDocument document, int offset, Document recoveredDocument) {
+	private CompilationUnit getRecoveredAST(IDocument document, int offset, Document recoveredDocument) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit ast= SharedASTProviderCore.getAST(fCompilationUnit, SharedASTProviderCore.WAIT_ACTIVE_ONLY, null);
 		if (ast != null) {
 			recoveredDocument.set(document.get());
@@ -101,7 +101,7 @@ public class OverrideCompletionProposal extends JavaTypeCompletionProposal {
 
 		// clear prefix to avoid compile errors
 		int index= offset - 1;
-		while (index >= 0 && Character.isJavaIdentifierPart(content[index])) {
+		while (index >= 0 && Character.isJavaIdentifierPart(content[index])) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			content[index]= ' ';
 			index--;
 		}
@@ -120,7 +120,7 @@ public class OverrideCompletionProposal extends JavaTypeCompletionProposal {
 	/*
 	 * @see JavaTypeCompletionProposal#updateReplacementString(IDocument,char,int,ImportRewrite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateReplacementString(IDocument document, char trigger, int offset, ImportRewrite importRewrite) throws CoreException, BadLocationException {
 		Document recoveredDocument= new Document();
 		CompilationUnit unit= getRecoveredAST(document, offset, recoveredDocument);

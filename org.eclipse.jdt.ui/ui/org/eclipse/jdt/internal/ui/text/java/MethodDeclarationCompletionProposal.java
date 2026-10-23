@@ -57,7 +57,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
 /**
  * Method declaration proposal.
  */
-public class MethodDeclarationCompletionProposal extends JavaTypeCompletionProposal {
+public class MethodDeclarationCompletionProposal extends JavaTypeCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 
 	public static void evaluateProposals(IType type, String prefix, int offset, int length, int relevance, Set<String> suggestedMethods, Collection<IJavaCompletionProposal> result) throws CoreException {
@@ -78,7 +78,7 @@ public class MethodDeclarationCompletionProposal extends JavaTypeCompletionPropo
 	}
 
 	private static boolean hasMethod(IMethod[] methods, String name) {
-		for (IMethod curr : methods) {
+		for (IMethod curr : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getElementName().equals(name) && curr.getParameterTypes().length == 0) {
 				return true;
 			}
@@ -87,7 +87,7 @@ public class MethodDeclarationCompletionProposal extends JavaTypeCompletionPropo
 	}
 
 	private static boolean hasRecordComponent(IField[] components, String name) {
-		for (IField curr : components) {
+		for (IField curr : components) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getElementName().equals(name)) {
 				return true;
 			}
@@ -99,7 +99,7 @@ public class MethodDeclarationCompletionProposal extends JavaTypeCompletionPropo
 	private final String fReturnTypeSig;
 	private final String fMethodName;
 
-	public MethodDeclarationCompletionProposal(IType type, String methodName, String returnTypeSig, int start, int length, int relevance) {
+	public MethodDeclarationCompletionProposal(IType type, String methodName, String returnTypeSig, int start, int length, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", type.getCompilationUnit(), start, length, null, getDisplayName(methodName, returnTypeSig), relevance); //$NON-NLS-1$
 		Assert.isNotNull(type);
 		Assert.isNotNull(methodName);
@@ -135,7 +135,7 @@ public class MethodDeclarationCompletionProposal extends JavaTypeCompletionPropo
 		return buf;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateReplacementString(IDocument document, char trigger, int offset, ImportRewrite impRewrite) throws CoreException, BadLocationException {
 
 		CodeGenerationSettings settings= JavaPreferencesSettings.getCodeGenerationSettings(fType.getJavaProject());
@@ -146,69 +146,69 @@ public class MethodDeclarationCompletionProposal extends JavaTypeCompletionPropo
 		String declTypeName= fType.getTypeQualifiedName('.');
 		boolean isInterface= fType.isInterface();
 
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (addComments) {
 			String comment= CodeGeneration.getMethodComment(fType.getCompilationUnit(), declTypeName, fMethodName, empty, empty, fReturnTypeSig, empty, null, lineDelim);
 			if (comment != null) {
-				buf.append(comment);
-				buf.append(lineDelim);
+				buf.append(comment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		if (fReturnTypeSig != null) {
 			if (fType.isRecord()) {
-				buf.append("public "); //$NON-NLS-1$
+				buf.append("public "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else if (!isInterface) {
-				buf.append("private "); //$NON-NLS-1$
+				buf.append("private "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else {
 			if (fType.isEnum())
-				buf.append("private "); //$NON-NLS-1$
+				buf.append("private "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			else
-				buf.append("public "); //$NON-NLS-1$
+				buf.append("public "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (fReturnTypeSig != null) {
-			buf.append(Signature.toString(fReturnTypeSig));
+			buf.append(Signature.toString(fReturnTypeSig)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(' ');
-		buf.append(fMethodName);
+		buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(fMethodName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isInterface) {
-			buf.append("();"); //$NON-NLS-1$
-			buf.append(lineDelim);
+			buf.append("();"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("("); //$NON-NLS-1$
+			buf.append("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (fType.isRecord() && fReturnTypeSig == null) {
 				IField[] components= fType.getRecordComponents();
 				String separator= ""; //$NON-NLS-1$
-				for (IField component : components) {
-					buf.append(separator + Signature.toString(component.getTypeSignature()));
-					buf.append(" " + component.getElementName()); //$NON-NLS-1$
+				for (IField component : components) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buf.append(separator + Signature.toString(component.getTypeSignature())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(" " + component.getElementName()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					separator= ", "; //$NON-NLS-1$
 				}
 			}
-			buf.append(") {"); //$NON-NLS-1$
-			buf.append(lineDelim);
+			buf.append(") {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (fType.isRecord() && fReturnTypeSig == null) {
 				IJavaProject javaProject= impRewrite.getCompilationUnit().getJavaProject();
-				StringBuilder sb= new StringBuilder();
+				StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (JavaCore.INSERT.equals(javaProject.getOption(DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_BEFORE_ASSIGNMENT_OPERATOR, true)))
-					sb.append(' ');
-				sb.append('=');
+					sb.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				sb.append('='); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (JavaCore.INSERT.equals(javaProject.getOption(DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_AFTER_ASSIGNMENT_OPERATOR, true)))
-					sb.append(' ');
+					sb.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				IField[] components= fType.getRecordComponents();
-				for (IField component : components) {
-					buf.append("\tthis." + component.getElementName() + sb.toString() + component.getElementName() + ";" + lineDelim); //$NON-NLS-1$ //$NON-NLS-2$
+				for (IField component : components) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buf.append("\tthis." + component.getElementName() + sb.toString() + component.getElementName() + ";" + lineDelim); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 
 			String body= CodeGeneration.getMethodBodyContent(fType.getCompilationUnit(), declTypeName, fMethodName, fReturnTypeSig == null, "", lineDelim); //$NON-NLS-1$
 			if (body != null) {
-				buf.append(body);
-				buf.append(lineDelim);
+				buf.append(body); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append("}"); //$NON-NLS-1$
-			buf.append(lineDelim);
+			buf.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		String stub=  buf.toString();
 

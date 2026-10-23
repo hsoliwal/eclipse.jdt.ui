@@ -93,13 +93,13 @@ public class TypedElement extends BufferedContent implements ITypedElement, IStr
 		return new TypedElement[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected InputStream createStream() throws CoreException {
 		byte[] classBytes = JdtUtils.readClassBytes(element);
 		if (classBytes == null) {
 			throw new CoreException(new Status(
 					IStatus.ERROR, "org.eclipse.jdt.bcoview", -1, //$NON-NLS-1$
-					"Can't read bytecode for: " + element, null)); //$NON-NLS-1$
+					"Can't read bytecode for: " + element, null)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		DecompiledClass decompiledClass = null;
 		try {
@@ -113,7 +113,7 @@ public class TypedElement extends BufferedContent implements ITypedElement, IStr
 		}
 		final byte[] bytes = decompiledClass.getText().getBytes(StandardCharsets.UTF_8);
 		// use internal buffering to prevent multiple calls to this method
-		Display.getDefault().syncExec(() -> setContent(bytes));
+		Display.getDefault().syncExec(() -> setContent(bytes)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 		return new ByteArrayInputStream(bytes);
 	}

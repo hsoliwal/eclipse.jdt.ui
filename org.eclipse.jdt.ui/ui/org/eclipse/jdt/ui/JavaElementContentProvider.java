@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-@Deprecated
+@Deprecated //FLLDCIM: MARK — M22  IMPLEMENTS
 public class JavaElementContentProvider extends StandardJavaElementContentProvider implements IElementChangedListener {
 
 	/** The tree viewer */
@@ -72,7 +72,7 @@ public class JavaElementContentProvider extends StandardJavaElementContentProvid
 		super.inputChanged(viewer, oldInput, newInput);
 		fViewer= (TreeViewer)viewer;
 		if (oldInput == null && newInput != null) {
-			JavaCore.addElementChangedListener(this);
+			JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		} else if (oldInput != null && newInput == null) {
 			JavaCore.removeElementChangedListener(this);
 		}
@@ -120,7 +120,7 @@ public class JavaElementContentProvider extends StandardJavaElementContentProvid
 	 *
 	 * @throws JavaModelException if an error occurs while processing the delta
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void processDelta(IJavaElementDelta delta) throws JavaModelException {
 		int kind= delta.getKind();
 		int flags= delta.getFlags();
@@ -195,7 +195,7 @@ public class JavaElementContentProvider extends StandardJavaElementContentProvid
 		}
 
 		if (delta.getResourceDeltas() != null) {
-			for (IResourceDelta r : delta.getResourceDeltas()) {
+			for (IResourceDelta r : delta.getResourceDeltas()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				processResourceDelta(r, element);
 			}
 		}
@@ -221,7 +221,7 @@ public class JavaElementContentProvider extends StandardJavaElementContentProvid
 				postRefresh(element);
 			return;
 		}
-		for (IJavaElementDelta affectedChild : affectedChildren) {
+		for (IJavaElementDelta affectedChild : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processDelta(affectedChild);
 		}
 	}
@@ -249,7 +249,7 @@ public class JavaElementContentProvider extends StandardJavaElementContentProvid
 	/*
 	 * Process resource deltas
 	 */
-	private void processResourceDelta(IResourceDelta delta, Object parent) {
+	private void processResourceDelta(IResourceDelta delta, Object parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int status= delta.getKind();
 		IResource resource= delta.getResource();
 		// filter out changes affecting the output folder
@@ -279,7 +279,7 @@ public class JavaElementContentProvider extends StandardJavaElementContentProvid
 			return;
 		}
 
-		for (IResourceDelta affectedChild : affectedChildren) {
+		for (IResourceDelta affectedChild : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processResourceDelta(affectedChild, resource);
 		}
 	}
@@ -289,7 +289,7 @@ public class JavaElementContentProvider extends StandardJavaElementContentProvid
 			// 1GF87WR: ITPUI:ALL - SWTEx + NPE closing a workbench window.
 			Control ctrl= fViewer.getControl();
 			if (ctrl != null && !ctrl.isDisposed())
-				fViewer.refresh(root);
+				fViewer.refresh(root); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		});
 	}
 
@@ -314,7 +314,7 @@ public class JavaElementContentProvider extends StandardJavaElementContentProvid
 	private void postRunnable(final Runnable r) {
 		Control ctrl= fViewer.getControl();
 		if (ctrl != null && !ctrl.isDisposed()) {
-			ctrl.getDisplay().asyncExec(r);
+			ctrl.getDisplay().asyncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 }

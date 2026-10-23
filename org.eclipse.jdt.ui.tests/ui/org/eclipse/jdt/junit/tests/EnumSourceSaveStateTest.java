@@ -66,7 +66,7 @@ import org.eclipse.jdt.ui.tests.core.rules.ProjectTestSetup;
  */
 public class EnumSourceSaveStateTest {
 
-	private static final String USER_EDIT= "// Unsaved user change" + System.lineSeparator(); //$NON-NLS-1$
+	private static final String USER_EDIT= "// Unsaved user change" + System.lineSeparator(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private enum EditorState {
 		CLOSED, SAVED, DIRTY
@@ -154,37 +154,37 @@ public class EnumSourceSaveStateTest {
 	public void testRejectedLastValueDoesNotSaveDirtyEditor() throws Exception {
 		IMethod method= createTest(Operation.REINCLUDE_ONE);
 		ICompilationUnit cu= method.getCompilationUnit();
-		String context= "REJECT_LAST_VALUE/DIRTY " + cu.getPath(); //$NON-NLS-1$
+		String context= "REJECT_LAST_VALUE/DIRTY " + cu.getPath(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String savedSource= readFile(cu);
 		openEditor(cu, EditorState.DIRTY, context);
 		String original= document().get();
 
-		assertFalse(context + ": the last executable BLUE value must not be excluded from " + methodContext(method), //$NON-NLS-1$
+		assertFalse(context + ": the last executable BLUE value must not be excluded from " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "BLUE")); //$NON-NLS-1$
 
-		assertEquals(context + ": A rejected edit must preserve the document", original, document().get()); //$NON-NLS-1$
-		assertEquals(context + ": A rejected edit must not save user changes", savedSource, readFile(cu)); //$NON-NLS-1$
-		assertTrue(context + ": The editor must remain dirty", fEditor.isDirty()); //$NON-NLS-1$
-		assertFalse(context + ": A rejected edit must not register an undo change", RefactoringCore.getUndoManager().anythingToUndo()); //$NON-NLS-1$
+		assertEquals(context + ": A rejected edit must preserve the document", original, document().get()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(context + ": A rejected edit must not save user changes", savedSource, readFile(cu)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue(context + ": The editor must remain dirty", fEditor.isDirty()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertFalse(context + ": A rejected edit must not register an undo change", RefactoringCore.getUndoManager().anythingToUndo()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void assertSaveState(Operation operation, EditorState state) throws Exception {
+	private void assertSaveState(Operation operation, EditorState state) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethod method= createTest(operation);
 		ICompilationUnit cu= method.getCompilationUnit();
-		String context= operation + "/" + state + " " + cu.getPath(); //$NON-NLS-1$ //$NON-NLS-2$
+		String context= operation + "/" + state + " " + cu.getPath(); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String savedSource= readFile(cu);
 		if (state != EditorState.CLOSED) {
 			openEditor(cu, state, context);
 		}
 		String original= cu.getSource();
-		assertEquals(context + ": fixture must still have its original disk content", savedSource, readFile(cu)); //$NON-NLS-1$
+		assertEquals(context + ": fixture must still have its original disk content", savedSource, readFile(cu)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		boolean changed= switch (operation) {
 			case EXCLUDE -> EnumSourceValidator.excludeEnumValue(method, "GREEN"); //$NON-NLS-1$
 			case REINCLUDE_ONE -> EnumSourceValidator.removeValueFromExclusion(method, "GREEN"); //$NON-NLS-1$
 			case REINCLUDE_ALL -> EnumSourceValidator.removeExcludeMode(method);
 		};
-		assertTrue(context + ": the requested source edit must succeed for " + sourceContext(cu), changed); //$NON-NLS-1$
+		assertTrue(context + ": the requested source edit must succeed for " + sourceContext(cu), changed); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String modified= cu.getSource();
 		assertCompiles(cu);
 		List<String> expectedExcluded= switch (operation) {
@@ -205,42 +205,42 @@ public class EnumSourceSaveStateTest {
 		}
 		assertState(context, cu, modified, state == EditorState.DIRTY ? savedSource : modified, state == EditorState.DIRTY);
 		if (state == EditorState.DIRTY) {
-			assertTrue(context + ": unrelated user text must remain in the document: " + modified, modified.startsWith(USER_EDIT)); //$NON-NLS-1$
+			assertTrue(context + ": unrelated user text must remain in the document: " + modified, modified.startsWith(USER_EDIT)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		IUndoManager undoManager= RefactoringCore.getUndoManager();
-		assertTrue(context + ": edit must support undo", undoManager.anythingToUndo()); //$NON-NLS-1$
+		assertTrue(context + ": edit must support undo", undoManager.anythingToUndo()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		undoManager.performUndo(null, new NullProgressMonitor());
-		assertState(context + "/undo", cu, original, savedSource, state == EditorState.DIRTY); //$NON-NLS-1$
-		assertTrue(context + ": edit must support redo", undoManager.anythingToRedo()); //$NON-NLS-1$
+		assertState(context + "/undo", cu, original, savedSource, state == EditorState.DIRTY); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue(context + ": edit must support redo", undoManager.anythingToRedo()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		undoManager.performRedo(null, new NullProgressMonitor());
-		assertState(context + "/redo", cu, modified, state == EditorState.DIRTY ? savedSource : modified, state == EditorState.DIRTY); //$NON-NLS-1$
+		assertState(context + "/redo", cu, modified, state == EditorState.DIRTY ? savedSource : modified, state == EditorState.DIRTY); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void assertState(String context, ICompilationUnit cu, String expectedDocument, String expectedFile, boolean dirty) throws Exception {
-		assertEquals(context + ": editor document", expectedDocument, document().get()); //$NON-NLS-1$
-		assertEquals(context + ": Java working copy", expectedDocument, cu.getSource()); //$NON-NLS-1$
-		assertEquals(context + ": workspace file", expectedFile, readFile(cu)); //$NON-NLS-1$
-		assertEquals(context + ": editor dirty state", dirty, fEditor.isDirty()); //$NON-NLS-1$
+		assertEquals(context + ": editor document", expectedDocument, document().get()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(context + ": Java working copy", expectedDocument, cu.getSource()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(context + ": workspace file", expectedFile, readFile(cu)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(context + ": editor dirty state", dirty, fEditor.isDirty()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void openEditor(ICompilationUnit cu, EditorState state, String context) throws Exception {
 		fEditor= (ITextEditor) JavaUI.openInEditor(cu);
-		assertNotNull(context + ": expected a Java editor", fEditor); //$NON-NLS-1$
-		assertFalse(context + ": the editor must start saved", fEditor.isDirty()); //$NON-NLS-1$
+		assertNotNull(context + ": expected a Java editor", fEditor); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertFalse(context + ": the editor must start saved", fEditor.isDirty()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (state == EditorState.DIRTY) {
 			document().replace(0, 0, USER_EDIT);
-			assertTrue(context + ": the fixture must contain unsaved user text", fEditor.isDirty()); //$NON-NLS-1$
+			assertTrue(context + ": the fixture must contain unsaved user text", fEditor.isDirty()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private IDocument document() {
 		IDocument document= fEditor.getDocumentProvider().getDocument(fEditor.getEditorInput());
-		assertNotNull("Expected the editor document for " + fEditor.getEditorInput().getName(), document); //$NON-NLS-1$
+		assertNotNull("Expected the editor document for " + fEditor.getEditorInput().getName(), document); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return document;
 	}
 
-	private IMethod createTest(Operation operation) throws Exception {
+	private IMethod createTest(Operation operation) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String filter= operation == Operation.EXCLUDE ? "" //$NON-NLS-1$
 				: ", mode = EnumSource.Mode.EXCLUDE, names = { \"RED\", \"GREEN\" }"; //$NON-NLS-1$
 		ICompilationUnit cu= EnumSourceTestSupport.createCompilationUnit(fSourceFolder, "test1", "MyTest.java", """

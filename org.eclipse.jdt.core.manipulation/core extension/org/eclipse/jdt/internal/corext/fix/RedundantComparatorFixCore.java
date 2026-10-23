@@ -69,7 +69,7 @@ public class RedundantComparatorFixCore extends CompilationUnitRewriteOperations
 			fResult= ops;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final MethodInvocation visited) {
 			IMethodBinding methodBinding= visited.resolveMethodBinding();
 
@@ -112,7 +112,7 @@ public class RedundantComparatorFixCore extends CompilationUnitRewriteOperations
 			return true;
 		}
 
-		private boolean maybeRefactorTypedCode(
+		private boolean maybeRefactorTypedCode( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				final MethodInvocation visitedIfRefactoringNeeded,
 				final Expression list,
 				final Expression comparatorToRemove,
@@ -253,7 +253,7 @@ public class RedundantComparatorFixCore extends CompilationUnitRewriteOperations
 			return true;
 		}
 
-		private boolean isComparable(final ITypeBinding classBinding) {
+		private boolean isComparable(final ITypeBinding classBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if ("java.lang.Comparable".equals(classBinding.getErasure().getQualifiedName())) { //$NON-NLS-1$
 				return true;
 			}
@@ -264,7 +264,7 @@ public class RedundantComparatorFixCore extends CompilationUnitRewriteOperations
 				return true;
 			}
 
-			for (ITypeBinding binding : classBinding.getInterfaces()) {
+			for (ITypeBinding binding : classBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isComparable(binding)) {
 					return true;
 				}
@@ -273,7 +273,7 @@ public class RedundantComparatorFixCore extends CompilationUnitRewriteOperations
 			return false;
 		}
 
-		private boolean isClassToRemove(final ClassInstanceCreation classInstanceCreation, final boolean isForward) {
+		private boolean isClassToRemove(final ClassInstanceCreation classInstanceCreation, final boolean isForward) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			AnonymousClassDeclaration anonymousClassDecl= classInstanceCreation.getAnonymousClassDeclaration();
 			Type type= classInstanceCreation.getType();
 
@@ -314,7 +314,7 @@ public class RedundantComparatorFixCore extends CompilationUnitRewriteOperations
 			return false;
 		}
 
-		private boolean isReturnedExpressionToRemove(final SimpleName name1, final SimpleName name2,
+		private boolean isReturnedExpressionToRemove(final SimpleName name1, final SimpleName name2, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				final Expression returnExpression, final boolean isForward) {
 			PrefixExpression negativeExpression= ASTNodes.as(returnExpression, PrefixExpression.class);
 
@@ -395,7 +395,7 @@ public class RedundantComparatorFixCore extends CompilationUnitRewriteOperations
 			this.comparator= comparator;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -428,7 +428,7 @@ public class RedundantComparatorFixCore extends CompilationUnitRewriteOperations
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<RedundantComparatorFixOperation> operations= new ArrayList<>();
+		List<RedundantComparatorFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		RedundantComparatorFinder finder= new RedundantComparatorFinder(operations);
 		compilationUnit.accept(finder);
 

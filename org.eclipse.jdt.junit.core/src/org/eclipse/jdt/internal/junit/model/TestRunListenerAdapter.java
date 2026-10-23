@@ -38,25 +38,25 @@ public class TestRunListenerAdapter implements ITestSessionListener {
 	}
 
 	private void fireSessionStarted() {
-		for (TestRunListener listener : getListenerList()) {
+		for (TestRunListener listener : getListenerList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.sessionStarted(fSession);
 		}
 	}
 
 	private void fireSessionFinished() {
-		for (TestRunListener listener : getListenerList()) {
+		for (TestRunListener listener : getListenerList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.sessionFinished(fSession);
 		}
 	}
 
 	private void fireTestCaseStarted(ITestCaseElement testCaseElement) {
-		for (TestRunListener listener : getListenerList()) {
+		for (TestRunListener listener : getListenerList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.testCaseStarted(testCaseElement);
 		}
 	}
 
 	private void fireTestCaseFinished(ITestCaseElement testCaseElement) {
-		for (TestRunListener listener : getListenerList()) {
+		for (TestRunListener listener : getListenerList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.testCaseFinished(testCaseElement);
 		}
 	}

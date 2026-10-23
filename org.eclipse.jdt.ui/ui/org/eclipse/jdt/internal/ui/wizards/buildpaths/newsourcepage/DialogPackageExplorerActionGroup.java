@@ -64,7 +64,7 @@ public class DialogPackageExplorerActionGroup extends CompositeActionGroup {
      * @param dialogPackageExplorer the package explorer for which to contribute the actions to
      * @param page the page showing the package explorer
      */
-    public DialogPackageExplorerActionGroup(HintTextGroup provider, IRunnableContext context, DialogPackageExplorer dialogPackageExplorer, final NewSourceContainerWorkbookPage page) {
+    public DialogPackageExplorerActionGroup(HintTextGroup provider, IRunnableContext context, DialogPackageExplorer dialogPackageExplorer, final NewSourceContainerWorkbookPage page) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         super();
 
         fDialogPackageExplorer= dialogPackageExplorer;
@@ -72,66 +72,66 @@ public class DialogPackageExplorerActionGroup extends CompositeActionGroup {
         if (context == null)
         	context= PlatformUI.getWorkbench().getProgressService();
 
-        fAddFolderToBuildpathAction= new AddFolderToBuildpathAction(context, fDialogPackageExplorer) {
+        fAddFolderToBuildpathAction= new AddFolderToBuildpathAction(context, fDialogPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
         	@Override
 			public void run() {
         		page.commitDefaultOutputFolder();
         	    super.run();
         	}
         };
-		fDialogPackageExplorer.addSelectionChangedListener(fAddFolderToBuildpathAction);
+		fDialogPackageExplorer.addSelectionChangedListener(fAddFolderToBuildpathAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		fRemoveFromBuildpathAction= new RemoveFromBuildpathAction(context, fDialogPackageExplorer) {
+		fRemoveFromBuildpathAction= new RemoveFromBuildpathAction(context, fDialogPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
         	@Override
 			public void run() {
         		page.commitDefaultOutputFolder();
         	    super.run();
         	}
         };
-		fDialogPackageExplorer.addSelectionChangedListener(fRemoveFromBuildpathAction);
+		fDialogPackageExplorer.addSelectionChangedListener(fRemoveFromBuildpathAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		fExcludeFromBuildpathAction= new ExcludeFromBuildpathAction(context, fDialogPackageExplorer) {
+		fExcludeFromBuildpathAction= new ExcludeFromBuildpathAction(context, fDialogPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
         	@Override
 			public void run() {
         		page.commitDefaultOutputFolder();
         	    super.run();
         	}
         };
-		fDialogPackageExplorer.addSelectionChangedListener(fExcludeFromBuildpathAction);
+		fDialogPackageExplorer.addSelectionChangedListener(fExcludeFromBuildpathAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		fIncludeToBuildpathAction= new IncludeToBuildpathAction(context, fDialogPackageExplorer) {
+		fIncludeToBuildpathAction= new IncludeToBuildpathAction(context, fDialogPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
         	@Override
 			public void run() {
         		page.commitDefaultOutputFolder();
         	    super.run();
         	}
         };
-		fDialogPackageExplorer.addSelectionChangedListener(fIncludeToBuildpathAction);
+		fDialogPackageExplorer.addSelectionChangedListener(fIncludeToBuildpathAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-			fEditFilterAction= new EditFilterAction(fDialogPackageExplorer) {
+			fEditFilterAction= new EditFilterAction(fDialogPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
 	        	@Override
 				public void run() {
 	        		page.commitDefaultOutputFolder();
 	        	    super.run();
 	        	}
 	        };
-			fDialogPackageExplorer.addSelectionChangedListener(fEditFilterAction);
+			fDialogPackageExplorer.addSelectionChangedListener(fEditFilterAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-	        fEditOutputFolderAction= new EditOutputFolderAction(context, fDialogPackageExplorer) {
+	        fEditOutputFolderAction= new EditOutputFolderAction(context, fDialogPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
 	        	@Override
 				public void run() {
 	        		page.commitDefaultOutputFolder();
 	        	    super.run();
 	        	}
 	        };
-			fDialogPackageExplorer.addSelectionChangedListener(fEditOutputFolderAction);
+			fDialogPackageExplorer.addSelectionChangedListener(fEditOutputFolderAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
         fDropDownAction= new ClasspathModifierDropDownAction();
 		fDropDownAction.addAction(fEditFilterAction);
         fDropDownAction.addAction(fEditOutputFolderAction);
-		fDialogPackageExplorer.addPostSelectionChangedListener(fDropDownAction);
+		fDialogPackageExplorer.addPostSelectionChangedListener(fDropDownAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-        fCreateLinkedSourceFolderAction= new CreateLinkedSourceFolderAction2(provider, fDialogPackageExplorer) {
+        fCreateLinkedSourceFolderAction= new CreateLinkedSourceFolderAction2(provider, fDialogPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
         	@Override
 			public void run() {
         		page.commitDefaultOutputFolder();
@@ -140,7 +140,7 @@ public class DialogPackageExplorerActionGroup extends CompositeActionGroup {
 
         	@Override
 			protected List<IJavaProject> getSelectedElements() {
-        		ArrayList<IJavaProject> result= new ArrayList<>();
+        		ArrayList<IJavaProject> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         		result.add(page.getJavaProject());
         		return result;
         	}
@@ -151,7 +151,7 @@ public class DialogPackageExplorerActionGroup extends CompositeActionGroup {
         	}
         };
 
-        fCreateSourceFolderAction= new CreateSourceFolderAction2(provider, fDialogPackageExplorer) {
+        fCreateSourceFolderAction= new CreateSourceFolderAction2(provider, fDialogPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
         	@Override
 			public void run() {
         		page.commitDefaultOutputFolder();
@@ -160,7 +160,7 @@ public class DialogPackageExplorerActionGroup extends CompositeActionGroup {
 
         	@Override
 			protected List<IJavaProject> getSelectedElements() {
-        		ArrayList<IJavaProject> result= new ArrayList<>();
+        		ArrayList<IJavaProject> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         		result.add(page.getJavaProject());
         		return result;
         	}
@@ -267,7 +267,7 @@ public class DialogPackageExplorerActionGroup extends CompositeActionGroup {
      *
      * @param menu the menu to be filled up with actions
      */
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fillContextMenu(IMenuManager menu) {
 
     	if (fAddFolderToBuildpathAction.isEnabled())
@@ -297,8 +297,8 @@ public class DialogPackageExplorerActionGroup extends CompositeActionGroup {
         super.fillContextMenu(menu);
     }
 
-	public BuildpathModifierAction[] getHintTextGroupActions() {
-		List<BuildpathModifierAction> result= new ArrayList<>();
+	public BuildpathModifierAction[] getHintTextGroupActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<BuildpathModifierAction> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
     	if (fCreateSourceFolderAction.isEnabled())
     		result.add(fCreateSourceFolderAction);

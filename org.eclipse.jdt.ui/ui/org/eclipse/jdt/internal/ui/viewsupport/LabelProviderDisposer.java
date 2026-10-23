@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
  * Helper class to manage images that should be disposed when a control is disposed
  * contol.addWidgetListener(new LabelProviderDisposer(myLabelProvider));
  */
-public class LabelProviderDisposer implements DisposeListener {
+public class LabelProviderDisposer implements DisposeListener { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 	private ILabelProvider fLabelProvider;
 

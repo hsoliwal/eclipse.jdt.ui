@@ -114,7 +114,7 @@ public class JavadocConfigurationBlock {
 	boolean fIsForSource;
 
 
-	public JavadocConfigurationBlock(Shell shell,  IStatusChangeListener context, URL initURL, boolean forSource) {
+	public JavadocConfigurationBlock(Shell shell,  IStatusChangeListener context, URL initURL, boolean forSource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fShell= shell;
 		fContext= context;
 		fInitialURL= initURL;
@@ -181,7 +181,7 @@ public class JavadocConfigurationBlock {
 		initializeSelections();
 	}
 
-	public Control createContents(Composite parent) {
+	public Control createContents(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fShell= parent.getShell();
 
 		PixelConverter converter= new PixelConverter(parent);
@@ -257,7 +257,7 @@ public class JavadocConfigurationBlock {
 		return topComp;
 	}
 
-	private void initializeSelections() {
+	private void initializeSelections() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String initialValue = fInitialURL != null ? fInitialURL.toExternalForm() : ""; //$NON-NLS-1$
 
 		if (fIsForSource) {
@@ -341,7 +341,7 @@ public class JavadocConfigurationBlock {
 		private String fTitle=  PreferencesMessages.JavadocConfigurationBlock_MessageDialog_title;
 		private String fUnable= PreferencesMessages.JavadocConfigurationBlock_UnableToValidateLocation_message;
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 
 			URL location= getJavadocLocation();
@@ -369,7 +369,7 @@ public class JavadocConfigurationBlock {
 			OpenBrowserUtil.openExternal(url, fShell.getDisplay());
 		}
 
-		private void validateFile(URL location) throws MalformedURLException {
+		private void validateFile(URL location) throws MalformedURLException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			File folder = JavaDocLocations.toFile(location);
 			if (folder.isDirectory()) {
 				File indexFile= new File(folder, "index.html"); //$NON-NLS-1$
@@ -388,7 +388,7 @@ public class JavadocConfigurationBlock {
 			MessageDialog.openWarning(fShell, fTitle, fInvalidMessage);
 		}
 
-		private void validateURL(URL location) throws MalformedURLException, URISyntaxException {
+		private void validateURL(URL location) throws MalformedURLException, URISyntaxException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			URI path= URIUtil.toURI(location);
 			URI index = URIUtil.append(path, "index.html"); //$NON-NLS-1$
 			URI packagelist = URIUtil.append(path, "package-list"); //$NON-NLS-1$
@@ -424,7 +424,7 @@ public class JavadocConfigurationBlock {
 		}
 	}
 
-	private boolean checkURLConnection(URL url) {
+	private boolean checkURLConnection(URL url) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int res= 0;
 		URLConnection connection= null;
 		try {
@@ -435,7 +435,7 @@ public class JavadocConfigurationBlock {
 			}
 			try (InputStream is = connection.getInputStream()) {
 				byte[] buffer= new byte[256];
-				while (is.read(buffer) != -1) {
+				while (is.read(buffer) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// just read
 				}
 			}
@@ -458,7 +458,7 @@ public class JavadocConfigurationBlock {
 	}
 
 
-	private void jdocDialogFieldChanged(DialogField field) {
+	private void jdocDialogFieldChanged(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (field == fURLField) {
 			fURLStatus= updateURLStatus();
 			statusChanged();
@@ -497,7 +497,7 @@ public class JavadocConfigurationBlock {
 		}
 	}
 
-	private void statusChanged() {
+	private void statusChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus status;
 		boolean isURL= fIsForSource || fURLRadioButton.isSelected();
 		if (isURL) {
@@ -524,19 +524,19 @@ public class JavadocConfigurationBlock {
 	}
 
 	private String encodeExclamationMarks(String str) {
-		StringBuilder buf= new StringBuilder(str.length());
-		for (int i= 0; i < str.length(); i++) {
+		StringBuilder buf= new StringBuilder(str.length()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < str.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= str.charAt(i);
 			if (ch == '!') {
-				buf.append("%21"); //$NON-NLS-1$
+				buf.append("%21"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buf.append(ch);
+				buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return buf.toString();
 	}
 
-	private String internalChooseArchivePath() {
+	private String internalChooseArchivePath() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try (ZipFile zipFile= createZipFile()) {
 			if (zipFile == null) {
 				return null;
@@ -577,12 +577,12 @@ public class JavadocConfigurationBlock {
 			if (resource != null) {
 				IPath location= resource.getLocation();
 				if (location != null) {
-					return new ZipFile(location.toOSString());
+					return new ZipFile(location.toOSString()); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 				}
 			}
 			return null;
 		} else {
-			return new ZipFile(fArchiveField.getText());
+			return new ZipFile(fArchiveField.getText()); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 		}
 	}
 
@@ -604,7 +604,7 @@ public class JavadocConfigurationBlock {
 		return dialog.open();
 	}
 
-	private String chooseWorkspaceArchive() {
+	private String chooseWorkspaceArchive() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String initSelection= fArchiveField.getText();
 
 		ILabelProvider lp= new WorkbenchLabelProvider();
@@ -644,7 +644,7 @@ public class JavadocConfigurationBlock {
 		MessageDialog.openError(fShell, PreferencesMessages.JavadocConfigurationBlock_error_dialog_title, message);
 	}
 
-	private String chooseJavaDocFolder() {
+	private String chooseJavaDocFolder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String initPath= ""; //$NON-NLS-1$
 		if (fURLResult != null && "file".equals(fURLResult.getProtocol())) { //$NON-NLS-1$
 			initPath= JavaDocLocations.toFile(fURLResult).getPath();
@@ -665,7 +665,7 @@ public class JavadocConfigurationBlock {
 		return null;
 	}
 
-	private IStatus updateURLStatus() {
+	private IStatus updateURLStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		fURLResult= null;
 		try {
@@ -689,7 +689,7 @@ public class JavadocConfigurationBlock {
 		return status;
 	}
 
-	private IStatus updateArchiveStatus() {
+	private IStatus updateArchiveStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			fArchiveURLResult= null;
 
@@ -753,7 +753,7 @@ public class JavadocConfigurationBlock {
 	}
 
 
-	private URL getArchiveURL() throws MalformedURLException {
+	private URL getArchiveURL() throws MalformedURLException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String jarLoc= fArchiveField.getText();
 		String innerPath= fArchivePathField.getText().trim();
 
@@ -765,7 +765,7 @@ public class JavadocConfigurationBlock {
 				IResource res= root.findMember(new Path(jarLoc));
 				if (res != null) {
 					// 3-arg constructor of URI is broken, see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=7177117
-					baseUri= new URI("platform", null, "/resource" + res.getFullPath().toString(), null, null); //$NON-NLS-1$ //$NON-NLS-2$
+					baseUri= new URI("platform", null, "/resource" + res.getFullPath().toString(), null, null); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
 					throw new URISyntaxException(jarLoc, ""); //$NON-NLS-1$
 				}
@@ -774,11 +774,11 @@ public class JavadocConfigurationBlock {
 			}
 
 			if (innerPath.length() == 0 || innerPath.charAt(0) != '/') {
-				innerPath= '/' + innerPath;
+				innerPath= '/' + innerPath; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			String encodedInnerPath= new URI(null, null, innerPath, null, null).getRawSchemeSpecificPart();
 
-			return new URI("jar:" + encodeExclamationMarks(baseUri.toString()) + '!' + encodeExclamationMarks(encodedInnerPath)).toURL(); //$NON-NLS-1$
+			return new URI("jar:" + encodeExclamationMarks(baseUri.toString()) + '!' + encodeExclamationMarks(encodedInnerPath)).toURL(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} catch (URISyntaxException e) {
 			throw new MalformedURLException(e.getMessage());
@@ -789,7 +789,7 @@ public class JavadocConfigurationBlock {
 	/**
 	 * An adapter for presenting a zip file in a tree viewer.
 	 */
-	private static class ZipDialogContentProvider implements ITreeContentProvider {
+	private static class ZipDialogContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private ZipFileStructureProvider fProvider;
 
@@ -801,11 +801,11 @@ public class JavadocConfigurationBlock {
 			String[] segments= path.segments();
 
 			Object elem= fProvider.getRoot();
-			for (int i= 0; i < segments.length && elem != null; i++) {
+			for (int i= 0; i < segments.length && elem != null; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<?> list= fProvider.getChildren(elem);
 				String name= segments[i];
 				elem= null;
-				for (Object curr : list) {
+				for (Object curr : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fProvider.isFolder(curr) && name.equals(fProvider.getLabel(curr))) {
 						elem= curr;
 						break;
@@ -845,7 +845,7 @@ public class JavadocConfigurationBlock {
 		public boolean hasChildren(Object element) {
 			List<?> list= fProvider.getChildren(element);
 			if (list != null) {
-				for (Object element2 : list) {
+				for (Object element2 : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fProvider.isFolder(element2)) {
 						return true;
 					}
@@ -860,9 +860,9 @@ public class JavadocConfigurationBlock {
 		@Override
 		public Object[] getChildren(Object element) {
 			List<?> list= fProvider.getChildren(element);
-			ArrayList<Object> res= new ArrayList<>();
+			ArrayList<Object> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (list != null) {
-				for (Object curr : list) {
+				for (Object curr : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fProvider.isFolder(curr)) {
 						res.add(curr);
 					}

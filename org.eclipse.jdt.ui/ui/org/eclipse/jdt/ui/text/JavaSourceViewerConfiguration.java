@@ -393,7 +393,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	/*
 	 * @see SourceViewerConfiguration#getPresentationReconciler(ISourceViewer)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 
 		PresentationReconciler reconciler= new JavaPresentationReconciler();
@@ -437,7 +437,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	/*
 	 * @see SourceViewerConfiguration#getContentAssistant(ISourceViewer)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 
 		if (getEditor() != null) {
@@ -514,7 +514,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	/*
 	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getAutoEditStrategies(org.eclipse.jface.text.source.ISourceViewer, java.lang.String)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) {
 		String partitioning= getConfiguredDocumentPartitioning(sourceViewer);
 
@@ -542,7 +542,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	/*
 	 * @see SourceViewerConfiguration#getDoubleClickStrategy(ISourceViewer, String)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ITextDoubleClickStrategy getDoubleClickStrategy(ISourceViewer sourceViewer, String contentType) {
 		if (contentType != null) {
 			switch (contentType) {
@@ -587,7 +587,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	/*
 	 * @see SourceViewerConfiguration#getIndentPrefixes(ISourceViewer, String)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String[] getIndentPrefixes(ISourceViewer sourceViewer, String contentType) {
  		IJavaProject project= EditorUtility.getJavaProject(fTextEditor);
 		final int tabWidth= CodeFormatterUtil.getTabWidth(project);
@@ -627,10 +627,10 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 		String[] indentPrefixes= new String[tabWidth + 2];
 		indentPrefixes[0]= getStringWithSpaces(tabWidth);
 
-		for (int i= 0; i < tabWidth; i++) {
+		for (int i= 0; i < tabWidth; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String spaces= getStringWithSpaces(i);
 			if (i < tabWidth)
-				indentPrefixes[i+1]= spaces + '\t';
+				indentPrefixes[i+1]= spaces + '\t'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
 				indentPrefixes[i+1]= spaces;
 		}
@@ -692,16 +692,16 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	 * @see SourceViewerConfiguration#getConfiguredTextHoverStateMasks(ISourceViewer, String)
 	 * @since 2.1
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int[] getConfiguredTextHoverStateMasks(ISourceViewer sourceViewer, String contentType) {
 		JavaEditorTextHoverDescriptor[] hoverDescs= JavaPlugin.getDefault().getJavaEditorTextHoverDescriptors();
 		int stateMasks[]= new int[hoverDescs.length];
 		int stateMasksLength= 0;
-		for (JavaEditorTextHoverDescriptor hoverDesc : hoverDescs) {
+		for (JavaEditorTextHoverDescriptor hoverDesc : hoverDescs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hoverDesc.isEnabled()) {
 				int j= 0;
 				int stateMask= hoverDesc.getStateMask();
-				while (j < stateMasksLength) {
+				while (j < stateMasksLength) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (stateMasks[j] == stateMask)
 						break;
 					j++;
@@ -726,7 +726,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType, int stateMask) {
 		JavaEditorTextHoverDescriptor[] hoverDescs= JavaPlugin.getDefault().getJavaEditorTextHoverDescriptors();
 		int i= 0;
-		while (i < hoverDescs.length) {
+		while (i < hoverDescs.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hoverDescs[i].isEnabled() &&  hoverDescs[i].getStateMask() == stateMask)
 				return new JavaEditorTextHoverProxy(hoverDescs[i], getEditor());
 			i++;
@@ -840,7 +840,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 
 		// Register information provider
 		IInformationProvider provider= new JavaInformationProvider(getEditor());
-		for (String contentType : getConfiguredContentTypes(sourceViewer)) {
+		for (String contentType : getConfiguredContentTypes(sourceViewer)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			presenter.setInformationProvider(provider, contentType);
 		}
 
@@ -858,7 +858,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	 * @return an information presenter
 	 * @since 2.1
 	 */
-	public IInformationPresenter getOutlinePresenter(ISourceViewer sourceViewer, boolean doCodeResolve) {
+	public IInformationPresenter getOutlinePresenter(ISourceViewer sourceViewer, boolean doCodeResolve) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InformationPresenter presenter;
 		if (doCodeResolve)
 			presenter= new InformationPresenter(getOutlinePresenterControlCreator(sourceViewer, IJavaEditorActionDefinitionIds.OPEN_STRUCTURE));
@@ -903,7 +903,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	 * @return an information presenter
 	 * @since 3.0
 	 */
-	public IInformationPresenter getHierarchyPresenter(ISourceViewer sourceViewer, boolean doCodeResolve) {
+	public IInformationPresenter getHierarchyPresenter(ISourceViewer sourceViewer, boolean doCodeResolve) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Do not create hierarchy presenter if there's no CU.
 		if (getEditor() != null && getEditor().getEditorInput() != null && JavaUI.getEditorInputJavaElement(getEditor().getEditorInput()) == null)
@@ -953,7 +953,7 @@ public class JavaSourceViewerConfiguration extends TextSourceViewerConfiguration
 	 * @see JavaSourceViewerConfiguration#JavaSourceViewerConfiguration(IColorManager, IPreferenceStore, ITextEditor, String)
 	 * @since 3.0
 	 */
-	public void handlePropertyChangeEvent(PropertyChangeEvent event) {
+	public void handlePropertyChangeEvent(PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(isNewSetup());
 		if (fCodeScanner.affectsBehavior(event))
 			fCodeScanner.adaptToPreferenceChange(event);

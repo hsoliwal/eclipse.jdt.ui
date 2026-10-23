@@ -62,12 +62,12 @@ public class MoveInitializerTests extends GenericRefactoringTest {
 	}
 
 	private ICompilationUnit createCu(IPackageFragment pack, String cuPath, String cuName) throws Exception{
-		return createCU(pack, cuName, getFileContents(getRefactoringPath() + cuPath));
+		return createCU(pack, cuName, getFileContents(getRefactoringPath() + cuPath)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	// Move static initializer in same package and ensure imports are brought along
 	// https://bugs.eclipse.org/bugs/show_bug.cgi?id=108147
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test0() throws Exception{
 		ParticipantTesting.reset();
 		final String p1Name= "p1";
@@ -75,8 +75,8 @@ public class MoveInitializerTests extends GenericRefactoringTest {
 		final String outDir= "/out/";
 
 		IPackageFragment packP1= createPackage(p1Name);
-		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java");
-		ICompilationUnit p1B= createCu(packP1, getName() + inDir + p1Name + "/B.java", "B.java");
+		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		ICompilationUnit p1B= createCu(packP1, getName() + inDir + p1Name + "/B.java", "B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IResource[] resources= {};
 		IType bType= p1B.getTypes()[0];
@@ -95,16 +95,16 @@ public class MoveInitializerTests extends GenericRefactoringTest {
 
 		assertEquals("p1 files", 2, packP1.getChildren().length);
 
-		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/A.java");
+		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of A", expectedSource, packP1.getCompilationUnit("A.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/B.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of B", expectedSource, packP1.getCompilationUnit("B.java").getSource());
 	}
 
 	// Move static initializer in different package and ensure imports are brought along
 	// https://bugs.eclipse.org/bugs/show_bug.cgi?id=108147
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception{
 		ParticipantTesting.reset();
 		final String p1Name= "p1";
@@ -113,9 +113,9 @@ public class MoveInitializerTests extends GenericRefactoringTest {
 		final String outDir= "/out/";
 
 		IPackageFragment packP1= createPackage(p1Name);
-		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java");
+		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPackageFragment packP2= createPackage(p2Name);
-		ICompilationUnit p1B= createCu(packP2, getName() + inDir + p2Name + "/B.java", "B.java");
+		ICompilationUnit p1B= createCu(packP2, getName() + inDir + p2Name + "/B.java", "B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IResource[] resources= {};
 		IType bType= p1B.getTypes()[0];
@@ -135,10 +135,10 @@ public class MoveInitializerTests extends GenericRefactoringTest {
 		assertEquals("p1 files", 1, packP1.getChildren().length);
 		assertEquals("p2 files", 1, packP2.getChildren().length);
 
-		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/A.java");
+		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of A", expectedSource, packP1.getCompilationUnit("A.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/B.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of B", expectedSource, packP2.getCompilationUnit("B.java").getSource());
 	}
 

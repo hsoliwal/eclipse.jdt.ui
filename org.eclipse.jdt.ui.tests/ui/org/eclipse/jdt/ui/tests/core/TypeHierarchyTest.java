@@ -63,7 +63,7 @@ public class TypeHierarchyTest {
 		TestUtils.waitForEditorJobs(60_000L, true);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception {
 		IPackageFragmentRoot root1= JavaProjectHelper.addSourceContainer(fJavaProject1, "src");
 		IPackageFragment pack1= root1.createPackageFragment("pack1", true, null);
@@ -82,13 +82,13 @@ public class TypeHierarchyTest {
 		ITypeHierarchy hierarchy= type2.newSupertypeHierarchy(null);
 		IType[] allTypes= hierarchy.getAllTypes();
 
-		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length);
+		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IType type= fJavaProject2.findType("pack1.A");
 		assertNotNull("Type not found", type);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hierarchyWithWorkingCopy1() throws Exception {
 
 		IPackageFragmentRoot root1= JavaProjectHelper.addSourceContainer(fJavaProject1, "src");
@@ -109,8 +109,8 @@ public class TypeHierarchyTest {
 
 		IType[] allTypes= hierarchy.getAllTypes();
 
-		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length);
-		assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]);
+		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IEditorPart part= JavaUI.openInEditor(type2);
 		try {
@@ -124,8 +124,8 @@ public class TypeHierarchyTest {
 			allTypes= hierarchy.getAllTypes();
 
 			// no update of hierarchies on working copies
-			assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]);
-			assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length);
+			assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			part.doSave(null);
 			SharedASTProviderCore.getAST(cu2, SharedASTProviderCore.WAIT_YES, null);
@@ -134,9 +134,9 @@ public class TypeHierarchyTest {
 			allTypes= hierarchy.getAllTypes();
 
 			// update after save
-			assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]);
+			assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			hierarchy.refresh(null);
-			assertEquals("Should contain 2 types, contains: " + allTypes.length, 2, allTypes.length);
+			assertEquals("Should contain 2 types, contains: " + allTypes.length, 2, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} finally {
 			JavaPlugin.getActivePage().closeAllEditors(false);
@@ -145,13 +145,13 @@ public class TypeHierarchyTest {
 		allTypes= hierarchy.getAllTypes();
 
 		// update after save
-		assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]);
-		assertEquals("Should contain 2 types, contains: " + allTypes.length, 2, allTypes.length);
+		assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Should contain 2 types, contains: " + allTypes.length, 2, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hierarchyWithWorkingCopy2() throws Exception {
 		IPackageFragmentRoot root1= JavaProjectHelper.addSourceContainer(fJavaProject1, "src");
 		IPackageFragment pack1= root1.createPackageFragment("pack1", true, null);
@@ -174,8 +174,8 @@ public class TypeHierarchyTest {
 
 		IType[] allTypes= hierarchy.getAllTypes();
 
-		assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]);
-		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length);
+		assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		try {
 
@@ -189,8 +189,8 @@ public class TypeHierarchyTest {
 			allTypes= hierarchy.getAllTypes();
 
 			// no update of hierarchies on working copies
-			assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]);
-			assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length);
+			assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			part.doSave(null);
 			SharedASTProviderCore.getAST(cu2, SharedASTProviderCore.WAIT_YES, null);
@@ -199,9 +199,9 @@ public class TypeHierarchyTest {
 			allTypes= hierarchy.getAllTypes();
 
 			// update after save
-			assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]);
+			assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			hierarchy.refresh(null);
-			assertEquals("Should contain 2 types, contains: " + allTypes.length, 2, allTypes.length);
+			assertEquals("Should contain 2 types, contains: " + allTypes.length, 2, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} finally {
 			JavaPlugin.getActivePage().closeAllEditors(false);
@@ -210,12 +210,12 @@ public class TypeHierarchyTest {
 		allTypes= hierarchy.getAllTypes();
 
 		// update after save
-		assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]);
-		assertEquals("Should contain 2 types, contains: " + allTypes.length, 2, allTypes.length);
+		assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Should contain 2 types, contains: " + allTypes.length, 2, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hierarchyWithWorkingCopy3() throws Exception {
 		IPackageFragmentRoot root1= JavaProjectHelper.addSourceContainer(fJavaProject1, "src");
 		IPackageFragment pack1= root1.createPackageFragment("pack1", true, null);
@@ -239,8 +239,8 @@ public class TypeHierarchyTest {
 
 		IType[] allTypes= hierarchy.getAllTypes();
 
-		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length);
-		assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]);
+		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		try {
 			IDocument document= JavaUI.getDocumentProvider().getDocument(part.getEditorInput());
@@ -255,8 +255,8 @@ public class TypeHierarchyTest {
 			allTypes= hierarchy.getAllTypes();
 
 			// no update of hierarchies on working copies
-			assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length);
-			assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]);
+			assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertEquals("Update count should be 0, is: " + updateCount[0], 0, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			// no save
 
@@ -267,7 +267,7 @@ public class TypeHierarchyTest {
 		allTypes= hierarchy.getAllTypes();
 
 		// update after close: hierarchy changed because of reconcile delta from closeAllEditors
-		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length);
-		assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]);
+		assertEquals("Should contain 3 types, contains: " + allTypes.length, 3, allTypes.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Update count should be 1, is: " + updateCount[0], 1, updateCount[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

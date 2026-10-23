@@ -92,7 +92,7 @@ public class FatJarRsrcUrlBuilder extends FatJarBuilder {
 	public void open(JarPackageData jarPackage, Shell displayShell, MultiStatus status) throws CoreException {
 		super.open(jarPackage, displayShell, status);
 		fJarPackage= jarPackage;
-		jarNames= new HashSet<>();
+		jarNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		try {
 			writeRsrcUrlClasses();
 		} catch (IOException e) {
@@ -100,11 +100,11 @@ public class FatJarRsrcUrlBuilder extends FatJarBuilder {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void writeArchive(ZipFile jarFile, IProgressMonitor progressMonitor) {
 		File jarPathFile= new File(jarFile.getName());
 		String jarName = jarPathFile.getName();
-		while (jarNames.contains(jarName)) {
+		while (jarNames.contains(jarName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			jarName= FatJarPackagerUtil.nextNumberedFileName(jarName);
 		}
 		jarNames.add(jarName);
@@ -124,7 +124,7 @@ public class FatJarRsrcUrlBuilder extends FatJarBuilder {
 	public void writeRsrcUrlClasses() throws IOException {
 		try (ZipInputStream zis= new ZipInputStream(JavaPlugin.getDefault().getBundle().getEntry(JAR_RSRC_LOADER_ZIP).openStream())){
 			ZipEntry zipEntry= zis.getNextEntry();
-			while (zipEntry != null) {
+			while (zipEntry != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!zipEntry.isDirectory()) {
 					String entryName= zipEntry.getName();
 					byte[] content= zis.readAllBytes();

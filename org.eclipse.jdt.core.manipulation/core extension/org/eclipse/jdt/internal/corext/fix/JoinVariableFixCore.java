@@ -60,7 +60,7 @@ public final class JoinVariableFixCore extends CompilationUnitRewriteOperationsF
 		super(name, compilationUnit, operations);
 	}
 
-	public static JoinVariableFixCore createJoinVariableFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static JoinVariableFixCore createJoinVariableFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= node.getParent();
 
 		VariableDeclarationFragment fragment= null;
@@ -159,7 +159,7 @@ public final class JoinVariableFixCore extends CompilationUnitRewriteOperationsF
 			ASTNode n= assignParent.getParent();
 			ASTNode statementParent= statement.getParent();
 			ASTMatcher matcher= new ASTMatcher();
-			while (n != null) {
+			while (n != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (n.getNodeType() == statementParent.getNodeType() && (n.subtreeMatch(matcher, statementParent))) {
 					break;
 				} else if (n instanceof Block) {
@@ -215,7 +215,7 @@ public final class JoinVariableFixCore extends CompilationUnitRewriteOperationsF
 			this.assignment= assignment;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			final ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			final AST ast= cuRewrite.getAST();
@@ -257,7 +257,7 @@ public final class JoinVariableFixCore extends CompilationUnitRewriteOperationsF
 			}
 		}
 
-		private static void addExplicitTypeArgumentsIfNecessary(ASTRewrite rewrite, CompilationUnitRewrite proposal, Expression invocation) {
+		private static void addExplicitTypeArgumentsIfNecessary(ASTRewrite rewrite, CompilationUnitRewrite proposal, Expression invocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (Invocations.isResolvedTypeInferredFromExpectedType(invocation)) {
 				ITypeBinding[] typeArguments= Invocations.getInferredTypeArguments(invocation);
 				if (typeArguments == null)
@@ -269,7 +269,7 @@ public final class JoinVariableFixCore extends CompilationUnitRewriteOperationsF
 				AST ast= invocation.getAST();
 				ListRewrite typeArgsRewrite= Invocations.getInferredTypeArgumentsRewrite(rewrite, invocation);
 
-				for (ITypeBinding typeArgument : typeArguments) {
+				for (ITypeBinding typeArgument : typeArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type typeArgumentNode= importRewrite.addImport(typeArgument, ast, importRewriteContext, TypeLocation.TYPE_ARGUMENT);
 					typeArgsRewrite.insertLast(typeArgumentNode, null);
 				}

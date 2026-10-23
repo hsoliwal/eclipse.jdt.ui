@@ -84,7 +84,7 @@ public class FastJavaPartitioner extends FastPartitioner {
 
 	private void clearManagingPositionCategory() {
 		String[] categories= getManagingPositionCategories();
-		for (String category : categories) {
+		for (String category : categories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				fDocument.removePositionCategory(category);
 			} catch (BadPositionCategoryException e) {

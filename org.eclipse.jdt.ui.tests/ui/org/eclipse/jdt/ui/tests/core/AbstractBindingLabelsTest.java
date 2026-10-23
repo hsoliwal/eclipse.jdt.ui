@@ -44,17 +44,17 @@ public abstract class AbstractBindingLabelsTest extends CoreTests {
 
 	protected void assertLink(String lab, String display) {
 		Pattern pattern= Pattern.compile("<a class='header' href='eclipse-javadoc:.*'>(.*)</a>");
-		Matcher matcher= pattern.matcher(lab);
+		Matcher matcher= pattern.matcher(lab); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		assertEquals("number of match groups", 1, matcher.groupCount());
-		assertTrue("Label doesn't match against expected pattern: "+lab, matcher.matches());
+		assertTrue("Label doesn't match against expected pattern: "+lab, matcher.matches()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals("display label", display, matcher.group(1));
 	}
 
 	protected void assertLink(String lab, String display, String title) {
 		Pattern pattern= Pattern.compile("<a class='header' href='eclipse-javadoc:.*' title='(.*)'>(.*)</a>");
-		Matcher matcher= pattern.matcher(lab);
+		Matcher matcher= pattern.matcher(lab); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		assertEquals("number of match groups", 2, matcher.groupCount());
-		assertTrue("Label doesn't match against expected pattern: "+lab, matcher.matches());
+		assertTrue("Label doesn't match against expected pattern: "+lab, matcher.matches()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals("title", title, matcher.group(1));
 		assertEquals("display label", display, matcher.group(2));
 	}
@@ -64,12 +64,12 @@ public abstract class AbstractBindingLabelsTest extends CoreTests {
 	 * which will be matched as a link with link text "name" and a link title "in qualifier".
 	 * Optionally, {{name}} will be matched as a link with a link text but no title.
 	 */
-	protected void assertLinkMatch(String label, String expectedMarkup) {
+	protected void assertLinkMatch(String label, String expectedMarkup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// to avoid matching the entire unreadable label in one step we co-parse expected and actual value:
 		int patternPos= 0;
 		int labelPos= 0;
 		int fragmentCount= 0;
-		while (patternPos < expectedMarkup.length()) {
+		while (patternPos < expectedMarkup.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// analyze expected mark-up:
 			int open= expectedMarkup.indexOf("{{", patternPos);
 			if (open == -1)
@@ -89,8 +89,8 @@ public abstract class AbstractBindingLabelsTest extends CoreTests {
 				// matching plain text:
 				String expected= expectedMarkup.substring(patternPos, open);
 				int end= label.indexOf("<a class", labelPos);
-				assertNotEquals("next anchor not found ("+fragmentCount+")", -1, end);
-				assertEquals("plain text ("+fragmentCount+")", escape(expected), label.substring(labelPos, end));
+				assertNotEquals("next anchor not found ("+fragmentCount+")", -1, end); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				assertEquals("plain text ("+fragmentCount+")", escape(expected), label.substring(labelPos, end)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fragmentCount++;
 
 				labelPos= end;
@@ -98,9 +98,9 @@ public abstract class AbstractBindingLabelsTest extends CoreTests {
 
 			if (close != -1) {
 				// matching a link "<a class='header' href='eclipse-javadoc:IGNORE' title='LINK_TITLE'>LINK_TEXT</a>"
-				assertTrue("link found ("+fragmentCount+")", label.substring(labelPos).startsWith( "<a class='header' href='eclipse-javadoc:"));
+				assertTrue("link found ("+fragmentCount+")", label.substring(labelPos).startsWith( "<a class='header' href='eclipse-javadoc:")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				String linkText= expectedMarkup.substring(hasTitle ? pipe+1 : open+2, close);
-				String linkTitle= hasTitle ? "in "+expectedMarkup.substring(open+2, pipe) : null;
+				String linkTitle= hasTitle ? "in "+expectedMarkup.substring(open+2, pipe) : null; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (linkTitle != null) {
 					// match linkTitle & linkText:
 					int start= label.indexOf("' title='", labelPos);
@@ -108,14 +108,14 @@ public abstract class AbstractBindingLabelsTest extends CoreTests {
 					start += "' title='".length();
 					int end= label.indexOf('\'', start);
 					assertNotEquals("title end not found", -1, end);
-					assertEquals("title ("+fragmentCount+")", linkTitle, label.substring(start, end));
+					assertEquals("title ("+fragmentCount+")", linkTitle, label.substring(start, end)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fragmentCount++;
 
 					start= label.indexOf("'>", end) + 2;
 					assertNotEquals("link text start not found", -1, start);
 					end= label.indexOf("</a>", start);
 					assertNotEquals("link text end not found", -1, end);
-					assertEquals("link text ("+fragmentCount+")", escape(linkText), label.substring(start, end));
+					assertEquals("link text ("+fragmentCount+")", escape(linkText), label.substring(start, end)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fragmentCount++;
 
 					labelPos= end + "</a>".length();
@@ -125,7 +125,7 @@ public abstract class AbstractBindingLabelsTest extends CoreTests {
 					assertNotEquals("link text start not found", -1, start);
 					int end= label.indexOf("</a>", start+1);
 					assertNotEquals("link text end not found", -1, end);
-					assertEquals("link text ("+fragmentCount+")", escape(linkText), label.substring(start, end));
+					assertEquals("link text ("+fragmentCount+")", escape(linkText), label.substring(start, end)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fragmentCount++;
 
 					labelPos= end + "</a>".length();
@@ -136,7 +136,7 @@ public abstract class AbstractBindingLabelsTest extends CoreTests {
 		if (patternPos < expectedMarkup.length()) {
 			// matching tailing plain text:
 			String expected= expectedMarkup.substring(patternPos);
-			assertEquals("plain text ("+(fragmentCount)+")", escape(expected), label.substring(labelPos));
+			assertEquals("plain text ("+(fragmentCount)+")", escape(expected), label.substring(labelPos)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

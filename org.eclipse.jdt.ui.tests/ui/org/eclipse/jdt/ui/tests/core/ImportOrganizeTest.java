@@ -101,25 +101,25 @@ public class ImportOrganizeTest extends CoreTests {
 		TestUtils.waitForEditorJobs(60_000L, true);
 	}
 
-	protected IChooseImportQuery createQuery(final String name, final String[] choices, final int[] nEntries) {
+	protected IChooseImportQuery createQuery(final String name, final String[] choices, final int[] nEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return (openChoices, unused) -> {
-			assertEquals(name + "-query-nchoices1", choices.length, openChoices.length);
-			assertEquals(name + "-query-nchoices2", nEntries.length, openChoices.length);
-			for (int i1= 0; i1 < nEntries.length; i1++) {
-				assertEquals(name + "-query-cnt" + i1, openChoices[i1].length, nEntries[i1]);
+			assertEquals(name + "-query-nchoices1", choices.length, openChoices.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertEquals(name + "-query-nchoices2", nEntries.length, openChoices.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			for (int i1= 0; i1 < nEntries.length; i1++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				assertEquals(name + "-query-cnt" + i1, openChoices[i1].length, nEntries[i1]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			TypeNameMatch[] res= new TypeNameMatch[openChoices.length];
-			for (int i2= 0; i2 < openChoices.length; i2++) {
+			for (int i2= 0; i2 < openChoices.length; i2++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeNameMatch[] selection= openChoices[i2];
-				assertNotNull(name + "-query-setset" + i2, selection);
-				assertTrue(name + "-query-setlen" + i2, selection.length > 0);
+				assertNotNull(name + "-query-setset" + i2, selection); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				assertTrue(name + "-query-setlen" + i2, selection.length > 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				TypeNameMatch found= null;
-				for (TypeNameMatch s : selection) {
+				for (TypeNameMatch s : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (s.getFullyQualifiedName().equals(choices[i2])) {
 						found= s;
 					}
 				}
-				assertNotNull(name + "-query-notfound" + i2, found);
+				assertNotNull(name + "-query-notfound" + i2, found); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				res[i2]= found;
 			}
 			return res;
@@ -128,13 +128,13 @@ public class ImportOrganizeTest extends CoreTests {
 
 	protected void assertImports(ICompilationUnit cu, String[] imports) throws Exception {
 		IImportDeclaration[] desc= cu.getImports();
-		assertEquals(cu.getElementName() + "-count", imports.length, desc.length);
-		for (int i= 0; i < imports.length; i++) {
-			assertEquals(cu.getElementName() + "-cmpentries" + i, desc[i].getElementName(), imports[i]);
+		assertEquals(cu.getElementName() + "-count", imports.length, desc.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (int i= 0; i < imports.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertEquals(cu.getElementName() + "-cmpentries" + i, desc[i].getElementName(), imports[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
@@ -180,7 +180,7 @@ public class ImportOrganizeTest extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1WithOrder() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
@@ -227,7 +227,7 @@ public class ImportOrganizeTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test2() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
@@ -252,7 +252,7 @@ public class ImportOrganizeTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test3() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
@@ -278,7 +278,7 @@ public class ImportOrganizeTest extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test4() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 		assertNotNull("junit src not found", junitSrcArchive);
@@ -307,21 +307,21 @@ public class ImportOrganizeTest extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVariousTypeReferences() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
 		IPackageFragment pack= sourceFolder.createPackageFragment("test", false, null);
-		for (int ch= 'A'; ch < 'M'; ch++) {
+		for (int ch= 'A'; ch < 'M'; ch++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= String.valueOf((char) ch);
-			ICompilationUnit cu= pack.getCompilationUnit(name + ".java");
-			String content= "public class " + name + " {}";
+			ICompilationUnit cu= pack.getCompilationUnit(name + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String content= "public class " + name + " {}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			cu.createType(content, null, false, null);
 		}
-		for (int ch= 'A'; ch < 'M'; ch++) {
-			String name= "I" + String.valueOf((char) ch);
-			ICompilationUnit cu= pack.getCompilationUnit(name + ".java");
-			String content= "public interface " + name + " {}";
+		for (int ch= 'A'; ch < 'M'; ch++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String name= "I" + String.valueOf((char) ch); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			ICompilationUnit cu= pack.getCompilationUnit(name + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String content= "public interface " + name + " {}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			cu.createType(content, null, false, null);
 		}
 
@@ -360,7 +360,7 @@ public class ImportOrganizeTest extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInnerClassVisibility() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -431,7 +431,7 @@ public class ImportOrganizeTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testClearImports() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -460,7 +460,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNewImports() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -490,7 +490,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReplaceImports() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -523,7 +523,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRestoreExistingImports() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -561,7 +561,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testClearImportsNoPackage() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -587,7 +587,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNewImportsNoPackage() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -614,7 +614,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReplaceImportsNoPackage() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -643,7 +643,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCommentAfterImport() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -679,7 +679,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportToStar() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -737,7 +737,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportToStarWithComments() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -804,7 +804,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportToStarWithExplicit() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -885,7 +885,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str4);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportToStarWithExplicit2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -942,7 +942,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportToStarWithExplicit3() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1007,7 +1007,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportToStarWithExplicit4() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1074,7 +1074,7 @@ public class ImportOrganizeTest extends CoreTests {
 
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportToStarWithExplicit5() throws Exception {
 
 
@@ -1158,7 +1158,7 @@ public class ImportOrganizeTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportFromDefault() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1211,7 +1211,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportFromDefaultWithStar() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1272,7 +1272,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportOfMemberFromLocal() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1320,7 +1320,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGroups1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1375,7 +1375,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBaseGroups1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1430,7 +1430,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug26746() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1475,7 +1475,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug37299a() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1522,7 +1522,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug37299b() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1568,7 +1568,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug56704() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1611,7 +1611,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug67644() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1660,7 +1660,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug85831() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1701,7 +1701,7 @@ public class ImportOrganizeTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug79174() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1749,7 +1749,7 @@ public class ImportOrganizeTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug131305() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1799,7 +1799,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2); // no changes, import for Entry is required
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVisibility_bug159638() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1842,7 +1842,7 @@ public class ImportOrganizeTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test5() throws Exception {
 
 		String[] types= new String[] {
@@ -1856,30 +1856,30 @@ public class ImportOrganizeTest extends CoreTests {
 		String[] order= new String[] { "org.eclipse.jdt", "org.eclipse" };
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
-		for (String type : types) {
+		for (String type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String pack= Signature.getQualifier(type);
 			String name= Signature.getSimpleName(type);
 			IPackageFragment pack2= sourceFolder.createPackageFragment(pack, false, null);
-			StringBuilder buf= new StringBuilder();
-			buf.append("package ").append(pack).append(";\n");
-			buf.append("public class ").append(name).append(" {\n");
-			buf.append("}\n");
-			pack2.createCompilationUnit(name + ".java", buf.toString(), false, null);
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append("package ").append(pack).append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("public class ").append(name).append(" {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			pack2.createCompilationUnit(name + ".java", buf.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
-		StringBuilder body= new StringBuilder();
-		body.append("public class C {\n");
-		for (int i= 0; i < types.length; i++) {
+		StringBuilder body= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		body.append("public class C {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= Signature.getSimpleName(types[i]);
-			body.append(name); body.append(" a"); body.append(i); body.append(";\n");
+			body.append(name); body.append(" a"); body.append(i); body.append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		body.append("}\n");
+		body.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		IPackageFragment pack1= sourceFolder.createPackageFragment("pack1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package pack1;\n");
-		buf.append("\n");
-		buf.append(body.toString());
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package pack1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(body.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		ICompilationUnit cu= pack1.createCompilationUnit("C.java", buf.toString(), false, null);
 		IChooseImportQuery query= createQuery("C", new String[] {}, new int[] {});
@@ -1887,23 +1887,23 @@ public class ImportOrganizeTest extends CoreTests {
 		OrganizeImportsOperation op= createOperation(cu, order, 99, false, true, true, query);
 		op.run(null);
 
-		buf= new StringBuilder();
-		buf.append("package pack1;\n");
-		buf.append("\n");
-		buf.append("import org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader;\n");
-		buf.append("import org.eclipse.jdt.internal.compiler.env.NameEnvironmentAnswer;\n");
-		buf.append("\n");
-		buf.append("import org.eclipse.core.resources.IContainer;\n");
-		buf.append("import org.eclipse.core.resources.IResource;\n");
-		buf.append("import org.eclipse.core.runtime.CoreException;\n");
-		buf.append("import org.eclipse.core.runtime.IPath;\n");
-		buf.append("\n");
-		buf.append(body.toString());
+		buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package pack1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.jdt.internal.compiler.env.NameEnvironmentAnswer;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.core.resources.IContainer;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.core.resources.IResource;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.core.runtime.CoreException;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.core.runtime.IPath;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(body.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		assertEqualString(cu.getSource(), buf.toString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_bug25773() throws Exception {
 
 		String[] types= new String[] {
@@ -1926,32 +1926,32 @@ public class ImportOrganizeTest extends CoreTests {
 		int threshold= 3;
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
-		for (String type : types) {
+		for (String type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String pack= Signature.getQualifier(type);
 			if (!pack.startsWith("java.")) {
 				String name= Signature.getSimpleName(type);
 				IPackageFragment pack2= sourceFolder.createPackageFragment(pack, false, null);
-				StringBuilder buf= new StringBuilder();
-				buf.append("package ").append(pack).append(";\n");
-				buf.append("public class ").append(name).append(" {\n");
-				buf.append("}\n");
-				pack2.createCompilationUnit(name + ".java", buf.toString(), false, null);
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append("package ").append(pack).append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("public class ").append(name).append(" {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				pack2.createCompilationUnit(name + ".java", buf.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
-		StringBuilder body= new StringBuilder();
-		body.append("public class C {\n");
-		for (int i= 0; i < types.length; i++) {
+		StringBuilder body= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		body.append("public class C {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= Signature.getSimpleName(types[i]);
-			body.append(name); body.append(" a"); body.append(i); body.append(";\n");
+			body.append(name); body.append(" a"); body.append(i); body.append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		body.append("}\n");
+		body.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		IPackageFragment pack1= sourceFolder.createPackageFragment("pack1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package pack1;\n");
-		buf.append("\n");
-		buf.append(body.toString());
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package pack1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(body.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		ICompilationUnit cu= pack1.createCompilationUnit("C.java", buf.toString(), false, null);
 		IChooseImportQuery query= createQuery("C", new String[] {}, new int[] {});
@@ -1959,27 +1959,27 @@ public class ImportOrganizeTest extends CoreTests {
 		OrganizeImportsOperation op= createOperation(cu, order, threshold, false, true, true, query);
 		op.run(null);
 
-		buf= new StringBuilder();
-		buf.append("package pack1;\n");
-		buf.append("\n");
-		buf.append("import java.util.*;\n");
-		buf.append("\n");
-		buf.append("import org.eclipse.core.runtime.IAdaptable;\n");
-		buf.append("import org.eclipse.swt.accessibility.ACC;\n");
-		buf.append("import org.eclipse.swt.accessibility.AccessibleControlEvent;\n");
-		buf.append("\n");
-		buf.append("import org.eclipse.gef.*;\n");
-		buf.append("\n");
-		buf.append("import org.eclipse.draw2d.IFigure;\n");
-		buf.append("import org.eclipse.draw2d.LayoutManager;\n");
-		buf.append("import org.eclipse.draw2d.geometry.Point;\n");
-		buf.append("import org.eclipse.draw2d.geometry.Rectangle;\n");
-		buf.append("\n");
-		buf.append(body.toString());
+		buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package pack1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.core.runtime.IAdaptable;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.swt.accessibility.ACC;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.swt.accessibility.AccessibleControlEvent;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.gef.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.draw2d.IFigure;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.draw2d.LayoutManager;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.draw2d.geometry.Point;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.draw2d.geometry.Rectangle;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(body.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		assertEqualString(cu.getSource(), buf.toString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_bug25113() throws Exception {
 
 		String[] types= new String[] {
@@ -1994,32 +1994,32 @@ public class ImportOrganizeTest extends CoreTests {
 		int threshold= 99;
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
-		for (String type : types) {
+		for (String type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String pack= Signature.getQualifier(type);
 			if (!pack.startsWith("java.")) {
 				String name= Signature.getSimpleName(type);
 				IPackageFragment pack2= sourceFolder.createPackageFragment(pack, false, null);
-				StringBuilder buf= new StringBuilder();
-				buf.append("package ").append(pack).append(";\n");
-				buf.append("public class ").append(name).append(" {\n");
-				buf.append("}\n");
-				pack2.createCompilationUnit(name + ".java", buf.toString(), false, null);
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append("package ").append(pack).append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("public class ").append(name).append(" {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				pack2.createCompilationUnit(name + ".java", buf.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
-		StringBuilder body= new StringBuilder();
-		body.append("public class C {\n");
-		for (int i= 0; i < types.length; i++) {
+		StringBuilder body= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		body.append("public class C {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= Signature.getSimpleName(types[i]);
-			body.append(name); body.append(" a"); body.append(i); body.append(";\n");
+			body.append(name); body.append(" a"); body.append(i); body.append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		body.append("}\n");
+		body.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		IPackageFragment pack1= sourceFolder.createPackageFragment("pack1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package pack1;\n");
-		buf.append("\n");
-		buf.append(body.toString());
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package pack1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(body.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		ICompilationUnit cu= pack1.createCompilationUnit("C.java", buf.toString(), false, null);
 		IChooseImportQuery query= createQuery("C", new String[] {}, new int[] {});
@@ -2027,22 +2027,22 @@ public class ImportOrganizeTest extends CoreTests {
 		OrganizeImportsOperation op= createOperation(cu, order, threshold, false, true, true, query);
 		op.run(null);
 
-		buf= new StringBuilder();
-		buf.append("package pack1;\n");
-		buf.append("\n");
-		buf.append("import com.misc.Class5;\n");
-		buf.append("\n");
-		buf.append("import com.foreigncompany.Class2;\n");
-		buf.append("import com.foreigncompany.Class3;\n");
-		buf.append("\n");
-		buf.append("import com.mycompany.Class1;\n");
-		buf.append("import com.mycompany.Class4;\n");
-		buf.append("\n");
-		buf.append(body.toString());
+		buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package pack1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import com.misc.Class5;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import com.foreigncompany.Class2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import com.foreigncompany.Class3;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import com.mycompany.Class1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import com.mycompany.Class4;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(body.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		assertEqualString(cu.getSource(), buf.toString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2084,7 +2084,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2127,7 +2127,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug78585() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2177,7 +2177,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug90556() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2221,7 +2221,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug113770() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2264,7 +2264,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug81589() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2317,7 +2317,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug159424() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2363,7 +2363,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1); // no changes, don't add 'logger' as static import
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug175498() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("p", false, null);
@@ -2395,7 +2395,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str); // no changes, don't add 'V1' and 'V2' as static import
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug181895() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2436,7 +2436,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug187004a() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2484,7 +2484,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug187004b() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2532,7 +2532,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug230067() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2574,7 +2574,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports_bug562641() throws Exception {
 		IPreferenceStore preferenceStore= PreferenceConstants.getPreferenceStore();
 		preferenceStore.setValue(PreferenceConstants.CODEASSIST_FAVORITE_STATIC_MEMBERS, "java.lang.Math.max");
@@ -2612,7 +2612,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountAddNew() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2656,7 +2656,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(0, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountAddandRemove() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2702,7 +2702,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(1, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountAddandRemoveWithComments() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2750,7 +2750,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(1, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountKeepOne() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2795,7 +2795,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(0, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountKeepStar() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2844,7 +2844,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(0, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountAddTwoRemoveOne() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2890,7 +2890,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(1, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountReplaceStar() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2938,7 +2938,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(3, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountRemoveStatic() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2988,7 +2988,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(4, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportCountKeepStatic() throws Exception {
 	    IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3042,7 +3042,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEquals(3, op.getNumberOfImportsRemoved());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_bug78397() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3072,7 +3072,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_bug78533() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3103,7 +3103,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_bug78716() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3149,7 +3149,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_bug135122() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3197,7 +3197,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue853() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3255,7 +3255,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_PackageInfoBug157541a() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3288,7 +3288,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_PackageInfoBug157541b() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3334,7 +3334,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_PackageInfoBug216432() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3381,7 +3381,7 @@ public class ImportOrganizeTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeArgumentImports() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3445,7 +3445,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotationImports1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3507,7 +3507,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str4);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotationImports2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3560,7 +3560,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavadocImports_bug319860() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3604,7 +3604,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_bug450858() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3635,121 +3635,121 @@ public class ImportOrganizeTest extends CoreTests {
 		assertImports(cu, new String[] {});
 	}
 
-	private void expectUnresolvableImportsArePreserved(
+	private void expectUnresolvableImportsArePreserved( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CharSequence classContents, CharSequence resultantImports) throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
 		IPackageFragment packageFragment= sourceFolder.createPackageFragment("pack", false, null);
 
-		StringBuilder cuContents= new StringBuilder();
-		cuContents.append("package pack;\n");
-		cuContents.append("\n");
-		cuContents.append("import static com.notfound.namesoftypes.NotFound1;\n");
-		cuContents.append("import static com.notfound.namesoftypes.NotFound2;\n");
-		cuContents.append("import static com.notfound.Type.*;\n");
-		cuContents.append("import static com.notfound.Type.FIELD1;\n");
-		cuContents.append("import static com.notfound.Type.FIELD2;\n");
-		cuContents.append("import static com.notfound.Type.method1;\n");
-		cuContents.append("import static com.notfound.Type.method2;\n");
-		cuContents.append("\n");
-		cuContents.append("import com.notfound.*;\n");
-		cuContents.append("import com.notfound.NamesOfStatics.FIELD1;\n");
-		cuContents.append("import com.notfound.NamesOfStatics.FIELD1;\n");
-		cuContents.append("import com.notfound.NamesOfStatics.method1;\n");
-		cuContents.append("import com.notfound.NamesOfStatics.method2;\n");
-		cuContents.append("import com.notfound.NotFound1;\n");
-		cuContents.append("import com.notfound.NotFound2;\n");
-		cuContents.append("import com.notfound.OuterClass.*;\n");
-		cuContents.append("import com.notfound.OuterClass.Inner1;\n");
-		cuContents.append("import com.notfound.OuterClass.Inner2;\n");
-		cuContents.append("\n");
-		cuContents.append("public class Cu {\n");
-		cuContents.append(classContents);
-		cuContents.append("}\n");
+		StringBuilder cuContents= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		cuContents.append("package pack;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import static com.notfound.namesoftypes.NotFound1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import static com.notfound.namesoftypes.NotFound2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import static com.notfound.Type.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import static com.notfound.Type.FIELD1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import static com.notfound.Type.FIELD2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import static com.notfound.Type.method1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import static com.notfound.Type.method2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.NamesOfStatics.FIELD1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.NamesOfStatics.FIELD1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.NamesOfStatics.method1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.NamesOfStatics.method2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.NotFound1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.NotFound2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.OuterClass.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.OuterClass.Inner1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("import com.notfound.OuterClass.Inner2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("public class Cu {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append(classContents); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuContents.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= packageFragment.createCompilationUnit("Cu.java", cuContents.toString(), false, null);
 
 		createOperation(cu, new String[] {}, 99, true, true, true, null).run(null);
 
-		StringBuilder expected= new StringBuilder();
-		expected.append("package pack;\n");
-		expected.append("\n");
+		StringBuilder expected= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		expected.append("package pack;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		expected.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (resultantImports.length() > 0) {
-			expected.append(resultantImports);
-			expected.append("\n");
+			expected.append(resultantImports); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			expected.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		expected.append("public class Cu {\n");
-		expected.append(classContents);
-		expected.append("}\n");
+		expected.append("public class Cu {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		expected.append(classContents); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		expected.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		assertEqualString(cu.getSource(), expected.toString());
 	}
 
 	@Test
 	public void testPreserveUnresolvableTypeSingleImports() throws Exception {
-		StringBuilder classContents= new StringBuilder();
-		classContents.append("NotFound1 nf1;");
-		classContents.append("Inner1 i1;");
+		StringBuilder classContents= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		classContents.append("NotFound1 nf1;"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		classContents.append("Inner1 i1;"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		StringBuilder resultantImports= new StringBuilder();
-		resultantImports.append("import com.notfound.NotFound1;\n");
-		resultantImports.append("import com.notfound.OuterClass.Inner1;\n");
+		StringBuilder resultantImports= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		resultantImports.append("import com.notfound.NotFound1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		resultantImports.append("import com.notfound.OuterClass.Inner1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		expectUnresolvableImportsArePreserved(classContents, resultantImports);
 	}
 
 	@Test
 	public void testPreserveUnresolvableTypeOnDemandImports() throws Exception {
-		StringBuilder classContents= new StringBuilder();
-		classContents.append("NotFound3 nf3;");
+		StringBuilder classContents= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		classContents.append("NotFound3 nf3;"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		StringBuilder resultantImports= new StringBuilder();
-		resultantImports.append("import com.notfound.*;\n");
-		resultantImports.append("import com.notfound.OuterClass.*;\n");
+		StringBuilder resultantImports= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		resultantImports.append("import com.notfound.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		resultantImports.append("import com.notfound.OuterClass.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		expectUnresolvableImportsArePreserved(classContents, resultantImports);
 	}
 
 	@Test
 	public void testPreserveUnresolvableStaticSingleImports() throws Exception {
-		StringBuilder classContents= new StringBuilder();
-		classContents.append("{\n");
-		classContents.append("    int a= FIELD1;\n");
-		classContents.append("    method1();\n");
-		classContents.append("}\n");
+		StringBuilder classContents= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		classContents.append("{\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		classContents.append("    int a= FIELD1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		classContents.append("    method1();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		classContents.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		StringBuilder resultantImports= new StringBuilder();
-		resultantImports.append("import static com.notfound.Type.FIELD1;\n");
-		resultantImports.append("import static com.notfound.Type.method1;\n");
+		StringBuilder resultantImports= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		resultantImports.append("import static com.notfound.Type.FIELD1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		resultantImports.append("import static com.notfound.Type.method1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		expectUnresolvableImportsArePreserved(classContents, resultantImports);
 	}
 
 	@Test
 	public void testPreserveUnresolvableStaticOnDemandImportDueToFieldReference() throws Exception {
-		StringBuilder classContents= new StringBuilder();
-		classContents.append("{\n");
-		classContents.append("    int a= FIELD3;\n");
-		classContents.append("}\n");
+		StringBuilder classContents= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		classContents.append("{\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		classContents.append("    int a= FIELD3;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		classContents.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		StringBuilder resultantImports= new StringBuilder();
-		resultantImports.append("import static com.notfound.Type.*;\n");
+		StringBuilder resultantImports= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		resultantImports.append("import static com.notfound.Type.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		expectUnresolvableImportsArePreserved(classContents, resultantImports);
 	}
 
 	@Test
 	public void testPreserveUnresolvableStaticOnDemandImportDueToMethodReference() throws Exception {
-		StringBuilder classContents= new StringBuilder();
-		classContents.append("{\n");
-		classContents.append("    method3();\n");
-		classContents.append("}\n");
+		StringBuilder classContents= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		classContents.append("{\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		classContents.append("    method3();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		classContents.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		StringBuilder resultantImports= new StringBuilder();
-		resultantImports.append("import static com.notfound.Type.*;\n");
+		StringBuilder resultantImports= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		resultantImports.append("import static com.notfound.Type.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		expectUnresolvableImportsArePreserved(classContents, resultantImports);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPreserveUnresolvableImportRatherThanAddNewImport() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3791,7 +3791,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDealWithBrokenStaticImport() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3824,7 +3824,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug508660() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -3868,7 +3868,7 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu2.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug530193() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragmentRoot testSourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src-tests", new Path[0], new Path[0], "bin-tests",
@@ -3906,11 +3906,11 @@ public class ImportOrganizeTest extends CoreTests {
 		assertEqualString(cu1.getSource(), str2);
 	}
 	
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug3918() throws Exception {
 		IEclipsePreferences prefs = InstanceScope.INSTANCE.getNode(JavaUI.ID_PLUGIN);
-		String postSaveActionsKey = EDITOR_SAVE_PARTICIPANT_PREFIX + POSTSAVELISTENER_ID;
-		String organizeImportsKey = SAVE_PARTICIPANT_KEY_PREFIX + ORGANIZE_IMPORTS;
+		String postSaveActionsKey = EDITOR_SAVE_PARTICIPANT_PREFIX + POSTSAVELISTENER_ID; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String organizeImportsKey = SAVE_PARTICIPANT_KEY_PREFIX + ORGANIZE_IMPORTS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		final boolean orgImportsOrigState = prefs.getBoolean(organizeImportsKey, false);
 		final boolean postSaveActionsOrigState = prefs.getBoolean(postSaveActionsKey, false);
@@ -3969,10 +3969,10 @@ public class ImportOrganizeTest extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug3918_Search() throws Exception {
-		String postSaveActionsKey = EDITOR_SAVE_PARTICIPANT_PREFIX	+ POSTSAVELISTENER_ID;
-		String organizeImportsKey= SAVE_PARTICIPANT_KEY_PREFIX + ORGANIZE_IMPORTS;
+		String postSaveActionsKey = EDITOR_SAVE_PARTICIPANT_PREFIX	+ POSTSAVELISTENER_ID; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String organizeImportsKey= SAVE_PARTICIPANT_KEY_PREFIX + ORGANIZE_IMPORTS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IEclipsePreferences jdtUiPreferences = InstanceScope.INSTANCE.getNode(JavaUI.ID_PLUGIN);
 		final boolean orgImportsOrigState= jdtUiPreferences.getBoolean(organizeImportsKey, false);
 		final boolean postSaveActionsOrigState = jdtUiPreferences.getBoolean(postSaveActionsKey, false);
@@ -4001,7 +4001,7 @@ public class ImportOrganizeTest extends CoreTests {
 			ICompilationUnit icu= pack0.createCompilationUnit("Unusedmport.java", original, false, null);
 			IEditorPart editor= EditorUtility.openInEditor(icu);
 			class Collector extends MethodNameMatchRequestor {
-				List<MethodNameMatch> matches = new ArrayList<>();
+				List<MethodNameMatch> matches = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				@Override
 				public void acceptMethodNameMatch(MethodNameMatch match) {
 					this.matches.add(match);
@@ -4017,7 +4017,7 @@ public class ImportOrganizeTest extends CoreTests {
 					scope, collector,
 					IJavaSearchConstants.WAIT_UNTIL_READY_TO_SEARCH, null);
 
-			assertEquals("Should find one method, but found: " + collector.matches, 1, collector.matches.size());
+			assertEquals("Should find one method, but found: " + collector.matches, 1, collector.matches.size()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			MethodNameMatch actual= collector.matches.get(0);
 			assertEquals("Unexpected method found", "match", actual.getMethod().getElementName());
 
@@ -4034,7 +4034,7 @@ public class ImportOrganizeTest extends CoreTests {
 					scope, collector,
 					IJavaSearchConstants.WAIT_UNTIL_READY_TO_SEARCH, null);
 
-			assertEquals("Should find one method, but found: " + collector.matches, 1, collector.matches.size());
+			assertEquals("Should find one method, but found: " + collector.matches, 1, collector.matches.size()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			actual= collector.matches.get(0);
 			assertEquals("Unexpected method found", "match", actual.getMethod().getElementName());
 
@@ -4074,10 +4074,10 @@ public class ImportOrganizeTest extends CoreTests {
 			scope.remove(PreferenceConstants.ORGIMPORTS_IMPORTORDER);
 			scope.remove(PreferenceConstants.ORGIMPORTS_ONDEMANDTHRESHOLD);
 		} else {
-			StringBuilder buf= new StringBuilder();
-			for (String o : order) {
-				buf.append(o);
-				buf.append(';');
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (String o : order) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(o); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			scope.put(PreferenceConstants.ORGIMPORTS_IMPORTORDER, buf.toString());
 			scope.put(PreferenceConstants.ORGIMPORTS_ONDEMANDTHRESHOLD, String.valueOf(threshold));

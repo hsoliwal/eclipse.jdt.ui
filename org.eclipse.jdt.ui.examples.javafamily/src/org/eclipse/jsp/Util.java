@@ -31,13 +31,13 @@ public class Util {
 	}
 
 	static char[] getFileCharContent(File file, String encoding) throws IOException {
-		System.out.println("****jdt.internal.compiler.util.Util.getFileCharContent: " + file + " " + encoding); //$NON-NLS-1$ //$NON-NLS-2$
+		System.out.println("****jdt.internal.compiler.util.Util.getFileCharContent: " + file + " " + encoding); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try (InputStream stream= new BufferedInputStream(new FileInputStream(file))) {
 			return Util.getInputStreamAsCharArray(stream, (int) file.length(), encoding);
 		}
 	}
 
-	public static char[] getInputStreamAsCharArray(InputStream stream, int length, String encoding) throws IOException {
+	public static char[] getInputStreamAsCharArray(InputStream stream, int length, String encoding) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try (InputStreamReader reader= (encoding == null)
 			? new InputStreamReader(stream)
 			: new InputStreamReader(stream, encoding)) {
@@ -46,7 +46,7 @@ public class Util {
 				contents = new char[0];
 				int contentsLength = 0;
 				int amountRead = -1;
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int amountRequested = Math.max(stream.available(), 8192);  // read at least 8K
 
 					// resize contents if needed
@@ -81,7 +81,7 @@ public class Util {
 				contents = new char[length];
 				int len = 0;
 				int readSize = 0;
-				while ((readSize != -1) && (len != length)) {
+				while ((readSize != -1) && (len != length)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// See PR 1FMS89U
 					// We record first the read size. In this case len is the actual read size.
 					len += readSize;

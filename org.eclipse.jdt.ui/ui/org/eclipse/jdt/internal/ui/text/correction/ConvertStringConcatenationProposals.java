@@ -28,7 +28,7 @@ final class ConvertStringConcatenationProposals {
 	private ConvertStringConcatenationProposals() {
 	}
 
-	public static boolean getProposals(IInvocationContext context, Collection<ICommandAccess> resultingCollections) {
+	public static boolean getProposals(IInvocationContext context, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		var compilationUnit= context.getASTRoot();
 		var node= context.getCoveringNode();
 

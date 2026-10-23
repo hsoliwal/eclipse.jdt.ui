@@ -20,7 +20,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-public class NewAnnotationMemberProposal extends LinkedCorrectionProposal {
+public class NewAnnotationMemberProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public NewAnnotationMemberProposal(NewAnnotationMemberProposalCore core, Image image) {
 		this(core.getName(), core.getCompilationUnit(), core.getInvocationNode(), core.getSenderBinding(), core.getRelevance(), image);
 	}

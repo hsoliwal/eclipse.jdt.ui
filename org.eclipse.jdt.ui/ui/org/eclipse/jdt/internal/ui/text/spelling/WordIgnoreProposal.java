@@ -39,7 +39,7 @@ import org.eclipse.jdt.internal.ui.text.spelling.engine.ISpellChecker;
  *
  * @since 3.0
  */
-public class WordIgnoreProposal implements IJavaCompletionProposal {
+public class WordIgnoreProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/** The invocation context */
 	private IQuickAssistInvocationContext fContext;

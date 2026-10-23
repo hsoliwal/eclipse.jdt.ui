@@ -75,10 +75,10 @@ public class JdtUtils {
 		// don't call
 	}
 
-	public static IJavaElement getMethod(IParent parent, String signature) {
+	public static IJavaElement getMethod(IParent parent, String signature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IJavaElement[] children = parent.getChildren();
-			for (IJavaElement child : children) {
+			for (IJavaElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement javaElement = child;
 				switch (javaElement.getElementType()) {
 					case IJavaElement.INITIALIZER:
@@ -110,7 +110,7 @@ public class JdtUtils {
 	 * @return method signature, if given java element is either initializer or method, otherwise
 	 *         returns null.
 	 */
-	public static String getMethodSignature(IJavaElement childEl) {
+	public static String getMethodSignature(IJavaElement childEl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String methodName = null;
 		if (childEl.getElementType() == IJavaElement.INITIALIZER) {
 			IInitializer ini = (IInitializer) childEl;
@@ -136,7 +136,7 @@ public class JdtUtils {
 		return methodName;
 	}
 
-	public static String createMethodSignature(IMethod iMethod) throws JavaModelException {
+	public static String createMethodSignature(IMethod iMethod) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer sb = new StringBuffer();
 
 		// Eclipse put class name as constructor name - we change it!
@@ -174,7 +174,7 @@ public class JdtUtils {
 		}
 
 		// doSomething(Lgenerics/DummyForAsmGenerics;)Lgenerics/DummyForAsmGenerics;
-		for (String parameterType : parameterTypes) {
+		for (String parameterType : parameterTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String resolvedType = getResolvedType(parameterType, declaringType);
 			if (resolvedType != null && resolvedType.length() > 0) {
 				sb.append(resolvedType);
@@ -216,10 +216,10 @@ public class JdtUtils {
 		name = name.replace(Signature.C_DOT, PACKAGE_SEPARATOR);
 		// replace class separators
 		name = name.replace(',', TYPE_SEPARATOR);
-		return Signature.C_RESOLVED + name + Signature.C_SEMICOLON;
+		return Signature.C_RESOLVED + name + Signature.C_SEMICOLON; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private static void appendGenericType(StringBuffer sb, IMethod iMethod, String unresolvedType) throws JavaModelException {
+	private static void appendGenericType(StringBuffer sb, IMethod iMethod, String unresolvedType) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType declaringType = iMethod.getDeclaringType();
 
 		// unresolvedType is here like "QA;" => we remove "Q" and ";"
@@ -239,9 +239,9 @@ public class JdtUtils {
 		if (bounds.length == 0) {
 			sb.append("Ljava/lang/Object;"); //$NON-NLS-1$
 		} else {
-			for (String bound : bounds) {
+			for (String bound : bounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String simplyName = bound;
-				simplyName = Signature.C_UNRESOLVED + simplyName + Signature.C_NAME_END;
+				simplyName = Signature.C_UNRESOLVED + simplyName + Signature.C_NAME_END; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				String resolvedType = getResolvedType(simplyName, declaringType);
 				sb.append(resolvedType);
 			}
@@ -254,7 +254,7 @@ public class JdtUtils {
 	 * @return full qualified "bytecode formatted" type
 	 * @throws JavaModelException on error
 	 */
-	private static String getResolvedType(String typeToResolve, IType declaringType) throws JavaModelException {
+	private static String getResolvedType(String typeToResolve, IType declaringType) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer sb = new StringBuffer();
 		int arrayCount = Signature.getArrayCount(typeToResolve);
 		// test which letter is following - Q or L are for reference types
@@ -270,7 +270,7 @@ public class JdtUtils {
 				// we need resolved types
 				String resolved = getResolvedTypeName(typeToResolve, declaringType);
 				if (resolved != null) {
-					while (arrayCount > 0) {
+					while (arrayCount > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						sb.append(Signature.C_ARRAY);
 						arrayCount--;
 					}
@@ -294,7 +294,7 @@ public class JdtUtils {
 	 *         unresoved type couldn't be resolved null is returned
 	 * @throws JavaModelException on error
 	 */
-	private static String getResolvedTypeName(String refTypeSig, IType declaringType) throws JavaModelException {
+	private static String getResolvedTypeName(String refTypeSig, IType declaringType) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		/* the whole method is copied from JavaModelUtil.getResolvedTypeName(...).
 		 * The problem is, that JavaModelUtil uses '.' to separate package
@@ -386,7 +386,7 @@ public class JdtUtils {
 	 * @return null, if selection is null or could not be resolved to java element
 	 * @throws JavaModelException on error
 	 */
-	public static IJavaElement getElementAtOffset(IJavaElement input, ITextSelection selection) throws JavaModelException {
+	public static IJavaElement getElementAtOffset(IJavaElement input, ITextSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection == null) {
 			return null;
 		}
@@ -446,10 +446,10 @@ public class JdtUtils {
 	 * @param javaElement non null
 	 * @return simply element name
 	 */
-	public static String getElementName(IJavaElement javaElement) {
+	public static String getElementName(IJavaElement javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isAnonymousType(javaElement)) {
 			IType anonType = (IType) javaElement;
-			List<IJavaElement> allAnonymous = new ArrayList<>();
+			List<IJavaElement> allAnonymous = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			/*
 			 * in order to resolve anon. class name we need to know about all other
 			 * anonymous classes in declaring class, therefore we need to collect all here
@@ -471,7 +471,7 @@ public class JdtUtils {
 			 * is not compiled with comiler settings from project, but with different
 			 */
 			//ECJ mandates 1.8+ now
-			name = "1" + name; // compiler output changed for > 1.5 code //$NON-NLS-1$
+			name = "1" + name; // compiler output changed for > 1.5 code //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		if (name.endsWith(".java")) { //$NON-NLS-1$
@@ -556,7 +556,7 @@ public class JdtUtils {
 	 * @return absolute path of generated bytecode package for given element
 	 * @throws JavaModelException on error
 	 */
-	private static String getPackageOutputPath(IJavaElement javaElement) throws JavaModelException {
+	private static String getPackageOutputPath(IJavaElement javaElement) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String dir = ""; //$NON-NLS-1$
 		if (javaElement == null) {
 			return dir;
@@ -577,7 +577,7 @@ public class JdtUtils {
 		// resolve multiple output locations here
 		if (project.exists() && project.getProject().isOpen()) {
 			IClasspathEntry entries[] = project.getRawClasspath();
-			for (IClasspathEntry classpathEntry : entries) {
+			for (IClasspathEntry classpathEntry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					IPath outputPath = classpathEntry.getOutputLocation();
 					if (outputPath != null && classpathEntry.getPath().isPrefixOf(resource.getFullPath())) {
@@ -656,7 +656,7 @@ public class JdtUtils {
 	 * @param javaElement can be null
 	 * @return full os-specific file path to .class resource, containing given element
 	 */
-	public static String getByteCodePath(IJavaElement javaElement) {
+	public static String getByteCodePath(IJavaElement javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (javaElement == null) {
 			return "";//$NON-NLS-1$
 		}
@@ -680,7 +680,7 @@ public class JdtUtils {
 	 * @return new generated input stream for given element bytecode class file, or null if class
 	 *         file cannot be found or this element is not from java source path
 	 */
-	public static byte[] readClassBytes(IJavaElement javaElement) {
+	public static byte[] readClassBytes(IJavaElement javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IClassFile classFile = (IClassFile) javaElement.getAncestor(IJavaElement.CLASS_FILE);
 
 		// existing read-only class files
@@ -736,12 +736,12 @@ public class JdtUtils {
 
 		String className = classFile.getElementName();
 		if (packageName.length() > 0) {
-			return packageName + PACKAGE_SEPARATOR + className;
+			return packageName + PACKAGE_SEPARATOR + className; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return className;
 	}
 
-	private static String getClassName(IJavaElement javaElement, IJavaElement topAncestor) {
+	private static String getClassName(IJavaElement javaElement, IJavaElement topAncestor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer sb = new StringBuffer();
 		if (!javaElement.equals(topAncestor)) {
 			int elementType = javaElement.getElementType();
@@ -763,8 +763,8 @@ public class JdtUtils {
 
 				// override top ancestor with immediate ancestor
 				topAncestor = getFirstAncestor(javaElement);
-				while (topAncestor != null) {
-					sb.insert(0, getElementName(topAncestor) + TYPE_SEPARATOR);
+				while (topAncestor != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					sb.insert(0, getElementName(topAncestor) + TYPE_SEPARATOR); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					topAncestor = getFirstAncestor(topAncestor);
 				}
 			}
@@ -808,7 +808,7 @@ public class JdtUtils {
 	 */
 	private static void collectAllAnonymous(List<IJavaElement> list, IParent parent) throws JavaModelException {
 		IJavaElement[] children = parent.getChildren();
-		for (IJavaElement childElem : children) {
+		for (IJavaElement childElem : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isAnonymousType(childElem)) {
 				list.add(childElem);
 			}
@@ -828,7 +828,7 @@ public class JdtUtils {
 	 *         then return value is '-1'
 	 */
 	private static int getAnonimousIndex(IType anonType, IType[] anonymous) {
-		for (int i = 0; i < anonymous.length; i++) {
+		for (int i = 0; i < anonymous.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (anonymous[i] == anonType) {
 				// +1 because compiler starts generated classes always with 1
 				return i + 1;
@@ -846,7 +846,7 @@ public class JdtUtils {
 	private static void sortAnonymous(List<IJavaElement> anonymous) {
 		SourceOffsetComparator sourceComparator = new SourceOffsetComparator();
 		AnonymClassComparator classComparator = new AnonymClassComparator(sourceComparator);
-		Collections.sort(anonymous, classComparator);
+		Collections.sort(anonymous, classComparator); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 		if (BytecodeOutlinePlugin.DEBUG) {
 			debugCompilePrio(classComparator);
@@ -863,11 +863,11 @@ public class JdtUtils {
 			return result;
 		};
 
-		List<IType> keys = new ArrayList<>(map.keySet());
-		Collections.sort(keys, prioComp);
-		for (IType key2 : keys) {
+		List<IType> keys = new ArrayList<>(map.keySet()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Collections.sort(keys, prioComp); //FLLDCIM: MARK — M16 SORT_LANE CALL
+		for (IType key2 : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object key = key2;
-			System.out.println(map.get(key) + " : " + key); //$NON-NLS-1$
+			System.out.println(map.get(key) + " : " + key); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -907,7 +907,7 @@ public class JdtUtils {
 	 * @return true if the given element is an interface or abstract method or a method from
 	 *         interface.
 	 */
-	public static boolean isAbstractOrInterface(IJavaElement javaEl) {
+	public static boolean isAbstractOrInterface(IJavaElement javaEl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (javaEl == null) {
 			return true;
 		}
@@ -962,7 +962,7 @@ public class JdtUtils {
 		 * @param o2 should be IType
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(IType o1, IType o2) {
 			IType m1 = o1;
 			IType m2 = o2;
@@ -991,7 +991,7 @@ public class JdtUtils {
 
 		public AnonymClassComparator(SourceOffsetComparator sourceComparator) {
 			this.sourceComparator = sourceComparator;
-			map = new IdentityHashMap<>();
+			map = new IdentityHashMap<>(); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
 		}
 
 		/**
@@ -1068,8 +1068,8 @@ public class JdtUtils {
 	 *         element, if single match exists
 	 * @throws JavaModelException on search
 	 */
-	public static IType[] getTypeForName(String simpleTypeName, IJavaSearchScope searchScope, IProgressMonitor monitor) throws JavaModelException {
-		final List<IType> result = new ArrayList<>();
+	public static IType[] getTypeForName(String simpleTypeName, IJavaSearchScope searchScope, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<IType> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final TypeFactory fFactory = new TypeFactory();
 		TypeNameRequestor requestor = new TypeNameRequestor() {
 			@Override
@@ -1096,9 +1096,9 @@ public class JdtUtils {
 	 * @param elements the elements to filter
 	 * @return the openable elements
 	 */
-	public static IJavaElement[] selectOpenableElements(IJavaElement[] elements) {
-		List<IJavaElement> result = new ArrayList<>(elements.length);
-		for (IJavaElement element : elements) {
+	public static IJavaElement[] selectOpenableElements(IJavaElement[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IJavaElement> result = new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element == null) {
 				continue;
 			}

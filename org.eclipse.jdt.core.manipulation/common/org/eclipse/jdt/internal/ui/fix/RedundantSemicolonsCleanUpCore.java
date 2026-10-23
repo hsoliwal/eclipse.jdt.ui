@@ -87,25 +87,25 @@ public class RedundantSemicolonsCleanUpCore extends AbstractMultiFix implements 
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
-		buf.append("enum color {\n"); //$NON-NLS-1$
-		buf.append("  red, yellow, green\n"); //$NON-NLS-1$
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("enum color {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("  red, yellow, green\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.REMOVE_REDUNDANT_SEMICOLONS)) {
-			buf.append("}\n"); //$NON-NLS-1$
+			buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("};\n"); //$NON-NLS-1$
+			buf.append("};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("\npublic class IFoo {\n"); //$NON-NLS-1$
+		buf.append("\npublic class IFoo {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.REMOVE_REDUNDANT_SEMICOLONS)) {
-			buf.append("  int a= 3;\n"); //$NON-NLS-1$
-			buf.append("  public void foo() {}\n"); //$NON-NLS-1$
-			buf.append("}\n"); //$NON-NLS-1$
+			buf.append("  int a= 3;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  public void foo() {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("  int a= 3;;\n"); //$NON-NLS-1$
-			buf.append("  public void foo() {;};\n"); //$NON-NLS-1$
-			buf.append("};\n"); //$NON-NLS-1$
+			buf.append("  int a= 3;;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  public void foo() {;};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return buf.toString();
@@ -123,7 +123,7 @@ public class RedundantSemicolonsCleanUpCore extends AbstractMultiFix implements 
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.REMOVE_REDUNDANT_SEMICOLONS)) {
 			return null;
@@ -133,7 +133,7 @@ public class RedundantSemicolonsCleanUpCore extends AbstractMultiFix implements 
 		String contents= buffer.getContents();
 
 		String label= MultiFixMessages.RedundantSemicolonsCleanup_description;
-		ArrayList<TextEditGroup> textedits= new ArrayList<>();
+		ArrayList<TextEditGroup> textedits= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -200,7 +200,7 @@ public class RedundantSemicolonsCleanUpCore extends AbstractMultiFix implements 
 
 	private int findTrailingSemicolons(String contents, int startLocation) {
 		int i= startLocation;
-		Matcher matcher= pattern.matcher(contents.substring(i));
+		Matcher matcher= pattern.matcher(contents.substring(i)); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (matcher.find(0)) {
 			return matcher.end(2);
 		}
@@ -219,9 +219,9 @@ public class RedundantSemicolonsCleanUpCore extends AbstractMultiFix implements 
 			return null;
 
 		CompilationUnitChange result= new CompilationUnitChange(fName, fCompilationUnit);
-		for (TextEditGroup editGroup : fEditGroups) {
+		for (TextEditGroup editGroup : fEditGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String groupName= editGroup.getName();
-			for (TextEdit edit : editGroup.getTextEdits()) {
+			for (TextEdit edit : editGroup.getTextEdits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TextChangeCompatibility.addTextEdit(result, groupName, edit);
 			}
 		}

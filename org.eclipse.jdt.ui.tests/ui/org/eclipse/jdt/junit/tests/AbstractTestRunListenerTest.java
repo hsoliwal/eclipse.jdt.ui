@@ -85,7 +85,7 @@ public class AbstractTestRunListenerTest {
 		private boolean fIsDone;
 
 		public TestRunLog() {
-			fLog= new ArrayList<>();
+			fLog= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fIsDone= false;
 		}
 
@@ -189,9 +189,9 @@ public class AbstractTestRunListenerTest {
 	protected static void buildTestCase(IJavaElement aTest) throws CoreException {
 		ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD, null);
 		IMarker[] markers= aTest.getJavaProject().getProject().findMarkers(null, true, IResource.DEPTH_INFINITE);
-		for (IMarker marker : markers) {
+		for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(marker.getAttribute(IMarker.SEVERITY, 0) >= IMarker.SEVERITY_ERROR) {
-				fail("unexpected errors, e.g. :" + marker.toString());
+				fail("unexpected errors, e.g. :" + marker.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
@@ -232,7 +232,7 @@ public class AbstractTestRunListenerTest {
 	 * @param log         log that the caller's {@link org.eclipse.jdt.junit.TestRunListener}
 	 *                    writes into; used to wait for {@code sessionFinished}
 	 */
-	protected String[] launchJUnitMultiMethod(final IMember[] testMembers, IType anchor, String testKindId, final TestRunLog log) throws CoreException {
+	protected String[] launchJUnitMultiMethod(final IMember[] testMembers, IType anchor, String testKindId, final TestRunLog log) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		buildTestCase(anchor);
 
 		ILaunchManager lm= DebugPlugin.getDefault().getLaunchManager();
@@ -244,7 +244,7 @@ public class AbstractTestRunListenerTest {
 		configuration.setAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_RUNNER_KIND, testKindId);
 		configuration.removeAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_NAME);
 
-		AdvancedJUnitLaunchConfigurationDelegate delegate= new AdvancedJUnitLaunchConfigurationDelegate() {
+		AdvancedJUnitLaunchConfigurationDelegate delegate= new AdvancedJUnitLaunchConfigurationDelegate() { //FLLDCIM: MARK — T27  ANONYMOUS
 			@Override
 			protected IMember[] evaluateTests(ILaunchConfiguration cfg, IProgressMonitor monitor) {
 				return testMembers;
@@ -323,13 +323,13 @@ public class AbstractTestRunListenerTest {
 	}
 
 	public static void assertEqualLog(final String[] expectedSequence, String[] logMessages) {
-		StringBuilder actual= new StringBuilder();
-		for (String logMessage : logMessages) {
-			actual.append(logMessage).append('\n');
+		StringBuilder actual= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String logMessage : logMessages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			actual.append(logMessage).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		StringBuilder expected= new StringBuilder();
-		for (String sequence : expectedSequence) {
-			expected.append(sequence).append('\n');
+		StringBuilder expected= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String sequence : expectedSequence) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			expected.append(sequence).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		assertEquals(expected.toString(), actual.toString());
 	}
@@ -341,74 +341,74 @@ public class AbstractTestRunListenerTest {
 	 * identifiers (in any order). Used by the multi-method launch tests because the
 	 * dispatch order across classes is implementation-defined.
 	 */
-	protected static void assertMultiMethodRun(String[] log, String... expectedClassHashMethod) {
+	protected static void assertMultiMethodRun(String[] log, String... expectedClassHashMethod) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Pattern p= Pattern.compile("testCaseMethod: (.+?)\\s*[\\r\\n]+\\s*class: (\\S+)");
 		int sessionStartedCount= 0;
 		int sessionFinishedCount= 0;
 		Set<String> started= new TreeSet<>();
 		Set<String> finished= new TreeSet<>();
-		for (String entry : log) {
+		for (String entry : log) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.startsWith("sessionStarted-")) {
 				sessionStartedCount++;
 			} else if (entry.startsWith("sessionFinished-")) {
 				sessionFinishedCount++;
 			} else if (entry.startsWith("testCaseStarted-")) {
-				Matcher m= p.matcher(entry);
+				Matcher m= p.matcher(entry); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (m.find()) {
-					started.add(m.group(2) + "#" + m.group(1));
+					started.add(m.group(2) + "#" + m.group(1)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} else if (entry.startsWith("testCaseFinished-")) {
-				Matcher m= p.matcher(entry);
+				Matcher m= p.matcher(entry); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (m.find()) {
-					finished.add(m.group(2) + "#" + m.group(1));
+					finished.add(m.group(2) + "#" + m.group(1)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
 		Set<String> expected= new TreeSet<>(Arrays.asList(expectedClassHashMethod));
-		assertEquals("Expected exactly one sessionStarted event in log: " + Arrays.toString(log), 1, sessionStartedCount);
-		assertEquals("Expected exactly one sessionFinished event in log: " + Arrays.toString(log), 1, sessionFinishedCount);
+		assertEquals("Expected exactly one sessionStarted event in log: " + Arrays.toString(log), 1, sessionStartedCount); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Expected exactly one sessionFinished event in log: " + Arrays.toString(log), 1, sessionFinishedCount); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals("Started test cases differ", expected, started);
 		assertEquals("Finished test cases differ", expected, finished);
 	}
 
-	@SuppressWarnings("restriction")
+	@SuppressWarnings("restriction") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private static void logProcessesInfos(ILaunch launch) {
 		try {
-			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			IProcess[] processes= launch.getProcesses();
-			sb.append("Launch with " + processes.length + " processes failed to terminate before timeout");
-			sb.append(System.lineSeparator());
-			for (int i = 0; i < processes.length; ++i) {
+			sb.append("Launch with " + processes.length + " processes failed to terminate before timeout"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(System.lineSeparator()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i = 0; i < processes.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IProcess process = processes[i];
-				sb.append("Process " + i + ": " + process.getLabel());
-				sb.append(System.lineSeparator());
-				sb.append("Terminated: " + process.isTerminated());
-				sb.append(System.lineSeparator());
+				sb.append("Process " + i + ": " + process.getLabel()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				sb.append(System.lineSeparator()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				sb.append("Terminated: " + process.isTerminated()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				sb.append(System.lineSeparator()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (process.isTerminated()) {
-					sb.append("Exit value: " + process.getExitValue());
-					sb.append(System.lineSeparator());
+					sb.append("Exit value: " + process.getExitValue()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					sb.append(System.lineSeparator()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				String cmd = process.getAttribute(IProcess.ATTR_CMDLINE);
 				if (cmd != null) {
-					sb.append("Command line: " + cmd);
-					sb.append(System.lineSeparator());
+					sb.append("Command line: " + cmd); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					sb.append(System.lineSeparator()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				ProcessConsoleManager manager= DebugUIPlugin.getDefault().getProcessConsoleManager();
 				if (manager != null && manager.getConsole(process) instanceof ProcessConsole console) {
 					IDocument document= console.getDocument();
 					String output= document != null ? document.get() : "";
 					if (output != null && !output.isEmpty()) {
-						sb.append("Process output:");
-						sb.append(System.lineSeparator());
-						sb.append(output);
-						sb.append(System.lineSeparator());
+						sb.append("Process output:"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						sb.append(System.lineSeparator()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						sb.append(output); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						sb.append(System.lineSeparator()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 				String id= process.getAttribute(IProcess.ATTR_PROCESS_ID);
 				if (id != null) {
 					try {
 						// print on standard out to not complicate this code too much with reading output
-						System.out.println("Printing jstack for process: " + id);
+						System.out.println("Printing jstack for process: " + id); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						ProcessBuilder pb = new ProcessBuilder("jstack", id);
 						pb.inheritIO();
 						Process p= pb.start();
@@ -424,14 +424,14 @@ public class AbstractTestRunListenerTest {
 		}
 	}
 
-	protected static class LaunchesListener implements ILaunchesListener2 {
+	protected static class LaunchesListener implements ILaunchesListener2 { //FLLDCIM: MARK — T27  IMPLEMENTS
 
 		protected final AtomicBoolean fLaunchChanged= new AtomicBoolean(false);
 		protected final AtomicBoolean fLaunchHasTerminated= new AtomicBoolean(false);
 
 		@Override
 		public void launchesTerminated(ILaunch[] launches) {
-			for (ILaunch launch : launches) {
+			for (ILaunch launch : launches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isJUnitLaunch(launch)) {
 					fLaunchHasTerminated.set(true);
 				}
@@ -440,7 +440,7 @@ public class AbstractTestRunListenerTest {
 		}
 		@Override
 		public void launchesRemoved(ILaunch[] launches) {
-			for (ILaunch launch : launches) {
+			for (ILaunch launch : launches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isJUnitLaunch(launch)) {
 					fLaunchHasTerminated.set(true);
 				}
@@ -449,13 +449,13 @@ public class AbstractTestRunListenerTest {
 		}
 		@Override
 		public void launchesAdded(ILaunch[] launches) {
-			for (ILaunch launch : launches) {
+			for (ILaunch launch : launches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				logLaunch("added     ", launch);
 			}
 		}
 		@Override
 		public void launchesChanged(ILaunch[] launches) {
-			for (ILaunch launch : launches) {
+			for (ILaunch launch : launches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isJUnitLaunch(launch)) {
 					fLaunchChanged.set(true);
 				}

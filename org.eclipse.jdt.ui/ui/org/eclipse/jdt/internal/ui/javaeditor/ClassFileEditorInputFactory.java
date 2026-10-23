@@ -29,7 +29,7 @@ public class ClassFileEditorInputFactory implements IElementFactory {
 
 	public final static String ID=  "org.eclipse.jdt.ui.ClassFileEditorInputFactory"; //$NON-NLS-1$
 	public final static String KEY= "org.eclipse.jdt.ui.ClassFileIdentifier"; //$NON-NLS-1$
-	public final static String KEY_NAME= KEY + ".name"; //$NON-NLS-1$
+	public final static String KEY_NAME= KEY + ".name"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public ClassFileEditorInputFactory() {
 	}

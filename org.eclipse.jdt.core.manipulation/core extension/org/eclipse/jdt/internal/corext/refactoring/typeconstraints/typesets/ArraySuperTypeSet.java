@@ -37,7 +37,7 @@ public class ArraySuperTypeSet extends ArrayTypeSet {
 		return getJavaLangObject();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean contains(TType t) {
 		if (t.equals(getJavaLangObject())) return true;
 		if (!(t instanceof ArrayType))
@@ -49,7 +49,7 @@ public class ArraySuperTypeSet extends ArrayTypeSet {
 		if (fElemTypeSet.contains(atElemType)) // try to avoid enumeration
 			return true;
 
-		for(Iterator<TType> iter= fElemTypeSet.iterator(); iter.hasNext(); ) {
+		for(Iterator<TType> iter= fElemTypeSet.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType elemType= iter.next();
 
 			if (TTypes.canAssignTo(elemType, atElemType))
@@ -96,7 +96,7 @@ public class ArraySuperTypeSet extends ArrayTypeSet {
 			fEnumCache= new EnumeratedTypeSet(getTypeSetEnvironment());
 			TypeSet elemSupers= fElemTypeSet.superTypes();
 
-			for(Iterator<TType> iter= elemSupers.iterator(); iter.hasNext(); ) {
+			for(Iterator<TType> iter= elemSupers.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType elemSuper= iter.next();
 
 				fEnumCache.add(TTypes.createArrayType(elemSuper, 1));
@@ -166,6 +166,6 @@ public class ArraySuperTypeSet extends ArrayTypeSet {
 
 	@Override
 	public String toString() {
-		return "{" + fID + ": array-super(" + fElemTypeSet + ")}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "{" + fID + ": array-super(" + fElemTypeSet + ")}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

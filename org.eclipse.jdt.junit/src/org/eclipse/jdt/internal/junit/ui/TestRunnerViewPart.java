@@ -347,7 +347,7 @@ public class TestRunnerViewPart extends ViewPart {
 	private ILock fJUnitIsRunningLock;
 	public static final Object FAMILY_JUNIT_RUN = new Object();
 
-	private IPartListener2 fPartListener= new IPartListener2() {
+	private IPartListener2 fPartListener= new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 		@Override
 		public void partActivated(IWorkbenchPartReference ref) { }
 		@Override
@@ -435,15 +435,15 @@ public class TestRunnerViewPart extends ViewPart {
 
 			List<TestRunSession> testRunSessions= JUnitCorePlugin.getModel().getTestRunSessions();
 			testRunSessions.removeAll(remainingEntries);
-			for (TestRunSession testRunSession : testRunSessions) {
+			for (TestRunSession testRunSession : testRunSessions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				JUnitCorePlugin.getModel().removeTestRunSession(testRunSession);
 			}
-			for (TestRunSession remaining : remainingEntries) {
+			for (TestRunSession remaining : remainingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				remaining.swapOut();
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ImageDescriptor getImageDescriptor(Object element) {
 			TestRunSession session= (TestRunSession) element;
 			if (session.isStopped())
@@ -508,7 +508,7 @@ public class TestRunnerViewPart extends ViewPart {
 			fShell= shell;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			FileDialog importDialog= new FileDialog(fShell, SWT.OPEN | SWT.SHEET);
 			importDialog.setText(JUnitMessages.TestRunnerViewPart_ImportTestRunSessionAction_title);
@@ -585,7 +585,7 @@ public class TestRunnerViewPart extends ViewPart {
 					URL url= new URL(newText);
 					return null;
 				} catch (MalformedURLException e) {
-					return JUnitMessages.TestRunnerViewPart_ImportTestRunSessionFromURLAction_invalid_url + e.getLocalizedMessage();
+					return JUnitMessages.TestRunnerViewPart_ImportTestRunSessionFromURLAction_invalid_url + e.getLocalizedMessage(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -599,7 +599,7 @@ public class TestRunnerViewPart extends ViewPart {
 			fShell= shell;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			String title= JUnitMessages.TestRunnerViewPart_ImportTestRunSessionAction_title;
 			String message= JUnitMessages.TestRunnerViewPart_ImportTestRunSessionFromURLAction_url;
@@ -655,7 +655,7 @@ public class TestRunnerViewPart extends ViewPart {
 			fTestRunSession= testRunSession;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			FileDialog exportDialog= new FileDialog(fShell, SWT.SAVE | SWT.SHEET);
 			exportDialog.setText(JUnitMessages.TestRunnerViewPart_ExportTestRunSessionAction_title);
@@ -688,14 +688,14 @@ public class TestRunnerViewPart extends ViewPart {
 				return testRunName;
 
 			String isoTime= new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date(startTime)); //$NON-NLS-1$
-			return testRunName + " " + isoTime + ".xml"; //$NON-NLS-1$ //$NON-NLS-2$
+			return testRunName + " " + isoTime + ".xml"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private class TestRunSessionListener implements ITestRunSessionListener {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void sessionAdded(final TestRunSession testRunSession) {
-			getDisplay().asyncExec(() -> {
+			getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (JUnitUIPreferencesConstants.getShowInAllViews() ||
 						getSite().getWorkbenchWindow() == JUnitPlugin.getActiveWorkbenchWindow()) {
 					if (fInfoMessage == null) {
@@ -717,7 +717,7 @@ public class TestRunnerViewPart extends ViewPart {
 		}
 		@Override
 		public void sessionRemoved(final TestRunSession testRunSession) {
-			getDisplay().asyncExec(() -> {
+			getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (testRunSession.equals(fTestRunSession)) {
 					List<TestRunSession> testRunSessions= JUnitCorePlugin.getModel().getTestRunSessions();
 					TestRunSession deactivatedSession;
@@ -745,7 +745,7 @@ public class TestRunnerViewPart extends ViewPart {
 			fRerunLastTestAction.setEnabled(fTestRunSession.canRerun());
 
 			// While tests are running, always use the execution order
-			getDisplay().asyncExec(new Runnable() {
+			getDisplay().asyncExec(new Runnable() { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				@Override
 				public void run() {
 					fTestViewer.setSortingCriterion(SortingCriterion.SORT_BY_EXECUTION_ORDER);
@@ -753,7 +753,7 @@ public class TestRunnerViewPart extends ViewPart {
 			});
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void sessionEnded(long elapsedTime){
 			deregisterTestSessionListener(false);
 
@@ -775,7 +775,7 @@ public class TestRunnerViewPart extends ViewPart {
 				}
 				if (fDirtyListener == null) {
 					fDirtyListener= new DirtyListener();
-					JavaCore.addElementChangedListener(fDirtyListener);
+					JavaCore.addElementChangedListener(fDirtyListener); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 				}
 				warnOfContentChange();
 			});
@@ -783,7 +783,7 @@ public class TestRunnerViewPart extends ViewPart {
 			logMessageIfNoTests();
 
 			// When test session ended, apply user sorting criterion
-			getDisplay().asyncExec(new Runnable() {
+			getDisplay().asyncExec(new Runnable() { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				@Override
 				public void run() {
 					setSortingCriterion(fSortingCriterion);
@@ -828,7 +828,7 @@ public class TestRunnerViewPart extends ViewPart {
 			registerInfoMessage(status);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void testFailed(TestElement testElement, TestElement.Status status, String trace, String expected, String actual) {
 			if (isAutoScroll()) {
 				fTestViewer.registerFailedForAutoScroll(testElement);
@@ -877,7 +877,7 @@ public class TestRunnerViewPart extends ViewPart {
 		}
 	}
 
-	private class UpdateUIJob extends UIJob {
+	private class UpdateUIJob extends UIJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 		private volatile boolean fRunning= true;
 
 		public UpdateUIJob(String name) {
@@ -926,7 +926,7 @@ public class TestRunnerViewPart extends ViewPart {
 
 			boolean enabled= false;
 			List<TestRunSession> testRunSessions= JUnitCorePlugin.getModel().getTestRunSessions();
-			for (TestRunSession testRunSession : testRunSessions) {
+			for (TestRunSession testRunSession : testRunSessions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! testRunSession.isRunning() && ! testRunSession.isStarting()) {
 					enabled= true;
 					break;
@@ -944,7 +944,7 @@ public class TestRunnerViewPart extends ViewPart {
 
 		private List<TestRunSession> getRunningSessions() {
 			List<TestRunSession> testRunSessions= JUnitCorePlugin.getModel().getTestRunSessions();
-			for (Iterator<TestRunSession> iter= testRunSessions.iterator(); iter.hasNext();) {
+			for (Iterator<TestRunSession> iter= testRunSessions.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TestRunSession testRunSession= iter.next();
 				if (! testRunSession.isRunning() && ! testRunSession.isStarting()) {
 					iter.remove();
@@ -1001,7 +1001,7 @@ public class TestRunnerViewPart extends ViewPart {
 	private class ToggleOrientationAction extends Action {
 		private final int fActionOrientation;
 
-		public ToggleOrientationAction(int orientation) {
+		public ToggleOrientationAction(int orientation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super("", AS_RADIO_BUTTON); //$NON-NLS-1$
 			switch (orientation) {
 			case TestRunnerViewPart.VIEW_ORIENTATION_HORIZONTAL:
@@ -1039,7 +1039,7 @@ public class TestRunnerViewPart extends ViewPart {
 	private class ToggleSortingAction extends Action {
 		private final SortingCriterion fActionSortingCriterion;
 
-		public ToggleSortingAction(SortingCriterion sortingCriterion) {
+		public ToggleSortingAction(SortingCriterion sortingCriterion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super("", AS_RADIO_BUTTON); //$NON-NLS-1$
 			switch (sortingCriterion) {
 				case SORT_BY_NAME:
@@ -1086,13 +1086,13 @@ public class TestRunnerViewPart extends ViewPart {
 	/**
 	 * Listen for for modifications to Java elements
 	 */
-	private class DirtyListener implements IElementChangedListener {
+	private class DirtyListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 		@Override
 		public void elementChanged(ElementChangedEvent event) {
 			processDelta(event.getDelta());
 		}
 
-		private boolean processDelta(IJavaElementDelta delta) {
+		private boolean processDelta(IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int kind= delta.getKind();
 			int details= delta.getFlags();
 			int type= delta.getElement().getElementType();
@@ -1129,7 +1129,7 @@ public class TestRunnerViewPart extends ViewPart {
 			if (affectedChildren == null)
 				return true;
 
-			for (IJavaElementDelta affectedChild : affectedChildren) {
+			for (IJavaElementDelta affectedChild : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!processDelta(affectedChild)) {
 					return false;
 				}
@@ -1219,8 +1219,8 @@ public class TestRunnerViewPart extends ViewPart {
 		}
 	}
 
-	public TestRunnerViewPart() {
-		fImagesToDispose= new ArrayList<>();
+	public TestRunnerViewPart() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fImagesToDispose= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fStackViewIcon= createManagedImage("eview16/stackframe.svg");//$NON-NLS-1$
 		fTestRunOKIcon= createManagedImage("eview16/junitsucc.svg"); //$NON-NLS-1$
@@ -1274,7 +1274,7 @@ public class TestRunnerViewPart extends ViewPart {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saveState(IMemento memento) {
 		if (fSashForm == null) {
 			// part has not been created
@@ -1299,7 +1299,7 @@ public class TestRunnerViewPart extends ViewPart {
 		memento.putInteger(TAG_SORTING_CRITERION, fSortingCriterion.ordinal());
 	}
 
-	private void restoreLayoutState(IMemento memento) {
+	private void restoreLayoutState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 //		Integer page= memento.getInteger(TAG_PAGE);
 //		if (page != null) {
 //			int p= page.intValue();
@@ -1352,7 +1352,7 @@ public class TestRunnerViewPart extends ViewPart {
 			sortingCriterion= SortingCriterion.values() [tagSortingCriterion];
 		}
 		setSortingCriterion(sortingCriterion);
-		for (ToggleSortingAction fToggleSortingAction : fToggleSortingActions) {
+		for (ToggleSortingAction fToggleSortingAction : fToggleSortingActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fToggleSortingAction.setChecked(sortingCriterion == fToggleSortingAction.getActionSortingCriterion());
 		}
 
@@ -1429,7 +1429,7 @@ public class TestRunnerViewPart extends ViewPart {
 	/**
 	 * Stops the currently running test and shuts down the RemoteTestRunner
 	 */
-	public void rerunTestRun() {
+	public void rerunTestRun() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (lastLaunchIsKeptAlive()) {
 			if (MessageDialog.openQuestion(getSite().getShell(), JUnitMessages.TestRunnerViewPart_terminate_title, JUnitMessages.TestRunnerViewPart_terminate_message)) {
 				stopTest(); // TODO: wait for termination
@@ -1448,7 +1448,7 @@ public class TestRunnerViewPart extends ViewPart {
 		relaunch(configuration, launchMode);
 	}
 
-	private ILaunchConfiguration prepareLaunchConfigForRelaunch(ILaunchConfiguration configuration) {
+	private ILaunchConfiguration prepareLaunchConfigForRelaunch(ILaunchConfiguration configuration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			String attribute= configuration.getAttribute(JUnitLaunchConfigurationConstants.ATTR_FAILURES_NAMES, ""); //$NON-NLS-1$
 			if (attribute.length() != 0) {
@@ -1467,7 +1467,7 @@ public class TestRunnerViewPart extends ViewPart {
 		return configuration;
 	}
 
-	public void rerunTestFailedFirst() {
+	public void rerunTestFailedFirst() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (lastLaunchIsKeptAlive()) {
 			if (MessageDialog.openQuestion(getSite().getShell(), JUnitMessages.TestRunnerViewPart_terminate_title, JUnitMessages.TestRunnerViewPart_terminate_message)) {
 				if (fTestRunSession != null)
@@ -1516,7 +1516,7 @@ public class TestRunnerViewPart extends ViewPart {
 			file.deleteOnExit();
 			TestElement[] failures= fTestRunSession.getAllFailedTestElements();
 			try (BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))){
-				for (TestElement testElement : failures) {
+				for (TestElement testElement : failures) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					bw.write(testElement.getTestName());
 					bw.newLine();
 				}
@@ -1601,7 +1601,7 @@ public class TestRunnerViewPart extends ViewPart {
 		firePropertyChange(IWorkbenchPart.PROP_TITLE);
 	}
 
-	private void updateViewTitleProgress() {
+	private void updateViewTitleProgress() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTestRunSession != null) {
 			if (fTestRunSession.isRunning()) {
 				Image progress= fProgressImages.getImage(
@@ -1625,7 +1625,7 @@ public class TestRunnerViewPart extends ViewPart {
 	 * @param testRunSession new active test run session
 	 * @return deactivated session, or <code>null</code> iff no session got deactivated
 	 */
-	private TestRunSession setActiveTestRunSession(TestRunSession testRunSession) {
+	private TestRunSession setActiveTestRunSession(TestRunSession testRunSession) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 /*
 - State:
 fTestRunSession
@@ -1740,7 +1740,7 @@ action enablement
 			setTitleToolTip(testRunLabel);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public synchronized void dispose(){
 		fIsDisposed= true;
 		if (fTestRunSessionListener != null)
@@ -1771,17 +1771,17 @@ action enablement
 	}
 
 	private void disposeImages() {
-		for (Image imageToDispose : fImagesToDispose) {
+		for (Image imageToDispose : fImagesToDispose) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			imageToDispose.dispose();
 		}
 	}
 
 	private void postSyncRunnable(Runnable r) {
 		if (!isDisposed())
-			getDisplay().syncExec(r);
+			getDisplay().syncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
-	private void refreshCounters() {
+	private void refreshCounters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		 // TODO: Inefficient. Either
 		// - keep a boolean fHasTestRun and update only on changes, or
 		// - improve components to only redraw on changes (once!).
@@ -1839,7 +1839,7 @@ action enablement
 		});
 	}
 
-	public void showTestResultsView() {
+	public void showTestResultsView() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchWindow window= getSite().getWorkbenchWindow();
 		IWorkbenchPage page= window.getActivePage();
 		TestRunnerViewPart testRunner= null;
@@ -1872,8 +1872,8 @@ action enablement
 		fInfoMessage= message;
 	}
 
-	private SashForm createSashForm(Composite parent) {
-		fSashForm= new SashForm(parent, SWT.VERTICAL);
+	private SashForm createSashForm(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fSashForm= new SashForm(parent, SWT.VERTICAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 
 		ViewForm top= new ViewForm(fSashForm, SWT.NONE);
 
@@ -1917,7 +1917,7 @@ action enablement
 			fTestViewer.getTestViewerControl().setFocus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 		fParent= parent;
 		addResizeListener(parent);
@@ -1973,7 +1973,7 @@ action enablement
 		}
 	}
 
-	private void addDropAdapter(Composite parent) {
+	private void addDropAdapter(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DropTarget dropTarget = new DropTarget(parent, DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK | DND.DROP_DEFAULT);
 		dropTarget.setTransfer(TextTransfer.getInstance());
 		class DropAdapter extends DropTargetAdapter {
@@ -2000,10 +2000,10 @@ action enablement
 		        }
 		    }
 		}
-		dropTarget.addDropListener(new DropAdapter());
+		dropTarget.addDropListener(new DropAdapter()); //FLLDCIM: MARK — T25 DND CALL
 	}
 
-	private void initPageSwitcher() {
+	private void initPageSwitcher() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		@SuppressWarnings("unused")
 		PageSwitcher pageSwitcher= new PageSwitcher(this) {
 			@Override
@@ -2034,7 +2034,7 @@ action enablement
 	}
 
 	private void addResizeListener(Composite parent) {
-		parent.addControlListener(new ControlListener() {
+		parent.addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlMoved(ControlEvent e) {
 			}
@@ -2061,7 +2061,7 @@ action enablement
 		}
 	}
 
-	private void configureToolBar() {
+	private void configureToolBar() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IActionBars actionBars= getViewSite().getActionBars();
 		IToolBarManager toolBar= actionBars.getToolBarManager();
 		IMenuManager viewMenu = actionBars.getMenuManager();
@@ -2145,14 +2145,14 @@ action enablement
 						new ToggleSortingAction(SortingCriterion.SORT_BY_EXECUTION_TIME),
 						new ToggleSortingAction(SortingCriterion.SORT_BY_NAME)};
 		fSortByMenu= new MenuManager(JUnitMessages.TestRunnerViewPart_sort_by_menu);
-		for (ToggleSortingAction fToggleSortingAction : fToggleSortingActions) {
+		for (ToggleSortingAction fToggleSortingAction : fToggleSortingActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fSortByMenu.add(fToggleSortingAction);
 		}
 		viewMenu.add(fSortByMenu);
 		viewMenu.add(new Separator());
 
 		MenuManager layoutSubMenu= new MenuManager(JUnitMessages.TestRunnerViewPart_layout_menu);
-		for (ToggleOrientationAction toggleOrientationAction : fToggleOrientationActions) {
+		for (ToggleOrientationAction toggleOrientationAction : fToggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			layoutSubMenu.add(toggleOrientationAction);
 		}
 		viewMenu.add(layoutSubMenu);
@@ -2166,12 +2166,12 @@ action enablement
 		viewMenu.add(fActivateOnErrorAction);
 		fViewMenuListener= unused -> fActivateOnErrorAction.update();
 
-		viewMenu.addMenuListener(fViewMenuListener);
+		viewMenu.addMenuListener(fViewMenuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 
 		actionBars.updateActionBars();
 	}
 
-	private IStatusLineManager getStatusLine() {
+	private IStatusLineManager getStatusLine() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// we want to show messages globally hence we
 		// have to go through the active part
 		IViewSite site= getViewSite();
@@ -2249,7 +2249,7 @@ action enablement
 		return fViewImage;
 	}
 
-	void codeHasChanged() {
+	void codeHasChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fDirtyListener != null) {
 			JavaCore.removeElementChangedListener(fDirtyListener);
 			fDirtyListener= null;
@@ -2265,10 +2265,10 @@ action enablement
 			firePropertyChange(IWorkbenchPart.PROP_TITLE);
 		};
 		if (!isDisposed())
-			getDisplay().asyncExec(r);
+			getDisplay().asyncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
-	public void rerunTest(String testId, String className, String testName, String testDisplayName, String uniqueId, String launchMode) {
+	public void rerunTest(String testId, String className, String testName, String testDisplayName, String uniqueId, String launchMode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (lastLaunchIsKeptAlive()) {
 			fTestRunSession.rerunTest(testId, className, testName);
 			TestCaseElement testCaseElement= (TestCaseElement) fTestRunSession.getTestElement(testId);
@@ -2288,7 +2288,7 @@ action enablement
 					} else {
 						name= className;
 						if (testName != null)
-							name+= "."+testName; //$NON-NLS-1$
+							name+= "."+testName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					String configName= Messages.format(JUnitMessages.TestRunnerViewPart_configName, name);
 					ILaunchConfigurationWorkingCopy tmp=
@@ -2332,7 +2332,7 @@ action enablement
 			return;
 		boolean horizontal = orientation == VIEW_ORIENTATION_HORIZONTAL;
 		fSashForm.setOrientation(horizontal ? SWT.HORIZONTAL : SWT.VERTICAL);
-		for (ToggleOrientationAction toggleOrientationAction : fToggleOrientationActions)
+		for (ToggleOrientationAction toggleOrientationAction : fToggleOrientationActions) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			toggleOrientationAction.setChecked(fOrientation == toggleOrientationAction.getOrientation());
 		fCurrentOrientation = orientation;
 		GridLayout layout= (GridLayout) fCounterComposite.getLayout();
@@ -2353,7 +2353,7 @@ action enablement
 
 	static void importTestRunSession(final String url) {
 		try {
-			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(monitor -> JUnitModel.importTestRunSession(url, monitor));
+			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(monitor -> JUnitModel.importTestRunSession(url, monitor)); //FLLDCIM: MARK — T09  LAMBDA
 		} catch (InterruptedException e) {
 			// cancelled
 		} catch (InvocationTargetException e) {

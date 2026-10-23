@@ -87,9 +87,9 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 	}
 
 
-	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() {
+	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		ArrayList<OverlayKey> overlayKeys= new ArrayList<>();
+		ArrayList<OverlayKey> overlayKeys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR));
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_MATCHING_BRACKETS));
@@ -117,7 +117,7 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 	 * @param parent the parent composite
 	 * @return the control for the preference page
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -142,12 +142,12 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 
 	}
 
-	private void createHeader(Composite contents) {
+	private void createHeader(Composite contents) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Shell shell= contents.getShell();
 		String text= PreferencesMessages.JavaEditorPreferencePage_link;
 		Link link= new Link(contents, SWT.NONE);
 		link.setText(text);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if ("org.eclipse.ui.preferencePages.GeneralTextEditor".equals(e.text)) //$NON-NLS-1$
@@ -218,7 +218,7 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
         return Dialog.convertHeightInCharsToPixels(fFontMetrics, chars);
     }
 
-    private Control createAppearancePage(Composite parent) {
+    private Control createAppearancePage(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Composite appearanceComposite= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -372,9 +372,9 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 		gd.horizontalSpan= 2;
 		fAppearanceColorDefault.setLayoutData(gd);
 		fAppearanceColorDefault.setVisible(false);
-		fAppearanceColorDefault.addSelectionListener(colorDefaultSelectionListener);
+		fAppearanceColorDefault.addSelectionListener(colorDefaultSelectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
-		fAppearanceColorList.addSelectionListener(new SelectionListener() {
+		fAppearanceColorList.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// do nothing
@@ -384,7 +384,7 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 				handleAppearanceColorListSelection();
 			}
 		});
-		foregroundColorButton.addSelectionListener(new SelectionListener() {
+		foregroundColorButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// do nothing
@@ -410,7 +410,7 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 		gd.horizontalIndent= indentation;
 		gd.horizontalSpan= 2;
 		button.setLayoutData(gd);
-		button.addSelectionListener(listener);
+		button.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		makeScrollableCompositeAware(button);
 
 		return button;
@@ -425,7 +425,7 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 		gd.horizontalSpan= 2;
 		gd.horizontalIndent= LayoutUtil.getIndent();
 		link.setLayoutData(gd);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PreferencesUtil.createPreferenceDialogOn(link.getShell(), e.text, null, null);
@@ -465,11 +465,11 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 		super.initialize(); // also updates state of slaves, hence it is the second call
 		initializeDefaultColors();
 
-		for (String[] c : fAppearanceColorListModel) {
+		for (String[] c : fAppearanceColorListModel) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fAppearanceColorList.add(c[0]);
 		}
 
-		fAppearanceColorList.getDisplay().asyncExec(() -> {
+		fAppearanceColorList.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (fAppearanceColorList != null && !fAppearanceColorList.isDisposed()) {
 				fAppearanceColorList.select(0);
 				handleAppearanceColorListSelection();

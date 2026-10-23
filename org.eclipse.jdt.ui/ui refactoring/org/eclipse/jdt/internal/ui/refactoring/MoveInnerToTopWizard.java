@@ -69,20 +69,20 @@ public class MoveInnerToTopWizard extends RefactoringWizard {
 			fFieldNameEntryText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		}
 
-		private void addFinalCheckBox(Composite newControl) {
+		private void addFinalCheckBox(Composite newControl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fFinalCheckBox= new Button(newControl, SWT.CHECK);
 			fFinalCheckBox.setText(RefactoringMessages.MoveInnerToToplnputPage_instance_final);
 			GridData data= new GridData(GridData.FILL_HORIZONTAL);
 			data.horizontalSpan= 2;
 			fFinalCheckBox.setLayoutData(data);
-			fFinalCheckBox.addSelectionListener(new SelectionAdapter() {
+			fFinalCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent event) {
 					getMoveRefactoring().setMarkInstanceFieldAsFinal(fFinalCheckBox.getSelection());
 				}
 			});
-			fFieldNameEntryText.addModifyListener(unused -> {
+			fFieldNameEntryText.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				final String text= fFieldNameEntryText.getText();
 				final MoveInnerToTopRefactoring refactoring= getMoveRefactoring();
 				if (refactoring.isCreatingInstanceFieldMandatory())
@@ -98,7 +98,7 @@ public class MoveInnerToTopWizard extends RefactoringWizard {
 			});
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			initializeDialogUnits(parent);
 			Composite newControl= new Composite(parent, SWT.NONE);

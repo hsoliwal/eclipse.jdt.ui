@@ -72,7 +72,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		@Override
 		public void dispose() {
 			Iterator<Image> iterator= fIcons.values().iterator();
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Image icon= iterator.next();
 				icon.dispose();
 			}
@@ -144,7 +144,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		super(parentShell);
 		setTitle(WorkingSetMessages.WorkingSetConfigurationDialog_title);
 		setMessage(WorkingSetMessages.WorkingSetConfigurationDialog_message);
-		fAllWorkingSets= new ArrayList<>(allWorkingSets.length);
+		fAllWorkingSets= new ArrayList<>(allWorkingSets.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fAllWorkingSets.addAll(Arrays.asList(allWorkingSets));
 		fIsSortingEnabled= isSortingEnabled;
 	}
@@ -182,7 +182,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		return control;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite)super.createDialogArea(parent);
 
@@ -198,7 +198,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		createOrderButtons(inner);
 		createModifyButtons(composite);
 		updateSorting();
-		fTableViewer.setInput(fAllWorkingSets);
+		fTableViewer.setInput(fAllWorkingSets); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		applyDialogFont(composite);
 
 		return composite;
@@ -206,22 +206,22 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 
 	private void createTableViewer(Composite parent) {
 		fTableViewer= CheckboxTableViewer.newCheckList(parent, SWT.BORDER | SWT.MULTI);
-		fTableViewer.addCheckStateListener(unused -> updateButtonAvailability());
+		fTableViewer.addCheckStateListener(unused -> updateButtonAvailability()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 		GridData data= new GridData(GridData.FILL_BOTH);
 		data.heightHint= convertHeightInCharsToPixels(20);
 		data.widthHint= convertWidthInCharsToPixels(50);
 		fTableViewer.getTable().setLayoutData(data);
 
-		fTableViewer.setLabelProvider(new WorkingSetLabelProvider());
+		fTableViewer.setLabelProvider(new WorkingSetLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-		fTableViewer.addSelectionChangedListener(unused -> handleSelectionChanged());
-		fTableViewer.addDoubleClickListener(unused -> {
+		fTableViewer.addSelectionChangedListener(unused -> handleSelectionChanged()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fTableViewer.addDoubleClickListener(unused -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			if (fEditButton.isEnabled())
 				editSelectedWorkingSet();
 		});
 	}
 
-	private void createModifyButtons(Composite composite) {
+	private void createModifyButtons(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttonComposite= new Composite(composite, SWT.RIGHT);
 		GridLayout layout= new GridLayout();
 		layout.numColumns= 2;
@@ -232,7 +232,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 
 		fNewButton= createButton(buttonComposite, nextButtonId++,
 			WorkingSetMessages.WorkingSetConfigurationDialog_new_label, false);
-		fNewButton.addSelectionListener(new SelectionAdapter() {
+		fNewButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				createWorkingSet();
@@ -241,7 +241,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 
 		fEditButton= createButton(buttonComposite, nextButtonId++,
 			WorkingSetMessages.WorkingSetConfigurationDialog_edit_label, false);
-		fEditButton.addSelectionListener(new SelectionAdapter() {
+		fEditButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editSelectedWorkingSet();
@@ -250,7 +250,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 
 		fRemoveButton= createButton(buttonComposite, nextButtonId++,
 			WorkingSetMessages.WorkingSetConfigurationDialog_remove_label, false);
-		fRemoveButton.addSelectionListener(new SelectionAdapter() {
+		fRemoveButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeSelectedWorkingSets();
@@ -258,7 +258,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		});
 	}
 
-	private void createOrderButtons(Composite parent) {
+	private void createOrderButtons(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttons= new Composite(parent, SWT.NONE);
 		buttons.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		GridLayout layout= new GridLayout();
@@ -269,7 +269,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		fUpButton= new Button(buttons, SWT.PUSH);
 		fUpButton.setText(WorkingSetMessages.WorkingSetConfigurationDialog_up_label);
 		setButtonLayoutData(fUpButton);
-		fUpButton.addSelectionListener(new SelectionAdapter() {
+		fUpButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				moveUp(((IStructuredSelection)fTableViewer.getSelection()).toList());
@@ -279,7 +279,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		fDownButton= new Button(buttons, SWT.PUSH);
 		fDownButton.setText(WorkingSetMessages.WorkingSetConfigurationDialog_down_label);
 		setButtonLayoutData(fDownButton);
-		fDownButton.addSelectionListener(new SelectionAdapter() {
+		fDownButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				moveDown(((IStructuredSelection)fTableViewer.getSelection()).toList());
@@ -289,7 +289,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		fSelectAll= new Button(buttons, SWT.PUSH);
 		fSelectAll.setText(WorkingSetMessages.WorkingSetConfigurationDialog_selectAll_label);
 		setButtonLayoutData(fSelectAll);
-		fSelectAll.addSelectionListener(new SelectionAdapter() {
+		fSelectAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				selectAll();
@@ -299,7 +299,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		fDeselectAll= new Button(buttons, SWT.PUSH);
 		fDeselectAll.setText(WorkingSetMessages.WorkingSetConfigurationDialog_deselectAll_label);
 		setButtonLayoutData(fDeselectAll);
-		fDeselectAll.addSelectionListener(new SelectionAdapter() {
+		fDeselectAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				deselectAll();
@@ -316,7 +316,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		fSortWorkingSet.setText(WorkingSetMessages.WorkingSetConfigurationDialog_sort_working_sets);
 		fSortWorkingSet.setLayoutData(new GridData(SWT.LEAD, SWT.CENTER, true, false));
 		fSortWorkingSet.setSelection(fIsSortingEnabled);
-		fSortWorkingSet.addSelectionListener(new SelectionAdapter() {
+		fSortWorkingSet.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fIsSortingEnabled= fSortWorkingSet.getSelection();
@@ -331,7 +331,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		List<IWorkingSet> newResult= getResultWorkingSets();
 		fResult= newResult.toArray(new IWorkingSet[newResult.size()]);
 		if (fIsSortingEnabled) {
-			Collections.sort(fAllWorkingSets, getComparator());
+			Collections.sort(fAllWorkingSets, getComparator()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		}
 		setResult(newResult);
 		super.okPressed();
@@ -340,7 +340,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<IWorkingSet> getResultWorkingSets() {
 		Object[] checked= fTableViewer.getCheckedElements();
-		return new ArrayList(Arrays.asList(checked));
+		return new ArrayList(Arrays.asList(checked)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
@@ -358,7 +358,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		}
 	}
 
-	private void createWorkingSet() {
+	private void createWorkingSet() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
 		IWorkingSetNewWizard wizard= manager.createWorkingSetNewWizard(new String[] {IWorkingSetIDs.JAVA});
 		// the wizard can't be null since we have at least the Java working set.
@@ -377,7 +377,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		}
 	}
 
-	private void editSelectedWorkingSet() {
+	private void editSelectedWorkingSet() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
 		IWorkingSet editWorkingSet= (IWorkingSet)((IStructuredSelection)fTableViewer.getSelection()).getFirstElement();
 		IWorkingSetEditWizard wizard= manager.createWorkingSetEditWizard(editWorkingSet);
@@ -398,7 +398,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		if (dialog.open() == Window.OK) {
 			editWorkingSet= wizard.getSelection();
 			if (fIsSortingEnabled)
-				fTableViewer.refresh();
+				fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			else
 				fTableViewer.update(editWorkingSet, null);
 
@@ -423,27 +423,27 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 	 */
 	@Override
 	public int open() {
-		fAddedWorkingSets= new ArrayList<>();
-		fRemovedWorkingSets= new ArrayList<>();
-		fEditedWorkingSets= new HashMap<>();
-		fRemovedMRUWorkingSets= new ArrayList<>();
+		fAddedWorkingSets= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fRemovedWorkingSets= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fEditedWorkingSets= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fRemovedMRUWorkingSets= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return super.open();
 	}
 
 	/**
 	 * Removes the selected working sets from the workbench.
 	 */
-	private void removeSelectedWorkingSets() {
+	private void removeSelectedWorkingSets() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection selection= fTableViewer.getSelection();
 		if (selection instanceof IStructuredSelection) {
 			IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
 			Iterator<?> iter= ((IStructuredSelection)selection).iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkingSet workingSet= (IWorkingSet)iter.next();
 				if (fAddedWorkingSets.contains(workingSet)) {
 					fAddedWorkingSets.remove(workingSet);
 				} else {
-					for (IWorkingSet recentWorkingSet : manager.getRecentWorkingSets()) {
+					for (IWorkingSet recentWorkingSet : manager.getRecentWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (workingSet.equals(recentWorkingSet)) {
 							fRemovedMRUWorkingSets.add(workingSet);
 							break;
@@ -465,7 +465,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
 		Iterator<IWorkingSet> iterator= fAddedWorkingSets.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.removeWorkingSet(iterator.next());
 		}
 	}
@@ -476,7 +476,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 	private void restoreChangedWorkingSets() {
 		Iterator<IWorkingSet> iterator= fEditedWorkingSets.keySet().iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet editedWorkingSet= iterator.next();
 			IWorkingSet originalWorkingSet= fEditedWorkingSets.get(editedWorkingSet);
 
@@ -496,11 +496,11 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
 		Iterator<IWorkingSet> iterator= fRemovedWorkingSets.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.addWorkingSet(iterator.next());
 		}
 		iterator= fRemovedMRUWorkingSets.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.addRecentWorkingSet(iterator.next());
 		}
 	}
@@ -524,8 +524,8 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 	}
 
 	private boolean areAllGlobalWorkingSets(IStructuredSelection selection) {
-		Set<IWorkingSet> globals= new HashSet<>(Arrays.asList(PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()));
-		for (Object name : selection) {
+		Set<IWorkingSet> globals= new HashSet<>(Arrays.asList(PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!globals.contains(name))
 				return false;
 		}
@@ -548,15 +548,15 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 
 	private void setElements(List<IWorkingSet> elements) {
 		fAllWorkingSets= elements;
-		fTableViewer.setInput(fAllWorkingSets);
+		fTableViewer.setInput(fAllWorkingSets); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		updateButtonAvailability();
 	}
 
-	private List<IWorkingSet> moveUp(List<IWorkingSet> elements, List<IWorkingSet> move) {
+	private List<IWorkingSet> moveUp(List<IWorkingSet> elements, List<IWorkingSet> move) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nElements= elements.size();
-		List<IWorkingSet> res= new ArrayList<>(nElements);
+		List<IWorkingSet> res= new ArrayList<>(nElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkingSet floating= null;
-		for (int i= 0; i < nElements; i++) {
+		for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet curr= elements.get(i);
 			if (move.contains(curr)) {
 				res.add(curr);
@@ -574,8 +574,8 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 	}
 
 	private List<IWorkingSet> reverse(List<IWorkingSet> p) {
-		List<IWorkingSet> reverse= new ArrayList<>(p.size());
-		for (int i= p.size() - 1; i >= 0; i--) {
+		List<IWorkingSet> reverse= new ArrayList<>(p.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= p.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reverse.add(p.get(i));
 		}
 		return reverse;
@@ -584,7 +584,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 	private boolean canMoveUp() {
 		if (!fIsSortingEnabled) {
 			int[] indc= fTableViewer.getTable().getSelectionIndices();
-			for (int i= 0; i < indc.length; i++) {
+			for (int i= 0; i < indc.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (indc[i] != i) {
 					return true;
 				}
@@ -597,7 +597,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 		if (!fIsSortingEnabled) {
 			int[] indc= fTableViewer.getTable().getSelectionIndices();
 			int k= fAllWorkingSets.size() - 1;
-			for (int i= indc.length - 1; i >= 0; i--, k--) {
+			for (int i= indc.length - 1; i >= 0; i--, k--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (indc[i] != k) {
 					return true;
 				}

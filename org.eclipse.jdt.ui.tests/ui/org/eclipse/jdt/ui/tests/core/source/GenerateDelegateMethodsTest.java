@@ -65,7 +65,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 		StubUtility.setCodeTemplate(CodeTemplateContextType.DELEGATECOMMENT_ID, str, null);
 	}
 
-	public void runOperation(IType type, IField[] fields, IMethod[] methods, IJavaElement insertBefore, boolean createComments) throws CoreException {
+	public void runOperation(IType type, IField[] fields, IMethod[] methods, IJavaElement insertBefore, boolean createComments) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		assertEquals(fields.length, methods.length);
 
@@ -74,7 +74,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 
 		DelegateEntry[] entries= new DelegateEntry[fields.length];
 
-		for (int i= 0; i < fields.length; i++) {
+		for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			IField field= fields[i];
 			IMethod method= methods[i];
@@ -107,7 +107,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Tests normal delegate method generation.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test01() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -195,7 +195,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Test insertion in-between two existing methods (before foo3).
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test02() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -297,7 +297,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Test insertion of imports
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test03() throws Exception {
 
 		IPackageFragment packageSomeOtherPackage= fRoot.createPackageFragment("someOtherPackage", true, null);
@@ -355,7 +355,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Tests generic types
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test04() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -414,7 +414,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Tests generic methods
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test05() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -461,7 +461,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	 *
 	 * Test enum types
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test06() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -511,7 +511,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Test generation in inner types.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test07() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -560,7 +560,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	 *
 	 * See also bug 112440 (bug only affects gui, however).
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test08() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -602,7 +602,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Test delegate generation on type variable typed field
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test09() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -649,7 +649,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Test delegate generation in secondary types
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test10() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -691,7 +691,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	/**
 	 * Test delegate generation in secondary types with final methods
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test11() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -749,7 +749,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 	 *
 	 * @throws Exception CoreException, JavaModelException or IOException
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test12() throws Exception {
 
 		/*ICompilationUnit i= */fPackageP.createCompilationUnit("I.java", """
@@ -802,7 +802,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 			}""", a.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void insertAt() throws Exception {
 		String originalContent= """
 			package p;
@@ -838,7 +838,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 		IMethod runMethod= runnableType.getMethod("run", new String[0]);
 
 		// try to insert the new delegate after every member and at the end
-		for (int i= 0; i < NUM_MEMBERS + 1; i++) {
+		for (int i= 0; i < NUM_MEMBERS + 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			ICompilationUnit unit= null;
 			try {
@@ -856,7 +856,7 @@ public class GenerateDelegateMethodsTest extends SourceTestCase {
 				IJavaElement[] newChildren= type.getChildren();
 				assertEquals(NUM_MEMBERS + 1, newChildren.length);
 				String source= ((IMember) newChildren[i]).getSource(); // new element expected at index i
-				assertEquals("Insert before " + insertBefore, expectedConstructor, source);
+				assertEquals("Insert before " + insertBefore, expectedConstructor, source); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} finally {
 				if (unit != null) {
 					JavaProjectHelper.delete(unit);

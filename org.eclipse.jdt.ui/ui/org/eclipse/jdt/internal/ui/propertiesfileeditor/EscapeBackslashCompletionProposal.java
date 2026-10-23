@@ -28,7 +28,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
  *
  * @since 3.7
  */
-public class EscapeBackslashCompletionProposal implements ICompletionProposal {
+public class EscapeBackslashCompletionProposal implements ICompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private final String fProposalText;
 
@@ -70,7 +70,7 @@ public class EscapeBackslashCompletionProposal implements ICompletionProposal {
 	@Override
 	public String getAdditionalProposalInfo() {
 		//the proposal info is not HTML
-		return "<pre>" + fProposalText + "</pre>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<pre>" + fProposalText + "</pre>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

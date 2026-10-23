@@ -166,8 +166,8 @@ public class CUPositionCompletionProcessor implements ISubjectControlContentAssi
 		return proposals;
 	}
 
-	private ICompletionProposal[] internalComputeCompletionProposals(int documentOffset, String input) {
-		String cuString= fCompletionContextRequestor.getBeforeString() + input + fCompletionContextRequestor.getAfterString();
+	private ICompletionProposal[] internalComputeCompletionProposals(int documentOffset, String input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String cuString= fCompletionContextRequestor.getBeforeString() + input + fCompletionContextRequestor.getAfterString(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ICompilationUnit cu= null;
 		try {
 			/*
@@ -217,7 +217,7 @@ public class CUPositionCompletionProcessor implements ISubjectControlContentAssi
 
 		private void setOffsetReduction(int offsetReduction) {
 			fOffsetReduction= offsetReduction;
-			fProposals= new ArrayList<>();
+			fProposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		@Override

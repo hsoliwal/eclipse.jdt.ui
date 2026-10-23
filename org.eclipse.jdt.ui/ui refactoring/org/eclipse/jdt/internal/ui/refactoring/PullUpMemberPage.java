@@ -283,7 +283,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 
 	private static int getEditableCount(final MemberActionInfo[] infos) {
 		int result= 0;
-		for (PullUpMemberPage.MemberActionInfo info : infos) {
+		for (PullUpMemberPage.MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isEditable())
 				result++;
 		}
@@ -295,7 +295,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 	}
 
 	private static void setActionForInfos(final MemberActionInfo[] infos, final int action) {
-		for (PullUpMemberPage.MemberActionInfo info : infos) {
+		for (PullUpMemberPage.MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			info.setAction(action);
 		}
 	}
@@ -361,7 +361,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		final List<IMember> toPullUp= Arrays.asList(fProcessor.getMembersToMove());
 		final IMember[] members= fProcessor.getPullableMembersOfDeclaringType();
 		final MemberActionInfo[] result= new MemberActionInfo[members.length];
-		for (int i= 0; i < members.length; i++) {
+		for (int i= 0; i < members.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IMember member= members[i];
 			if (toPullUp.contains(member))
 				result[i]= new MemberActionInfo(member, PULL_UP_ACTION);
@@ -376,11 +376,11 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		return isPageComplete();
 	}
 
-	private void checkAdditionalRequired() {
+	private void checkAdditionalRequired() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			initializeRefactoring();
 
-			class GetRequiredMembersRunnable implements IRunnableWithProgress {
+			class GetRequiredMembersRunnable implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 				public IMember[] result;
 				@Override
 				public void run(final IProgressMonitor pm) throws InvocationTargetException {
@@ -421,7 +421,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		updateWizardPage(null, displayErrors);
 	}
 
-	private void createButtonComposite(final Composite parent) {
+	private void createButtonComposite(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Composite composite= new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		final GridLayout gl= new GridLayout();
@@ -434,7 +434,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		fSelectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		fSelectAllButton.setEnabled(true);
 		SWTUtil.setButtonDimensionHint(fSelectAllButton);
-		fSelectAllButton.addSelectionListener(new SelectionAdapter() {
+		fSelectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
@@ -449,7 +449,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		fDeselectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		fDeselectAllButton.setEnabled(false);
 		SWTUtil.setButtonDimensionHint(fDeselectAllButton);
-		fDeselectAllButton.addSelectionListener(new SelectionAdapter() {
+		fDeselectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
@@ -467,7 +467,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		fEditButton.setLayoutData(data);
 		fEditButton.setEnabled(false);
 		SWTUtil.setButtonDimensionHint(fEditButton);
-		fEditButton.addSelectionListener(new SelectionAdapter() {
+		fEditButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
@@ -479,7 +479,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		fAddButton.setText(RefactoringMessages.PullUpInputPage1_Add_Required);
 		fAddButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(fAddButton);
-		fAddButton.addSelectionListener(new SelectionAdapter() {
+		fAddButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
@@ -488,7 +488,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(final Composite parent) {
 		final Composite composite= new Composite(parent, SWT.NONE);
 		final GridLayout layout= new GridLayout();
@@ -512,7 +512,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.PULL_UP_WIZARD_PAGE);
 	}
 
-	protected void createInstanceOfCheckbox(final Composite result, final int margin) {
+	protected void createInstanceOfCheckbox(final Composite result, final int margin) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fInstanceofButton= new Button(result, SWT.CHECK);
 		fInstanceofButton.setSelection(false);
 		final GridData gd= new GridData();
@@ -521,14 +521,14 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		fInstanceofButton.setLayoutData(gd);
 		fInstanceofButton.setText(getInstanceofButtonLabel());
 		fProcessor.setInstanceOf(fInstanceofButton.getSelection());
-		fInstanceofButton.addSelectionListener(new SelectionAdapter() {
+		fInstanceofButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				fProcessor.setInstanceOf(fInstanceofButton.getSelection());
 			}
 		});
-		fReplaceButton.addSelectionListener(new SelectionAdapter() {
+		fReplaceButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -537,7 +537,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		});
 	}
 
-	private void createMemberTable(final Composite parent) {
+	private void createMemberTable(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final TableLayoutComposite layouter= new TableLayoutComposite(parent, SWT.NONE);
 		layouter.addColumnData(new ColumnWeightData(60, true));
 		layouter.addColumnData(new ColumnWeightData(40, true));
@@ -563,9 +563,9 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		fTableViewer= new PullPushCheckboxTableViewer(table);
 		fTableViewer.setUseHashlookup(true);
 		fTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-		fTableViewer.setLabelProvider(new MemberActionInfoLabelProvider());
-		fTableViewer.addSelectionChangedListener(event -> updateButtonEnablement(event.getSelection()));
-		fTableViewer.addCheckStateListener(event -> {
+		fTableViewer.setLabelProvider(new MemberActionInfoLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fTableViewer.addSelectionChangedListener(event -> updateButtonEnablement(event.getSelection())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fTableViewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			final boolean checked= event.getChecked();
 			final MemberActionInfo info= (MemberActionInfo) event.getElement();
 			if (checked)
@@ -574,7 +574,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 				info.setAction(MemberActionInfo.NO_ACTION);
 			updateWizardPage(null, true);
 		});
-		fTableViewer.addDoubleClickListener(unused -> editSelectedMembers());
+		fTableViewer.addDoubleClickListener(unused -> editSelectedMembers()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 
 		setTableInput();
 		checkPullUp(fProcessor.getMembersToMove(), false);
@@ -622,7 +622,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 
 	// String -> Integer
 	private Map<String, Integer> createStringMappingForSelectedMembers() {
-		final Map<String, Integer> result= new HashMap<>();
+		final Map<String, Integer> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		putToStringMapping(result, METHOD_LABELS, PULL_UP_ACTION);
 		putToStringMapping(result, METHOD_LABELS, DECLARE_ABSTRACT_ACTION);
 		return result;
@@ -656,7 +656,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		fSuperTypesCombo= new Combo(parent, SWT.READ_ONLY);
 		SWTUtil.setDefaultVisibleItemCount(fSuperTypesCombo);
 		if (fCandidateTypes.length > 0) {
-			for (IType candidateType : fCandidateTypes) {
+			for (IType candidateType : fCandidateTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final String comboLabel= candidateType.getFullyQualifiedName('.');
 				fSuperTypesCombo.add(comboLabel);
 			}
@@ -665,9 +665,9 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		}
 	}
 
-	protected void createSuperTypeControl(final Composite parent) {
+	protected void createSuperTypeControl(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(true, false, monitor -> {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(true, false, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					fCandidateTypes= fProcessor.getCandidateTypes(new RefactoringStatus(), monitor);
 				} catch (JavaModelException exception) {
@@ -692,7 +692,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		super.dispose();
 	}
 
-	private void editSelectedMembers() {
+	private void editSelectedMembers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fEditButton.isEnabled())
 			return;
 
@@ -727,8 +727,8 @@ public class PullUpMemberPage extends UserInputWizardPage {
 
 	private MemberActionInfo[] getActiveInfos() {
 		final MemberActionInfo[] infos= getTableInput();
-		final List<MemberActionInfo> result= new ArrayList<>(infos.length);
-		for (PullUpMemberPage.MemberActionInfo info : infos) {
+		final List<MemberActionInfo> result= new ArrayList<>(infos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (PullUpMemberPage.MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isActive())
 				result.add(info);
 		}
@@ -741,7 +741,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 			return -1;
 
 		final int code= infos[0].getAction();
-		for (PullUpMemberPage.MemberActionInfo info : infos) {
+		for (PullUpMemberPage.MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (code != info.getAction()) {
 				return -1;
 			}
@@ -768,11 +768,11 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		final int commonActionCode= getCommonActionCodeForSelectedInfos();
 		if (commonActionCode == -1)
 			return 0;
-		for (Map.Entry<String, Integer> entry : stringMapping.entrySet()) {
+		for (Map.Entry<String, Integer> entry : stringMapping.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			final int action= entry.getValue();
 			if (commonActionCode == action) {
-				for (int i= 0; i < keys.length; i++) {
+				for (int i= 0; i < keys.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (key.equals(keys[i]))
 						return i;
 				}
@@ -788,28 +788,28 @@ public class PullUpMemberPage extends UserInputWizardPage {
 
 	private IMember[] getMembers() {
 		final MemberActionInfo[] infos= getTableInput();
-		final List<IMember> result= new ArrayList<>(infos.length);
-		for (PullUpMemberPage.MemberActionInfo info : infos) {
+		final List<IMember> result= new ArrayList<>(infos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (PullUpMemberPage.MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(info.getMember());
 		}
 		return result.toArray(new IMember[result.size()]);
 	}
 
 	private IMember[] getMembersForAction(final int action) {
-		List<IMember> result= new ArrayList<>();
+		List<IMember> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getMembersForAction(action, false, result);
 		return result.toArray(new IMember[result.size()]);
 	}
 
 	private IMethod[] getMethodsForAction(final int action) {
-		List<IMember> result= new ArrayList<>();
+		List<IMember> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getMembersForAction(action, true, result);
 		return result.toArray(new IMethod[result.size()]);
 	}
 
 	private void getMembersForAction(int action, boolean onlyMethods, List<IMember> result) {
 		boolean isDestinationInterface= isDestinationInterface();
-		for (PullUpMemberPage.MemberActionInfo info : getTableInput()) {
+		for (PullUpMemberPage.MemberActionInfo info : getTableInput()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int infoAction= info.getAction();
 			boolean isMethodInfo= info.isMethodInfo();
 			if (!isMethodInfo && onlyMethods)
@@ -918,8 +918,8 @@ public class PullUpMemberPage extends UserInputWizardPage {
 
 	private void setActionForMembers(final IMember[] members, final int action) {
 		final MemberActionInfo[] infos= getTableInput();
-		for (IMember member : members) {
-			for (PullUpMemberPage.MemberActionInfo info : infos) {
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (PullUpMemberPage.MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (info.getMember().equals(member)) {
 					info.setAction(action);
 				}
@@ -928,14 +928,14 @@ public class PullUpMemberPage extends UserInputWizardPage {
 	}
 
 	private void setTableInput() {
-		fTableViewer.setInput(asMemberActionInfos());
+		fTableViewer.setInput(asMemberActionInfos()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
-	private void setupCellEditors(final Table table) {
+	private void setupCellEditors(final Table table) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ComboBoxCellEditor editor= new ComboBoxCellEditor();
 		editor.setStyle(SWT.READ_ONLY);
 		fTableViewer.setCellEditors(new CellEditor[] { null, editor});
-		fTableViewer.addSelectionChangedListener(event -> {
+		fTableViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			if (editor.getControl() == null && !table.isDisposed())
 				editor.create(table);
 			final ISelection sel= event.getSelection();
@@ -996,7 +996,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 	}
 
 	private void updateWizardPage(final ISelection selection, final boolean displayErrors) {
-		fTableViewer.refresh();
+		fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		if (selection != null) {
 			fTableViewer.getControl().setFocus();
 			fTableViewer.setSelection(selection);

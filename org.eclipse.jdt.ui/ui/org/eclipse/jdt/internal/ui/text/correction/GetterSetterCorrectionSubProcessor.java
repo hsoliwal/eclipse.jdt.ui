@@ -61,7 +61,7 @@ public class GetterSetterCorrectionSubProcessor extends GetterSetterCorrectionBa
 
 	public static final String SELF_ENCAPSULATE_FIELD_ID= GetterSetterCorrectionBaseSubProcessor.SELF_ENCAPSULATE_FIELD_COMMAND_ID;
 
-	public static class SelfEncapsulateFieldProposal extends ChangeCorrectionProposal { // public for tests
+	public static class SelfEncapsulateFieldProposal extends ChangeCorrectionProposal { // public for tests //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private IField fField;
 		private boolean fNoDialog;
@@ -95,7 +95,7 @@ public class GetterSetterCorrectionSubProcessor extends GetterSetterCorrectionBa
 			return CorrectionMessages.GetterSetterCorrectionSubProcessor_additional_info;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void apply(IDocument document) {
 			try {
 				final SelfEncapsulateFieldCompositeRefactoring compositeRefactoring = new SelfEncapsulateFieldCompositeRefactoring(Collections.singletonList(fField));
@@ -113,7 +113,7 @@ public class GetterSetterCorrectionSubProcessor extends GetterSetterCorrectionBa
 							JavaPlugin.log(e);
 						}
 					} else {
-						Display.getDefault().syncExec(() -> {
+						Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							try {
 								helper.perform(false, false);
 							} catch (InterruptedException | InvocationTargetException e) {

@@ -119,47 +119,47 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("public class MyClass {\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("public class MyClass {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (!isEnabled(CleanUpConstants.SINGLE_USED_FIELD)) {
-			bld.append("    private long singleUsedField;\n"); //$NON-NLS-1$
-			bld.append("\n"); //$NON-NLS-1$
+			bld.append("    private long singleUsedField;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("    public void myMethod() {\n"); //$NON-NLS-1$
+		bld.append("    public void myMethod() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.SINGLE_USED_FIELD)) {
-			bld.append("        long singleUsedField = 123;\n"); //$NON-NLS-1$
+			bld.append("        long singleUsedField = 123;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("        singleUsedField = 123;\n"); //$NON-NLS-1$
+			bld.append("        singleUsedField = 123;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("        System.out.println(singleUsedField);\n"); //$NON-NLS-1$
-		bld.append("    }\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("        System.out.println(singleUsedField);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.SINGLE_USED_FIELD)) {
-			bld.append("\n\n"); //$NON-NLS-1$
+			bld.append("\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.SINGLE_USED_FIELD)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(final TypeDeclaration visited) {
-				for (FieldDeclaration field : visited.getFields()) {
+				for (FieldDeclaration field : visited.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!maybeReplaceFieldByLocalVariable(visited, field)) {
 						return false;
 					}
@@ -173,7 +173,7 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 						&& !Modifier.isFinal(field.getModifiers())
 						&& !hasAnnotation(field)
 						&& field.getType().isPrimitiveType()) {
-					for (Object object : field.fragments()) {
+					for (Object object : field.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						VariableDeclarationFragment fragment= (VariableDeclarationFragment) object;
 
 						if (!maybeReplaceFragmentByLocalVariable(visited, field, fragment)) {
@@ -185,7 +185,7 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean maybeReplaceFragmentByLocalVariable(final TypeDeclaration visited, final FieldDeclaration field,
+			private boolean maybeReplaceFragmentByLocalVariable(final TypeDeclaration visited, final FieldDeclaration field, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final VariableDeclarationFragment fragment) {
 				if (fragment.getInitializer() != null && !ASTNodes.isPassiveWithoutFallingThrough(fragment.getInitializer())) {
 					return true;
@@ -197,7 +197,7 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 
 				MethodDeclaration oneMethodDeclaration= null;
 
-				for (SimpleName occurrence : occurrences) {
+				for (SimpleName occurrence : occurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MethodDeclaration currentMethodDeclaration= ASTNodes.getTypedAncestor(occurrence, MethodDeclaration.class);
 
 					if (isVariableDeclaration(occurrence)
@@ -239,7 +239,7 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 			}
 
 			private SimpleName findReassignment(final Set<SimpleName> occurrences) {
-				for (SimpleName reassignment : occurrences) {
+				for (SimpleName reassignment : occurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isReassigned(reassignment) && isReassignmentForAll(reassignment, occurrences)) {
 						return reassignment;
 					}
@@ -248,8 +248,8 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 				return null;
 			}
 
-			private boolean isReassignmentForAll(final SimpleName reassignment, final Set<SimpleName> occurrences) {
-				for (SimpleName occurrence : occurrences) {
+			private boolean isReassignmentForAll(final SimpleName reassignment, final Set<SimpleName> occurrences) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+				for (SimpleName occurrence : occurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (reassignment != occurrence) {
 						ASTNode astNode= ASTNodes.getFirstAncestorOrNull(occurrence, Statement.class, LambdaExpression.class, AnonymousClassDeclaration.class);
 
@@ -260,7 +260,7 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 						Statement statement= (Statement) astNode;
 						boolean isReassigned= false;
 
-						while (statement != null) {
+						while (statement != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Assignment assignment= ASTNodes.asExpression(statement, Assignment.class);
 
 							if (assignment != null
@@ -285,13 +285,13 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean isAlwaysErased(final Set<SimpleName> occurrences) {
-				for (SimpleName occurrence : occurrences) {
+			private boolean isAlwaysErased(final Set<SimpleName> occurrences) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+				for (SimpleName occurrence : occurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!isReassigned(occurrence)) {
 						Statement statement= ASTNodes.getTypedAncestor(occurrence, Statement.class);
 						boolean isReassigned= false;
 
-						while (statement != null) {
+						while (statement != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							statement= ASTNodes.getPreviousStatement(statement);
 							Assignment assignment= ASTNodes.asExpression(statement, Assignment.class);
 
@@ -395,7 +395,7 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 			this.occurrences= occurrences;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -426,7 +426,7 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 			List<IExtendedModifier> modifiers= field.modifiers();
 			List<IExtendedModifier> newModifiers= newDeclareStatement.modifiers();
 
-			for (IExtendedModifier iExtendedModifier : modifiers) {
+			for (IExtendedModifier iExtendedModifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Modifier modifier= (Modifier) iExtendedModifier;
 
 				if (!modifier.isPrivate() && !modifier.isStatic() && !modifier.isTransient() && !modifier.isVolatile()) {
@@ -437,7 +437,7 @@ public class SingleUsedFieldCleanUp extends AbstractMultiFix {
 			ASTNodes.replaceButKeepComment(rewrite, ASTNodes.getTypedAncestor(reassignmentAssignment, Statement.class),
 					newDeclareStatement, groupNewLocalVar);
 
-			for (SimpleName occurrence : occurrences) {
+			for (SimpleName occurrence : occurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (occurrence != reassignment && occurrence.getParent() instanceof FieldAccess) {
 					ASTNodes.replaceButKeepComment(rewrite, occurrence.getParent(), occurrence, groupUsesOfTheVar);
 				}

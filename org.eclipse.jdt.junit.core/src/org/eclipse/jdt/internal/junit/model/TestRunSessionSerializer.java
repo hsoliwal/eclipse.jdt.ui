@@ -74,7 +74,7 @@ public class TestRunSessionSerializer implements XMLReader {
 		fHandler.endDocument();
 	}
 
-	private void handleTestRun() throws SAXException {
+	private void handleTestRun() throws SAXException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AttributesImpl atts= new AttributesImpl();
 		addCDATA(atts, IXMLTags.ATTR_NAME, fTestRunSession.getTestRunName());
 		IJavaProject project= fTestRunSession.getLaunchedProject();
@@ -97,14 +97,14 @@ public class TestRunSessionSerializer implements XMLReader {
 
 		TestRoot testRoot= fTestRunSession.getTestRoot();
 		ITestElement[] topSuites= testRoot.getChildren();
-		for (ITestElement topSuite : topSuites) {
+		for (ITestElement topSuite : topSuites) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			handleTestElement(topSuite);
 		}
 
 		endElement(IXMLTags.NODE_TESTRUN);
 	}
 
-	private void handleTestElement(ITestElement testElement) throws SAXException {
+	private void handleTestElement(ITestElement testElement) throws SAXException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (testElement instanceof TestSuiteElement testSuiteElement) {
 
 			AttributesImpl atts= new AttributesImpl();
@@ -134,7 +134,7 @@ public class TestRunSessionSerializer implements XMLReader {
 			addFailure(testSuiteElement);
 
 			ITestElement[] children= testSuiteElement.getChildren();
-			for (ITestElement child : children) {
+			for (ITestElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				handleTestElement(child);
 			}
 			endElement(IXMLTags.NODE_TESTSUITE);
@@ -176,7 +176,7 @@ public class TestRunSessionSerializer implements XMLReader {
 
 	}
 
-	private void addFailure(TestElement testElement) throws SAXException {
+	private void addFailure(TestElement testElement) throws SAXException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FailureTrace failureTrace= testElement.getFailureTrace();
 
 		if (testElement.isAssumptionFailure()) {
@@ -243,21 +243,21 @@ public class TestRunSessionSerializer implements XMLReader {
 	 * @return string with Java-escapes
 	 * @since 3.6
 	 */
-	private static String escapeNonUnicodeChars(String string) {
+	private static String escapeNonUnicodeChars(String string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuilder buf= null;
-		for (int i= 0; i < string.length(); i++) {
+		for (int i= 0; i < string.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= string.charAt(i);
 			if (ch != 9 && ch != 10 && ch != 13 && ch < 32) {
 				if (buf == null) {
-					buf= new StringBuilder(string.substring(0, i));
+					buf= new StringBuilder(string.substring(0, i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				}
-				buf.append("\\u"); //$NON-NLS-1$
+				buf.append("\\u"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				String hex= Integer.toHexString(ch);
-				for (int j= hex.length(); j < 4; j++)
-					buf.append('0');
-				buf.append(hex);
+				for (int j= hex.length(); j < 4; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buf.append('0'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(hex); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else if (buf != null) {
-				buf.append(ch);
+				buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		if (buf != null) {

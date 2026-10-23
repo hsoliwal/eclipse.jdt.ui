@@ -112,14 +112,14 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	// dialog store id constants
 	private static final String PAGE_NAME= "JarPackageWizardPage"; //$NON-NLS-1$
 
-	private static final String STORE_EXPORT_CLASS_FILES= PAGE_NAME + ".EXPORT_CLASS_FILES"; //$NON-NLS-1$
-	private static final String STORE_EXPORT_OUTPUT_FOLDERS= PAGE_NAME + ".EXPORT_OUTPUT_FOLDER"; //$NON-NLS-1$
-	private static final String STORE_EXPORT_JAVA_FILES= PAGE_NAME + ".EXPORT_JAVA_FILES"; //$NON-NLS-1$
+	private static final String STORE_EXPORT_CLASS_FILES= PAGE_NAME + ".EXPORT_CLASS_FILES"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String STORE_EXPORT_OUTPUT_FOLDERS= PAGE_NAME + ".EXPORT_OUTPUT_FOLDER"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String STORE_EXPORT_JAVA_FILES= PAGE_NAME + ".EXPORT_JAVA_FILES"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String STORE_REFACTORINGS= PAGE_NAME + ".REFACTORINGS"; //$NON-NLS-1$
-	private static final String STORE_COMPRESS= PAGE_NAME + ".COMPRESS"; //$NON-NLS-1$
-	private final static String STORE_OVERWRITE= PAGE_NAME + ".OVERWRITE"; //$NON-NLS-1$
-	private final static String STORE_INCLUDE_DIRECTORY_ENTRIES= PAGE_NAME + ".INCLUDE_DIRECTORY_ENTRIES"; //$NON-NLS-1$
+	private static final String STORE_REFACTORINGS= PAGE_NAME + ".REFACTORINGS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String STORE_COMPRESS= PAGE_NAME + ".COMPRESS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_OVERWRITE= PAGE_NAME + ".OVERWRITE"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_INCLUDE_DIRECTORY_ENTRIES= PAGE_NAME + ".INCLUDE_DIRECTORY_ENTRIES"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// other constants
 	private static final int SIZING_SELECTION_WIDGET_WIDTH= 480;
@@ -142,7 +142,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	/*
 	 * Method declared on IDialogPage.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(final Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -185,7 +185,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 *
 	 *	@param parent org.eclipse.swt.widgets.Composite
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createOptionsGroup(Composite parent) {
 		Composite optionsGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -194,15 +194,15 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		fCompressCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fCompressCheckbox.setText(JarPackagerMessages.JarPackageWizardPage_compress_text);
-		fCompressCheckbox.addListener(SWT.Selection, this);
+		fCompressCheckbox.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		fIncludeDirectoryEntriesCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fIncludeDirectoryEntriesCheckbox.setText(JarPackagerMessages.JarPackageWizardPage_includeDirectoryEntries_text);
-		fIncludeDirectoryEntriesCheckbox.addListener(SWT.Selection, this);
+		fIncludeDirectoryEntriesCheckbox.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		fOverwriteCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fOverwriteCheckbox.setText(JarPackagerMessages.JarPackageWizardPage_overwrite_text);
-		fOverwriteCheckbox.addListener(SWT.Selection, this);
+		fOverwriteCheckbox.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -223,7 +223,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 * settings for their controls should extend the hook method
 	 * <code>internalSaveWidgetValues</code>.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final void saveWidgetValues() {
 		super.saveWidgetValues();
 		// update directory names history
@@ -276,7 +276,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	/**
 	 *	Initializes the JAR package from last used wizard page values.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void initializeJarPackage() {
 		super.initializeJarPackage();
 
@@ -299,7 +299,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	/**
 	 *	Stores the widget values in the JAR package.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updateModel() {
 		if (getControl() == null)
 			return;
@@ -346,12 +346,12 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 *
 	 * @param parent the parent control
 	 */
-	protected void createInputGroup(Composite parent) {
+	protected void createInputGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int labelFlags= JavaElementLabelProvider.SHOW_BASICS
 						| JavaElementLabelProvider.SHOW_OVERLAY_ICONS
 						| JavaElementLabelProvider.SHOW_SMALL_ICONS;
 		ITreeContentProvider treeContentProvider=
-			new StandardJavaElementContentProvider() {
+			new StandardJavaElementContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 				@Override
 				public boolean hasChildren(Object element) {
 					// prevent the + from being shown in front of packages
@@ -359,7 +359,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 				}
 			};
 		final DecoratingLabelProvider provider= new DecoratingLabelProvider(new JavaElementLabelProvider(labelFlags), new ProblemsLabelDecorator(null));
-		fInputGroup= new CheckboxTreeAndListGroup(
+		fInputGroup= new CheckboxTreeAndListGroup( //FLLDCIM: MARK — T21  ANONYMOUS
 					parent,
 					JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()),
 					treeContentProvider,
@@ -368,7 +368,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 					provider,
 					SWT.NONE,
 					SIZING_SELECTION_WIDGET_WIDTH,
-					SIZING_SELECTION_WIDGET_HEIGHT) {
+					SIZING_SELECTION_WIDGET_HEIGHT) { //FLLDCIM: MARK — T21  IMPLEMENTS
 
 						@Override
 						protected void setTreeChecked(final Object element, final boolean state) {
@@ -384,7 +384,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		fInputGroup.setTreeComparator(new JavaElementComparator());
 		fInputGroup.setListComparator(new JavaElementComparator());
 		fInputGroup.addTreeFilter(new ContainerFilter(ContainerFilter.FILTER_NON_CONTAINERS));
-		fInputGroup.addTreeFilter(new ViewerFilter() {
+		fInputGroup.addTreeFilter(new ViewerFilter() { //FLLDCIM: MARK — T23  ANONYMOUS
 			@Override
 			public boolean select(Viewer viewer, Object p, Object element) {
 				if (element instanceof IPackageFragmentRoot) {
@@ -395,13 +395,13 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 			}
 		});
 		fInputGroup.addListFilter(new ContainerFilter(ContainerFilter.FILTER_CONTAINERS));
-		fInputGroup.getTree().addListener(SWT.MouseUp, this);
-		fInputGroup.getTable().addListener(SWT.MouseUp, this);
+		fInputGroup.getTree().addListener(SWT.MouseUp, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		fInputGroup.getTable().addListener(SWT.MouseUp, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		SWTUtil.setAccessibilityText(fInputGroup.getTree(), JarPackagerMessages.JarPackageWizardPage_tree_accessibility_message);
 		SWTUtil.setAccessibilityText(fInputGroup.getTable(), JarPackagerMessages.JarPackageWizardPage_table_accessibility_message);
 
-		ICheckStateListener listener = unused -> update();
+		ICheckStateListener listener = unused -> update(); //FLLDCIM: MARK — T21  LAMBDA
 
 		fInputGroup.addCheckStateListener(listener);
 	}
@@ -412,7 +412,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 * @param parent
 	 *            the parent control
 	 */
-	protected void createExportTypeGroup(Composite parent) {
+	protected void createExportTypeGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite optionsGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
 		layout.marginHeight= 0;
@@ -420,15 +420,15 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		fExportClassFilesCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fExportClassFilesCheckbox.setText(JarPackagerMessages.JarPackageWizardPage_exportClassFiles_text);
-		fExportClassFilesCheckbox.addListener(SWT.Selection, this);
+		fExportClassFilesCheckbox.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		fExportOutputFoldersCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fExportOutputFoldersCheckbox.setText(JarPackagerMessages.JarPackageWizardPage_exportOutputFolders_text);
-		fExportOutputFoldersCheckbox.addListener(SWT.Selection, this);
+		fExportOutputFoldersCheckbox.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		fExportJavaFilesCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fExportJavaFilesCheckbox.setText(JarPackagerMessages.JarPackageWizardPage_exportJavaFiles_text);
-		fExportJavaFilesCheckbox.addListener(SWT.Selection, this);
+		fExportJavaFilesCheckbox.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		Composite refactoringsGroup= new Composite(optionsGroup, SWT.NONE);
 		layout= new GridLayout();
@@ -440,11 +440,11 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		fExportRefactoringsCheckbox= new Button(refactoringsGroup, SWT.CHECK | SWT.LEFT);
 		fExportRefactoringsCheckbox.setText(JarPackagerMessages.JarPackageWizardPage_refactorings_text);
-		fExportRefactoringsCheckbox.addListener(SWT.Selection, this);
+		fExportRefactoringsCheckbox.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		fRefactoringLink= new Link(refactoringsGroup, SWT.WRAP);
 		fRefactoringLink.setText(JarPackagerMessages.JarPackageWizardPage_configure_label);
-		fRefactoringLink.addSelectionListener(new SelectionAdapter() {
+		fRefactoringLink.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
@@ -456,7 +456,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		GridData data= new GridData(GridData.BEGINNING | GridData.GRAB_HORIZONTAL);
 		fRefactoringLink.setLayoutData(data);
 
-		fExportRefactoringsCheckbox.addSelectionListener(new SelectionAdapter() {
+		fExportRefactoringsCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
@@ -468,13 +468,13 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	/**
 	 * Opens the dialog to configure refactorings.
 	 */
-	protected void openRefactoringDialog() {
+	protected void openRefactoringDialog() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final RefactoringHistory[] history= { null};
 		final IRefactoringHistoryService service= RefactoringCore.getHistoryService();
 		try {
 			service.connect();
-			final Set<IProject> set= new HashSet<>();
-			for (Object element : fJarPackage.getElements()) {
+			final Set<IProject> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (Object element : fJarPackage.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IAdaptable) {
 					final IAdaptable adaptable= (IAdaptable) element;
 					final IResource resource= adaptable.getAdapter(IResource.class);
@@ -483,7 +483,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 				}
 			}
 			try {
-				getContainer().run(false, true, monitor -> history[0]= service.getRefactoringHistory(set.toArray(new IProject[set.size()]), 0, Long.MAX_VALUE, JavaRefactoringDescriptor.JAR_MIGRATION, monitor));
+				getContainer().run(false, true, monitor -> history[0]= service.getRefactoringHistory(set.toArray(new IProject[set.size()]), 0, Long.MAX_VALUE, JavaRefactoringDescriptor.JAR_MIGRATION, monitor)); //FLLDCIM: MARK — T09  LAMBDA
 			} catch (InvocationTargetException exception) {
 				ExceptionHandler.handle(exception, getShell(), JarPackagerMessages.JarPackageWizardPage_error_caption, JarPackagerMessages.JarPackageWizardPage_error_label);
 				return;
@@ -554,7 +554,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	/*
 	 * Overrides method from WizardDataTransferPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean validateSourceGroup() {
 		if (!fExportClassFilesCheckbox.getSelection() && !fExportOutputFoldersCheckbox.getSelection() && !fExportJavaFilesCheckbox.getSelection()) {
 			setErrorMessage(JarPackagerMessages.JarPackageWizardPage_error_noExportTypeChecked);
@@ -571,7 +571,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		// Source file only export - check if there are source files
 		Iterator<Object> iter= getSelectedResourcesIterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= iter.next();
 			if (element instanceof IClassFile) {
 				IPackageFragmentRoot root= (IPackageFragmentRoot)((IClassFile)element).getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
@@ -614,10 +614,10 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	/*
 	 * Overrides method from WizardExportResourcePage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setupBasedOnInitialSelections() {
 		Iterator<?> iterator= fInitialSelection.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object selectedElement= iterator.next();
 
 			if (selectedElement instanceof IResource && !((IResource)selectedElement).isAccessible())
@@ -645,7 +645,7 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		TreeItem[] items= fInputGroup.getTree().getItems();
 		int i= 0;
-		while (i < items.length && !items[i].getChecked())
+		while (i < items.length && !items[i].getChecked()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
 		if (i < items.length) {
 			fInputGroup.getTree().setSelection(new TreeItem[] {items[i]});
@@ -672,12 +672,12 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		return sortedElements;
 	}
 
-	private Set<Object> removeContainedChildren(Set<Object> elements) {
-		Set<Object> newList= new HashSet<>(elements.size());
+	private Set<Object> removeContainedChildren(Set<Object> elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<Object> newList= new HashSet<>(elements.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Set<Object> javaElementResources= getCorrespondingContainers(elements);
 		Iterator<Object> iter= elements.iterator();
 		boolean removedOne= false;
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= iter.next();
 			Object parent;
 			if (element instanceof IResource)
@@ -710,12 +710,12 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 			return newList;
 	}
 
-	private Set<Object> getExportedNonContainers() {
+	private Set<Object> getExportedNonContainers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Set<Object> whiteCheckedTreeItems= fInputGroup.getWhiteCheckedTreeItems();
-		Set<Object> exportedNonContainers= new HashSet<>(whiteCheckedTreeItems.size());
+		Set<Object> exportedNonContainers= new HashSet<>(whiteCheckedTreeItems.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Set<Object> javaElementResources= getCorrespondingContainers(whiteCheckedTreeItems);
 		Iterator<Object> iter= fInputGroup.getAllCheckedListItems();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= iter.next();
 			Object parent= null;
 			if (element instanceof IResource)
@@ -741,10 +741,10 @@ class JarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 * Create a list with the folders / projects that correspond
 	 * to the Java elements (Java project, package, package root)
 	 */
-	private Set<Object> getCorrespondingContainers(Set<Object> elements) {
-		Set<Object> javaElementResources= new HashSet<>(elements.size());
+	private Set<Object> getCorrespondingContainers(Set<Object> elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<Object> javaElementResources= new HashSet<>(elements.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator<Object> iter= elements.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= iter.next();
 			if (element instanceof IJavaElement) {
 				IJavaElement je= (IJavaElement)element;

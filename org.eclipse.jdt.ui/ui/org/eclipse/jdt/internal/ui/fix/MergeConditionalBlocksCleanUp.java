@@ -79,7 +79,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.MERGE_CONDITIONAL_BLOCKS)) {
 			return """
@@ -111,7 +111,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 			fRewriteOperations= rewriteOperations;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final IfStatement visited) {
 			if (visited.getElseStatement() != null) {
 				IfStatement innerIf= ASTNodes.as(visited.getThenStatement(), IfStatement.class);
@@ -131,17 +131,17 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 					}
 				}
 
-				List<IfStatement> duplicateIfBlocks= new ArrayList<>(4);
-				Set<String> patternNames= new HashSet<>();
+				List<IfStatement> duplicateIfBlocks= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				Set<String> patternNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				PatternNameVisitor visitor= new PatternNameVisitor();
 				visited.accept(visitor);
 				patternNames= visitor.getPatternNames();
-				List<Boolean> isThenStatement= new ArrayList<>(4);
+				List<Boolean> isThenStatement= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				AtomicInteger operandCount= new AtomicInteger(ASTNodes.getNbOperands(visited.getExpression()));
 				duplicateIfBlocks.add(visited);
 				isThenStatement.add(Boolean.TRUE);
 
-				while (addOneMoreIf(duplicateIfBlocks, isThenStatement, operandCount, patternNames)){
+				while (addOneMoreIf(duplicateIfBlocks, isThenStatement, operandCount, patternNames)){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// OK continue
 				}
 
@@ -155,7 +155,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 		}
 
 		private class PatternNameVisitor extends ASTVisitor {
-			private Set<String> patternNames= new HashSet<>();
+			private Set<String> patternNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 			@Override
 			public boolean visit(PatternInstanceofExpression node) {
@@ -172,7 +172,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 			}
 		}
 
-		private boolean addOneMoreIf(final List<IfStatement> duplicateIfBlocks, final List<Boolean> isThenStatement, final AtomicInteger operandCount, Set<String> patternNames) {
+		private boolean addOneMoreIf(final List<IfStatement> duplicateIfBlocks, final List<Boolean> isThenStatement, final AtomicInteger operandCount, Set<String> patternNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IfStatement lastBlock= getLast(duplicateIfBlocks);
 			Statement previousStatement= getLast(isThenStatement) ? lastBlock.getThenStatement() : lastBlock.getElseStatement();
 			Statement nextStatement= getLast(isThenStatement) ? lastBlock.getElseStatement() : lastBlock.getThenStatement();
@@ -185,7 +185,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 					PatternNameVisitor visitor= new PatternNameVisitor();
 					nextElse.getExpression().accept(visitor);
 					Set<String> siblingPatternNames= visitor.getPatternNames();
-					for (String siblingPatternName : siblingPatternNames) {
+					for (String siblingPatternName : siblingPatternNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!patternNames.add(siblingPatternName)) {
 							return false;
 						}
@@ -217,7 +217,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IfVisitor visitor= new IfVisitor(rewriteOperations);
 		unit.accept(visitor);
@@ -252,7 +252,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 			this.isInnerMainFirst= isInnerMainFirst;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -287,15 +287,15 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 			this.isThenStatement= isThenStatement;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.MergeConditionalBlocksCleanup_description_if_suite, cuRewrite);
 
-			List<Expression> newConditions= new ArrayList<>(duplicateIfBlocks.size());
+			List<Expression> newConditions= new ArrayList<>(duplicateIfBlocks.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (int i= 0; i < duplicateIfBlocks.size(); i++) {
+			for (int i= 0; i < duplicateIfBlocks.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isThenStatement.get(i)) {
 					newConditions.add(ASTNodeFactory.parenthesizeIfNeeded(ast, ASTNodes.createMoveTarget(rewrite, duplicateIfBlocks.get(i).getExpression())));
 				} else {

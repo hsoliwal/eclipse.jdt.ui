@@ -145,8 +145,8 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		@Override
 		public ISelection getSelection() {
 			IStructuredSelection selection= fViewer.getStructuredSelection();
-			ArrayList<Object> externalSelection= new ArrayList<>();
-			for (Iterator<?> iter= selection.iterator(); iter.hasNext();) {
+			ArrayList<Object> externalSelection= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Iterator<?> iter= selection.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object unwrapped= ASTView.unwrapAttribute(iter.next());
 				if (unwrapped != null)
 					externalSelection.add(unwrapped);
@@ -213,7 +213,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 	}
 
 
-	private static class ListenerMix implements ISelectionListener, IFileBufferListener, IDocumentListener, ISelectionChangedListener, IDoubleClickListener, IPartListener2 {
+	private static class ListenerMix implements ISelectionListener, IFileBufferListener, IDocumentListener, ISelectionChangedListener, IDoubleClickListener, IPartListener2 { //FLLDCIM: MARK — T28  IMPLEMENTS
 
 		private boolean fASTViewVisible= true;
 		private ASTView fView;
@@ -354,7 +354,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 
 	private static final class StatementChecker extends ASTVisitor {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(YieldStatement node) {
 			try {
 				if (node != null && node.isImplicit() && isInSwitchExpression(node)) {
@@ -391,7 +391,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		private boolean isInSwitchExpression(YieldStatement node) {
 			boolean result= false;
 			ASTNode parent= node;
-			while (parent != null) {
+			while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parent instanceof SwitchExpression) {
 					result= true;
 					break;
@@ -436,7 +436,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 	private Action fAddToTrayAction;
 	private Action fDeleteAction;
 
-	private List<ASTLevelToggle> fASTVersionToggleActions = new ArrayList<>();
+	private List<ASTLevelToggle> fASTVersionToggleActions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private int fCurrentASTLevel;
 
 	private ASTInputKindAction[] fASTInputKindActions;
@@ -462,7 +462,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 
 	private IDialogSettings fDialogSettings;
 
-	public ASTView() {
+	public ASTView() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSuperListener= null;
 		fDialogSettings= ASTViewPlugin.getDefault().getDialogSettings();
 		fDoLinkWithEditor= fDialogSettings.getBoolean(SETTINGS_LINK_WITH_EDITOR);
@@ -519,7 +519,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		return fCurrentInputKind;
 	}
 
-	public void setInput(ITextEditor editor) throws CoreException {
+	public void setInput(ITextEditor editor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fEditor != null) {
 			uninstallModificationListener();
 		}
@@ -544,7 +544,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 
 	}
 
-	private CompilationUnit internalSetInput(ITypeRoot input, int offset, int length) throws CoreException {
+	private CompilationUnit internalSetInput(ITypeRoot input, int offset, int length) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (input.getBuffer() == null) {
 			throw new CoreException(getErrorStatus("Input has no buffer", null)); //$NON-NLS-1$
 		}
@@ -558,7 +558,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 				return null;
 			}
 		} catch (RuntimeException e) {
-			throw new CoreException(getErrorStatus("Could not create AST:\n" + e.getMessage(), e)); //$NON-NLS-1$
+			throw new CoreException(getErrorStatus("Could not create AST:\n" + e.getMessage(), e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		try {
@@ -586,19 +586,19 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 
 
 	private void resetView(CompilationUnit root) {
-		fViewer.setInput(root);
+		fViewer.setInput(root); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fViewer.getTree().setEnabled(root != null);
 		fSash.setMaximizedControl(fViewer.getTree());
-		fTrayRoots= new ArrayList<>();
+		fTrayRoots= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fTray != null)
-			fTray.setInput(fTrayRoots);
+			fTray.setInput(fTrayRoots); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		setASTUptoDate(root != null);
 		fClearAction.setEnabled(root != null);
 		fFindDeclaringNodeAction.setEnabled(root != null);
 		fPreviousDouble= null; // avoid leaking AST
 	}
 
-	private CompilationUnit createAST(ITypeRoot input, int offset) throws JavaModelException, CoreException {
+	private CompilationUnit createAST(ITypeRoot input, int offset) throws JavaModelException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long startTime;
 		long endTime;
 		CompilationUnit root;
@@ -664,7 +664,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		return root;
 	}
 
-	protected void refreshASTSettingsActions() {
+	protected void refreshASTSettingsActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean enabled;
 		switch (getCurrentInputKind()) {
 			case ASTInputKindAction.USE_CACHE:
@@ -678,22 +678,22 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		fStatementsRecoveryAction.setEnabled(enabled);
 		fBindingsRecoveryAction.setEnabled(enabled);
 		fIgnoreMethodBodiesAction.setEnabled(enabled);
-		for (ASTView.ASTLevelToggle action : fASTVersionToggleActions) {
+		for (ASTView.ASTLevelToggle action : fASTVersionToggleActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			action.setEnabled(enabled);
 		}
 	}
 
-	private void updateContentDescription(IJavaElement element, CompilationUnit root, long time) {
-		StringBuilder version= new StringBuilder("AST Level ").append(root.getAST().apiLevel());
+	private void updateContentDescription(IJavaElement element, CompilationUnit root, long time) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder version= new StringBuilder("AST Level ").append(root.getAST().apiLevel()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		switch (getCurrentInputKind()) {
 		case ASTInputKindAction.USE_RECONCILE:
-			version.append(", from reconciler"); //$NON-NLS-1$
+			version.append(", from reconciler"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case ASTInputKindAction.USE_CACHE:
-			version.append(", from ASTProvider"); //$NON-NLS-1$
+			version.append(", from ASTProvider"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case ASTInputKindAction.USE_FOCAL:
-			version.append(", using focal position"); //$NON-NLS-1$
+			version.append(", using focal position"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		default:
 			break;
@@ -706,7 +706,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (fSuperListener != null) {
 			if (fEditor != null) {
@@ -731,17 +731,17 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		return new Status(IStatus.ERROR, ASTViewPlugin.getPluginId(), IStatus.ERROR, message, th);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
-		fSash= new SashForm(parent, SWT.VERTICAL | SWT.SMOOTH);
+		fSash= new SashForm(parent, SWT.VERTICAL | SWT.SMOOTH); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		fViewer = new TreeViewer(fSash, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		fDrillDownAdapter = new DrillDownAdapter(fViewer);
 		fViewer.setContentProvider(new ASTViewContentProvider());
 		fASTLabelProvider= new ASTViewLabelProvider();
-		fViewer.setLabelProvider(fASTLabelProvider);
-		fViewer.addSelectionChangedListener(fSuperListener);
-		fViewer.addDoubleClickListener(fSuperListener);
-		fViewer.addFilter(new ViewerFilter() {
+		fViewer.setLabelProvider(fASTLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fViewer.addSelectionChangedListener(fSuperListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fViewer.addDoubleClickListener(fSuperListener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
+		fViewer.addFilter(new ViewerFilter() { //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				if (!fCreateBindings && element instanceof Binding)
@@ -749,7 +749,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 				return true;
 			}
 		});
-		fViewer.addFilter(fNonRelevantFilter);
+		fViewer.addFilter(fNonRelevantFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 
 		ViewForm trayForm= new ViewForm(fSash, SWT.NONE);
@@ -760,12 +760,12 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		fTray= new TreeViewer(trayForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		trayForm.setContent(fTray.getTree());
 
-		fTrayRoots= new ArrayList<>();
+		fTrayRoots= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fTray.setContentProvider(new TrayContentProvider());
 		final TrayLabelProvider trayLabelProvider= new TrayLabelProvider();
-		fTray.setLabelProvider(trayLabelProvider);
+		fTray.setLabelProvider(trayLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTray.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
-		fTrayUpdater= unused -> {
+		fTrayUpdater= unused -> { //FLLDCIM: MARK — T04  LAMBDA
 			IStructuredSelection viewerSelection= fViewer.getStructuredSelection();
 			if (viewerSelection.size() == 1) {
 				Object first= viewerSelection.getFirstElement();
@@ -776,14 +776,14 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 			}
 			trayLabelProvider.setViewerElement(null);
 		};
-		fTray.addPostSelectionChangedListener(fTrayUpdater);
-		fViewer.addPostSelectionChangedListener(fTrayUpdater);
-		fTray.addDoubleClickListener(unused -> performTrayDoubleClick());
-		fTray.addSelectionChangedListener(event -> {
+		fTray.addPostSelectionChangedListener(fTrayUpdater); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fViewer.addPostSelectionChangedListener(fTrayUpdater); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fTray.addDoubleClickListener(unused -> performTrayDoubleClick()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
+		fTray.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			IStructuredSelection selection= event.getStructuredSelection();
 			fDeleteAction.setEnabled(selection.size() >= 1 && fTray.getTree().isFocusControl());
 		});
-		fTray.getTree().addFocusListener(new FocusAdapter() {
+		fTray.getTree().addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusGained(FocusEvent e) {
 				IStructuredSelection selection= fTray.getStructuredSelection();
@@ -820,7 +820,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(this::fillContextMenu);
+		menuMgr.addMenuListener(this::fillContextMenu); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		Menu menu = menuMgr.createContextMenu(fViewer.getControl());
 		fViewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, fViewer);
@@ -829,7 +829,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 	private void hookTrayContextMenu() {
 		MenuManager menuMgr = new MenuManager("#TrayPopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(manager -> {
+		menuMgr.addMenuListener(manager -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			manager.add(fCopyAction);
 			manager.add(fDeleteAction);
 			manager.add(new Separator());
@@ -852,8 +852,8 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		handlerService.activateHandler(IWorkbenchCommandConstants.NAVIGATE_TOGGLE_LINK_WITH_EDITOR, new ActionHandler(fLinkWithEditor));
 	}
 
-	private void fillLocalPullDown(IMenuManager manager) {
-		for (ASTView.ASTLevelToggle action : fASTVersionToggleActions) {
+	private void fillLocalPullDown(IMenuManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (ASTView.ASTLevelToggle action : fASTVersionToggleActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.add(action);
 		}
 		manager.add(new Separator());
@@ -862,7 +862,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		manager.add(fBindingsRecoveryAction);
 		manager.add(fIgnoreMethodBodiesAction);
 		manager.add(new Separator());
-		for (ASTView.ASTInputKindAction action : fASTInputKindActions) {
+		for (ASTView.ASTInputKindAction action : fASTInputKindActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.add(action);
 		}
 		manager.add(new Separator());
@@ -874,7 +874,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		manager.add(fLinkWithEditor);
 	}
 
-	protected void fillContextMenu(IMenuManager manager) {
+	protected void fillContextMenu(IMenuManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection selection= getSite().getSelectionProvider().getSelection();
 		if (!selection.isEmpty() && ((IStructuredSelection) selection).getFirstElement() instanceof IJavaElement) {
 			MenuManager showInSubMenu= new MenuManager(getShowInMenuLabel());
@@ -909,7 +909,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		if (keyBinding == null)
 			keyBinding= ""; //$NON-NLS-1$
 
-		return "Sho&w In" + '\t' + keyBinding;
+		return "Sho&w In" + '\t' + keyBinding; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -928,7 +928,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		fRefreshAction.setEnabled(!isuptoDate && fTypeRoot != null);
 	}
 
-	@SuppressWarnings("boxing")
+	@SuppressWarnings("boxing") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private void makeActions() {
 		fRefreshAction = new Action() {
 			@Override
@@ -1087,8 +1087,8 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		fLinkWithEditor.setActionDefinitionId(IWorkbenchCommandConstants.NAVIGATE_TOGGLE_LINK_WITH_EDITOR);
 		ASTViewImages.setImageDescriptors(fLinkWithEditor, ASTViewImages.LINK_WITH_EDITOR);
 
-		for (Integer version : AST.getAllSupportedVersions()) {
-			fASTVersionToggleActions.add(new ASTLevelToggle("AST Level "+version, version));
+		for (Integer version : AST.getAllSupportedVersions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			fASTVersionToggleActions.add(new ASTLevelToggle("AST Level "+version, version)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		fAddToTrayAction= new Action() {
@@ -1131,7 +1131,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		internalSetInput(fTypeRoot, offset, length);
 	}
 
-	protected void setASTLevel(int level, boolean doRefresh) {
+	protected void setASTLevel(int level, boolean doRefresh) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int oldLevel= fCurrentASTLevel;
 		fCurrentASTLevel= level;
 
@@ -1147,7 +1147,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 			}
 		}
 		// update action state
-		for (ASTView.ASTLevelToggle action : fASTVersionToggleActions) {
+		for (ASTView.ASTLevelToggle action : fASTVersionToggleActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			action.setChecked(action.getLevel() == fCurrentASTLevel);
 		}
 	}
@@ -1156,7 +1156,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		if (inputKind != fCurrentInputKind) {
 			fCurrentInputKind= inputKind;
 			fDialogSettings.put(SETTINGS_INPUT_KIND, inputKind);
-			for (ASTView.ASTInputKindAction action : fASTInputKindActions) {
+			for (ASTView.ASTInputKindAction action : fASTInputKindActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				action.setChecked(action.getInputKind() == inputKind);
 			}
 			refreshASTSettingsActions();
@@ -1209,7 +1209,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		fAddToTrayAction.setEnabled(addEnabled);
 	}
 
-	protected void handleEditorPostSelectionChanged(IWorkbenchPart part, ISelection selection) {
+	protected void handleEditorPostSelectionChanged(IWorkbenchPart part, ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(selection instanceof ITextSelection textSelection)) {
 			return;
 		}
@@ -1273,7 +1273,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 			fViewer.collapseAll();
 		} else {
 			fViewer.getTree().setRedraw(false);
-			for (Object s : selection.toArray()) {
+			for (Object s : selection.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fViewer.collapseToLevel(s, AbstractTreeViewer.ALL_LEVELS);
 			}
 			fViewer.getTree().setRedraw(true);
@@ -1286,7 +1286,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 			fViewer.expandToLevel(3);
 		} else {
 			fViewer.getTree().setRedraw(false);
-			for (Object s : selection.toArray()) {
+			for (Object s : selection.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fViewer.expandToLevel(s, 3);
 			}
 			fViewer.getTree().setRedraw(true);
@@ -1363,7 +1363,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		boolean showNonRelevant= !fFilterNonRelevantAction.isChecked();
 		fNonRelevantFilter.setShowNonRelevant(showNonRelevant);
 		fDialogSettings.put(SETTINGS_SHOW_NON_RELEVANT, showNonRelevant);
-		fViewer.refresh();
+		fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	protected void performFindDeclaringNode() {
@@ -1378,7 +1378,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 			MessageDialog.openError(
 					getSite().getShell(),
 					"Find Declaring Node from Key",
-					"The declaring node for key '" + key + "' could not be found");
+					"The declaring node for key '" + key + "' could not be found"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -1393,7 +1393,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		return key;
 	}
 
-	protected void performParseBindingFromKey() {
+	protected void performParseBindingFromKey() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String msg= "Parse Binding from Key";
 		String key= askForKey(msg);
 		if (key == null)
@@ -1416,19 +1416,19 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		try {
 			parser.createASTs(new ICompilationUnit[0], new String[] { key }, requestor, null);
 			if (requestor.fBindingKey != null) {
-				String name= requestor.fBindingKey + ": " + Binding.getBindingLabel(requestor.fBinding);
+				String name= requestor.fBindingKey + ": " + Binding.getBindingLabel(requestor.fBinding); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				item= new Binding(viewerInput, name, requestor.fBinding, true);
 			} else {
-				item= new Error(viewerInput, "Key not resolved: " + key, null);
+				item= new Error(viewerInput, "Key not resolved: " + key, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} catch (RuntimeException e) {
-			item= new Error(viewerInput, "Error resolving key: " + key, e);
+			item= new Error(viewerInput, "Error resolving key: " + key, e); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fViewer.add(viewerInput, item);
 		fViewer.setSelection(new StructuredSelection(item), true);
 	}
 
-	protected void performParseBindingFromElement() {
+	protected void performParseBindingFromElement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InputDialog dialog= new InputDialog(getSite().getShell(), "Parse Binding from Java Element", "IJavaElement#getHandleIdentifier():", "", null);
 		if (dialog.open() != Window.OK)
 			return;
@@ -1439,24 +1439,24 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		Object viewerInput= fViewer.getInput();
 		ASTAttribute item;
 		if (handle == null) {
-			item= new Error(viewerInput, "handleIdentifier not resolved: " + handleIdentifier, null);
+			item= new Error(viewerInput, "handleIdentifier not resolved: " + handleIdentifier, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (! handle.exists()) {
-			item= new Error(viewerInput, "element does not exist: " + handleIdentifier, null);
+			item= new Error(viewerInput, "element does not exist: " + handleIdentifier, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (handle.getJavaProject() == null) {
-			item= new Error(viewerInput, "getJavaProject() is null: " + handleIdentifier, null);
+			item= new Error(viewerInput, "getJavaProject() is null: " + handleIdentifier, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			IJavaProject project= handle.getJavaProject();
 			ASTParser parser= ASTParser.newParser(fCurrentASTLevel);
 			parser.setProject(project);
 			IBinding[] bindings= parser.createBindings(new IJavaElement[] { handle }, null);
-			String name= handleIdentifier + ": " + Binding.getBindingLabel(bindings[0]);
+			String name= handleIdentifier + ": " + Binding.getBindingLabel(bindings[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			item= new Binding(viewerInput, name, bindings[0], true);
 		}
 		fViewer.add(viewerInput, item);
 		fViewer.setSelection(new StructuredSelection(item), true);
 	}
 
-	protected void performDoubleClick() {
+	protected void performDoubleClick() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fEditor == null) {
 			return;
 		}
@@ -1471,7 +1471,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 			Throwable exception= ea.getException();
 			if (exception != null) {
 				String label= ea.getLabel();
-				showAndLogError("An error occurred while calculating an AST View Label:\n" + label, exception); //$NON-NLS-1$
+				showAndLogError("An error occurred while calculating an AST View Label:\n" + label, exception); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return;
 			}
 		}
@@ -1551,7 +1551,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		Object firstElement= selection.getFirstElement();
 		if (! fTrayRoots.contains(firstElement)) {
 			fTrayRoots.add(firstElement);
-			fTray.setInput(fTrayRoots);
+			fTray.setInput(fTrayRoots); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 		if (fSash.getMaximizedControl() != null) {
 			int trayHeight= fTray.getTree().getItemHeight() * (2 + TrayContentProvider.DEFAULT_CHILDREN_COUNT);
@@ -1578,7 +1578,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 			Throwable exception= ea.getException();
 			if (exception != null) {
 				String label= ea.getLabel();
-				showAndLogError("An error occurred while calculating an AST View Label:\n" + label, exception); //$NON-NLS-1$
+				showAndLogError("An error occurred while calculating an AST View Label:\n" + label, exception); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return;
 			}
 		}
@@ -1590,7 +1590,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 	protected void performDelete() {
 		boolean removed= false;
 		IStructuredSelection selection= fTray.getStructuredSelection();
-		for (Iterator<?> iter= selection.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter= selection.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object obj= iter.next();
 			if (obj instanceof DynamicAttributeProperty)
 				obj= ((DynamicAttributeProperty) obj).getParent();
@@ -1600,7 +1600,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 			removed|= fTrayRoots.remove(obj);
 		}
 		if (removed)
-			fTray.setInput(fTrayRoots);
+			fTray.setInput(fTrayRoots); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	@Override

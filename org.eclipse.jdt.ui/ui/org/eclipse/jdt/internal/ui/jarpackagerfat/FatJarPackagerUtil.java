@@ -51,7 +51,7 @@ public final class FatJarPackagerUtil {
 
 		final boolean[] returnValue= new boolean[1];
 		Runnable runnable= () -> returnValue[0]= MessageDialog.openQuestion(parent, title, message);
-		display.syncExec(runnable);
+		display.syncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 		return returnValue[0];
 	}
@@ -65,7 +65,7 @@ public final class FatJarPackagerUtil {
 	 * @param fileName the file name to increment
 	 * @return incremented filename
 	 */
-	public static String nextNumberedFileName(String fileName) {
+	public static String nextNumberedFileName(String fileName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name;
 		String number;
 		String ext;
@@ -82,7 +82,7 @@ public final class FatJarPackagerUtil {
 			number= "1"; //$NON-NLS-1$
 			ext= ""; //$NON-NLS-1$
 		}
-		fileName= name + "_" + (Integer.parseInt(number) + 1) + ext; //$NON-NLS-1$
+		fileName= name + "_" + (Integer.parseInt(number) + 1) + ext; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return fileName;
 	}
 

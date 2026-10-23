@@ -43,7 +43,7 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 
 	private int fCount;
 	private int fSelectedCount;
-	private Set<ButtonPreference> fCheckboxes= new HashSet<>();
+	private Set<ButtonPreference> fCheckboxes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	public CleanUpTabPage() {
 		super();
@@ -131,7 +131,7 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 
 	@Override
 	public void doSetAll(boolean value) {
-		for (ButtonPreference pref : fCheckboxes) {
+		for (ButtonPreference pref : fCheckboxes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(pref instanceof RadioPreference)) {
 				pref.setChecked(value);
 			}
@@ -141,7 +141,7 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 	@Override
 	public void setDefaults() {
 		CleanUpOptions settings= JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS);
-		for (ButtonPreference pref : fCheckboxes) {
+		for (ButtonPreference pref : fCheckboxes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String defaultValueString= settings.getValue(pref.getKey());
 			boolean defaultValue= Boolean.parseBoolean(defaultValueString);
 			pref.setChecked(defaultValue);
@@ -150,7 +150,7 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 
 	@Override
 	public void resetValues() {
-		for (ButtonPreference pref : fCheckboxes) {
+		for (ButtonPreference pref : fCheckboxes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String initialValueString= fInitialValues.get(pref.getKey());
 			boolean initialValue= Boolean.parseBoolean(initialValueString);
 			pref.setChecked(initialValue);
@@ -164,7 +164,7 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 		registerPreference(main);
 		fCheckboxes.addAll(Arrays.asList(options));
 		main.addObserver((unused, unused2)-> {
-			for (CheckboxPreference option : options) {
+			for (CheckboxPreference option : options) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				option.setEnabled(main.getChecked());
 			}
 		});
@@ -188,15 +188,15 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 	 * @param subSlaves indirect slaves, i.e. a slave is a master of its subSlave).
 	 * 		First index into array is the subSlave's master's index. subSlaves can also be <code>null</code>.
 	 */
-	protected void registerSlavePreference(final CheckboxPreference master, final CheckboxPreference[] slaves, final CheckboxPreference[][] subSlaves) {
+	protected void registerSlavePreference(final CheckboxPreference master, final CheckboxPreference[] slaves, final CheckboxPreference[][] subSlaves) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		internalRegisterSlavePreference(master, slaves);
 
 		fCount+= slaves.length;
 
 		if (subSlaves != null) {
-			for (int i= 0; i < slaves.length; i++) {
+			for (int i= 0; i < slaves.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final CheckboxPreference slave= slaves[i];
-				for (CheckboxPreference subSlave : subSlaves[i]) {
+				for (CheckboxPreference subSlave : subSlaves[i]) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					master.addObserver((unused, unused2) -> {
 						boolean enabled= master.getChecked() && slave.getChecked();
 						subSlave.setEnabled(enabled);
@@ -207,11 +207,11 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 
 		master.addObserver((unused, unused2) -> {
 			boolean masterChecked= master.getChecked();
-			for (int i= 0; i < slaves.length; i++) {
+			for (int i= 0; i < slaves.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (slaves[i].getChecked()) {
 					setSelectedCleanUpCount(fSelectedCount + (masterChecked ? 1 : -1));
 					if (subSlaves != null) {
-						for (CheckboxPreference subSlave : subSlaves[i]) {
+						for (CheckboxPreference subSlave : subSlaves[i]) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (subSlave.getChecked()) {
 								setSelectedCleanUpCount(fSelectedCount + (masterChecked ? 1 : -1));
 							}
@@ -221,7 +221,7 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 			}
 		});
 
-		for (CheckboxPreference slave : slaves) {
+		for (CheckboxPreference slave : slaves) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			slave.addObserver((unused, unused2) -> {
 				if (master.getChecked()) {
 					setSelectedCleanUpCount(fSelectedCount + (slave.getChecked() ? 1 : -1));
@@ -230,7 +230,7 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 		}
 
 		if (master.getChecked()) {
-			for (CheckboxPreference slave : slaves) {
+			for (CheckboxPreference slave : slaves) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (slave.getChecked() && master.getEnabled()) {
 					setSelectedCleanUpCount(fSelectedCount + 1);
 				}
@@ -241,12 +241,12 @@ public abstract class CleanUpTabPage extends ModifyDialogTabPage implements ICle
 	private void internalRegisterSlavePreference(final CheckboxPreference master, final ButtonPreference[] slaves) {
 		fCheckboxes.addAll(Arrays.asList(slaves));
     	master.addObserver( (unused, unused2) -> {
-			for (ButtonPreference slave : slaves) {
+			for (ButtonPreference slave : slaves) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				slave.setEnabled(master.getChecked());
 			}
 		});
 
-		for (ButtonPreference slave : slaves) {
+		for (ButtonPreference slave : slaves) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			slave.setEnabled(master.getChecked());
 		}
 	}

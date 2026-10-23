@@ -56,7 +56,7 @@ import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
 
 
 // XXX: StructuredDiffViewer should allow subclassing, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=258907
-class JavaStructureDiffViewer extends StructureDiffViewer implements IElementChangedListener {
+class JavaStructureDiffViewer extends StructureDiffViewer implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 	/**
 	 * Toggles a boolean property of an <code>CompareConfiguration</code>.
@@ -107,24 +107,24 @@ class JavaStructureDiffViewer extends StructureDiffViewer implements IElementCha
 		super(parent, configuration);
 		fStructureCreator= new JavaStructureCreator();
 		setStructureCreator(fStructureCreator);
-		JavaCore.addElementChangedListener(this);
+		JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 	}
 
 	/**
 	 * Overridden to find and expand the first class.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void initialSelection() {
 		Object firstClass= null;
 		Object o= getRoot();
 		if (o != null) {
 			Object[] children= getSortedChildren(o);
 			if (children != null) {
-				for (Object child : children) {
+				for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					o= child;
 					Object[] sortedChildren= getSortedChildren(o);
 					if (sortedChildren != null) {
-						for (Object sortedChild : sortedChildren) {
+						for (Object sortedChild : sortedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							o= sortedChild;
 							if (o instanceof DiffNode) {
 								DiffNode dn= (DiffNode) o;
@@ -148,7 +148,7 @@ class JavaStructureDiffViewer extends StructureDiffViewer implements IElementCha
 			expandToLevel(2);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void compareInputChanged(ICompareInput input) {
 
 		fThreeWay= input != null ? input.getAncestor() != null
@@ -264,7 +264,7 @@ class JavaStructureDiffViewer extends StructureDiffViewer implements IElementCha
 	@Override
 	public void elementChanged(ElementChangedEvent event) {
 		ITypedElement[] elements= findAffectedElement(event);
-		for (ITypedElement e : elements) {
+		for (ITypedElement e : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (e == null || !(e instanceof IContentChangeNotifier))
 				continue;
 			contentChanged((IContentChangeNotifier)e);
@@ -283,7 +283,7 @@ class JavaStructureDiffViewer extends StructureDiffViewer implements IElementCha
 		if (!(input instanceof ICompareInput))
 			return new ITypedElement[0];
 
-		Set<ITypedElement> affectedElements= new HashSet<>();
+		Set<ITypedElement> affectedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ICompareInput ci= (ICompareInput)input;
 		IJavaElementDelta delta= event.getDelta();
 		addAffectedElement(ci.getAncestor(), delta, affectedElements);
@@ -362,7 +362,7 @@ class JavaStructureDiffViewer extends StructureDiffViewer implements IElementCha
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.JavaOutlinePage.ElementChangedListener#findElement(IJavaElement, IJavaElementDelta)
 	 * @since 3.5
 	 */
-	protected IJavaElementDelta findJavaElementDelta(IJavaElement unit, IJavaElementDelta delta) {
+	protected IJavaElementDelta findJavaElementDelta(IJavaElement unit, IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (delta == null || unit == null)
 			return null;
@@ -387,7 +387,7 @@ class JavaStructureDiffViewer extends StructureDiffViewer implements IElementCha
 		if (children == null || children.length == 0)
 			return null;
 
-		for (IJavaElementDelta child : children) {
+		for (IJavaElementDelta child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElementDelta d= findJavaElementDelta(unit, child);
 			if (d != null)
 				return d;

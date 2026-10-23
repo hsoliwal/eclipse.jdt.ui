@@ -153,7 +153,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return new CoreJavaDocSnippetStringEvaluator(fElement);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toHTML() {
 		fBuf= new StringBuffer();
 		fLiteralContent= 0;
@@ -174,10 +174,10 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return result;
 	}
 
-	protected void parameterToHTML() {
+	protected void parameterToHTML() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String elementName= fElement.getElementName();
 		List<TagElement> tags= fJavadoc.tags();
-		for (TagElement tag : tags) {
+		for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String tagName= tag.getTagName();
 			if (TagElement.TAG_PARAM.equals(tagName)) {
 				List<? extends ASTNode> fragments= tag.fragments();
@@ -225,7 +225,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		}
 	}
 
-	protected void elementToHTML() {
+	protected void elementToHTML() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// After first loop, non-null entries in the following two lists are missing and need to be inherited:
 		List<String> typeParameterNames= initTypeParameterNames();
 		List<String> parameterNames= initParameterNames();
@@ -233,24 +233,24 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 
 		TagElement deprecatedTag= null;
 		TagElement start= null;
-		List<TagElement> typeParameters= new ArrayList<>();
-		List<TagElement> parameters= new ArrayList<>();
+		List<TagElement> typeParameters= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> parameters= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		TagElement returnTag= null;
-		List<TagElement> exceptions= new ArrayList<>();
-		List<TagElement> provides= new ArrayList<>();
-		List<TagElement> uses= new ArrayList<>();
-		List<TagElement> versions= new ArrayList<>();
-		List<TagElement> authors= new ArrayList<>();
-		List<TagElement> sees= new ArrayList<>();
-		List<TagElement> since= new ArrayList<>();
-		List<TagElement> rest= new ArrayList<>();
-		List<TagElement> apinote= new ArrayList<>(1);
-		List<TagElement> implspec= new ArrayList<>(1);
-		List<TagElement> implnote= new ArrayList<>(1);
-		List<TagElement> hidden= new ArrayList<>(1);
+		List<TagElement> exceptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> provides= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> uses= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> versions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> authors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> sees= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> since= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> rest= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> apinote= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> implspec= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> implnote= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<TagElement> hidden= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		List<TagElement> tags= fJavadoc.tags();
-		for (TagElement tag : tags) {
+		for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String tagName= tag.getTagName();
 			if (tagName == null) {
 				start= tag;
@@ -347,7 +347,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			}
 		}
 
-		List<TagElement> returnTags= new ArrayList<>();
+		List<TagElement> returnTags= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		findTags(TagElement.TAG_RETURN, returnTags, tags);
 		if (!returnTags.isEmpty())
 			returnTag= returnTags.get(0); // the Javadoc tool only shows the first return tag
@@ -413,7 +413,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	}
 
 	protected List<TagElement> findTags(String tagName, List<TagElement> found, List<? extends ASTNode> tags) {
-		for (ASTNode node : tags) {
+		for (ASTNode node : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof TagElement) {
 				TagElement tag= (TagElement) node;
 				if (tagName.equals(tag.getTagName())) {
@@ -472,8 +472,8 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	protected List<String> initTypeParameterNames() {
 		if (fMethod != null) {
 			try {
-				ArrayList<String> typeParameterNames= new ArrayList<>();
-				for (ITypeParameter typeParameter : fMethod.getTypeParameters()) {
+				ArrayList<String> typeParameterNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (ITypeParameter typeParameter : fMethod.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					typeParameterNames.add(typeParameter.getElementName());
 				}
 				return typeParameterNames;
@@ -487,7 +487,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	protected List<String> initParameterNames() {
 		if (fMethod != null) {
 			try {
-				return new ArrayList<>(Arrays.asList(fMethod.getParameterNames()));
+				return new ArrayList<>(Arrays.asList(fMethod.getParameterNames())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			} catch (JavaModelException e) {
 				JavaManipulationPlugin.log(e);
 			}
@@ -498,8 +498,8 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	protected List<String> initExceptionNames() {
 		if (fMethod != null) {
 			try {
-				ArrayList<String> exceptionNames= new ArrayList<>();
-				for (String exceptionType : fMethod.getExceptionTypes()) {
+				ArrayList<String> exceptionNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (String exceptionType : fMethod.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					exceptionNames.add(Signature.getSimpleName(Signature.toString(exceptionType)));
 				}
 				return exceptionNames;
@@ -523,7 +523,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 
 	protected boolean inheritTypeParameterDescriptions(List<String> typeParameterNames, CharSequence[] typeParameterDescriptions) {
 		boolean hasInheritedTypeParameters= false;
-		for (int i= 0; i < typeParameterNames.size(); i++) {
+		for (int i= 0; i < typeParameterNames.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= typeParameterNames.get(i);
 			if (name != null) {
 				typeParameterDescriptions[i]= fJavadocLookup.getInheritedTypeParamDescription(fMethod, i);
@@ -536,7 +536,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 
 	protected boolean inheritParameterDescriptions(List<String> parameterNames, CharSequence[] parameterDescriptions) {
 		boolean hasInheritedParameters= false;
-		for (int i= 0; i < parameterNames.size(); i++) {
+		for (int i= 0; i < parameterNames.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= parameterNames.get(i);
 			if (name != null) {
 				parameterDescriptions[i]= fJavadocLookup.getInheritedParamDescription(fMethod, i);
@@ -549,7 +549,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 
 	protected boolean inheritExceptionDescriptions(List<String> exceptionNames, CharSequence[] exceptionDescriptions) {
 		boolean hasInheritedExceptions= false;
-		for (int i= 0; i < exceptionNames.size(); i++) {
+		for (int i= 0; i < exceptionNames.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= exceptionNames.get(i);
 			if (name != null) {
 				exceptionDescriptions[i]= fJavadocLookup.getInheritedExceptionDescription(fMethod, name);
@@ -560,7 +560,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return hasInheritedExceptions;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public CharSequence getMainDescription() {
 		if (fMainDescription == null) {
 			fMainDescription= new StringBuffer();
@@ -568,7 +568,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			fLiteralContent= 0;
 
 			List<TagElement> tags= fJavadoc.tags();
-			for (TagElement tag : tags) {
+			for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String tagName= tag.getTagName();
 				if (tagName == null) {
 					handleContentElements(tag.fragments());
@@ -581,7 +581,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return fMainDescription.length() > 0 ? fMainDescription.append("\n") : null; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public CharSequence getReturnDescription() {
 		if (fReturnDescription == null) {
 			fReturnDescription= new StringBuffer();
@@ -589,7 +589,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			fLiteralContent= 0;
 
 			List<TagElement> tags= fJavadoc.tags();
-			List<TagElement> returnTags= new ArrayList<>();
+			List<TagElement> returnTags= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			findTags(TagElement.TAG_RETURN, returnTags, tags);
 			if (!returnTags.isEmpty()) {
 				TagElement returnTag= returnTags.get(0);
@@ -601,7 +601,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return fReturnDescription.length() > 0 ? fReturnDescription : null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public CharSequence getInheritedTypeParamDescription(int typeParamIndex) {
 		if (fMethod != null) {
 			List<String> typeParameterNames= initTypeParameterNames();
@@ -621,7 +621,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 
 			String typeParamName= typeParameterNames.get(typeParamIndex);
 			List<TagElement> tags= fJavadoc.tags();
-			for (TagElement tag : tags) {
+			for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String tagName= tag.getTagName();
 				if (TagElement.TAG_PARAM.equals(tagName)) {
 					List<? extends ASTNode> fragments= tag.fragments();
@@ -650,7 +650,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public CharSequence getInheritedParamDescription(int paramIndex) throws JavaModelException {
 		if (fMethod != null) {
 			String[] parameterNames= fMethod.getParameterNames();
@@ -670,7 +670,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 
 			String paramName= parameterNames[paramIndex];
 			List<TagElement> tags= fJavadoc.tags();
-			for (TagElement tag : tags) {
+			for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String tagName= tag.getTagName();
 				if (TagElement.TAG_PARAM.equals(tagName)) {
 					List<? extends ASTNode> fragments= tag.fragments();
@@ -693,11 +693,11 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public CharSequence getExceptionDescription(String simpleName) {
 		if (fMethod != null) {
 			if (fExceptionDescriptions == null) {
-				fExceptionDescriptions= new HashMap<>();
+				fExceptionDescriptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			} else {
 				StringBuffer description= fExceptionDescriptions.get(simpleName);
 				if (description != null) {
@@ -711,7 +711,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			fLiteralContent= 0;
 
 			List<TagElement> tags= fJavadoc.tags();
-			for (TagElement tag : tags) {
+			for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String tagName= tag.getTagName();
 				if (TagElement.TAG_THROWS.equals(tagName) || TagElement.TAG_EXCEPTION.equals(tagName)) {
 					List<? extends ASTNode> fragments= tag.fragments();
@@ -744,16 +744,16 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		handleContentElements(nodes, skipLeadingWhiteSpace, null);
 	}
 
-	protected void handleContentElements(List<? extends ASTNode> nodes, boolean skipLeadingWhitespace, TagElement tagElement) {
+	protected void handleContentElements(List<? extends ASTNode> nodes, boolean skipLeadingWhitespace, TagElement tagElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode previousNode= null;
-		for (ASTNode child : nodes) {
+		for (ASTNode child : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (previousNode != null) {
 				int previousEnd= previousNode.getStartPosition() + previousNode.getLength();
 				int childStart= child.getStartPosition();
 				if (previousEnd > childStart) {
 					// should never happen, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=304826
 					if ((child.getFlags() & ASTNode.MALFORMED) == 0) {
-						Exception exception= new Exception("Illegal ASTNode positions: previousEnd=" + previousEnd //$NON-NLS-1$
+						Exception exception= new Exception("Illegal ASTNode positions: previousEnd=" + previousEnd //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ ", childStart=" + childStart //$NON-NLS-1$
 								+ ", element=" + fElement.getHandleIdentifier() //$NON-NLS-1$
 								+ ", Javadoc:\n" + fSource); //$NON-NLS-1$
@@ -804,7 +804,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		handleInLineText(text, previousNode);
 	}
 
-	protected String handlePreCounter(TagElement tagElement, String text) {
+	protected String handlePreCounter(TagElement tagElement, String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (tagElement == null && text.equals("<pre>")) { //$NON-NLS-1$
 			++fPreCounter;
 		} else if (tagElement == null && text.equals("</pre>")) { //$NON-NLS-1$
@@ -837,7 +837,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	protected String removeDocLineIntros(String textWithStars) {
 		String lineBreakGroup= "(\\r\\n?|\\n)"; //$NON-NLS-1$
 		String noBreakSpace= "[^\r\n&&\\s]"; //$NON-NLS-1$
-		return textWithStars.replaceAll(lineBreakGroup + noBreakSpace + "*\\*" /*+ noBreakSpace + '?'*/, "$1"); //$NON-NLS-1$ //$NON-NLS-2$
+		return textWithStars.replaceAll(lineBreakGroup + noBreakSpace + "*\\*" /*+ noBreakSpace + '?'*/, "$1"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void handleText(String text) {
@@ -849,11 +849,11 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		}
 	}
 
-	protected void handleUnicode(StringBuffer buf, String text) {
+	protected void handleUnicode(StringBuffer buf, String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nextToCopy= 0;
 		int length= text.length();
 		boolean seenBackSlash= false;
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= text.charAt(i);
 			String rep= null;
 			switch (ch) {
@@ -873,7 +873,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 									Character.digit(ch2, 16) != -1 &&
 									Character.digit(ch3, 16) != -1 &&
 									Character.digit(ch4, 16) != -1) {
-								rep= "&#x" + ch1 + ch2 + ch3 + ch4 + ";"; //$NON-NLS-1$ //$NON-NLS-2$
+								rep= "&#x" + ch1 + ch2 + ch3 + ch4 + ";"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							}
 						}
 					}
@@ -894,11 +894,11 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			buf.append(text.substring(nextToCopy));
 	}
 
-	protected String appendEscaped(String text) {
+	protected String appendEscaped(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nextToCopy= 0;
 		int length= text.length();
 		StringBuffer buf= new StringBuffer();
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= text.charAt(i);
 			String rep= null;
 			switch (ch) {
@@ -927,7 +927,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return buf.toString();
 	}
 
-	protected void handleInlineTagElement(TagElement node) {
+	protected void handleInlineTagElement(TagElement node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= node.getTagName();
 		if (TagElement.TAG_VALUE.equals(name) && handleValueTag(node))
 			return;
@@ -1003,7 +1003,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return (ASTNode) fragments.get(index + 1);
 	}
 
-	protected boolean isThreeBackTickOrPre(TagElement parent, ASTNode node) {
+	protected boolean isThreeBackTickOrPre(TagElement parent, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPreCounter > 0) {
 			return true;
 		}
@@ -1014,7 +1014,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			String precedingText= fSource.substring(parentStart, nodeStart);
 			int count= 0;
 			int index= precedingText.indexOf("```"); //$NON-NLS-1$
-			while (index != -1) {
+			while (index != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				count++;
 				index= precedingText.indexOf("```", index + 3); //$NON-NLS-1$
 			}
@@ -1036,7 +1036,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return true;
 	}
 
-	protected boolean handleValueTag(TagElement node) {
+	protected boolean handleValueTag(TagElement node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		List<? extends ASTNode> fragments= node.fragments();
 		try {
@@ -1060,7 +1060,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 						}
 					}
 					SimpleName name= memberRef.getName();
-					while (type != null) {
+					while (type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IField field= type.getField(name.getIdentifier());
 						if (field != null && field.exists()) {
 							if (JdtFlags.isStatic(field) && JdtFlags.isFinal(field))
@@ -1078,7 +1078,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return false;
 	}
 
-	protected boolean handleConstantValue(IField field, boolean link) throws JavaModelException {
+	protected boolean handleConstantValue(IField field, boolean link) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String text= null;
 
 		ISourceRange nameRange= field.getNameRange();
@@ -1129,7 +1129,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return false;
 	}
 
-	protected boolean handleDocRoot(TagElement node) {
+	protected boolean handleDocRoot(TagElement node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!TagElement.TAG_DOCROOT.equals(node.getTagName()))
 			return false;
 
@@ -1178,7 +1178,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	 * @param node the node
 	 * @return <code>true</code> iff the node was an {&#64;inheritDoc} node and has been handled
 	 */
-	protected boolean handleInheritDoc(TagElement node) {
+	protected boolean handleInheritDoc(TagElement node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!TagElement.TAG_INHERITDOC.equals(node.getTagName()))
 			return false;
 		try {
@@ -1202,7 +1202,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 							if (first instanceof SimpleName) {
 								String name= ((SimpleName) first).getIdentifier();
 								String[] parameterNames= fMethod.getParameterNames();
-								for (int i= 0; i < parameterNames.length; i++) {
+								for (int i= 0; i < parameterNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (name.equals(parameterNames[i])) {
 										CharSequence inherited= fJavadocLookup.getInheritedParamDescription(fMethod, i);
 										return handleInherited(inherited);
@@ -1218,7 +1218,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 										if (">".equals(thirdText)) { //$NON-NLS-1$
 											String name= ((SimpleName) second).getIdentifier();
 											ITypeParameter[] typeParameters= fMethod.getTypeParameters();
-											for (int i= 0; i < typeParameters.length; i++) {
+											for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 												ITypeParameter typeParameter= typeParameters[i];
 												if (name.equals(typeParameter.getElementName())) {
 													CharSequence inherited= getInheritedTypeParamDescription(i);
@@ -1272,7 +1272,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 
 		handleBlockTagTitle(title);
 
-		for (TagElement tag : tags) {
+		for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			handleSingleTag(tag);
 		}
 	}
@@ -1305,7 +1305,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	}
 
 	protected void handleBlockTags(List<TagElement> tags) {
-		for (TagElement tag : tags) {
+		for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			handleBlockTagTitle(tag.getTagName());
 			handleBlockTagBody(tag);
 		}
@@ -1337,13 +1337,13 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	}
 
 	protected void handleExceptionTagsBody(List<TagElement> tags, List<String> exceptionNames, CharSequence[] exceptionDescriptions) {
-		for (TagElement tag : tags) {
+		for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fBuf.append(getBlockTagEntryStart());
 			handleThrowsTag(tag);
 			fBuf.append(getBlockTagEntryEnd());
 		}
 
-		for (int i= 0; i < exceptionDescriptions.length; i++) {
+		for (int i= 0; i < exceptionDescriptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CharSequence description= exceptionDescriptions[i];
 			String name= exceptionNames.get(i);
 			if (name != null) {
@@ -1380,17 +1380,17 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		fBuf.append(getBlockTagEntryEnd());
 	}
 
-	protected void handleParameterTags(List<TagElement> tags, List<String> parameterNames, CharSequence[] parameterDescriptions, boolean isTypeParameters) {
+	protected void handleParameterTags(List<TagElement> tags, List<String> parameterNames, CharSequence[] parameterDescriptions, boolean isTypeParameters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (tags.isEmpty() && containsOnlyNull(parameterNames))
 			return;
 
 		String tagTitle= isTypeParameters ? JavaDocMessages.JavaDoc2HTMLTextReader_type_parameters_section : JavaDocMessages.JavaDoc2HTMLTextReader_parameters_section;
 		handleBlockTagTitle(tagTitle);
 
-		for (TagElement tag : tags) {
+		for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			handleSingleParameterTag(tag);
 		}
-		for (int i= 0; i < parameterDescriptions.length; i++) {
+		for (int i= 0; i < parameterDescriptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CharSequence description= parameterDescriptions[i];
 			String name= parameterNames.get(i);
 			if (name != null) {
@@ -1415,7 +1415,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		fBuf.append(getBlockTagEntryEnd());
 	}
 
-	protected void handleParamTag(TagElement tag) {
+	protected void handleParamTag(TagElement tag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<? extends ASTNode> fragments= tag.fragments();
 		int i= 0;
 		int size= fragments.size();
@@ -1461,13 +1461,13 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			Object first= fragments.get(0);
 			if (first instanceof TextElement) {
 				TextElement memberRef= (TextElement) first;
-				fBuf.append(getBlockTagTitleStart() + "Summary: " + memberRef.getText() + getBlockTagTitleEnd()); //$NON-NLS-1$
+				fBuf.append(getBlockTagTitleStart() + "Summary: " + memberRef.getText() + getBlockTagTitleEnd()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return;
 			}
 		}
 	}
 
-	protected void handleSnippet(TagElement node) {
+	protected void handleSnippet(TagElement node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node != null) {
 			Object val= node.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_IS_VALID);
 			Object valError= node.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_ERROR);
@@ -1478,7 +1478,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 					fBuf.append("<pre>"); //$NON-NLS-1$
 					Object valID= node.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_ID);
 					if (valID instanceof String && !valID.toString().isBlank()) {
-						fBuf.append("<code id=" + valID.toString() + ">"); //$NON-NLS-1$ //$NON-NLS-2$
+						fBuf.append("<code id=" + valID.toString() + ">"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} else {
 						fBuf.append("<code>");//$NON-NLS-1$
 					}
@@ -1497,7 +1497,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		fBuf.append("<mark>invalid @Snippet</mark>"); //$NON-NLS-1$
 		Object val= node.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_ERROR);
 		if (val instanceof String) {
-			fBuf.append("<br><p>" + val + "</p>"); //$NON-NLS-1$ //$NON-NLS-2$
+			fBuf.append("<br><p>" + val + "</p>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		}
 	}
@@ -1514,7 +1514,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		}
 	}
 
-	protected void handleLink(List<? extends ASTNode> fragments) {
+	protected void handleLink(List<? extends ASTNode> fragments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//TODO: Javadoc shortens type names to minimal length according to context
 		int fs= fragments.size();
 		if (fs > 0) {
@@ -1540,7 +1540,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 				int ps= params.size();
 				refMethodParamTypes= new String[ps];
 				refMethodParamNames= new String[ps];
-				for (int i= 0; i < ps; i++) {
+				for (int i= 0; i < ps; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MethodRefParameter param= params.get(i);
 					refMethodParamTypes[i]= ASTNodes.asString(param.getType());
 					SimpleName paramName= param.getName();
@@ -1580,7 +1580,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 						fBuf.append(refMemberName);
 						if (refMethodParamTypes != null && refMethodParamNames != null) {
 							fBuf.append('(');
-							for (int i= 0; i < refMethodParamTypes.length; i++) {
+							for (int i= 0; i < refMethodParamTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								String pType= refMethodParamTypes[i];
 								fBuf.append(pType);
 								String pName= refMethodParamNames[i];
@@ -1607,7 +1607,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	}
 
 	protected boolean containsOnlyNull(List<String> parameterNames) {
-		for (String string : parameterNames) {
+		for (String string : parameterNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (string != null)
 				return false;
 		}

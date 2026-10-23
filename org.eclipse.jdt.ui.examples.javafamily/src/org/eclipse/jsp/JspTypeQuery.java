@@ -49,7 +49,7 @@ public class JspTypeQuery implements IIndexQuery {
 	public void computePathsKeyingIndexFiles(ArrayList requiredIndexKeys) {
 		IWorkspace workspace= ResourcesPlugin.getWorkspace();
 		try {
-			for (IProject project : workspace.getRoot().getProjects()) {
+			for (IProject project : workspace.getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!project.isAccessible() || !project.hasNature(JavaCore.NATURE_ID))
 					continue;
 				IPath path= project.getFullPath();
@@ -66,7 +66,7 @@ public class JspTypeQuery implements IIndexQuery {
 	public void findIndexMatches(IIndex index, HashSet pathCollector, IProgressMonitor progressMonitor) throws IOException {
 
 		String typeName= fType.getFullyQualifiedName();
-		String s= JspIndexParser.JSP_TYPE_REF + "/" + typeName; //$NON-NLS-1$
+		String s= JspIndexParser.JSP_TYPE_REF + "/" + typeName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		index.queryPrefix(pathCollector, s);
 	}
 

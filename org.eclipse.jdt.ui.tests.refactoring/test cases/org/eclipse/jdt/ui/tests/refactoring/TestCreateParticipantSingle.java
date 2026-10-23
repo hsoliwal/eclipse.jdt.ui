@@ -33,7 +33,7 @@ import org.eclipse.jdt.core.IJavaElement;
 
 public class TestCreateParticipantSingle extends CreateParticipant {
 
-	private static List<TestCreateParticipantSingle> fgInstances= new ArrayList<>();
+	private static List<TestCreateParticipantSingle> fgInstances= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private Object fElement;
 	private String fHandle;
@@ -71,14 +71,14 @@ public class TestCreateParticipantSingle extends CreateParticipant {
 
 	public static void testElements(String[] handles) {
 		testNumberOfInstances(handles.length);
-		List<String> l1= new ArrayList<>(Arrays.asList(handles));
-		for (int i= 0; i < l1.size(); i++) {
+		List<String> l1= new ArrayList<>(Arrays.asList(handles)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < l1.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.assertTrue(l1.contains(getInstance(i).fHandle));
 		}
 	}
 
 	public static void reset() {
-		fgInstances= new ArrayList<>();
+		fgInstances= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private static TestCreateParticipantSingle getInstance(int i) {

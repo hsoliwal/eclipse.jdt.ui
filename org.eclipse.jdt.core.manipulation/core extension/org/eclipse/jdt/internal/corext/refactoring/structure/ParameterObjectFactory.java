@@ -185,14 +185,14 @@ public class ParameterObjectFactory {
 	 * @return the new declaration
 	 * @throws CoreException if creation failed
 	 */
-	public TypeDeclaration createClassDeclaration(String declaringType, CompilationUnitRewrite cuRewrite, CreationListener listener, ImportRewriteContext context) throws CoreException {
+	public TypeDeclaration createClassDeclaration(String declaringType, CompilationUnitRewrite cuRewrite, CreationListener listener, ImportRewriteContext context) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= cuRewrite.getAST();
 		if (listener == null)
 			listener= new CreationListener();
 		TypeDeclaration typeDeclaration= ast.newTypeDeclaration();
 		typeDeclaration.setName(ast.newSimpleName(fClassName));
 		List<BodyDeclaration> body= typeDeclaration.bodyDeclarations();
-		for (ParameterInfo pi : fVariables) {
+		for (ParameterInfo pi : fVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isValidField(pi)) {
 				FieldDeclaration declaration= createField(pi, cuRewrite, context);
 				listener.fieldCreated(cuRewrite, declaration, pi);
@@ -208,7 +208,7 @@ public class ParameterObjectFactory {
 		MethodDeclaration constructor= createConstructor(declaringType, cuRewrite, listener, context);
 		listener.constructorCreated(cuRewrite, constructor);
 		body.add(constructor);
-		for (ParameterInfo pi : fVariables) {
+		for (ParameterInfo pi : fVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fCreateGetter && isValidField(pi) && listener.isCreateGetter(pi)) {
 				MethodDeclaration getter= createGetter(pi, declaringType, cuRewrite, context);
 				listener.getterCreated(cuRewrite, getter, pi);
@@ -224,7 +224,7 @@ public class ParameterObjectFactory {
 		return typeDeclaration;
 	}
 
-	private MethodDeclaration createConstructor(String declaringTypeName, CompilationUnitRewrite cuRewrite, CreationListener listener, ImportRewriteContext context) throws CoreException {
+	private MethodDeclaration createConstructor(String declaringTypeName, CompilationUnitRewrite cuRewrite, CreationListener listener, ImportRewriteContext context) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= cuRewrite.getAST();
 		ICompilationUnit unit= cuRewrite.getCu();
 		IJavaProject project= unit.getJavaProject();
@@ -245,15 +245,15 @@ public class ParameterObjectFactory {
 		Block block= ast.newBlock();
 		methodDeclaration.setBody(block);
 		List<Statement> statements= block.statements();
-		List<ParameterInfo> validParameter= new ArrayList<>();
-		for (ParameterInfo pi : fVariables) {
+		List<ParameterInfo> validParameter= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ParameterInfo pi : fVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isValidField(pi) && listener.isUseInConstructor(pi)) {
 				validParameter.add(pi);
 			}
 		}
 
-		ArrayList<String> usedParameter= new ArrayList<>();
-		for (Iterator<ParameterInfo> iter= validParameter.iterator(); iter.hasNext();) {
+		ArrayList<String> usedParameter= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<ParameterInfo> iter= validParameter.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ParameterInfo pi= iter.next();
 			SingleVariableDeclaration svd= ast.newSingleVariableDeclaration();
 			ITypeBinding typeBinding= pi.getNewTypeBinding();
@@ -310,7 +310,7 @@ public class ParameterObjectFactory {
 		return type;
 	}
 
-	private FieldDeclaration createField(ParameterInfo pi, CompilationUnitRewrite cuRewrite, ImportRewriteContext context) throws CoreException {
+	private FieldDeclaration createField(ParameterInfo pi, CompilationUnitRewrite cuRewrite, ImportRewriteContext context) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= cuRewrite.getAST();
 		ICompilationUnit unit= cuRewrite.getCu();
 
@@ -326,7 +326,7 @@ public class ParameterObjectFactory {
 				declaration.setJavadoc(doc);
 			}
 		}
-		List<Modifier> modifiers= new ArrayList<>();
+		List<Modifier> modifiers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fCreateGetter) {
 			modifiers.add(ast.newModifier(ModifierKeyword.PRIVATE_KEYWORD));
 		} else {
@@ -360,7 +360,7 @@ public class ParameterObjectFactory {
 		return createFieldAccess(pi, ast, completeQualifier);
 	}
 
-	private Expression generateQualifier(String paramName, AST ast, boolean useSuper, Expression qualifier) {
+	private Expression generateQualifier(String paramName, AST ast, boolean useSuper, Expression qualifier) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SimpleName paramSimpleName= ast.newSimpleName(paramName);
 		if (useSuper) {
 			SuperFieldAccess sf= ast.newSuperFieldAccess();
@@ -392,7 +392,7 @@ public class ParameterObjectFactory {
 		return fa;
 	}
 
-	private MethodDeclaration createGetter(ParameterInfo pi, String declaringType, CompilationUnitRewrite cuRewrite, ImportRewriteContext context) throws CoreException {
+	private MethodDeclaration createGetter(ParameterInfo pi, String declaringType, CompilationUnitRewrite cuRewrite, ImportRewriteContext context) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= cuRewrite.getAST();
 		ICompilationUnit cu= cuRewrite.getCu();
 		IJavaProject project= cu.getJavaProject();
@@ -414,7 +414,7 @@ public class ParameterObjectFactory {
 		methodDeclaration.setBody(block);
 		boolean useThis= StubUtility.useThisForFieldAccess(project);
 		if (useThis) {
-			fieldName= "this." + fieldName; //$NON-NLS-1$
+			fieldName= "this." + fieldName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		String bodyContent= CodeGeneration.getGetterMethodBodyContent(cu, declaringType, getterName, fieldName, lineDelim);
 		ASTNode getterBody= cuRewrite.getASTRewrite().createStringPlaceholder(bodyContent, ASTNode.EXPRESSION_STATEMENT);
@@ -437,7 +437,7 @@ public class ParameterObjectFactory {
 		return ast.newExpressionStatement(declaration);
 	}
 
-	private MethodDeclaration createSetter(ParameterInfo pi, String declaringType, CompilationUnitRewrite cuRewrite, ImportRewriteContext context) throws CoreException {
+	private MethodDeclaration createSetter(ParameterInfo pi, String declaringType, CompilationUnitRewrite cuRewrite, ImportRewriteContext context) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= cuRewrite.getAST();
 		ICompilationUnit cu= cuRewrite.getCu();
 		IJavaProject project= cu.getJavaProject();
@@ -463,7 +463,7 @@ public class ParameterObjectFactory {
 		methodDeclaration.setBody(block);
 		boolean useThis= StubUtility.useThisForFieldAccess(project);
 		if (useThis || fieldName.equals(paramName)) {
-			fieldName= "this." + fieldName; //$NON-NLS-1$
+			fieldName= "this." + fieldName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		String bodyContent= CodeGeneration.getSetterMethodBodyContent(cu, declaringType, setterName, fieldName, paramName, lineDelim);
 		ASTNode setterBody= cuRewrite.getASTRewrite().createStringPlaceholder(bodyContent, ASTNode.EXPRESSION_STATEMENT);
@@ -483,7 +483,7 @@ public class ParameterObjectFactory {
 		return ast.newSimpleType(ast.newName(addedImport));
 	}
 
-	ContextSensitiveImportRewriteContext createParameterClassAwareContext(final boolean asTopLevelClass, final CompilationUnitRewrite cuRewrite, int position) {
+	ContextSensitiveImportRewriteContext createParameterClassAwareContext(final boolean asTopLevelClass, final CompilationUnitRewrite cuRewrite, int position) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ContextSensitiveImportRewriteContext context= new ContextSensitiveImportRewriteContext(cuRewrite.getRoot(), position, cuRewrite.getImportRewrite()) {
 			@Override
 			public int findInContext(String qualifier, String name, int kind) {
@@ -523,7 +523,7 @@ public class ParameterObjectFactory {
 	}
 
 	public ParameterInfo getParameterInfo(String identifier) {
-		for (ParameterInfo pi : fVariables) {
+		for (ParameterInfo pi : fVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pi.getOldName().equals(identifier))
 				return pi;
 		}
@@ -608,7 +608,7 @@ public class ParameterObjectFactory {
 	 */
 	public void updateParameterPosition(ParameterInfo parameterObjectReference) {
 		fVariables.remove(parameterObjectReference);
-		for (ListIterator<ParameterInfo> iterator= fVariables.listIterator(); iterator.hasNext();) {
+		for (ListIterator<ParameterInfo> iterator= fVariables.listIterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ParameterInfo pi= iterator.next();
 			if (isValidField(pi)) {
 				iterator.add(parameterObjectReference);
@@ -622,13 +622,13 @@ public class ParameterObjectFactory {
 	}
 
 
-	public List<ResourceChange> createTopLevelParameterObject(IPackageFragmentRoot packageFragmentRoot, CreationListener listener) throws CoreException {
-		List<ResourceChange> changes= new ArrayList<>();
+	public List<ResourceChange> createTopLevelParameterObject(IPackageFragmentRoot packageFragmentRoot, CreationListener listener) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ResourceChange> changes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IPackageFragment packageFragment= packageFragmentRoot.getPackageFragment(getPackage());
 		if (!packageFragment.exists()) {
 			changes.add(new CreatePackageChange(packageFragment));
 		}
-		ICompilationUnit unit= packageFragment.getCompilationUnit(getClassName() + JavaModelUtil.DEFAULT_CU_SUFFIX);
+		ICompilationUnit unit= packageFragment.getCompilationUnit(getClassName() + JavaModelUtil.DEFAULT_CU_SUFFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		Assert.isTrue(!unit.exists());
 		IJavaProject javaProject= unit.getJavaProject();
 		ICompilationUnit workingCopy= unit.getWorkingCopy(null);
@@ -638,7 +638,7 @@ public class ParameterObjectFactory {
 			String lineDelimiter= StubUtility.getLineDelimiterUsed(javaProject);
 			String fileComment= getFileComment(workingCopy, lineDelimiter);
 			String typeComment= getTypeComment(workingCopy, lineDelimiter);
-			String content= CodeGeneration.getCompilationUnitContent(workingCopy, fileComment, typeComment, "class " + getClassName() + "{}", lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$
+			String content= CodeGeneration.getCompilationUnitContent(workingCopy, fileComment, typeComment, "class " + getClassName() + "{}", lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			workingCopy.getBuffer().setContents(content);
 
 			CompilationUnitRewrite cuRewrite= new CompilationUnitRewrite(workingCopy);
@@ -694,8 +694,8 @@ public class ParameterObjectFactory {
 	protected String getTypeComment(ICompilationUnit parentCU, String lineDelimiter) throws CoreException {
 		IJavaProject javaProject= parentCU.getJavaProject();
 		if (StubUtility.doAddComments(javaProject)) {
-			StringBuilder typeName= new StringBuilder();
-			typeName.append(getClassName());
+			StringBuilder typeName= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			typeName.append(getClassName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String[] typeParamNames= new String[0];
 			String comment= CodeGeneration.getTypeComment(parentCU, typeName.toString(), typeParamNames, lineDelimiter);
 			if (comment != null && isValidComment(comment, javaProject)) {
@@ -705,7 +705,7 @@ public class ParameterObjectFactory {
 		return null;
 	}
 
-	private boolean isValidComment(String template, IJavaProject javaProject) {
+	private boolean isValidComment(String template, IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IScanner scanner;
         if (javaProject != null) {
             String sourceLevel = javaProject.getOption(JavaCore.COMPILER_SOURCE, true);
@@ -717,7 +717,7 @@ public class ParameterObjectFactory {
 		scanner.setSource(template.toCharArray());
 		try {
 			int next= scanner.getNextToken();
-			while (TokenScanner.isComment(next)) {
+			while (TokenScanner.isComment(next)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				next= scanner.getNextToken();
 			}
 			return next == ITerminalSymbols.TokenNameEOF;

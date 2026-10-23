@@ -37,7 +37,7 @@ public class SearchResultGroup {
 	public SearchResultGroup(IResource res, SearchMatch[] matches){
 		Assert.isNotNull(matches);
 		fResouce= res;
-		fSearchMatches= new ArrayList<>(Arrays.asList(matches));
+		fSearchMatches= new ArrayList<>(Arrays.asList(matches)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void add(SearchMatch match) {
@@ -54,8 +54,8 @@ public class SearchResultGroup {
 	}
 
 	public static IResource[] getResources(SearchResultGroup[] searchResultGroups){
-		Set<IResource> resourceSet= new HashSet<>(searchResultGroups.length);
-		for (SearchResultGroup searchResultGroup : searchResultGroups) {
+		Set<IResource> resourceSet= new HashSet<>(searchResultGroups.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (SearchResultGroup searchResultGroup : searchResultGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			resourceSet.add(searchResultGroup.getResource());
 		}
 		return resourceSet.toArray(new IResource[resourceSet.size()]);
@@ -69,16 +69,16 @@ public class SearchResultGroup {
 
 	@Override
 	public String toString() {
-		StringBuilder buf= new StringBuilder(fResouce.getFullPath().toString());
-		buf.append('\n');
-		for (SearchMatch match : fSearchMatches) {
-			buf.append("  ").append(match.getOffset()).append(", ").append(match.getLength()); //$NON-NLS-1$//$NON-NLS-2$
-			buf.append(match.getAccuracy() == SearchMatch.A_ACCURATE ? "; acc" : "; inacc"); //$NON-NLS-1$//$NON-NLS-2$
+		StringBuilder buf= new StringBuilder(fResouce.getFullPath().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (SearchMatch match : fSearchMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append("  ").append(match.getOffset()).append(", ").append(match.getLength()); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(match.getAccuracy() == SearchMatch.A_ACCURATE ? "; acc" : "; inacc"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (match.isInsideDocComment())
-				buf.append("; inDoc"); //$NON-NLS-1$
+				buf.append("; inDoc"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (match.getElement() instanceof IJavaElement)
-				buf.append("; in: ").append(((IJavaElement) match.getElement()).getElementName()); //$NON-NLS-1$
-			buf.append('\n');
+				buf.append("; in: ").append(((IJavaElement) match.getElement()).getElementName()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

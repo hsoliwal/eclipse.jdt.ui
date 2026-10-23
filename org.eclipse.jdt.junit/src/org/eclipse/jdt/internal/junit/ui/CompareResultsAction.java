@@ -49,7 +49,7 @@ public class CompareResultsAction extends Action {
 		} else {
 			fOpenDialog= new CompareResultDialog(fView.getShell(), failedTest);
 			fOpenDialog.create();
-			fOpenDialog.getShell().addDisposeListener(unused -> fOpenDialog= null);
+			fOpenDialog.getShell().addDisposeListener(unused -> fOpenDialog= null); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			fOpenDialog.setBlockOnOpen(false);
 			fOpenDialog.open();
 		}

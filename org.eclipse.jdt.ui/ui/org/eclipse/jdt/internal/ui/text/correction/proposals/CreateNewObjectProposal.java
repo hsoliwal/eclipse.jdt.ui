@@ -33,7 +33,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
  * - propose create new local instance
  * </pre>
  */
-public class CreateNewObjectProposal extends LinkedCorrectionProposal {
+public class CreateNewObjectProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public CreateNewObjectProposal(ICompilationUnit cu, Statement selectedNode, ITypeBinding typeNode, int relevance) {
 		super("", cu, null, relevance, null, new CreateNewObjectProposalCore(cu, selectedNode, typeNode, relevance)); //$NON-NLS-1$

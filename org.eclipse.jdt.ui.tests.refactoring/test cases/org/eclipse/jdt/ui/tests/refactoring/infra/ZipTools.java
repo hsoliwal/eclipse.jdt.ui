@@ -51,20 +51,20 @@ public class ZipTools {
 		return packageName;
 	}
 
-	public static void compareWithZipped(IPackageFragmentRoot src, ZipInputStream zipInputStream, String zipFileEncoding) throws IOException, UnsupportedEncodingException, JavaModelException {
-		ArrayList<String> zipCus= new ArrayList<>();
+	public static void compareWithZipped(IPackageFragmentRoot src, ZipInputStream zipInputStream, String zipFileEncoding) throws IOException, UnsupportedEncodingException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<String> zipCus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ZipEntry ze;
-		while ((ze= zipInputStream.getNextEntry()) != null) {
+		while ((ze= zipInputStream.getNextEntry()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String fileName= ze.getName();
 			if (fileName.endsWith(".java")) {
 				String packageName= getPackageName(fileName);
 				String sourceFileName= getSourceFileName(fileName);
-				zipCus.add(packageName + "/" + sourceFileName);
+				zipCus.add(packageName + "/" + sourceFileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				ByteArrayOutputStream bout= new ByteArrayOutputStream();
 				byte data[]= new byte[10000];
 				int count= -1;
-				while ((count= zipInputStream.read(data, 0, data.length)) != -1) {
+				while ((count= zipInputStream.read(data, 0, data.length)) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					bout.write(data, 0, count);
 				}
 				String zipContents= bout.toString(zipFileEncoding);
@@ -73,16 +73,16 @@ public class ZipTools {
 				ICompilationUnit cu= pack.getCompilationUnit(sourceFileName);
 				String cuContents= cu.getSource();
 
-				GenericRefactoringTest.assertEqualLines(packageName + "/" + sourceFileName, zipContents, cuContents);
+				GenericRefactoringTest.assertEqualLines(packageName + "/" + sourceFileName, zipContents, cuContents); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				//TODO: compare binary files
 			}
 		}
 
-		for (IJavaElement javaelement : src.getChildren()) {
+		for (IJavaElement javaelement : src.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment packageFragment= (IPackageFragment) javaelement;
-			for (ICompilationUnit cu : packageFragment.getCompilationUnits()) {
-				String cuDescr= packageFragment.getElementName() + "/" + cu.getElementName();
+			for (ICompilationUnit cu : packageFragment.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				String cuDescr= packageFragment.getElementName() + "/" + cu.getElementName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				assertTrue(cuDescr, zipCus.remove(cuDescr));
 			}
 		}

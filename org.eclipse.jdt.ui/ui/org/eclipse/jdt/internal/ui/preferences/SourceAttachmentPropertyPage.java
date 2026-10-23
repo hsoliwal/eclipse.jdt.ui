@@ -93,7 +93,7 @@ public class SourceAttachmentPropertyPage extends PropertyPage implements IStatu
 		return result;
 	}
 
-	private Control createPageContent(Composite composite) {
+	private Control createPageContent(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			fContainerPath= null;
 			fEntry= null;
@@ -140,7 +140,7 @@ public class SourceAttachmentPropertyPage extends PropertyPage implements IStatu
 	}
 
 
-	private Control createMessageContent(Composite composite, String message, IPackageFragmentRoot root) {
+	private Control createMessageContent(Composite composite, String message, IPackageFragmentRoot root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite inner= new Composite(composite, SWT.NONE);
 		GridLayout layout= new GridLayout();
 		layout.marginHeight= 0;
@@ -155,7 +155,7 @@ public class SourceAttachmentPropertyPage extends PropertyPage implements IStatu
 
 		try {
 			if (root != null) {
-				message= message + "\n\n" + PreferencesMessages.SourceAttachmentPropertyPage_location_path; //$NON-NLS-1$
+				message= message + "\n\n" + PreferencesMessages.SourceAttachmentPropertyPage_location_path; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				Text location= new Text(inner, SWT.READ_ONLY | SWT.WRAP);
 				SWTUtil.fixReadonlyTextBackground(location);
@@ -181,7 +181,7 @@ public class SourceAttachmentPropertyPage extends PropertyPage implements IStatu
 	/*
 	 * @see IPreferencePage#performOk
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		if (fSourceAttachmentBlock != null) {
 			try {
@@ -216,7 +216,7 @@ public class SourceAttachmentPropertyPage extends PropertyPage implements IStatu
 		super.performDefaults();
 	}
 
-	private IPackageFragmentRoot getJARPackageFragmentRoot() throws CoreException {
+	private IPackageFragmentRoot getJARPackageFragmentRoot() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// try to find it as Java element (needed for external jars)
 		IAdaptable adaptable= getElement();
 		IJavaElement elem= adaptable.getAdapter(IJavaElement.class);

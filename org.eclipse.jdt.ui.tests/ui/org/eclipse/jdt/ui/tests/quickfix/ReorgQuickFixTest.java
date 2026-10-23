@@ -102,7 +102,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		JavaProjectHelper.clear(projectSetup25.getProject(), projectSetup25.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedImports() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -134,7 +134,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedImportsInDefaultPackage() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("", false, null);
 		String str= """
@@ -165,7 +165,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedImportOnDemand() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -205,7 +205,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollidingImports() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -249,7 +249,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongPackageStatement() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -267,7 +267,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 
 		boolean hasRename= true, hasMove= true;
 
-		for (IJavaCompletionProposal proposal2 : proposals) {
+		for (IJavaCompletionProposal proposal2 : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeCorrectionProposal curr= (ChangeCorrectionProposal) proposal2;
 			if (curr instanceof FixCorrectionProposal) {
 				assertTrue("Duplicated proposal", hasRename);
@@ -301,7 +301,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongPackageStatementInEnum() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -319,7 +319,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 
 		boolean hasRename= true, hasMove= true;
 
-		for (IJavaCompletionProposal proposal2 : proposals) {
+		for (IJavaCompletionProposal proposal2 : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeCorrectionProposal curr= (ChangeCorrectionProposal) proposal2;
 			if (curr instanceof FixCorrectionProposal) {
 				assertTrue("Duplicated proposal", hasRename);
@@ -353,7 +353,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongPackageStatementFromDefault() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("", false, null);
 		String str= """
@@ -371,7 +371,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 
 		boolean hasRename= true, hasMove= true;
 
-		for (IJavaCompletionProposal proposal2 : proposals) {
+		for (IJavaCompletionProposal proposal2 : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeCorrectionProposal curr= (ChangeCorrectionProposal) proposal2;
 			if (curr instanceof FixCorrectionProposal) {
 				assertTrue("Duplicated proposal", hasRename);
@@ -405,7 +405,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongDefaultPackageStatement() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test2", false, null);
 		String str= """
@@ -421,7 +421,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 
 		boolean hasRename= true, hasMove= true;
 
-		for (IJavaCompletionProposal proposal2 : proposals) {
+		for (IJavaCompletionProposal proposal2 : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeCorrectionProposal curr= (ChangeCorrectionProposal) proposal2;
 			if (curr instanceof FixCorrectionProposal) {
 				assertTrue("Duplicated proposal", hasRename);
@@ -453,21 +453,21 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongPackageStatementButColliding() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test2;\n");
-		buf.append("\n");
-		buf.append("public class E {\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
-		buf.append("package test2;\n");
-		buf.append("\n");
-		buf.append("public class E {\n");
-		buf.append("}\n");
+		buf.append("package test2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		pack2.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		CompilationUnit astRoot= getASTRoot(cu);
@@ -486,7 +486,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongTypeName() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -504,7 +504,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 
 		boolean hasRename= true, hasMove= true;
 
-		for (IJavaCompletionProposal proposal2 : proposals) {
+		for (IJavaCompletionProposal proposal2 : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeCorrectionProposal curr= (ChangeCorrectionProposal) proposal2;
 			if (curr instanceof CorrectMainTypeNameProposal) {
 				assertTrue("Duplicated proposal", hasRename);
@@ -537,7 +537,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongTypeName_bug180330() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -555,7 +555,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 
 		boolean hasRename= true, hasMove= true;
 
-		for (IJavaCompletionProposal proposal2 : proposals) {
+		for (IJavaCompletionProposal proposal2 : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeCorrectionProposal curr= (ChangeCorrectionProposal) proposal2;
 			if (curr instanceof CorrectMainTypeNameProposal) {
 				assertTrue("Duplicated proposal", hasRename);
@@ -586,20 +586,20 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongTypeNameButColliding() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("\n");
-		buf.append("public class X {\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class X {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
-		buf.append("package test1;\n");
-		buf.append("\n");
-		buf.append("public class X {\n");
-		buf.append("}\n");
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class X {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		pack1.createCompilationUnit("X.java", buf.toString(), false, null);
 
 		CompilationUnit astRoot= getASTRoot(cu);
@@ -619,23 +619,23 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongTypeNameWithConstructor() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("\n");
-		buf.append("public class X {\n");
-		buf.append("    public X() {\n");
-		buf.append("        X other;\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class X {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public X() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        X other;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
-		buf.append("package test1;\n");
-		buf.append("\n");
-		buf.append("public class X {\n");
-		buf.append("}\n");
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class X {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		pack1.createCompilationUnit("X.java", buf.toString(), false, null);
 
 		CompilationUnit astRoot= getASTRoot(cu);
@@ -658,23 +658,23 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongTypeNameInEnum() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("\n");
-		buf.append("public enum X {\n");
-		buf.append("    A;\n");
-		buf.append("    X() {\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public enum X {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    A;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
-		buf.append("package test1;\n");
-		buf.append("\n");
-		buf.append("public class X {\n");
-		buf.append("}\n");
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class X {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		pack1.createCompilationUnit("X.java", buf.toString(), false, null);
 
 		CompilationUnit astRoot= getASTRoot(cu);
@@ -697,20 +697,20 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongTypeNameInAnnot() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("\n");
-		buf.append("public @interface X {\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public @interface X {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
-		buf.append("package test1;\n");
-		buf.append("\n");
-		buf.append("public @interface X {\n");
-		buf.append("}\n");
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public @interface X {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		pack1.createCompilationUnit("X.java", buf.toString(), false, null);
 
 		CompilationUnit astRoot= getASTRoot(cu);
@@ -730,7 +730,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTodoTasks1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str1= """
@@ -766,7 +766,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTodoTasks2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str1= """
@@ -801,7 +801,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTodoTasks3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str1= """
@@ -835,7 +835,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTodoTasks4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str1= """
@@ -871,7 +871,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTodoTasks5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str1= """
@@ -910,7 +910,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTodoTasks6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str1= """
@@ -945,7 +945,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTodoTasks7() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str1= """
@@ -981,7 +981,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddToClasspathSourceFolder() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1016,7 +1016,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddToClasspathIntJAR() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1055,7 +1055,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddToClasspathExportedExtJAR() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1092,7 +1092,7 @@ public class ReorgQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddToClasspathContainer() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """

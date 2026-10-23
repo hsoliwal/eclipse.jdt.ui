@@ -72,7 +72,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 		super(name, compilationUnit, operation);
 	}
 
-	public static ConvertLambdaToMethodReferenceFixCore createConvertLambdaToMethodReferenceFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static ConvertLambdaToMethodReferenceFixCore createConvertLambdaToMethodReferenceFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LambdaExpression lambda;
 		if (node instanceof LambdaExpression) {
 			lambda= (LambdaExpression) node;
@@ -101,8 +101,8 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 			return null;
 		}
 
-		List<Expression> lambdaParameters= new ArrayList<>();
-		for (VariableDeclaration param : (List<VariableDeclaration>) lambda.parameters()) {
+		List<Expression> lambdaParameters= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (VariableDeclaration param : (List<VariableDeclaration>) lambda.parameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			lambdaParameters.add(param.getName());
 		}
 		if (exprBody instanceof ClassInstanceCreation) {
@@ -174,14 +174,14 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 	public static boolean matches(List<Expression> expected, List<Expression> toMatch) {
 		if (toMatch.size() != expected.size())
 			return false;
-		for (int i= 0; i < toMatch.size(); i++) {
+		for (int i= 0; i < toMatch.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!JdtASTMatcher.doNodesMatch(expected.get(i), toMatch.get(i)))
 				return false;
 		}
 		return true;
 	}
 
-	public static boolean representsDefiningNode(ASTNode innerNode, ASTNode definingNode) {
+	public static boolean representsDefiningNode(ASTNode innerNode, ASTNode definingNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Example: We want to enable the proposal when the method invocation node or
 		// the method name is near the caret. But not when the caret is on an argument of the method invocation.
 		if (innerNode == definingNode)
@@ -215,7 +215,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 		}
 	}
 
-	public static boolean isValidLambdaReferenceToMethod(Expression expression) {
+	public static boolean isValidLambdaReferenceToMethod(Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (expression instanceof ClassInstanceCreation
 				|| expression instanceof ArrayCreation
 				|| expression instanceof SuperMethodInvocation
@@ -260,7 +260,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 			this.exprBody= exprBody;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			AST ast= cuRewrite.getAST();
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -386,7 +386,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 			ASTNodes.replaceButKeepComment(rewrite, lambda, replacement, null);
 		}
 
-		private ASTNode castMethodRefIfNeeded(final CompilationUnitRewrite cuRewrite, AST ast, Expression methodRef) {
+		private ASTNode castMethodRefIfNeeded(final CompilationUnitRewrite cuRewrite, AST ast, Expression methodRef) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean needCast= false;
 			ASTNode replacementNode= methodRef;
 			if (lambda.getLocationInParent() == MethodInvocation.ARGUMENTS_PROPERTY) {
@@ -395,9 +395,9 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 				IMethodBinding parentBinding= parent.resolveMethodBinding().getMethodDeclaration();
 				if (parentBinding != null) {
 					ITypeBinding parentTypeBinding= parentBinding.getDeclaringClass().getErasure();
-					while (parentTypeBinding != null) {
+					while (parentTypeBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IMethodBinding[] parentTypeMethods= parentTypeBinding.getDeclaredMethods();
-						for (IMethodBinding parentTypeMethod : parentTypeMethods) {
+						for (IMethodBinding parentTypeMethod : parentTypeMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (parentTypeMethod.getName().equals(parentBinding.getName())
 									&& parentTypeMethod.getParameterTypes().length == args.size()
 									&& !parentTypeMethod.isEqualTo(parentBinding)) {
@@ -412,7 +412,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 						}
 					}
 					if (needCast) {
-						for (Expression arg : args) {
+						for (Expression arg : args) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (arg == lambda) {
 								CastExpression cast= ast.newCastExpression();
 								cast.setExpression(methodRef);
@@ -443,7 +443,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 				return false;
 			}
 			ITypeBinding methodNarrowingType= methodNarrowingTypes[0];
-			for (ITypeBinding lambdaNarrowingType : lambdaNarrowingTypes) {
+			for (ITypeBinding lambdaNarrowingType : lambdaNarrowingTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (methodNarrowingType == lambdaNarrowingType) {
 					return true;
 				}
@@ -456,7 +456,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 		 */
 		public static boolean isSuperClass(ITypeBinding methodDeclarationType, ITypeBinding lambdaDeclarationType) {
 			ITypeBinding parent= lambdaDeclarationType.getSuperclass();
-			while (parent != null) {
+			while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parent == methodDeclarationType) {
 					return true;
 				}
@@ -470,7 +470,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 		 */
 		public static boolean isNestedClass(ITypeBinding methodDeclarationType, ITypeBinding lambdaDeclarationType) {
 			ITypeBinding parent= lambdaDeclarationType;
-			while (parent.isNested()) {
+			while (parent.isNested()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent= parent.getDeclaringClass();
 				if (parent == methodDeclarationType) {
 					return true;
@@ -481,7 +481,7 @@ public class ConvertLambdaToMethodReferenceFixCore extends CompilationUnitRewrit
 
 		public static ITypeBinding getNestedRootClass(ITypeBinding lambdaDeclarationType) {
 			ITypeBinding parent= lambdaDeclarationType;
-			while (parent.isNested()) {
+			while (parent.isNested()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent= parent.getDeclaringClass();
 			}
 			return parent;

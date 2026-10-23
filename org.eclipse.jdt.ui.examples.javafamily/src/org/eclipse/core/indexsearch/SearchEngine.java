@@ -38,14 +38,14 @@ public class SearchEngine {
 
 	static class MyIndex implements IIndex {
 
-		private final HashMap fMap= new HashMap();
+		private final HashMap fMap= new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		@Override
 		public void addRef(String word, String path) {
-			System.err.println("Index.add: " + path + " " + word); //$NON-NLS-1$ //$NON-NLS-2$
+			System.err.println("Index.add: " + path + " " + word); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			HashMap words= (HashMap) fMap.get(path);
 			if (words == null) {
-				words= new HashMap();
+				words= new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				fMap.put(path, words);
 			}
 			words.put(word, word);
@@ -53,14 +53,14 @@ public class SearchEngine {
 
 		@Override
 		public void remove(String path) {
-			System.err.println("Index.remove: " + path); //$NON-NLS-1$
+			System.err.println("Index.remove: " + path); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fMap.remove(path);
 		}
 
 		@Override
 		public void queryPrefix(HashSet results, String w) {
 			Iterator iter= fMap.keySet().iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String path= (String) iter.next();
 				HashMap words= (HashMap) fMap.get(path);
 				if (words.containsKey(w))
@@ -84,7 +84,7 @@ public class SearchEngine {
 
 	private static SearchEngine fgSearchEngine;
 
-	private final HashMap fIndexes= new HashMap();
+	private final HashMap fIndexes= new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private SearchEngine() {
 	}
@@ -120,7 +120,7 @@ public class SearchEngine {
 	private IFile[] getFiles(HashSet pc, IWorkspace workspace) {
 		IFile[] result= new IFile[pc.size()];
 		int i = 0;
-		for (Iterator iter= pc.iterator(); iter.hasNext();) {
+		for (Iterator iter= pc.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String resourcePath= (String)iter.next();
 			IPath path= new Path(resourcePath);
 			result[i++]= workspace.getRoot().getFile(path);
@@ -134,12 +134,12 @@ public class SearchEngine {
 	public void search(IIndexQuery search, ISearchResultCollector resultCollector,
 						IProgressMonitor progressMonitor, int waitingPolicy) {
 
-		HashSet pathCollector= new HashSet();
+		HashSet pathCollector= new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IProgressMonitor pm= SubMonitor.convert(progressMonitor, 5);
 		execute(search, pathCollector, pm);
 
 		/* TODO_SEARCH */
-		for (IFile file : getFiles(pathCollector, ResourcesPlugin.getWorkspace())) {
+		for (IFile file : getFiles(pathCollector, ResourcesPlugin.getWorkspace())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			search.locateMatches(file, resultCollector);
 		}
 	}
@@ -153,7 +153,7 @@ public class SearchEngine {
 		return ix;
 	}
 
-	private boolean execute(IIndexQuery search, HashSet pathCollector, IProgressMonitor progressMonitor) {
+	private boolean execute(IIndexQuery search, HashSet pathCollector, IProgressMonitor progressMonitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (progressMonitor != null && progressMonitor.isCanceled())
 			throw new OperationCanceledException();
@@ -164,7 +164,7 @@ public class SearchEngine {
 			if (progressMonitor != null) {
 				progressMonitor.beginTask("", max); //$NON-NLS-1$
 			}
-			for (int i = 0; i < max; i++) {
+			for (int i = 0; i < max; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				isComplete &= search(search, searchIndexes[i], pathCollector, progressMonitor);
 				if (progressMonitor != null) {
 					if (progressMonitor.isCanceled()) {
@@ -182,8 +182,8 @@ public class SearchEngine {
 		}
 	}
 
-	private IIndex[] getIndexes(IIndexQuery search) {
-		ArrayList requiredIndexKeys= new ArrayList();
+	private IIndex[] getIndexes(IIndexQuery search) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList requiredIndexKeys= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		search.computePathsKeyingIndexFiles(requiredIndexKeys);
 		IPath[] fIndexKeys= new IPath[requiredIndexKeys.size()]; // cache of the keys for looking index up
 		requiredIndexKeys.toArray(fIndexKeys);
@@ -192,7 +192,7 @@ public class SearchEngine {
 		int length = fIndexKeys.length;
 		IIndex[] indexes = new IIndex[length];
 		int count = 0;
-		for (int i = 0; i < length; i++){
+		for (int i = 0; i < length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// may trigger some index recreation work
 			IIndex index = getIndex(fIndexKeys[i], false);
 			if (index != null) indexes[count++] = index; // only consider indexes which are ready yet

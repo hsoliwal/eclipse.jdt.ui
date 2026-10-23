@@ -24,122 +24,122 @@ import org.eclipse.jdt.ui.PreferenceConstants;
  */
 public interface IJavaThemeConstants {
 
-	String ID_PREFIX= JavaUI.ID_PLUGIN + "."; //$NON-NLS-1$
+	String ID_PREFIX= JavaUI.ID_PLUGIN + "."; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the color used to highlight matching brackets.
 	 */
-	String EDITOR_MATCHING_BRACKETS_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
+	String EDITOR_MATCHING_BRACKETS_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the color used to render multi-line comments.
 	 */
-	String EDITOR_MULTI_LINE_COMMENT_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_MULTI_LINE_COMMENT_COLOR;
+	String EDITOR_MULTI_LINE_COMMENT_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_MULTI_LINE_COMMENT_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the color used to render java keywords.
 	 */
-	String EDITOR_JAVA_KEYWORD_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_KEYWORD_COLOR;
+	String EDITOR_JAVA_KEYWORD_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_KEYWORD_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render string constants.
 	 */
-	String EDITOR_STRING_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_STRING_COLOR;
+	String EDITOR_STRING_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_STRING_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render single line comments.
 	 */
-	String EDITOR_SINGLE_LINE_COMMENT_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_SINGLE_LINE_COMMENT_COLOR;
+	String EDITOR_SINGLE_LINE_COMMENT_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_SINGLE_LINE_COMMENT_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render operators.
 	 */
-	String EDITOR_JAVA_OPERATOR_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_OPERATOR_COLOR;
+	String EDITOR_JAVA_OPERATOR_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_OPERATOR_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render java default text.
 	 */
-	String EDITOR_JAVA_DEFAULT_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_DEFAULT_COLOR;
+	String EDITOR_JAVA_DEFAULT_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_DEFAULT_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render the 'return' keyword.
 	 */
-	String EDITOR_JAVA_KEYWORD_RETURN_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_KEYWORD_RETURN_COLOR;
+	String EDITOR_JAVA_KEYWORD_RETURN_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_KEYWORD_RETURN_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render javadoc keywords.
 	 */
-	String EDITOR_JAVADOC_KEYWORD_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVADOC_KEYWORD_COLOR;
+	String EDITOR_JAVADOC_KEYWORD_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVADOC_KEYWORD_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render javadoc tags.
 	 */
-	String EDITOR_JAVADOC_TAG_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVADOC_TAG_COLOR;
+	String EDITOR_JAVADOC_TAG_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVADOC_TAG_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render brackets.
 	 */
-	String EDITOR_JAVA_BRACKET_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_BRACKET_COLOR;
+	String EDITOR_JAVA_BRACKET_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVA_BRACKET_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render task tags.
 	 */
-	String EDITOR_TASK_TAG_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_TASK_TAG_COLOR;
+	String EDITOR_TASK_TAG_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_TASK_TAG_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render javadoc links.
 	 */
-	String EDITOR_JAVADOC_LINKS_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVADOC_LINKS_COLOR;
+	String EDITOR_JAVADOC_LINKS_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVADOC_LINKS_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the color used to render javadoc default text.
 	 */
-	String EDITOR_JAVADOC_DEFAULT_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVADOC_DEFAULT_COLOR;
+	String EDITOR_JAVADOC_DEFAULT_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_JAVADOC_DEFAULT_COLOR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the background color used for parameter hints.
 	 */
-	String CODEASSIST_PARAMETERS_BACKGROUND= ID_PREFIX + PreferenceConstants.CODEASSIST_PARAMETERS_BACKGROUND;
+	String CODEASSIST_PARAMETERS_BACKGROUND= ID_PREFIX + PreferenceConstants.CODEASSIST_PARAMETERS_BACKGROUND; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * A theme constant that holds the foreground color used in the code assist selection dialog.
 	 */
-	String CODEASSIST_PARAMETERS_FOREGROUND= ID_PREFIX + PreferenceConstants.CODEASSIST_PARAMETERS_FOREGROUND;
+	String CODEASSIST_PARAMETERS_FOREGROUND= ID_PREFIX + PreferenceConstants.CODEASSIST_PARAMETERS_FOREGROUND; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the background color used in the code assist selection dialog to mark replaced code.
 	 */
-	String CODEASSIST_REPLACEMENT_BACKGROUND= ID_PREFIX + PreferenceConstants.CODEASSIST_REPLACEMENT_BACKGROUND;
+	String CODEASSIST_REPLACEMENT_BACKGROUND= ID_PREFIX + PreferenceConstants.CODEASSIST_REPLACEMENT_BACKGROUND; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the foreground color used in the code
 	 * assist selection dialog to mark replaced code.
 	 */
-	String CODEASSIST_REPLACEMENT_FOREGROUND= ID_PREFIX + PreferenceConstants.CODEASSIST_REPLACEMENT_FOREGROUND;
+	String CODEASSIST_REPLACEMENT_FOREGROUND= ID_PREFIX + PreferenceConstants.CODEASSIST_REPLACEMENT_FOREGROUND; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the color used to render values in a properties file.
 	 */
-	String PROPERTIES_FILE_COLORING_VALUE= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_VALUE;
+	String PROPERTIES_FILE_COLORING_VALUE= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_VALUE; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the color used to render keys in a properties file.
 	 */
-	String PROPERTIES_FILE_COLORING_KEY= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_KEY;
+	String PROPERTIES_FILE_COLORING_KEY= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_KEY; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the color used to render arguments in a properties file.
 	 */
-	String PROPERTIES_FILE_COLORING_ARGUMENT= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_ARGUMENT;
+	String PROPERTIES_FILE_COLORING_ARGUMENT= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_ARGUMENT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the color used to render assignments in a properties file.
 	 */
-	String PROPERTIES_FILE_COLORING_ASSIGNMENT= ID_PREFIX +	PreferenceConstants.PROPERTIES_FILE_COLORING_ASSIGNMENT;
+	String PROPERTIES_FILE_COLORING_ASSIGNMENT= ID_PREFIX +	PreferenceConstants.PROPERTIES_FILE_COLORING_ASSIGNMENT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Theme constant for the color used to render comments in a properties file.
 	 */
-	String PROPERTIES_FILE_COLORING_COMMENT= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_COMMENT;
+	String PROPERTIES_FILE_COLORING_COMMENT= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_COMMENT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 }

@@ -75,7 +75,7 @@ public class SpellCheckEngineTestCase {
 	protected final boolean contains(Set<RankedWordProposal> words, String word) {
 
 		RankedWordProposal proposal= null;
-		for (Iterator<RankedWordProposal> iterator= words.iterator(); iterator.hasNext();) {
+		for (Iterator<RankedWordProposal> iterator= words.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			proposal= iterator.next();
 			if (proposal.getText().equals(word))
 				return true;
@@ -122,7 +122,7 @@ public class SpellCheckEngineTestCase {
 		assertEquals(SpellCheckEngine.getDefaultLocale(), Locale.getDefault());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDefaultSpellChecker() {
 		fPreferences.setValue(PreferenceConstants.SPELLING_LOCALE, Locale.US.toString());
 		fEngine.unregisterDictionary(fUSDictionary);
@@ -195,7 +195,7 @@ public class SpellCheckEngineTestCase {
 		assertEquals(Locale.CHINA, checker.getLocale());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUSSpellChecker() {
 		fPreferences.setValue(PreferenceConstants.SPELLING_LOCALE, Locale.US.toString());
 		final ISpellChecker checker= fEngine.getSpellChecker();
@@ -215,7 +215,7 @@ public class SpellCheckEngineTestCase {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWordProposals() {
 		fPreferences.setValue(PreferenceConstants.SPELLING_LOCALE, Locale.US.toString());
 		final ISpellChecker checker= fEngine.getSpellChecker();

@@ -53,7 +53,7 @@ public abstract class AbstractSerialVersionOperationCore extends CompilationUnit
 	public static final long SERIAL_VALUE= 1;
 
 	/** The default serial id expression */
-	protected static final String DEFAULT_EXPRESSION= SERIAL_VALUE + LONG_SUFFIX;
+	protected static final String DEFAULT_EXPRESSION= SERIAL_VALUE + LONG_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/** The name of the serial version field */
 	protected static final String NAME_FIELD= "serialVersionUID"; //$NON-NLS-1$
@@ -85,11 +85,11 @@ public abstract class AbstractSerialVersionOperationCore extends CompilationUnit
 	 */
 	protected abstract void addLinkedPositions(final ASTRewrite rewrite, final VariableDeclarationFragment fragment, final LinkedProposalModelCore positionGroups);
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore positionGroups) throws CoreException {
 		final ASTRewrite rewrite= cuRewrite.getASTRewrite();
 		VariableDeclarationFragment fragment= null;
-		for (ASTNode node : fNodes) {
+		for (ASTNode node : fNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final AST ast= node.getAST();
 
 			fragment= ast.newVariableDeclarationFragment();

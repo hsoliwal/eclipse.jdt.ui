@@ -226,11 +226,11 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		@Override
 		public String getLaunchConfigurationName() {
-			StringBuilder result= new StringBuilder();
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-			result.append(fLaunchConfiguration.getName());
-			result.append(" - "); //$NON-NLS-1$
-			result.append(fProjectName);
+			result.append(fLaunchConfiguration.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(" - "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(fProjectName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			return result.toString();
 		}
@@ -258,12 +258,12 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	}
 
 	private static final String PAGE_NAME= "FatJarPackageWizardPage"; //$NON-NLS-1$
-	private static final String STORE_LAUNCH_CONFIGURATION_SELECTION_NAME= PAGE_NAME + ".LAUNCH_CONFIGURATION_SELECTION_NAME"; //$NON-NLS-1$
-	private static final String STORE_DESTINATION_ELEMENT= PAGE_NAME + ".DESTINATION_PATH_SELECTION"; //$NON-NLS-1$
-	private static final String STORE_ANTSCRIPT_SAVE= PAGE_NAME + ".ANTSCRIPT_SAVE"; //$NON-NLS-1$
-	private static final String STORE_ANTSCRIPT_LOCATION= PAGE_NAME + ".ANTSCRIPT_LOCATION"; //$NON-NLS-1$
-	private static final String STORE_ANTSCRIPT_LOCATION_HISTORY= PAGE_NAME + ".ANTSCRIPT_LOCATION_HISTORY"; //$NON-NLS-1$
-	private static final String STORE_LIBRARY_HANDLING= PAGE_NAME + ".LIBRARY_HANDLING"; //$NON-NLS-1$
+	private static final String STORE_LAUNCH_CONFIGURATION_SELECTION_NAME= PAGE_NAME + ".LAUNCH_CONFIGURATION_SELECTION_NAME"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String STORE_DESTINATION_ELEMENT= PAGE_NAME + ".DESTINATION_PATH_SELECTION"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String STORE_ANTSCRIPT_SAVE= PAGE_NAME + ".ANTSCRIPT_SAVE"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String STORE_ANTSCRIPT_LOCATION= PAGE_NAME + ".ANTSCRIPT_LOCATION"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String STORE_ANTSCRIPT_LOCATION_HISTORY= PAGE_NAME + ".ANTSCRIPT_LOCATION_HISTORY"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String STORE_LIBRARY_HANDLING= PAGE_NAME + ".LIBRARY_HANDLING"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String ANTSCRIPT_EXTENSION= "xml"; //$NON-NLS-1$
 
@@ -294,10 +294,10 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		setTitle(FatJarPackagerMessages.JarPackageWizardPage_title);
 		setDescription(FatJarPackagerMessages.FatJarPackageWizardPage_description);
 		fJarPackage= jarPackage;
-		fLauchConfigurationModel= new ArrayList<>();
+		fLauchConfigurationModel= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Composite composite= new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -348,17 +348,17 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		fLauchConfigurationModel.addAll(Arrays.asList(getLaunchConfigurations()));
 		String[] names= new String[fLauchConfigurationModel.size()];
-		for (int i= 0, size= fLauchConfigurationModel.size(); i < size; i++) {
+		for (int i= 0, size= fLauchConfigurationModel.size(); i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			LaunchConfigurationElement element= fLauchConfigurationModel.get(i);
 			names[i]= element.getLaunchConfigurationName();
 		}
 		fLaunchConfigurationCombo.setItems(names);
 
-		fLaunchConfigurationCombo.addListener(SWT.Selection, this);
-		fLaunchConfigurationCombo.addListener(SWT.Modify, this);
+		fLaunchConfigurationCombo.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		fLaunchConfigurationCombo.addListener(SWT.Modify, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
-	private void createAntScriptGroup(Composite parent) {
+	private void createAntScriptGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite= new Composite(parent, SWT.NONE);
 		GridData layoutData= new GridData(SWT.FILL, SWT.TOP, true, false);
 		composite.setLayoutData(layoutData);
@@ -367,7 +367,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		fAntScriptSaveCheckbox= new Button(composite, SWT.CHECK | SWT.LEFT);
 		fAntScriptSaveCheckbox.setText(FatJarPackagerMessages.FatJarPackageWizardPage_saveAntScript_text);
-		fAntScriptSaveCheckbox.addListener(SWT.Selection, this);
+		fAntScriptSaveCheckbox.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		GridData data= new GridData(SWT.BEGINNING);
 		data.horizontalSpan= 3;
 		fAntScriptSaveCheckbox.setLayoutData(data);
@@ -377,8 +377,8 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		fAntScriptNamesCombo= new Combo(composite, SWT.SINGLE | SWT.BORDER);
 		SWTUtil.setDefaultVisibleItemCount(fAntScriptNamesCombo);
-		fAntScriptNamesCombo.addListener(SWT.Modify, this);
-		fAntScriptNamesCombo.addListener(SWT.Selection, this);
+		fAntScriptNamesCombo.addListener(SWT.Modify, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		fAntScriptNamesCombo.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		data= new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		data.widthHint= SIZING_TEXT_FIELD_WIDTH;
 		data.horizontalSpan= 1;
@@ -389,7 +389,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		fAntScriptBrowseButton.setText(FatJarPackagerMessages.FatJarPackageWizardPage_antScriptLocationBrowse_text);
 		fAntScriptBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		SWTUtil.setButtonDimensionHint(fAntScriptBrowseButton);
-		fAntScriptBrowseButton.addSelectionListener(new SelectionAdapter() {
+		fAntScriptBrowseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAntScriptBrowseButtonPressed();
@@ -403,7 +403,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 */
 	private void handleAntScriptBrowseButtonPressed() {
 		FileDialog dialog= new FileDialog(getContainer().getShell(), SWT.SAVE | SWT.SHEET);
-		dialog.setFilterExtensions(new String[] { "*." + ANTSCRIPT_EXTENSION }); //$NON-NLS-1$
+		dialog.setFilterExtensions(new String[] { "*." + ANTSCRIPT_EXTENSION }); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String currentSourceString= getAntScriptValue();
 		int lastSeparatorIndex= currentSourceString.lastIndexOf(File.separator);
@@ -425,7 +425,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	private String getAntScriptValue() {
 		String antScriptText= fAntScriptNamesCombo.getText().trim();
 		if (antScriptText.indexOf('.') < 0)
-			antScriptText+= "." + ANTSCRIPT_EXTENSION; //$NON-NLS-1$
+			antScriptText+= "." + ANTSCRIPT_EXTENSION; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return antScriptText;
 	}
 
@@ -452,7 +452,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 *
 	 * @param parent org.eclipse.swt.widgets.Composite
 	 */
-	protected void createLibraryHandlingGroup(Composite parent) {
+	protected void createLibraryHandlingGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fLibraryHandlingGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
 		fLibraryHandlingGroup.setLayout(layout);
@@ -463,7 +463,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		fExtractJarsRadioButton= new Button(fLibraryHandlingGroup, SWT.RADIO | SWT.LEFT);
 		fExtractJarsRadioButton.setText(FatJarPackagerMessages.FatJarPackageWizardPage_extractJars_text);
 		fExtractJarsRadioButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		fExtractJarsRadioButton.addListener(SWT.Selection, event -> {
+		fExtractJarsRadioButton.addListener(SWT.Selection, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (((Button)event.widget).getSelection())
 				fLibraryHandler= new ExtractLibraryHandler();
 		});
@@ -471,7 +471,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		fPackageJarsRadioButton= new Button(fLibraryHandlingGroup, SWT.RADIO | SWT.LEFT);
 		fPackageJarsRadioButton.setText(FatJarPackagerMessages.FatJarPackageWizardPage_packageJars_text);
 		fPackageJarsRadioButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		fPackageJarsRadioButton.addListener(SWT.Selection, event -> {
+		fPackageJarsRadioButton.addListener(SWT.Selection, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (((Button)event.widget).getSelection())
 				fLibraryHandler= new PackageLibraryHandler();
 		});
@@ -479,7 +479,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		fCopyJarFilesRadioButton= new Button(fLibraryHandlingGroup, SWT.RADIO | SWT.LEFT);
 		fCopyJarFilesRadioButton.setText(FatJarPackagerMessages.FatJarPackageWizardPage_copyJarFiles_text);
 		fCopyJarFilesRadioButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		fCopyJarFilesRadioButton.addListener(SWT.Selection, event -> {
+		fCopyJarFilesRadioButton.addListener(SWT.Selection, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (((Button)event.widget).getSelection())
 				fLibraryHandler= new CopyLibraryHandler();
 		});
@@ -554,7 +554,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		return true;
 	}
 
-	private boolean validateAntScriptGroup() {
+	private boolean validateAntScriptGroup() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fAntScriptSaveCheckbox.getSelection())
 			// save as ant not selected
 			return true;
@@ -656,14 +656,14 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 			setMessage(newMessage, IMessageProvider.INFORMATION);
 	}
 
-	private LaunchConfigurationElement[] getLaunchConfigurations() {
-		ArrayList<ExistingLaunchConfigurationElement> result= new ArrayList<>();
+	private LaunchConfigurationElement[] getLaunchConfigurations() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<ExistingLaunchConfigurationElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		try {
 			ILaunchManager manager= DebugPlugin.getDefault().getLaunchManager();
 			ILaunchConfigurationType type= manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
 
-			for (ILaunchConfiguration launchconfig : manager.getLaunchConfigurations(type)) {
+			for (ILaunchConfiguration launchconfig : manager.getLaunchConfigurations(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!launchconfig.getAttribute(IDebugUIConstants.ATTR_PRIVATE, false)) {
 					final String illegalName= ""; //$NON-NLS-1$
 					String projectName= launchconfig.getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, illegalName);
@@ -677,7 +677,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 							result.add(new ExistingLaunchConfigurationElement(launchconfig, projectName));
 						}
 					} catch (IllegalArgumentException e) {
-						IStatus status= Status.warning("Unknown project " + projectName + " defined in " + launchconfig.getName() + " launch configuration", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						IStatus status= Status.warning("Unknown project " + projectName + " defined in " + launchconfig.getName() + " launch configuration", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						JavaPlugin.log(status);
 					}
 				}
@@ -702,19 +702,19 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		}
 	}
 
-	private static IJavaProject[] getProjectSearchOrder(String projectName) {
+	private static IJavaProject[] getProjectSearchOrder(String projectName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		ArrayList<String> projectNames= new ArrayList<>();
+		ArrayList<String> projectNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		projectNames.add(projectName);
 
 		int nextProject= 0;
-		while (nextProject < projectNames.size()) {
+		while (nextProject < projectNames.size()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String nextProjectName= projectNames.get(nextProject);
 			IJavaProject jproject= getJavaProject(nextProjectName);
 
 			if (jproject != null) {
 				try {
-					for (String childProjectName : jproject.getRequiredProjectNames()) {
+					for (String childProjectName : jproject.getRequiredProjectNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!projectNames.contains(childProjectName)) {
 							projectNames.add(childProjectName);
 						}
@@ -726,8 +726,8 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 			nextProject+= 1;
 		}
 
-		ArrayList<IJavaProject> result= new ArrayList<>();
-		for (String name : projectNames) {
+		ArrayList<IJavaProject> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String name : projectNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject project= getJavaProject(name);
 			if (project != null)
 				result.add(project);
@@ -751,13 +751,13 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		return result;
 	}
 
-	private static IPath[] getClasspath(ILaunchConfiguration configuration) throws CoreException {
+	private static IPath[] getClasspath(ILaunchConfiguration configuration) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRuntimeClasspathEntry[] entries= JavaRuntime.computeUnresolvedRuntimeClasspath(configuration);
 		entries= JavaRuntime.resolveRuntimeClasspath(entries, configuration);
 
 		boolean isModularConfig= JavaRuntime.isModularConfiguration(configuration);
-		ArrayList<IPath> userEntries= new ArrayList<>(entries.length);
-		for (IRuntimeClasspathEntry cpentry : entries) {
+		ArrayList<IPath> userEntries= new ArrayList<>(entries.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IRuntimeClasspathEntry cpentry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int classPathProperty= cpentry.getClasspathProperty();
 			if ((!isModularConfig && classPathProperty == IRuntimeClasspathEntry.USER_CLASSES)
 				|| (isModularConfig && (classPathProperty == IRuntimeClasspathEntry.CLASS_PATH || classPathProperty == IRuntimeClasspathEntry.MODULE_PATH))) {
@@ -796,11 +796,11 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 * @return all package fragment roots corresponding to each classpath entry start the search at project with projectName
 	 */
 	private static IPackageFragmentRoot[] getRequiredPackageFragmentRoots(IPath[] classpathEntries, final String projectName, MultiStatus status) {
-		ArrayList<IPackageFragmentRoot> result= new ArrayList<>();
+		ArrayList<IPackageFragmentRoot> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IJavaProject[] searchOrder= getProjectSearchOrder(projectName);
 
-		for (IPath entry : classpathEntries) {
+		for (IPath entry : classpathEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragmentRoot[] elements= findRootsForClasspath(entry, searchOrder);
 			if (elements == null) {
 				status.add(new Status(IStatus.WARNING, JavaUI.ID_PLUGIN, Messages.format(FatJarPackagerMessages.FatJarPackageWizardPage_error_missingClassFile, BasicElementLabels.getPathLabel(entry, false))));
@@ -813,7 +813,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	}
 
 	private static IPackageFragmentRoot[] findRootsForClasspath(IPath entry, IJavaProject[] searchOrder) {
-		for (IJavaProject s : searchOrder) {
+		for (IJavaProject s : searchOrder) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragmentRoot[] elements= findRootsInProject(entry, s);
 			if (elements.length != 0) {
 				return elements;
@@ -823,10 +823,10 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	}
 
 	private static IPackageFragmentRoot[] findRootsInProject(IPath entry, IJavaProject project) {
-		ArrayList<IPackageFragmentRoot> result= new ArrayList<>();
+		ArrayList<IPackageFragmentRoot> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		try {
-			for (IPackageFragmentRoot packageFragmentRoot : project.getPackageFragmentRoots()) {
+			for (IPackageFragmentRoot packageFragmentRoot : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isRootAt(packageFragmentRoot, entry))
 					result.add(packageFragmentRoot);
 			}
@@ -837,7 +837,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		return result.toArray(new IPackageFragmentRoot[result.size()]);
 	}
 
-	private static boolean isRootAt(IPackageFragmentRoot root, IPath entry) {
+	private static boolean isRootAt(IPackageFragmentRoot root, IPath entry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IClasspathEntry cpe= root.getRawClasspathEntry();
 			if (cpe.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
@@ -864,14 +864,14 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		return false;
 	}
 
-	private static IType findMainMethodByName(String name, IPackageFragmentRoot[] classpathResources, IRunnableContext context) {
+	private static IType findMainMethodByName(String name, IPackageFragmentRoot[] classpathResources, IRunnableContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		List<IResource> resources= JarPackagerUtil.asResources(classpathResources);
 		if (resources == null) {
 			return null;
 		}
 
-		for (Iterator<IResource> iterator= resources.iterator(); iterator.hasNext();) {
+		for (Iterator<IResource> iterator= resources.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= iterator.next();
 			if (resource == null)
 				iterator.remove();
@@ -880,7 +880,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 		IJavaSearchScope searchScope= JavaSearchScopeFactory.getInstance().createJavaSearchScope(resources.toArray(new IResource[resources.size()]), true);
 		MainMethodSearchEngine engine= new MainMethodSearchEngine();
 		try {
-			for (IType mainType : engine.searchMainMethods(context, searchScope, 0)) {
+			for (IType mainType : engine.searchMainMethods(context, searchScope, 0)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (mainType.getFullyQualifiedName().equals(name)) {
 					return mainType;
 				}
@@ -898,13 +898,13 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	public void dispose() {
 		super.dispose();
 		if (fLauchConfigurationModel != null) {
-			for (LaunchConfigurationElement element : fLauchConfigurationModel) {
+			for (LaunchConfigurationElement element : fLauchConfigurationModel) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				element.dispose();
 			}
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void restoreWidgetValues() {
 
 		// restore JARPACKAGEDATA from SETTINGS and set widgets
@@ -929,7 +929,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 			if (directoryNames != null) {
 				if (!fAntScriptNamesCombo.getText().equals(directoryNames[0]))
 					fAntScriptNamesCombo.add(fAntScriptNamesCombo.getText());
-				for (String directoryName : directoryNames) {
+				for (String directoryName : directoryNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fAntScriptNamesCombo.add(directoryName);
 				}
 			}
@@ -946,7 +946,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 			String name= settings.get(STORE_LAUNCH_CONFIGURATION_SELECTION_NAME);
 			if (name != null) {
 				String[] items= fLaunchConfigurationCombo.getItems();
-				for (int i= 0; i < items.length; i++) {
+				for (int i= 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (name.equals(items[i])) {
 						fLaunchConfigurationCombo.select(i);
 					}
@@ -964,7 +964,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void saveWidgetValues() {
 		super.saveWidgetValues();
 
@@ -1013,7 +1013,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	/*
 	 * For internal use only (testing), clients must not call.
 	 */
-	public static Object[] getSelectedElementsWithoutContainedChildren(ILaunchConfiguration launchconfig, JarPackageData data, IRunnableContext context, MultiStatus status) throws CoreException {
+	public static Object[] getSelectedElementsWithoutContainedChildren(ILaunchConfiguration launchconfig, JarPackageData data, IRunnableContext context, MultiStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (launchconfig == null)
 			return new Object[0];
 
@@ -1058,7 +1058,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 * 			or <code>null</code> if no dialog should be presented
 	 * @return	<code>true</code> if it is OK to create the JAR
 	 */
-	private boolean canCreateAntScript(Shell parent) {
+	private boolean canCreateAntScript(Shell parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		File file= fAntScriptLocation.toFile();
 		if (file.exists()) {

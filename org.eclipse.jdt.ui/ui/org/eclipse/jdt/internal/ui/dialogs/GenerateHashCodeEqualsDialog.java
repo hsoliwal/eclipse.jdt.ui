@@ -55,7 +55,7 @@ public class GenerateHashCodeEqualsDialog extends SourceActionDialog {
 	 *
 	 * @since 3.2
 	 */
-	private static class GenerateHashCodeEqualsContentProvider implements ITreeContentProvider {
+	private static class GenerateHashCodeEqualsContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		IVariableBinding[] fBindings;
 
@@ -109,7 +109,7 @@ public class GenerateHashCodeEqualsDialog extends SourceActionDialog {
 		@Override
 		public IStatus validate(Object[] selection) {
 			int count= 0;
-			for (Object s : selection) {
+			for (Object s : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (s instanceof IVariableBinding) {
 					count++;
 				}
@@ -131,7 +131,7 @@ public class GenerateHashCodeEqualsDialog extends SourceActionDialog {
 
 	private boolean fNoFields;
 
-	public GenerateHashCodeEqualsDialog(Shell shell, CompilationUnitEditor editor, IType type, IVariableBinding[] allFields, IVariableBinding[] selectedFields) throws JavaModelException {
+	public GenerateHashCodeEqualsDialog(Shell shell, CompilationUnitEditor editor, IType type, IVariableBinding[] allFields, IVariableBinding[] selectedFields) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(shell, new BindingLabelProvider(), new GenerateHashCodeEqualsContentProvider(allFields), editor, type, false);
 		setEmptyListMessage(JavaUIMessages.GenerateHashCodeEqualsDialog_no_entries);
 
@@ -164,14 +164,14 @@ public class GenerateHashCodeEqualsDialog extends SourceActionDialog {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, IJavaHelpContextIds.GENERATE_HASHCODE_EQUALS_SELECTION_DIALOG);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Composite createCommentSelection(final Composite parent) {
 		final Composite composite= super.createCommentSelection(parent);
 
 		Button button= new Button(composite, SWT.CHECK);
 		button.setText(JavaUIMessages.GenerateHashCodeEqualsDialog_instanceof_button);
 
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
@@ -186,7 +186,7 @@ public class GenerateHashCodeEqualsDialog extends SourceActionDialog {
 		button= new Button(composite, SWT.CHECK);
 		button.setText(JavaUIMessages.GenerateHashCodeEqualsDialog_blocks_button);
 
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
@@ -197,7 +197,7 @@ public class GenerateHashCodeEqualsDialog extends SourceActionDialog {
 
 		button= new Button(composite, SWT.CHECK);
 		button.setText(JavaUIMessages.GenerateHashCodeEqualsDialog_j7hashequals_button);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {

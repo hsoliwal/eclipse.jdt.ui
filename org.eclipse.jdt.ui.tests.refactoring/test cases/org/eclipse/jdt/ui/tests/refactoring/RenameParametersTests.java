@@ -52,16 +52,16 @@ public class RenameParametersTests extends GenericRefactoringTest{
 	}
 
 	private String getSimpleTestFileName(boolean canRename, boolean input){
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (canRename)
-			fileName.append(input ? "_in": "_out");
-		return fileName.append(".java").toString();
+			fileName.append(input ? "_in": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private String getTestFileName(boolean canRename, boolean input){
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canRename ? "canRename/": "cannotRename/");
-		return fileName.append(getSimpleTestFileName(canRename, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canRename ? "canRename/": "cannotRename/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canRename, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	//------------
@@ -69,7 +69,7 @@ public class RenameParametersTests extends GenericRefactoringTest{
 		return createCU(pack, getSimpleTestFileName(canRename, input), getFileContents(getTestFileName(canRename, input)));
 	}
 
-	private void helper1(String[] newNames, String[] signature) throws Exception{
+	private void helper1(String[] newNames, String[] signature) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		IType classA= getType(cu, "A");
 		IMethod method= classA.getMethod("m", signature);
@@ -87,7 +87,7 @@ public class RenameParametersTests extends GenericRefactoringTest{
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals("invalid renaming", getFileContents(getTestFileName(true, false)).length(), newcu.getSource().length());
 		assertEqualLines("invalid renaming", getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
@@ -107,7 +107,7 @@ public class RenameParametersTests extends GenericRefactoringTest{
 
 	private void modifyInfos(List<ParameterInfo> list, String[] newNames) {
 		int i= 0;
-		for (Iterator<ParameterInfo> iter= list.iterator(); iter.hasNext(); i++) {
+		for (Iterator<ParameterInfo> iter= list.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ParameterInfo info= iter.next();
 			info.setNewName(newNames[i]);
 		}

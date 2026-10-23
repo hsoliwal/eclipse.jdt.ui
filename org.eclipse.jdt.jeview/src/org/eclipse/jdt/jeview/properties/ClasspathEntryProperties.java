@@ -37,8 +37,8 @@ public class ClasspathEntryProperties implements IPropertySource {
 		}
 	}
 
-	private static HashMap<String, Property> fgIdToProperty= new HashMap<>();
-	private static LinkedHashMap<Class<?>, List<Property>> fgTypeToProperty= new LinkedHashMap<>();
+	private static HashMap<String, Property> fgIdToProperty= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private static LinkedHashMap<Class<?>, List<Property>> fgTypeToProperty= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	static {
 		addProperty(new Property("combineAccessRules") {
@@ -87,7 +87,7 @@ public class ClasspathEntryProperties implements IPropertySource {
 		fgIdToProperty.put(property.getId(), property);
 		List<Property> properties= fgTypeToProperty.get(property.getType());
 		if (properties == null) {
-			properties= new ArrayList<>();
+			properties= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fgTypeToProperty.put(property.getType(), properties);
 		}
 		properties.add(property);
@@ -106,10 +106,10 @@ public class ClasspathEntryProperties implements IPropertySource {
 				name= "UNKNOWN";
 				break;
 		}
-		return kind + " (" + name + ")";
+		return kind + " (" + name + ")"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	static String getEntryKindString(int kind) {
+	static String getEntryKindString(int kind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name;
 		switch (kind) {
 			case IClasspathEntry.CPE_CONTAINER :
@@ -131,7 +131,7 @@ public class ClasspathEntryProperties implements IPropertySource {
 				name= "UNKNOWN";
 				break;
 		}
-		return kind + " (" + name + ")";
+		return kind + " (" + name + ")"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 
@@ -143,10 +143,10 @@ public class ClasspathEntryProperties implements IPropertySource {
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		List<IPropertyDescriptor> result= new ArrayList<>();
-		for (Entry<Class<?>, List<Property>> entry : fgTypeToProperty.entrySet()) {
+		List<IPropertyDescriptor> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Entry<Class<?>, List<Property>> entry : fgTypeToProperty.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.getKey().isAssignableFrom(fEntry.getClass())) {
-				for (Property property : entry.getValue()) {
+				for (Property property : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.add(property.getDescriptor());
 				}
 			}
@@ -164,10 +164,10 @@ public class ClasspathEntryProperties implements IPropertySource {
 				return property.compute(fEntry);
 			} catch (JavaModelException e) {
 				if (e.isDoesNotExist()) {
-					return "JavaModelException: " + e.getLocalizedMessage();
+					return "JavaModelException: " + e.getLocalizedMessage(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
-					JEViewPlugin.log("error calculating property '" + property.getType().getSimpleName() + '#' + property.getName() + '\'', e);
-					return "Error: " + e.getLocalizedMessage();
+					JEViewPlugin.log("error calculating property '" + property.getType().getSimpleName() + '#' + property.getName() + '\'', e); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					return "Error: " + e.getLocalizedMessage(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}

@@ -39,11 +39,11 @@ public class GoToNextPreviousMemberActionTests extends GenericRefactoringTest{
 	}
 
 	private String getSimpleTestFileName(){
-		return "A_" + getName() + ".java";
+		return "A_" + getName() + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getTestFileName(){
-		return TEST_PATH_PREFIX + getRefactoringPath() + getSimpleTestFileName();
+		return TEST_PATH_PREFIX + getRefactoringPath() + getSimpleTestFileName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	//------------

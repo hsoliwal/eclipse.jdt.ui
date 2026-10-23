@@ -174,10 +174,10 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	protected CodeGenerationSettings fSettings;
 
 	/** The static bindings to import */
-	protected final Set<IBinding> fStaticBindings= new HashSet<>();
+	protected final Set<IBinding> fStaticBindings= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/** The type bindings to import */
-	protected final Set<ITypeBinding> fTypeBindings= new HashSet<>();
+	protected final Set<ITypeBinding> fTypeBindings= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * The type occurrences (element type:
@@ -264,7 +264,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @throws CoreException
 	 *             if an error occurs
 	 */
-	protected final void createTypeDeclaration(final CompilationUnitRewrite sourceRewrite, final IType subType, final String superName, final AbstractTypeDeclaration sourceDeclaration, final StringBuffer buffer, boolean isInterface, final RefactoringStatus status, final IProgressMonitor monitor) throws CoreException {
+	protected final void createTypeDeclaration(final CompilationUnitRewrite sourceRewrite, final IType subType, final String superName, final AbstractTypeDeclaration sourceDeclaration, final StringBuffer buffer, boolean isInterface, final RefactoringStatus status, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(sourceRewrite);
 		Assert.isNotNull(subType);
 		Assert.isNotNull(superName);
@@ -321,22 +321,22 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @throws CoreException
 	 *             if the imports could not be generated
 	 */
-	protected final String createTypeImports(final ICompilationUnit unit, final IProgressMonitor monitor) throws CoreException {
+	protected final String createTypeImports(final ICompilationUnit unit, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(unit);
 		Assert.isNotNull(monitor);
 		try {
 			monitor.beginTask("", 100); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.ExtractInterfaceProcessor_creating);
 			final ImportRewrite rewrite= StubUtility.createImportRewrite(unit, true);
-			for (ITypeBinding type : fTypeBindings) {
+			for (ITypeBinding type : fTypeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (type.isTypeVariable()) {
-					for (ITypeBinding bound : type.getTypeBounds()) {
+					for (ITypeBinding bound : type.getTypeBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						rewrite.addImport(bound);
 					}
 				}
 				rewrite.addImport(type);
 			}
-			for (IBinding binding : fStaticBindings) {
+			for (IBinding binding : fStaticBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.addStaticImport(binding);
 			}
 			final IDocument document= new Document();
@@ -371,7 +371,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 		Assert.isNotNull(targetDeclaration);
 		if (sourceDeclaration instanceof TypeDeclaration) {
 			final ListRewrite rewrite= targetRewrite.getListRewrite(targetDeclaration, TypeDeclaration.TYPE_PARAMETERS_PROPERTY);
-			for (Object parameter : ((TypeDeclaration) sourceDeclaration).typeParameters()) {
+			for (Object parameter : ((TypeDeclaration) sourceDeclaration).typeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.insertLast(ASTNode.copySubtree(targetRewrite.getAST(), (TypeParameter) parameter), null);
 				ImportRewriteUtil.collectImports(subType.getJavaProject(), sourceDeclaration, fTypeBindings, fStaticBindings, false);
 			}
@@ -399,7 +399,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @throws CoreException
 	 *             if an error occurs
 	 */
-	protected final String createTypeSource(final ICompilationUnit copy, final IType subType, final String superName, final CompilationUnitRewrite sourceRewrite, final AbstractTypeDeclaration declaration, final RefactoringStatus status, final IProgressMonitor monitor) throws CoreException {
+	protected final String createTypeSource(final ICompilationUnit copy, final IType subType, final String superName, final CompilationUnitRewrite sourceRewrite, final AbstractTypeDeclaration declaration, final RefactoringStatus status, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(copy);
 		Assert.isNotNull(subType);
 		Assert.isNotNull(superName);
@@ -417,7 +417,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 			if (fSettings.createComments) {
 				final ITypeParameter[] parameters= subType.getTypeParameters();
 				final String[] names= new String[parameters.length];
-				for (int index= 0; index < parameters.length; index++)
+				for (int index= 0; index < parameters.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					names[index]= parameters[index].getElementName();
 				typeComment= CodeGeneration.getTypeComment(copy, superName, names, delimiter);
 				fileComment= CodeGeneration.getFileComment(copy, delimiter);
@@ -430,7 +430,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 				if (!subType.getPackageFragment().isDefaultPackage()) {
 					if (imports.length() > 0)
 						buffer.insert(0, imports);
-					buffer.insert(0, "package " + subType.getPackageFragment().getElementName() + ";"); //$NON-NLS-1$//$NON-NLS-2$
+					buffer.insert(0, "package " + subType.getPackageFragment().getElementName() + ";"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				source= buffer.toString();
 			}
@@ -473,15 +473,15 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 		Assert.isNotNull(imports);
 		Assert.isNotNull(content);
 		final IPackageFragment fragment= (IPackageFragment) unit.getParent();
-		final StringBuilder buffer= new StringBuilder();
+		final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		final String delimiter= StubUtility.getLineDelimiterUsed(unit.getJavaProject());
 		if (!fragment.isDefaultPackage()) {
-			buffer.append("package " + fragment.getElementName() + ";"); //$NON-NLS-1$ //$NON-NLS-2$
-			buffer.append(delimiter);
-			buffer.append(delimiter);
+			buffer.append("package " + fragment.getElementName() + ";"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(delimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(delimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (imports.length() > 0)
-			buffer.append(imports);
+			buffer.append(imports); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return StubUtility.getCompilationUnitContent(unit, buffer.toString(), fileComment, comment, content, delimiter);
 	}
@@ -523,13 +523,13 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 *             if an error occurs
 	 */
 	protected final void getFieldReferencingCompilationUnits(final Map<IJavaProject, Set<ICompilationUnit>> units, final ASTNode[] nodes) throws JavaModelException {
-		for (ASTNode node : nodes) {
+		for (ASTNode node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject project= RefactoringASTParser.getCompilationUnit(node).getJavaProject();
 			if (project != null) {
-				for (IField field : getReferencingFields(node, project)) {
+				for (IField field : getReferencingFields(node, project)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Set<ICompilationUnit> set= units.get(project);
 					if (set == null) {
-						set= new HashSet<>();
+						set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						units.put(project, set);
 					}
 					final ICompilationUnit unit= field.getCompilationUnit();
@@ -552,15 +552,15 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @throws JavaModelException
 	 *             if an error occurs
 	 */
-	protected final void getMethodReferencingCompilationUnits(final Map<IJavaProject, Set<ICompilationUnit>> units, final ASTNode[] nodes) throws JavaModelException {
-		for (ASTNode node : nodes) {
+	protected final void getMethodReferencingCompilationUnits(final Map<IJavaProject, Set<ICompilationUnit>> units, final ASTNode[] nodes) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (ASTNode node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject project= RefactoringASTParser.getCompilationUnit(node).getJavaProject();
 			if (project != null) {
 				IMethod method= getReferencingMethod(node);
 				if (method != null) {
 					Set<ICompilationUnit> set= units.get(project);
 					if (set == null) {
-						set= new HashSet<>();
+						set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						units.put(project, set);
 					}
 					final ICompilationUnit unit= method.getCompilationUnit();
@@ -585,7 +585,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @throws JavaModelException
 	 *             if an error occurs
 	 */
-	protected final Map<IJavaProject, Set<SearchResultGroup>> getReferencingCompilationUnits(final IType type, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException {
+	protected final Map<IJavaProject, Set<SearchResultGroup>> getReferencingCompilationUnits(final IType type, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask("", 100); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.SuperTypeRefactoringProcessor_creating);
@@ -625,8 +625,8 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 			final BodyDeclaration parent= ASTNodes.getParent(node, BodyDeclaration.class);
 			if (parent instanceof FieldDeclaration) {
 				final List<VariableDeclarationFragment> fragments= ((FieldDeclaration) parent).fragments();
-				result= new ArrayList<>(fragments.size());
-				for (VariableDeclarationFragment fragment : fragments) {
+				result= new ArrayList<>(fragments.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final IField field= getCorrespondingField(fragment);
 					if (field != null)
 						result.add(field);
@@ -710,7 +710,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @param monitor
 	 *            the progress monitor to use
 	 */
-	protected final void performFirstPass(final SuperTypeConstraintsCreator creator, final Map<IJavaProject, Set<ICompilationUnit>> units, final Map<ICompilationUnit, SearchResultGroup> groups, final ICompilationUnit unit, final CompilationUnit node, final IProgressMonitor monitor) {
+	protected final void performFirstPass(final SuperTypeConstraintsCreator creator, final Map<IJavaProject, Set<ICompilationUnit>> units, final Map<ICompilationUnit, SearchResultGroup> groups, final ICompilationUnit unit, final CompilationUnit node, final IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask("", 100); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.SuperTypeRefactoringProcessor_creating);
@@ -770,7 +770,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * Resets the working copies.
 	 */
 	private static void resetWorkingCopies(WorkingCopyOwner owner) {
-		for (ICompilationUnit unit : JavaCore.getWorkingCopies(owner)) {
+		for (ICompilationUnit unit : JavaCore.getWorkingCopies(owner)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				unit.discardWorkingCopy();
 			} catch (Exception exception) {
@@ -785,8 +785,8 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @param unit
 	 *            the compilation unit to discard
 	 */
-	protected void resetWorkingCopies(final ICompilationUnit unit) {
-		for (ICompilationUnit cu : JavaCore.getWorkingCopies(fOwner)) {
+	protected void resetWorkingCopies(final ICompilationUnit unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (ICompilationUnit cu : JavaCore.getWorkingCopies(fOwner)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!cu.equals(unit)) {
 				try {
 					cu.discardWorkingCopy();
@@ -824,7 +824,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @param group
 	 *            the text edit group to use
 	 */
-	protected final void rewriteTypeOccurrence(final CompilationUnitRange range, final TType estimate, final ASTRequestor requestor, final CompilationUnitRewrite rewrite, final CompilationUnit copy, final Set<String> replacements, final TextEditGroup group) {
+	protected final void rewriteTypeOccurrence(final CompilationUnitRange range, final TType estimate, final ASTRequestor requestor, final CompilationUnitRewrite rewrite, final CompilationUnit copy, final Set<String> replacements, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IBinding binding= null;
 		final CompilationUnit target= rewrite.getRoot();
 		ASTNode node= NodeFinder.perform(copy, range.getSourceRange());
@@ -874,7 +874,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 					return;
 				}
 
-				while (node != null && !(node instanceof MethodDeclaration) && !(node instanceof VariableDeclarationFragment)) {
+				while (node != null && !(node instanceof MethodDeclaration) && !(node instanceof VariableDeclarationFragment)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					node= node.getParent();
 				}
 				if (node != null) {
@@ -894,7 +894,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 				}
 			} else if (node instanceof QualifiedName) {
 				final ASTNode name= node;
-				while (node != null && !(node instanceof MethodDeclaration) && !(node instanceof VariableDeclarationFragment))
+				while (node != null && !(node instanceof MethodDeclaration) && !(node instanceof VariableDeclarationFragment)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					node= node.getParent();
 				if (node != null) {
 					final int delta= node.getStartPosition() + node.getLength() - name.getStartPosition();
@@ -913,7 +913,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 				}
 			} else if (node instanceof CastExpression) {
 				final ASTNode expression= node;
-				while (node != null && !(node instanceof MethodDeclaration))
+				while (node != null && !(node instanceof MethodDeclaration)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					node= node.getParent();
 				if (node != null) {
 					final int delta= node.getStartPosition() + node.getLength() - expression.getStartPosition();
@@ -995,22 +995,22 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @param monitor
 	 *            the progress monitor to use
 	 */
-	protected final void rewriteTypeOccurrences(final TextEditBasedChangeManager manager, final ASTRequestor sourceRequestor, final CompilationUnitRewrite sourceRewrite, final ICompilationUnit subUnit, final CompilationUnit subNode, final Set<String> replacements, final RefactoringStatus status, final IProgressMonitor monitor) {
+	protected final void rewriteTypeOccurrences(final TextEditBasedChangeManager manager, final ASTRequestor sourceRequestor, final CompilationUnitRewrite sourceRewrite, final ICompilationUnit subUnit, final CompilationUnit subNode, final Set<String> replacements, final RefactoringStatus status, final IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask("", 300); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.ExtractInterfaceProcessor_creating);
 			if (fTypeOccurrences != null) {
-				final Set<ICompilationUnit> units= new HashSet<>(fTypeOccurrences.keySet());
+				final Set<ICompilationUnit> units= new HashSet<>(fTypeOccurrences.keySet()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				if (subUnit != null)
 					units.remove(subUnit);
-				final Map<IJavaProject, Collection<ICompilationUnit>> projects= new HashMap<>();
+				final Map<IJavaProject, Collection<ICompilationUnit>> projects= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				Collection<ICompilationUnit> collection= null;
 				IJavaProject project= null;
-				for (ICompilationUnit current : units) {
+				for (ICompilationUnit current : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					project= current.getJavaProject();
 					collection= projects.get(project);
 					if (collection == null) {
-						collection= new ArrayList<>();
+						collection= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						projects.put(project, collection);
 					}
 					collection.add(current);
@@ -1021,7 +1021,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 					final Set<IJavaProject> keySet= projects.keySet();
 					subMonitor.beginTask("", keySet.size() * 100); //$NON-NLS-1$
 					subMonitor.setTaskName(RefactoringCoreMessages.SuperTypeRefactoringProcessor_creating);
-					for (final Iterator<IJavaProject> iterator= keySet.iterator(); iterator.hasNext();) {
+					for (final Iterator<IJavaProject> iterator= keySet.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						project= iterator.next();
 						collection= projects.get(project);
 						parser.setWorkingCopyOwner(fOwner);
@@ -1116,7 +1116,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 	 * @throws JavaModelException
 	 *             if an error occurs
 	 */
-	protected final void solveSuperTypeConstraints(final ICompilationUnit subUnit, final CompilationUnit subNode, final IType subType, final ITypeBinding subBinding, final ITypeBinding superBinding, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException {
+	protected final void solveSuperTypeConstraints(final ICompilationUnit subUnit, final CompilationUnit subNode, final IType subType, final ITypeBinding subBinding, final ITypeBinding superBinding, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(subType);
 		Assert.isNotNull(subBinding);
 		Assert.isNotNull(superBinding);
@@ -1130,17 +1130,17 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 			monitor.beginTask("", 300); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.SuperTypeRefactoringProcessor_creating);
 			final Map<IJavaProject, Set<SearchResultGroup>> firstPass= getReferencingCompilationUnits(subType, Progress.subMonitor(monitor, 100), status);
-			final Map<IJavaProject, Set<ICompilationUnit>> secondPass= new HashMap<>();
+			final Map<IJavaProject, Set<ICompilationUnit>> secondPass= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			Collection<SearchResultGroup> collection= null;
 			try {
 				final ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 				ICompilationUnit current= null;
-				final Map<ICompilationUnit, SearchResultGroup> groups= new HashMap<>();
-				for (Map.Entry<IJavaProject, Set<SearchResultGroup>> entry : firstPass.entrySet()) {
+				final Map<ICompilationUnit, SearchResultGroup> groups= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+				for (Map.Entry<IJavaProject, Set<SearchResultGroup>> entry : firstPass.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					collection= entry.getValue();
 					if (collection != null) {
-						for (SearchResultGroup group : collection) {
-							for (SearchMatch match : group.getSearchResults()) {
+						for (SearchResultGroup group : collection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							for (SearchMatch match : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Object element= match.getElement();
 								if (element instanceof IMember) {
 									current= ((IMember) element).getCompilationUnit();
@@ -1151,7 +1151,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 						}
 					}
 				}
-				final Set<ICompilationUnit> processed= new HashSet<>();
+				final Set<ICompilationUnit> processed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				if (subUnit != null)
 					processed.add(subUnit);
 				model.beginCreation();
@@ -1160,12 +1160,12 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 					final Set<IJavaProject> keySet= firstPass.keySet();
 					subMonitor.beginTask("", keySet.size() * 100); //$NON-NLS-1$
 					subMonitor.setTaskName(RefactoringCoreMessages.SuperTypeRefactoringProcessor_creating);
-					for (IJavaProject project : keySet) {
+					for (IJavaProject project : keySet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						collection= firstPass.get(project);
 						if (collection != null) {
-							Set<ICompilationUnit> units= new HashSet<>(collection.size());
-							for (SearchResultGroup group : collection) {
-								for (SearchMatch match : group.getSearchResults()) {
+							Set<ICompilationUnit> units= new HashSet<>(collection.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+							for (SearchResultGroup group : collection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+								for (SearchMatch match : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									Object element= match.getElement();
 									if (element instanceof IMember) {
 										current= ((IMember) element).getCompilationUnit();
@@ -1174,7 +1174,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 									}
 								}
 							}
-							final List<ICompilationUnit> batches= new ArrayList<>(units);
+							final List<ICompilationUnit> batches= new ArrayList<>(units); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							final int size= batches.size();
 							final int iterations= (size - 1) / SIZE_BATCH + 1;
 							final IProgressMonitor subsubMonitor= Progress.subMonitor(subMonitor, 100);
@@ -1182,7 +1182,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 								subsubMonitor.beginTask("", iterations * 100); //$NON-NLS-1$
 								subsubMonitor.setTaskName(RefactoringCoreMessages.SuperTypeRefactoringProcessor_creating);
 								final Map<String, String> options= RefactoringASTParser.getCompilerOptions(project);
-								for (int index= 0; index < iterations; index++) {
+								for (int index= 0; index < iterations; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									final List<ICompilationUnit> iteration= batches.subList(index * SIZE_BATCH, Math.min(size, (index + 1) * SIZE_BATCH));
 									parser.setWorkingCopyOwner(fOwner);
 									parser.setResolveBindings(true);
@@ -1229,7 +1229,7 @@ public abstract class SuperTypeRefactoringProcessor extends RefactoringProcessor
 					final Set<IJavaProject> keySet= secondPass.keySet();
 					subMonitor.beginTask("", keySet.size() * 100); //$NON-NLS-1$
 					subMonitor.setTaskName(RefactoringCoreMessages.SuperTypeRefactoringProcessor_creating);
-					for (IJavaProject project : keySet) {
+					for (IJavaProject project : keySet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Collection<ICompilationUnit> cuCollection= secondPass.get(project);
 						if (cuCollection != null) {
 							parser.setWorkingCopyOwner(fOwner);

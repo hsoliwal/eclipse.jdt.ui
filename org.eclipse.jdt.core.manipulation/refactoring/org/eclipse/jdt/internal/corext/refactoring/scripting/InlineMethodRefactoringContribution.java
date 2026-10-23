@@ -51,7 +51,7 @@ import org.eclipse.jdt.internal.corext.dom.IASTSharedValues;
  */
 public final class InlineMethodRefactoringContribution extends JavaUIRefactoringContribution {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Refactoring createRefactoring(JavaRefactoringDescriptor descriptor, RefactoringStatus status) throws CoreException {
 		int selectionStart= -1;
 		int selectionLength= -1;

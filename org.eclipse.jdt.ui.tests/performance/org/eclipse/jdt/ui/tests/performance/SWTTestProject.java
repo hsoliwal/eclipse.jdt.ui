@@ -57,11 +57,11 @@ public class SWTTestProject {
 		}
 	}
 
-	private void setUpProject() throws IOException, ZipException, CoreException {
-		String workspacePath= ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/";
+	private void setUpProject() throws IOException, ZipException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String workspacePath= ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		FileTool.unzip(FileTool.getFileInPlugin(JavaTestPlugin.getDefault(), new Path(PROJECT_ZIP)), new File(workspacePath));
-		File oldFile= new File(workspacePath + PROJECT + "/.classpath_win32");
-		File newFile= new File(workspacePath + PROJECT + "/.classpath");
+		File oldFile= new File(workspacePath + PROJECT + "/.classpath_win32"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		File newFile= new File(workspacePath + PROJECT + "/.classpath"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		Assert.assertTrue(oldFile.renameTo(newFile));
 
 		IProject project= createExistingProject(PROJECT);

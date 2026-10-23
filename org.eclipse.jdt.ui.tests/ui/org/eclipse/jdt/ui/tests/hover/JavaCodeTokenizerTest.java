@@ -23,57 +23,57 @@ import org.eclipse.jdt.core.manipulation.internal.javadoc.JavaCodeTokenizer;
 public class JavaCodeTokenizerTest {
 
 	private static String kw(String text) {
-		return "<span class=\"jc-keyword\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-keyword\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String str(String text) {
-		return "<span class=\"jc-string\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-string\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String cmt(String text) {
-		return "<span class=\"jc-comment\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-comment\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String ann(String text) {
-		return "<span class=\"jc-annotation\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-annotation\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String type(String text) {
-		return "<span class=\"jc-type\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-type\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String methodDecl(String text) {
-		return "<span class=\"jc-method-decl\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-method-decl\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String method(String text) {
-		return "<span class=\"jc-method\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-method\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String param(String text) {
-		return "<span class=\"jc-param\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-param\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String localDecl(String text) {
-		return "<span class=\"jc-local-var-decl\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-local-var-decl\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String local(String text) {
-		return "<span class=\"jc-local-var\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-local-var\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String num(String text) {
-		return "<span class=\"jc-number\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-number\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String typeArg(String text) {
-		return "<span class=\"jc-type-arg\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-type-arg\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String field(String text) {
-		return "<span class=\"jc-field\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-field\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String staticField(String text) {
-		return "<span class=\"jc-static-field\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-static-field\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String staticFinalField(String text) {
-		return "<span class=\"jc-static-final-field\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-static-final-field\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 	private static String enumType(String text) {
-		return "<span class=\"jc-enum\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "<span class=\"jc-enum\">" + text + "</span>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
 	public void testKeywords() {
-		assertEquals(kw("public") + " " + kw("class") + " " + type("Foo") + " {}",
+		assertEquals(kw("public") + " " + kw("class") + " " + type("Foo") + " {}", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				JavaCodeTokenizer.tokenize("public class Foo {}"));
 	}
 
@@ -109,14 +109,14 @@ public class JavaCodeTokenizerTest {
 
 	@Test
 	public void testTypeName() {
-		assertEquals(type("String") + " " + localDecl("name") + " = " + str("\"hello\"") + ";",
+		assertEquals(type("String") + " " + localDecl("name") + " = " + str("\"hello\"") + ";", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				JavaCodeTokenizer.tokenize("String name = \"hello\";"));
 	}
 
 	@Test
 	public void testLocalVariableDeclarationAndReference() {
 		String code= "int x = 5;\nSystem.out.println(x);";
-		String expected= kw("int") + " " + localDecl("x") + " = " + num("5") + ";\n"
+		String expected= kw("int") + " " + localDecl("x") + " = " + num("5") + ";\n" //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ type("System") + ".out." + method("println") + "(" + local("x") + ");";
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
@@ -124,7 +124,7 @@ public class JavaCodeTokenizerTest {
 	@Test
 	public void testMethodDeclarationWithParams() {
 		String code= "void foo(String bar, int baz) {\n    println(bar);\n}";
-		String expected= kw("void") + " " + methodDecl("foo")
+		String expected= kw("void") + " " + methodDecl("foo") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "(" + type("String") + " " + param("bar") + ", " + kw("int") + " " + param("baz") + ") {\n"
 				+ "    " + method("println") + "(" + param("bar") + ");\n}";
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
@@ -135,7 +135,7 @@ public class JavaCodeTokenizerTest {
 		String code= "void foo(String bar) {\n    println(bar);\n}\nbar;";
 		String result= JavaCodeTokenizer.tokenize(code);
 		// After the method body closes, 'bar' should no longer be colored as param
-		String expected= kw("void") + " " + methodDecl("foo")
+		String expected= kw("void") + " " + methodDecl("foo") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "(" + type("String") + " " + param("bar") + ") {\n"
 				+ "    " + method("println") + "(" + param("bar") + ");\n}\nbar;";
 		assertEquals(expected, result);
@@ -143,14 +143,14 @@ public class JavaCodeTokenizerTest {
 
 	@Test
 	public void testMethodInvocation() {
-		assertEquals(method("test") + "(" + num("42") + ");",
+		assertEquals(method("test") + "(" + num("42") + ");", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				JavaCodeTokenizer.tokenize("test(42);"));
 	}
 
 	@Test
 	public void testGenerics() {
 		String code= "List<String> items = new ArrayList<>();";
-		String expected= type("List") + "&lt;" + typeArg("String") + "&gt; " + localDecl("items")
+		String expected= type("List") + "&lt;" + typeArg("String") + "&gt; " + localDecl("items") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ " = " + kw("new") + " " + type("ArrayList") + "&lt;&gt;();";
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
@@ -158,7 +158,7 @@ public class JavaCodeTokenizerTest {
 	@Test
 	public void testNestedGenerics() {
 		String code= "Map<String, List<Integer>> map;";
-		String expected= type("Map") + "&lt;" + typeArg("String") + ", " + typeArg("List")
+		String expected= type("Map") + "&lt;" + typeArg("String") + ", " + typeArg("List") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "&lt;" + typeArg("Integer") + "&gt;&gt; " + localDecl("map") + ";";
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
@@ -166,7 +166,7 @@ public class JavaCodeTokenizerTest {
 	@Test
 	public void testWildcardGenerics() {
 		String code= "List<? extends Number> list;";
-		String expected= type("List") + "&lt;? " + kw("extends") + " " + typeArg("Number") + "&gt; " + localDecl("list") + ";";
+		String expected= type("List") + "&lt;? " + kw("extends") + " " + typeArg("Number") + "&gt; " + localDecl("list") + ";"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
@@ -184,14 +184,14 @@ public class JavaCodeTokenizerTest {
 	@Test
 	public void testArrayTypeDeclaration() {
 		String code= "String[] args;";
-		String expected= type("String") + "[] " + localDecl("args") + ";";
+		String expected= type("String") + "[] " + localDecl("args") + ";"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
 	@Test
 	public void testVarargs() {
 		String code= "void foo(String... args) {}";
-		String expected= kw("void") + " " + methodDecl("foo")
+		String expected= kw("void") + " " + methodDecl("foo") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "(" + type("String") + "... " + param("args") + ") {}";
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
@@ -199,14 +199,14 @@ public class JavaCodeTokenizerTest {
 	@Test
 	public void testAnnotatedMethod() {
 		String code= "@Override\npublic void run() {}";
-		String expected= ann("@Override") + "\n" + kw("public") + " " + kw("void") + " " + methodDecl("run") + "() {}";
+		String expected= ann("@Override") + "\n" + kw("public") + " " + kw("void") + " " + methodDecl("run") + "() {}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
 	@Test
 	public void testForLoop() {
 		String code= "for (int i = 0; i < 10; i++) {}";
-		String expected= kw("for") + " (" + kw("int") + " " + localDecl("i") + " = " + num("0")
+		String expected= kw("for") + " (" + kw("int") + " " + localDecl("i") + " = " + num("0") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "; " + local("i") + " &lt; " + num("10") + "; " + local("i") + "++) {}";
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
@@ -214,28 +214,28 @@ public class JavaCodeTokenizerTest {
 	@Test
 	public void testEnhancedForLoop() {
 		String code= "for (String item : items) {}";
-		String expected= kw("for") + " (" + type("String") + " " + localDecl("item") + " : items) {}";
+		String expected= kw("for") + " (" + type("String") + " " + localDecl("item") + " : items) {}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
 	@Test
 	public void testTextBlock() {
 		String code= "String s = \"\"\"\n    hello\n    \"\"\";";
-		String expected= type("String") + " " + localDecl("s") + " = " + str("\"\"\"\n    hello\n    \"\"\"") + ";";
+		String expected= type("String") + " " + localDecl("s") + " = " + str("\"\"\"\n    hello\n    \"\"\"") + ";"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
 	@Test
 	public void testVarKeyword() {
 		String code= "var count = 0;";
-		String expected= kw("var") + " " + localDecl("count") + " = " + num("0") + ";";
+		String expected= kw("var") + " " + localDecl("count") + " = " + num("0") + ";"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
 	@Test
 	public void testChainedMethodCalls() {
 		String code= "list.stream().filter(x).collect();";
-		String expected= "list." + method("stream") + "()." + method("filter") + "(x)." + method("collect") + "();";
+		String expected= "list." + method("stream") + "()." + method("filter") + "(x)." + method("collect") + "();"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
@@ -244,14 +244,14 @@ public class JavaCodeTokenizerTest {
 		String code= "{\n    int x = 1;\n}\nx;";
 		String result= JavaCodeTokenizer.tokenize(code);
 		// After closing brace, x should no longer be colored as local var
-		String expected= "{\n    " + kw("int") + " " + localDecl("x") + " = " + num("1") + ";\n}\nx;";
+		String expected= "{\n    " + kw("int") + " " + localDecl("x") + " = " + num("1") + ";\n}\nx;"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, result);
 	}
 
 	@Test
 	public void testStaticMethodCall() {
 		String code= "String.valueOf(42);";
-		String expected= type("String") + "." + method("valueOf") + "(" + num("42") + ");";
+		String expected= type("String") + "." + method("valueOf") + "(" + num("42") + ");"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
@@ -277,21 +277,21 @@ public class JavaCodeTokenizerTest {
 	@Test
 	public void testInstanceField() {
 		String code= "class Foo {\n    String name;\n}";
-		String expected= kw("class") + " " + type("Foo") + " {\n    " + type("String") + " " + field("name") + ";\n}";
+		String expected= kw("class") + " " + type("Foo") + " {\n    " + type("String") + " " + field("name") + ";\n}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
 	@Test
 	public void testStaticField() {
 		String code= "class Foo {\n    static int count;\n}";
-		String expected= kw("class") + " " + type("Foo") + " {\n    " + kw("static") + " " + kw("int") + " " + staticField("count") + ";\n}";
+		String expected= kw("class") + " " + type("Foo") + " {\n    " + kw("static") + " " + kw("int") + " " + staticField("count") + ";\n}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
 	@Test
 	public void testStaticFinalField() {
 		String code= "class Foo {\n    static final int MAX = 100;\n}";
-		String expected= kw("class") + " " + type("Foo") + " {\n    " + kw("static") + " " + kw("final") + " " + kw("int") + " " + staticFinalField("MAX") + " = " + num("100") + ";\n}";
+		String expected= kw("class") + " " + type("Foo") + " {\n    " + kw("static") + " " + kw("final") + " " + kw("int") + " " + staticFinalField("MAX") + " = " + num("100") + ";\n}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
@@ -324,7 +324,7 @@ public class JavaCodeTokenizerTest {
 	@Test
 	public void testPrivateField() {
 		String code= "class Foo {\n    private String name;\n}";
-		String expected= kw("class") + " " + type("Foo") + " {\n    " + kw("private") + " " + type("String") + " " + field("name") + ";\n}";
+		String expected= kw("class") + " " + type("Foo") + " {\n    " + kw("private") + " " + type("String") + " " + field("name") + ";\n}"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, JavaCodeTokenizer.tokenize(code));
 	}
 
@@ -394,34 +394,34 @@ public class JavaCodeTokenizerTest {
 	public void testEnumConstantReferenceInMethod() {
 		String code= "enum Color {\n    RED, GREEN;\n    Color other() {\n        return RED;\n    }\n}";
 		String result= JavaCodeTokenizer.tokenize(code);
-		assertTrue(result.contains(staticFinalField("RED") + ",")); //$NON-NLS-1$
+		assertTrue(result.contains(staticFinalField("RED") + ",")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue(result.contains(staticFinalField("GREEN"))); //$NON-NLS-1$
-		assertTrue(result.contains(enumType("Color") + " " + methodDecl("other"))); //$NON-NLS-1$
-		assertTrue(result.contains(staticFinalField("RED") + ";")); //$NON-NLS-1$
+		assertTrue(result.contains(enumType("Color") + " " + methodDecl("other"))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue(result.contains(staticFinalField("RED") + ";")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
 	public void testEnumTypeQualifiedConstantAccess() {
 		String code= "enum Rgb {\n    RED, GREEN, BLUE;\n}\nRgb field = Rgb.RED;";
 		String result= JavaCodeTokenizer.tokenize(code);
-		assertTrue(result.contains(kw("enum") + " " + enumType("Rgb"))); //$NON-NLS-1$
-		assertTrue(result.contains(staticFinalField("RED") + ",")); //$NON-NLS-1$
-		assertTrue(result.contains(enumType("Rgb") + " " + localDecl("field"))); //$NON-NLS-1$
-		assertTrue(result.contains(enumType("Rgb") + "." + staticFinalField("RED") + ";")); //$NON-NLS-1$
+		assertTrue(result.contains(kw("enum") + " " + enumType("Rgb"))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue(result.contains(staticFinalField("RED") + ",")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue(result.contains(enumType("Rgb") + " " + localDecl("field"))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue(result.contains(enumType("Rgb") + "." + staticFinalField("RED") + ";")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
 	public void testEnumTypeInMethodParam() {
 		String code= "enum Status { OK, ERROR; }\nvoid handle(Status status) {}";
 		String result= JavaCodeTokenizer.tokenize(code);
-		assertTrue(result.contains(enumType("Status") + " " + param("status"))); //$NON-NLS-1$
+		assertTrue(result.contains(enumType("Status") + " " + param("status"))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
 	public void testEnumDotMethodNotConstant() {
 		String code= "enum Color { RED; }\nColor.valueOf(\"RED\");";
 		String result= JavaCodeTokenizer.tokenize(code);
-		assertTrue(result.contains(enumType("Color") + "." + method("valueOf"))); //$NON-NLS-1$
+		assertTrue(result.contains(enumType("Color") + "." + method("valueOf"))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
@@ -429,13 +429,13 @@ public class JavaCodeTokenizerTest {
 		String code= "class C {\n    int x;\n    void set(int x) {\n        this.x = x;\n    }\n}";
 		String result= JavaCodeTokenizer.tokenize(code);
 		// this.x should be colored as field, not param
-		assertTrue(result.contains(kw("this") + "." + field("x") + " =")); //$NON-NLS-1$
+		assertTrue(result.contains(kw("this") + "." + field("x") + " =")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		// unqualified x should be colored as param
-		assertTrue(result.contains("= " + param("x") + ";")); //$NON-NLS-1$
+		assertTrue(result.contains("= " + param("x") + ";")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		// param declaration
-		assertTrue(result.contains(kw("int") + " " + param("x") + ")")); //$NON-NLS-1$
+		assertTrue(result.contains(kw("int") + " " + param("x") + ")")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		// field declaration
-		assertTrue(result.contains(kw("int") + " " + field("x") + ";")); //$NON-NLS-1$
+		assertTrue(result.contains(kw("int") + " " + field("x") + ";")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
@@ -452,9 +452,9 @@ public class JavaCodeTokenizerTest {
 		String code= "class C {\n    int x;\n    abstract void f(int x);\n    int g() {\n        return x;\n    }\n}";
 		String result= JavaCodeTokenizer.tokenize(code);
 		// f's param x should not leak into g — x in g() should be field, not param
-		assertTrue(result.contains(kw("int") + " " + field("x") + ";")); //$NON-NLS-1$
-		assertTrue(result.contains(kw("int") + " " + param("x") + ")")); //$NON-NLS-1$
-		assertTrue(result.contains(kw("return") + " " + field("x") + ";")); //$NON-NLS-1$
+		assertTrue(result.contains(kw("int") + " " + field("x") + ";")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue(result.contains(kw("int") + " " + param("x") + ")")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue(result.contains(kw("return") + " " + field("x") + ";")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
@@ -492,10 +492,10 @@ public class JavaCodeTokenizerTest {
 				+ "}";
 		String result= JavaCodeTokenizer.tokenize(code);
 		// inner x must not erase outer x — x in f() should still be colored as field
-		assertTrue(result.contains(field("x") + "++")); //$NON-NLS-1$
+		assertTrue(result.contains(field("x") + "++")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultipleFieldsAndMethods() {
 		String code= "class Foo {\n"
 				+ "    private int count;\n"

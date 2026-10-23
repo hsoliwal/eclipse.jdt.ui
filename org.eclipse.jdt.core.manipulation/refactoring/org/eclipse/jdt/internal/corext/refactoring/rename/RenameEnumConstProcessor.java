@@ -100,7 +100,7 @@ public final class RenameEnumConstProcessor extends RenameFieldProcessor {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RenameJavaElementDescriptor createRefactoringDescriptor() {
 		final IField field= getField();
 		String project= null;
@@ -148,7 +148,7 @@ public final class RenameEnumConstProcessor extends RenameFieldProcessor {
 		return RefactoringCoreMessages.RenameEnumConstRefactoring_name;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);

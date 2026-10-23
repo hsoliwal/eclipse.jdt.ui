@@ -63,7 +63,7 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 		super(parent, new FileLabelProvider(), new FileContentProvider(), false);
 		setComparator(new FileViewerComparator());
 		if (!acceptAllArchives) {
-			addFilter(new JARZipFileFilter(acceptFolders));
+			addFilter(new JARZipFileFilter(acceptFolders)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		} else {
 			setInitialFilter(ArchiveFileFilter.JARZIP_FILTER_STRING);
 		}
@@ -99,7 +99,7 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 		}
 	}
 
-	private static class FileContentProvider implements ITreeContentProvider {
+	private static class FileContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private final Object[] EMPTY= new Object[0];
 
@@ -142,14 +142,14 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 
 	}
 
-	private static class JARZipFileFilter extends ViewerFilter {
+	private static class JARZipFileFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 		private final boolean fAcceptFolders;
 
 		public JARZipFileFilter(boolean acceptFolders) {
 			fAcceptFolders= acceptFolders;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean select(Viewer viewer, Object parent, Object element) {
 			if (element instanceof File) {
 				File file= (File) element;
@@ -160,7 +160,7 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 				} else {
 					File[] listFiles= file.listFiles();
 					if (listFiles != null) {
-						for (File f : listFiles) {
+						for (File f : listFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (select(viewer, file, f)) {
 								return true;
 							}
@@ -205,7 +205,7 @@ public class JARFileSelectionDialog extends FilteredElementTreeSelectionDialog {
 			if (nSelected == 0 || (nSelected > 1 && !fMultiSelect)) {
 				return new StatusInfo(IStatus.ERROR, "");  //$NON-NLS-1$
 			}
-			for (Object curr : selection) {
+			for (Object curr : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr instanceof File) {
 					File file= (File) curr;
 					if (!fAcceptFolders && !file.isFile()) {

@@ -40,7 +40,7 @@ public class TreeCopyAction extends Action {
 		public TreeObject(TreeItem element, boolean selected) {
 			fTreeItem= element;
 			fSelected= selected;
-			fChildren= new ArrayList<>();
+			fChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		public void setSelected() {
 			fSelected= true;
@@ -59,21 +59,21 @@ public class TreeCopyAction extends Action {
 		}
 		@Override
 		public String toString() {
-			StringBuilder buf= new StringBuilder();
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (fSelected)
-				buf.append("* "); //$NON-NLS-1$
-			buf.append(trim(fTreeItem.getText())).append(" ["); //$NON-NLS-1$
-			for (int i= 0; i < fChildren.size(); i++) {
+				buf.append("* "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(trim(fTreeItem.getText())).append(" ["); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i= 0; i < fChildren.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TreeObject child= fChildren.get(i);
-				buf.append(trim(child.getTreeItem().getText()));
+				buf.append(trim(child.getTreeItem().getText())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i > 0)
-					buf.append(", "); //$NON-NLS-1$
+					buf.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			return buf.append("]").toString(); //$NON-NLS-1$
+			return buf.append("]").toString(); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		private String trim(String string) {
 			if (string.length() > 60)
-				return string.substring(0, 60) + "..."; //$NON-NLS-1$
+				return string.substring(0, 60) + "..."; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
 				return string;
 		}
@@ -91,10 +91,10 @@ public class TreeCopyAction extends Action {
 		setActionDefinitionId(IWorkbenchCommandConstants.EDIT_COPY);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		Tree tree= null;
-		for (Tree fTree : fTrees) {
+		for (Tree fTree : fTrees) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fTree.isFocusControl()) {
 				tree= fTree;
 				break;
@@ -121,12 +121,12 @@ public class TreeCopyAction extends Action {
 		}
 	}
 
-	private void copyTree(TreeItem[] selection, Clipboard clipboard) {
-		HashMap<TreeItem, TreeObject> elementToTreeObj= new HashMap<>();
-		List<TreeObject> roots= new ArrayList<>();
+	private void copyTree(TreeItem[] selection, Clipboard clipboard) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashMap<TreeItem, TreeObject> elementToTreeObj= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		List<TreeObject> roots= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int indent= Integer.MIN_VALUE;
 
-		for (TreeItem item : selection) {
+		for (TreeItem item : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TreeObject treeObj= elementToTreeObj.get(item);
 			if (treeObj == null) {
 				treeObj= new TreeObject(item, true);
@@ -138,7 +138,7 @@ public class TreeCopyAction extends Action {
 			// walk up to roots:
 			int level= 0;
 			item= item.getParentItem();
-			while (item != null) {
+			while (item != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TreeObject parentTreeObj= elementToTreeObj.get(item);
 				if (parentTreeObj == null) {
 					parentTreeObj= new TreeObject(item, false);
@@ -166,10 +166,10 @@ public class TreeCopyAction extends Action {
 	}
 
 	private void appendSelectionObjects(StringBuffer buffer, int indent, List<TreeObject> selObjs) {
-		for (TreeObject selObj : selObjs) {
+		for (TreeObject selObj : selObjs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (selObj.isSelected()) {
 				buffer.append('\n');
-				for (int d= 0; d < indent; d++)
+				for (int d= 0; d < indent; d++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					buffer.append('\t');
 				buffer.append(selObj.getTreeItem().getText());
 			}

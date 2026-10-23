@@ -60,11 +60,11 @@ public class MakeStaticRefactoringTests extends GenericRefactoringTest {
 		return REFACTORING_PATH;
 	}
 
-	private RefactoringStatus performRefactoringAndMatchFiles(String[] qualifiedClassNames, int startLine, int startColumn, int endLine, int endColumn)
+	private RefactoringStatus performRefactoringAndMatchFiles(String[] qualifiedClassNames, int startLine, int startColumn, int endLine, int endColumn) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws Exception, JavaModelException, CoreException, IOException {
 
-		List<ICompilationUnit> compilationUnits= new ArrayList<>();
-		for (String qualifiedClassName : qualifiedClassNames) {
+		List<ICompilationUnit> compilationUnits= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String qualifiedClassName : qualifiedClassNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String packageName= qualifiedClassName.substring(0, qualifiedClassName.indexOf('.'));
 			String className= qualifiedClassName.substring(qualifiedClassName.indexOf('.') + 1);
 			IPackageFragment cPackage= getRoot().createPackageFragment(packageName, true, null);
@@ -83,7 +83,7 @@ public class MakeStaticRefactoringTests extends GenericRefactoringTest {
 			matchASTs(qualifiedClassNames, compilationUnits);
 		}
 
-		for (ICompilationUnit compilationUnit : compilationUnits) {
+		for (ICompilationUnit compilationUnit : compilationUnits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.delete(compilationUnit);
 		}
 
@@ -92,14 +92,14 @@ public class MakeStaticRefactoringTests extends GenericRefactoringTest {
 	}
 
 	private void matchFiles(String[] qualifiedClassNames, List<ICompilationUnit> compilationUnits) throws IOException, JavaModelException {
-		for (int fileIndex= 0; fileIndex < qualifiedClassNames.length; fileIndex++) {
+		for (int fileIndex= 0; fileIndex < qualifiedClassNames.length; fileIndex++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String className= qualifiedClassNames[fileIndex].substring(qualifiedClassNames[fileIndex].indexOf('.') + 1);
 			assertEqualLines("invalid output.", getFileContents(getOutputTestFileName(className)), compilationUnits.get(fileIndex).getSource()); //$NON-NLS-1$
 		}
 	}
 
-	private void matchASTs(String[] qualifiedClassNames, List<ICompilationUnit> compilationUnits) throws IOException {
-		for (int fileIndex= 0; fileIndex < qualifiedClassNames.length; fileIndex++) {
+	private void matchASTs(String[] qualifiedClassNames, List<ICompilationUnit> compilationUnits) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int fileIndex= 0; fileIndex < qualifiedClassNames.length; fileIndex++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			String className= qualifiedClassNames[fileIndex].substring(qualifiedClassNames[fileIndex].indexOf('.') + 1);
 			String content= getFileContents(getOutputTestFileName(className));
@@ -119,9 +119,9 @@ public class MakeStaticRefactoringTests extends GenericRefactoringTest {
 	}
 
 	public void assertHasNoCommonErrors(RefactoringStatus status) {
-		assertFalse("Failed but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.FATAL), status.hasFatalError());
-		assertFalse("Had errors but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.ERROR), status.hasError());
-		assertFalse("Had warnings but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.WARNING), status.hasWarning());
+		assertFalse("Failed but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.FATAL), status.hasFatalError()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertFalse("Had errors but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.ERROR), status.hasError()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertFalse("Had warnings but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.WARNING), status.hasWarning()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test

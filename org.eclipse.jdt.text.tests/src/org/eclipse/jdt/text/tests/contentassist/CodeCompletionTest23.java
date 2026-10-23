@@ -71,7 +71,7 @@ public class CodeCompletionTest23 extends AbstractCompletionTest {
 
 	private IJavaProject fJProject1;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fJProject1= j23s.getProject();
 
@@ -115,9 +115,9 @@ public class CodeCompletionTest23 extends AbstractCompletionTest {
 	}
 
 	public static void closeAllEditors() {
-		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
-			for (IWorkbenchPage page : window.getPages()) {
-				for (IEditorReference editorReference : page.getEditorReferences()) {
+		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IWorkbenchPage page : window.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IEditorReference editorReference : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					closeEditor(editorReference.getEditor(false));
 				}
 			}
@@ -130,7 +130,7 @@ public class CodeCompletionTest23 extends AbstractCompletionTest {
 		return new JavaContentAssistInvocationContext(viewer, offset, editor);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkdownLink_method() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -174,7 +174,7 @@ public class CodeCompletionTest23 extends AbstractCompletionTest {
 		assertEquals(expectedContents, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkdownLink_type() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -219,7 +219,7 @@ public class CodeCompletionTest23 extends AbstractCompletionTest {
 			""";
 		assertEquals(expectedContents, doc.get());
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkdown_Escaped() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 

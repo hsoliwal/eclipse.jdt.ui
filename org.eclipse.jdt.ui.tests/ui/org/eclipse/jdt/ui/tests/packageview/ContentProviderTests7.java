@@ -79,8 +79,8 @@ public class ContentProviderTests7 {
 	}
 
 	private void createEmptyClass(IPackageFragment fragment, String name, String packageName) throws JavaModelException {
-		String packDecl= packageName != null ? "package "+packageName+";\n" : "";
-		fragment.createCompilationUnit(name+".java", packDecl+"public class "+name+" {}\n", true, null);
+		String packDecl= packageName != null ? "package "+packageName+";\n" : ""; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fragment.createCompilationUnit(name+".java", packDecl+"public class "+name+" {}\n", true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IJavaElement getModuleInfo() {
@@ -209,7 +209,7 @@ public class ContentProviderTests7 {
 	private boolean compareArrays(Object[] children, Object[] expectedChildren) {
 		if(children.length!=expectedChildren.length)
 			return false;
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IJavaElement) {
 				IJavaElement el= (IJavaElement) child;
 				if(!contains(el, expectedChildren))
@@ -224,7 +224,7 @@ public class ContentProviderTests7 {
 		return true;
 	}
 	private boolean contains(IResource res, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource) {
 				IResource expres= (IResource) object;
 				if(expres.equals(res))
@@ -234,7 +234,7 @@ public class ContentProviderTests7 {
 		return false;
 	}
 	private boolean contains(IJavaElement fragment, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IJavaElement) {
 				IJavaElement expfrag= (IJavaElement) object;
 				if(expfrag.equals(fragment))

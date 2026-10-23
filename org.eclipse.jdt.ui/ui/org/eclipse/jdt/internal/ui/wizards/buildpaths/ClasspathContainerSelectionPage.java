@@ -74,15 +74,15 @@ public class ClasspathContainerSelectionPage extends WizardPage {
 		validatePage();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		fListViewer= new ListViewer(parent, SWT.SINGLE | SWT.BORDER);
-		fListViewer.setLabelProvider(new ClasspathContainerLabelProvider());
+		fListViewer.setLabelProvider(new ClasspathContainerLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fListViewer.setContentProvider(ArrayContentProvider.getInstance());
 		fListViewer.setComparator(new ViewerComparator());
-		fListViewer.setInput(Arrays.asList(fContainers));
-		fListViewer.addSelectionChangedListener(unused -> validatePage());
-		fListViewer.addDoubleClickListener(unused -> doDoubleClick());
+		fListViewer.setInput(Arrays.asList(fContainers)); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		fListViewer.addSelectionChangedListener(unused -> validatePage()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fListViewer.addDoubleClickListener(unused -> doDoubleClick()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 
 		int selectionIndex= fDialogSettings.getInt(DIALOGSTORE_CONTAINER_IDX);
 		if (selectionIndex >= fContainers.length) {

@@ -207,7 +207,7 @@ public class JavaElementImageProvider {
 	 * @param renderFlags the image flags
 	 * @return returns the image descriptor
 	 */
-	public ImageDescriptor getBaseImageDescriptor(IJavaElement element, int renderFlags) {
+	public ImageDescriptor getBaseImageDescriptor(IJavaElement element, int renderFlags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
 			switch (element.getElementType()) {
@@ -394,7 +394,7 @@ public class JavaElementImageProvider {
 
 	// ---- Methods to compute the adornments flags ---------------------------------
 
-	private int computeJavaAdornmentFlags(IJavaElement element, int renderFlags) {
+	private int computeJavaAdornmentFlags(IJavaElement element, int renderFlags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int flags= 0;
 		if (showOverlayIcons(renderFlags)) {
 			try {
@@ -531,7 +531,7 @@ public class JavaElementImageProvider {
 		return JavaPluginImages.DESC_FIELD_DEFAULT;
 	}
 
-	public static ImageDescriptor getTypeImageDescriptor(boolean isInner, boolean isInInterfaceOrAnnotation, int flags, boolean useLightIcons) {
+	public static ImageDescriptor getTypeImageDescriptor(boolean isInner, boolean isInInterfaceOrAnnotation, int flags, boolean useLightIcons) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Flags.isEnum(flags)) {
 			if (useLightIcons) {
 				return JavaPluginImages.DESC_OBJS_ENUM_ALT;

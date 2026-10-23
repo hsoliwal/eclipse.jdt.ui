@@ -132,7 +132,7 @@ public final class EnumSourceValidator {
 	 * @param testCaseElement the selected invocation
 	 * @return its source identity, or <code>null</code> if exclusion is unsupported
 	 */
-	public static ExclusionTarget findExclusionTarget(TestCaseElement testCaseElement) {
+	public static ExclusionTarget findExclusionTarget(TestCaseElement testCaseElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (testCaseElement == null || !testCaseElement.isDynamicTest()) {
 			return null;
 		}
@@ -165,7 +165,7 @@ public final class EnumSourceValidator {
 			return new ExclusionTarget(method, enumConstantName);
 		} catch (JavaModelException e) {
 			JUnitPlugin.log(new Status(IStatus.ERROR, JUnitPlugin.getPluginId(),
-					"Failed to resolve @EnumSource exclusion target for " + method.getElementName(), e)); //$NON-NLS-1$
+					"Failed to resolve @EnumSource exclusion target for " + method.getElementName(), e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null;
 		}
 	}
@@ -194,9 +194,9 @@ public final class EnumSourceValidator {
 	public static List<String> getExcludedNames(IMethod method) throws JavaModelException {
 		ParsedEnumSource parsed= parse(method);
 		if (parsed == null || !MODE_EXCLUDE.equals(parsed.mode())) {
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
-		return new ArrayList<>(parsed.names());
+		return new ArrayList<>(parsed.names()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -213,7 +213,7 @@ public final class EnumSourceValidator {
 		return excludeEnumValue(parse(method), enumConstantName);
 	}
 
-	private static boolean excludeEnumValue(ParsedEnumSource parsed, String enumConstantName) {
+	private static boolean excludeEnumValue(ParsedEnumSource parsed, String enumConstantName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parsed == null || !canExclude(parsed, enumConstantName)) {
 			return false;
 		}
@@ -224,7 +224,7 @@ public final class EnumSourceValidator {
 		AST ast= parsed.astRoot().getAST();
 		ASTRewrite rewrite= ASTRewrite.create(ast);
 		ImportRewrite importRewrite= CodeStyleConfiguration.createImportRewrite(parsed.astRoot(), true);
-		List<ASTNode> removedNodes= new ArrayList<>();
+		List<ASTNode> removedNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (parsed.annotation() instanceof NormalAnnotation) {
 			NormalAnnotation annotation= (NormalAnnotation) parsed.annotation();
@@ -292,7 +292,7 @@ public final class EnumSourceValidator {
 		return applyChanges(parsed, rewrite, importRewrite, removedNodes);
 	}
 
-	private static boolean removeValueFromInclusion(ParsedEnumSource parsed, String enumConstantName) {
+	private static boolean removeValueFromInclusion(ParsedEnumSource parsed, String enumConstantName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(parsed.annotation() instanceof NormalAnnotation)) {
 			return false;
 		}
@@ -306,8 +306,8 @@ public final class EnumSourceValidator {
 		ArrayInitializer names= (ArrayInitializer) namesPair.getValue();
 		ASTRewrite rewrite= ASTRewrite.create(parsed.astRoot().getAST());
 		ListRewrite namesRewrite= rewrite.getListRewrite(names, ArrayInitializer.EXPRESSIONS_PROPERTY);
-		List<ASTNode> removedNodes= new ArrayList<>();
-		for (Object value : names.expressions()) {
+		List<ASTNode> removedNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object value : names.expressions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression expression= (Expression) value;
 			if (enumConstantName.equals(expression.resolveConstantExpressionValue())) {
 				namesRewrite.remove(expression, null);
@@ -333,7 +333,7 @@ public final class EnumSourceValidator {
 		return removeValueFromExclusion(parse(method), enumConstantName);
 	}
 
-	private static boolean removeValueFromExclusion(ParsedEnumSource parsed, String enumConstantName) {
+	private static boolean removeValueFromExclusion(ParsedEnumSource parsed, String enumConstantName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parsed == null || !MODE_EXCLUDE.equals(parsed.mode())
 				|| !parsed.names().contains(enumConstantName)) {
 			return false;
@@ -355,7 +355,7 @@ public final class EnumSourceValidator {
 		ASTNode removedNode= null;
 		if (namesPair.getValue() instanceof ArrayInitializer) {
 			ArrayInitializer names= (ArrayInitializer) namesPair.getValue();
-			for (Object value : names.expressions()) {
+			for (Object value : names.expressions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression expression= (Expression) value;
 				if (enumConstantName.equals(expression.resolveConstantExpressionValue())) {
 					rewrite.getListRewrite(names, ArrayInitializer.EXPRESSIONS_PROPERTY).remove(expression, null);
@@ -371,7 +371,7 @@ public final class EnumSourceValidator {
 		if (removedNode == null) {
 			return false;
 		}
-		List<ASTNode> removedNodes= new ArrayList<>();
+		List<ASTNode> removedNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		removedNodes.add(removedNode);
 		return applyChanges(parsed, rewrite, removedNodes);
 	}
@@ -387,7 +387,7 @@ public final class EnumSourceValidator {
 		return removeExcludeMode(parse(method));
 	}
 
-	private static boolean removeExcludeMode(ParsedEnumSource parsed) {
+	private static boolean removeExcludeMode(ParsedEnumSource parsed) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parsed == null || !MODE_EXCLUDE.equals(parsed.mode())
 				|| !(parsed.annotation() instanceof NormalAnnotation)) {
 			return false;
@@ -397,7 +397,7 @@ public final class EnumSourceValidator {
 		ASTRewrite rewrite= ASTRewrite.create(parsed.astRoot().getAST());
 		ListRewrite valuesRewrite= rewrite.getListRewrite(annotation, NormalAnnotation.VALUES_PROPERTY);
 
-		List<ASTNode> removedNodes= new ArrayList<>();
+		List<ASTNode> removedNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		MemberValuePair modePair= findMemberValuePair(annotation, MEMBER_MODE);
 		if (modePair != null) {
 			valuesRewrite.remove(modePair, null);
@@ -415,7 +415,7 @@ public final class EnumSourceValidator {
 		return applyChanges(parsed, rewrite, removedNodes);
 	}
 
-	private static ParsedEnumSource parse(IMethod method) throws JavaModelException {
+	private static ParsedEnumSource parse(IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit compilationUnit= method.getCompilationUnit();
 		if (compilationUnit == null) {
 			return null;
@@ -458,7 +458,7 @@ public final class EnumSourceValidator {
 		String from= getStringMember(enumSourceBinding, MEMBER_FROM);
 		String to= getStringMember(enumSourceBinding, MEMBER_TO);
 		// Use set membership for filtering; retain the original names for source edits.
-		List<String> effectiveValues= computeEffectiveValues(enumConstants, from, to, mode, new HashSet<>(names));
+		List<String> effectiveValues= computeEffectiveValues(enumConstants, from, to, mode, new HashSet<>(names)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (effectiveValues == null) {
 			return null;
 		}
@@ -482,12 +482,12 @@ public final class EnumSourceValidator {
 		return result[0];
 	}
 
-	private static Annotation findSingleDirectEnumSource(MethodDeclaration methodDeclaration) {
+	private static Annotation findSingleDirectEnumSource(MethodDeclaration methodDeclaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean hasDirectParameterizedTest= false;
 		Annotation enumSource= null;
 		int argumentSourceCount= 0;
 
-		for (Object modifier : methodDeclaration.modifiers()) {
+		for (Object modifier : methodDeclaration.modifiers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(modifier instanceof Annotation)) {
 				continue;
 			}
@@ -509,7 +509,7 @@ public final class EnumSourceValidator {
 				argumentSourceCount += 2;
 			} else {
 				ArgumentsSourceStatus status=
-						hasArgumentsSourceMetaAnnotation(annotationType, new HashSet<>());
+						hasArgumentsSourceMetaAnnotation(annotationType, new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				if (status == ArgumentsSourceStatus.UNKNOWN) {
 					return null;
 				}
@@ -522,7 +522,7 @@ public final class EnumSourceValidator {
 		return hasDirectParameterizedTest && argumentSourceCount == 1 ? enumSource : null;
 	}
 
-	private static ArgumentsSourceStatus hasArgumentsSourceMetaAnnotation(ITypeBinding annotationType,
+	private static ArgumentsSourceStatus hasArgumentsSourceMetaAnnotation(ITypeBinding annotationType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Set<String> visited) {
 		if (annotationType == null) {
 			return ArgumentsSourceStatus.UNKNOWN;
@@ -544,7 +544,7 @@ public final class EnumSourceValidator {
 		}
 
 		boolean unknown= false;
-		for (IAnnotationBinding metaAnnotation : annotationType.getAnnotations()) {
+		for (IAnnotationBinding metaAnnotation : annotationType.getAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (metaAnnotation == null) {
 				unknown= true;
 				continue;
@@ -563,7 +563,7 @@ public final class EnumSourceValidator {
 
 	private static ITypeBinding getEnumType(IAnnotationBinding enumSourceBinding,
 			IMethodBinding methodBinding) {
-		for (IMemberValuePairBinding pair : enumSourceBinding.getDeclaredMemberValuePairs()) {
+		for (IMemberValuePairBinding pair : enumSourceBinding.getDeclaredMemberValuePairs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (MEMBER_VALUE.equals(pair.getName()) && pair.getValue() instanceof ITypeBinding) {
 				ITypeBinding type= (ITypeBinding) pair.getValue();
 				return type.isEnum() ? type.getTypeDeclaration() : null;
@@ -577,8 +577,8 @@ public final class EnumSourceValidator {
 		return parameterTypes[0].getTypeDeclaration();
 	}
 
-	private static List<String> getEnumConstants(ITypeBinding enumType) throws JavaModelException {
-		List<String> result= new ArrayList<>();
+	private static List<String> getEnumConstants(ITypeBinding enumType) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (enumType == null || !enumType.isEnum()) {
 			return result;
 		}
@@ -588,7 +588,7 @@ public final class EnumSourceValidator {
 			return result;
 		}
 
-		for (IField field : javaType.getFields()) {
+		for (IField field : javaType.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field.isEnumConstant()) {
 				result.add(field.getElementName());
 			}
@@ -597,7 +597,7 @@ public final class EnumSourceValidator {
 	}
 
 	private static String getMode(IAnnotationBinding binding) {
-		for (IMemberValuePairBinding pair : binding.getDeclaredMemberValuePairs()) {
+		for (IMemberValuePairBinding pair : binding.getDeclaredMemberValuePairs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (MEMBER_MODE.equals(pair.getName())) {
 				return pair.getValue() instanceof IVariableBinding value ? value.getName() : null;
 			}
@@ -605,15 +605,15 @@ public final class EnumSourceValidator {
 		return MODE_INCLUDE;
 	}
 
-	private static List<String> getNames(IAnnotationBinding binding) {
-		for (IMemberValuePairBinding pair : binding.getDeclaredMemberValuePairs()) {
+	private static List<String> getNames(IAnnotationBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IMemberValuePairBinding pair : binding.getDeclaredMemberValuePairs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!MEMBER_NAMES.equals(pair.getName())) {
 				continue;
 			}
-			List<String> result= new ArrayList<>();
+			List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			Object value= pair.getValue();
 			if (value instanceof Object[]) {
-				for (Object item : (Object[]) value) {
+				for (Object item : (Object[]) value) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!(item instanceof String)) {
 						return null;
 					}
@@ -627,11 +627,11 @@ public final class EnumSourceValidator {
 			}
 			return null;
 		}
-		return new ArrayList<>();
+		return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private static String getStringMember(IAnnotationBinding binding, String memberName) {
-		for (IMemberValuePairBinding pair : binding.getDeclaredMemberValuePairs()) {
+		for (IMemberValuePairBinding pair : binding.getDeclaredMemberValuePairs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (memberName.equals(pair.getName())) {
 				return pair.getValue() instanceof String ? (String) pair.getValue() : null;
 			}
@@ -639,7 +639,7 @@ public final class EnumSourceValidator {
 		return null;
 	}
 
-	private static List<String> computeEffectiveValues(List<String> enumConstants, String from,
+	private static List<String> computeEffectiveValues(List<String> enumConstants, String from, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String to, String mode, Set<String> names) {
 		int first= from == null || from.isEmpty() ? 0 : enumConstants.indexOf(from);
 		int last= to == null || to.isEmpty() ? enumConstants.size() - 1 : enumConstants.indexOf(to);
@@ -647,7 +647,7 @@ public final class EnumSourceValidator {
 			return null;
 		}
 
-		List<String> result= new ArrayList<>(enumConstants.subList(first, last + 1));
+		List<String> result= new ArrayList<>(enumConstants.subList(first, last + 1)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (MODE_EXCLUDE.equals(mode)) {
 			result.removeIf(names::contains);
 		} else if (MODE_INCLUDE.equals(mode)) {
@@ -660,16 +660,16 @@ public final class EnumSourceValidator {
 		return result;
 	}
 
-	private static int getInvocationIndex(TestCaseElement testCaseElement, int valueCount) {
+	private static int getInvocationIndex(TestCaseElement testCaseElement, int valueCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String uniqueId= testCaseElement.getUniqueId();
 		if (uniqueId == null) {
 			return -1;
 		}
 
-		Matcher matcher= INVOCATION_INDEX_PATTERN.matcher(uniqueId);
+		Matcher matcher= INVOCATION_INDEX_PATTERN.matcher(uniqueId); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		int oneBasedIndex= -1;
 		try {
-			while (matcher.find()) {
+			while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				oneBasedIndex= Integer.parseInt(matcher.group(1));
 			}
 		} catch (NumberFormatException e) {
@@ -680,7 +680,7 @@ public final class EnumSourceValidator {
 	}
 
 	private static MemberValuePair findMemberValuePair(NormalAnnotation annotation, String name) {
-		for (Object value : annotation.values()) {
+		for (Object value : annotation.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MemberValuePair pair= (MemberValuePair) value;
 			if (name.equals(pair.getName().getIdentifier())) {
 				return pair;
@@ -707,13 +707,13 @@ public final class EnumSourceValidator {
 				CodeStyleConfiguration.createImportRewrite(parsed.astRoot(), true), removedNodes);
 	}
 
-	private static boolean applyChanges(ParsedEnumSource parsed, ASTRewrite rewrite,
+	private static boolean applyChanges(ParsedEnumSource parsed, ASTRewrite rewrite, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ImportRewrite importRewrite, List<ASTNode> removedNodes) {
 		try {
 			if (!removedNodes.isEmpty()) {
 				ImportRemover importRemover=
 						new ImportRemover(parsed.compilationUnit().getJavaProject(), parsed.astRoot());
-				for (ASTNode removedNode : removedNodes) {
+				for (ASTNode removedNode : removedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					importRemover.registerRemovedNode(removedNode);
 				}
 				importRemover.applyRemoves(importRewrite);
@@ -733,7 +733,7 @@ public final class EnumSourceValidator {
 			}
 
 			CompilationUnitChange change= new CompilationUnitChange(
-					"@EnumSource: " + parsed.compilationUnit().getElementName(), parsed.compilationUnit()); //$NON-NLS-1$
+					"@EnumSource: " + parsed.compilationUnit().getElementName(), parsed.compilationUnit()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			try {
 				change.setEdit(combinedEdit);
 				change.setSaveMode(TextFileChange.KEEP_SAVE_STATE);
@@ -744,7 +744,7 @@ public final class EnumSourceValidator {
 				ResourcesPlugin.getWorkspace().run(operation, new NullProgressMonitor());
 				if (!operation.changeExecuted()) {
 					JUnitPlugin.log(new Status(IStatus.ERROR, JUnitPlugin.getPluginId(),
-							"Could not apply @EnumSource changes: " + operation.getValidationStatus())); //$NON-NLS-1$
+							"Could not apply @EnumSource changes: " + operation.getValidationStatus())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					return false;
 				}
 				return true;
@@ -753,7 +753,7 @@ public final class EnumSourceValidator {
 			}
 		} catch (Exception e) {
 			JUnitPlugin.log(new Status(IStatus.ERROR, JUnitPlugin.getPluginId(),
-					"Failed to apply @EnumSource changes to " + parsed.compilationUnit().getElementName(), e)); //$NON-NLS-1$
+					"Failed to apply @EnumSource changes to " + parsed.compilationUnit().getElementName(), e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return false;
 		}
 	}

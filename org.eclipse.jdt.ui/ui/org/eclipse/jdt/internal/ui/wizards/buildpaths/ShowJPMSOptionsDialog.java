@@ -100,7 +100,7 @@ public class ShowJPMSOptionsDialog extends Dialog {
 				NewWizardMessages.ShowJPMSOptionsDialog_close_button, false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite comp= (Composite) super.createDialogArea(parent);
 		Font font= parent.getFont();
@@ -139,7 +139,7 @@ public class ShowJPMSOptionsDialog extends Dialog {
 
 	private String getOptions() {
 		CPListElement jre= null;
-		for (CPListElement cpListElement : fClassPathList.getElements()) {
+		for (CPListElement cpListElement : fClassPathList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (LibrariesWorkbookPage.isJREContainer(cpListElement.getPath())) {
 				jre= cpListElement;
 				break;
@@ -153,28 +153,28 @@ public class ShowJPMSOptionsDialog extends Dialog {
 		}
 	}
 
-	private String getModuleCLIOptions(List<CPListElement> cpListElements, CPListElement systemLibrary) throws JavaModelException {
-		StringBuilder buf= new StringBuilder();
-		for (CPListElement cpElement : cpListElements) {
+	private String getModuleCLIOptions(List<CPListElement> cpListElements, CPListElement systemLibrary) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (CPListElement cpElement : cpListElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object attribute= cpElement.getAttribute(CPListElement.MODULE);
 			if (attribute instanceof ModuleEncapsulationDetail[]) {
 				ModuleEncapsulationDetail[] details= (ModuleEncapsulationDetail[]) attribute;
-				for (ModuleEncapsulationDetail detail : details) {
+				for (ModuleEncapsulationDetail detail : details) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String optName= detail.getAttributeName();
 					switch (optName) {
 						case IClasspathAttribute.ADD_EXPORTS:
 						case IClasspathAttribute.ADD_OPENS:
 						case IClasspathAttribute.ADD_READS:
-							buf.append(OPTION_START).append(optName).append(BLANK).append(detail.toString()).append(BLANK);
+							buf.append(OPTION_START).append(optName).append(BLANK).append(detail.toString()).append(BLANK); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							break;
 						case IClasspathAttribute.PATCH_MODULE:
-							buf.append(OPTION_START).append(optName).append(BLANK).append(((ModulePatch) detail).toAbsolutePathsString(cpElement.getJavaProject())).append(BLANK);
+							buf.append(OPTION_START).append(optName).append(BLANK).append(((ModulePatch) detail).toAbsolutePathsString(cpElement.getJavaProject())).append(BLANK); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							break;
 						case IClasspathAttribute.LIMIT_MODULES:
 							addLimitModules(buf, systemLibrary.getJavaProject(), detail.toString());
 							break;
 						default:
-							throw new JavaModelException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Unexpected option name "+optName)); //$NON-NLS-1$
+							throw new JavaModelException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Unexpected option name "+optName)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}
@@ -182,30 +182,30 @@ public class ShowJPMSOptionsDialog extends Dialog {
 		return buf.toString().trim();
 	}
 
-	private void addLimitModules(StringBuilder buf, IJavaProject prj, String value) throws JavaModelException {
+	private void addLimitModules(StringBuilder buf, IJavaProject prj, String value) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] modules= value.split(COMMA);
 		boolean isUnnamed= prj.getModuleDescription() == null;
 		if (isUnnamed) {
-			Set<String> selected= new HashSet<>(Arrays.asList(modules));
+			Set<String> selected= new HashSet<>(Arrays.asList(modules)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			// Need to distinguish between minimal form (selected) and transitive closure over requires ...
-			Set<String> limit= new HashSet<>(fDefaultSystemModules);
+			Set<String> limit= new HashSet<>(fDefaultSystemModules); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			// ... here we need to compute the closure, for intersection with the similarly closed set of defaultModules
 			Collection<String> closureOfSelected= fClosureFun.apply(selected);
 			if (limit.retainAll(closureOfSelected)) { // limit = selected ∩ default -- only add the option, if limit ⊂ default
 				if (limit.isEmpty()) {
 					throw new IllegalArgumentException("Cannot hide all modules, at least java.base is required"); //$NON-NLS-1$
 				}
-				buf.append(LIMIT_MODULES).append(joinedSortedList(fReduceFun.apply(limit))).append(BLANK); // ... but print in reduced form
+				buf.append(LIMIT_MODULES).append(joinedSortedList(fReduceFun.apply(limit))).append(BLANK); // ... but print in reduced form //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			// ... here all must be explicit:
 			closureOfSelected.removeAll(fDefaultSystemModules);
 			if (!closureOfSelected.isEmpty()) { // add = selected \ default
-				buf.append(ADD_MODULES).append(joinedSortedList(closureOfSelected)).append(BLANK);
+				buf.append(ADD_MODULES).append(joinedSortedList(closureOfSelected)).append(BLANK); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else {
 			Arrays.sort(modules);
-			buf.append(LIMIT_MODULES).append(String.join(COMMA, modules)).append(BLANK);
+			buf.append(LIMIT_MODULES).append(String.join(COMMA, modules)).append(BLANK); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 	}
 

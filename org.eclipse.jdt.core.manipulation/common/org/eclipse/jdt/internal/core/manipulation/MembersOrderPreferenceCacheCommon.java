@@ -162,12 +162,12 @@ public class MembersOrderPreferenceCacheCommon {
 		return offsets;
 	}
 
-	protected boolean fillCategoryOffsetsFromPreferenceString(String str, int[] offsets) {
+	protected boolean fillCategoryOffsetsFromPreferenceString(String str, int[] offsets) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringTokenizer tokenizer= new StringTokenizer(str, ","); //$NON-NLS-1$
 		int i= 0;
 		offsets[ENUM_CONSTANTS_INDEX]= i++; // enum constants always on top
 
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token= tokenizer.nextToken().trim();
 			if (null != token) switch (token) {
 			case "T": //$NON-NLS-1$
@@ -233,10 +233,10 @@ public class MembersOrderPreferenceCacheCommon {
 		return offsets;
 	}
 
-	protected boolean fillVisibilityOffsetsFromPreferenceString(String str, int[] offsets) {
+	protected boolean fillVisibilityOffsetsFromPreferenceString(String str, int[] offsets) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringTokenizer tokenizer= new StringTokenizer(str, ","); //$NON-NLS-1$
 		int i= 0;
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token= tokenizer.nextToken().trim();
 			if (null != token) switch (token) {
 			case "B": //$NON-NLS-1$

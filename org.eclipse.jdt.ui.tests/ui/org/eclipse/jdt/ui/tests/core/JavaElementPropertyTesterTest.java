@@ -64,7 +64,7 @@ public class JavaElementPropertyTesterTest {
 	private IPackageFragment fPack;
 	private ICompilationUnit fCU;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fOtherProject= JavaCore.create(createSimpleProject("SimpleProject", true));
 		fOtherClosedProject= JavaCore.create(createSimpleProject("SimpleProject", false));
@@ -113,7 +113,7 @@ public class JavaElementPropertyTesterTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void javaElementPropertyTester() {
 		JavaElementPropertyTester tester= new JavaElementPropertyTester();
 
@@ -126,25 +126,25 @@ public class JavaElementPropertyTesterTest {
 			{ fJProject1, fOtherProject, fOtherClosedProject, fJProject1.getJavaModel(), fJDK, fSourceFolder, fLocalArchive, fFolder, fPack, fCU };
 		boolean[] expectedResult= {false, false, false, false, true, true, true, false, true, true };
 
-		for (int i= 0; i < expectedResult.length; i++) {
+		for (int i= 0; i < expectedResult.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean actual= tester.test(allElements[i], JavaElementPropertyTester.IS_ON_CLASSPATH, new Object[0], null);
 			assertEquals(allElements[i].getElementName(), expectedResult[i], actual);
 		}
 
 		boolean[] expectedResult2= {false, false, false, false, false, true, false, false, true, true };
-		for (int i= 0; i < expectedResult2.length; i++) {
+		for (int i= 0; i < expectedResult2.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean actual= tester.test(allElements[i], JavaElementPropertyTester.IN_SOURCE_FOLDER, new Object[0], null);
 			assertEquals(allElements[i].getElementName(), expectedResult2[i], actual);
 		}
 
 		boolean[] expectedResult3= {false, false, false, false, true, false, true, false, false, false };
-		for (int i= 0; i < expectedResult3.length; i++) {
+		for (int i= 0; i < expectedResult3.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean actual= tester.test(allElements[i], JavaElementPropertyTester.IN_ARCHIVE, new Object[0], null);
 			assertEquals(allElements[i].getElementName(), expectedResult3[i], actual);
 		}
 
 		boolean[] expectedResult4= {false, false, false, false, true, false, false, false, false, false };
-		for (int i= 0; i < expectedResult4.length; i++) {
+		for (int i= 0; i < expectedResult4.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean actual= tester.test(allElements[i], JavaElementPropertyTester.IN_EXTERNAL_ARCHIVE, new Object[0], null);
 			assertEquals(allElements[i].getElementName(), expectedResult4[i], actual);
 		}

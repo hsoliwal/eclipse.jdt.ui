@@ -53,7 +53,7 @@ public class InlineConstantTests extends GenericRefactoringTest {
 
 	@Override
 	protected String getRefactoringPath() {
-		return REFACTORING_PATH + successPath();
+		return REFACTORING_PATH + successPath(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String successPath() {
@@ -71,7 +71,7 @@ public class InlineConstantTests extends GenericRefactoringTest {
 
 	private ICompilationUnit[] createCUs(String[] qualifiedNames) throws Exception {
 		ICompilationUnit[] cus= new ICompilationUnit[qualifiedNames.length];
-		for(int i= 0; i < qualifiedNames.length; i++) {
+		for(int i= 0; i < qualifiedNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isNotNull(qualifiedNames[i]);
 
 			cus[i]= createCUfromTestFile(getRoot().createPackageFragment(getQualifier(qualifiedNames[i]), true, null),
@@ -81,7 +81,7 @@ public class InlineConstantTests extends GenericRefactoringTest {
 	}
 
 	private int firstIndexOf(String one, String[] others) {
-		for(int i= 0; i < others.length; i++)
+		for(int i= 0; i < others.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(one == null && others[i] == null || one.equals(others[i]))
 				return i;
 		return -1;
@@ -94,7 +94,7 @@ public class InlineConstantTests extends GenericRefactoringTest {
 		Assert.isTrue(selectionCuIndex != -1, "parameter selectionCuQName must match some String in cuQNames.");
 		helper1(cuQNames, selectionCuIndex, startLine, startColumn, endLine, endColumn, replaceAll, removeDeclaration);
 	}
-	private void helper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean removeDeclaration) throws Exception{
+	private void helper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean removeDeclaration) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(0 <= selectionCuIndex && selectionCuIndex < cuQNames.length);
 
 		toSucceed= true;
@@ -119,9 +119,9 @@ public class InlineConstantTests extends GenericRefactoringTest {
 
 		performChange(ref, false);
 
-		for(int i= 0; i < cus.length; i++){
+		for(int i= 0; i < cus.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String outputTestFileName= getOutputTestFileName(getSimpleName(cuQNames[i]));
-			assertEqualLines("Incorrect inline in " + outputTestFileName, getFileContents(outputTestFileName), cus[i].getSource());
+			assertEqualLines("Incorrect inline in " + outputTestFileName, getFileContents(outputTestFileName), cus[i].getSource()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -135,7 +135,7 @@ public class InlineConstantTests extends GenericRefactoringTest {
 		failHelper1(cuQNames, selectionCuIndex, startLine, startColumn, endLine, endColumn, replaceAll, removeDeclaration, errorCode);
 	}
 
-	private void failHelper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean removeDeclaration, int errorCode) throws Exception{
+	private void failHelper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean removeDeclaration, int errorCode) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(0 <= selectionCuIndex && selectionCuIndex < cuQNames.length);
 
 		toSucceed= false;

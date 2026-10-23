@@ -62,7 +62,7 @@ public class CleanUpTest25 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleCleanUp1() throws Exception {
 		IPackageFragment defaultPkg= fSourceFolder.createPackageFragment("", false, null);
 		String moduleInfo= """
@@ -130,7 +130,7 @@ public class CleanUpTest25 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleCleanUp2() throws Exception {
 		IPackageFragment defaultPkg= fSourceFolder.createPackageFragment("", false, null);
 		String moduleInfo= """
@@ -196,7 +196,7 @@ public class CleanUpTest25 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleCleanUp3() throws Exception {
 		IPackageFragment defaultPkg= fSourceFolder.createPackageFragment("", false, null);
 		String moduleInfo= """
@@ -264,7 +264,7 @@ public class CleanUpTest25 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleCleanUp4() throws Exception {
 		IPackageFragmentRoot sourceFolder2= JavaProjectHelper.addSourceContainer(getProject2(), "src");
 		IPackageFragment pack2= sourceFolder2.createPackageFragment("test2", false, null);
@@ -355,7 +355,7 @@ public class CleanUpTest25 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleCleanUp5() throws Exception {
 		IPackageFragmentRoot sourceFolder2= JavaProjectHelper.addSourceContainer(getProject2(), "src");
 		IPackageFragment pack2= sourceFolder2.createPackageFragment("test2", false, null);
@@ -463,7 +463,7 @@ public class CleanUpTest25 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleCleanUp6() throws Exception {
 		IPackageFragment defaultPkg= fSourceFolder.createPackageFragment("", false, null);
 		String moduleInfo= """

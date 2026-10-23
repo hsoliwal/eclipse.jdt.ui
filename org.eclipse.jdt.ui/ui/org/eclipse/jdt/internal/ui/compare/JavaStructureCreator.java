@@ -147,13 +147,13 @@ public class JavaStructureCreator extends StructureCreator {
 		JavaNode fLeft= null;
 		JavaNode fRight= null;
 
-		ArrayList<IDiffElement> fChildren= new ArrayList<>();
+		ArrayList<IDiffElement> fChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		void add(IDiffElement diff) {
 			fChildren.add(diff);
 		}
 
-		void setDiff(ICompareInput diff) {
+		void setDiff(ICompareInput diff) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fIsOut)
 				return;
 
@@ -210,7 +210,7 @@ public class JavaStructureCreator extends StructureCreator {
 	 * @return a tree of JavaNodes for the given input.
 	 * In case of error null is returned.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStructureComparator getStructure(final Object input) {
 		String contents= null;
 		char[] buffer= null;
@@ -246,7 +246,7 @@ public class JavaStructureCreator extends StructureCreator {
 		return createStructureComparator(element, null, document, sharedDocumentAdapter, monitor);
 	}
 
-	private IStructureComparator createStructureComparator(final Object input, char[] buffer, IDocument doc, ISharedDocumentAdapter adapter, IProgressMonitor monitor) {
+	private IStructureComparator createStructureComparator(final Object input, char[] buffer, IDocument doc, ISharedDocumentAdapter adapter, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String contents;
 		Map<String, String> compilerOptions= null;
 
@@ -301,7 +301,7 @@ public class JavaStructureCreator extends StructureCreator {
 	 * @param ignoreWhiteSpace if <code>true</code> all Java white space (including comments) is removed from the contents.
 	 * @return contents for equality test
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getContents(Object node, boolean ignoreWhiteSpace) {
 
 		if (! (node instanceof IStreamContentAccessor))
@@ -322,7 +322,7 @@ public class JavaStructureCreator extends StructureCreator {
 			return content;
 
 		// replace whitespace by a single blank
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		char[] b= content.toCharArray();
 
 		// to avoid the trouble when dealing with Unicode
@@ -331,23 +331,23 @@ public class JavaStructureCreator extends StructureCreator {
 		scanner.setSource(b);
 		try {
 			int token;
-			while ((token= scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) {
+			while ((token= scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char[] currentTokenSource= scanner.getCurrentTokenSource();
 				switch (token) {
 					case ITerminalSymbols.TokenNameCOMMENT_LINE:
 					case ITerminalSymbols.TokenNameCOMMENT_BLOCK:
 					case ITerminalSymbols.TokenNameCOMMENT_JAVADOC:
-						StringBuilder tokenStr= new StringBuilder(currentTokenSource.length);
-						tokenStr.append(currentTokenSource);
+						StringBuilder tokenStr= new StringBuilder(currentTokenSource.length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+						tokenStr.append(currentTokenSource); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						StringTokenizer tokenizer= new StringTokenizer(tokenStr.toString());
-						while (tokenizer.hasMoreTokens()) {
-							buf.append(tokenizer.nextToken());
-							buf.append(' ');
+						while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							buf.append(tokenizer.nextToken()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 						break;
 					default:
-						buf.append(currentTokenSource);
-						buf.append(' ');
+						buf.append(currentTokenSource); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 				}
 			}
@@ -373,11 +373,11 @@ public class JavaStructureCreator extends StructureCreator {
 	 * @param differencer the differencer
 	 * @param root the diff container root
 	 */
-	public void rewriteTree(Differencer differencer, IDiffContainer root) {
+	public void rewriteTree(Differencer differencer, IDiffContainer root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		HashMap<String, RewriteInfo> map= new HashMap<>(10);
+		HashMap<String, RewriteInfo> map= new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (IDiffElement child : root.getChildren()) {
+		for (IDiffElement child : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DiffNode diff= (DiffNode) child;
 			JavaNode jn= (JavaNode) diff.getId();
 			if (jn == null)
@@ -431,7 +431,7 @@ public class JavaStructureCreator extends StructureCreator {
 		// now we have to rebuild the diff tree according to the combined
 		// changes
 		Iterator<String> it= map.keySet().iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= it.next();
 			RewriteInfo i= map.get(name);
 			if (i.matches()) { // we found a RewriteInfo that could be successfully combined
@@ -442,7 +442,7 @@ public class JavaStructureCreator extends StructureCreator {
 				if (d != null) {// there better should be a difference
 					d.setDontExpand(true);
 					Iterator<IDiffElement> it2= i.fChildren.iterator();
-					while (it2.hasNext()) {
+					while (it2.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IDiffElement rd= it2.next();
 						root.removeToRoot(rd);
 						d.add(rd);
@@ -473,14 +473,14 @@ public class JavaStructureCreator extends StructureCreator {
 		return IJavaPartitions.JAVA_PARTITIONING;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String[] getPath(Object element, Object input) {
 		if (element instanceof IJavaElement) {
 			IJavaElement je = (IJavaElement) element;
 			// build a path starting at the given Java element and walk
 			// up the parent chain until we reach a IWorkingCopy or ICompilationUnit
-			List<String> args= new ArrayList<>();
-			while (je != null) {
+			List<String> args= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			while (je != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// each path component has a name that uses the same
 				// conventions as a JavaNode name
 				String name= JavaCompareUtilities.getJavaElementID(je);
@@ -495,7 +495,7 @@ public class JavaStructureCreator extends StructureCreator {
 			// revert the path
 			int n= args.size();
 			String[] path= new String[n];
-			for (int i= 0; i < n; i++)
+			for (int i= 0; i < n; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				path[i]= args.get(n-1-i);
 
 			return path;

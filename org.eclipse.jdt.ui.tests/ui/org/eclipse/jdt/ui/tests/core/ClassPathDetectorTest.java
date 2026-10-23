@@ -89,7 +89,7 @@ public class ClassPathDetectorTest {
 		if (a.length != b.length) {
 			return false;
 		}
-		for (int i= 0; i < a.length; i++) {
+		for (int i= 0; i < a.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!a[i].equals(b[i])) {
 				return false;
 			}
@@ -98,7 +98,7 @@ public class ClassPathDetectorTest {
 	}
 
 	private IClasspathEntry findEntry(IClasspathEntry entry, IClasspathEntry[] entries) {
-		for (IClasspathEntry curr : entries) {
+		for (IClasspathEntry curr : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getPath().equals(entry.getPath()) && curr.getEntryKind() == entry.getEntryKind()) {
 				if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					if (hasSamePaths(curr.getExclusionPatterns(), entry.getExclusionPatterns())) {
@@ -117,8 +117,8 @@ public class ClassPathDetectorTest {
 	private void assertSameClasspath(IClasspathEntry[] projectEntries, IClasspathEntry[] entries) throws Exception {
 		assertEquals("Number of classpath entries", projectEntries.length, entries.length);
 
-		for (IClasspathEntry curr : projectEntries) {
-			assertNotNull("entry not found: " + curr.getPath(), findEntry(curr, entries));
+		for (IClasspathEntry curr : projectEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertNotNull("entry not found: " + curr.getPath(), findEntry(curr, entries)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -133,7 +133,7 @@ public class ClassPathDetectorTest {
 
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void sourceAndLibrary() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 
@@ -151,7 +151,7 @@ public class ClassPathDetectorTest {
 
 		JavaProjectHelper.addLibraryWithImport(fJProject1, Path.fromOSString(mylibJar.getPath()), null, null);
 
-		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) {
+		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.addToClasspath(fJProject1, jreEntry);
 		}
 		fJProject1.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
@@ -172,7 +172,7 @@ public class ClassPathDetectorTest {
 		assertTrue("Output folder", outputLocation.equals(projectOutput));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void twoSourceFolders() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		// 2 source folders
@@ -195,7 +195,7 @@ public class ClassPathDetectorTest {
 			""";
 		pack1.createCompilationUnit("E.java", str, false, null);
 
-		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) {
+		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.addToClasspath(fJProject1, jreEntry);
 		}
 		fJProject1.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
@@ -216,7 +216,7 @@ public class ClassPathDetectorTest {
 		assertTrue("Output folder", outputLocation.equals(projectOutput));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void nestedSources() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		// 2 nested source folders
@@ -240,7 +240,7 @@ public class ClassPathDetectorTest {
 			""";
 		pack1.createCompilationUnit("E.java", str, false, null);
 
-		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) {
+		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.addToClasspath(fJProject1, jreEntry);
 		}
 		fJProject1.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
@@ -261,7 +261,7 @@ public class ClassPathDetectorTest {
 		assertTrue("Output folder", outputLocation.equals(projectOutput));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void sourceAndOutputOnProject() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "");
 
@@ -272,7 +272,7 @@ public class ClassPathDetectorTest {
 		assertTrue("junit src not found", junitSrcArchive.exists());
 		JavaProjectHelper.addSourceContainerWithImport(fJProject1, "", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
-		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) {
+		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.addToClasspath(fJProject1, jreEntry);
 		}
 		fJProject1.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
@@ -293,7 +293,7 @@ public class ClassPathDetectorTest {
 		assertTrue("Output folder", outputLocation.equals(projectOutput));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void classFolder() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		// class folder:
@@ -316,7 +316,7 @@ public class ClassPathDetectorTest {
 
 		IPackageFragmentRoot cfroot= JavaProjectHelper.addClassFolderWithImport(fJProject1, "cf", null, null, lib);
 
-		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) {
+		for (IClasspathEntry jreEntry : PreferenceConstants.getDefaultJRELibrary()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.addToClasspath(fJProject1, jreEntry);
 		}
 		fJProject1.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);

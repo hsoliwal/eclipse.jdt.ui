@@ -43,7 +43,7 @@ public class MultiVariableGuess {
 	/**
 	 * Implementation of the <code>ICompletionProposal</code> interface and extension.
 	 */
-	private static class Proposal implements ICompletionProposal, ICompletionProposalExtension2 {
+	private static class Proposal implements ICompletionProposal, ICompletionProposalExtension2 { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		/** The string to be displayed in the completion proposal popup */
 		private String fDisplayString;
@@ -195,14 +195,14 @@ public class MultiVariableGuess {
 		}
 	}
 
-	private final Map<MultiVariable, Set<MultiVariable>> fDependencies= new HashMap<>();
-	private final Map<MultiVariable, MultiVariable> fBackwardDeps= new HashMap<>();
-	private final Map<MultiVariable, VariablePosition> fPositions= new HashMap<>();
+	private final Map<MultiVariable, Set<MultiVariable>> fDependencies= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<MultiVariable, MultiVariable> fBackwardDeps= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<MultiVariable, VariablePosition> fPositions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public MultiVariableGuess() {
 	}
 
-	public ICompletionProposal[] getProposals(final MultiVariable variable, int offset, int length) {
+	public ICompletionProposal[] getProposals(final MultiVariable variable, int offset, int length) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MultiVariable master= fBackwardDeps.get(variable);
 		Object[] choices;
 		if (master == null)
@@ -215,9 +215,9 @@ public class MultiVariableGuess {
 
 		if (fDependencies.containsKey(variable)) {
 			ICompletionProposal[] ret= new ICompletionProposal[choices.length];
-			for (int i= 0; i < ret.length; i++) {
+			for (int i= 0; i < ret.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Object choice= choices[i];
-				ret[i]= new Proposal(variable.toString(choice), offset, length, offset + length) {
+				ret[i]= new Proposal(variable.toString(choice), offset, length, offset + length) { //FLLDCIM: MARK — T30  ANONYMOUS
 					@Override
 					public void apply(IDocument document) {
 						super.apply(document);
@@ -235,17 +235,17 @@ public class MultiVariableGuess {
 				return null;
 
 			ICompletionProposal[] ret= new ICompletionProposal[choices.length];
-			for (int i= 0; i < ret.length; i++)
+			for (int i= 0; i < ret.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ret[i]= new Proposal(variable.toString(choices[i]), offset, length, offset + length);
 
 			return ret;
 		}
 	}
 
-	private void updateSlaves(MultiVariable variable, IDocument document, Object oldChoice) {
+	private void updateSlaves(MultiVariable variable, IDocument document, Object oldChoice) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object choice= variable.getCurrentChoice();
 		if (!oldChoice.equals(choice)) {
-			for (MultiVariable slave : fDependencies.get(variable)) {
+			for (MultiVariable slave : fDependencies.get(variable)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariablePosition pos= fPositions.get(slave);
 
 				Object slavesOldChoice= slave.getCurrentChoice();
@@ -269,12 +269,12 @@ public class MultiVariableGuess {
 	/**
 	 * @since 3.3
 	 */
-	public void addDependency(MultiVariable master, MultiVariable slave) {
+	public void addDependency(MultiVariable master, MultiVariable slave) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// check for cycles and multi-slaves
 		if (fBackwardDeps.containsKey(slave))
 			throw new IllegalArgumentException("slave can only serve one master"); //$NON-NLS-1$
 		Object parent= master;
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= fBackwardDeps.get(parent);
 			if (parent == slave)
 				throw new IllegalArgumentException("cycle detected"); //$NON-NLS-1$
@@ -282,7 +282,7 @@ public class MultiVariableGuess {
 
 		Set<MultiVariable> slaves= fDependencies.get(master);
 		if (slaves == null) {
-			slaves= new HashSet<>();
+			slaves= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			fDependencies.put(master, slaves);
 		}
 		fBackwardDeps.put(slave, master);

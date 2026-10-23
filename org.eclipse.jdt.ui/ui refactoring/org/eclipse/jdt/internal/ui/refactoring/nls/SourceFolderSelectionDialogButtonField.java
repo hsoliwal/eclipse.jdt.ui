@@ -78,7 +78,7 @@ class SourceFolderSelectionDialogButtonField extends StringButtonDialogField imp
 	 * tries to build a packagefragmentroot out of a string and sets the string into this
 	 * packagefragmentroot.
 	 */
-	private IPackageFragmentRoot getRootFromString(String rootString) {
+	private IPackageFragmentRoot getRootFromString(String rootString) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (rootString.length() == 0) {
 			return null;
 		}

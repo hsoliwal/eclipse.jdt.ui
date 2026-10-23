@@ -30,7 +30,7 @@ public abstract class JavaElementChildrenProperty extends JEAttribute {
 		return fParent;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -81,7 +81,7 @@ public abstract class JavaElementChildrenProperty extends JEAttribute {
 		} else {
 			count= String.valueOf(children.length);
 		}
-		return fName + " (" + count + ")";
+		return fName + " (" + count + ")"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

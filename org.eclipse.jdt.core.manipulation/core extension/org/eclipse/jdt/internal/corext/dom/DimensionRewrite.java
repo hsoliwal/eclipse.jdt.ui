@@ -44,7 +44,7 @@ public class DimensionRewrite {
 	 * @param rewrite the ASTRewrite with which to create new nodes
 	 * @return the copy target with added dimensions
 	 */
-	public static Type copyTypeAndAddDimensions(Type type, List<Dimension> extraDimensions, ASTRewrite rewrite) {
+	public static Type copyTypeAndAddDimensions(Type type, List<Dimension> extraDimensions, ASTRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 		if (extraDimensions.isEmpty()) {
 			return (Type) rewrite.createCopyTarget(type);
@@ -74,8 +74,8 @@ public class DimensionRewrite {
 	 * @return list of copy targets
 	 */
 	public static List<Dimension> copyDimensions(List<Dimension> dimensions, ASTRewrite rewrite) {
-		ArrayList<Dimension> result= new ArrayList<>();
-		for (Dimension dimension : dimensions) {
+		ArrayList<Dimension> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Dimension dimension : dimensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add((Dimension) rewrite.createCopyTarget(dimension));
 		}
 		return result;
@@ -93,7 +93,7 @@ public class DimensionRewrite {
 		ListRewrite listRewrite= rewrite.getListRewrite(node, childListProperty);
 		@SuppressWarnings("unchecked")
 		List<? extends ASTNode> children= (List<? extends ASTNode>) node.getStructuralProperty(childListProperty);
-		for (ASTNode child : children) {
+		for (ASTNode child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listRewrite.remove(child, editGroup);
 		}
 	}

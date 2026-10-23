@@ -110,7 +110,7 @@ public class NewVariableEntryDialog extends StatusDialog {
 
 	private CLabel fWarning;
 
-	public NewVariableEntryDialog(Shell parent) {
+	public NewVariableEntryDialog(Shell parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 		setTitle(NewWizardMessages.NewVariableEntryDialog_title);
 
@@ -165,8 +165,8 @@ public class NewVariableEntryDialog extends StatusDialog {
 
 	private void initializeElements() {
 		String[] entries= JavaCore.getClasspathVariableNames();
-		ArrayList<CPVariableElement> elements= new ArrayList<>(entries.length);
-		for (String name : entries) {
+		ArrayList<CPVariableElement> elements= new ArrayList<>(entries.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String name : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath entryPath= JavaCore.getClasspathVariable(name);
 			if (entryPath != null) {
 				elements.add(new CPVariableElement(name, entryPath));
@@ -188,7 +188,7 @@ public class NewVariableEntryDialog extends StatusDialog {
 		return JavaPlugin.getDefault().getDialogSettingsSection(getClass().getName());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -237,7 +237,7 @@ public class NewVariableEntryDialog extends StatusDialog {
 		}
 	}
 
-	private void doSelectionChanged() {
+	private void doSelectionChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isValidSelection= true;
 		boolean canExtend= false;
 		StatusInfo status= new StatusInfo();
@@ -247,7 +247,7 @@ public class NewVariableEntryDialog extends StatusDialog {
 
 		if (nSelected > 0) {
 			fResultPaths= new Path[nSelected];
-			for (int i= 0; i < nSelected; i++) {
+			for (int i= 0; i < nSelected; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPVariableElement curr= selected.get(i);
 				fResultPaths[i]= new Path(curr.getName());
 				File file= curr.getPath().toFile();
@@ -284,7 +284,7 @@ public class NewVariableEntryDialog extends StatusDialog {
 		if (fWarning == null || fWarning.isDisposed())
 			return;
 
-		for (CPVariableElement element : fVariablesList.getSelectedElements()) {
+		for (CPVariableElement element : fVariablesList.getSelectedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String deprecationMessage= element.getDeprecationMessage();
 			if (deprecationMessage != null) {
 				fWarning.setText(deprecationMessage);
@@ -296,7 +296,7 @@ public class NewVariableEntryDialog extends StatusDialog {
 		fWarning.setImage(null);
 	}
 
-	private IPath[] chooseExtensions(CPVariableElement elem) {
+	private IPath[] chooseExtensions(CPVariableElement elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		File file= elem.getPath().toFile();
 
 		JARFileSelectionDialog dialog= new JARFileSelectionDialog(getShell(), true, true, true);
@@ -306,10 +306,10 @@ public class NewVariableEntryDialog extends StatusDialog {
 		if (dialog.open() == Window.OK) {
 			Object[] selected= dialog.getResult();
 			IPath[] paths= new IPath[selected.length];
-			for (int i= 0; i < selected.length; i++) {
+			for (int i= 0; i < selected.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPath filePath= Path.fromOSString(((File) selected[i]).getPath());
 				IPath resPath=  new Path(elem.getName());
-				for (int k= elem.getPath().segmentCount(); k < filePath.segmentCount(); k++) {
+				for (int k= elem.getPath().segmentCount(); k < filePath.segmentCount(); k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					resPath= resPath.append(filePath.segment(k));
 				}
 				paths[i]= resPath;
@@ -330,9 +330,9 @@ public class NewVariableEntryDialog extends StatusDialog {
 		}
 	}
 
-	protected final void configButtonPressed() {
+	protected final void configButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id= ClasspathVariablesPreferencePage.ID;
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		List<CPVariableElement> selected= fVariablesList.getSelectedElements();
 		if (!selected.isEmpty()) {
 			String varName= selected.get(0).getName();

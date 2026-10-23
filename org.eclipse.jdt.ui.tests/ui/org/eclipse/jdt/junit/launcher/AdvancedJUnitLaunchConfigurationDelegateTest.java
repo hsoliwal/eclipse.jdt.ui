@@ -56,7 +56,7 @@ public class AdvancedJUnitLaunchConfigurationDelegateTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runTestsInSourceFolderHandlesMultipleSourceFoldersCorrectly() throws Exception {
 		String projectName= "JUnitLaunchConfigurationDelegate-TestProject-MultipleSourceFolders";
 		fJavaProject= JavaProjectHelper.createJavaProject(projectName, "bin");
@@ -87,7 +87,7 @@ public class AdvancedJUnitLaunchConfigurationDelegateTest {
 		assertThat(fileLines).contains(lineForFirstTest).size().isEqualTo(1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runTestsInSourceFolderHandlesMultiplePackagesInASourceFolderCorrectly() throws Exception {
 		String projectName= "JUnitLaunchConfigurationDelegate-TestProject-MultiplePackagesInOneFolder";
 		fJavaProject= JavaProjectHelper.createJavaProject(projectName, "bin");
@@ -118,7 +118,7 @@ public class AdvancedJUnitLaunchConfigurationDelegateTest {
 		assertThat(fileLines).contains(lineForFirstTest, lineForSecondTest).size().isEqualTo(2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runTestsInSourceFolderHandlesMultipleSourceFilesInPackagesInASourceFolderCorrectly() throws Exception {
 		String projectName= "JUnitLaunchConfigurationDelegate-TestProject-MultipleSourceFilesInOnePackage";
 		fJavaProject= JavaProjectHelper.createJavaProject(projectName, "bin");
@@ -147,7 +147,7 @@ public class AdvancedJUnitLaunchConfigurationDelegateTest {
 		assertThat(fileLines).contains(lineForFirstTest, lineForSecondTest).size().isEqualTo(2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runTestsInSourceFolderOnlyUsesTopLevelClasses() throws Exception {
 		String projectName= "JUnitLaunchConfigurationDelegate-TestProject-OnlyTopLevelClasses";
 		fJavaProject= JavaProjectHelper.createJavaProject(projectName, "bin");
@@ -175,7 +175,7 @@ public class AdvancedJUnitLaunchConfigurationDelegateTest {
 		assertThat(fileLines).contains(lineForFirstTest).size().isEqualTo(1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runTestsInSourceFolderPackagesWithCommonPrefix() throws Exception {
 		String projectName= "JUnitLaunchConfigurationDelegate-TestProject-PackagesCommonPrefix";
 		fJavaProject= JavaProjectHelper.createJavaProject(projectName, "bin");
@@ -227,7 +227,7 @@ public class AdvancedJUnitLaunchConfigurationDelegateTest {
 		return showCommandLineAndExtractContentOfFileArgument(projectName, javaProject, testPackage, "-packageNameFile");
 	}
 
-	private List<String> showCommandLineAndExtractContentOfFileArgument(String projectName, IJavaProject javaProject, IJavaElement testElement, String searchString)
+	private List<String> showCommandLineAndExtractContentOfFileArgument(String projectName, IJavaProject javaProject, IJavaElement testElement, String searchString) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws CoreException, JavaModelException, IOException {
 		JavaProjectHelper.addRTJar18(javaProject);
 		IClasspathEntry cpe= JavaCore.newContainerEntry(JUnitCore.JUNIT5_CONTAINER_PATH);

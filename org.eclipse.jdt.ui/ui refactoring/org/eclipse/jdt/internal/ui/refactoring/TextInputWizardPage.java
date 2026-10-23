@@ -134,7 +134,7 @@ public abstract class TextInputWizardPage extends UserInputWizardPage{
 
 	protected Text createTextInputField(Composite parent, int style) {
 		fTextField= new Text(parent, style);
-		fTextField.addModifyListener(unused -> textModified(getText()));
+		fTextField.addModifyListener(unused -> textModified(getText())); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		fTextField.setText(fInitialValue);
 		TextFieldNavigationHandler.install(fTextField);
 		return fTextField;
@@ -144,7 +144,7 @@ public abstract class TextInputWizardPage extends UserInputWizardPage{
 	 * Checks the page's state and issues a corresponding error message. The page validation
 	 * is computed by calling <code>validatePage</code>.
 	 */
-	protected void textModified(String text) {
+	protected void textModified(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (! isEmptyInputValid() && "".equals(text)){ //$NON-NLS-1$
 			setPageComplete(false);
 			setErrorMessage(null);

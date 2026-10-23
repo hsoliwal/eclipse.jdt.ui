@@ -60,7 +60,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 			TypeLocation.EXCEPTION, TypeLocation.NEW,
 			TypeLocation.INSTANCEOF, TypeLocation.RECEIVER);
 
-	public static /* @Nullable */ RedundantNullnessTypeAnnotationsFilter createIfConfigured(/* @Nullable */ ASTNode node) {
+	public static /* @Nullable */ RedundantNullnessTypeAnnotationsFilter createIfConfigured(/* @Nullable */ ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node == null) {
 			return null;
 		}
@@ -85,7 +85,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 		return null;
 	}
 
-	public static /* Nullable */ Set<String> determineNonNullByDefaultNames(IJavaProject javaProject) {
+	public static /* Nullable */ Set<String> determineNonNullByDefaultNames(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String nonNullByDefaultName= javaProject.getOption(JavaCore.COMPILER_NONNULL_BY_DEFAULT_ANNOTATION_NAME, true);
 		if (nonNullByDefaultName == null) {
 			return null;
@@ -94,7 +94,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 		nonNullByDefaultNames.add(nonNullByDefaultName);
 		String secondaryNNBDNames= javaProject.getOption(JavaCore.COMPILER_NONNULL_BY_DEFAULT_ANNOTATION_SECONDARY_NAMES, true);
 		if (secondaryNNBDNames != null) {
-			for (String string : secondaryNNBDNames.split(",")) { //$NON-NLS-1$
+			for (String string : secondaryNNBDNames.split(",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				string= string.trim();
 				if (string.length() > 0) {
 					nonNullByDefaultNames.add(string);
@@ -106,7 +106,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 
 	public static EnumSet<TypeLocation> determineNonNullByDefaultLocations(ASTNode astNode, Set<String> nonNullByDefaultNames) {
 		// look for first @NonNullByDefault
-		while (astNode != null) {
+		while (astNode != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<IAnnotationBinding> annots= getNNBDAnnotations(astNode, nonNullByDefaultNames);
 			if (annots != null) {
 				return determineNNBDValue(annots);
@@ -116,26 +116,26 @@ public class RedundantNullnessTypeAnnotationsFilter {
 		return EnumSet.noneOf(TypeLocation.class);
 	}
 
-	private static EnumSet<TypeLocation> determineNNBDValue(List<IAnnotationBinding> annots) {
+	private static EnumSet<TypeLocation> determineNNBDValue(List<IAnnotationBinding> annots) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		EnumSet<TypeLocation> result= EnumSet.noneOf(TypeLocation.class);
-		for (IAnnotationBinding annot : annots) {
+		for (IAnnotationBinding annot : annots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemberValuePairBinding[] pairs= annot.getAllMemberValuePairs();
 			if (pairs.length == 0) {
 				ITypeBinding annotationType= annot.getAnnotationType();
 				boolean foundTypeQualifierDefault= false;
 				if (annotationType != null) {
 					IAnnotationBinding[] annotationAnnotations= annotationType.getAnnotations();
-					for (IAnnotationBinding nestedBinding : annotationAnnotations) {
+					for (IAnnotationBinding nestedBinding : annotationAnnotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ITypeBinding nestedAnnotationType= nestedBinding.getAnnotationType();
 						if (nestedAnnotationType != null) {
 							if ("TypeQualifierDefault".equals(nestedAnnotationType.getName())) { //$NON-NLS-1$
 								foundTypeQualifierDefault= true;
-								for (final IMemberValuePairBinding pair : nestedBinding.getAllMemberValuePairs()) {
+								for (final IMemberValuePairBinding pair : nestedBinding.getAllMemberValuePairs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (pair.getKey() == null || "value".equals(pair.getKey())) { //$NON-NLS-1$
 										Object value= pair.getValue();
 										if (value instanceof Object[]) {
 											Object[] values= (Object[]) value;
-											for (Object elem : values) {
+											for (Object elem : values) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 												addElementTypesAsTypeLocationValues(result, elem);
 											}
 										} else {
@@ -153,12 +153,12 @@ public class RedundantNullnessTypeAnnotationsFilter {
 					addAsTypeLocationValues(result, Boolean.TRUE);
 				}
 			} else {
-				for (final IMemberValuePairBinding pair : pairs) {
+				for (final IMemberValuePairBinding pair : pairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (pair.getKey() == null || "value".equals(pair.getKey())) { //$NON-NLS-1$
 						Object value= pair.getValue();
 						if (value instanceof Object[]) {
 							Object[] values= (Object[]) value;
-							for (Object elem : values) {
+							for (Object elem : values) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								addAsTypeLocationValues(result, elem);
 							}
 						} else {
@@ -200,7 +200,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 	}
 
 	// based on org.eclipse.jdt.apt.core.internal.declaration.ASTBasedDeclarationImpl.getAnnotationInstancesFromAST()
-	private static /* @Nullable */ List<IAnnotationBinding> getNNBDAnnotations(ASTNode astNode, Set<String> nonNullByDefaultNames) {
+	private static /* @Nullable */ List<IAnnotationBinding> getNNBDAnnotations(ASTNode astNode, Set<String> nonNullByDefaultNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<IExtendedModifier> extendsMods= null;
 		ArrayList<IAnnotationBinding> list= null;
 		switch (astNode.getNodeType()) {
@@ -210,12 +210,12 @@ public class RedundantNullnessTypeAnnotationsFilter {
 				if (packageDeclaration != null) {
 					IPackageBinding packageBinding= packageDeclaration.resolveBinding();
 					if (packageBinding != null) {
-						for (IAnnotationBinding annotationBinding : packageBinding.getAnnotations()) {
+						for (IAnnotationBinding annotationBinding : packageBinding.getAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ITypeBinding annotationType= annotationBinding.getAnnotationType();
 							if (annotationType != null) {
 								if (nonNullByDefaultNames.contains(annotationType.getQualifiedName())) {
 									if (list == null)
-										list= new ArrayList<>();
+										list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 									list.add(annotationBinding);
 								}
 							}
@@ -224,11 +224,11 @@ public class RedundantNullnessTypeAnnotationsFilter {
 							return list;
 						IModuleBinding module= packageBinding.getModule();
 						if (module != null) {
-							for (IAnnotationBinding annotationBinding : module.getAnnotations()) {
+							for (IAnnotationBinding annotationBinding : module.getAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								ITypeBinding annotationType= annotationBinding.getAnnotationType();
 								if (annotationType != null && nonNullByDefaultNames.contains(annotationType.getQualifiedName())) {
 									if (list == null)
-										list= new ArrayList<>();
+										list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 									list.add(annotationBinding);
 								}
 							}
@@ -270,7 +270,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 				return null;
 		}
 		if (extendsMods != null) {
-			for (IExtendedModifier extMod : extendsMods) {
+			for (IExtendedModifier extMod : extendsMods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (extMod.isAnnotation()) {
 					Annotation annotation= (Annotation) extMod;
 					IAnnotationBinding annotationBinding= annotation.resolveAnnotationBinding();
@@ -278,7 +278,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 						ITypeBinding annotationType= annotationBinding.getAnnotationType();
 						if (annotationType != null && nonNullByDefaultNames.contains(annotationType.getQualifiedName())) {
 							if (list == null)
-								list= new ArrayList<>();
+								list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							list.add(annotationBinding);
 						}
 					}
@@ -302,7 +302,7 @@ public class RedundantNullnessTypeAnnotationsFilter {
 		fNonNullByDefaultLocations= nonNullByDefaultLocations;
 	}
 
-	public IAnnotationBinding[] removeUnwantedTypeAnnotations(IAnnotationBinding[] annotations, TypeLocation location, ITypeBinding type) {
+	public IAnnotationBinding[] removeUnwantedTypeAnnotations(IAnnotationBinding[] annotations, TypeLocation location, ITypeBinding type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (location == TypeLocation.OTHER)
 			return NO_ANNOTATIONS;
 		if (type.isTypeVariable() || type.isWildcardType()) {
@@ -310,8 +310,8 @@ public class RedundantNullnessTypeAnnotationsFilter {
 		}
 		boolean excludeAllNullAnnotations= NEVER_NULLNESS_LOCATIONS.contains(location);
 		if (excludeAllNullAnnotations || fNonNullByDefaultLocations.contains(location)) {
-			ArrayList<IAnnotationBinding> list= new ArrayList<>(annotations.length);
-			for (IAnnotationBinding annotation : annotations) {
+			ArrayList<IAnnotationBinding> list= new ArrayList<>(annotations.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding annotationType= annotation.getAnnotationType();
 				if (annotationType != null
 						&& (annotationType.getQualifiedName().equals(fNonNullAnnotationName) || (excludeAllNullAnnotations && annotationType.getQualifiedName().equals(fNullableAnnotationName)))) {

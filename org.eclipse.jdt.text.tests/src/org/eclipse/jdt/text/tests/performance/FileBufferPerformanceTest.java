@@ -80,18 +80,18 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 	}
 
 	protected IPath createPath(IProject project) throws Exception {
-		IFolder folder= ResourceHelper.createFolder(project.getName() + "/folderA/folderB/");
+		IFolder folder= ResourceHelper.createFolder(project.getName() + "/folderA/folderB/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IFile file= ResourceHelper.createFile(folder, "WorkspaceFile", "content");
 		return file.getFullPath();
 	}
 
 	public void measureConnectOld(PerformanceMeter meter) throws CoreException {
 		meter.start();
-		for (int i= 0; i < LONG_REPEAT_COUNT; i++)
+		for (int i= 0; i < LONG_REPEAT_COUNT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.connect(fPath, LocationKind.IFILE, null);
 		meter.stop();
 
-		for (int i= 0; i < LONG_REPEAT_COUNT; i++)
+		for (int i= 0; i < LONG_REPEAT_COUNT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.disconnect(fPath, LocationKind.IFILE, null);
 
 		assertNull(fManager.getTextFileBuffer(fPath, LocationKind.IFILE));
@@ -100,7 +100,7 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 	public void measureGetOld(PerformanceMeter meter) throws CoreException {
 		fManager.connect(fPath, LocationKind.IFILE, null);
 		meter.start();
-		for (int i= 0; i < LONG_REPEAT_COUNT; i++)
+		for (int i= 0; i < LONG_REPEAT_COUNT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.getTextFileBuffer(fPath, LocationKind.IFILE);
 		meter.stop();
 		fManager.disconnect(fPath, LocationKind.IFILE, null);
@@ -111,7 +111,7 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 	public void measureGetOldNonExist(PerformanceMeter meter) throws CoreException {
 		fManager.connect(fNonExistingPath, LocationKind.NORMALIZE, null);
 		meter.start();
-		for (int i= 0; i < LONG_REPEAT_COUNT; i++)
+		for (int i= 0; i < LONG_REPEAT_COUNT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.getTextFileBuffer(fNonExistingPath, LocationKind.NORMALIZE);
 		meter.stop();
 		fManager.disconnect(fNonExistingPath, LocationKind.NORMALIZE, null);
@@ -122,7 +122,7 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 	public void measureGetOldExternal(PerformanceMeter meter) throws Exception {
 		fManager.connect(fTempFilePath, LocationKind.LOCATION, null);
 		meter.start();
-		for (int i= 0; i < LONG_REPEAT_COUNT; i++)
+		for (int i= 0; i < LONG_REPEAT_COUNT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.getTextFileBuffer(fTempFilePath, LocationKind.LOCATION);
 		meter.stop();
 		fManager.disconnect(fTempFilePath, LocationKind.LOCATION, null);
@@ -131,7 +131,7 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 
 	public void measureAllOld(PerformanceMeter meter) throws CoreException {
 		meter.start();
-		for (int i= 0; i < ALL_REPEAT_COUNT; i++) {
+		for (int i= 0; i < ALL_REPEAT_COUNT; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.connect(fPath, LocationKind.IFILE, null);
 			fManager.getTextFileBuffer(fPath, LocationKind.IFILE);
 			fManager.disconnect(fPath, LocationKind.IFILE, null);
@@ -143,7 +143,7 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 
 	public void measureGetUnconnectedOld(PerformanceMeter meter) {
 		meter.start();
-		for (int i= 0; i < UNCONNECTED_REPEAT_COUNT; i++)
+		for (int i= 0; i < UNCONNECTED_REPEAT_COUNT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.getTextFileBuffer(fPath, LocationKind.IFILE);
 		meter.stop();
 
@@ -152,7 +152,7 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 
 	public void measureGetUnconnectedOldNonExist(PerformanceMeter meter) {
 		meter.start();
-		for (int i= 0; i < UNCONNECTED_REPEAT_COUNT; i++)
+		for (int i= 0; i < UNCONNECTED_REPEAT_COUNT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.getTextFileBuffer(fNonExistingPath, LocationKind.NORMALIZE);
 		meter.stop();
 
@@ -161,7 +161,7 @@ public class FileBufferPerformanceTest extends TextPerformanceTestCase2 {
 
 	public void measureGetUnconnectedOldExternal(PerformanceMeter meter) throws Exception {
 		meter.start();
-		for (int i= 0; i < UNCONNECTED_REPEAT_COUNT; i++)
+		for (int i= 0; i < UNCONNECTED_REPEAT_COUNT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fManager.getTextFileBuffer(fTempFilePath, LocationKind.LOCATION);
 		meter.stop();
 		assertNull(fManager.getTextFileBuffer(fTempFilePath, LocationKind.LOCATION));

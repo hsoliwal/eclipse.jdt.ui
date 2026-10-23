@@ -40,7 +40,7 @@ class CompletionTestSetup extends ProjectTestSetup {
 	private static int fAnonymousSoureFolderCounter= 0;
 	public IPackageFragment getAnonymousTestPackage() throws CoreException {
 		IJavaProject project= getProject();
-		String sourceFolder= "src" + fAnonymousSoureFolderCounter++;
+		String sourceFolder= "src" + fAnonymousSoureFolderCounter++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPackageFragmentRoot root= project.getPackageFragmentRoot(sourceFolder);
 		if (!root.exists())
 			root= JavaProjectHelper.addSourceContainer(project, sourceFolder);

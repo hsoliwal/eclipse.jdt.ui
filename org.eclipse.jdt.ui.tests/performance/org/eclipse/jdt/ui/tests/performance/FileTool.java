@@ -38,17 +38,17 @@ public class FileTool {
 	 * @param zFile the zip file to unzip
 	 * @param dstDir the destination directory
 	 */
-	public static void unzip(File zFile, File dstDir) throws IOException {
-		try (ZipFile zipFile= new ZipFile(zFile)) {
+	public static void unzip(File zFile, File dstDir) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		try (ZipFile zipFile= new ZipFile(zFile)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 			Enumeration<? extends ZipEntry> entries= zipFile.entries();
-			while (entries.hasMoreElements()) {
+			while (entries.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ZipEntry entry= entries.nextElement();
 				if (entry.isDirectory()) {
 					continue;
 				}
 				String entryName= entry.getName();
 				if (!new File(dstDir, entryName).toPath().normalize().startsWith(dstDir.toPath().normalize())) {
-					throw new RuntimeException("Bad zip entry: " + entryName); //$NON-NLS-1$
+					throw new RuntimeException("Bad zip entry: " + entryName); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				File file= new File(dstDir, changeSeparator(entryName, '/', File.separatorChar));
 				file.getParentFile().mkdirs();

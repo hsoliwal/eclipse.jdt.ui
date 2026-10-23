@@ -193,7 +193,7 @@ public final class InstanceUsageRewriter extends ASTVisitor {
 		return super.visit(node);
 	}
 
-	private void modifyFieldUsage(SimpleName node, IVariableBinding variableBinding) {
+	private void modifyFieldUsage(SimpleName node, IVariableBinding variableBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isAccessToAnonymousClass(node, variableBinding.getDeclaringClass())) {
 			if (!variableBinding.isField() || !Modifier.isPrivate(variableBinding.getModifiers())) {
 				return;
@@ -226,7 +226,7 @@ public final class InstanceUsageRewriter extends ASTVisitor {
 		}
 	}
 
-	private boolean isAccessToAnonymousClass(ASTNode node, ITypeBinding declaringClass) {
+	private boolean isAccessToAnonymousClass(ASTNode node, ITypeBinding declaringClass) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding refactoredMethod = fTargetMethodDeclaration.resolveBinding();
 		if (refactoredMethod == null) {
 			// If we cannot resolve the binding of the refactored method for some reason, better keep this member access
@@ -235,7 +235,7 @@ public final class InstanceUsageRewriter extends ASTVisitor {
 		}
 		ITypeBinding typeOfRefactoredMethod = refactoredMethod.getDeclaringClass();
 		ASTNode currentNode = node;
-		while (currentNode != null) {
+		while (currentNode != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			currentNode = currentNode.getParent();
 			// Stop when reaching class declaration with method to be refactored
 			if (currentNode instanceof AbstractTypeDeclaration typeDeclaration) {
@@ -300,7 +300,7 @@ public final class InstanceUsageRewriter extends ASTVisitor {
 	}
 
 	private boolean parentIsAnonymousClass(ASTNode parentNode) {
-		while (parentNode != null) {
+		while (parentNode != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parentNode instanceof AnonymousClassDeclaration) {
 				// 'this' keyword is inside an anonymous class, skip
 				return true;
@@ -320,7 +320,7 @@ public final class InstanceUsageRewriter extends ASTVisitor {
 		ClassInstanceCreation replacement= fAst.newClassInstanceCreation();
 		replacement.setType((Type) ASTNode.copySubtree(fAst, node.getType()));
 		replacement.setExpression(fAst.newSimpleName(fParamName));
-		for (Object arg : node.arguments()) {
+		for (Object arg : node.arguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			replacement.arguments().add(ASTNode.copySubtree(fAst, (Expression) arg));
 		}
 		fRewrite.replace(node, replacement, null);

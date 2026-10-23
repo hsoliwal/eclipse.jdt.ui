@@ -60,7 +60,7 @@ public enum UseIteratorToForLoopFixCore {
 		iteratortofor.find(this, compilationUnit, operations, nodesprocessed, createForOnlyIfVarUsed);
 	}
 
-	public CompilationUnitRewriteOperation rewrite(final WhileLoopToChangeHit hit) {
+	public CompilationUnitRewriteOperation rewrite(final WhileLoopToChangeHit hit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new CompilationUnitRewriteOperation() {
 			@Override
 			public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {

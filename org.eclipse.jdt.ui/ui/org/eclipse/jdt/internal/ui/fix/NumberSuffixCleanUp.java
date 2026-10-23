@@ -73,24 +73,24 @@ public class NumberSuffixCleanUp extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.NUMBER_SUFFIX)) {
-			bld.append("long number1 = 10L;\n"); //$NON-NLS-1$
+			bld.append("long number1 = 10L;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("long number1 = 10l;\n"); //$NON-NLS-1$
+			bld.append("long number1 = 10l;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.NUMBER_SUFFIX)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -140,7 +140,7 @@ public class NumberSuffixCleanUp extends AbstractMultiFix {
 			AST ast= cuRewrite.getRoot().getAST();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.CodeStyleCleanUp_numberSuffix_description, cuRewrite);
 
-			final String newToken= token.substring(0, token.length() - 1) + token.substring(token.length() - 1).toUpperCase();
+			final String newToken= token.substring(0, token.length() - 1) + token.substring(token.length() - 1).toUpperCase(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			final NumberLiteral replacement= ast.newNumberLiteral(newToken);
 
 			ASTNodes.replaceButKeepComment(rewrite, node, replacement, group);

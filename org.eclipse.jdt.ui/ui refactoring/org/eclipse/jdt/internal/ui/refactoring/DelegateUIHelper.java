@@ -39,7 +39,7 @@ public class DelegateUIHelper {
 			return null;
 		final Button button= createCheckbox(parent, getDeprecateDelegateCheckBoxTitle(), loadDeprecateDelegateSetting(updating));
 		updating.setDeprecateDelegates(button.getSelection());
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -55,7 +55,7 @@ public class DelegateUIHelper {
 			return null;
 		final Button button= createCheckbox(parent, updating.getDelegateUpdatingTitle(plural), loadLeaveDelegateSetting(updating));
 		updating.setDelegateUpdating(button.getSelection());
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {

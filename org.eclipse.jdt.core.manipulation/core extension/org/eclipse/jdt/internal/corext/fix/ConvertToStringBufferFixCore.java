@@ -67,7 +67,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 		super(name, compilationUnit, operation);
 	}
 
-	public static ConvertToStringBufferFixCore createConvertToStringBufferFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static ConvertToStringBufferFixCore createConvertToStringBufferFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BodyDeclaration parentDecl= ASTResolving.findParentBodyDeclaration(node);
 		if (!(parentDecl instanceof MethodDeclaration) && !(parentDecl instanceof Initializer))
 			return null;
@@ -85,7 +85,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 		}
 
 		InfixExpression oldInfixExpression= null;
-		while (node instanceof InfixExpression) {
+		while (node instanceof InfixExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			InfixExpression curr= (InfixExpression) node;
 			if (curr.resolveTypeBinding() == stringBinding && curr.getOperator() == InfixExpression.Operator.PLUS) {
 				oldInfixExpression= curr; // is a infix expression we can use
@@ -118,7 +118,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 	 * @param infixExpression the infix expression
 	 * @return the name of the variable we were appending to, or <code>null</code> if not matching
 	 */
-	private static SimpleName getEnclosingAppendBuffer(InfixExpression infixExpression) {
+	private static SimpleName getEnclosingAppendBuffer(InfixExpression infixExpression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (infixExpression.getLocationInParent() == MethodInvocation.ARGUMENTS_PROPERTY) {
 			MethodInvocation methodInvocation= (MethodInvocation) infixExpression.getParent();
 
@@ -154,7 +154,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 			collectInfixPlusOperands(infixExpression.getLeftOperand(), collector);
 			collectInfixPlusOperands(infixExpression.getRightOperand(), collector);
 			List<Expression> extendedOperands= infixExpression.extendedOperands();
-			for (Expression expression2 : extendedOperands) {
+			for (Expression expression2 : extendedOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collectInfixPlusOperands(expression2, collector);
 			}
 
@@ -170,7 +170,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 			this.oldInfixExpression= oldInfixExpression;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			ICompilationUnit cu= cuRewrite.getCu();
 			AST ast= cuRewrite.getAST();
@@ -218,7 +218,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 
 				LinkedProposalPositionGroupCore pg= linkedModel.getPositionGroup(groupID, true);
 				pg.addPosition(rewrite.track(bufferNameDeclaration), true);
-				for (String newBufferName : newBufferNames) {
+				for (String newBufferName : newBufferNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pg.addProposal(newBufferName, 10);
 				}
 
@@ -244,17 +244,17 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 				}
 			}
 
-			List<Expression> operands= new ArrayList<>();
+			List<Expression> operands= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			collectInfixPlusOperands(oldInfixExpression, operands);
 
 			Statement lastAppend= insertAfter;
 			int tagsCount= 0;
 			CompilationUnit compilationUnit= (CompilationUnit)oldInfixExpression.getRoot();
-			for (Expression operand : operands) {
+			for (Expression operand : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean tagged= false;
 				NLSLine nlsLine= scanCurrentLine(cu, operand);
 				if (nlsLine != null) {
-					for (NLSElement element : nlsLine.getElements()) {
+					for (NLSElement element : nlsLine.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (element.getPosition().getOffset() == compilationUnit.getColumnNumber(operand.getStartPosition())) {
 							if (element.hasTag()) {
 								tagged= true;
@@ -265,7 +265,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 				}
 				ExpressionStatement appendExpressionStatement= null;
 				if (tagged) {
-					String appendCall= bufferName + ".append(" + operand + "); //$NON-NLS-1$"; //$NON-NLS-1$ //$NON-NLS-2$
+					String appendCall= bufferName + ".append(" + operand + "); //$NON-NLS-1$"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					appendExpressionStatement= (ExpressionStatement)rewrite.createStringPlaceholder(appendCall, ASTNode.EXPRESSION_STATEMENT);
 				} else {
 					MethodInvocation appendIncovationExpression= ast.newMethodInvocation();

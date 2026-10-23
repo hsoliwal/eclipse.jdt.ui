@@ -96,20 +96,20 @@ public class NoStringCreationCleanUpCore extends AbstractMultiFix {
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.NO_STRING_CREATION)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final ClassInstanceCreation node) {
 				if (ASTNodes.hasType(node, String.class.getCanonicalName()) && node.arguments().size() == 1) {
 					Expression arg0= ASTNodes.getUnparenthesedExpression((Expression)node.arguments().get(0));
-					while (arg0 instanceof ClassInstanceCreation c && ASTNodes.hasType(c, String.class.getCanonicalName()) &&
+					while (arg0 instanceof ClassInstanceCreation c && ASTNodes.hasType(c, String.class.getCanonicalName()) && //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							c.arguments().size() == 1) {
 						arg0= ASTNodes.getUnparenthesedExpression((Expression)c.arguments().get(0));
 					}
@@ -119,7 +119,7 @@ public class NoStringCreationCleanUpCore extends AbstractMultiFix {
 							return false;
 						} else if (arg0 instanceof MethodInvocation || arg0 instanceof SimpleName) {
 							ASTNode parent= node.getParent();
-							while (parent instanceof ParenthesizedExpression) {
+							while (parent instanceof ParenthesizedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								parent= parent.getParent();
 							}
 							if (parent instanceof Assignment || parent instanceof VariableDeclarationFragment) {
@@ -172,7 +172,7 @@ public class NoStringCreationCleanUpCore extends AbstractMultiFix {
 			ASTNode replacement= ASTNodeFactory.parenthesizeIfNeeded(ast, ASTNodes.createMoveTarget(rewrite, arg0));
 
 			ASTNode nodeToReplace= node;
-			while (nodeToReplace.getParent() instanceof ParenthesizedExpression) {
+			while (nodeToReplace.getParent() instanceof ParenthesizedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nodeToReplace= nodeToReplace.getParent();
 			}
 			ASTNodes.replaceButKeepComment(rewrite, nodeToReplace, replacement, group);

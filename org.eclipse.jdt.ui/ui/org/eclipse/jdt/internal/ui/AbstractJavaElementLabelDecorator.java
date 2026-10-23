@@ -31,11 +31,11 @@ import org.eclipse.jdt.core.JavaCore;
 
 public abstract class AbstractJavaElementLabelDecorator implements ILightweightLabelDecorator {
 
-	private class DecoratorElementChangeListener implements IElementChangedListener {
+	private class DecoratorElementChangeListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 		@Override
 		public void elementChanged(ElementChangedEvent event) {
-			List<IJavaElement> changed= new ArrayList<>();
+			List<IJavaElement> changed= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			processDelta(event.getDelta(), changed);
 			if (changed.isEmpty())
 				return;
@@ -52,7 +52,7 @@ public abstract class AbstractJavaElementLabelDecorator implements ILightweightL
 	public void addListener(ILabelProviderListener listener) {
 		if (fChangeListener == null) {
 			fChangeListener= new DecoratorElementChangeListener();
-			JavaCore.addElementChangedListener(fChangeListener);
+			JavaCore.addElementChangedListener(fChangeListener); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		}
 
 		if (fListeners == null) {
@@ -69,7 +69,7 @@ public abstract class AbstractJavaElementLabelDecorator implements ILightweightL
 			fChangeListener= null;
 		}
 		if (fListeners != null) {
-			for (ILabelProviderListener listener : fListeners) {
+			for (ILabelProviderListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fListeners.remove(listener);
 			}
 			fListeners= null;
@@ -97,8 +97,8 @@ public abstract class AbstractJavaElementLabelDecorator implements ILightweightL
 	private void fireChange(IJavaElement[] elements) {
 		if (fListeners != null && !fListeners.isEmpty()) {
 			LabelProviderChangedEvent event= new LabelProviderChangedEvent(this, elements);
-			for (ILabelProviderListener listener : fListeners) {
-				listener.labelProviderChanged(event);
+			for (ILabelProviderListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				listener.labelProviderChanged(event); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			}
 		}
 	}
@@ -109,7 +109,7 @@ public abstract class AbstractJavaElementLabelDecorator implements ILightweightL
 	protected abstract void processDelta(IJavaElementDelta delta, List<IJavaElement> result);
 
 	protected boolean processChildrenDelta(IJavaElementDelta delta, List<IJavaElement> result) {
-		for (IJavaElementDelta child : delta.getAffectedChildren()) {
+		for (IJavaElementDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processDelta(child, result);
 		}
 		return false;

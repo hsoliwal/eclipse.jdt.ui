@@ -62,7 +62,7 @@ public class ModifierRewrite {
 		fAst= declNode.getAST();
 	}
 
-	private ListRewrite evaluateListRewrite(ASTRewrite rewrite, ASTNode declNode) {
+	private ListRewrite evaluateListRewrite(ASTRewrite rewrite, ASTNode declNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (declNode.getNodeType()) {
 			case ASTNode.METHOD_DECLARATION:
 				return rewrite.getListRewrite(declNode, MethodDeclaration.MODIFIERS2_PROPERTY);
@@ -87,7 +87,7 @@ public class ModifierRewrite {
 			case ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION:
 				return rewrite.getListRewrite(declNode, AnnotationTypeMemberDeclaration.MODIFIERS2_PROPERTY);
 			default:
-				throw new IllegalArgumentException("node has no modifiers: " + declNode.getClass().getName()); //$NON-NLS-1$
+				throw new IllegalArgumentException("node has no modifiers: " + declNode.getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -138,7 +138,7 @@ public class ModifierRewrite {
 		copyAllModifiers(otherDecl, editGroup, false);
 	}
 
-	public void copyAllModifiers(ASTNode otherDecl, TextEditGroup editGroup, boolean copyIndividually) {
+	public void copyAllModifiers(ASTNode otherDecl, TextEditGroup editGroup, boolean copyIndividually) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ListRewrite modifierList= evaluateListRewrite(fModifierRewrite.getASTRewrite(), otherDecl);
 		List<IExtendedModifier> originalList= modifierList.getOriginalList();
 		if (originalList.isEmpty()) {
@@ -146,7 +146,7 @@ public class ModifierRewrite {
 		}
 
 		if (copyIndividually) {
-			for (IExtendedModifier iExtendedModifier : originalList) {
+			for (IExtendedModifier iExtendedModifier : originalList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode modifier= (ASTNode) iExtendedModifier;
 				ASTNode copy= fModifierRewrite.getASTRewrite().createCopyTarget(modifier);
 				if (copy != null) { //paranoia check (only left here because we're in RC1)
@@ -165,7 +165,7 @@ public class ModifierRewrite {
 		ListRewrite modifierList= evaluateListRewrite(fModifierRewrite.getASTRewrite(), otherDecl);
 		List<IExtendedModifier> originalList= modifierList.getOriginalList();
 
-		for (IExtendedModifier modifier : originalList) {
+		for (IExtendedModifier modifier : originalList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modifier.isAnnotation()) {
 				fModifierRewrite.insertLast(fModifierRewrite.getASTRewrite().createCopyTarget((Annotation) modifier), editGroup);
 			}
@@ -182,15 +182,15 @@ public class ModifierRewrite {
 	 *            <code>null</code> if ungrouped
 	 * @return a tracked position that contains the changed modifiers
 	 */
-	private PositionInformation internalSetModifiers(int modifiers, int consideredFlags, TextEditGroup editGroup) {
+	private PositionInformation internalSetModifiers(int modifiers, int consideredFlags, TextEditGroup editGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int newModifiers= modifiers & consideredFlags;
 
 		ITrackedNodePosition trackedFallback= null;
-		List<ITrackedNodePosition> trackedNodes= new ArrayList<>();
+		List<ITrackedNodePosition> trackedNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// remove modifiers
 		List<IExtendedModifier> originalList= fModifierRewrite.getOriginalList();
-		for (IExtendedModifier element : originalList) {
+		for (IExtendedModifier element : originalList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode curr= (ASTNode) element;
 			if (curr instanceof Modifier) {
 				int flag= ((Modifier)curr).getKeyword().toFlagValue();
@@ -208,14 +208,14 @@ public class ModifierRewrite {
 		// find last annotation
 		IExtendedModifier lastAnnotation= null;
 		List<IExtendedModifier> extendedList= fModifierRewrite.getRewrittenList();
-		for (IExtendedModifier curr : extendedList) {
+		for (IExtendedModifier curr : extendedList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isAnnotation())
 				lastAnnotation= curr;
 		}
 
 		// add modifiers
 		List<Modifier> newNodes= ASTNodeFactory.newModifiers(fAst, newModifiers);
-		for (Modifier curr : newNodes) {
+		for (Modifier curr : newNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((curr.getKeyword().toFlagValue() & VISIBILITY_MODIFIERS) != 0) {
 				if (lastAnnotation != null)
 					fModifierRewrite.insertAfter(curr, (ASTNode) lastAnnotation, editGroup);

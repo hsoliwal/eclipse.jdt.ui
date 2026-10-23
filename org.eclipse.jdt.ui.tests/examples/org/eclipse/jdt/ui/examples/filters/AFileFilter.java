@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 
-public class AFileFilter extends ViewerFilter {
+public class AFileFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	public AFileFilter() {
 		// TODO Auto-generated constructor stub

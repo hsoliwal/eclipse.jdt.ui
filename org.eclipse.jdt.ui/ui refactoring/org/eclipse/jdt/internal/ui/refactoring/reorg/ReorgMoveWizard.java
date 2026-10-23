@@ -133,7 +133,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 			return refactoringStatus;
 		}
 
-		private void updateUIStatus() {
+		private void updateUIStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			getRefactoringWizard().setForcePreviewReview(false);
 			JavaMoveProcessor processor= getJavaMoveProcessor();
 			if (fReferenceCheckbox != null){
@@ -153,7 +153,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 			}
 		}
 
-		private void addUpdateReferenceComponent(Composite result) {
+		private void addUpdateReferenceComponent(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final JavaMoveProcessor processor= getJavaMoveProcessor();
 			if (! processor.canUpdateJavaReferences())
 				return;
@@ -179,7 +179,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 			fReferenceCheckbox.setText(text);
 			fReferenceCheckbox.setSelection(processor.getUpdateReferences());
 
-			fReferenceCheckbox.addSelectionListener(new SelectionAdapter() {
+			fReferenceCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					processor.setUpdateReferences(((Button)e.widget).getSelection());
@@ -188,7 +188,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 			});
 		}
 
-		private void addUpdateQualifiedNameComponent(Composite parent, int marginWidth) {
+		private void addUpdateQualifiedNameComponent(Composite parent, int marginWidth) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final JavaMoveProcessor processor= getJavaMoveProcessor();
 			if (!processor.canEnableQualifiedNameUpdating() || !processor.canUpdateQualifiedNames())
 				return;
@@ -205,7 +205,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 			gd.horizontalIndent= indent;
 			updateQualifiedNameUpdating(processor, processor.getUpdateQualifiedNames());
 
-			fQualifiedNameCheckbox.addSelectionListener(new SelectionAdapter() {
+			fQualifiedNameCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					boolean enabled= ((Button)e.widget).getSelection();
@@ -222,7 +222,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 			updateUIStatus();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			Composite result;
 
@@ -245,7 +245,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 			Dialog.applyDialogFont(result);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control addLabel(Composite parent) {
 			if (fCreateTargetQuery != null) {
 				Composite firstLine= new Composite(parent, SWT.NONE);
@@ -255,7 +255,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 				firstLine.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 				Control label= super.addLabel(firstLine);
-				label.addTraverseListener(e -> {
+				label.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 					if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 						e.detail= SWT.TRAVERSE_NONE;
 						getTreeViewer().getTree().setFocus();
@@ -267,7 +267,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 				GridData gd= new GridData(GridData.HORIZONTAL_ALIGN_END | GridData.GRAB_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 				gd.widthHint = SWTUtil.getButtonWidthHint(newButton);
 				newButton.setLayoutData(gd);
-				newButton.addSelectionListener(new SelectionAdapter() {
+				newButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						doNewButtonPressed();
@@ -286,7 +286,7 @@ public class ReorgMoveWizard extends RefactoringWizard {
 			if (newElement != null) {
 				TreeViewer viewer= getTreeViewer();
 				ITreeContentProvider contentProvider= (ITreeContentProvider) viewer.getContentProvider();
-				viewer.refresh(contentProvider.getParent(newElement));
+				viewer.refresh(contentProvider.getParent(newElement)); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				viewer.setSelection(new StructuredSelection(newElement), true);
 				viewer.getTree().setFocus();
 			}

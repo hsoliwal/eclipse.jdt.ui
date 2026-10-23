@@ -43,7 +43,7 @@ public class LeakTestCase {
 		@Override
 		public boolean visit(ReferencedObject object, Class<?> clazz, boolean firstVisit) {
 			boolean visitChildren= false;
-			for (ReferenceVisitor visitor : fVisitors) {
+			for (ReferenceVisitor visitor : fVisitors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean res= visitor.visit(object, clazz, firstVisit);
 				visitChildren |= res;
 			}
@@ -63,16 +63,16 @@ public class LeakTestCase {
 		return requestor;
 	}
 
-	private InstancesOfTypeCollector[] collect(String[] requestedTypeNames) {
+	private InstancesOfTypeCollector[] collect(String[] requestedTypeNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final InstancesOfTypeCollector[] requestors= new InstancesOfTypeCollector[requestedTypeNames.length];
-		for (int i= 0; i < requestors.length; i++) {
+		for (int i= 0; i < requestors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			requestors[i]= new InstancesOfTypeCollector(requestedTypeNames[i], false);
 		}
 		calmDown();
 		ReferenceVisitor visitor= new ReferenceVisitor() {
 			@Override
 			public boolean visit(ReferencedObject object, Class<?> clazz, boolean firstVisit) {
-				for (InstancesOfTypeCollector requestor : requestors) {
+				for (InstancesOfTypeCollector requestor : requestors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					requestor.visit(object, clazz, firstVisit);
 				}
 				return true;
@@ -96,7 +96,7 @@ public class LeakTestCase {
 		}
 	}
 
-	private void calmDown() {
+	private void calmDown() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Make sure we wait > 500, to allow e.g. TextViewer.queuePostSelectionChanged(boolean)
 		// and OpenStrategy to time out and release references in delayed runnables.
 		new DisplayHelper() {
@@ -106,7 +106,7 @@ public class LeakTestCase {
 			}
 		}.waitForCondition(Display.getCurrent(), 1000);
 
-		for (int i= 0; i < 10; i++) {
+		for (int i= 0; i < 10; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			System.gc();
 			try {
 				Thread.sleep(50);
@@ -123,14 +123,14 @@ public class LeakTestCase {
 	 */
   	public void assertInstanceCount(final Class<?> clazz, final int expected) {
   		int numTries= 2;
-  		while (true) {
+  		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	  		InstancesOfTypeCollector requestor= collect(clazz.getName());
 			int actual= requestor.getNumberOfResults();
 			if (expected == actual) {
 				return;
 			}
 			numTries--;
-			assertNotEquals("Expected instance count: " + expected + ", actual: " + actual + "\n" + requestor.getResultString(), 0, numTries);
+			assertNotEquals("Expected instance count: " + expected + ", actual: " + actual + "\n" + requestor.getResultString(), 0, numTries); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
   		}
 	}
 
@@ -143,14 +143,14 @@ public class LeakTestCase {
   	 */
   	public void assertInstanceCount(final Class<?> clazz, boolean includeSubtypes, final int expected) {
   		int numTries= 2;
-  		while (true) {
+  		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
   			InstancesOfTypeCollector requestor= collect(clazz.getName(), includeSubtypes);
   			int actual= requestor.getNumberOfResults();
   			if (expected == actual) {
   				return;
   			}
   			numTries--;
-  			assertNotEquals("Expected instance count: " + expected + ", actual: " + actual + "\n" + requestor.getResultString(), 0, numTries);
+  			assertNotEquals("Expected instance count: " + expected + ", actual: " + actual + "\n" + requestor.getResultString(), 0, numTries); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
   		}
   	}
 
@@ -161,13 +161,13 @@ public class LeakTestCase {
 	 * @param classNames the types names of the instances to count
   	 * @param expected the expected instance count
 	 */
-  	public void assertInstanceCount(final String[] classNames, final int[] expected) {
+  	public void assertInstanceCount(final String[] classNames, final int[] expected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
   		int numTries= 2;
-  		while (true) {
+  		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	  		InstancesOfTypeCollector[] requestors= collect(classNames);
 
 	  		boolean success= true;
-	  		for (int k= 0; success && k < requestors.length; k++) {
+	  		for (int k= 0; success && k < requestors.length; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (expected[k] != requestors[k].getNumberOfResults()) {
 					success= false;
 				}
@@ -177,11 +177,11 @@ public class LeakTestCase {
 
 	  		numTries--;
 			if (numTries == 0) {
-	  			StringBuilder buf= new StringBuilder();
-		  		for (int k= 0; k < requestors.length; k++) {
+	  			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		  		for (int k= 0; k < requestors.length; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int actual= requestors[k].getNumberOfResults();
 					if (expected[k] != actual) {
-						buf.append("Expected instance count: " + expected[k] + ", actual: " + actual + "\n" + requestors[k].getResultString()).append("\n---------------------\n");
+						buf.append("Expected instance count: " + expected[k] + ", actual: " + actual + "\n" + requestors[k].getResultString()).append("\n---------------------\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
   				fail(buf.toString());
@@ -222,8 +222,8 @@ public class LeakTestCase {
 	 */
 	protected void assertDifferentCount(String message, int startCount, int endCount) {
 		if (startCount == endCount) {
-			String str= message != null ? message + ": " : "";
-			fail(str + "instance count is not different: (" + startCount + " / " + endCount + " )");
+			String str= message != null ? message + ": " : ""; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			fail(str + "instance count is not different: (" + startCount + " / " + endCount + " )"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -249,8 +249,8 @@ public class LeakTestCase {
 	protected void assertEqualCount(String message, int startCount, int endCount) {
 		if (startCount != endCount) {
 			// only compare if connection could be established
-			String str= message != null ? message + ": " : "";
-			fail(str + "instance count is not the same: (" + startCount + " / " + endCount + " )");
+			String str= message != null ? message + ": " : ""; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			fail(str + "instance count is not the same: (" + startCount + " / " + endCount + " )"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 }

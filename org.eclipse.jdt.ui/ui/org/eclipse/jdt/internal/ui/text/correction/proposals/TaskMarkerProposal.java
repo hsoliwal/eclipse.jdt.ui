@@ -21,7 +21,7 @@ import org.eclipse.jdt.ui.text.java.correction.CUCorrectionProposal;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.ui.text.java.IProblemLocation;
 
-public class TaskMarkerProposal extends CUCorrectionProposal {
+public class TaskMarkerProposal extends CUCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public TaskMarkerProposal(ICompilationUnit cu, IProblemLocation location, int relevance) {
 		super("", cu, relevance, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE), new TaskMarkerProposalCore(cu, location, relevance)); //$NON-NLS-1$
 	}

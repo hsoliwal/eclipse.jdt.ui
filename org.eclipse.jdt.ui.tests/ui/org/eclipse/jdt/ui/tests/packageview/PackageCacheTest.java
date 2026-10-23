@@ -59,7 +59,7 @@ public class PackageCacheTest {
 	private PackageCache packageCache;
 
 
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 
 		IProgressMonitor monitor= new NullProgressMonitor();
@@ -87,17 +87,17 @@ public class PackageCacheTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetDirectChildren() throws Exception {
 		List<IPackageFragment> allPackages= allPackages();
 
-		Map<IPackageFragment, List<IPackageFragment>> actualChildren = new LinkedHashMap<>();
-		for (IPackageFragment packageFragment : allPackages) {
+		Map<IPackageFragment, List<IPackageFragment>> actualChildren = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		for (IPackageFragment packageFragment : allPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<IPackageFragment> childrenOfPackage= packageCache.getDirectChildren(packageFragment);
 			actualChildren.put(packageFragment, childrenOfPackage);
 		}
 
-		Map<IPackageFragment, List<IPackageFragment>> expectedChildren = new LinkedHashMap<>();
+		Map<IPackageFragment, List<IPackageFragment>> expectedChildren = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		expectedChildren.put(package_a, Arrays.asList(package_a_b));
 		expectedChildren.put(package_a_b, Arrays.asList(package_a_b_c, package_a_b_e));
 		expectedChildren.put(package_a_b_c, Arrays.asList(package_a_b_c_d1, package_a_b_c_d2));
@@ -125,8 +125,8 @@ public class PackageCacheTest {
 		Map<IPackageFragment, IPackageFragment> actualSingleChildren= actualSingleChildren();
 
 		List<IPackageFragment> allPackages= allPackages();
-		Map<IPackageFragment, IPackageFragment> expectedSingleChildren= new LinkedHashMap<>();
-		for (IPackageFragment packageFragment : allPackages) {
+		Map<IPackageFragment, IPackageFragment> expectedSingleChildren= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		for (IPackageFragment packageFragment : allPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment singleChild= findSinglePackageChild(packageFragment);
 			if (singleChild != null) {
 				expectedSingleChildren.put(packageFragment, singleChild);
@@ -151,8 +151,8 @@ public class PackageCacheTest {
 		List<IPackageFragment> actualPackagesWithSingleChild= actualPackagesWithSingleChild();
 
 		List<IPackageFragment> allPackages= allPackages();
-		List<IPackageFragment> expectedPackagesWithSingleChild= new ArrayList<>();
-		for (IPackageFragment packageFragment : allPackages) {
+		List<IPackageFragment> expectedPackagesWithSingleChild= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPackageFragment packageFragment : allPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment singleChild= findSinglePackageChild(packageFragment);
 			if (singleChild != null) {
 				expectedPackagesWithSingleChild.add(packageFragment);
@@ -165,8 +165,8 @@ public class PackageCacheTest {
 
 	private Map<IPackageFragment, IPackageFragment> actualSingleChildren() throws Exception {
 		List<IPackageFragment> allPackages= allPackages();
-		Map<IPackageFragment, IPackageFragment> actualSingleChildren= new LinkedHashMap<>();
-		for (IPackageFragment packageFragment : allPackages) {
+		Map<IPackageFragment, IPackageFragment> actualSingleChildren= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		for (IPackageFragment packageFragment : allPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment singleChild= packageCache.getSingleChild(packageFragment);
 			if (singleChild != null) {
 				actualSingleChildren.put(packageFragment, singleChild);
@@ -176,7 +176,7 @@ public class PackageCacheTest {
 	}
 
 	private Map<IPackageFragment, IPackageFragment> expectedSingleChildren() {
-		Map<IPackageFragment, IPackageFragment> expectedSingleChildren= new LinkedHashMap<>();
+		Map<IPackageFragment, IPackageFragment> expectedSingleChildren= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		expectedSingleChildren.put(package_a, package_a_b);
 		expectedSingleChildren.put(package_f, package_f_g);
 		return expectedSingleChildren;
@@ -184,8 +184,8 @@ public class PackageCacheTest {
 
 	private List<IPackageFragment> actualPackagesWithSingleChild() throws Exception {
 		List<IPackageFragment> allPackages= allPackages();
-		List<IPackageFragment> actualPackagesWithSingleChild= new ArrayList<>();
-		for (IPackageFragment packageFragment : allPackages) {
+		List<IPackageFragment> actualPackagesWithSingleChild= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPackageFragment packageFragment : allPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (packageCache.hasSingleChild(packageFragment)) {
 				actualPackagesWithSingleChild.add(packageFragment);
 			}
@@ -195,7 +195,7 @@ public class PackageCacheTest {
 
 	private List<IPackageFragment> expectedPackagesWithSingleChild() throws Exception {
 		Map<IPackageFragment, IPackageFragment> expectedSingleChildren= expectedSingleChildren();
-		return new ArrayList<>(expectedSingleChildren.keySet());
+		return new ArrayList<>(expectedSingleChildren.keySet()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private List<IPackageFragment> allPackages() {
@@ -215,10 +215,10 @@ public class PackageCacheTest {
 	 * which computes the single child package of a package (if any).
 	 */
 	private IPackageFragment findSinglePackageChild(IPackageFragment fragment) throws Exception {
-		String prefix= fragment.getElementName() + '.';
+		String prefix= fragment.getElementName() + '.'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int prefixLen= prefix.length();
 		IPackageFragment found= null;
-		for (IJavaElement element : src.getChildren()) {
+		for (IJavaElement element : src.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= element.getElementName();
 			if (name.startsWith(prefix) && name.length() > prefixLen && name.indexOf('.', prefixLen) == -1) {
 				if (found == null) {

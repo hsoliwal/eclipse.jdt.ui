@@ -79,7 +79,7 @@ public class RenameTypeArguments extends RenameArguments {
 
 	@Override
 	public String toString() {
-		return super.toString()
+		return super.toString() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ (updateSimilarDeclarations ? " (update derived elements)" : " (don't update derived elements)"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

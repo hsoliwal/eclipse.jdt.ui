@@ -41,12 +41,12 @@ public class ToggleJspBreakpointAction extends Action {
 	private final ITextEditor fEditor;
 	private final IVerticalRulerInfo fRulerInfo;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IBreakpointManager manager = DebugPlugin.getDefault().getBreakpointManager();
 		IResource resource = getResource();
 		int lineNumber = fRulerInfo.getLineOfLastMouseButtonActivity() + 1;
-		for (IBreakpoint bp : manager.getBreakpoints()) {
+		for (IBreakpoint bp : manager.getBreakpoints()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (bp instanceof IJavaStratumLineBreakpoint) {
 				IJavaStratumLineBreakpoint breakpoint = (IJavaStratumLineBreakpoint)bp;
 				if (breakpoint.getMarker().getResource().equals(resource)) {

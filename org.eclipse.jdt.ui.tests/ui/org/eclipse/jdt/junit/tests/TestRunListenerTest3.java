@@ -53,7 +53,7 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 			JUnitCore.removeTestRunListener(testRunListener);
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOK() throws Exception {
 		String source=
 				"""
@@ -65,15 +65,15 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 		IType aTestCase= createType(source, "pack", "ATestCase.java");
 
 		String[] expectedSequence= new String[] {
-			"sessionStarted-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.RUNNING, Result.UNDEFINED, 0),
-			"testCaseStarted-" + TestRunListeners.testCaseAsString("testSucceed", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-			"testCaseFinished-" + TestRunListeners.testCaseAsString("testSucceed", "pack.ATestCase", ProgressState.COMPLETED, Result.OK, null, 0),
-			"sessionFinished-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.COMPLETED, Result.OK, 0)
+			"sessionStarted-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.RUNNING, Result.UNDEFINED, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseStarted-" + TestRunListeners.testCaseAsString("testSucceed", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseFinished-" + TestRunListeners.testCaseAsString("testSucceed", "pack.ATestCase", ProgressState.COMPLETED, Result.OK, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"sessionFinished-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.COMPLETED, Result.OK, 0) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		};
 		String[] actual= runSequenceTest(aTestCase);
 		assertEqualLog(expectedSequence, actual);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFail() throws Exception {
 		String source=
 			"""
@@ -85,15 +85,15 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 		IType aTestCase= createType(source, "pack", "ATestCase.java");
 
 		String[] expectedSequence= new String[] {
-			"sessionStarted-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.RUNNING, Result.UNDEFINED, 0),
-			"testCaseStarted-" + TestRunListeners.testCaseAsString("testFail", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-			"testCaseFinished-" + TestRunListeners.testCaseAsString("testFail", "pack.ATestCase", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("junit.framework.AssertionFailedError", null, null), 0),
-			"sessionFinished-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.COMPLETED, Result.FAILURE, 0)
+			"sessionStarted-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.RUNNING, Result.UNDEFINED, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseStarted-" + TestRunListeners.testCaseAsString("testFail", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseFinished-" + TestRunListeners.testCaseAsString("testFail", "pack.ATestCase", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("junit.framework.AssertionFailedError", null, null), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"sessionFinished-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.COMPLETED, Result.FAILURE, 0) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		};
 		String[] actual= runSequenceTest(aTestCase);
 		assertEqualLog(expectedSequence, actual);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimpleTest() throws Exception {
 		String source=
 			"""
@@ -142,20 +142,20 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 		IType aTestCase= createType(source, "pack", "ATestCase.java");
 
 		String[] expectedSequence= new String[] {
-			"sessionStarted-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.RUNNING, Result.UNDEFINED, 0),
-			"testCaseStarted-" + TestRunListeners.testCaseAsString("testAdd", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-			"testCaseFinished-" + TestRunListeners.testCaseAsString("testAdd", "pack.ATestCase", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("junit.framework.AssertionFailedError", null, null), 0),
-			"testCaseStarted-" + TestRunListeners.testCaseAsString("testDivideByZero", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-			"testCaseFinished-" + TestRunListeners.testCaseAsString("testDivideByZero", "pack.ATestCase", ProgressState.COMPLETED, Result.ERROR, new FailureTrace("java.lang.ArithmeticException", null, null), 0),
-			"testCaseStarted-" + TestRunListeners.testCaseAsString("testEquals", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-			"testCaseFinished-" + TestRunListeners.testCaseAsString("testEquals", "pack.ATestCase", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("junit.framework.ComparisonFailure", "12", "13"), 0),
-			"sessionFinished-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.COMPLETED, Result.ERROR, 0)
+			"sessionStarted-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.RUNNING, Result.UNDEFINED, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseStarted-" + TestRunListeners.testCaseAsString("testAdd", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseFinished-" + TestRunListeners.testCaseAsString("testAdd", "pack.ATestCase", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("junit.framework.AssertionFailedError", null, null), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseStarted-" + TestRunListeners.testCaseAsString("testDivideByZero", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseFinished-" + TestRunListeners.testCaseAsString("testDivideByZero", "pack.ATestCase", ProgressState.COMPLETED, Result.ERROR, new FailureTrace("java.lang.ArithmeticException", null, null), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseStarted-" + TestRunListeners.testCaseAsString("testEquals", "pack.ATestCase", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"testCaseFinished-" + TestRunListeners.testCaseAsString("testEquals", "pack.ATestCase", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("junit.framework.ComparisonFailure", "12", "13"), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"sessionFinished-" + TestRunListeners.sessionAsString("ATestCase", ProgressState.COMPLETED, Result.ERROR, 0) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		};
 		String[] actual= runSequenceTest(aTestCase);
 		assertEqualLog(expectedSequence, actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTreeOnSessionStarted() throws Exception {
 		String source=
 				"""
@@ -174,7 +174,7 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 		String[] actual= runTreeTest(aTestCase, 1);
 		assertEqualLog(expectedTree, actual);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTreeOnSessionEnded() throws Exception {
 		String source=
 				"""
@@ -193,7 +193,7 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 		String[] actual= runTreeTest(aTestCase, 4);
 		assertEqualLog(expectedTree, actual);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTreeOnSecondTestStarted() throws Exception {
 		String source=
 				"""
@@ -224,7 +224,7 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 		String[] actual= runTreeTest(aTestCase, 4);
 		assertEqualLog(expectedTree, actual);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTreeOnSecondTestStarted2() throws Exception {
 		String source=
 				"""
@@ -255,7 +255,7 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 		String[] actual= runTreeTest(aTestCase, 4);
 		assertEqualLog(expectedTree, actual);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTreeUnrootedEnded() throws Exception {
 		// regression test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=153807
 		String source=
@@ -301,7 +301,7 @@ public class TestRunListenerTest3 extends AbstractTestRunListenerTest {
 		String[] actual= runTreeTest(aTestCase, 6);
 		assertEqualLog(expectedTree, actual);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTreeJUnit4TestAdapter() throws Exception {
 		// regression test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=397747
 		IClasspathEntry cpe= JavaCore.newContainerEntry(JUnitCore.JUNIT4_CONTAINER_PATH);

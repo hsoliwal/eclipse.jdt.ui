@@ -76,7 +76,7 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 			return Collections.singleton(FencedCodeBlock.class);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void render(Node node) {
 			FencedCodeBlock codeBlock= (FencedCodeBlock) node;
 			String info= codeBlock.getInfo();
@@ -95,7 +95,7 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 			} else {
 				html.tag("pre"); //$NON-NLS-1$
 				Map<String, String> attrs= info != null && !info.isEmpty()
-						? Map.of("class", "language-" + info.trim()) //$NON-NLS-1$ //$NON-NLS-2$
+						? Map.of("class", "language-" + info.trim()) //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						: Collections.emptyMap();
 				html.tag("code", attrs); //$NON-NLS-1$
 				html.text(literal);
@@ -114,7 +114,7 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 		String lineBreakGroup= "(\\r\\n?|\\n)"; //$NON-NLS-1$
 		String noBreakSpace= "[^\r\n&&\\s]"; //$NON-NLS-1$
 		// in the markdown case relevant leading whitespace is contained in TextElements, no need to preserve blanks *between* elements
-		return content.replaceAll(lineBreakGroup + noBreakSpace + "*///" + noBreakSpace + '*', "$1"); //$NON-NLS-1$ //$NON-NLS-2$
+		return content.replaceAll(lineBreakGroup + noBreakSpace + "*///" + noBreakSpace + '*', "$1"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 	@Override
 	protected String getBlockTagStart() {
 		this.fBlockDepth++;
-		return "\n"+super.getBlockTagStart(); //$NON-NLS-1$
+		return "\n"+super.getBlockTagStart(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -158,12 +158,12 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 
 	/** Return a new Document containing all children of the given container node. */
 	protected Node eliminateContainerNode(Node container) {
-		List<Node> children= new ArrayList<>();
-		for (Node child= container.getFirstChild(); child != null; child= child.getNext()) {
+		List<Node> children= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Node child= container.getFirstChild(); child != null; child= child.getNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			children.add(child);
 		}
 		Document doc= new Document();
-		for (Node child2 : children) {
+		for (Node child2 : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			doc.appendChild(child2);
 		}
 		return doc;

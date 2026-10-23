@@ -43,7 +43,7 @@ public class RenameNodeCorrectionProposalCore extends CUCorrectionProposalCore {
 		fNewName= newName;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addEdits(IDocument doc, TextEdit root) throws CoreException {
 		super.addEdits(doc, root);
 
@@ -55,7 +55,7 @@ public class RenameNodeCorrectionProposalCore extends CUCorrectionProposalCore {
 
 			SimpleName[] names= LinkedNodeFinder.findByProblems(unit, (SimpleName) name);
 			if (names != null) {
-				for (SimpleName curr : names) {
+				for (SimpleName curr : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					root.addChild(new ReplaceEdit(curr.getStartPosition(), curr.getLength(), fNewName));
 				}
 				return;

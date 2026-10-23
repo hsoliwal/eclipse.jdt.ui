@@ -60,7 +60,7 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 		JavaProjectHelper.set18CompilerOptions(fProject);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAllFilterFormsKeepOneRunnableValue() throws Exception {
 		IType type= createTestType("""
 				package pack;
@@ -94,7 +94,7 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 				""");
 
 		IMethod unfiltered= getMethod(type.getCompilationUnit(), "unfiltered", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
-		assertTrue("Expected exclusion of RED from three values in " + methodContext(unfiltered), EnumSourceValidator.excludeEnumValue(unfiltered, "RED")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Expected exclusion of RED from three values in " + methodContext(unfiltered), EnumSourceValidator.excludeEnumValue(unfiltered, "RED")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTwoToOne(unfiltered);
 		assertTwoToOne(getMethod(type.getCompilationUnit(), "included", "QColor;")); //$NON-NLS-1$ //$NON-NLS-2$
 		assertTwoToOne(getMethod(type.getCompilationUnit(), "excluded", "QColor;")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -122,7 +122,7 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 		assertLastValueProtected(getMethod(type.getCompilationUnit(), "ranged", "QColor;"), "GREEN"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testActionRevalidatesLastValueAfterMenuWasOpened() throws Exception {
 		IType type= createTestType("""
 				package pack;
@@ -138,18 +138,18 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 		IMethod method= getMethod(type.getCompilationUnit(), "excluded", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
 		ExcludeParameterValueAction action= new ExcludeParameterValueAction();
 		action.update(invocation(method, 2));
-		assertTrue("Expected BLUE at invocation index 2 to be excludable while GREEN is present in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$
+		assertTrue("Expected BLUE at invocation index 2 to be excludable while GREEN is present in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		assertTrue("Expected exclusion of GREEN to leave BLUE in " + methodContext(method), EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Expected exclusion of GREEN to leave BLUE in " + methodContext(method), EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String source= method.getCompilationUnit().getSource();
 		action.run();
 
 		assertEquals("Expected the stale action not to remove the last value", source, method.getCompilationUnit().getSource()); //$NON-NLS-1$
-		assertFalse("Expected the stale action for BLUE at invocation index 2 to become disabled in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$
+		assertFalse("Expected the stale action for BLUE at invocation index 2 to become disabled in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertLastValueProtected(method, "BLUE"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFullyExcludedSourceCanBeRepairedAndRun() throws Exception {
 		IType type= createTestType("""
 				package pack;
@@ -165,7 +165,7 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 				}
 				""");
 		IMethod method= getMethod(type.getCompilationUnit(), "repaired", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
-		assertTrue("Expected re-inclusion of GREEN into the manually emptied source " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected re-inclusion of GREEN into the manually emptied source " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeValueFromExclusion(method, "GREEN")); //$NON-NLS-1$
 		assertExcludedNames(method, List.of("RED", "BLUE")); //$NON-NLS-1$ //$NON-NLS-2$
 		assertLastValueProtected(method, "GREEN"); //$NON-NLS-1$
@@ -176,7 +176,7 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fProject, "src"); //$NON-NLS-1$
 		ICompilationUnit cu= EnumSourceTestSupport.createCompilationUnit(sourceFolder, "pack", "LastValueTest.java", source, true); //$NON-NLS-1$ //$NON-NLS-2$
 		IType type= cu.findPrimaryType();
-		assertNotNull("Expected the launch type in " + sourceContext(cu), type); //$NON-NLS-1$
+		assertNotNull("Expected the launch type in " + sourceContext(cu), type); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		buildTestCase(type);
 		return type;
 	}
@@ -184,8 +184,8 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 	private static void assertTwoToOne(IMethod method) throws Exception {
 		ExcludeParameterValueAction action= new ExcludeParameterValueAction();
 		action.update(invocation(method, 1));
-		assertTrue("Expected exclusion to be offered with two values for " + methodContext(method), action.isEnabled()); //$NON-NLS-1$
-		assertTrue("Expected two-to-one exclusion for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected exclusion to be offered with two values for " + methodContext(method), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("Expected two-to-one exclusion for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$
 		assertLastValueProtected(method, "BLUE"); //$NON-NLS-1$
 	}
@@ -196,13 +196,13 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 		assertNoExclusionTarget(method, 1);
 		ExcludeParameterValueAction action= new ExcludeParameterValueAction();
 		action.update(invocation(method, 1));
-		assertFalse("Expected no exclusion action for last value " + value + " in source: " + source, action.isEnabled()); //$NON-NLS-1$ //$NON-NLS-2$
-		assertFalse("Expected direct exclusion of last value " + value + " to be refused in source: " + source, //$NON-NLS-1$ //$NON-NLS-2$
+		assertFalse("Expected no exclusion action for last value " + value + " in source: " + source, action.isEnabled()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertFalse("Expected direct exclusion of last value " + value + " to be refused in source: " + source, //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, value));
 		assertEquals("Expected refused exclusion to leave source unchanged", source, method.getCompilationUnit().getSource()); //$NON-NLS-1$
 	}
 
-	private void assertSuccessfulRun(IType type, int expectedInvocations) throws Exception {
+	private void assertSuccessfulRun(IType type, int expectedInvocations) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TestRunLog log= new TestRunLog();
 		TestRunLog details= new TestRunLog();
 		AtomicReference<Result> completed= new AtomicReference<>();
@@ -211,9 +211,9 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 			public void testCaseFinished(ITestCaseElement testCase) {
 				log.add(testCase.getTestResult(false).toString());
 				var failure= testCase.getFailureTrace();
-				details.add(testCase.getTestClassName() + '#' + testCase.getTestMethodName()
+				details.add(testCase.getTestClassName() + '#' + testCase.getTestMethodName() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ ": " + testCase.getTestResult(false) //$NON-NLS-1$
-						+ (failure == null ? "" : System.lineSeparator() + failure.getTrace())); //$NON-NLS-1$
+						+ (failure == null ? "" : System.lineSeparator() + failure.getTrace())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			@Override
@@ -225,14 +225,14 @@ public class EnumSourceLastValueTest extends AbstractTestRunListenerTest {
 		JUnitCore.addTestRunListener(listener);
 		try {
 			String[] results= launchJUnit(type, TestKindRegistry.JUNIT5_TEST_KIND_ID, log);
-			String context= sourceContext(type.getCompilationUnit()) + System.lineSeparator()
+			String context= sourceContext(type.getCompilationUnit()) + System.lineSeparator() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ "Observed invocations:" + System.lineSeparator() + String.join(System.lineSeparator(), details.getLog()) //$NON-NLS-1$
 					+ System.lineSeparator() + "Result log: " + Arrays.toString(results); //$NON-NLS-1$
-			assertNotNull("Expected the Jupiter session to finish for " + context, completed.get()); //$NON-NLS-1$
-			assertEquals("Expected no parameterized-source runtime errors for " + context, Result.OK, completed.get()); //$NON-NLS-1$
-			assertEquals("Expected exactly one invocation per remaining source in " + context, expectedInvocations, results.length); //$NON-NLS-1$
-			for (int i= 0; i < results.length; i++) {
-				assertEquals("Expected successful invocation at index " + i + " in " + context, Result.OK.toString(), results[i]); //$NON-NLS-1$ //$NON-NLS-2$
+			assertNotNull("Expected the Jupiter session to finish for " + context, completed.get()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertEquals("Expected no parameterized-source runtime errors for " + context, Result.OK, completed.get()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertEquals("Expected exactly one invocation per remaining source in " + context, expectedInvocations, results.length); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			for (int i= 0; i < results.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				assertEquals("Expected successful invocation at index " + i + " in " + context, Result.OK.toString(), results[i]); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} finally {
 			JUnitCore.removeTestRunListener(listener);

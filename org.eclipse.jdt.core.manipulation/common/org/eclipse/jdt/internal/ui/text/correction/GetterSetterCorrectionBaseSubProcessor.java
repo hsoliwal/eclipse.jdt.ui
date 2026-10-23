@@ -122,7 +122,7 @@ public abstract class GetterSetterCorrectionBaseSubProcessor<T> {
 		public static TextFileChange getChange(IField field, IFile file) throws CoreException {
 			Change createdChange= getChange(field);
 			if (createdChange instanceof CompositeChange c) {
-				for (Change curr : c.getChildren()) {
+				for (Change curr : c.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (curr instanceof TextFileChange tfc && (file == null || tfc.getFile().equals(file))) {
 						return tfc;
 					}
@@ -155,7 +155,7 @@ public abstract class GetterSetterCorrectionBaseSubProcessor<T> {
 	 */
 	public boolean addGetterSetterProposals(IInvocationContext context, ASTNode coveringNode, IProblemLocation[] locations, ArrayList<T> resultingCollections) {
 		if (locations != null) {
-			for (IProblemLocation location : locations) {
+			for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int problemId= location.getProblemId();
 				if (problemId == IProblem.UnusedPrivateField)
 					return false;
@@ -170,7 +170,7 @@ public abstract class GetterSetterCorrectionBaseSubProcessor<T> {
 		addGetterSetterProposals(context, location.getCoveringNode(context.getASTRoot()), proposals, relevance);
 	}
 
-	protected boolean addGetterSetterProposals(IInvocationContext context, ASTNode coveringNode, Collection<T> proposals, int relevance) {
+	protected boolean addGetterSetterProposals(IInvocationContext context, ASTNode coveringNode, Collection<T> proposals, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(coveringNode instanceof SimpleName sn)) {
 			return false;
 		}
@@ -190,7 +190,7 @@ public abstract class GetterSetterCorrectionBaseSubProcessor<T> {
 		return true;
 	}
 
-	private T getProposal(ICompilationUnit cu, SimpleName sn, IVariableBinding variableBinding, int relevance) {
+	private T getProposal(ICompilationUnit cu, SimpleName sn, IVariableBinding variableBinding, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression accessNode= sn;
 		Expression qualifier= null;
 		boolean useSuper= false;
@@ -226,7 +226,7 @@ public abstract class GetterSetterCorrectionBaseSubProcessor<T> {
 	 * @param relevance relevance of this proposal
 	 * @return the proposal if available or null
 	 */
-	private T createGetterProposal(ProposalParameter context, int relevance) {
+	private T createGetterProposal(ProposalParameter context, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding method= findGetter(context);
 		if (method != null) {
 			Expression mi= createMethodInvocation(context, method, null);
@@ -260,7 +260,7 @@ public abstract class GetterSetterCorrectionBaseSubProcessor<T> {
 		return null;
 	}
 
-	private static Expression createMethodInvocation(ProposalParameter context, IMethodBinding method, Expression argument) {
+	private static Expression createMethodInvocation(ProposalParameter context, IMethodBinding method, Expression argument) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= context.astRewrite.getAST();
 		Expression qualifier= context.qualifier;
 		if (context.useSuper) {
@@ -294,7 +294,7 @@ public abstract class GetterSetterCorrectionBaseSubProcessor<T> {
 	 * @param relevance relevance of this proposal
 	 * @return the proposal if available or null
 	 */
-	private T createSetterProposal(ProposalParameter context, int relevance) {
+	private T createSetterProposal(ProposalParameter context, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isBoolean= isBoolean(context);
 		String setterName= GetterSetterUtil.getSetterName(context.variableBinding, context.compilationUnit.getJavaProject(), null, isBoolean);
 		ITypeBinding declaringType= context.variableBinding.getDeclaringClass();

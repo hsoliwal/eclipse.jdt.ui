@@ -67,7 +67,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @since 3.8
  */
-public class ChangeCorrectionProposal extends ChangeCorrectionProposalCore implements IJavaCompletionProposal, ICommandAccess, ICompletionProposalExtension5, ICompletionProposalExtension6 {
+public class ChangeCorrectionProposal extends ChangeCorrectionProposalCore implements IJavaCompletionProposal, ICommandAccess, ICompletionProposalExtension5, ICompletionProposalExtension6 { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private static final NullChange COMPUTING_CHANGE= new NullChange("ChangeCorrectionProposal computing..."); //$NON-NLS-1$
 
@@ -122,7 +122,7 @@ public class ChangeCorrectionProposal extends ChangeCorrectionProposalCore imple
 	 *            is visible
 	 * @throws CoreException when the invocation of the change failed
 	 */
-	protected void performChange(IEditorPart activeEditor, IDocument document) throws CoreException {
+	protected void performChange(IEditorPart activeEditor, IDocument document) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StyledText disabledStyledText= null;
 		TraverseListener traverseBlocker= null;
 
@@ -157,7 +157,7 @@ public class ChangeCorrectionProposal extends ChangeCorrectionProposalCore imple
 								e.doit= true;
 								e.detail= SWT.TRAVERSE_NONE;
 							};
-							disabledStyledText.addTraverseListener(traverseBlocker);
+							disabledStyledText.addTraverseListener(traverseBlocker); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 						} else {
 							disabledStyledText= null;
 						}
@@ -280,7 +280,7 @@ public class ChangeCorrectionProposal extends ChangeCorrectionProposalCore imple
 	 *         the change failed
 	 * @throws CoreException when the change could not be created
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final Change getChange() throws CoreException {
 		if (Util.isGtk()) {
 			// workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=293995 :
@@ -290,7 +290,7 @@ public class ChangeCorrectionProposal extends ChangeCorrectionProposalCore imple
 			// Synchronization is achieved by polling fChange, using "fChange == COMPUTING_CHANGE" as barrier.
 			// Timeout of 10s for safety reasons (should not be reached).
 			long end= System.currentTimeMillis() + 10000;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean computing;
 				synchronized (this) {
 					computing= fChange == COMPUTING_CHANGE;
@@ -299,7 +299,7 @@ public class ChangeCorrectionProposal extends ChangeCorrectionProposalCore imple
 					try {
 						Display display= Display.getCurrent();
 						if (display != null) {
-							while (! display.isDisposed() && display.readAndDispatch()) {
+							while (! display.isDisposed() && display.readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								// empty the display loop
 							}
 							display.sleep();

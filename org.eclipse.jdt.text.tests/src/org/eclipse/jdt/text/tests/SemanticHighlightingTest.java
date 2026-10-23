@@ -37,7 +37,7 @@ public class SemanticHighlightingTest extends AbstractSemanticHighlightingTest {
 	@RegisterExtension
 	public SemanticHighlightingTestSetup shts= new SemanticHighlightingTestSetup( "/SHTest/src/SHTest.java");
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void styleChangesInvalidatePresentationOnce() throws Exception {
 		setUpSemanticHighlighting(SemanticHighlightings.DEPRECATED_MEMBER);
 		setUpSemanticHighlighting(SemanticHighlightings.STATIC_FINAL_FIELD);
@@ -49,32 +49,32 @@ public class SemanticHighlightingTest extends AbstractSemanticHighlightingTest {
 				PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_UNDERLINE_SUFFIX,
 		};
 		String[] keys= new String[2 * suffixes.length];
-		for (int i= 0; i < suffixes.length; i++) {
-			keys[2 * i]= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + SemanticHighlightings.DEPRECATED_MEMBER + suffixes[i];
-			keys[2 * i + 1]= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + SemanticHighlightings.STATIC_FINAL_FIELD + suffixes[i];
+		for (int i= 0; i < suffixes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			keys[2 * i]= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + SemanticHighlightings.DEPRECATED_MEMBER + suffixes[i]; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			keys[2 * i + 1]= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + SemanticHighlightings.STATIC_FINAL_FIELD + suffixes[i]; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		SourceViewer viewer= getSourceViewer();
 		int[] invalidations= { 0 };
 		// an invalidation reaches text listeners without a document event
-		ITextListener listener= event -> {
+		ITextListener listener= event -> { //FLLDCIM: MARK — T28  LAMBDA
 			if (event.getDocumentEvent() == null)
 				invalidations[0]++;
 		};
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
-		viewer.addTextListener(listener);
+		viewer.addTextListener(listener); //FLLDCIM: MARK — T28 DOCUMENT_DELTA CALL
 		try {
-			for (String key : keys)
+			for (String key : keys) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				store.setValue(key, !store.getBoolean(key));
 			EditorTestHelper.runEventQueue(100);
 		} finally {
 			viewer.removeTextListener(listener);
-			for (String key : keys)
+			for (String key : keys) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				store.setToDefault(key);
 		}
 
 		assertTrue(invalidations[0] > 0, "presentation not invalidated");
-		assertTrue(invalidations[0] < keys.length, "style changes not coalesced: " + invalidations[0] + " invalidations for " + keys.length + " changes");
+		assertTrue(invalidations[0] < keys.length, "style changes not coalesced: " + invalidations[0] + " invalidations for " + keys.length + " changes"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
@@ -119,7 +119,7 @@ public class SemanticHighlightingTest extends AbstractSemanticHighlightingTest {
 		assertEqualPositions(expected, actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fieldHighlighting() throws Exception {
 		setUpSemanticHighlighting(SemanticHighlightings.FIELD);
 		Position[] expected= new Position[] {
@@ -235,7 +235,7 @@ public class SemanticHighlightingTest extends AbstractSemanticHighlightingTest {
 		assertEqualPositions(expected, actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void localVariableHighlighting() throws Exception {
 		setUpSemanticHighlighting(SemanticHighlightings.LOCAL_VARIABLE);
 		Position[] expected= new Position[] {
@@ -352,7 +352,7 @@ public class SemanticHighlightingTest extends AbstractSemanticHighlightingTest {
 		assertEqualPositions(expected, actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void classHighlighting() throws Exception {
 		setUpSemanticHighlighting(SemanticHighlightings.CLASS);
 		Position[] actual= getSemanticHighlightingPositions();

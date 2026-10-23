@@ -57,7 +57,7 @@ public class StringFixCore implements IProposableFix {
 	private final String fName;
 	private final ICompilationUnit fCompilationUnit;
 
-	public static StringFixCore createFix(CompilationUnit compilationUnit, IProblemLocation problem, boolean removeNLSTag, boolean addNLSTag) throws CoreException {
+	public static StringFixCore createFix(CompilationUnit compilationUnit, IProblemLocation problem, boolean removeNLSTag, boolean addNLSTag) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TextEdit addEdit= null;
 		ICompilationUnit cu= (ICompilationUnit)compilationUnit.getJavaElement();
 		if (addNLSTag) {
@@ -91,7 +91,7 @@ public class StringFixCore implements IProposableFix {
 
 		IProblem[] problems= compilationUnit.getProblems();
 		IProblemLocation[] locations= new IProblemLocation[problems.length];
-		for (int i= 0; i < problems.length; i++) {
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			locations[i]= new ProblemLocation(problems[i]);
 		}
 		return createCleanUp(compilationUnit, addNLSTag, removeNLSTag, locations);
@@ -104,15 +104,15 @@ public class StringFixCore implements IProposableFix {
 		return createCleanUp(compilationUnit, addNLSTag, removeNLSTag, problems);
 	}
 
-	private static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, boolean addNLSTag, boolean removeNLSTag, IProblemLocation[] problems) throws CoreException, JavaModelException {
+	private static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, boolean addNLSTag, boolean removeNLSTag, IProblemLocation[] problems) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= (ICompilationUnit)compilationUnit.getJavaElement();
 		if (!cu.isStructureKnown())
 			return null; //[clean up] 'Remove unnecessary $NLS-TAGS$' removes necessary ones in case of syntax errors: https://bugs.eclipse.org/bugs/show_bug.cgi?id=285814 :
 
-		List<CategorizedTextEditGroup> result= new ArrayList<>();
+		List<CategorizedTextEditGroup> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		List<IProblemLocation> missingNLSProblems= new ArrayList<>();
-		for (IProblemLocation problem : problems) {
+		List<IProblemLocation> missingNLSProblems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (addNLSTag && problem.getProblemId() == IProblem.NonExternalizedStringLiteral) {
 				missingNLSProblems.add(problem);
 			}
@@ -130,13 +130,13 @@ public class StringFixCore implements IProposableFix {
 		if (!missingNLSProblems.isEmpty()) {
 			int[] positions= new int[missingNLSProblems.size()];
 			int i=0;
-			for (IProblemLocation problem : missingNLSProblems) {
+			for (IProblemLocation problem : missingNLSProblems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				positions[i]= problem.getOffset();
 				i++;
 			}
 			TextEdit[] edits= NLSUtil.createNLSEdits(cu, positions);
 			if (edits != null) {
-				for (TextEdit edit : edits) {
+				for (TextEdit edit : edits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String label= FixMessages.StringFix_AddNonNls_description;
 					result.add(new CategorizedTextEditGroup(label, edit, new GroupCategorySet(new GroupCategory(label, label, label))));
 				}
@@ -148,14 +148,14 @@ public class StringFixCore implements IProposableFix {
 		return new StringFixCore("", compilationUnit, result.toArray(new TextEditGroup[result.size()])); //$NON-NLS-1$
 	}
 
-	public static ReplaceEdit getReplace(int offset, int length, IBuffer buffer, boolean removeLeadingIndents) {
+	public static ReplaceEdit getReplace(int offset, int length, IBuffer buffer, boolean removeLeadingIndents) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String replaceString= ""; //$NON-NLS-1$
 		boolean hasMoreInComment= false;
 
 		// look after the tag
 		int next= offset + length;
-		while (next < buffer.getLength()) {
+		while (next < buffer.getLength()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= buffer.getChar(next);
 			if (IndentManipulation.isIndentChar(ch)) {
 				next++; // remove all whitespace
@@ -181,7 +181,7 @@ public class StringFixCore implements IProposableFix {
 			}
 		}
 		if (!hasMoreInComment && removeLeadingIndents) {
-			while (offset > 0 && IndentManipulation.isIndentChar(buffer.getChar(offset - 1))) {
+			while (offset > 0 && IndentManipulation.isIndentChar(buffer.getChar(offset - 1))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				offset--;
 				length++;
 			}
@@ -206,9 +206,9 @@ public class StringFixCore implements IProposableFix {
 			return null;
 
 		CompilationUnitChange result= new CompilationUnitChange(getDisplayString(), fCompilationUnit);
-		for (TextEditGroup editGroup : fEditGroups) {
+		for (TextEditGroup editGroup : fEditGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String groupName= editGroup.getName();
-			for (TextEdit edit : editGroup.getTextEdits()) {
+			for (TextEdit edit : editGroup.getTextEdits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TextChangeCompatibility.addTextEdit(result, groupName, edit);
 			}
 		}

@@ -64,7 +64,7 @@ public class PatternInstanceofToSwitchCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (isEnabled(CleanUpConstants.USE_SWITCH_FOR_INSTANCEOF_PATTERN)) {
 			result.add(MultiFixMessages.CodeStyleCleanUp_PatternInstanceOfToSwitch_description);
@@ -73,7 +73,7 @@ public class PatternInstanceofToSwitchCleanUpCore extends AbstractCleanUp {
 		return result.toArray(new String[0]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.USE_SWITCH_FOR_INSTANCEOF_PATTERN)) {
 			return """

@@ -78,7 +78,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 
 	private static class UseSupertypeInputPage extends UserInputWizardPage{
 
-		private static class UseSupertypeContentProvider implements ITreeContentProvider {
+		private static class UseSupertypeContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 			private ITypeHierarchy fHierarchy;
 
@@ -89,8 +89,8 @@ public class UseSupertypeWizard extends RefactoringWizard{
 				return getDirectSuperTypes((IType)element).toArray();
 			}
 
-			public Set<IType> getDirectSuperTypes(IType type){
-				Set<IType> result= new HashSet<>();
+			public Set<IType> getDirectSuperTypes(IType type){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+				Set<IType> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				final IType superclass= fHierarchy.getSuperclass(type);
 				if (superclass != null) {
 					result.add(superclass);
@@ -150,7 +150,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 
 		public UseSupertypeInputPage(UseSuperTypeProcessor processor) {
 			super(PAGE_NAME);
-			fFileCount= new HashMap<>(2);
+			fFileCount= new HashMap<>(2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			fProcessor= processor;
 			setMessage(MESSAGE);
 		}
@@ -168,7 +168,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 			return fProcessor;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			initializeDialogUnits(parent);
 			loadSettings();
@@ -188,7 +188,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 			checkbox.setText(RefactoringMessages.UseSupertypeInputPage_Use_in_instanceof);
 			checkbox.setLayoutData(new GridData());
 			checkbox.setSelection(getUseSupertypeProcessor().isInstanceOf());
-			checkbox.addSelectionListener(new SelectionAdapter(){
+			checkbox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					getUseSupertypeProcessor().setInstanceOf(checkbox.getSelection());
@@ -196,7 +196,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 					setMessage(MESSAGE);
 					setPageComplete(true);
 					fFileCount.clear();
-					fTreeViewer.refresh();
+					fTreeViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				}
 			});
 
@@ -204,14 +204,14 @@ public class UseSupertypeWizard extends RefactoringWizard{
 			PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.USE_SUPERTYPE_WIZARD_PAGE);
 		}
 
-		private void addTreeViewer(Composite composite) {
+		private void addTreeViewer(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fTreeViewer= new TreeViewer(composite, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 			final Tree tree= fTreeViewer.getTree();
 			final GridData data= new GridData(GridData.FILL_BOTH);
 			data.heightHint= convertHeightInCharsToPixels(12);
 			tree.setLayoutData(data);
 			fLabelProvider= new UseSupertypeLabelProvider(fFileCount);
-			fTreeViewer.setLabelProvider(fLabelProvider);
+			fTreeViewer.setLabelProvider(fLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			fTreeViewer.setContentProvider(new UseSupertypeContentProvider());
 			fTreeViewer.setComparator(new ViewerComparator() {
 
@@ -235,7 +235,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 					return getComparator().compare(type1.getElementName(), type2.getElementName());
 				}
 			});
-			fTreeViewer.addSelectionChangedListener(event -> {
+			fTreeViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				IStructuredSelection ss= (IStructuredSelection)event.getSelection();
 				if (Integer.valueOf(0).equals(fFileCount.get(ss.getFirstElement()))){
 					setMessage(RefactoringMessages.UseSupertypeInputPage_No_updates, IMessageProvider.INFORMATION);
@@ -244,10 +244,10 @@ public class UseSupertypeWizard extends RefactoringWizard{
 					setMessage(MESSAGE);
 					setPageComplete(true);
 				}
-				fTreeViewer.refresh();
+				fTreeViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			});
 			try {
-				fTreeViewer.setInput(SuperTypeHierarchyCache.getTypeHierarchy(getUseSupertypeProcessor().getSubType()));
+				fTreeViewer.setInput(SuperTypeHierarchyCache.getTypeHierarchy(getUseSupertypeProcessor().getSubType())); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			} catch (JavaModelException exception) {
 				JavaPlugin.log(exception);
 			}
@@ -273,7 +273,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 				setMessage(RefactoringMessages.UseSupertypeInputPage_No_updates, IMessageProvider.INFORMATION);
 				setPageComplete(false);
 			}
-			fTreeViewer.refresh();
+			fTreeViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (noSupertypeCanBeUsed()){
 				setMessage(RefactoringMessages.UseSupertypeWizard_10, IMessageProvider.INFORMATION);
 				setPageComplete(false);
@@ -286,7 +286,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 
 		private int countFilesWithValue(int i) {
 			int count= 0;
-			for (Map.Entry<IType, Integer> entry : fFileCount.entrySet()) {
+			for (Map.Entry<IType, Integer> entry : fFileCount.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entry.getValue().intValue() == i)
 					count++;
 			}
@@ -330,7 +330,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 			private UseSupertypeLabelProvider(Map<IType, Integer> fileCount){
 				fFileCount= fileCount;
 			}
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public String getText(Object element) {
 				String superText= super.getText(element);
 				if  (! fFileCount.containsKey(element))

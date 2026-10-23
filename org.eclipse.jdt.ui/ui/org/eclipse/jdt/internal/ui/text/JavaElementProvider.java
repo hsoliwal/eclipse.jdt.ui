@@ -77,7 +77,7 @@ public class JavaElementProvider implements IInformationProvider, IInformationPr
 	/*
 	 * @see IInformationProviderExtension#getElement(ITextViewer, IRegion)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getInformation2(ITextViewer textViewer, IRegion subject) {
 		if (fEditor == null)
 			return null;

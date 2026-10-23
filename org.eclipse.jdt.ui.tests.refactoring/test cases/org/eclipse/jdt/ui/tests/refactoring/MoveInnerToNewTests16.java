@@ -60,10 +60,10 @@ public class MoveInnerToNewTests16 extends GenericRefactoringTest {
 	}
 
 	private ICompilationUnit createCu(IPackageFragment pack, String cuPath, String cuName) throws Exception{
-		return createCU(pack, cuName, getFileContents(getRefactoringPath() + cuPath));
+		return createCU(pack, cuName, getFileContents(getRefactoringPath() + cuPath)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void moveInnerRecord() throws Exception{
 		ParticipantTesting.reset();
 		final String p1Name= "p1";
@@ -71,7 +71,7 @@ public class MoveInnerToNewTests16 extends GenericRefactoringTest {
 		final String outDir= "/out/";
 
 		IPackageFragment packP1= createPackage(p1Name);
-		ICompilationUnit p1Foo= createCu(packP1, getName() + inDir + p1Name + "/Foo.java", "Foo.java");
+		ICompilationUnit p1Foo= createCu(packP1, getName() + inDir + p1Name + "/Foo.java", "Foo.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IType fooType= p1Foo.getTypes()[0];
 		IType barType= fooType.getTypes()[0];
 
@@ -79,7 +79,7 @@ public class MoveInnerToNewTests16 extends GenericRefactoringTest {
 		MoveInnerToTopRefactoring ref= ((RefactoringAvailabilityTester.isMoveInnerAvailable(barType)) ? new MoveInnerToTopRefactoring(barType, JavaPreferencesSettings.getCodeGenerationSettings(barType.getJavaProject())) : null);
 		assertNotNull("MoveInnerToTopRefactoring should not be null", ref);
 		RefactoringStatus preconditionResult= ref.checkInitialConditions(new NullProgressMonitor());
-		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK());
+		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 		RefactoringStatus checkInputResult= ref.checkFinalConditions(new NullProgressMonitor());
@@ -88,15 +88,15 @@ public class MoveInnerToNewTests16 extends GenericRefactoringTest {
 
 		assertEquals("p1 files", 2, packP1.getChildren().length);
 
-		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/Foo.java");
+		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/Foo.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of Foo", expectedSource, packP1.getCompilationUnit("Foo.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/Bar.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/Bar.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect creation of Bar", expectedSource, packP1.getCompilationUnit("Bar.java").getSource());
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void moveInnerRecord2() throws Exception{
 		ParticipantTesting.reset();
 		final String p1Name= "p1";
@@ -104,7 +104,7 @@ public class MoveInnerToNewTests16 extends GenericRefactoringTest {
 		final String outDir= "/out/";
 
 		IPackageFragment packP1= createPackage(p1Name);
-		ICompilationUnit p1Foo= createCu(packP1, getName() + inDir + p1Name + "/Foo.java", "Foo.java");
+		ICompilationUnit p1Foo= createCu(packP1, getName() + inDir + p1Name + "/Foo.java", "Foo.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IType fooType= p1Foo.getTypes()[0];
 		IType barType= fooType.getTypes()[0];
 
@@ -112,7 +112,7 @@ public class MoveInnerToNewTests16 extends GenericRefactoringTest {
 		MoveInnerToTopRefactoring ref= ((RefactoringAvailabilityTester.isMoveInnerAvailable(barType)) ? new MoveInnerToTopRefactoring(barType, JavaPreferencesSettings.getCodeGenerationSettings(barType.getJavaProject())) : null);
 		assertNotNull("MoveInnerToTopRefactoring should not be null", ref);
 		RefactoringStatus preconditionResult= ref.checkInitialConditions(new NullProgressMonitor());
-		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK());
+		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 		RefactoringStatus checkInputResult= ref.checkFinalConditions(new NullProgressMonitor());
@@ -121,10 +121,10 @@ public class MoveInnerToNewTests16 extends GenericRefactoringTest {
 
 		assertEquals("p1 files", 2, packP1.getChildren().length);
 
-		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/Foo.java");
+		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/Foo.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of Foo", expectedSource, packP1.getCompilationUnit("Foo.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/Bar.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/Bar.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect creation of Bar", expectedSource, packP1.getCompilationUnit("Bar.java").getSource());
 
 	}

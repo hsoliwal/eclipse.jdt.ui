@@ -37,7 +37,7 @@ public class JEPluginImages {
 	public static final ImageDescriptor IMG_SET_FOCUS_CODE_SELECT= create(CODE_SELECT);
 
 	private static ImageDescriptor create(String name) {
-		return ImageDescriptor.createFromURL(JEViewPlugin.getDefault().getBundle().getEntry(fgIconBase+ name));
+		return ImageDescriptor.createFromURL(JEViewPlugin.getDefault().getBundle().getEntry(fgIconBase+ name)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private JEPluginImages() {

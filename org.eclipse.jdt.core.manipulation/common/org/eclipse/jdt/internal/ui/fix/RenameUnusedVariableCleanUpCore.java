@@ -88,17 +88,17 @@ public class RenameUnusedVariableCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_LOCAL_VARIABLES))
 			result.add(MultiFixMessages.UnusedCodeMultiFix_RemoveUnusedVariable_description);
 		return result.toArray(new String[0]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		buf.append("    public void bar() {\n"); //$NON-NLS-1$
+		buf.append("    public void bar() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (!isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_LOCAL_VARIABLES)) {
 			String code= """
 					record R(int i, long l) {}
@@ -109,7 +109,7 @@ public class RenameUnusedVariableCleanUpCore extends AbstractMultiFix {
 					   	case R r2 -> {}
 					}
 					"""; //$NON-NLS-1$
-			buf.append(code);
+			buf.append(code); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
 			String code= """
 					record R(int i, long l) {}
@@ -120,10 +120,10 @@ public class RenameUnusedVariableCleanUpCore extends AbstractMultiFix {
 					   	case R _ -> {}
 					}
 					"""; //$NON-NLS-1$
-			buf.append(code);
+			buf.append(code); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_LOCAL_VARIABLES)) {
-			buf.append("\n"); //$NON-NLS-1$
+			buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return buf.toString();
@@ -137,12 +137,12 @@ public class RenameUnusedVariableCleanUpCore extends AbstractMultiFix {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int computeNumberOfFixes(CompilationUnit compilationUnit) {
 		int result= 0;
 		IProblem[] problems= compilationUnit.getProblems();
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_LOCAL_VARIABLES)) {
-			for (IProblem problem : problems) {
+			for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int id= problem.getID();
 				if (id == IProblem.LocalVariableIsNeverUsed) {
 					ProblemLocation location= new ProblemLocation(problem);

@@ -227,20 +227,20 @@ public class ChangeCalculator {
 		String className= ((AbstractTypeDeclaration) fTargetMethodDeclaration.getParent()).getName().toString();
 		List<SingleVariableDeclaration> parameters= fTargetMethodDeclaration.parameters();
 
-		String baseParameterName= Character.toLowerCase(className.charAt(0)) + className.substring(1);
+		String baseParameterName= Character.toLowerCase(className.charAt(0)) + className.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int duplicateCount= 1;
 		String uniqueParameterName= baseParameterName;
 
-		while (parameterNameExists(uniqueParameterName, parameters)) {
+		while (parameterNameExists(uniqueParameterName, parameters)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			duplicateCount++;
-			uniqueParameterName= baseParameterName + duplicateCount;
+			uniqueParameterName= baseParameterName + duplicateCount; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return uniqueParameterName;
 	}
 
 	private boolean parameterNameExists(String parameterName, List<SingleVariableDeclaration> parameters) {
-		for (SingleVariableDeclaration param : parameters) {
+		for (SingleVariableDeclaration param : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (param.getName().getIdentifier().equals(parameterName)) {
 				return true;
 			}
@@ -281,7 +281,7 @@ public class ChangeCalculator {
 		}
 	}
 
-	private SingleVariableDeclaration generateNewParameter() throws JavaModelException {
+	private SingleVariableDeclaration generateNewParameter() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String className= ((AbstractTypeDeclaration) fTargetMethodDeclaration.getParent()).getName().toString();
 		IType parentType= fTargetMethod.getDeclaringType();
 		ITypeParameter[] classTypeParameters= parentType.getTypeParameters();
@@ -291,7 +291,7 @@ public class ChangeCalculator {
 		if (classTypeParameters.length != 0) {
 			SimpleType simpleType= fTargetMethodDeclarationAST.newSimpleType(fTargetMethodDeclarationAST.newName(className));
 			ParameterizedType parameterizedType= fTargetMethodDeclarationAST.newParameterizedType(simpleType);
-			for (int parameterNumber= 0; parameterNumber < classTypeParameters.length; parameterNumber++) {
+			for (int parameterNumber= 0; parameterNumber < classTypeParameters.length; parameterNumber++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SimpleType typeParameter= fTargetMethodDeclarationAST.newSimpleType(fTargetMethodDeclarationAST.newSimpleName(classTypeParameters[parameterNumber].getElementName()));
 				parameterizedType.typeArguments().add(typeParameter);
 			}
@@ -313,7 +313,7 @@ public class ChangeCalculator {
 	 * @throws JavaModelException if the type parameters of the parentType do not exist or if an
 	 *             exception occurs while accessing its corresponding resource.
 	 */
-	private void updateTargetMethodTypeParamList() throws JavaModelException {
+	private void updateTargetMethodTypeParamList() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType parentType= fTargetMethod.getDeclaringType();
 		ITypeParameter[] classTypeParameters= parentType.getTypeParameters();
 		ListRewrite typeParamsRewrite= fTargetMethodDeclarationASTRewrite.getListRewrite(fTargetMethodDeclaration, MethodDeclaration.TYPE_PARAMETERS_PROPERTY);
@@ -321,7 +321,7 @@ public class ChangeCalculator {
 		List<String> methodTypeParametersNames= getTypeParameterNames();
 
 		if (classTypeParameters.length != 0) {
-			for (int i= 0; i < classTypeParameters.length; i++) {
+			for (int i= 0; i < classTypeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeParameter typeParameter= generateTypeParameter(classTypeParameters, i);
 
 				if (fFinalConditionsChecker.getStatus().hasError()) {
@@ -329,7 +329,7 @@ public class ChangeCalculator {
 				}
 				//Check if method needs this TypeParameter (only if one or more methodParams are of this type OR method has instance usage OR an instance of parent class is used as methodParam)
 				String typeParamName= typeParameter.getName().getIdentifier();
-				String typeParamNameAsArray= typeParamName + "[]"; //$NON-NLS-1$
+				String typeParamNameAsArray= typeParamName + "[]"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				boolean paramIsNeeded= methodParameterTypes.contains(typeParamName) || methodParameterTypes.contains(typeParamNameAsArray);
 				if (fInstanceUsageRewriter.getTargetMethodhasInstanceUsage() || paramIsNeeded) {
 					//only insert if typeParam not already existing
@@ -347,7 +347,7 @@ public class ChangeCalculator {
 		String[] bounds= classTypeParameters[i].getBounds();
 		TypeParameter typeParameter= fTargetMethodDeclarationAST.newTypeParameter();
 		typeParameter.setName(fTargetMethodDeclarationAST.newSimpleName(classTypeParameters[i].getElementName()));
-		for (String bound : bounds) {
+		for (String bound : bounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//WildCardTypes are not allowed as bounds
 			fFinalConditionsChecker.checkBoundNotContainingWildCardType(bound);
 			if (!fFinalConditionsChecker.getStatus().hasError()) {
@@ -358,16 +358,16 @@ public class ChangeCalculator {
 		return typeParameter;
 	}
 
-	private List<String> getMethodParameterTypes() {
+	private List<String> getMethodParameterTypes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<SingleVariableDeclaration> methodParams= fTargetMethodDeclaration.parameters();
-		List<String> methodParameterTypes= new ArrayList<>(methodParams.size());
-		for (SingleVariableDeclaration methodParam : methodParams) {
+		List<String> methodParameterTypes= new ArrayList<>(methodParams.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SingleVariableDeclaration methodParam : methodParams) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type type= methodParam.getType();
 			//if type is parameterized, then those typeParams need to be included in TypeParamList of method
 			if (type.isParameterizedType()) {
 				ParameterizedType parameterizedType= (ParameterizedType) type;
 				List<Type> typeParamsOfMethodParam= parameterizedType.typeArguments();
-				for (Type typeParamOfMethodParam : typeParamsOfMethodParam) {
+				for (Type typeParamOfMethodParam : typeParamsOfMethodParam) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					methodParameterTypes.add(typeParamOfMethodParam.resolveBinding().getName());
 				}
 			}
@@ -379,8 +379,8 @@ public class ChangeCalculator {
 
 	private List<String> getTypeParameterNames() {
 		List<TypeParameter> methodTypeParameters= fTargetMethodDeclaration.typeParameters();
-		List<String> methodTypeParametersNames= new ArrayList<>(methodTypeParameters.size());
-		for (TypeParameter methodTypeParam : methodTypeParameters) {
+		List<String> methodTypeParametersNames= new ArrayList<>(methodTypeParameters.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TypeParameter methodTypeParam : methodTypeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			methodTypeParametersNames.add(methodTypeParam.getName().getIdentifier());
 		}
 		return methodTypeParametersNames;
@@ -390,7 +390,7 @@ public class ChangeCalculator {
 		Javadoc javadoc= fTargetMethodDeclaration.getJavadoc();
 		if (javadoc != null) {
 			TextElement textElement= fTargetMethodDeclarationAST.newTextElement();
-			textElement.setText("<" + typeParameter.getName().getIdentifier() + ">"); //$NON-NLS-1$ //$NON-NLS-2$
+			textElement.setText("<" + typeParameter.getName().getIdentifier() + ">"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			TagElement newParameterTag= fTargetMethodDeclarationAST.newTagElement();
 			newParameterTag.setTagName(TagElement.TAG_PARAM);
 			newParameterTag.fragments().add(textElement);
@@ -410,7 +410,7 @@ public class ChangeCalculator {
 	 */
 	private void deleteOverrideAnnotation() {
 		ListRewrite listRewrite= fTargetMethodDeclarationASTRewrite.getListRewrite(fTargetMethodDeclaration, MethodDeclaration.MODIFIERS2_PROPERTY);
-		for (Object obj : fTargetMethodDeclaration.modifiers()) {
+		for (Object obj : fTargetMethodDeclaration.modifiers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (obj instanceof org.eclipse.jdt.core.dom.MarkerAnnotation markerAnnotation) {
 				if (markerAnnotation.getTypeName().getFullyQualifiedName().equals("Override")) { //$NON-NLS-1$
 					listRewrite.remove(markerAnnotation, null);
@@ -428,7 +428,7 @@ public class ChangeCalculator {
 		if (allTextEdits == null) {
 			allTextEdits= new MultiTextEdit();
 		}
-		for (TextEdit editToAdd : editsToAdd) {
+		for (TextEdit editToAdd : editsToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			allTextEdits.addChild(editToAdd);
 		}
 		String changeName= Messages.format(RefactoringCoreMessages.MakeStaticRefactoring_change_name, iCompilationUnit.getElementName());
@@ -447,13 +447,13 @@ public class ChangeCalculator {
 	 * @param targetMethodBinding The method binding of the target method.
 	 * @throws CoreException if an error occurs during handling method invocations.
 	 */
-	public void handleMethodInvocations(IProgressMonitor progressMonitor, IMethodBinding targetMethodBinding) throws CoreException {
+	public void handleMethodInvocations(IProgressMonitor progressMonitor, IMethodBinding targetMethodBinding) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//Provides all invocations of the refactored method in the workspace.
 		TargetProvider targetProvider= TargetProvider.create(fTargetMethodDeclaration);
 		targetProvider.initialize();
 		IProgressMonitor sliceProgessMonitor= progressMonitor.slice(1);
 		ICompilationUnit[] affectedICompilationUnits= targetProvider.getAffectedCompilationUnits(fFinalConditionsChecker.getStatus(), new ReferencesInBinaryContext(""), sliceProgessMonitor); //$NON-NLS-1$
-		for (ICompilationUnit affectedICompilationUnit : affectedICompilationUnits) {
+		for (ICompilationUnit affectedICompilationUnit : affectedICompilationUnits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			//Check if MethodReferences use selected method -> cancel refactoring
 			CompilationUnit affectedCompilationUnit= convertICUtoCU(affectedICompilationUnit);
@@ -464,10 +464,10 @@ public class ChangeCalculator {
 			}
 
 			BodyDeclaration[] bodies= targetProvider.getAffectedBodyDeclarations(affectedICompilationUnit, null);
-			List<TextEdit> textEdits= new ArrayList<>();
-			for (BodyDeclaration body : bodies) {
+			List<TextEdit> textEdits= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (BodyDeclaration body : bodies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode[] invocations= targetProvider.getInvocations(body, null);
-				for (ASTNode invocationASTNode : invocations) {
+				for (ASTNode invocationASTNode : invocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MethodInvocation invocation= (MethodInvocation) invocationASTNode;
 					textEdits.add(createMethodInvocationChange(invocation));
 				}
@@ -491,7 +491,7 @@ public class ChangeCalculator {
 		return (CompilationUnit) parser.createAST(null);
 	}
 
-	private TextEdit createMethodInvocationChange(MethodInvocation invocation) throws JavaModelException {
+	private TextEdit createMethodInvocationChange(MethodInvocation invocation) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= invocation.getAST();
 		ASTRewrite rewrite= ASTRewrite.create(ast);
 
@@ -552,7 +552,7 @@ public class ChangeCalculator {
 
 	private ASTNode findParentClass(MethodInvocation invocation) {
 		ASTNode parent= invocation;
-		while ((!(parent instanceof AbstractTypeDeclaration)) && (!(parent instanceof AnonymousClassDeclaration))) {
+		while ((!(parent instanceof AbstractTypeDeclaration)) && (!(parent instanceof AnonymousClassDeclaration))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		return parent;

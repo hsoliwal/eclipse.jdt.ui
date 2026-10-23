@@ -44,7 +44,7 @@ public class JavaElementLine {
 	 * @param lineStartOffset the start offset of the line
 	 * @throws CoreException thrown when accessing of the buffer failed
 	 */
-	public JavaElementLine(ITypeRoot element, int lineNumber, int lineStartOffset) throws CoreException {
+	public JavaElementLine(ITypeRoot element, int lineNumber, int lineStartOffset) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fElement= element;
 		fFlags= 0;
 
@@ -57,18 +57,18 @@ public class JavaElementLine {
 		int i= lineStartOffset;
 
 		char ch= buffer.getChar(i);
-		while (lineStartOffset < length && IndentManipulation.isIndentChar(ch)) {
+		while (lineStartOffset < length && IndentManipulation.isIndentChar(ch)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ch= buffer.getChar(++i);
 		}
 		fLineStartOffset= i;
 
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		while (i < length && !IndentManipulation.isLineDelimiterChar(ch)) {
+		while (i < length && !IndentManipulation.isLineDelimiterChar(ch)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Character.isISOControl(ch)) {
-				buf.append(' ');
+				buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buf.append(ch);
+				buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			i++;
 			if (i < length)

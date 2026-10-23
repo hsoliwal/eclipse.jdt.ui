@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-public final class PreferenceHighlight implements PaintListener {
+public final class PreferenceHighlight implements PaintListener { //FLLDCIM: MARK — T10  IMPLEMENTS
 
 	private static final int HIGHLIGHT_FOCUS= SWT.COLOR_WIDGET_DARK_SHADOW;
 
@@ -68,13 +68,13 @@ public final class PreferenceHighlight implements PaintListener {
 	 *            controls focus state
 	 * @return highlight handler
 	 */
-	public static PreferenceHighlight addHighlight(Control labelControl, Control mainControl, boolean autoFocus) {
+	public static PreferenceHighlight addHighlight(Control labelControl, Control mainControl, boolean autoFocus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Composite parent= labelControl.getParent();
 		PreferenceHighlight highlight= new PreferenceHighlight(parent, labelControl, mainControl);
-		parent.addPaintListener(highlight);
+		parent.addPaintListener(highlight); //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 
 		if (autoFocus) {
-			mainControl.addFocusListener(new FocusListener() {
+			mainControl.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 				@Override
 				public void focusLost(FocusEvent e) {
 					highlight.setFocus(false);
@@ -98,22 +98,22 @@ public final class PreferenceHighlight implements PaintListener {
 				highlight.setHover(false);
 			}
 		};
-		mainControl.addMouseTrackListener(labelComboListener);
-		labelControl.addMouseTrackListener(labelComboListener);
+		mainControl.addMouseTrackListener(labelComboListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+		labelControl.addMouseTrackListener(labelComboListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
-		parent.addMouseMoveListener(e -> {
+		parent.addMouseMoveListener(e -> { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			highlight.setHover(highlight.isAroundLabel(e));
 		});
-		parent.addMouseTrackListener(MouseTrackListener.mouseExitAdapter(unused -> {
+		parent.addMouseTrackListener(MouseTrackListener.mouseExitAdapter(unused -> { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			highlight.setHover(false);
 		}));
-		parent.addMouseListener(MouseListener.mouseDownAdapter(e -> {
+		parent.addMouseListener(MouseListener.mouseDownAdapter(e -> { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			if (highlight.isAroundLabel(e))
 				mainControl.setFocus();
 		}));
 
 		if (labelControl instanceof Label) {
-			labelControl.addMouseListener(MouseListener.mouseDownAdapter(unused -> mainControl.setFocus()));
+			labelControl.addMouseListener(MouseListener.mouseDownAdapter(unused -> mainControl.setFocus())); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		}
 
 		return highlight;

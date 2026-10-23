@@ -124,7 +124,7 @@ public class Bindings {
 			return false;
 		if (b1.length != b2.length)
 			return false;
-		for (int i= 0; i < b1.length; i++) {
+		for (int i= 0; i < b1.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! Bindings.equals(b1[i], b2[i]))
 				return false;
 		}
@@ -164,41 +164,41 @@ public class Bindings {
 			Assert.isTrue("length".equals(variableBinding.getName()));//$NON-NLS-1$
 			return ARRAY_LENGTH_FIELD_BINDING_STRING;
 		}
-		StringBuilder result= new StringBuilder();
-		result.append(variableBinding.getDeclaringClass().getName());
-		result.append(':');
-		result.append(variableBinding.getName());
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append(variableBinding.getDeclaringClass().getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(':'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(variableBinding.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 
 	private static String asString(IMethodBinding method) {
-		StringBuilder result= new StringBuilder();
-		result.append(method.getDeclaringClass().getName());
-		result.append(':');
-		result.append(method.getName());
-		result.append('(');
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append(method.getDeclaringClass().getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(':'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(method.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ITypeBinding[] parameters= method.getParameterTypes();
 		int lastComma= parameters.length - 1;
-		for (int i= 0; i < parameters.length; i++) {
+		for (int i= 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding parameter= parameters[i];
-			result.append(parameter.getName());
+			result.append(parameter.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (i < lastComma)
-				result.append(", "); //$NON-NLS-1$
+				result.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		result.append(')');
+		result.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 
 	public static String getTypeQualifiedName(ITypeBinding type) {
-		List<String> result= new ArrayList<>(5);
+		List<String> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		createName(type, false, result);
 
-		StringBuilder buffer= new StringBuilder();
-		for (int i= 0; i < result.size(); i++) {
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < result.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
-				buffer.append('.');
+				buffer.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buffer.append(result.get(i));
+			buffer.append(result.get(i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buffer.toString();
 	}
@@ -219,13 +219,13 @@ public class Bindings {
 		return name;
 	}
 
-	public static String getImportName(IBinding binding) {
+	public static String getImportName(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding declaring= null;
 		switch (binding.getKind()) {
 			case IBinding.TYPE:
 				return getRawQualifiedName((ITypeBinding) binding);
 			case IBinding.PACKAGE:
-				return binding.getName() + ".*"; //$NON-NLS-1$
+				return binding.getName() + ".*"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			case IBinding.METHOD:
 				declaring= ((IMethodBinding) binding).getDeclaringClass();
 				break;
@@ -243,7 +243,7 @@ public class Bindings {
 	}
 
 
-	private static void createName(ITypeBinding type, boolean includePackage, List<String> list) {
+	private static void createName(ITypeBinding type, boolean includePackage, List<String> list) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding baseType= type;
 		if (type.isArray()) {
 			baseType= type.getElementType();
@@ -266,20 +266,20 @@ public class Bindings {
 
 
 	public static String[] getNameComponents(ITypeBinding type) {
-		List<String> result= new ArrayList<>(5);
+		List<String> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		createName(type, false, result);
 		return result.toArray(new String[result.size()]);
 	}
 
 	public static String[] getAllNameComponents(ITypeBinding type) {
-		List<String> result= new ArrayList<>(5);
+		List<String> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		createName(type, true, result);
 		return result.toArray(new String[result.size()]);
 	}
 
 	public static ITypeBinding getTopLevelType(ITypeBinding type) {
 		ITypeBinding parent= type.getDeclaringClass();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			type= parent;
 			parent= type.getDeclaringClass();
 		}
@@ -310,7 +310,7 @@ public class Bindings {
 	public static IVariableBinding findFieldInType(ITypeBinding type, String fieldName) {
 		if (type.isPrimitive())
 			return null;
-		for (IVariableBinding field : type.getDeclaredFields()) {
+		for (IVariableBinding field : type.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field.getName().equals(fieldName))
 				return field;
 		}
@@ -336,7 +336,7 @@ public class Bindings {
 			if (field != null)
 				return field;
 		}
-		for (ITypeBinding intf : type.getInterfaces()) {
+		for (ITypeBinding intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			field= findFieldInHierarchy(intf, fieldName);
 			if (field != null) // no private fields in interfaces
 				return field;
@@ -356,7 +356,7 @@ public class Bindings {
 	public static IMethodBinding findMethodInType(ITypeBinding type, String methodName, ITypeBinding[] parameters) {
 		if (type.isPrimitive())
 			return null;
-		for (IMethodBinding method : type.getDeclaredMethods()) {
+		for (IMethodBinding method : type.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parameters == null) {
 				if (methodName.equals(method.getName())) {
 					return method;
@@ -391,7 +391,7 @@ public class Bindings {
 			if (method != null)
 				return method;
 		}
-		for (ITypeBinding intf : type.getInterfaces()) {
+		for (ITypeBinding intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			method= findMethodInHierarchy(intf, methodName, parameters);
 			if (method != null)
 				return method;
@@ -410,7 +410,7 @@ public class Bindings {
 	public static IMethodBinding findMethodInType(ITypeBinding type, String methodName, String[] parameters) {
 		if (type.isPrimitive())
 			return null;
-		for (IMethodBinding method : type.getDeclaredMethods()) {
+		for (IMethodBinding method : type.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parameters == null) {
 				if (methodName.equals(method.getName())) {
 					return method;
@@ -441,7 +441,7 @@ public class Bindings {
 	public static IMethodBinding findMethodWithDeclaredParameterTypesInType(ITypeBinding type, String methodName, String[] parameters) {
 		if (type.isPrimitive())
 			return null;
-		for (IMethodBinding method : type.getDeclaredMethods()) {
+		for (IMethodBinding method : type.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parameters == null) {
 				if (methodName.equals(method.getName())) {
 					return method;
@@ -475,7 +475,7 @@ public class Bindings {
 			if (method != null)
 				return method;
 		}
-		for (ITypeBinding intf : type.getInterfaces()) {
+		for (ITypeBinding intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			method= findMethodInHierarchy(intf, methodName, parameters);
 			if (method != null)
 				return method;
@@ -491,7 +491,7 @@ public class Bindings {
 	 * @return the method binding of the method that is overridden by the specified <code>method</code>, or <code>null</code>
 	 */
 	public static IMethodBinding findOverriddenMethodInType(ITypeBinding type, IMethodBinding method) {
-		for (IMethodBinding curr : type.getDeclaredMethods()) {
+		for (IMethodBinding curr : type.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSubsignature(method, curr)) {
 				return curr;
 			}
@@ -517,7 +517,7 @@ public class Bindings {
 			if (method != null)
 				return method;
 		}
-		for (ITypeBinding intf : type.getInterfaces()) {
+		for (ITypeBinding intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			method= findOverriddenMethodInHierarchy(intf, binding);
 			if (method != null)
 				return method;
@@ -553,8 +553,8 @@ public class Bindings {
 	 *         is found
 	 * @since 3.9
 	 */
-	public static List<IMethodBinding> findOverriddenMethods(IMethodBinding overriding, boolean testVisibility, boolean firstOnly) {
-		List<IMethodBinding> methodList= new ArrayList<>();
+	public static List<IMethodBinding> findOverriddenMethods(IMethodBinding overriding, boolean testVisibility, boolean firstOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IMethodBinding> methodList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		int modifiers= overriding.getModifiers();
 		if (Modifier.isPrivate(modifiers) || Modifier.isStatic(modifiers) || overriding.isConstructor()) {
@@ -573,7 +573,7 @@ public class Bindings {
 				}
 			}
 		}
-		for (ITypeBinding intf : type.getInterfaces()) {
+		for (ITypeBinding intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding res= findOverriddenMethodInHierarchy(intf, overriding);
 			if (res != null) {
 				methodList.add(res); // methods from interfaces are always public and therefore visible
@@ -603,7 +603,7 @@ public class Bindings {
 	 * @return all super types (excluding <code>type</code>)
 	 */
 	public static ITypeBinding[] getAllSuperTypes(ITypeBinding type) {
-		Set<ITypeBinding> result= new HashSet<>();
+		Set<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		visitHierarchy(type, t -> {
 			result.add(t);
 			return true;
@@ -631,7 +631,7 @@ public class Bindings {
 				}
 				return visitor.visit(t);
 			}
-		}, new HashSet<>());
+		}, new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	private static boolean visitSuperTypes(ITypeBinding type, TypeBindingVisitor visitor, HashSet<ITypeBinding> visited) {
@@ -642,7 +642,7 @@ public class Bindings {
 			if (!visitSuperTypes(type.getSuperclass(), visitor, visited)) {
 				return false;
 			}
-			for (ITypeBinding itfc : type.getInterfaces()) {
+			for (ITypeBinding itfc : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!visitSuperTypes(itfc, visitor, visited)) {
 					return false;
 				}
@@ -662,14 +662,14 @@ public class Bindings {
 	 *         method returned <code>false</code> for a type
 	 */
 	public static boolean visitInterfaces(ITypeBinding type, TypeBindingVisitor visitor) {
-		return visitInterfaces(type, visitor, new HashSet<>());
+		return visitInterfaces(type, visitor, new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	private static boolean visitInterfaces(ITypeBinding type, TypeBindingVisitor visitor, HashSet<ITypeBinding> visited) {
 		boolean unvisited= visited.add(type);
 		if (!unvisited)
 			return true;
-		for (ITypeBinding intf : type.getInterfaces()) {
+		for (ITypeBinding intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!visitor.visit(intf)) {
 				return false;
 			}
@@ -691,7 +691,7 @@ public class Bindings {
 	 *         method returned <code>false</code> for a type
 	 */
 	public static boolean visitSuperclasses(ITypeBinding type, TypeBindingVisitor visitor) {
-		while ((type= type.getSuperclass()) != null) {
+		while ((type= type.getSuperclass()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!visitor.visit(type)) {
 				return false;
 			}
@@ -708,7 +708,7 @@ public class Bindings {
 	 * @deprecated use {@link #isSubsignature(IMethodBinding, IMethodBinding)}
 	 */
 	//TODO: rename to isErasureEquivalentMethod and change to two IMethodBinding parameters
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static boolean isEqualMethod(IMethodBinding method, String methodName, ITypeBinding[] parameters) {
 		if (!method.getName().equals(methodName))
 			return false;
@@ -716,7 +716,7 @@ public class Bindings {
 		ITypeBinding[] methodParameters= method.getParameterTypes();
 		if (methodParameters.length != parameters.length)
 			return false;
-		for (int i= 0; i < parameters.length; i++) {
+		for (int i= 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!equals(methodParameters[i].getErasure(), parameters[i].getErasure()))
 				return false;
 		}
@@ -746,7 +746,7 @@ public class Bindings {
 	 * 		Accessibility and return types are not taken into account.
 	 * 		Note that subsignature is <em>not</em> symmetric!
 	 */
-	public static boolean isSubsignature(IMethodBinding overriding, IMethodBinding overridden) {
+	public static boolean isSubsignature(IMethodBinding overriding, IMethodBinding overridden) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//TODO: use IMethodBinding#isSubsignature(..) once it is tested and fixed (only erasure of m1's parameter types, considering type variable counts, doing type variable substitution
 		if (!overriding.getName().equals(overridden.getName()))
 			return false;
@@ -768,7 +768,7 @@ public class Bindings {
 			// Full compliance would require major duplication of compiler code.
 
 			//Compare type parameter bounds:
-			for (int i= 0; i < m1TypeParams.length; i++) {
+			for (int i= 0; i < m1TypeParams.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// loop over m1TypeParams, which is either empty, or equally long as m2TypeParams
 				Set<ITypeBinding> m1Bounds= getTypeBoundsForSubsignature(m1TypeParams[i]);
 				Set<ITypeBinding> m2Bounds= getTypeBoundsForSubsignature(m2TypeParams[i]);
@@ -778,7 +778,7 @@ public class Bindings {
 			//Compare parameter types:
 			if (equals(m2Params, m1Params))
 				return true;
-			for (int i= 0; i < m1Params.length; i++) {
+			for (int i= 0; i < m1Params.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding m1Param= m1Params[i];
 				ITypeBinding m2Param= m2Params[i];
 				if (containsTypeVariables(m1Param) || m1Param.isRawType())
@@ -792,7 +792,7 @@ public class Bindings {
 			// m1TypeParams.length == m2TypeParams.length == 0
 			if (equals(m1Params, m2Params))
 				return true;
-			for (int i= 0; i < m1Params.length; i++) {
+			for (int i= 0; i < m1Params.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding m1Param= m1Params[i];
 				ITypeBinding m2Param= m2Params[i];
 				if (m1Param.isRawType())
@@ -819,7 +819,7 @@ public class Bindings {
 	}
 
 	private static boolean containsTypeVariables(ITypeBinding[] types) {
-		for (ITypeBinding type : types) {
+		for (ITypeBinding type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (containsTypeVariables(type)) {
 				return true;
 			}
@@ -827,14 +827,14 @@ public class Bindings {
 		return false;
 	}
 
-	private static Set<ITypeBinding> getTypeBoundsForSubsignature(ITypeBinding typeParameter) {
+	private static Set<ITypeBinding> getTypeBoundsForSubsignature(ITypeBinding typeParameter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] typeBounds= typeParameter.getTypeBounds();
 		int count= typeBounds.length;
 		if (count == 0)
 			return Collections.emptySet();
 
-		Set<ITypeBinding> result= new HashSet<>(typeBounds.length);
-		for (ITypeBinding bound : typeBounds) {
+		Set<ITypeBinding> result= new HashSet<>(typeBounds.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ITypeBinding bound : typeBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("java.lang.Object".equals(typeBounds[0].getQualifiedName())) //$NON-NLS-1$
 				continue;
 			else if (containsTypeVariables(bound))
@@ -858,7 +858,7 @@ public class Bindings {
 	 * 		m1 (with name <code>methodName</code> and method parameters <code>parameters</code>)
 	 * 		is a subsignature of the method <code>m2</code>. Accessibility and return types are not taken into account.
 	 */
-	public static boolean isEqualMethod(IMethodBinding method, String methodName, String[] parameters) {
+	public static boolean isEqualMethod(IMethodBinding method, String methodName, String[] parameters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!method.getName().equals(methodName))
 			return false;
 
@@ -867,15 +867,15 @@ public class Bindings {
 			return false;
 		String first, second;
 		int index;
-		for (int i= 0; i < parameters.length; i++) {
+		for (int i= 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			first= parameters[i];
 			index= first.indexOf('<');
 			if (index > 0){
 				int lastIndex= first.lastIndexOf('>');
-				StringBuilder buf= new StringBuilder();
-				buf.append(first.substring(0, index));
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append(first.substring(0, index)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (lastIndex < first.length() - 1)
-					buf.append(first.substring(lastIndex + 1, first.length()));
+					buf.append(first.substring(lastIndex + 1, first.length())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				first= buf.toString();
 			}
 			second= methodParameters[i].getQualifiedName();
@@ -895,7 +895,7 @@ public class Bindings {
 	 * @param fullyQualifiedTypeName the fully qualified name to search for
 	 * @return the type binding
 	 */
-	public static ITypeBinding findTypeInHierarchy(ITypeBinding hierarchyType, String fullyQualifiedTypeName) {
+	public static ITypeBinding findTypeInHierarchy(ITypeBinding hierarchyType, String fullyQualifiedTypeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hierarchyType.isArray() || hierarchyType.isPrimitive()) {
 			return null;
 		}
@@ -910,7 +910,7 @@ public class Bindings {
 			}
 		}
 		ITypeBinding[] superInterfaces= hierarchyType.getInterfaces();
-		for (ITypeBinding superInterface : superInterfaces) {
+		for (ITypeBinding superInterface : superInterfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding res= findTypeInHierarchy(superInterface, fullyQualifiedTypeName);
 			if (res != null) {
 				return res;
@@ -926,7 +926,7 @@ public class Bindings {
 	 * @param fullyQualifiedTypeName the fully qualified name to search for
 	 * @return the type binding
 	 */
-	public static ITypeBinding findImmediateSuperTypeInHierarchy(ITypeBinding hierarchyType, String fullyQualifiedTypeName) {
+	public static ITypeBinding findImmediateSuperTypeInHierarchy(ITypeBinding hierarchyType, String fullyQualifiedTypeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hierarchyType.isArray() || hierarchyType.isPrimitive()) {
 			return null;
 		}
@@ -937,7 +937,7 @@ public class Bindings {
 				return superClass;
 			}
 		}
-		for (ITypeBinding superInterface : hierarchyType.getInterfaces()) {
+		for (ITypeBinding superInterface : hierarchyType.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding res= findTypeInHierarchy(superInterface, fullyQualifiedTypeName);
 			if (res != null) {
 				return superInterface;
@@ -995,7 +995,7 @@ public class Bindings {
 	 * @return <code>true</code> iff <code>possibleSuperType</code> is
 	 * 		a super type of <code>type</code> or is equal to it
 	 */
-	public static boolean isSuperType(ITypeBinding possibleSuperType, ITypeBinding type, boolean considerTypeArguments) {
+	public static boolean isSuperType(ITypeBinding possibleSuperType, ITypeBinding type, boolean considerTypeArguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.isArray() || type.isPrimitive()) {
 			return false;
 		}
@@ -1013,7 +1013,7 @@ public class Bindings {
 		}
 
 		if (possibleSuperType.isInterface()) {
-			for (ITypeBinding superInterface : type.getInterfaces()) {
+			for (ITypeBinding superInterface : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isSuperType(possibleSuperType, superInterface, considerTypeArguments)) {
 					return true;
 				}
@@ -1052,7 +1052,7 @@ public class Bindings {
 	public static IMethod findMethod(IMethodBinding method, IType type) throws JavaModelException {
 		method= method.getMethodDeclaration();
 
-		for (IMethod candidate : type.getMethods()) {
+		for (IMethod candidate : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (candidate.getElementName().equals(method.getName()) && sameParameters(method, candidate)) {
 				return candidate;
 			}
@@ -1068,7 +1068,7 @@ public class Bindings {
 		if (methodParamters.length != candidateParameters.length)
 			return false;
 		IType scope= candidate.getDeclaringType();
-		for (int i= 0; i < methodParamters.length; i++) {
+		for (int i= 0; i < methodParamters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding methodParameter= methodParamters[i];
 			String candidateParameter= candidateParameters[i];
 			if (!sameParameter(methodParameter, candidateParameter, scope))
@@ -1077,7 +1077,7 @@ public class Bindings {
 		return true;
 	}
 
-	private static boolean sameParameter(ITypeBinding type, String candidate, IType scope) throws JavaModelException {
+	private static boolean sameParameter(ITypeBinding type, String candidate, IType scope) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.getDimensions() != Signature.getArrayCount(candidate))
 			return false;
 
@@ -1105,7 +1105,7 @@ public class Bindings {
 					return false;
 				String packageName= type.getPackage().isUnnamed() ? "" : type.getPackage().getName(); //$NON-NLS-1$
 				String typeName= getTypeQualifiedName(type);
-				for (String[] qualifiedCandidate : qualifiedCandidates) {
+				for (String[] qualifiedCandidate : qualifiedCandidates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (	qualifiedCandidate[0].equals(packageName) &&
 						qualifiedCandidate[1].equals(typeName))
 						return true;
@@ -1159,7 +1159,7 @@ public class Bindings {
 	 * @param ast current AST
 	 * @return the normalized type to be used in declarations, or <code>null</code>
 	 */
-	public static ITypeBinding normalizeForDeclarationUse(ITypeBinding binding, AST ast) {
+	public static ITypeBinding normalizeForDeclarationUse(ITypeBinding binding, AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding.isNullType())
 			return ast.resolveWellKnownType("java.lang.Object"); //$NON-NLS-1$
 		if (binding.isPrimitive())
@@ -1191,7 +1191,7 @@ public class Bindings {
 	 * @return the type binding of the node's parent type declaration, or <code>null</code>
 	 */
 	public static ITypeBinding getBindingOfParentType(ASTNode node) {
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof AbstractTypeDeclaration) {
 				return ((AbstractTypeDeclaration) node).resolveBinding();
 			} else if (node instanceof AnonymousClassDeclaration) {
@@ -1210,10 +1210,10 @@ public class Bindings {
 	 * @param node an AST node
 	 * @return the type binding of the node's parent type context, or <code>null</code>
 	 */
-	public static ITypeBinding getBindingOfParentTypeContext(ASTNode node) {
+	public static ITypeBinding getBindingOfParentTypeContext(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StructuralPropertyDescriptor lastLocation= null;
 
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof AbstractTypeDeclaration) {
 				AbstractTypeDeclaration decl= (AbstractTypeDeclaration) node;
 				if (lastLocation == decl.getBodyDeclarationsProperty()
@@ -1244,7 +1244,7 @@ public class Bindings {
 	}
 
 
-	public static String getRawQualifiedName(ITypeBinding binding) {
+	public static String getRawQualifiedName(ITypeBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String EMPTY= ""; //$NON-NLS-1$
 
 		if (binding.isAnonymous() || binding.isLocal()) {
@@ -1258,8 +1258,8 @@ public class Bindings {
 		if (binding.isArray()) {
 			String elementTypeQualifiedName = getRawQualifiedName(binding.getElementType());
 			if (elementTypeQualifiedName.length() != 0) {
-				StringBuilder stringBuffer= new StringBuilder(elementTypeQualifiedName);
-				stringBuffer.append('[').append(']');
+				StringBuilder stringBuffer= new StringBuilder(elementTypeQualifiedName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				stringBuffer.append('[').append(']'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return stringBuffer.toString();
 			} else {
 				return EMPTY;
@@ -1268,10 +1268,10 @@ public class Bindings {
 		if (binding.isMember()) {
 			String outerName= getRawQualifiedName(binding.getDeclaringClass());
 			if (outerName.length() > 0) {
-				StringBuilder buffer= new StringBuilder();
-				buffer.append(outerName);
-				buffer.append('.');
-				buffer.append(getRawName(binding));
+				StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buffer.append(outerName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(getRawName(binding)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return buffer.toString();
 			} else {
 				return EMPTY;
@@ -1279,11 +1279,11 @@ public class Bindings {
 
 		} else if (binding.isTopLevel()) {
 			IPackageBinding packageBinding= binding.getPackage();
-			StringBuilder buffer= new StringBuilder();
+			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (packageBinding != null && packageBinding.getName().length() > 0) {
-				buffer.append(packageBinding.getName()).append('.');
+				buffer.append(packageBinding.getName()).append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buffer.append(getRawName(binding));
+			buffer.append(getRawName(binding)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return buffer.toString();
 		}
 		return EMPTY;
@@ -1332,7 +1332,7 @@ public class Bindings {
 	 */
 	@Deprecated
 	public static boolean containsSignatureEquivalentConstructor(IMethodBinding[] candidates, IMethodBinding overridable) {
-		for (IMethodBinding candidate : candidates) {
+		for (IMethodBinding candidate : candidates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSignatureEquivalentConstructor(candidate, overridable)) {
 				return true;
 			}
@@ -1368,7 +1368,7 @@ public class Bindings {
 		return areSubTypeCompatible(overridden, overridable);
 	}
 
-	private static boolean areSubTypeCompatible(IMethodBinding overridden, IMethodBinding overridable) {
+	private static boolean areSubTypeCompatible(IMethodBinding overridden, IMethodBinding overridable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (overridden.getParameterTypes().length != overridable.getParameterTypes().length)
 			return false;
@@ -1384,16 +1384,16 @@ public class Bindings {
 		ITypeBinding[] overriddenTypes= overridden.getParameterTypes();
 		ITypeBinding[] overridableTypes= overridable.getParameterTypes();
 		Assert.isTrue(overriddenTypes.length == overridableTypes.length);
-		for (int index= 0; index < overriddenTypes.length; index++) {
+		for (int index= 0; index < overriddenTypes.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ITypeBinding overridableErasure= overridableTypes[index].getErasure();
 			final ITypeBinding overriddenErasure= overriddenTypes[index].getErasure();
 			if (!overridableErasure.isSubTypeCompatible(overriddenErasure) || !overridableErasure.getKey().equals(overriddenErasure.getKey()))
 				return false;
 		}
 		boolean checked= false;
-		for (ITypeBinding overriddenException : overridden.getExceptionTypes()) {
+		for (ITypeBinding overriddenException : overridden.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			checked= false;
-			for (ITypeBinding overridableException : overridable.getExceptionTypes()) {
+			for (ITypeBinding overridableException : overridable.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (overriddenException.isSubTypeCompatible(overridableException)) {
 					checked= true;
 				}
@@ -1430,7 +1430,7 @@ public class Bindings {
 	 * @param primitiveName a type name
 	 * @return the boxed type, or null if no boxed type found
 	 */
-	public static String getBoxedTypeName(String primitiveName) {
+	public static String getBoxedTypeName(String primitiveName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (null == primitiveName)
 			return null;
 
@@ -1483,7 +1483,7 @@ public class Bindings {
 	 * @param boxedName a type name
 	 * @return the unboxed type, or null if no unboxed type found
 	 */
-	public static String getUnboxedTypeName(String boxedName) {
+	public static String getUnboxedTypeName(String boxedName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (null == boxedName)
 			return null;
 
@@ -1520,7 +1520,7 @@ public class Bindings {
 	 *
 	 * @since 3.5
 	 */
-	public static IBinding resolveExpressionBinding(Expression expression, boolean goIntoCast) {
+	public static IBinding resolveExpressionBinding(Expression expression, boolean goIntoCast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//TODO: search for callers of resolve*Binding() methods and replace with call to this method
 
 		// similar to StubUtility#getVariableNameSuggestions(int, IJavaProject, ITypeBinding, Expression, Collection)
@@ -1587,7 +1587,7 @@ public class Bindings {
 	 */
 	public static ITypeBinding getComponentType(ITypeBinding arrayType, int n) {
 		ITypeBinding type= arrayType;
-		while (n > 0 && type != null) {
+		while (n > 0 && type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			type= type.getComponentType();
 			n--;
 		}

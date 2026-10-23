@@ -283,7 +283,7 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 		return IRefactoringSaveModes.SAVE_NOTHING;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext context)
 			throws CoreException, OperationCanceledException {
 		try {
@@ -313,12 +313,12 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 		}
 	}
 
-	private RefactoringStatus checkFieldCollision() {
+	private RefactoringStatus checkFieldCollision() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		final IVariableBinding tempBinding= fTempDeclarationNode.resolveBinding();
 		if (tempBinding != null) {
 			ASTVisitor checkCollistionVisitor= new ASTVisitor() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(SimpleName node) {
 					if (node.getFullyQualifiedName().equals(tempBinding.getName()) && !(node.getParent() instanceof FieldAccess) &&
 							!(node.getParent() instanceof QualifiedName) && !(node.getParent() instanceof VariableDeclaration)) {
@@ -329,10 +329,10 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 								ITypeBinding typeDeclBinding= typeDecl.resolveBinding();
 								if (typeDeclBinding != null) {
 									IVariableBinding[] fields= typeDeclBinding.getDeclaredFields();
-									for (IVariableBinding field : fields) {
+									for (IVariableBinding field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (field.getName().equals(fNewName)) {
 											try {
-												result.merge(RefactoringStatus.createErrorStatus(Messages.format(RefactoringCoreMessages.RenameTempRefactoring_field_collision, typeDeclBinding.getName() + "." + field.getName()), //$NON-NLS-1$
+												result.merge(RefactoringStatus.createErrorStatus(Messages.format(RefactoringCoreMessages.RenameTempRefactoring_field_collision, typeDeclBinding.getName() + "." + field.getName()), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 														new JavaStringStatusContext(fCu.getSource(),
 																SourceRangeFactory.create(node))));
 											} catch (JavaModelException e) {
@@ -346,16 +346,16 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 								ITypeBinding anonDeclBinding= anonDecl.resolveBinding();
 								if (anonDeclBinding != null) {
 									IVariableBinding[] fields= anonDeclBinding.getDeclaredFields();
-									for (IVariableBinding field : fields) {
+									for (IVariableBinding field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (field.getName().equals(fNewName)) {
 											try {
-												result.merge(RefactoringStatus.createErrorStatus(Messages.format(RefactoringCoreMessages.RenameTempRefactoring_field_collision, "ANONYMOUS." + field.getName()), //$NON-NLS-1$
+												result.merge(RefactoringStatus.createErrorStatus(Messages.format(RefactoringCoreMessages.RenameTempRefactoring_field_collision, "ANONYMOUS." + field.getName()), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 														new JavaStringStatusContext(fCu.getSource(),
 																SourceRangeFactory.create(node))));
 											} catch (JavaModelException e) {
 												// should not happen
 											}
-											result.merge(RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.RenameTempRefactoring_field_collision, "ANONYMOUS." + field.getName()))); //$NON-NLS-1$
+											result.merge(RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.RenameTempRefactoring_field_collision, "ANONYMOUS." + field.getName()))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 											throw new AbortSearchException();
 										}
 									}
@@ -392,7 +392,7 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 		return result;
 	}
 
-	private void createEdits() {
+	private void createEdits() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TextEdit declarationEdit= createRenameEdit(fTempDeclarationNode.getName().getStartPosition());
 		TextEdit[] allRenameEdits= getAllRenameEdits(declarationEdit);
 
@@ -404,7 +404,7 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 		fChange.setEdit(rootEdit);
 		fChange.setKeepPreviewEdits(true);
 
-		for (int i= 0; i < allRenameEdits.length; i++) {
+		for (int i= 0; i < allRenameEdits.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fIsComposite) {
 				// Add a copy of the text edit (text edit may only have one
 				// parent) to keep problem reporting code clean
@@ -435,7 +435,7 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 		int[] referenceOffsets= fTempAnalyzer.getReferenceAndJavadocOffsets();
 
 		TextEdit[] allRenameEdits= new TextEdit[referenceOffsets.length + 1];
-		for (int i= 0; i < referenceOffsets.length; i++)
+		for (int i= 0; i < referenceOffsets.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			allRenameEdits[i]= createRenameEdit(referenceOffsets[i]);
 		allRenameEdits[referenceOffsets.length]= declarationEdit;
 		return allRenameEdits;
@@ -458,7 +458,7 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 		}
 	}
 
-	private RenameJavaElementDescriptor createRefactoringDescriptor() {
+	private RenameJavaElementDescriptor createRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String project= null;
 		IJavaProject javaProject= fCu.getJavaProject();
 		if (javaProject != null)
@@ -477,7 +477,7 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 		return descriptor;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -514,7 +514,7 @@ public class RenameLocalVariableProcessor extends JavaRenameProcessor implements
 					try {
 						final IJavaElement[] elements= fCu.codeSelect(offset, length);
 						if (elements != null) {
-							for (IJavaElement element : elements) {
+							for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (element instanceof ILocalVariable)
 									fLocalVariable= (ILocalVariable) element;
 							}

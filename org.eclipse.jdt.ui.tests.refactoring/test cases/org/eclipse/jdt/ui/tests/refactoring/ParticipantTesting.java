@@ -62,14 +62,14 @@ public class ParticipantTesting {
 	}
 
 	public static String[] createHandles(Object[] elements) {
-		List<String> result= new ArrayList<>();
-		for (Object element : elements) {
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJavaElement) {
 				result.add(((IJavaElement)element).getHandleIdentifier());
 			} else if (element instanceof IResource) {
 				result.add(((IResource)element).getFullPath().toString());
 			} else if (element instanceof JavaElementResourceMapping) {
-				result.add(((JavaElementResourceMapping)element).
+				result.add(((JavaElementResourceMapping)element). //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					getJavaElement().getHandleIdentifier() + "_mapping");
 			}
 		}
@@ -155,8 +155,8 @@ public class ParticipantTesting {
 	}
 
 	private static void testElementsShared(String[] expected, List<String> actual) {
-		for (String handle : expected) {
-			Assert.assertTrue("Expected handle not found: " + handle, actual.contains(handle));
+		for (String handle : expected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			Assert.assertTrue("Expected handle not found: " + handle, actual.contains(handle)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		testNumberOfElements(expected.length, actual);
 	}

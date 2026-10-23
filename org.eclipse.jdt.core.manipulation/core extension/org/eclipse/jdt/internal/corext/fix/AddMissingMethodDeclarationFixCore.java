@@ -87,7 +87,7 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 		return change;
 	}
 
-	public static AddMissingMethodDeclarationFixCore createAddMissingMethodDeclaration(CompilationUnit compilationUnit, ASTNode node) {
+	public static AddMissingMethodDeclarationFixCore createAddMissingMethodDeclaration(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ExpressionMethodReference methodReferenceNode= node instanceof ExpressionMethodReference
 				? (ExpressionMethodReference) node
 				: ASTNodes.getParent(node, ExpressionMethodReference.class);
@@ -132,8 +132,8 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 
 		if (QuickAssistProcessorUtil.isTypeReferenceToInstanceMethod(methodReferenceNode)) {
 			String methodReferenceQualifiedName= ((Name) methodReferenceNode.getExpression()).getFullyQualifiedName();
-			String packageName= (compilationUnit.getPackage() != null) ? compilationUnit.getPackage().getName().getFullyQualifiedName() + '.' : ""; //$NON-NLS-1$
-			String typeDeclarationName= packageName + typeDeclaration.getName().getFullyQualifiedName();
+			String packageName= (compilationUnit.getPackage() != null) ? compilationUnit.getPackage().getName().getFullyQualifiedName() + '.' : ""; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String typeDeclarationName= packageName + typeDeclaration.getName().getFullyQualifiedName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (!methodReferenceQualifiedName.equals(typeDeclarationName)
 					&& !methodReferenceQualifiedName.equals(typeDeclaration.getName().getFullyQualifiedName())) {
 				// only propose for references in same class
@@ -183,7 +183,7 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 			}
 			List<ASTNode> arguments= methodInvocationNode.arguments();
 			int index= -1;
-			for (int i= 0; i < arguments.size(); i++) {
+			for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode argNode= arguments.get(i);
 				if (argNode.equals(methodReferenceNode)) {
 					index= i;
@@ -271,7 +271,7 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 		}
 
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			boolean addStaticModifier= false;
 
@@ -305,10 +305,10 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 					returnType.type= importRewrite.addImport(functionalInterfaceMethod.getReturnType(), ast);
 					returnType.binding= functionalInterfaceMethod.getReturnType();
 					ITypeBinding[] typeArguments= functionalInterfaceMethod.getParameterTypes();
-					for (int i= 0; i < typeArguments.length; i++) {
+					for (int i= 0; i < typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ITypeBinding iTypeBinding= typeArguments[i];
 						SingleVariableDeclaration newSingleVariableDeclaration= ast.newSingleVariableDeclaration();
-						newSingleVariableDeclaration.setName(ast.newSimpleName(iTypeBinding.getErasure().getName().toLowerCase() + (i + 1)));
+						newSingleVariableDeclaration.setName(ast.newSimpleName(iTypeBinding.getErasure().getName().toLowerCase() + (i + 1))); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						newSingleVariableDeclaration.setType(importRewrite.addImport(iTypeBinding.getErasure(), ast));
 						newMethodDeclaration.parameters().add(newSingleVariableDeclaration);
 					}
@@ -320,7 +320,7 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 			} else {
 				List<ASTNode> arguments= methodInvocationNode.arguments();
 				int index= -1;
-				for (int i= 0; i < arguments.size(); i++) {
+				for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode node= arguments.get(i);
 					if (node.equals(methodReferenceNode)) {
 						index= i;
@@ -348,7 +348,7 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 					newReturnType= importRewrite.addImport(returnTypeBindingFunctionalInterface, ast);
 					ITypeBinding[] typeParameters= typeDeclaration.resolveBinding().getTypeParameters();
 					bIf: if (returnTypeBindingFunctionalInterface.isTypeVariable() || returnTypeBindingFunctionalInterface.isParameterizedType()) {
-						for (ITypeBinding typeParameter : typeParameters) {
+						for (ITypeBinding typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							// check if parameter type is a Type parameter of the class
 							if (Bindings.equals(typeParameter, returnTypeBindingFunctionalInterface)) {
 								break bIf;
@@ -361,21 +361,21 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 				}
 				newMethodDeclaration.setName(ast.newSimpleName(methodReferenceNode.getName().getFullyQualifiedName()));
 				newMethodDeclaration.setReturnType2(newReturnType);
-				pLoop: for (int i= 0; i < parameterTypesFunctionalInterface.length; i++) {
+				pLoop: for (int i= 0; i < parameterTypesFunctionalInterface.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeBinding parameterType2= parameterTypesFunctionalInterface[i];
 					SingleVariableDeclaration newSingleVariableDeclaration= ast.newSingleVariableDeclaration();
 					if (parameterType2.isCapture()) {
-						newSingleVariableDeclaration.setName(ast.newSimpleName(parameterType2.getErasure().getName().toLowerCase() + (i + 1)));
+						newSingleVariableDeclaration.setName(ast.newSimpleName(parameterType2.getErasure().getName().toLowerCase() + (i + 1))); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						newSingleVariableDeclaration.setType(importRewrite.addImport(parameterType2.getErasure(), ast));
 					} else {
-						newSingleVariableDeclaration.setName(ast.newSimpleName(parameterType2.getName().toLowerCase() + (i + 1)));
+						newSingleVariableDeclaration.setName(ast.newSimpleName(parameterType2.getName().toLowerCase() + (i + 1))); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						newSingleVariableDeclaration.setType(importRewrite.addImport(parameterType2, ast));
 					}
 					newMethodDeclaration.parameters().add(newSingleVariableDeclaration);
 					ITypeBinding[] typeParameters= typeDeclaration.resolveBinding().getTypeParameters();
 					if (parameterType2.isTypeVariable()) {
 						// check if parameter type is a Type parameter of the class
-						for (ITypeBinding typeParameter : typeParameters) {
+						for (ITypeBinding typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (Bindings.equals(typeParameter, parameterType2)) {
 								continue pLoop;
 							}
@@ -384,16 +384,16 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 						TypeParameter newTypeParameter= ast.newTypeParameter();
 						newTypeParameter.setName(ast.newSimpleName(importRewrite.addImport(parameterType2)));
 						ITypeBinding[] typeBounds= parameterType2.getTypeBounds();
-						for (ITypeBinding typeBound : typeBounds) {
+						for (ITypeBinding typeBound : typeBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							newTypeParameter.typeBounds().add(importRewrite.addImport(typeBound, ast));
 						}
 						addIfMissing(newMethodDeclaration, newTypeParameter);
 					}
 				}
-				for (int i= 0; i < typeArguments.length; i++) {
+				for (int i= 0; i < typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeBinding typeArgument= typeArguments[i];
 					SingleVariableDeclaration newSingleVariableDeclaration= ast.newSingleVariableDeclaration();
-					newSingleVariableDeclaration.setName(ast.newSimpleName(typeArgument.getName().toLowerCase() + (i + 1)));
+					newSingleVariableDeclaration.setName(ast.newSimpleName(typeArgument.getName().toLowerCase() + (i + 1))); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					newSingleVariableDeclaration.setType(importRewrite.addImport(typeArgument, ast));
 					newMethodDeclaration.parameters().add(newSingleVariableDeclaration);
 					if (typeArgument.isTypeVariable()) {
@@ -411,7 +411,7 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 
 		private static void addIfMissing(MethodDeclaration methodDeclaration, TypeParameter newTypeParameter) {
 			List<TypeParameter> typeParameters= methodDeclaration.typeParameters();
-			for (TypeParameter typeParameter : typeParameters) {
+			for (TypeParameter typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean equals= typeParameter.getName().getFullyQualifiedName().equals(newTypeParameter.getName().getFullyQualifiedName());
 				if (equals) {
 					return;
@@ -420,7 +420,7 @@ public class AddMissingMethodDeclarationFixCore extends CompilationUnitRewriteOp
 			typeParameters.add(newTypeParameter);
 		}
 
-		private static Block getNewReturnBlock(AST ast, ITypeBinding returnTypeBinding) {
+		private static Block getNewReturnBlock(AST ast, ITypeBinding returnTypeBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Block newBlock= ast.newBlock();
 			if (!"void".equals(returnTypeBinding.getName())) { //$NON-NLS-1$
 				ReturnStatement newReturnStatement= ast.newReturnStatement();

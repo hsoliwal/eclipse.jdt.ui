@@ -65,17 +65,17 @@ public class PropertiesFileMergeViewer extends TextMergeViewer {
 	/*
 	 * @see org.eclipse.compare.contentmergeviewer.TextMergeViewer#configureTextViewer(org.eclipse.jface.text.TextViewer)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void configureTextViewer(TextViewer textViewer) {
 		if (!(textViewer instanceof SourceViewer))
 			return;
 
 		if (fPreferenceStore == null) {
-			fSourceViewerConfigurations= new ArrayList<>(3);
+			fSourceViewerConfigurations= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fPreferenceStore= JavaPlugin.getDefault().getCombinedPreferenceStore();
-			fPreferenceChangeListener= event -> {
+			fPreferenceChangeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 				Iterator<SourceViewerConfiguration> iter= fSourceViewerConfigurations.iterator();
-				while (iter.hasNext())
+				while (iter.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					((PropertiesFileSourceViewerConfiguration)iter.next()).handlePropertyChangeEvent(event);
 				invalidateTextPresentation();
 			};

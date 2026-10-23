@@ -90,7 +90,7 @@ public class PackagesViewDeltaTests {
 
 	//-----------------Remove delta test cases------------------
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveTopLevelFragmentNotLogicalPackage() throws Exception {
 		// Create a logical package for packages with name "pack3"
 		LogicalPackage cp3= new LogicalPackage(fPack31);
@@ -98,7 +98,7 @@ public class PackagesViewDeltaTests {
 		cp3.add(fInternalPack3);
 
 		// Initialize Map
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fProvider.getChildren(cp3);
 
 		fMyPart.clear();
@@ -117,7 +117,7 @@ public class PackagesViewDeltaTests {
 	@Test
 	public void testRemoveBottomLevelFragmentNotLogicalPackage() throws Exception {
 		// Initialize Map
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		fMyPart.clear();
 
@@ -134,11 +134,11 @@ public class PackagesViewDeltaTests {
 	//This is a bogus test because this situation could never occur
 	//while fPack42 exists you cannot remove fPack32 still it tests
 	//correct delta handling.
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveFragmentInMultiFragmentLogicalPackage() throws Exception {
 		// Initialize the map
-		fMyPart.fViewer.setInput(fJProject);
-		for (Object object : fProvider.getChildren(fJProject)) {
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		for (Object object : fProvider.getChildren(fJProject)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fProvider.getChildren(object);
 		}
 
@@ -173,7 +173,7 @@ public class PackagesViewDeltaTests {
 		assertEquals(expectedParent, lp, "PackageFragment removed from logical package"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveBottomLevelFragmentInMultiFragmentLogicalPackage() throws Exception {
 		// Delete a fragment
 		fPack62.delete(true, null);
@@ -220,7 +220,7 @@ public class PackagesViewDeltaTests {
 		assertEquals(expectedChild, lp, "PackageFragment removed from logical package"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveFragmentInTwoFragmentLogicalPackage() throws Exception {
 		// Create a logical package child of cp
 		LogicalPackage ParentCp4= new LogicalPackage(fPack41);
@@ -269,7 +269,7 @@ public class PackagesViewDeltaTests {
 	@Test
 	public void testAddTopLevelFragmentNotLogicalPackage() throws Exception {
 		// Initialize Map
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		fMyPart.clear();
 
@@ -285,7 +285,7 @@ public class PackagesViewDeltaTests {
 		assertTrue(fMyPart.getAddedObject().contains(test), "Correct package added"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddFragmentToLogicalPackage() throws Exception {
 		// Create a logical package with name "pack3.pack4"
 		LogicalPackage cp4= new LogicalPackage(fPack41);
@@ -308,7 +308,7 @@ public class PackagesViewDeltaTests {
 		assertFalse(fMyPart.hasRefreshHappened(), "Refresh did not happened"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddCUFromFragmentNotLogicalPackageVisible() throws Exception {
 		// Create a logical package for packages with name "pack3"
 		LogicalPackage cp3= new LogicalPackage(fPack31);
@@ -318,7 +318,7 @@ public class PackagesViewDeltaTests {
 		ICompilationUnit cu= fPack81.createCompilationUnit("Object.java", "", true, null); //$NON-NLS-1$//$NON-NLS-2$
 
 		// Initialize Map
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fProvider.getChildren(cp3);
 
 		fMyPart.fViewer.reveal(fPack81);
@@ -337,7 +337,7 @@ public class PackagesViewDeltaTests {
 		assertEquals(1, fMyPart.getRefreshedObject().size(), "Correct number of refreshes");//$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddCUFromFragmentNotLogicalPackageNotVisible() throws Exception {
 		// Create a logical package for packages with name "pack3"
 		LogicalPackage cp3= new LogicalPackage(fPack31);
@@ -347,7 +347,7 @@ public class PackagesViewDeltaTests {
 		ICompilationUnit cu= fPack81.createCompilationUnit("Object.java", "", true, null); //$NON-NLS-1$//$NON-NLS-2$
 
 		// Initialize Map
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fProvider.getChildren(cp3);
 
 		fMyPart.clear();
@@ -364,7 +364,7 @@ public class PackagesViewDeltaTests {
 		assertEquals(1, fMyPart.getRefreshedObject().size(), "Correct number of refreshes"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveCUFromFragmentNotLogicalPackage() throws Exception {
 		// Create a logical package for packages with name "pack3"
 		LogicalPackage cp3= new LogicalPackage(fPack31);
@@ -372,13 +372,13 @@ public class PackagesViewDeltaTests {
 		cp3.add(fInternalPack3);
 
 		// Initialize Map
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fProvider.getChildren(cp3);
 
 		ICompilationUnit cu= fPack81.createCompilationUnit("Object.java", "", true, null); //$NON-NLS-1$//$NON-NLS-2$
 
 		// Make sure parent is visible
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fMyPart.fViewer.reveal(fPack81);
 
 		fMyPart.clear();
@@ -395,7 +395,7 @@ public class PackagesViewDeltaTests {
 		assertEquals(1, fMyPart.getRefreshedObject().size(), "Correct number of refreshes");//$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveCUFromFragmentNotLogicalPackageWithParentNotVisible() throws Exception {
 		// Create a logical package for packages with name "pack3"
 		LogicalPackage cp3= new LogicalPackage(fPack31);
@@ -403,7 +403,7 @@ public class PackagesViewDeltaTests {
 		cp3.add(fInternalPack3);
 
 		// Initialize Map
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fProvider.getChildren(cp3);
 
 		ICompilationUnit cu= fPack81.createCompilationUnit("Object.java", "", true, null); //$NON-NLS-1$//$NON-NLS-2$
@@ -422,7 +422,7 @@ public class PackagesViewDeltaTests {
 		assertEquals(1, fMyPart.getRefreshedObject().size(), "Correct number of refreshes");//$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddBottomLevelFragmentNotLogicalPackage() throws Exception {
 		// Create a logical package for packages with name "pack3"
 		LogicalPackage cp3= new LogicalPackage(fPack31);
@@ -430,7 +430,7 @@ public class PackagesViewDeltaTests {
 		cp3.add(fInternalPack3);
 
 		// Initialize Map
-		fMyPart.fViewer.setInput(fJProject);
+		fMyPart.fViewer.setInput(fJProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fProvider.getChildren(cp3);
 
 		fMyPart.clear();
@@ -450,7 +450,7 @@ public class PackagesViewDeltaTests {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fWorkspace= ResourcesPlugin.getWorkspace();
 		assertNotNull(fWorkspace);
@@ -519,7 +519,7 @@ public class PackagesViewDeltaTests {
 		setUpMockView();
 	}
 
-	public void setUpMockView() throws Exception {
+	public void setUpMockView() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fWorkbench= PlatformUI.getWorkbench();
 		assertNotNull(fWorkbench);
 
@@ -559,11 +559,11 @@ public class PackagesViewDeltaTests {
 	 * @param expectedChildren the expected children
 	 * @return boolean returns true if the arrays contain the same elements
 	 */
-	private boolean compareArrays(Object[] children, Object[] expectedChildren) {
+	private boolean compareArrays(Object[] children, Object[] expectedChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (children.length != expectedChildren.length)
 			return false;
 
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IJavaElement) {
 				IJavaElement el= (IJavaElement) child;
 				if (!contains(el, expectedChildren))
@@ -583,7 +583,7 @@ public class PackagesViewDeltaTests {
 	}
 
 	private boolean contains(IResource res, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource) {
 				IResource expres= (IResource) object;
 				if (expres.equals(res))
@@ -595,7 +595,7 @@ public class PackagesViewDeltaTests {
 	}
 
 	private boolean contains(IJavaElement fragment, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IJavaElement) {
 				IJavaElement expfrag= (IJavaElement) object;
 				if (expfrag.equals(fragment))
@@ -607,7 +607,7 @@ public class PackagesViewDeltaTests {
 	}
 
 	private boolean contains(LogicalPackage lp, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof LogicalPackage) {
 				LogicalPackage explp= (LogicalPackage) object;
 				if (explp.equals(lp))

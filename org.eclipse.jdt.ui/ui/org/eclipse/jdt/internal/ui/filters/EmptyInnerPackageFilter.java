@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * Filters empty non-leaf package fragments
  */
-public class EmptyInnerPackageFilter extends ViewerFilter {
+public class EmptyInnerPackageFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

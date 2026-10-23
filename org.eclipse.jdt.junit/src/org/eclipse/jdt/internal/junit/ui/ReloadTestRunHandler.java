@@ -35,7 +35,7 @@ import org.eclipse.jdt.internal.junit.model.TestRunSession;
  */
 public final class ReloadTestRunHandler extends AbstractHandler {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchPart activePart= HandlerUtil.getActivePart(event);
 		if (!(activePart instanceof TestRunnerViewPart testRunnerView)) {

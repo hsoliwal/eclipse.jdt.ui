@@ -65,7 +65,7 @@ public class UnimplementedCodeFixCore extends CompilationUnitRewriteOperationsFi
 		}
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit root, boolean addMissingMethod, boolean makeTypeAbstract, IProblemLocation[] problems) {
+	public static ICleanUpFix createCleanUp(CompilationUnit root, boolean addMissingMethod, boolean makeTypeAbstract, IProblemLocation[] problems) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(!addMissingMethod || !makeTypeAbstract);
 		if (!addMissingMethod && !makeTypeAbstract)
 			return null;
@@ -73,9 +73,9 @@ public class UnimplementedCodeFixCore extends CompilationUnitRewriteOperationsFi
 		if (problems.length == 0)
 			return null;
 
-		ArrayList<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		ArrayList<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IProblemLocation problem : problems) {
+		for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (addMissingMethod) {
 				ASTNode typeNode= getSelectedTypeNode(root, problem);
 				if (typeNode != null && !isTypeBindingNull(typeNode)) {
@@ -128,7 +128,7 @@ public class UnimplementedCodeFixCore extends CompilationUnitRewriteOperationsFi
 		return new UnimplementedCodeFixCore(label, root, new CompilationUnitRewriteOperation[] { operation });
 	}
 
-	public static ASTNode getSelectedTypeNode(CompilationUnit root, IProblemLocation problem) {
+	public static ASTNode getSelectedTypeNode(CompilationUnit root, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(root);
 		if (selectedNode == null)
 			return null;
@@ -154,7 +154,7 @@ public class UnimplementedCodeFixCore extends CompilationUnitRewriteOperationsFi
 		}
 	}
 
-	private static boolean isTypeBindingNull(ASTNode typeNode) {
+	private static boolean isTypeBindingNull(ASTNode typeNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (typeNode instanceof AbstractTypeDeclaration) {
 			AbstractTypeDeclaration abstractTypeDeclaration= (AbstractTypeDeclaration) typeNode;
 			if (abstractTypeDeclaration.resolveBinding() == null)

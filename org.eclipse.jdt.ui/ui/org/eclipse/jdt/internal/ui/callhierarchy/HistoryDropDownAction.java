@@ -108,7 +108,7 @@ class HistoryDropDownAction extends Action implements IMenuCreator {
 
         int min = Math.min(elements.length, RESULTS_IN_DROP_DOWN);
 
-        for (int i = 0; i < min; i++) {
+        for (int i = 0; i < min; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             HistoryAction action = new HistoryAction(fView, elements[i]);
             action.setChecked(Arrays.equals(elements[i], fView.getInputElements()));
             checked = checked || action.isChecked();

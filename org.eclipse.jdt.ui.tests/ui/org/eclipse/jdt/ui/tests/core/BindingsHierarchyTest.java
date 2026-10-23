@@ -60,7 +60,7 @@ public class BindingsHierarchyTest {
 			JavaProjectHelper.clear(pts.getProject(), pts.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWalkSuperclassInterface() throws JavaModelException {
 		String source= """
 			package test1
@@ -85,7 +85,7 @@ public class BindingsHierarchyTest {
 		TypeDeclaration typeDeclaration= (TypeDeclaration) ast.types().get(3);
 		ITypeBinding typeBinding= typeDeclaration.resolveBinding();
 
-		Set<String> superTypeBindings= new HashSet<>();
+		Set<String> superTypeBindings= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		Bindings.visitHierarchy(typeBinding, type -> {
 			superTypeBindings.add(type.getName());

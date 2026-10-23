@@ -67,7 +67,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.newsourcepage.ClasspathModifierQueries.OutputFolderQuery;
 
 //SelectedElements iff enabled: IJavaProject || IPackageFrament || IFolder
-public class AddFolderToBuildpathAction extends BuildpathModifierAction {
+public class AddFolderToBuildpathAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 
@@ -89,7 +89,7 @@ public class AddFolderToBuildpathAction extends BuildpathModifierAction {
 		setToolTipText(NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_AddSelSFToCP_tooltip);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getDetailedDescription() {
 		if (!isEnabled())
 			return null;
@@ -110,7 +110,7 @@ public class AddFolderToBuildpathAction extends BuildpathModifierAction {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 
 		try {
@@ -172,7 +172,7 @@ public class AddFolderToBuildpathAction extends BuildpathModifierAction {
 			}
 
 			try {
-				final IRunnableWithProgress runnable= monitor -> {
+				final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 					try {
 						List<IJavaElement> result= addToClasspath(getSelectedElements(), project, newDefaultOutputLocation.makeAbsolute(), removeProjectFromClasspath, removeOldClassFiles, monitor);
 						selectAndReveal(new StructuredSelection(result));
@@ -194,7 +194,7 @@ public class AddFolderToBuildpathAction extends BuildpathModifierAction {
 		}
 	}
 
-	private List<IJavaElement> addToClasspath(List<?> elements, IJavaProject project, IPath outputLocation, boolean removeProjectFromClasspath, boolean removeOldClassFiles, IProgressMonitor monitor) throws OperationCanceledException, CoreException {
+	private List<IJavaElement> addToClasspath(List<?> elements, IJavaProject project, IPath outputLocation, boolean removeProjectFromClasspath, boolean removeOldClassFiles, IProgressMonitor monitor) throws OperationCanceledException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!project.getProject().hasNature(JavaCore.NATURE_ID)) {
 			StatusInfo rootStatus= new StatusInfo();
 			rootStatus.setError(NewWizardMessages.ClasspathModifier_Error_NoNatures);
@@ -228,8 +228,8 @@ public class AddFolderToBuildpathAction extends BuildpathModifierAction {
 				monitor.worked(1);
 			}
 
-			List<CPListElement> newEntries= new ArrayList<>();
-			for (Object element : elements) {
+			List<CPListElement> newEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPListElement entry;
 				if (element instanceof IResource)
 					entry= ClasspathModifier.addToClasspath((IResource) element, existingEntries, newEntries, project, Progress.subMonitor(monitor, 1));
@@ -238,7 +238,7 @@ public class AddFolderToBuildpathAction extends BuildpathModifierAction {
 				newEntries.add(entry);
 			}
 
-			Set<CPListElement> modifiedSourceEntries= new HashSet<>();
+			Set<CPListElement> modifiedSourceEntries= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			BuildPathBasePage.fixNestingConflicts(newEntries.toArray(new CPListElement[newEntries.size()]), existingEntries.toArray(new CPListElement[existingEntries.size()]), modifiedSourceEntries);
 
 			ClasspathModifier.setNewEntry(existingEntries, newEntries, project, Progress.subMonitor(monitor, 1));
@@ -248,8 +248,8 @@ public class AddFolderToBuildpathAction extends BuildpathModifierAction {
 			delta.setNewEntries(existingEntries.toArray(new CPListElement[existingEntries.size()]));
 			informListeners(delta);
 
-			List<IJavaElement> result= new ArrayList<>();
-			for (CPListElement newEntrie : newEntries) {
+			List<IJavaElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (CPListElement newEntrie : newEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IClasspathEntry entry= newEntrie.getClasspathEntry();
 				IJavaElement root;
 				if (entry.getPath().equals(project.getPath()))
@@ -267,12 +267,12 @@ public class AddFolderToBuildpathAction extends BuildpathModifierAction {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(IStructuredSelection elements) {
 		if (elements.size() == 0)
 			return false;
 		try {
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IJavaProject) {
 					if (ClasspathModifier.isSourceFolder((IJavaProject)element))
 						return false;

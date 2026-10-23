@@ -82,27 +82,27 @@ public class JavaTypeCompletionProcessor extends CUPositionCompletionProcessor {
 		if (packageFragment == null) {
 			setCompletionContext(null, null, null);
 		} else {
-			String before= "public class " + DUMMY_CLASS_NAME + " { ";  //$NON-NLS-1$//$NON-NLS-2$
+			String before= "public class " + DUMMY_CLASS_NAME + " { ";  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String after= " }"; //$NON-NLS-1$
 			setCompletionContext(packageFragment.getCompilationUnit(DUMMY_CU_NAME), before, after);
 		}
 	}
 
-	public void setExtendsCompletionContext(IJavaElement javaElement) {
+	public void setExtendsCompletionContext(IJavaElement javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (javaElement instanceof IPackageFragment) {
 			IPackageFragment packageFragment= (IPackageFragment) javaElement;
 			ICompilationUnit cu= packageFragment.getCompilationUnit(DUMMY_CU_NAME);
-			setCompletionContext(cu, "public class " + DUMMY_CLASS_NAME + " extends ", " {}"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+			setCompletionContext(cu, "public class " + DUMMY_CLASS_NAME + " extends ", " {}"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (javaElement instanceof IType) {
 			// pattern: public class OuterType { public class Type extends /*caret*/  {} }
 			IType type= (IType) javaElement;
-			StringBuilder before= new StringBuilder("public class ").append(type.getElementName()).append(" extends "); //$NON-NLS-1$ //$NON-NLS-2$
-			StringBuilder after= new StringBuilder(" {}"); //$NON-NLS-1$
+			StringBuilder before= new StringBuilder("public class ").append(type.getElementName()).append(" extends "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			StringBuilder after= new StringBuilder(" {}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			IJavaElement parent= type.getParent();
-			while (parent instanceof IType) {
+			while (parent instanceof IType) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				type= (IType) parent;
-				before.append("public class ").append(type.getElementName()).append(" {"); //$NON-NLS-1$ //$NON-NLS-2$
-				after.append("}"); //$NON-NLS-1$
+				before.append("public class ").append(type.getElementName()).append(" {"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				after.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				parent= type.getParent();
 			}
 			ICompilationUnit cu= type.getCompilationUnit();
@@ -125,7 +125,7 @@ public class JavaTypeCompletionProcessor extends CUPositionCompletionProcessor {
 		private boolean fEnableVoid;
 		private final boolean fFullyQualify;
 
-		public TypeCompletionRequestor(boolean enableBaseTypes, boolean enableVoid, boolean fullyQualify) {
+		public TypeCompletionRequestor(boolean enableBaseTypes, boolean enableVoid, boolean fullyQualify) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fFullyQualify= fullyQualify;
 			fEnableBaseTypes= enableBaseTypes;
 			fEnableVoid= enableVoid;
@@ -144,7 +144,7 @@ public class JavaTypeCompletionProcessor extends CUPositionCompletionProcessor {
 			setIgnored(CompletionProposal.METHOD_NAME_REFERENCE, true);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void accept(CompletionProposal proposal) {
 			switch (proposal.getKind()) {
 				case CompletionProposal.PACKAGE_REF :
@@ -165,14 +165,14 @@ public class JavaTypeCompletionProcessor extends CUPositionCompletionProcessor {
 					char[] fullName= Signature.toCharArray(signature);
 					if (TypeFilter.isFiltered(fullName))
 						return;
-					StringBuilder buf= new StringBuilder();
-					buf.append(Signature.getSimpleName(fullName));
+					StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					buf.append(Signature.getSimpleName(fullName)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (buf.length() == 0)
 						return; // this is the dummy class, whose $ have been converted to dots
 					char[] typeQualifier= Signature.getQualifier(fullName);
 					if (typeQualifier.length > 0) {
-						buf.append(JavaElementLabels.CONCAT_STRING);
-						buf.append(typeQualifier);
+						buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						buf.append(typeQualifier); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					String name= buf.toString();
 

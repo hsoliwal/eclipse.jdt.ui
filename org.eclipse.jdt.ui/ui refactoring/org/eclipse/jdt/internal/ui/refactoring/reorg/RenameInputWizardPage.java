@@ -65,7 +65,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 		fHelpContextID= contextHelpId;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Composite superComposite= new Composite(parent, SWT.NONE);
 		setControl(superComposite);
@@ -179,7 +179,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 		boolean defaultValue= true; //bug 77901
 		fUpdateReferences= createCheckbox(result, title, defaultValue, layouter);
 		ref.setUpdateReferences(fUpdateReferences.getSelection());
-		fUpdateReferences.addSelectionListener(new SelectionAdapter(){
+		fUpdateReferences.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ref.setUpdateReferences(fUpdateReferences.getSelection());
@@ -195,7 +195,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 		boolean defaultValue= getBooleanSetting(RenameRefactoringWizard.UPDATE_TEXTUAL_MATCHES, refactoring.getUpdateTextualMatches());
 		fUpdateTextualMatches= createCheckbox(result, title, defaultValue, layouter);
 		refactoring.setUpdateTextualMatches(fUpdateTextualMatches.getSelection());
-		fUpdateTextualMatches.addSelectionListener(new SelectionAdapter(){
+		fUpdateTextualMatches.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refactoring.setUpdateTextualMatches(fUpdateTextualMatches.getSelection());
@@ -204,7 +204,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 		});
 	}
 
-	private void addOptionalUpdateQualifiedNameComponent(Composite parent, RowLayouter layouter, int marginWidth) {
+	private void addOptionalUpdateQualifiedNameComponent(Composite parent, RowLayouter layouter, int marginWidth) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IQualifiedNameUpdating ref= getRefactoring().getAdapter(IQualifiedNameUpdating.class);
 		if (ref == null || !ref.canEnableQualifiedNameUpdating())
 			return;
@@ -223,7 +223,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 		fUpdateQualifiedNames.setSelection(defaultSelection);
 		updateQulifiedNameUpdating(ref, defaultSelection);
 
-		fUpdateQualifiedNames.addSelectionListener(new SelectionAdapter() {
+		fUpdateQualifiedNames.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean enabled= ((Button)e.widget).getSelection();
@@ -244,7 +244,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 			return;
 		fLeaveDelegateCheckBox= createCheckbox(result, refactoring.getDelegateUpdatingTitle(false), DelegateUIHelper.loadLeaveDelegateSetting(refactoring), layouter);
 		refactoring.setDelegateUpdating(fLeaveDelegateCheckBox.getSelection());
-		fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+		fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refactoring.setDelegateUpdating(fLeaveDelegateCheckBox.getSelection());
@@ -252,7 +252,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 		});
 	}
 
-	private void addOptionalDeprecateDelegateCheckbox(Composite result, RowLayouter layouter, int marginWidth) {
+	private void addOptionalDeprecateDelegateCheckbox(Composite result, RowLayouter layouter, int marginWidth) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IDelegateUpdating refactoring= getRefactoring().getAdapter(IDelegateUpdating.class);
 		if (refactoring == null || !refactoring.canEnableDelegateUpdating())
 			return;
@@ -265,7 +265,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 		fDeprecateDelegateCheckBox.setSelection(DelegateUIHelper.loadDeprecateDelegateSetting(refactoring));
 		layouter.perform(fDeprecateDelegateCheckBox);
 		refactoring.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
-		fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+		fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refactoring.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
@@ -273,7 +273,7 @@ abstract class RenameInputWizardPage extends TextInputWizardPage {
 		});
 		if (fLeaveDelegateCheckBox != null) {
 			fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
-			fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+			fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());

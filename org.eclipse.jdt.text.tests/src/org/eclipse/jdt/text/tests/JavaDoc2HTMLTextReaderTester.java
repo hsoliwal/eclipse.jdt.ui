@@ -58,7 +58,7 @@ public class JavaDoc2HTMLTextReaderTester {
 	private void verify(String string, String expected){
 		String result = getTransformedJavaDoc(string);
 		if (DEBUG)
-			System.out.println("result:" + result); //$NON-NLS-1$
+			System.out.println("result:" + result); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, result);
 	}
 
@@ -116,7 +116,7 @@ public class JavaDoc2HTMLTextReaderTester {
 	@Test
 	public void test7(){
 		if (DEBUG) {
-			System.out.println(getClass().getName()+"::" + testName +" disabled(corner case - @see tag inside <a> tag)"); //$NON-NLS-1$ //$NON-NLS-2$
+			System.out.println(getClass().getName()+"::" + testName +" disabled(corner case - @see tag inside <a> tag)"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 		String string= "/**@author Foo Bar<a href=\"mailto:foobar@see.org\">foobar@see.org</a>*/"; //$NON-NLS-1$
@@ -127,7 +127,7 @@ public class JavaDoc2HTMLTextReaderTester {
 	@Test
 	public void test8(){
 		if (DEBUG) {
-			System.out.println(getClass().getName()+"::" + testName +" disabled(corner case - @see tag inside <a> tag)"); //$NON-NLS-1$ //$NON-NLS-2$
+			System.out.println(getClass().getName()+"::" + testName +" disabled(corner case - @see tag inside <a> tag)"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 		String string= "/**@author Foo Bar<a href=\"mailto:foobar@see.org\">foobar@eclipse.org</a>*/"; //$NON-NLS-1$

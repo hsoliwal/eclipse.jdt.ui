@@ -53,7 +53,7 @@ public abstract class AbstractJavaSearchResult extends AbstractTextSearchResult 
 
 	private Match[] computeContainedMatches(IAdaptable adaptable) {
 		IJavaElement javaElement= adaptable.getAdapter(IJavaElement.class);
-		Set<Match> matches= new HashSet<>();
+		Set<Match> matches= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (javaElement != null) {
 			collectMatches(matches, javaElement);
 		}
@@ -82,7 +82,7 @@ public abstract class AbstractJavaSearchResult extends AbstractTextSearchResult 
 		if (element instanceof IParent) {
 			IParent parent= (IParent) element;
 			try {
-				for (IJavaElement child : parent.getChildren()) {
+				for (IJavaElement child : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					collectMatches(matches, child);
 				}
 			} catch (JavaModelException e) {

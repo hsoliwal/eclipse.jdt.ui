@@ -78,7 +78,7 @@ public class SetFilterWizardPage extends NewElementWizardPage {
 
 	private final IPath fOutputLocation;
 
-	public SetFilterWizardPage(CPListElement entryToEdit, ArrayList<CPListElement> existingEntries, IPath outputLocation) {
+	public SetFilterWizardPage(CPListElement entryToEdit, ArrayList<CPListElement> existingEntries, IPath outputLocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(PAGE_NAME);
 		fExistingEntries= existingEntries;
 		fOutputLocation= outputLocation;
@@ -119,7 +119,7 @@ public class SetFilterWizardPage extends NewElementWizardPage {
 		fInclusionPatternList= createListContents(entryToEdit, CPListElement.INCLUSION, incLabel, incDescriptor, incButtonLabels);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Composite inner= new Composite(parent, SWT.NONE);
 		inner.setFont(parent.getFont());
@@ -177,7 +177,7 @@ public class SetFilterWizardPage extends NewElementWizardPage {
 
 	}
 
-	private ListDialogField<String> createListContents(CPListElement entryToEdit, String key, String label, ImageDescriptor descriptor, String[] buttonLabels) {
+	private ListDialogField<String> createListContents(CPListElement entryToEdit, String key, String label, ImageDescriptor descriptor, String[] buttonLabels) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ExclusionPatternAdapter adapter= new ExclusionPatternAdapter();
 
 		ListDialogField<String> patternList= new ListDialogField<>(adapter, buttonLabels, new ExclusionInclusionLabelProvider(descriptor));
@@ -187,8 +187,8 @@ public class SetFilterWizardPage extends NewElementWizardPage {
 
 		IPath[] pattern= (IPath[]) entryToEdit.getAttribute(key);
 
-		ArrayList<String> elements= new ArrayList<>(pattern.length);
-		for (IPath p : pattern) {
+		ArrayList<String> elements= new ArrayList<>(pattern.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPath p : pattern) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String patternName= p.toString();
 			if (patternName.length() > 0)
 				elements.add(patternName);
@@ -200,7 +200,7 @@ public class SetFilterWizardPage extends NewElementWizardPage {
 		return patternList;
 	}
 
-	protected void doCustomButtonPressed(ListDialogField<String> field, int index) {
+	protected void doCustomButtonPressed(ListDialogField<String> field, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (index) {
 		case IDX_ADD:
 			addEntry(field);
@@ -321,7 +321,7 @@ public class SetFilterWizardPage extends NewElementWizardPage {
 		Object[] arr= field.getElements().toArray();
 		Arrays.sort(arr);
 		IPath[] res= new IPath[arr.length];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res[i]= new Path((String) arr[i]);
 		}
 		return res;
@@ -354,7 +354,7 @@ public class SetFilterWizardPage extends NewElementWizardPage {
 
 		IPath[] res= ExclusionInclusionEntryDialog.chooseExclusionPattern(getShell(), fCurrSourceFolder, title, message, null, true);
 		if (res != null) {
-			for (IPath p : res) {
+			for (IPath p : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				field.addElement(p.toString());
 			}
 		}

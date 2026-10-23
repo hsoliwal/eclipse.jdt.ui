@@ -61,7 +61,7 @@ public class MoveRenameResourceChangeTests extends GenericRefactoringTest {
 		assertFalse("after: old should not exist", folder.getFile(oldName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFile1() throws Exception{
 
 		IFolder folder= (IFolder)getPackageP().getCorrespondingResource();
@@ -81,7 +81,7 @@ public class MoveRenameResourceChangeTests extends GenericRefactoringTest {
 		assertFalse("after: old should not exist", folder.getFile(oldName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFile2() throws Exception{
 		IFolder folder= (IFolder)getPackageP().getCorrespondingResource();
 		String oldName= "a.txt";
@@ -106,7 +106,7 @@ public class MoveRenameResourceChangeTests extends GenericRefactoringTest {
 		assertFalse("after undo: old should not exist", folder.getFile(newName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFile3() throws Exception{
 		IFolder folder= (IFolder)getPackageP().getCorrespondingResource();
 		IFolder folder2= (IFolder)getPackageQ().getCorrespondingResource();
@@ -151,7 +151,7 @@ public class MoveRenameResourceChangeTests extends GenericRefactoringTest {
 		assertFalse("after: old should not exist", folder.getFolder(oldName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFolder1() throws Exception{
 		IFolder folder= (IFolder)getPackageP().getCorrespondingResource();
 		String newName= "b";
@@ -177,7 +177,7 @@ public class MoveRenameResourceChangeTests extends GenericRefactoringTest {
 		assertEquals("after: child count", 2, folder.getFolder(newName).members().length);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFolder2() throws Exception{
 		IFolder folder= (IFolder)getPackageP().getCorrespondingResource();
 		String oldName= "a";
@@ -202,7 +202,7 @@ public class MoveRenameResourceChangeTests extends GenericRefactoringTest {
 		assertFalse("after undo: old should not exist", folder.getFolder(newName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFolder3() throws Exception{
 		IFolder folder= (IFolder)getPackageP().getCorrespondingResource();
 		IFolder folder2= (IFolder)getPackageQ().getCorrespondingResource();
@@ -228,7 +228,7 @@ public class MoveRenameResourceChangeTests extends GenericRefactoringTest {
 		assertFalse("after undo: old should not exist", folder2.getFolder(newName).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavaProject01() throws Exception {
 		String oldName= "RenameResourceChangeTest";
 		String newName= "RenameResourceChangeTest2";

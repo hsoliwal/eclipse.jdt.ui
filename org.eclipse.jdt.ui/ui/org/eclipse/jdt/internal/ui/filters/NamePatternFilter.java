@@ -39,7 +39,7 @@ import org.eclipse.jdt.internal.ui.util.StringMatcher;
  *
  * @since 2.0
  */
-public class NamePatternFilter extends ViewerFilter {
+public class NamePatternFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	private String[] fPatterns;
 	private StringMatcher[] fMatchers;
 
@@ -60,7 +60,7 @@ public class NamePatternFilter extends ViewerFilter {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		if (fMatchers.length == 0) {
 			return true;
@@ -81,7 +81,7 @@ public class NamePatternFilter extends ViewerFilter {
 			}
 		}
 		if (matchName != null && matchName.length() > 0) {
-			for (StringMatcher testMatcher : getMatchers()) {
+			for (StringMatcher testMatcher : getMatchers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (testMatcher.match(matchName)) {
 					return false;
 				}
@@ -103,7 +103,7 @@ public class NamePatternFilter extends ViewerFilter {
 	public void setPatterns(String[] newPatterns) {
 		fPatterns = newPatterns;
 		fMatchers = new StringMatcher[newPatterns.length];
-		for (int i = 0; i < newPatterns.length; i++) {
+		for (int i = 0; i < newPatterns.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//Reset the matchers to prevent constructor overhead
 			fMatchers[i]= new StringMatcher(newPatterns[i], true, false);
 		}

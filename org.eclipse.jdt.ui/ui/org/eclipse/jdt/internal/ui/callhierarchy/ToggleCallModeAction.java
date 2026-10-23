@@ -31,7 +31,7 @@ class ToggleCallModeAction extends Action {
     private CallHierarchyViewPart fView;
     private int fMode;
 
-    public ToggleCallModeAction(CallHierarchyViewPart v, int mode) {
+    public ToggleCallModeAction(CallHierarchyViewPart v, int mode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         super("", AS_RADIO_BUTTON); //$NON-NLS-1$
 		switch (mode) {
 		case CallHierarchyViewPart.CALL_MODE_CALLERS:

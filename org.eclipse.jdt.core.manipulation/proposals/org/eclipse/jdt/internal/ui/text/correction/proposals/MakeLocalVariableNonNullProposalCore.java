@@ -75,7 +75,7 @@ public class MakeLocalVariableNonNullProposalCore extends ASTRewriteCorrectionPr
 		return fNonNullAnnotationName;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		ASTNode declNode= fAstRoot.findDeclaringNode(fBinding);
 		if (declNode != null) {

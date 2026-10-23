@@ -83,7 +83,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 	private static final Key PREF_CODEASSIST_CAMEL_CASE_MATCH= getJDTCoreKey(JavaCore.CODEASSIST_CAMEL_CASE_MATCH);
 	private static final Key PREF_CODEASSIST_SUBWORD_MATCH= getJDTCoreKey(JavaCore.CODEASSIST_SUBWORD_MATCH);
 
-	private static Key[] getAllKeys() {
+	private static Key[] getAllKeys() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new Key[] {
 				PREF_CODEASSIST_AUTOACTIVATION,
 				PREF_CODEASSIST_AUTOACTIVATION_DELAY,
@@ -118,7 +118,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		super(statusListener, null, getAllKeys(), workbenchcontainer);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		ScrolledPageContent scrolled= new ScrolledPageContent(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolled.setExpandHorizontal(true);
@@ -161,7 +161,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		return group;
 	}
 
-	private void addInsertionSection(Composite composite) {
+	private void addInsertionSection(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addCompletionRadioButtons(composite);
 
 		String label;
@@ -212,12 +212,12 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		fInsertParameterNamesRadioButton= new Button(fillComposite, SWT.RADIO | SWT.LEFT);
 		fInsertParameterNamesRadioButton.setText(PreferencesMessages.JavaEditorPreferencePage_fillParameterNamesOnMethodCompletion);
 		fInsertParameterNamesRadioButton.setLayoutData(new GridData());
-		fInsertParameterNamesRadioButton.addSelectionListener(completionSelectionListener);
+		fInsertParameterNamesRadioButton.addSelectionListener(completionSelectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fInsertBestGuessRadioButton= new Button(fillComposite, SWT.RADIO | SWT.LEFT);
 		fInsertBestGuessRadioButton.setText(PreferencesMessages.JavaEditorPreferencePage_fillBestGuessedArgumentsOnMethodCompletion);
 		fInsertBestGuessRadioButton.setLayoutData(new GridData());
-		fInsertBestGuessRadioButton.addSelectionListener(completionSelectionListener);
+		fInsertBestGuessRadioButton.addSelectionListener(completionSelectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		createSelectionDependency(master, fInsertParameterNamesRadioButton);
 		createSelectionDependency(master, fInsertBestGuessRadioButton);
@@ -240,8 +240,8 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 	 *                   The slave control that is enabled only if the master is
 	 *                   selected
 	 */
-	protected static void createSelectionDependency(final Button master, final Control slave) {
-		master.addSelectionListener(new SelectionAdapter() {
+	protected static void createSelectionDependency(final Button master, final Control slave) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		master.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
@@ -251,7 +251,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 			private void deepSetEnabled(final Control control, boolean enabled) {
 				control.setEnabled(enabled);
 				if (control instanceof Composite) {
-					for (Control child : ((Composite)control).getChildren()) {
+					for (Control child : ((Composite)control).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						deepSetEnabled(child, enabled);
 					}
 				}
@@ -260,7 +260,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		slave.setEnabled(master.getSelection());
 	}
 
-	private void addSortingSection(Composite composite) {
+	private void addSortingSection(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String label;
 
 		label= PreferencesMessages.CodeAssistConfigurationBlock_typeFilters_link;
@@ -271,7 +271,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		ProposalSorterHandle[] sorters= ProposalSorterRegistry.getDefault().getSorters();
 		String[] labels= new String[sorters.length];
 		String[] values= new String[sorters.length];
-		for (int i= 0; i < sorters.length; i++) {
+		for (int i= 0; i < sorters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ProposalSorterHandle handle= sorters[i];
 			labels[i]= handle.getName();
 			values[i]= handle.getId();
@@ -295,7 +295,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 	private void createPreferencePageLink(Composite composite, String label, final Map<String, String> targetInfo) {
 		final Link link= new Link(composite, SWT.NONE);
 		link.setText(label);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PreferencesUtil.createPreferenceDialogOn(link.getShell(), e.text, null, targetInfo);
@@ -303,11 +303,11 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		});
 	}
 
-	private void addAutoActivationSection(Composite composite) {
+	private void addAutoActivationSection(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String label;
 		label= PreferencesMessages.JavaEditorPreferencePage_enableAutoActivation;
 		final Button autoactivation= addCheckBox(composite, label, PREF_CODEASSIST_AUTOACTIVATION, trueFalse, 0);
-		autoactivation.addSelectionListener(new SelectionAdapter(){
+		autoactivation.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateAutoactivationControls();
@@ -329,7 +329,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		return addLabelledTextField(parent, label, key, textlimit, textlimit, indent);
 	}
 
-	protected Text addLabelledTextField(Composite parent, String label, Key key, int modelTextLimit, int fieldTextLimit, int indent) {
+	protected Text addLabelledTextField(Composite parent, String label, Key key, int modelTextLimit, int fieldTextLimit, int indent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PixelConverter pixelConverter= new PixelConverter(parent);
 
 		Label labelControl= new Label(parent, SWT.NONE);
@@ -348,7 +348,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		if (currValue != null) {
 			textBox.setText(currValue);
 		}
-		textBox.addModifyListener(getTextModifyListener());
+		textBox.addModifyListener(getTextModifyListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		data= new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		if (modelTextLimit != 0)
@@ -368,7 +368,7 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		return textBox;
 	}
 
-	private void addCompletionRadioButtons(Composite contentAssistComposite) {
+	private void addCompletionRadioButtons(Composite contentAssistComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite completionComposite= new Composite(contentAssistComposite, SWT.NONE);
 		GridData ccgd= new GridData();
 		ccgd.horizontalSpan= 2;
@@ -389,12 +389,12 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		fCompletionInsertsRadioButton= new Button(completionComposite, SWT.RADIO | SWT.LEFT);
 		fCompletionInsertsRadioButton.setText(PreferencesMessages.JavaEditorPreferencePage_completionInserts);
 		fCompletionInsertsRadioButton.setLayoutData(new GridData());
-		fCompletionInsertsRadioButton.addSelectionListener(completionSelectionListener);
+		fCompletionInsertsRadioButton.addSelectionListener(completionSelectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fCompletionOverwritesRadioButton= new Button(completionComposite, SWT.RADIO | SWT.LEFT);
 		fCompletionOverwritesRadioButton.setText(PreferencesMessages.JavaEditorPreferencePage_completionOverwrites);
 		fCompletionOverwritesRadioButton.setLayoutData(new GridData());
-		fCompletionOverwritesRadioButton.addSelectionListener(completionSelectionListener);
+		fCompletionOverwritesRadioButton.addSelectionListener(completionSelectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		Label label= new Label(completionComposite, SWT.NONE);
 		String modifier= SWTKeySupport.getKeyFormatterForPlatform().format(AbstractJavaCompletionProposal.MODIFIER_TOGGLE_COMPLETION_MODE);
@@ -482,22 +482,22 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 			label.setEnabled(enabled);
 	}
 
-	private Control getControl(Key key) {
-		for (int i= fComboBoxes.size() - 1; i >= 0; i--) {
+	private Control getControl(Key key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i= fComboBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control curr= fComboBoxes.get(i);
 			ControlData data= (ControlData) curr.getData();
 			if (key.equals(data.getKey())) {
 				return curr;
 			}
 		}
-		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control curr= fCheckBoxes.get(i);
 			ControlData data= (ControlData) curr.getData();
 			if (key.equals(data.getKey())) {
 				return curr;
 			}
 		}
-		for (int i= fTextBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fTextBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control curr= fTextBoxes.get(i);
 			Key currKey= (Key) curr.getData();
 			if (key.equals(currKey)) {

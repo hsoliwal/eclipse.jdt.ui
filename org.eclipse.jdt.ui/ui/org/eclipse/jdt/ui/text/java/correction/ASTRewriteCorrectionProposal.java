@@ -31,7 +31,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
  *
  * @since 3.8
  */
-public class ASTRewriteCorrectionProposal extends CUCorrectionProposal {
+public class ASTRewriteCorrectionProposal extends CUCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	/**
 	 * Constructs an AST rewrite correction proposal.
 	 * @param delegate The delegate instance

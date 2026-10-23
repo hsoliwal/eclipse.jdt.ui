@@ -97,18 +97,18 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 			getShell().setText(RefactoringMessages.ExtractSupertypeMemberPage_choose_type_caption);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(final Composite composite) {
 			Assert.isNotNull(composite);
 			setMessage(RefactoringMessages.ExtractSupertypeMemberPage_choose_type_message);
 			final Composite control= (Composite) super.createDialogArea(composite);
 			createMessageArea(control);
 			fViewer= new TableViewer(control, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-			fViewer.setLabelProvider(createLabelProvider());
+			fViewer.setLabelProvider(createLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			fViewer.setContentProvider(ArrayContentProvider.getInstance());
 			fViewer.setComparator(new SupertypeSelectionViewerSorter());
-			fViewer.addSelectionChangedListener(unused -> performSelectionChanged(((IStructuredSelection) fViewer.getSelection()).toArray()));
-			fViewer.addDoubleClickListener(unused -> {
+			fViewer.addSelectionChangedListener(unused -> performSelectionChanged(((IStructuredSelection) fViewer.getSelection()).toArray())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			fViewer.addDoubleClickListener(unused -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 				performSelectionChanged(((IStructuredSelection) fViewer.getSelection()).toArray());
 				close();
 			});
@@ -133,7 +133,7 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 		 *            the input elements
 		 */
 		public void setInput(final Object[] input) {
-			fViewer.setInput(input);
+			fViewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (input.length > 0) {
 				fViewer.setSelection(new StructuredSelection(input[0]));
 			}
@@ -142,7 +142,7 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 	}
 
 	/** The label provider */
-	private static class SupertypeSelectionLabelProvider extends AppearanceAwareLabelProvider implements ITableLabelProvider {
+	private static class SupertypeSelectionLabelProvider extends AppearanceAwareLabelProvider implements ITableLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 		/**
 		 * Creates a new supertype selection label provider.
@@ -194,7 +194,7 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 	private TableViewer fTableViewer;
 
 	/** The types to extract */
-	private final Set<IType> fTypesToExtract= new HashSet<>(2);
+	private final Set<IType> fTypesToExtract= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Creates a new extract supertype member page.
@@ -231,11 +231,11 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 	 * @throws InterruptedException
 	 *             if the computation has been interrupted
 	 */
-	protected void computeCandidateTypes() throws InterruptedException {
+	protected void computeCandidateTypes() throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCandidateTypes != null && fCandidateTypes.length > 0)
 			return;
 		try {
-			getWizard().getContainer().run(true, true, monitor -> {
+			getWizard().getContainer().run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					fCandidateTypes= getProcessor().getCandidateTypes(new RefactoringStatus(), monitor);
 				} finally {
@@ -258,7 +258,7 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 	 * @param parent
 	 *            the parent control
 	 */
-	protected void createButtonComposite(final Composite parent) {
+	protected void createButtonComposite(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Composite buttons= new Composite(parent, SWT.NONE);
 		final GridLayout layout= new GridLayout();
 		layout.marginHeight= 0;
@@ -270,9 +270,9 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 		addButton.setText(RefactoringMessages.ExtractSupertypeMemberPage_add_button_label);
 		addButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(addButton);
-		addButton.addSelectionListener(new SelectionAdapter() {
+		addButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(final SelectionEvent event) {
 				try {
 					computeCandidateTypes();
@@ -280,9 +280,9 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 					return;
 				}
 				final LinkedList<IType> list= new LinkedList<>(Arrays.asList(fCandidateTypes));
-				for (final Iterator<IType> outer= list.iterator(); outer.hasNext();) {
+				for (final Iterator<IType> outer= list.iterator(); outer.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final IType first= outer.next();
-					for (IType second : fTypesToExtract) {
+					for (IType second : fTypesToExtract) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (second.getFullyQualifiedName().equals(first.getFullyQualifiedName()))
 							outer.remove();
 					}
@@ -294,10 +294,10 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 				if (result == Window.OK) {
 					final Object[] objects= dialog.getResult();
 					if (objects != null && objects.length > 0) {
-						for (Object object : objects) {
+						for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fTypesToExtract.add((IType) object);
 						}
-						fTableViewer.setInput(fTypesToExtract.toArray());
+						fTableViewer.setInput(fTypesToExtract.toArray()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 						handleTypesChanged();
 					}
 				}
@@ -309,23 +309,23 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 		removeButton.setEnabled(fCandidateTypes.length > 0 && !fTableViewer.getSelection().isEmpty());
 		removeButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(removeButton);
-		removeButton.addSelectionListener(new SelectionAdapter() {
+		removeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
 				final IStructuredSelection selection= (IStructuredSelection) fTableViewer.getSelection();
 				if (!selection.isEmpty()) {
 					final IType declaring= getDeclaringType();
-					for (Object element : selection) {
+					for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!declaring.equals(element))
 							fTypesToExtract.remove(element);
 					}
-					fTableViewer.setInput(fTypesToExtract.toArray());
+					fTableViewer.setInput(fTypesToExtract.toArray()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					handleTypesChanged();
 				}
 			}
 		});
-		fTableViewer.addSelectionChangedListener(unused -> {
+		fTableViewer.addSelectionChangedListener(unused -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			final IStructuredSelection selection= (IStructuredSelection) fTableViewer.getSelection();
 			if (selection.isEmpty()) {
 				removeButton.setEnabled(false);
@@ -341,7 +341,7 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 		});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(final Composite parent) {
 		final Composite composite= new Composite(parent, SWT.NONE);
 		final GridLayout layout= new GridLayout();
@@ -382,7 +382,7 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 		label.setLayoutData(new GridData());
 
 		fNameField= new Text(parent, SWT.BORDER);
-		fNameField.addModifyListener(unused -> handleNameChanged(fNameField.getText()));
+		fNameField.addModifyListener(unused -> handleNameChanged(fNameField.getText())); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		fNameField.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		TextFieldNavigationHandler.install(fNameField);
 	}
@@ -393,7 +393,7 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 	 * @param parent
 	 *            the parent control
 	 */
-	protected void createSuperTypeList(final Composite parent) {
+	protected void createSuperTypeList(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		createSpacer(parent);
 
 		final Label label= new Label(parent, SWT.NONE);
@@ -416,11 +416,11 @@ public final class ExtractSupertypeMemberPage extends PullUpMemberPage {
 		data= new GridData(GridData.FILL_BOTH);
 		data.heightHint= SWTUtil.getTableHeightHint(fTableViewer.getTable(), 3);
 		fTableViewer.getTable().setLayoutData(data);
-		fTableViewer.setLabelProvider(createLabelProvider());
+		fTableViewer.setLabelProvider(createLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTableViewer.setContentProvider(ArrayContentProvider.getInstance());
 		fTableViewer.setComparator(new JavaElementComparator());
 		fTypesToExtract.add(getDeclaringType());
-		fTableViewer.setInput(fTypesToExtract.toArray());
+		fTableViewer.setInput(fTypesToExtract.toArray()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		createButtonComposite(composite);
 	}

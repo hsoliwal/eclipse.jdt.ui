@@ -70,7 +70,7 @@ public class AddUnimplementedMethodsOperation extends CompilationUnitRewriteOper
 		this.fMethodFilter= methodFilter;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore model) throws CoreException {
 		IMethodBinding[] unimplementedMethods= getUnimplementedMethods(fTypeNode);
 		if (unimplementedMethods.length == 0)
@@ -107,32 +107,32 @@ public class AddUnimplementedMethodsOperation extends CompilationUnitRewriteOper
 
 		ImportRewrite imports= cuRewrite.getImportRewrite();
 
-		for (IMethodBinding curr : unimplementedMethods) {
+		for (IMethodBinding curr : unimplementedMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MethodDeclaration newMethodDecl= StubUtility2Core.createImplementationStubCore(unit, rewrite, imports, context, curr, curr.getDeclaringClass(), settings, false, fTypeNode, false);
 			listRewrite.insertLast(newMethodDecl, createTextEditGroup(CorrectionMessages.AddUnimplementedMethodsOperation_AddMissingMethod_group, cuRewrite));
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getAdditionalInfo() {
 		if (fTypeNode instanceof EnumDeclaration)
 			return CorrectionMessages.UnimplementedMethodsCorrectionProposal_enum_info;
 
 		IMethodBinding[] methodsToOverride= getMethodsToImplement();
-		StringBuilder buf= new StringBuilder();
-		buf.append("<b>"); //$NON-NLS-1$
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("<b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (methodsToOverride.length == 1) {
-			buf.append(CorrectionMessages.UnimplementedMethodsCorrectionProposal_info_singular);
+			buf.append(CorrectionMessages.UnimplementedMethodsCorrectionProposal_info_singular); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append(Messages.format(CorrectionMessages.UnimplementedMethodsCorrectionProposal_info_plural, String.valueOf(methodsToOverride.length)));
+			buf.append(Messages.format(CorrectionMessages.UnimplementedMethodsCorrectionProposal_info_plural, String.valueOf(methodsToOverride.length))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("</b><ul>"); //$NON-NLS-1$
-		for (IMethodBinding element : methodsToOverride) {
-			buf.append("<li>"); //$NON-NLS-1$
-			buf.append(BindingLabelProviderCore.getBindingLabel(element, JavaElementLabelsCore.ALL_FULLY_QUALIFIED));
-			buf.append("</li>"); //$NON-NLS-1$
+		buf.append("</b><ul>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (IMethodBinding element : methodsToOverride) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append("<li>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(BindingLabelProviderCore.getBindingLabel(element, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("</li>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("</ul>"); //$NON-NLS-1$
+		buf.append("</ul>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -140,7 +140,7 @@ public class AddUnimplementedMethodsOperation extends CompilationUnitRewriteOper
 		return getUnimplementedMethods(fTypeNode);
 	}
 
-	private IMethodBinding[] getUnimplementedMethods(ASTNode typeNode) {
+	private IMethodBinding[] getUnimplementedMethods(ASTNode typeNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding binding= null;
 		Predicate<IMethodBinding> filter= StubUtility2Core.ignoreAbstractsOfInput(binding);
 		if (typeNode instanceof AnonymousClassDeclaration) {

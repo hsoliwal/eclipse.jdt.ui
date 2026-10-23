@@ -40,7 +40,7 @@ import org.eclipse.jdt.internal.ui.actions.SelectionConverter;
 public class JavaElementHyperlinkDeclaredTypeDetector extends JavaElementHyperlinkDetector {
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addHyperlinks(List<IHyperlink> hyperlinksCollector, IRegion wordRegion, SelectionDispatchAction openAction, IJavaElement element, boolean qualify, JavaEditor editor) {
 		try {
 			if (element.getElementType() == IJavaElement.FIELD || element.getElementType() == IJavaElement.LOCAL_VARIABLE) {
@@ -49,7 +49,7 @@ public class JavaElementHyperlinkDeclaredTypeDetector extends JavaElementHyperli
 					if (Signature.getTypeSignatureKind(typeSignature) == Signature.INTERSECTION_TYPE_SIGNATURE) {
 						String[] bounds= Signature.getIntersectionTypeBounds(typeSignature);
 						qualify|= bounds.length >= 2;
-						for (String bound : bounds) {
+						for (String bound : bounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							hyperlinksCollector.add(new JavaElementDeclaredTypeHyperlink(wordRegion, openAction, element, bound, qualify));
 						}
 					} else {

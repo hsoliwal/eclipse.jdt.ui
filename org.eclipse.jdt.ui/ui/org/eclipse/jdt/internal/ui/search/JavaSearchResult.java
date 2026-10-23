@@ -38,7 +38,7 @@ public class JavaSearchResult extends AbstractJavaSearchResult {
 
 	public JavaSearchResult(JavaSearchQuery query) {
 		fQuery= query;
-		fElementsToParticipants= new HashMap<>();
+		fElementsToParticipants= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		setActiveMatchFilters(JavaMatchFilter.getLastUsedFilters());
 	}
 

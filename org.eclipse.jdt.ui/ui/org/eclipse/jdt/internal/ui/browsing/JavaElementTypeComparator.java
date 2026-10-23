@@ -38,7 +38,7 @@ public class JavaElementTypeComparator implements Comparator<IJavaElement> {
 		return getIdForJavaElementType(element.getElementType());
 	}
 
-	int getIdForJavaElementType(int elementType) {
+	int getIdForJavaElementType(int elementType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (elementType) {
 			case IJavaElement.JAVA_MODEL:
 				return 130;

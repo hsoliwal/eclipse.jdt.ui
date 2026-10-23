@@ -32,7 +32,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  * itself will also be valid and invoking run will delegate the call to the
  * first valid action in the list.
  */
-public class ClasspathModifierDropDownAction extends BuildpathModifierAction implements IMenuCreator {
+public class ClasspathModifierDropDownAction extends BuildpathModifierAction implements IMenuCreator { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/** The menu to be populated with items*/
     private Menu fMenu;
@@ -48,7 +48,7 @@ public class ClasspathModifierDropDownAction extends BuildpathModifierAction imp
     public ClasspathModifierDropDownAction() {
         super(null, null, BuildpathModifierAction.DROP_DOWN_ACTION, IAction.AS_DROP_DOWN_MENU);
 
-        fActions= new ArrayList<>();
+        fActions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         fFirstValidAction= null;
 
         setText(""); //$NON-NLS-1$
@@ -132,7 +132,7 @@ public class ClasspathModifierDropDownAction extends BuildpathModifierAction imp
      * @param menu the menu to be populated
      */
     private void createEntries(Menu menu) {
-        for (BuildpathModifierAction action : fActions) {
+        for (BuildpathModifierAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             addActionToMenu(menu, action);
         }
     }
@@ -151,8 +151,8 @@ public class ClasspathModifierDropDownAction extends BuildpathModifierAction imp
     	return fFirstValidAction != null;
     }
 
-	private void update() {
-		for (BuildpathModifierAction action : fActions) {
+	private void update() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (BuildpathModifierAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (action.isEnabled()) {
 				if (action != fFirstValidAction) {
 					updateButton(action);

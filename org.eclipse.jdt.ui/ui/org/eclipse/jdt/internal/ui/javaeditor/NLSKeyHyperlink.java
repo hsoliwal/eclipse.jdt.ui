@@ -122,7 +122,7 @@ public class NLSKeyHyperlink implements IHyperlink {
 	 * @param propertiesFile the properties file, or <code>null</code>
 	 * @param activeEditor the active editor part
 	 */
-	public static void openKeyInPropertiesFile(String keyName, IStorage propertiesFile, IEditorPart activeEditor) {
+	public static void openKeyInPropertiesFile(String keyName, IStorage propertiesFile, IEditorPart activeEditor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (propertiesFile == null) {
 			showErrorInStatusLine(activeEditor, JavaEditorMessages.Editor_OpenPropertiesFile_error_fileNotFound_dialogMessage);
 			return;
@@ -171,7 +171,7 @@ public class NLSKeyHyperlink implements IHyperlink {
 			String key= PropertyFileDocumentModel.escape(keyName, false);
 			int offset= document.getLength() - 1;
 			try {
-				while (!found && offset >= 0) {
+				while (!found && offset >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					region= finder.find(offset, key, false, true, false, false);
 					if (region == null)
 						offset= -1;
@@ -179,7 +179,7 @@ public class NLSKeyHyperlink implements IHyperlink {
 						// test whether it's the key
 						IHyperlink[] hyperlinks= detector.detectHyperlinks(null, region, false);
 						if (hyperlinks != null) {
-							for (IHyperlink hyperlink : hyperlinks) {
+							for (IHyperlink hyperlink : hyperlinks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								IRegion hyperlinkRegion= hyperlink.getHyperlinkRegion();
 								found= key.equals(document.get(hyperlinkRegion.getOffset(), hyperlinkRegion.getLength()));
 							}
@@ -219,7 +219,7 @@ public class NLSKeyHyperlink implements IHyperlink {
 		display.beep();
 		final IEditorStatusLine statusLine= editor.getAdapter(IEditorStatusLine.class);
 		if (statusLine != null) {
-			display.asyncExec(() -> statusLine.setMessage(true, message, null));
+			display.asyncExec(() -> statusLine.setMessage(true, message, null)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
@@ -247,7 +247,7 @@ public class NLSKeyHyperlink implements IHyperlink {
 	@Override
 	public String getHyperlinkText() {
 		String bundleName= fAccessorClassReference.getResourceBundleName();
-		String propertyFileName= BasicElementLabels.getResourceName((bundleName.substring(bundleName.lastIndexOf('.') + 1, bundleName.length()) + NLSRefactoring.PROPERTY_FILE_EXT));
+		String propertyFileName= BasicElementLabels.getResourceName((bundleName.substring(bundleName.lastIndexOf('.') + 1, bundleName.length()) + NLSRefactoring.PROPERTY_FILE_EXT)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return Messages.format(JavaEditorMessages.Editor_OpenPropertiesFile_hyperlinkText, new Object[] { propertyFileName });
 	}
 }

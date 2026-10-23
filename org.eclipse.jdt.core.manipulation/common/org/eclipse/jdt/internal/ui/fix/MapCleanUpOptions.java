@@ -55,7 +55,7 @@ public class MapCleanUpOptions extends CleanUpOptions {
 		if (options instanceof MapCleanUpOptions) {
 			fOptions.putAll(((MapCleanUpOptions)options).getMap());
 		} else {
-			for (String key : options.getKeys()) {
+			for (String key : options.getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fOptions.put(key, options.getValue(key));
 			}
 		}

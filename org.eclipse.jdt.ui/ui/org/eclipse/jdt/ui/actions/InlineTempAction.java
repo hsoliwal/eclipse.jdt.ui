@@ -48,7 +48,7 @@ import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class InlineTempAction extends SelectionDispatchAction {
+public class InlineTempAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 

@@ -43,7 +43,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
  * </p>
  * @since 2.1
  */
-public class PackageExplorerLabelProvider extends AppearanceAwareLabelProvider {
+public class PackageExplorerLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private PackageExplorerContentProvider fContentProvider;
 	private Map<ImageDescriptor, Image> fWorkingSetImages;
@@ -95,7 +95,7 @@ public class PackageExplorerLabelProvider extends AppearanceAwareLabelProvider {
 	}
 
 	private String getNameDelta(IPackageFragment parent, IPackageFragment fragment) {
-		String prefix= parent.getElementName() + '.';
+		String prefix= parent.getElementName() + '.'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String fullName= fragment.getElementName();
 		if (fullName.startsWith(prefix)) {
 			return fullName.substring(prefix.length());
@@ -107,18 +107,18 @@ public class PackageExplorerLabelProvider extends AppearanceAwareLabelProvider {
 		IPath prefix= parent.getFullPath();
 		IPath fullPath= fragment.getPath();
 		if (prefix.isPrefixOf(fullPath)) {
-			StringBuilder buf= new StringBuilder();
-			for (int i= prefix.segmentCount(); i < fullPath.segmentCount(); i++) {
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i= prefix.segmentCount(); i < fullPath.segmentCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (buf.length() > 0)
-					buf.append('.');
-				buf.append(fullPath.segment(i));
+					buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(fullPath.segment(i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			return buf.toString();
 		}
 		return fragment.getElementName();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getImage(Object element) {
 		if (element instanceof IWorkingSet) {
 			ImageDescriptor image= ((IWorkingSet)element).getImageDescriptor();
@@ -126,7 +126,7 @@ public class PackageExplorerLabelProvider extends AppearanceAwareLabelProvider {
 				return null;
 			}
 			if (fWorkingSetImages == null) {
-				fWorkingSetImages= new HashMap<>();
+				fWorkingSetImages= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			}
 
 			Image result= fWorkingSetImages.get(image);
@@ -147,7 +147,7 @@ public class PackageExplorerLabelProvider extends AppearanceAwareLabelProvider {
 	@Override
 	public void dispose() {
 		if (fWorkingSetImages != null) {
-			for (Image image : fWorkingSetImages.values()) {
+			for (Image image : fWorkingSetImages.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 		}

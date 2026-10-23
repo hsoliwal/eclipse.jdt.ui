@@ -120,13 +120,13 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
     @Override
 	public void init(IJavaProject javaProject) {
 		fJavaProject= javaProject;
-		fPackageExplorer.addPostSelectionChangedListener(fHintTextGroup);
+		fPackageExplorer.addPostSelectionChangedListener(fHintTextGroup); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	    fActionGroup.getResetAllAction().setBreakPoint(javaProject);
 
 		if (Display.getCurrent() != null) {
 			doUpdateUI();
 		} else {
-			Display.getDefault().asyncExec(this::doUpdateUI);
+			Display.getDefault().asyncExec(this::doUpdateUI); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
     }
 
@@ -135,7 +135,7 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
 
 		boolean useFolderOutputs= false;
 		List<CPListElement> cpelements= fClassPathList.getElements();
-		for (int i= 0; i < cpelements.size() && !useFolderOutputs; i++) {
+		for (int i= 0; i < cpelements.size() && !useFolderOutputs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement cpe= cpelements.get(i);
 			if (cpe.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 				if (cpe.getAttribute(CPListElement.OUTPUT) != null) {
@@ -168,7 +168,7 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
      *
      * @see #init(IJavaProject)
      */
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control getControl(Composite parent) {
         final int[] sashWeight= {60};
         final IPreferenceStore preferenceStore= JavaPlugin.getDefault().getPreferenceStore();
@@ -179,7 +179,7 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
         Composite body= scrolledContent.getBody();
         body.setLayout(new GridLayout());
 
-        final SashForm sashForm= new SashForm(body, SWT.VERTICAL | SWT.NONE);
+        final SashForm sashForm= new SashForm(body, SWT.VERTICAL | SWT.NONE); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
         sashForm.setFont(sashForm.getFont());
 
         ViewerPane pane= new ViewerPane(sashForm, SWT.BORDER | SWT.FLAT);
@@ -214,7 +214,7 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
         fUseFolderOutputs.setDialogFieldListener(unused -> {
 		    boolean isUseFolders= fUseFolderOutputs.isSelected();
 		    if (!isUseFolders) {
-		    	ResetAllOutputFoldersAction action= new ResetAllOutputFoldersAction(fContext, fJavaProject, fPackageExplorer) {
+		    	ResetAllOutputFoldersAction action= new ResetAllOutputFoldersAction(fContext, fJavaProject, fPackageExplorer) { //FLLDCIM: MARK — T04  ANONYMOUS
 		    		@Override
 					public void run() {
 		        		commitDefaultOutputFolder();
@@ -288,23 +288,23 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
      */
     private ScrolledPageContent getParentScrolledComposite(Control control) {
        Control parent= control.getParent();
-       while (!(parent instanceof ScrolledPageContent) && parent != null) {
+       while (!(parent instanceof ScrolledPageContent) && parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
            parent= parent.getParent();
        }
 
        return (ScrolledPageContent) parent;
    }
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public List<CPListElement> getSelection() {
-        List<CPListElement> selectedList= new ArrayList<>();
+        List<CPListElement> selectedList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
         IJavaProject project= fJavaProject;
         try {
             List<?> list= ((StructuredSelection)fPackageExplorer.getSelection()).toList();
             List<CPListElement> existingEntries= ClasspathModifier.getExistingEntries(project);
 
-            for(int i= 0; i < list.size(); i++) {
+            for(int i= 0; i < list.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 Object obj= list.get(i);
                 if (obj instanceof IPackageFragmentRoot) {
                     IPackageFragmentRoot element= (IPackageFragmentRoot)obj;
@@ -320,21 +320,21 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
                 }
             }
         } catch (JavaModelException e) {
-            return new ArrayList<>();
+            return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         }
         return selectedList;
     }
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setSelection(List<?> selection, boolean expand) {
 		// page switch
 
         if (selection.isEmpty())
             return;
 
-		List<CPListElement> cpEntries= new ArrayList<>();
+		List<CPListElement> cpEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i= 0; i < selection.size(); i++) {
+		for (int i= 0; i < selection.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object obj= selection.get(i);
 			if (obj instanceof CPListElement) {
 				CPListElement element= (CPListElement) obj;
@@ -353,7 +353,7 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
         // refresh classpath
         List<CPListElement> list= fClassPathList.getElements();
         IClasspathEntry[] entries= new IClasspathEntry[list.size()];
-        for(int i= 0; i < list.size(); i++) {
+        for(int i= 0; i < list.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             CPListElement entry= list.get(i);
             entries[i]= entry.getClasspathEntry();
         }
@@ -386,7 +386,7 @@ public class NewSourceContainerWorkbookPage extends BuildPathBasePage implements
         }
     }
 
-	public void commitDefaultOutputFolder() {
+	public void commitDefaultOutputFolder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fBuildPathsBlock.isOKStatus())
 			return;
 		try {

@@ -58,7 +58,7 @@ public class BasicCompilationUnitEditorActionContributor extends BasicJavaEditor
 
 		@Override
 		public void menuAboutToShow(IMenuManager manager) {
-			for (SpecificContentAssistAction fSpecificAssistAction : fSpecificAssistActions) {
+			for (SpecificContentAssistAction fSpecificAssistAction : fSpecificAssistActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fSpecificAssistAction.update();
 			}
 	    }
@@ -80,7 +80,7 @@ public class BasicCompilationUnitEditorActionContributor extends BasicJavaEditor
 	private MenuListener fContentAssistMenuListener;
 
 
-	public BasicCompilationUnitEditorActionContributor() {
+	public BasicCompilationUnitEditorActionContributor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fRetargetContentAssist= new RetargetAction(JdtActionConstants.CONTENT_ASSIST,  JavaEditorMessages.ContentAssistProposal_label);
 		fRetargetContentAssist.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
@@ -103,7 +103,7 @@ public class BasicCompilationUnitEditorActionContributor extends BasicJavaEditor
 	/*
 	 * @see EditorActionBarContributor#contributeToMenu(IMenuManager)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void contributeToMenu(IMenuManager menu) {
 
 		super.contributeToMenu(menu);
@@ -118,8 +118,8 @@ public class BasicCompilationUnitEditorActionContributor extends BasicJavaEditor
 
 			caMenu.add(fRetargetContentAssist);
 			Collection<CompletionProposalCategory> descriptors= CompletionProposalComputerRegistry.getDefault().getProposalCategories();
-			List<IAction> specificAssistActions= new ArrayList<>(descriptors.size());
-			for (CompletionProposalCategory cat : descriptors) {
+			List<IAction> specificAssistActions= new ArrayList<>(descriptors.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (CompletionProposalCategory cat : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (cat.hasComputers()) {
 					IAction caAction= new SpecificContentAssistAction(cat);
 					caMenu.add(caAction);
@@ -129,7 +129,7 @@ public class BasicCompilationUnitEditorActionContributor extends BasicJavaEditor
 			fSpecificAssistActions= specificAssistActions.toArray(new SpecificContentAssistAction[specificAssistActions.size()]);
 			if (fSpecificAssistActions.length > 0) {
 				fContentAssistMenuListener= new MenuListener(caMenu);
-				caMenu.addMenuListener(fContentAssistMenuListener);
+				caMenu.addMenuListener(fContentAssistMenuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			}
 			caMenu.add(new Separator("context_info")); //$NON-NLS-1$
 			caMenu.add(fContextInformation);
@@ -141,7 +141,7 @@ public class BasicCompilationUnitEditorActionContributor extends BasicJavaEditor
 	/*
 	 * @see IEditorActionBarContributor#setActiveEditor(IEditorPart)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setActiveEditor(IEditorPart part) {
 		super.setActiveEditor(part);
 
@@ -154,7 +154,7 @@ public class BasicCompilationUnitEditorActionContributor extends BasicJavaEditor
 		fQuickAssistAction.setAction(getAction(textEditor, ITextEditorActionConstants.QUICK_ASSIST));
 
 		if (fSpecificAssistActions != null) {
-			for (SpecificContentAssistAction assistAction : fSpecificAssistActions) {
+			for (SpecificContentAssistAction assistAction : fSpecificAssistActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assistAction.setActiveEditor(part);
 			}
 		}

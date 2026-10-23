@@ -93,7 +93,7 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 
 	private CustomProfile fProfile;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -140,20 +140,20 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 	private void disableAll() throws CoreException {
 		Map<String, String> settings= fProfile.getSettings();
 		CleanUpOptions options= JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS);
-		for (String key : options.getKeys()) {
+		for (String key : options.getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			settings.put(key, CleanUpOptions.FALSE);
 		}
 		commitProfile();
 	}
 
 	protected void disable(String key) throws CoreException {
-		JavaTestPlugin.log(Status.info("Disabling: " + key));
+		JavaTestPlugin.log(Status.info("Disabling: " + key)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fProfile.getSettings().put(key, CleanUpOptions.FALSE);
 		commitProfile();
 	}
 
 	protected void enable(String key) throws CoreException {
-		JavaTestPlugin.log(Status.info("Enabling: " + key));
+		JavaTestPlugin.log(Status.info("Enabling: " + key)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fProfile.getSettings().put(key, CleanUpOptions.TRUE);
 		commitProfile();
 	}
@@ -172,11 +172,11 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 
 	private void collectGroupCategories(Set<GroupCategory> result, Change change) {
 		if (change instanceof TextEditBasedChange) {
-			for (TextEditBasedChangeGroup group : ((TextEditBasedChange)change).getChangeGroups()) {
+			for (TextEditBasedChangeGroup group : ((TextEditBasedChange)change).getChangeGroups()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.addAll(group.getGroupCategorySet().asList());
 			}
 		} else if (change instanceof CompositeChange) {
-			for (Change child : ((CompositeChange)change).getChildren()) {
+			for (Change child : ((CompositeChange)change).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collectGroupCategories(result, child);
 			}
 		}
@@ -190,7 +190,7 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 		RefactoringStatus status= performRefactoring(cus, setOfExpectedGroupCategories);
 
 		String[] previews= new String[cus.length];
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= cus[i];
 			previews[i]= cu.getBuffer().getContents();
 		}
@@ -206,7 +206,7 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 		Pattern regex= Pattern.compile("long serialVersionUID = .*L;");
 
 		String[] previews= new String[cus.length];
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= cus[i];
 			previews[i]= cu.getBuffer().getContents().replaceAll(regex.pattern(), "long serialVersionUID = 1L;");
 		}
@@ -215,7 +215,7 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 	}
 
 	protected RefactoringStatus assertRefactoringHasNoChange(ICompilationUnit[] cus) throws CoreException {
-		for (ICompilationUnit cu : cus) {
+		for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertNoCompilationError(cu);
 		}
 
@@ -225,14 +225,14 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 	protected RefactoringStatus assertRefactoringHasNoChangeEventWithError(ICompilationUnit[] cus) throws CoreException {
 		String[] expected= new String[cus.length];
 
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expected[i]= cus[i].getBuffer().getContents();
 		}
 
 		return assertRefactoringResultAsExpected(cus, expected, null);
 	}
 
-	protected CompilationUnit assertNoCompilationError(ICompilationUnit cu) {
+	protected CompilationUnit assertNoCompilationError(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 		parser.setSource(cu);
 		parser.setResolveBindings(true);
@@ -240,7 +240,7 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 		IProblem[] problems= root.getProblems();
 		boolean hasProblems= false;
 
-		for (IProblem prob : problems) {
+		for (IProblem prob : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!prob.isWarning() && !prob.isInfo()) {
 				hasProblems= true;
 				break;
@@ -248,11 +248,11 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 		}
 
 		if (hasProblems) {
-			StringBuilder builder= new StringBuilder();
-			builder.append(cu.getElementName() + " has compilation problems: \n");
+			StringBuilder builder= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			builder.append(cu.getElementName() + " has compilation problems: \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-			for (IProblem prob : problems) {
-				builder.append(prob.getMessage()).append('\n');
+			for (IProblem prob : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				builder.append(prob.getMessage()).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			fail(builder.toString());
@@ -269,11 +269,11 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 		return performRefactoring(ref, cus, cleanUps, setOfExpectedGroupCategories);
 	}
 
-	protected RefactoringStatus performRefactoring(final CleanUpRefactoring ref, ICompilationUnit[] cus, ICleanUp[] cleanUps, Set<String> setOfExpectedGroupCategories) throws CoreException {
-		for (ICompilationUnit cu : cus) {
+	protected RefactoringStatus performRefactoring(final CleanUpRefactoring ref, ICompilationUnit[] cus, ICleanUp[] cleanUps, Set<String> setOfExpectedGroupCategories) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ref.addCompilationUnit(cu);
 		}
-		for (ICleanUp cleanUp : cleanUps) {
+		for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ref.addCleanUp(cleanUp);
 		}
 
@@ -301,12 +301,12 @@ public abstract class CleanUpTestCase extends QuickFixTest {
 
 		if (setOfExpectedGroupCategories != null) {
 			Change change= create.getChange();
-			Set<GroupCategory> actualCategories= new HashSet<>();
+			Set<GroupCategory> actualCategories= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			collectGroupCategories(actualCategories, change);
 
-			for (GroupCategory actualCategory : actualCategories) {
+			for (GroupCategory actualCategory : actualCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Assertions.assertTrue(setOfExpectedGroupCategories.contains(actualCategory.getName()),
-						() -> "Unexpected group category: " + actualCategory.getName() + ", should find: " + String.join(", ", setOfExpectedGroupCategories));
+						() -> "Unexpected group category: " + actualCategory.getName() + ", should find: " + String.join(", ", setOfExpectedGroupCategories)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 

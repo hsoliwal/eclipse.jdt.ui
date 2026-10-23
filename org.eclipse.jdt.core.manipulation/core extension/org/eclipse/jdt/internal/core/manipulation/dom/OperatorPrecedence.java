@@ -67,7 +67,7 @@ public class OperatorPrecedence {
 	 * @param expression the expression to determine the precedence for
 	 * @return the precedence the higher to stronger the binding to its operand(s)
 	 */
-	public static int getExpressionPrecedence(Expression expression) {
+	public static int getExpressionPrecedence(Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (expression instanceof InfixExpression) {
 			return getOperatorPrecedence(((InfixExpression)expression).getOperator());
 		} else if (expression instanceof Assignment) {
@@ -110,7 +110,7 @@ public class OperatorPrecedence {
 	 * @param operator the expression to determine the precedence for
 	 * @return the precedence the higher to stronger the binding to its operands
 	 */
-	public static int getOperatorPrecedence(Operator operator) {
+	public static int getOperatorPrecedence(Operator operator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (operator == Operator.CONDITIONAL_OR) {
 			return CONDITIONAL_OR;
 		} else if (operator == Operator.CONDITIONAL_AND) {

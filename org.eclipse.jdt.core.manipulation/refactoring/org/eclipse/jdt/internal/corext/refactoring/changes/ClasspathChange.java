@@ -49,8 +49,8 @@ public class ClasspathChange extends ResourceChange {
 	}
 
 	public static ClasspathChange removeEntryChange(IJavaProject project, IClasspathEntry entryToRemove) throws JavaModelException {
-		ArrayList<IClasspathEntry> newClasspath= new ArrayList<>();
-		for (IClasspathEntry curr : project.getRawClasspath()) {
+		ArrayList<IClasspathEntry> newClasspath= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IClasspathEntry curr : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getEntryKind() != entryToRemove.getEntryKind() || !curr.getPath().equals(entryToRemove.getPath())) {
 				newClasspath.add(curr);
 			}

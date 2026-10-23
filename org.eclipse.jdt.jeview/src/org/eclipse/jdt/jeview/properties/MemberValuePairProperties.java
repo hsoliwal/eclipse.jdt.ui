@@ -32,7 +32,7 @@ public class MemberValuePairProperties implements IPropertySource {
 
 	protected IMemberValuePair fMemberValuePair;
 
-	private static final ArrayList<IPropertyDescriptor> MEMBER_VALUE_PAIR_PROPERTY_DESCRIPTORS= new ArrayList<>();
+	private static final ArrayList<IPropertyDescriptor> MEMBER_VALUE_PAIR_PROPERTY_DESCRIPTORS= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	static {
 		addResourceDescriptor(new PropertyDescriptor(P_MEMBER_NAME, "memberName"));
 		addResourceDescriptor(new PropertyDescriptor(P_VALUE_KIND, "valueKind"));
@@ -51,7 +51,7 @@ public class MemberValuePairProperties implements IPropertySource {
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		ArrayList<IPropertyDescriptor> result= new ArrayList<>(MEMBER_VALUE_PAIR_PROPERTY_DESCRIPTORS);
+		ArrayList<IPropertyDescriptor> result= new ArrayList<>(MEMBER_VALUE_PAIR_PROPERTY_DESCRIPTORS); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return result.toArray(new IPropertyDescriptor[result.size()]);
 	}
 
@@ -89,17 +89,17 @@ public class MemberValuePairProperties implements IPropertySource {
 	static String getValueKindName(int valueKind) {
 		String name= "UNKNOWN";
 		Field[] fields= IMemberValuePair.class.getFields();
-		for (Field f : fields) {
+		for (Field f : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				if (f.getType() == int.class && f.getInt(f) == valueKind) {
-					name= "IMemberValuePair." + f.getName();
+					name= "IMemberValuePair." + f.getName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					break;
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				// continue
 			}
 		}
-		return valueKind + " (" + name + ")";
+		return valueKind + " (" + name + ")"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

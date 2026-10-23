@@ -35,7 +35,7 @@ import org.eclipse.jface.text.templates.TemplateVariableType;
 public class MultiVariable extends TemplateVariable {
 	private static final Object DEFAULT_KEY= new Object();
 
-	private final Map<Object, Object[]> fValueMap= new HashMap<>();
+	private final Map<Object, Object[]> fValueMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	/** The master key defining the active set. */
 	private Object fKey;
 	/** The currently active object. */
@@ -115,7 +115,7 @@ public class MultiVariable extends TemplateVariable {
 	public String[] getValues() {
 		Object[] values= getChoices();
 		String[] result= new String[values.length];
-		for (int i= 0; i < result.length; i++)
+		for (int i= 0; i < result.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= toString(values[i]);
 		return result;
 	}

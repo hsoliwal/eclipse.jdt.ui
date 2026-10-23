@@ -209,7 +209,7 @@ public class RenamingNameSuggestor {
 		return match(oldTypeName, newTypeName, oldMethodName);
 	}
 
-	public String suggestNewVariableName(String[] prefixes, String[] suffixes, String oldVariableName, String oldTypeName, String newTypeName) {
+	public String suggestNewVariableName(String[] prefixes, String[] suffixes, String oldVariableName, String oldTypeName, String newTypeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(prefixes);
 		Assert.isNotNull(suffixes);
@@ -225,7 +225,7 @@ public class RenamingNameSuggestor {
 		final String strippedVariableName= oldVariableName.substring(usedPrefix.length(), oldVariableName.length() - usedSuffix.length());
 
 		String newVariableName= match(oldTypeName, newTypeName, strippedVariableName);
-		return (newVariableName != null) ? usedPrefix + newVariableName + usedSuffix : null;
+		return (newVariableName != null) ? usedPrefix + newVariableName + usedSuffix : null; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	// -------------------------------------- Match methods
@@ -292,14 +292,14 @@ public class RenamingNameSuggestor {
 		return null;
 	}
 
-	private String embeddedMatch(String oldTypeName, String newTypeName, String strippedVariableName) {
+	private String embeddedMatch(String oldTypeName, String newTypeName, String strippedVariableName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// possibility of a match?
 		final String lowerCaseVariable= strippedVariableName.toLowerCase();
 		final String lowerCaseOldTypeName= oldTypeName.toLowerCase();
 		int presumedIndex= lowerCaseVariable.indexOf(lowerCaseOldTypeName);
 
-		while (presumedIndex != -1) {
+		while (presumedIndex != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// it may be there
 			final String presumedTypeName= strippedVariableName.substring(presumedIndex, presumedIndex + oldTypeName.length());
 			final String prefix= strippedVariableName.substring(0, presumedIndex);
@@ -310,7 +310,7 @@ public class RenamingNameSuggestor {
 
 				String name= exactMatch(oldTypeName, newTypeName, presumedTypeName);
 				if (name != null)
-					return prefix + name + suffix;
+					return prefix + name + suffix; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			// did not match -> find next occurrence
@@ -320,7 +320,7 @@ public class RenamingNameSuggestor {
 		return null;
 	}
 
-	private String suffixMatch(final String oldType, final String newType, final String strippedVariableName) {
+	private String suffixMatch(final String oldType, final String newType, final String strippedVariableName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// get an array of all camel-cased elements from both types + the
 		// variable
@@ -338,7 +338,7 @@ public class RenamingNameSuggestor {
 		// find endIndex. endIndex is the index of the last hunk of the old type
 		// name in the variable name.
 		int endIndex= -1;
-		for (int j= suffixesVar.length - 1; j >= 0; j--) {
+		for (int j= suffixesVar.length - 1; j >= 0; j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String newHunkName= exactMatch(suffixesOldEqual[suffixesOldEqual.length - 1], suffixesNewEqual[suffixesNewEqual.length - 1], suffixesVar[j]);
 			if (newHunkName != null) {
 				endIndex= j;
@@ -352,7 +352,7 @@ public class RenamingNameSuggestor {
 		int stepBack= 0;
 		int lastSuffixMatched= -1;
 		int hunkInVarName= -1;
-		for (int i= suffixesOldEqual.length - 1; i >= 0; i--) {
+		for (int i= suffixesOldEqual.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			hunkInVarName= endIndex - stepBack;
 			stepBack++;
@@ -422,7 +422,7 @@ public class RenamingNameSuggestor {
 		if (hunk.length() < 2)
 			return false;
 
-		for (int i= 0; i < hunk.length(); i++) {
+		for (int i= 0; i < hunk.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isLegalChar(hunk.charAt(i)))
 				return false;
 		}
@@ -448,12 +448,12 @@ public class RenamingNameSuggestor {
 	 * "ASTNode" => { "AST", "Node" }
 	 */
 	private String[] getSuffixes(String typeName) {
-		List<String> suffixes= new ArrayList<>();
+		List<String> suffixes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		JavaWordIterator iterator= new JavaWordIterator();
 		iterator.setText(typeName);
 		int lastmatch= 0;
 		int match;
-		while ( (match= iterator.next()) != BreakIterator.DONE) {
+		while ( (match= iterator.next()) != BreakIterator.DONE) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			suffixes.add(typeName.substring(lastmatch, match));
 			lastmatch= match;
 		}
@@ -461,30 +461,30 @@ public class RenamingNameSuggestor {
 	}
 
 	private String concat(String[] suffixesNewEqual) {
-		StringBuilder returner= new StringBuilder();
-		for (String s : suffixesNewEqual) {
-			returner.append(s);
+		StringBuilder returner= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String s : suffixesNewEqual) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			returner.append(s); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return returner.toString();
 	}
 
 	private String getLowerCased(String name) {
 		if (name.length() > 1)
-			return Character.toLowerCase(name.charAt(0)) + name.substring(1);
+			return Character.toLowerCase(name.charAt(0)) + name.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
 			return name.toLowerCase();
 	}
 
 	private String getUpperCased(String name) {
 		if (name.length() > 1)
-			return Character.toUpperCase(name.charAt(0)) + name.substring(1);
+			return Character.toUpperCase(name.charAt(0)) + name.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
 			return name.toLowerCase();
 	}
 
 	private String getFirstUpperRestLowerCased(String name) {
 		if (name.length() > 1)
-			return Character.toUpperCase(name.charAt(0)) + name.substring(1).toLowerCase();
+			return Character.toUpperCase(name.charAt(0)) + name.substring(1).toLowerCase(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
 			return name.toLowerCase();
 	}
@@ -500,7 +500,7 @@ public class RenamingNameSuggestor {
 	private String findLongestPrefix(String name, String[] prefixes) {
 		String usedPrefix= ""; //$NON-NLS-1$
 		int bestLen= 0;
-		for (String prefix : prefixes) {
+		for (String prefix : prefixes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.startsWith(prefix)) {
 				if (prefix.length() > bestLen) {
 					bestLen= prefix.length();
@@ -514,7 +514,7 @@ public class RenamingNameSuggestor {
 	private String findLongestSuffix(String name, String[] suffixes) {
 		String usedPrefix= ""; //$NON-NLS-1$
 		int bestLen= 0;
-		for (String suffix : suffixes) {
+		for (String suffix : suffixes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.endsWith(suffix)) {
 				if (suffix.length() > bestLen) {
 					bestLen= suffix.length();

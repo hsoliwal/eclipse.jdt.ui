@@ -115,7 +115,7 @@ abstract class PackageFragmentRootReorgChange extends ResourceChange {
 		return name;
 	}
 
-	protected int getUpdateModelFlags(boolean isCopy) throws JavaModelException{
+	protected int getUpdateModelFlags(boolean isCopy) throws JavaModelException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int destination= IPackageFragmentRoot.DESTINATION_PROJECT_CLASSPATH;
 		final int replace= IPackageFragmentRoot.REPLACE;
 		final int originating;

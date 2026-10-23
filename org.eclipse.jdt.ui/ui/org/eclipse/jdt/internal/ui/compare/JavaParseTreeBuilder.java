@@ -187,9 +187,9 @@ class JavaParseTreeBuilder extends ASTVisitor {
      * Adds a new JavaNode with the given type and name to the current
      * container.
      */
-    private void push(int type, String name, int declarationStart, int length) {
+    private void push(int type, String name, int declarationStart, int length) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-        while (declarationStart > 0) {
+        while (declarationStart > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             char c= fBuffer[declarationStart - 1];
             if (c != ' ' && c != '\t')
                 break;
@@ -219,41 +219,41 @@ class JavaParseTreeBuilder extends ASTVisitor {
     }
 
     private String getFieldName(VariableDeclarationFragment node) {
-    	StringBuilder buffer= new StringBuilder();
-        buffer.append(node.getName().toString());
+    	StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+        buffer.append(node.getName().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
         ASTNode parent= node.getParent();
         if (parent instanceof FieldDeclaration) {
             FieldDeclaration fd= (FieldDeclaration) parent;
-            buffer.append(" : "); //$NON-NLS-1$
-            buffer.append(getType(fd.getType()));
+            buffer.append(" : "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+            buffer.append(getType(fd.getType())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
         }
         return buffer.toString();
     }
 
-    private String getSignature(MethodDeclaration node) {
-    	StringBuilder buffer= new StringBuilder();
-        buffer.append(node.getName().toString());
-        buffer.append('(');
+    private String getSignature(MethodDeclaration node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+    	StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+        buffer.append(node.getName().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+        buffer.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
         boolean first= true;
         Iterator<SingleVariableDeclaration> iterator= node.parameters().iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         	SingleVariableDeclaration svd= iterator.next();
             if (!first)
-                buffer.append(", "); //$NON-NLS-1$
-            buffer.append(getType(svd.getType()));
+                buffer.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+            buffer.append(getType(svd.getType())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
             if (svd.isVarargs())
-                buffer.append("..."); //$NON-NLS-1$
+                buffer.append("..."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
             first= false;
         }
-        buffer.append(')');
+        buffer.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
         return buffer.toString();
     }
 
     private String getSignature(AnnotationTypeMemberDeclaration node) {
-    	StringBuilder buffer= new StringBuilder();
-        buffer.append(node.getName().toString());
-        buffer.append('(');
-        buffer.append(')');
+    	StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+        buffer.append(node.getName().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+        buffer.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+        buffer.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
         return buffer.toString();
     }
 

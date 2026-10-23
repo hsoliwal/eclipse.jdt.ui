@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.JavaCore;
 /**
  * Filters non-java projects
  */
-public class NonJavaProjectsFilter extends ViewerFilter {
+public class NonJavaProjectsFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

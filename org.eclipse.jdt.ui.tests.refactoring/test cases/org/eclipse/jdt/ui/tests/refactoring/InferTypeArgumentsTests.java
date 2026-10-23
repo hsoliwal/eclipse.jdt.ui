@@ -70,7 +70,7 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 	private void performCu(int expectedInitialStatus, int expectedFinalStatus) throws Exception {
 		IPackageFragment packageP= getPackageP();
 		String cuName="A";
-		ICompilationUnit cu= packageP.getCompilationUnit(cuName + ".java");
+		ICompilationUnit cu= packageP.getCompilationUnit(cuName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (!cu.exists())
 			cu= createCUfromTestFile(packageP, cuName);
 		IJavaElement[] elements= { cu };
@@ -86,12 +86,12 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 	/**
 	 * @return <code>true</code> iff performed
 	 */
-	private boolean perform(IJavaElement[] elements, int expectedInitialStatus, int expectedFinalStatus) throws CoreException {
+	private boolean perform(IJavaElement[] elements, int expectedInitialStatus, int expectedFinalStatus) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InferTypeArgumentsRefactoring refactoring= ((RefactoringAvailabilityTester.isInferTypeArgumentsAvailable(elements)) ? new InferTypeArgumentsRefactoring(elements) : null);
 
 		NullProgressMonitor pm= new NullProgressMonitor();
 		RefactoringStatus initialStatus= refactoring.checkInitialConditions(pm);
-		assertEquals("wrong initial condition status: " + initialStatus, expectedInitialStatus, initialStatus.getSeverity());
+		assertEquals("wrong initial condition status: " + initialStatus, expectedInitialStatus, initialStatus.getSeverity()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (! initialStatus.isOK())
 			return false;
 
@@ -102,11 +102,11 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 				refactoring, CheckConditionsOperation.FINAL_CONDITIONS);
 		JavaCore.run(op, new NullProgressMonitor());
 		RefactoringStatus finalStatus= op.getConditionStatus();
-		assertEquals("wrong final condition status: " + finalStatus, expectedFinalStatus, finalStatus.getSeverity());
+		assertEquals("wrong final condition status: " + finalStatus, expectedFinalStatus, finalStatus.getSeverity()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (finalStatus.getSeverity() == RefactoringStatus.FATAL)
 			return false;
 
-		assertFalse("Validation check failed: " + op.getValidationStatus(), op.getValidationStatus().hasFatalError());
+		assertFalse("Validation check failed: " + op.getValidationStatus(), op.getValidationStatus().hasFatalError()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull("No Undo", op.getUndoChange());
 		return true;
 	}
@@ -116,7 +116,7 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 	}
 
 	public void compareWithZipFile(IPackageFragmentRoot src, String zipFileName) throws Exception {
-		String fullName= TEST_PATH_PREFIX + getRefactoringPath() + zipFileName;
+		String fullName= TEST_PATH_PREFIX + getRefactoringPath() + zipFileName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try (ZipInputStream zis= new ZipInputStream(getFileInputStream(fullName))) {
 			ZipTools.compareWithZipped(src, zis, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		}
@@ -147,7 +147,7 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 		performCuOK();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCuGetClass2() throws Exception {
 		// Test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=211037
 		// In 1.6, Object#getClass() declares return type Class<?>, but in 1.5, it's Class<? extends Object>.
@@ -156,7 +156,7 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 		// Test the same with 1.5:
 		IJavaProject project= rts.getProject();
 
-		ArrayList<IClasspathEntry> classpath= new ArrayList<>(Arrays.asList(project.getRawClasspath()));
+		ArrayList<IClasspathEntry> classpath= new ArrayList<>(Arrays.asList(project.getRawClasspath())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IClasspathEntry jreEntry= rts.getJRELibrary().getRawClasspathEntry();
 		classpath.remove(jreEntry);
 		IClasspathEntry[] noRTJarCPEs= classpath.toArray(new IClasspathEntry[classpath.size()]);
@@ -246,7 +246,7 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 		performCuOK();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJUnit() throws Exception {
 		fAssumeCloneReturnsSameType= false;
 		fLeaveUnconstrainedRaw= true;
@@ -272,7 +272,7 @@ public class InferTypeArgumentsTests extends GenericRefactoringTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJUnitWithCloneNotRaw() throws Exception {
 		fAssumeCloneReturnsSameType= true;
 		fLeaveUnconstrainedRaw= false;

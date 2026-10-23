@@ -54,7 +54,7 @@ public class NewAnnotationMemberProposalCore extends LinkedCorrectionProposalCor
 		fSenderBinding= binding;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		CompilationUnit astRoot= ASTResolving.findParentCompilationUnit(getInvocationNode());
 		ASTNode typeDecl= astRoot.findDeclaringNode(getSenderBinding());
@@ -103,7 +103,7 @@ public class NewAnnotationMemberProposalCore extends LinkedCorrectionProposalCor
 		return decl;
 	}
 
-	private Type getNewType(ASTRewrite rewrite) {
+	private Type getNewType(ASTRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 		Type newTypeNode= null;
 		ITypeBinding binding= null;
@@ -126,7 +126,7 @@ public class NewAnnotationMemberProposalCore extends LinkedCorrectionProposalCor
 
 	private int evaluateModifiers(AnnotationTypeDeclaration targetTypeDecl) {
 		List<BodyDeclaration> methodDecls= targetTypeDecl.bodyDeclarations();
-		for (BodyDeclaration curr : methodDecls) {
+		for (BodyDeclaration curr : methodDecls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof AnnotationTypeMemberDeclaration) {
 				return curr.getModifiers();
 			}

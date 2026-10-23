@@ -174,7 +174,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 	 */
 	private boolean fProcessSelectionEvents= true;
 
-	private IPartListener2 fPartListener= new IPartListener2() {
+	private IPartListener2 fPartListener= new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 		@Override
 		public void partActivated(IWorkbenchPartReference ref) {
 		}
@@ -256,17 +256,17 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		memento.putInteger(getLinkToEditorKey(), fLinkingEnabled ? 1 : 0);
 	}
 
-	private void saveSelectionState(IMemento memento) {
+	private void saveSelectionState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object elements[]= ((IStructuredSelection) fViewer.getSelection()).toArray();
 		if (elements.length > 0) {
 			IMemento selectionMem= memento.createChild(TAG_SELECTED_ELEMENTS);
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMemento elementMem= selectionMem.createChild(TAG_SELECTED_ELEMENT);
 				Object o= element;
 				if (o instanceof IJavaElement) {
 					elementMem.putString(TAG_SELECTED_ELEMENT_PATH, ((IJavaElement) element).getHandleIdentifier());
 				} else if (o instanceof LogicalPackage) {
-					for (IPackageFragment p : ((LogicalPackage)o).getFragments()) {
+					for (IPackageFragment p : ((LogicalPackage)o).getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IMemento packageMem= elementMem.createChild(TAG_LOGICAL_PACKAGE);
 						packageMem.putString(TAG_SELECTED_ELEMENT_PATH, p.getHandleIdentifier());
 					}
@@ -283,25 +283,25 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 
 		if (fHasCustomFilter || fHasWorkingSetFilter) {
 			fViewer.getControl().setRedraw(false);
-			fViewer.refresh();
+			fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fViewer.getControl().setRedraw(true);
 		}
 	}
 
-	private ISelection restoreSelectionState(IMemento memento) {
+	private ISelection restoreSelectionState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (memento == null)
 			return null;
 
 		IMemento childMem;
 		childMem= memento.getChild(TAG_SELECTED_ELEMENTS);
 		if (childMem != null) {
-			ArrayList<Object> list= new ArrayList<>();
-			for (IMemento m : childMem.getChildren(TAG_SELECTED_ELEMENT)) {
+			ArrayList<Object> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IMemento m : childMem.getChildren(TAG_SELECTED_ELEMENT)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String javaElementHandle= m.getString(TAG_SELECTED_ELEMENT_PATH);
 				if (javaElementHandle == null) {
 					// logical package
 					LogicalPackage lp= null;
-					for (IMemento p : m.getChildren(TAG_LOGICAL_PACKAGE)) {
+					for (IMemento p : m.getChildren(TAG_LOGICAL_PACKAGE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						javaElementHandle= p.getString(TAG_SELECTED_ELEMENT_PATH);
 						Object pack= JavaCore.create(javaElementHandle);
 						if (pack instanceof IPackageFragment && ((IPackageFragment)pack).exists()) {
@@ -331,7 +331,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 		Assert.isTrue(fViewer == null);
 
@@ -344,7 +344,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		initDragAndDrop();
 
 		fLabelProvider= createLabelProvider();
-		fViewer.setLabelProvider(createDecoratingLabelProvider(fLabelProvider));
+		fViewer.setLabelProvider(createDecoratingLabelProvider(fLabelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		fViewer.setComparator(createJavaElementComparator());
 		fViewer.setUseHashlookup(true);
@@ -367,7 +367,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 
 		// Status line
 		IStatusLineManager slManager= getViewSite().getActionBars().getStatusLineManager();
-		fViewer.addSelectionChangedListener(createStatusBarUpdater(slManager));
+		fViewer.addSelectionChangedListener(createStatusBarUpdater(slManager)); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 
 		hookViewerListeners();
@@ -432,7 +432,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 	protected void createContextMenu() {
 		MenuManager menuManager= new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuManager.setRemoveAllWhenShown(true);
-		menuManager.addMenuListener(this);
+		menuManager.addMenuListener(this); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		Menu contextMenu= menuManager.createContextMenu(fViewer.getControl());
 		fViewer.getControl().setMenu(contextMenu);
 		getSite().registerContextMenu(menuManager, fViewer);
@@ -448,7 +448,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		return fDropSupport;
 	}
 
-	protected void fillActionBars(IActionBars actionBars) {
+	protected void fillActionBars(IActionBars actionBars) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IToolBarManager toolBar= actionBars.getToolBarManager();
 		fillToolBar(toolBar);
 
@@ -479,7 +479,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		fViewer.getControl().setFocus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (fViewer != null) {
 			getViewSite().getPage().removePostSelectionListener(this);
@@ -503,7 +503,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 	 * Adds the KeyListener
 	 */
 	protected void addKeyListener() {
-		fViewer.getControl().addKeyListener(new KeyAdapter() {
+		fViewer.getControl().addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyReleased(KeyEvent event) {
 				handleKeyReleased(event);
@@ -558,7 +558,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 			new PatchedOpenInNewWindowAction(getSite().getWorkbenchWindow(), (IContainer)element));
 	}
 
-	protected void createActions() {
+	protected void createActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fActionGroups= new CompositeActionGroup(new ActionGroup[] {
 				new NewWizardsActionGroup(this.getSite()),
 				fOpenEditorGroup= new OpenEditorActionGroup(this),
@@ -576,7 +576,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 			Assert.isNotNull(viewId);
 			IPropertyChangeListener workingSetListener= this::doWorkingSetChanged;
 			fWorkingSetFilterActionGroup= new WorkingSetFilterActionGroup(getSite(), workingSetListener);
-			fViewer.addFilter(fWorkingSetFilterActionGroup.getWorkingSetFilter());
+			fViewer.addFilter(fWorkingSetFilterActionGroup.getWorkingSetFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		}
 
 		// Custom filter group
@@ -594,7 +594,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		else	if (IWorkingSetManager.CHANGE_WORKING_SET_CONTENT_CHANGE.equals(property)) {
 			updateTitle();
 			fViewer.getControl().setRedraw(false);
-			fViewer.refresh();
+			fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fViewer.getControl().setRedraw(true);
 		}
 
@@ -710,7 +710,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (!needsToProcessSelectionChanged(part))
 			return;
@@ -789,7 +789,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 
 	private void setViewerInput(Object input) {
 		fProcessSelectionEvents= false;
-		fViewer.setInput(input);
+		fViewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fProcessSelectionEvents= true;
 	}
 
@@ -802,7 +802,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 	 * @param element the element
 	 * @return the tooltip for the element
 	 */
-	String getToolTipText(Object element) {
+	String getToolTipText(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String result;
 		if (!(element instanceof IResource)) {
 			result= JavaElementLabels.getTextLabel(element, AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS);
@@ -902,7 +902,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		setInput(findInputForJavaElement((IJavaElement)input));
 	}
 
-	protected void setInitialSelection() {
+	protected void setInitialSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Use the selection, if any
 		IWorkbenchPage page= getSite().getPage();
 		ISelection selection= null;
@@ -962,7 +962,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 	 * This method can be overridden but should
 	 * call super.
 	 */
-	protected void hookViewerListeners() {
+	protected void hookViewerListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 
 		fOpenAndLinkWithEditorHelper= new OpenAndLinkWithEditorHelper(fViewer) {
@@ -1011,7 +1011,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 		// Default is to do nothing
 	}
 
-	void adjustInputAndSetSelection(Object o) {
+	void adjustInputAndSetSelection(Object o) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(o instanceof IJavaElement)) {
 			if (o == null)
 				setInput(null);
@@ -1088,7 +1088,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 	abstract protected IJavaElement findElementToSelect(IJavaElement je);
 
 
-	protected final Object getSingleElementFromSelection(ISelection selection) {
+	protected final Object getSingleElementFromSelection(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(selection instanceof IStructuredSelection) || selection.isEmpty())
 			return null;
 
@@ -1120,7 +1120,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 				return firstElement;
 
 		// be nice to multi-selection
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= iter.next();
 			if (!(element instanceof IJavaElement))
 				return null;
@@ -1167,7 +1167,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 			setSelectionFromEditor(part, provider.getSelection());
 	}
 
-	private void setSelectionFromEditor(IWorkbenchPart part, ISelection selection) {
+	private void setSelectionFromEditor(IWorkbenchPart part, ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (part instanceof IEditorPart) {
 			IJavaElement element= null;
 			if (selection instanceof IStructuredSelection) {
@@ -1235,7 +1235,7 @@ abstract class JavaBrowsingPart extends ViewPart implements IMenuListener, IView
 	 * @param offset the offset in the file
 	 * @return the element at the given offset
 	 */
-	protected IJavaElement getElementAt(IEditorInput input, int offset) {
+	protected IJavaElement getElementAt(IEditorInput input, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (input instanceof IClassFileEditorInput) {
 			try {
 				return ((IClassFileEditorInput)input).getClassFile().getElementAt(offset);

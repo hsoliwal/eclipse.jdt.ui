@@ -113,7 +113,7 @@ public class JavaElementComparator extends ViewerComparator {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int category(Object element) {
 		if (element instanceof IJavaElement) {
 			try {
@@ -198,7 +198,7 @@ public class JavaElementComparator extends ViewerComparator {
 		return offset + MEMBERSOFFSET;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compare(Viewer viewer, Object e1, Object e2) {
 		int cat1= category(e1);
 		int cat2= category(e2);
@@ -280,7 +280,7 @@ public class JavaElementComparator extends ViewerComparator {
 			String[] params1= ((IMethod) e1).getParameterTypes();
 			String[] params2= ((IMethod) e2).getParameterTypes();
 			int len= Math.min(params1.length, params2.length);
-			for (int i = 0; i < len; i++) {
+			for (int i = 0; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				cmp= getComparator().compare(Signature.toString(params1[i]), Signature.toString(params2[i]));
 				if (cmp != 0) {
 					return cmp;
@@ -304,7 +304,7 @@ public class JavaElementComparator extends ViewerComparator {
 		return JavaModelUtil.getPackageFragmentRoot((IJavaElement)element);
 	}
 
-	private String getNonJavaElementLabel(Viewer viewer, Object element) {
+	private String getNonJavaElementLabel(Viewer viewer, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// try to use the workbench adapter for non - java resources or if not available, use the viewers label provider
 		if (element instanceof IResource) {
 			return ((IResource) element).getName();
@@ -331,7 +331,7 @@ public class JavaElementComparator extends ViewerComparator {
 		try {
 			IPath rootPath= root.getPath();
 			IPackageFragmentRoot[] roots= root.getJavaProject().getPackageFragmentRoots();
-			for (int i= 0; i < roots.length; i++) {
+			for (int i= 0; i < roots.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (roots[i].getPath().equals(rootPath)) {
 					return i;
 				}
@@ -342,7 +342,7 @@ public class JavaElementComparator extends ViewerComparator {
 		return Integer.MAX_VALUE;
 	}
 
-	private boolean needsClasspathComparison(Object e1, int cat1, Object e2, int cat2) {
+	private boolean needsClasspathComparison(Object e1, int cat1, Object e2, int cat2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((cat1 == PACKAGEFRAGMENTROOTS && cat2 == PACKAGEFRAGMENTROOTS) ||
 			(cat1 == PACKAGEFRAGMENT &&
 				((IPackageFragment)e1).getParent().getResource() instanceof IProject &&

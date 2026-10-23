@@ -98,7 +98,7 @@ public final class PushDownWizard extends RefactoringWizard {
 			private static String[] getAvailableActionLabels(final MemberActionInfo info) {
 				final int[] actions= info.getAvailableActions();
 				final String[] result= new String[actions.length];
-				for (int index= 0; index < actions.length; index++) {
+				for (int index= 0; index < actions.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result[index]= getActionLabel(actions[index]);
 				}
 				return result;
@@ -191,7 +191,7 @@ public final class PushDownWizard extends RefactoringWizard {
 
 		private static int countEditableInfos(final MemberActionInfo[] infos) {
 			int result= 0;
-			for (MemberActionInfo info : infos) {
+			for (MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (info.isEditable()) {
 					result++;
 				}
@@ -200,7 +200,7 @@ public final class PushDownWizard extends RefactoringWizard {
 		}
 
 		private static void setInfoAction(final MemberActionInfo[] infos, final int action) {
-			for (MemberActionInfo info : infos) {
+			for (MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				info.setAction(action);
 			}
 		}
@@ -243,14 +243,14 @@ public final class PushDownWizard extends RefactoringWizard {
 
 		private int countInfosForAction(final int action) {
 			int count= 0;
-			for (MemberActionInfo info : (MemberActionInfo[]) fTableViewer.getInput()) {
+			for (MemberActionInfo info : (MemberActionInfo[]) fTableViewer.getInput()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (info.getAction() == action)
 					count++;
 			}
 			return count;
 		}
 
-		private void createButtonComposite(final Composite parent) {
+		private void createButtonComposite(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Composite composite= new Composite(parent, SWT.NONE);
 			composite.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 			final GridLayout layout= new GridLayout();
@@ -263,7 +263,7 @@ public final class PushDownWizard extends RefactoringWizard {
 			fSelectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			fSelectAllButton.setEnabled(true);
 			SWTUtil.setButtonDimensionHint(fSelectAllButton);
-			fSelectAllButton.addSelectionListener(new SelectionAdapter() {
+			fSelectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(final SelectionEvent event) {
@@ -278,7 +278,7 @@ public final class PushDownWizard extends RefactoringWizard {
 			fDeselectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			fDeselectAllButton.setEnabled(false);
 			SWTUtil.setButtonDimensionHint(fDeselectAllButton);
-			fDeselectAllButton.addSelectionListener(new SelectionAdapter() {
+			fDeselectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(final SelectionEvent event) {
@@ -295,7 +295,7 @@ public final class PushDownWizard extends RefactoringWizard {
 			fEditButton.setLayoutData(data);
 			fEditButton.setEnabled(false);
 			SWTUtil.setButtonDimensionHint(fEditButton);
-			fEditButton.addSelectionListener(new SelectionAdapter() {
+			fEditButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(final SelectionEvent event) {
@@ -307,7 +307,7 @@ public final class PushDownWizard extends RefactoringWizard {
 			addButton.setText(RefactoringMessages.PushDownInputPage_Add_Required);
 			addButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			SWTUtil.setButtonDimensionHint(addButton);
-			addButton.addSelectionListener(new SelectionAdapter() {
+			addButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(final SelectionEvent event) {
@@ -330,7 +330,7 @@ public final class PushDownWizard extends RefactoringWizard {
 			PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.PUSH_DOWN_WIZARD_PAGE);
 		}
 
-		private void createMemberTable(final Composite parent) {
+		private void createMemberTable(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final TableLayoutComposite layouter= new TableLayoutComposite(parent, SWT.NONE);
 			layouter.addColumnData(new ColumnWeightData(60, true));
 			layouter.addColumnData(new ColumnWeightData(40, true));
@@ -356,9 +356,9 @@ public final class PushDownWizard extends RefactoringWizard {
 			fTableViewer= new PullPushCheckboxTableViewer(table);
 			fTableViewer.setUseHashlookup(true);
 			fTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-			fTableViewer.setLabelProvider(new MemberActionInfoLabelProvider());
-			fTableViewer.addSelectionChangedListener(event -> PushDownInputPage.this.updateButtonEnablementState((IStructuredSelection) event.getSelection()));
-			fTableViewer.addCheckStateListener(event -> {
+			fTableViewer.setLabelProvider(new MemberActionInfoLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+			fTableViewer.addSelectionChangedListener(event -> PushDownInputPage.this.updateButtonEnablementState((IStructuredSelection) event.getSelection())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			fTableViewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 				final boolean checked= event.getChecked();
 				final MemberActionInfo info= (MemberActionInfo) event.getElement();
 				if (checked)
@@ -367,9 +367,9 @@ public final class PushDownWizard extends RefactoringWizard {
 					info.setAction(MemberActionInfo.NO_ACTION);
 				updateWizardPage(null, true);
 			});
-			fTableViewer.addDoubleClickListener(unused -> PushDownInputPage.this.editSelectedMembers());
+			fTableViewer.addDoubleClickListener(unused -> PushDownInputPage.this.editSelectedMembers()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 
-			fTableViewer.setInput(fProcessor.getMemberActionInfos());
+			fTableViewer.setInput(fProcessor.getMemberActionInfos()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			updateWizardPage(null, false);
 			setupCellEditors(table);
 		}
@@ -403,7 +403,7 @@ public final class PushDownWizard extends RefactoringWizard {
 
 		// String -> Integer
 		private Map<String, Integer> createStringMappingForSelectedElements() {
-			final Map<String, Integer> result= new HashMap<>();
+			final Map<String, Integer> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			int action= MemberActionInfo.PUSH_DOWN_ACTION;
 			result.put(MemberActionInfoLabelProvider.getActionLabel(action), action);
 			int action1= MemberActionInfo.PUSH_ABSTRACT_ACTION;
@@ -411,7 +411,7 @@ public final class PushDownWizard extends RefactoringWizard {
 			return result;
 		}
 
-		private void editSelectedMembers() {
+		private void editSelectedMembers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!fEditButton.isEnabled())
 				return;
 			final ISelection preserved= fTableViewer.getSelection();
@@ -444,8 +444,8 @@ public final class PushDownWizard extends RefactoringWizard {
 
 		private MemberActionInfo[] getActiveInfos() {
 			final MemberActionInfo[] infos= fProcessor.getMemberActionInfos();
-			final List<MemberActionInfo> result= new ArrayList<>(infos.length);
-			for (MemberActionInfo info : infos) {
+			final List<MemberActionInfo> result= new ArrayList<>(infos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (info.isActive())
 					result.add(info);
 			}
@@ -458,7 +458,7 @@ public final class PushDownWizard extends RefactoringWizard {
 				return -1;
 
 			final int code= infos[0].getAction();
-			for (MemberActionInfo info : infos) {
+			for (MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (code != info.getAction()) {
 					return -1;
 				}
@@ -470,11 +470,11 @@ public final class PushDownWizard extends RefactoringWizard {
 			final int commonActionCode= getCommonActionCodeForSelectedInfos();
 			if (commonActionCode == -1)
 				return 0;
-			for (Map.Entry<String, Integer> entry : mapping.entrySet()) {
+			for (Map.Entry<String, Integer> entry : mapping.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String key = entry.getKey();
 				final int action= entry.getValue();
 				if (commonActionCode == action) {
-					for (int index= 0; index < keys.length; index++) {
+					for (int index= 0; index < keys.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (key.equals(keys[index]))
 							return index;
 					}
@@ -486,8 +486,8 @@ public final class PushDownWizard extends RefactoringWizard {
 
 		private IMember[] getMembers() {
 			final MemberActionInfo[] infos= (MemberActionInfo[]) fTableViewer.getInput();
-			final List<IMember> result= new ArrayList<>(infos.length);
-			for (MemberActionInfo info : infos) {
+			final List<IMember> result= new ArrayList<>(infos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(info.getMember());
 			}
 			return result.toArray(new IMember[result.size()]);
@@ -499,9 +499,9 @@ public final class PushDownWizard extends RefactoringWizard {
 			return result.toArray(new MemberActionInfo[result.size()]);
 		}
 
-		public void markAdditionalRequiredMembersAsMembersToPushDown() {
+		public void markAdditionalRequiredMembersAsMembersToPushDown() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(false, false, pm -> {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(false, false, pm -> { //FLLDCIM: MARK — T09  LAMBDA
 					try {
 						fProcessor.computeAdditionalRequiredMembersToPushDown(pm);
 						updateWizardPage(null, true);
@@ -520,8 +520,8 @@ public final class PushDownWizard extends RefactoringWizard {
 
 		private void setActionForMembers(final IMember[] members, final int action) {
 			final MemberActionInfo[] infos= (MemberActionInfo[]) fTableViewer.getInput();
-			for (IMember member : members) {
-				for (MemberActionInfo info : infos) {
+			for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (MemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (info.getMember().equals(member)) {
 						info.setAction(action);
 					}
@@ -529,11 +529,11 @@ public final class PushDownWizard extends RefactoringWizard {
 			}
 		}
 
-		private void setupCellEditors(final Table table) {
+		private void setupCellEditors(final Table table) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ComboBoxCellEditor comboBoxCellEditor= new ComboBoxCellEditor();
 			comboBoxCellEditor.setStyle(SWT.READ_ONLY);
 			fTableViewer.setCellEditors(new CellEditor[] { null, comboBoxCellEditor});
-			fTableViewer.addSelectionChangedListener(event -> {
+			fTableViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				if (comboBoxCellEditor.getControl() == null && !table.isDisposed())
 					comboBoxCellEditor.create(table);
 				Assert.isTrue(event.getSelection() instanceof IStructuredSelection);
@@ -581,7 +581,7 @@ public final class PushDownWizard extends RefactoringWizard {
 		}
 
 		private void updateWizardPage(final ISelection preserved, final boolean displayErrorMessage) {
-			fTableViewer.refresh();
+			fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (preserved != null) {
 				fTableViewer.getControl().setFocus();
 				fTableViewer.setSelection(preserved);

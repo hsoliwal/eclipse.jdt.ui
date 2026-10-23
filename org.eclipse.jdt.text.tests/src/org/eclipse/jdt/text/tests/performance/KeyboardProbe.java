@@ -108,7 +108,7 @@ public class KeyboardProbe {
 	 */
 	public int[] getKeybindingForChar(char expected) {
 		char[][] keycodes= getKeycodes();
-		for (int i= 0; i < keycodes.length; i++) {
+		for (int i= 0; i < keycodes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keycodes[i][NONE] == expected)
 				return new int[] {i};
 			else if (keycodes[i][SHIFT] == expected)
@@ -144,13 +144,13 @@ public class KeyboardProbe {
 	 *         <code>false</code> if <code>expected</code> has no combo on
 	 *         the current keyboard layout.
 	 */
-	public boolean pressChar(char expected, int[] modifiers, Display display) {
+	public boolean pressChar(char expected, int[] modifiers, Display display) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int[] charkeys= getKeybindingForChar(expected);
 		int[] combo= new int[charkeys.length + modifiers.length];
 		System.arraycopy(modifiers, 0, combo, 0, modifiers.length);
 		System.arraycopy(charkeys, 0, combo, modifiers.length, charkeys.length);
 
-		for (int i= 0; i <= combo.length - 2; i++) {
+		for (int i= 0; i <= combo.length - 2; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Event event= new Event();
 			event.type= SWT.KeyDown;
 			event.keyCode= combo[i];
@@ -167,7 +167,7 @@ public class KeyboardProbe {
 			display.post(event);
 		}
 
-		for (int i= combo.length - 2; i >= 0; i--) {
+		for (int i= combo.length - 2; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Event event= new Event();
 			event.type= SWT.KeyUp;
 			event.keyCode= combo[i];
@@ -177,24 +177,24 @@ public class KeyboardProbe {
 		return combo.length > 0;
 	}
 
-	void probe() {
+	void probe() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fCodes= new char[128][];
 
 		fDisplay= createDisplay();
 		Text text= createControl(fDisplay);
 
-		for (fKeyCode= 0; fKeyCode < 128; fKeyCode++) {
+		for (fKeyCode= 0; fKeyCode < 128; fKeyCode++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fCodes[fKeyCode]= new char[2];
 
 			postNaturalKeyPress(fKeyCode);
 			char c= getContent(text);
-			if (TRACE) System.out.println("" + fKeyCode + "content[NONE]: " + c);
+			if (TRACE) System.out.println("" + fKeyCode + "content[NONE]: " + c); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fCodes[fKeyCode][NONE]= c;
 			clearText(text);
 
 			postShiftKeyPress(fKeyCode);
 			c= getContent(text);
-			if (TRACE) System.out.println("" + fKeyCode + "content[SHIFT]: " + c);
+			if (TRACE) System.out.println("" + fKeyCode + "content[SHIFT]: " + c); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fCodes[fKeyCode][SHIFT]= c;
 			clearText(text);
 
@@ -202,23 +202,23 @@ public class KeyboardProbe {
 
 	}
 
-	private char getContent(Text text) {
+	private char getContent(Text text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String content= text.getText();
 		char c;
 		if (content.length() == 2) {
 			c= content.charAt(0);
 			if (TRACE)
 				if (content.charAt(1) != FAKE_CHAR)
-					System.out.println("second char was '" + content.charAt(1) + "'");
+					System.out.println("second char was '" + content.charAt(1) + "'"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (content.length() > 2) {
 			c= content.charAt(0);
 			if (TRACE)
-				System.out.println("rest content was '" + content.substring(1) + "'");
+				System.out.println("rest content was '" + content.substring(1) + "'"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (content.length() == 1) {
 			c= '\0';
 			if (TRACE)
 				if (content.charAt(0) != FAKE_CHAR)
-					System.out.println("second char was '" + content.charAt(0) + "'");
+					System.out.println("second char was '" + content.charAt(0) + "'"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			c= '\0';
 			if (TRACE) System.out.println("no content");
@@ -229,7 +229,7 @@ public class KeyboardProbe {
 	private void clearText(Text text) {
 		fTextContinue= false;
 		text.setText("");
-		do
+		do //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			driveEventQueue();
 		while (!fTextContinue);
 	}
@@ -244,9 +244,9 @@ public class KeyboardProbe {
 	}
 
 	private void addListeners(Text control) {
-		control.addListener(SWT.KeyDown, this::onKeyDown);
-		control.addListener(SWT.KeyUp, this::onKeyUp);
-		control.addListener(SWT.Modify, unused -> onModify());
+		control.addListener(SWT.KeyDown, this::onKeyDown); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.KeyUp, this::onKeyUp); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.Modify, unused -> onModify()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	private Text createControl(Display display) {
@@ -265,7 +265,7 @@ public class KeyboardProbe {
 		return text;
 	}
 
-	private void postNaturalKeyPress(int i) {
+	private void postNaturalKeyPress(int i) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fKeyContinue= false;
 
@@ -287,13 +287,13 @@ public class KeyboardProbe {
 		event2.type= SWT.KeyUp;
 		fDisplay.post(event2);
 
-		do
+		do //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			driveEventQueue();
 		while (!fKeyContinue);
 
 	}
 
-	private void postShiftKeyPress(int i) {
+	private void postShiftKeyPress(int i) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fKeyContinue= false;
 
 		Event shift= new Event();
@@ -320,7 +320,7 @@ public class KeyboardProbe {
 		event2.type= SWT.KeyUp;
 		fDisplay.post(event2);
 
-		do
+		do //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			driveEventQueue();
 		while (!fKeyContinue);
 	}
@@ -343,7 +343,7 @@ public class KeyboardProbe {
 	}
 
 	private void driveEventQueue() {
-		while (fDisplay.readAndDispatch()) {}
+		while (fDisplay.readAndDispatch()) {} //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {

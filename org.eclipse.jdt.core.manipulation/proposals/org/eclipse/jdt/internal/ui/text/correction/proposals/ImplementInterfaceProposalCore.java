@@ -56,7 +56,7 @@ public class ImplementInterfaceProposalCore extends LinkedCorrectionProposalCore
 		setDisplayName(Messages.format(CorrectionMessages.ImplementInterfaceProposal_name, args));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		ASTNode boundNode= fAstRoot.findDeclaringNode(fBinding);
 		ASTNode declNode= null;

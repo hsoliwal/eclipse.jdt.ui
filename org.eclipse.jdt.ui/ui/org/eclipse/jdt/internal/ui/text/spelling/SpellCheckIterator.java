@@ -106,7 +106,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 	 * @param breakIterator the break-iterator
 	 * @param monitor for cancellation checks
 	 */
-	public SpellCheckIterator(IDocument document, IRegion region, Locale locale, BreakIterator breakIterator, IProgressMonitor monitor) {
+	public SpellCheckIterator(IDocument document, IRegion region, Locale locale, BreakIterator breakIterator, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fOffset= region.getOffset();
 		fWordIterator= breakIterator;
 		fDelimiter= TextUtilities.getDefaultLineDelimiter(document);
@@ -132,7 +132,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 		iterator.setText(content);
 
 		int offset= iterator.current();
-		while (offset != BreakIterator.DONE) {
+		while (offset != BreakIterator.DONE) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			fSentenceBreaks.add(offset);
 			offset= iterator.next();
@@ -186,7 +186,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 		char character= 0;
 
 		boolean letter= false;
-		for (int index= begin; index < end; index++) {
+		for (int index= begin; index < end; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			character= fContent.charAt(index);
 			if (Character.isLetter(character))
@@ -220,7 +220,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 
 		if (token != null) {
 
-			for (String tag : tags) {
+			for (String tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (token.equals(tag)) {
 					return true;
 				}
@@ -259,7 +259,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 	 */
 	protected final boolean isUrlToken(final int begin) {
 
-		for (String prefix : DefaultSpellChecker.URL_PREFIXES) {
+		for (String prefix : DefaultSpellChecker.URL_PREFIXES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fContent.startsWith(prefix, begin)) {
 				return true;
 			}
@@ -277,7 +277,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 	 */
 	protected final boolean isWhitespace(final int begin, final int end) {
 
-		for (int index= begin; index < end; index++) {
+		for (int index= begin; index < end; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			if (!Character.isWhitespace(fContent.charAt(index)))
 				return false;
@@ -292,7 +292,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 	public String next() {
 
 		String token= nextToken();
-		while (token == null && fSuccessor != BreakIterator.DONE)
+		while (token == null && fSuccessor != BreakIterator.DONE) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			token= nextToken();
 
 		fLastToken= token;
@@ -326,7 +326,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 	 * @return the next token to be spell checked, or <code>null</code>
 	 *         iff the next token is not a candidate for spell checking.
 	 */
-	protected String nextToken() {
+	protected String nextToken() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String token= null;
 
@@ -400,7 +400,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 
 			if (fPrevious >= nextSentence()) {
 
-				while (fSentenceBreaks.size() > 0 && fPrevious >= nextSentence())
+				while (fSentenceBreaks.size() > 0 && fPrevious >= nextSentence()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fSentenceBreaks.removeFirst();
 
 				fStartsSentence= (fLastToken == null) || (token != null);
@@ -423,10 +423,10 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 	 * @param begin the begin index
 	 * @param stop the stop character
 	 */
-	protected final void skipTokens(final int begin, final int stop) {
+	protected final void skipTokens(final int begin, final int stop) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final boolean isStoppingOnWhiteSpace= stop == WHITE_SPACE_TOKEN;
 		int end= begin;
-		while (end < fContent.length()) {
+		while (end < fContent.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= fContent.charAt(end);
 			if (ch == stop || isStoppingOnWhiteSpace && Character.isWhitespace(ch))
 				break;
@@ -450,10 +450,10 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 	 * @param open the opening character
 	 * @param close the closing character
 	 */
-	protected final void skipPaired(final int begin, final int open, final int close) {
+	protected final void skipPaired(final int begin, final int open, final int close) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int end= begin;
 		int openCount= 0;
-		while (end < fContent.length()) {
+		while (end < fContent.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= fContent.charAt(end);
 			if (ch == close && openCount == 0)
 				break;

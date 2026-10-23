@@ -153,7 +153,7 @@ public class ToStringTemplateParser {
 		return ToStringTemplateParser.OBJECT_AND_MEMBER_RELATED_VARIABLES;
 	}
 
-	public void parseTemplate(String template) {
+	public void parseTemplate(String template) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] emptyArray= new String[0];
 		int beginningEnd= firstOccuranceOf(template, getMemberRelatedVariables());
 		if (beginningEnd >= 0) {
@@ -182,7 +182,7 @@ public class ToStringTemplateParser {
 
 	protected int firstOccuranceOf(String template, String[] wantedVariables) {
 		int result= -1;
-		for (String wantedVariable : wantedVariables) {
+		for (String wantedVariable : wantedVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int indexOf= template.indexOf(wantedVariable);
 			if (result == -1 || (indexOf > 0 && indexOf < result))
 				result= indexOf;
@@ -190,14 +190,14 @@ public class ToStringTemplateParser {
 		return result;
 	}
 
-	protected ArrayList<String> extractElements(String template, String[] wantedVariables) {
-		ArrayList<String> result= new ArrayList<>();
-		while (true) {
+	protected ArrayList<String> extractElements(String template, String[] wantedVariables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (template.length() == 0)
 				break;
 			String foundVariable= null;
 			int variablePosition= template.length();
-			for (String wantedVariable : wantedVariables) {
+			for (String wantedVariable : wantedVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int position= template.indexOf(wantedVariable);
 				if (position >= 0 && position < variablePosition) {
 					variablePosition= position;
@@ -235,8 +235,8 @@ public class ToStringTemplateParser {
 
 	public Map<String, String> getVariableDescriptions() {
 		if (descriptions == null) {
-			descriptions= new HashMap<>();
-			for (int i= 0; i < ToStringTemplateParser.VARIABLES.length; i++)
+			descriptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (int i= 0; i < ToStringTemplateParser.VARIABLES.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				descriptions.put(ToStringTemplateParser.VARIABLES[i], ToStringTemplateParser.VARIABLE_DESCRIPTIONS[i]);
 		}
 		return descriptions;

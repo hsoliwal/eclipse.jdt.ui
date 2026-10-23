@@ -31,7 +31,7 @@ public class TestSuiteElement extends TestElement implements ITestSuiteElement {
 
 	public TestSuiteElement(TestSuiteElement parent, String id, String testName, int childrenCount, String displayName, String[] parameterTypes, String uniqueId) {
 		super(parent, id, testName, displayName, parameterTypes, uniqueId);
-		fChildren= new ArrayList<>(childrenCount);
+		fChildren= new ArrayList<>(childrenCount); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class TestSuiteElement extends TestElement implements ITestSuiteElement {
 
 		Status cumulated= children[0].getStatus();
 
-		for (int i= 1; i < children.length; i++) {
+		for (int i= 1; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Status childStatus= children[i].getStatus();
 			cumulated= Status.combineStatus(cumulated, childStatus);
 		}
@@ -101,7 +101,7 @@ public class TestSuiteElement extends TestElement implements ITestSuiteElement {
 		return super.getStatus();
 	}
 
-	public void childChangedStatus(TestElement child, Status childStatus) {
+	public void childChangedStatus(TestElement child, Status childStatus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int childCount= fChildren.size();
 		if (child == fChildren.get(0) && childStatus.isRunning()) {
 			// is first child, and is running -> copy status
@@ -151,7 +151,7 @@ public class TestSuiteElement extends TestElement implements ITestSuiteElement {
 			parent.childChangedTiming(this);
 	}
 
-	private void internalSetChildrenStatus(Status status) {
+	private void internalSetChildrenStatus(Status status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fChildrenStatus == status)
 			return;
 
@@ -174,7 +174,7 @@ public class TestSuiteElement extends TestElement implements ITestSuiteElement {
 
 	@Override
 	public String toString() {
-		return "TestSuite: " + getTestName() + " : " + super.toString() + " (" + fChildren.size() + ")";   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "TestSuite: " + getTestName() + " : " + super.toString() + " (" + fChildren.size() + ")";   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

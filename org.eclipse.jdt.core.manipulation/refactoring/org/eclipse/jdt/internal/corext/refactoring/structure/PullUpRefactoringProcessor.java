@@ -255,13 +255,13 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			return super.visit(node);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(final ThisExpression node) {
 			if (!fAnonymousClassDeclaration && !fTypeDeclarationStatement) {
 				final AST ast= node.getAST();
 				List<SingleVariableDeclaration> parameters= fEnclosingMethodDeclaration.parameters();
-				List<String> prohibited= new ArrayList<>();
-				for (SingleVariableDeclaration svd : parameters) {
+				List<String> prohibited= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (SingleVariableDeclaration svd : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					prohibited.add(svd.getName().getFullyQualifiedName());
 				}
 				IBinding binding= null;
@@ -274,7 +274,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				}
 				if (binding != null) {
 					IJavaElement element= binding.getJavaElement();
-					for (IMember member : fMembersToMove) {
+					for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (member.equals(element)) {
 							if (!(member instanceof IMethod) || fNewArgumentMap.get(member) == null) {
 								return true;
@@ -307,7 +307,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 						ITypeBinding[] parameterTypes= methodBinding.getParameterTypes();
 						List<Expression> args= methodInvocation.arguments();
 						int index= 0;
-						for (int i= 0; i < args.size(); ++i) {
+						for (int i= 0; i < args.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (args.get(i) == node) {
 								index= i;
 								break;
@@ -326,7 +326,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(final MethodInvocation node) {
 			if (node.getExpression() instanceof ThisExpression) {
 				return true;
@@ -334,14 +334,14 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			if (!fAnonymousClassDeclaration && !fTypeDeclarationStatement) {
 				final AST ast= node.getAST();
 				List<SingleVariableDeclaration> parameters= fEnclosingMethodDeclaration.parameters();
-				List<String> prohibited= new ArrayList<>();
-				for (SingleVariableDeclaration svd : parameters) {
+				List<String> prohibited= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (SingleVariableDeclaration svd : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					prohibited.add(svd.getName().getFullyQualifiedName());
 				}
 				IMethodBinding binding= node.resolveMethodBinding();
 				if (binding != null) {
 					IJavaElement element= binding.getJavaElement();
-					for (IMember member : fMembersToMove) {
+					for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (member.equals(element)) {
 							if (!(member instanceof IMethod) || fNewArgumentMap.get(member) == null) {
 								return true;
@@ -382,7 +382,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(final SimpleType node) {
 			if (node.getName().isSimpleName()) {
 				ITypeBinding binding= node.resolveBinding();
@@ -396,7 +396,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 					// do nothing
 				}
 				if (check.isQualificationRequired() && binding.getPackage() != null && !binding.getPackage().getName().isEmpty()) {
-					String newName= binding.getPackage().getName() + "."  + node.getName().getFullyQualifiedName(); //$NON-NLS-1$
+					String newName= binding.getPackage().getName() + "."  + node.getName().getFullyQualifiedName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					QualifiedType newQualifiedType= (QualifiedType)fRewrite.createStringPlaceholder(newName, ASTNode.QUALIFIED_TYPE);
 					fRewrite.replace(node, newQualifiedType, null);
 					return false;
@@ -405,7 +405,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(final SuperMethodInvocation node) {
 			if (!fAnonymousClassDeclaration && !fTypeDeclarationStatement) {
 				final IBinding superBinding= node.getName().resolveBinding();
@@ -529,7 +529,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			super.endVisit(node);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(final ThisExpression node) {
 			if (fRangeMap != null) {
 				Integer limit= fRangeMap.get(fEnclosingMethodDeclaration);
@@ -541,8 +541,8 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			}
 			if (!fAnonymousClassDeclaration && !fTypeDeclarationStatement) {
 				List<SingleVariableDeclaration> parameters= fEnclosingMethodDeclaration.parameters();
-				List<String> prohibited= new ArrayList<>();
-				for (SingleVariableDeclaration svd : parameters) {
+				List<String> prohibited= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (SingleVariableDeclaration svd : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					prohibited.add(svd.getName().getFullyQualifiedName());
 				}
 				IBinding binding= null;
@@ -555,7 +555,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				}
 				if (binding != null) {
 					IJavaElement element= binding.getJavaElement();
-					for (IMember member : fMembersToMove) {
+					for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (member.equals(element)) {
 							if (binding instanceof IMethodBinding && fNewArgumentMap.get(member) == null) {
 								MethodDeclaration method;
@@ -563,7 +563,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 									method= ASTNodeSearchUtil.getMethodDeclarationNode((IMethod) member, fRoot);
 									Map<MethodDeclaration, Integer> rangeMap= fRangeMap;
 									if (rangeMap == null) {
-										rangeMap= new HashMap<>();
+										rangeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 									}
 									rangeMap.put(fEnclosingMethodDeclaration, Integer.valueOf(node.getStartPosition() + node.getLength()));
 									NewArgumentMethodChecker checker= new NewArgumentMethodChecker(fNewArgumentMap, method, fMembersToMove, fRoot, rangeMap);
@@ -586,7 +586,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 						ITypeBinding[] parameterTypes= methodBinding.getParameterTypes();
 						List<Expression> args= methodInvocation.arguments();
 						int index= 0;
-						for (int i= 0; i < args.size(); ++i) {
+						for (int i= 0; i < args.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (args.get(i) == node) {
 								index= i;
 								break;
@@ -611,7 +611,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(final MethodInvocation node) {
 			if (node.getExpression() instanceof ThisExpression) {
 				return true;
@@ -626,14 +626,14 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			}
 			if (!fAnonymousClassDeclaration && !fTypeDeclarationStatement) {
 				List<SingleVariableDeclaration> parameters= fEnclosingMethodDeclaration.parameters();
-				List<String> prohibited= new ArrayList<>();
-				for (SingleVariableDeclaration svd : parameters) {
+				List<String> prohibited= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (SingleVariableDeclaration svd : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					prohibited.add(svd.getName().getFullyQualifiedName());
 				}
 				IBinding binding= node.resolveMethodBinding();
 				if (binding != null) {
 					IJavaElement element= binding.getJavaElement();
-					for (IMember member : fMembersToMove) {
+					for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (member.equals(element)) {
 							if (binding instanceof IMethodBinding && fNewArgumentMap.get(member) == null) {
 								MethodDeclaration method;
@@ -641,7 +641,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 									method= ASTNodeSearchUtil.getMethodDeclarationNode((IMethod) member, fRoot);
 									Map<MethodDeclaration, Integer> rangeMap= fRangeMap;
 									if (rangeMap == null) {
-										rangeMap= new HashMap<>();
+										rangeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 									}
 									rangeMap.put(fEnclosingMethodDeclaration, Integer.valueOf(node.getStartPosition() + node.getLength()));
 									NewArgumentMethodChecker checker= new NewArgumentMethodChecker(fNewArgumentMap, method, fMembersToMove, fRoot, rangeMap);
@@ -677,7 +677,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			fMethodName= methodName;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(MethodInvocation node) {
 			if (node.getName().getFullyQualifiedName().equals(fMethodName)) {
 				ASTRewrite rewriter= fRewrite.getASTRewrite();
@@ -685,7 +685,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				MethodInvocation newInvocation= ast.newMethodInvocation();
 				newInvocation.setName(ast.newSimpleName(fMethodName));
 				List<Expression> arguments= node.arguments();
-				for (Expression argument : arguments) {
+				for (Expression argument : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Expression copyExpression= (Expression)rewriter.createCopyTarget(argument);
 					newInvocation.arguments().add(copyExpression);
 				}
@@ -695,7 +695,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 						IMember[] createdMembers= getCreatedDestinationMembers();
 						MethodDeclaration surroundDeclaration= ASTNodes.getFirstAncestorOrNull(node, MethodDeclaration.class);
 						if (surroundDeclaration != null) {
-							for (IMember createdMember : createdMembers) {
+							for (IMember createdMember : createdMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (createdMember.getElementName().equals(surroundDeclaration.getName().getFullyQualifiedName())) {
 									doNotCopyExpression= true;
 									break;
@@ -734,14 +734,14 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		if (mapping.containsKey(key)) {
 			matchingSet= mapping.get(key);
 		} else {
-			matchingSet= new HashSet<>();
+			matchingSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			mapping.put(key, matchingSet);
 		}
 		Assert.isTrue(!matchingSet.contains(matchingMember));
 		matchingSet.add(matchingMember);
 	}
 
-	private static Block createMethodStub(final MethodDeclaration method, final AST ast, ICompilationUnit cu, ASTRewrite rewrite, String targetTypeName) {
+	private static Block createMethodStub(final MethodDeclaration method, final AST ast, ICompilationUnit cu, ASTRewrite rewrite, String targetTypeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Block body= ast.newBlock();
 		final Expression expression= ASTNodeFactory.newDefaultExpression(ast, method.getReturnType2(), method.getExtraDimensions());
 		try {
@@ -763,13 +763,13 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return body;
 	}
 
-	private static Set<IType> getAffectedSubTypes(final ITypeHierarchy hierarchy, final IType type) throws JavaModelException {
+	private static Set<IType> getAffectedSubTypes(final ITypeHierarchy hierarchy, final IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		 IType[] types= null;
 		 final boolean isInterface= type.isInterface();
 		if (isInterface) {
-			 final Collection<IType> remove= new ArrayList<>();
-			 final List<IType> list= new ArrayList<>(Arrays.asList(hierarchy.getSubtypes(type)));
-			 for (IType element : list) {
+			 final Collection<IType> remove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			 final List<IType> list= new ArrayList<>(Arrays.asList(hierarchy.getSubtypes(type))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			 for (IType element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.isInterface())
 					remove.add(element);
 			}
@@ -777,8 +777,8 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			 types= list.toArray(new IType[list.size()]);
 		 } else
 			 types= hierarchy.getSubclasses(type);
-		final Set<IType> result= new HashSet<>();
-		for (IType type2 : types) {
+		final Set<IType> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IType type2 : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isInterface && JdtFlags.isAbstract(type2))
 				result.addAll(getAffectedSubTypes(hierarchy, type2));
 			else
@@ -793,7 +793,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private static void mergeMaps(final Map<IMember, Set<IMember>> result, final Map<IMember, Set<IMember>> map) {
-		for (final Entry<IMember, Set<IMember>> entry : result.entrySet()) {
+		for (final Entry<IMember, Set<IMember>> entry : result.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IMember key= entry.getKey();
 			if (map.containsKey(key)) {
 				final Set<IMember> resultSet= entry.getValue();
@@ -804,11 +804,11 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private static void upgradeMap(final Map<IMember, Set<IMember>> result, final Map<IMember, Set<IMember>> map) {
-		for (final Entry<IMember, Set<IMember>> entry : map.entrySet()) {
+		for (final Entry<IMember, Set<IMember>> entry : map.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IMember key= entry.getKey();
 			if (!result.containsKey(key)) {
 				final Set<IMember> mapSet= entry.getValue();
-				final Set<IMember> resultSet= new HashSet<>(mapSet);
+				final Set<IMember> resultSet= new HashSet<>(mapSet); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				result.put(key, resultSet);
 			}
 		}
@@ -898,7 +898,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private void addAllRequiredPullableMembers(final List<IMember> queue, final IMember member, final IProgressMonitor monitor) throws JavaModelException {
+	private void addAllRequiredPullableMembers(final List<IMember> queue, final IMember member, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(queue);
 		Assert.isNotNull(member);
 		Assert.isNotNull(monitor);
@@ -911,7 +911,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				SubMonitor sub= subMonitor.newChild(1);
 				sub.beginTask(RefactoringCoreMessages.PullUpRefactoring_calculating_required, requiredMethods.length);
 				isStatic= JdtFlags.isStatic(member);
-				for (IMethod requiredMethod : requiredMethods) {
+				for (IMethod requiredMethod : requiredMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isStatic && !JdtFlags.isStatic(requiredMethod))
 						continue;
 					if (isRequiredPullableMember(queue, requiredMethod)
@@ -924,7 +924,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				IProgressMonitor sub= subMonitor.newChild(1);
 				sub.beginTask(RefactoringCoreMessages.PullUpRefactoring_calculating_required, requiredFields.length);
 				isStatic= JdtFlags.isStatic(member);
-				for (final IField requiredField : requiredFields) {
+				for (final IField requiredField : requiredFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isStatic && !JdtFlags.isStatic(requiredField))
 						continue;
 					if (isRequiredPullableMember(queue, requiredField))
@@ -936,7 +936,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				IProgressMonitor sub= subMonitor.newChild(1);
 				sub.beginTask(RefactoringCoreMessages.PullUpRefactoring_calculating_required, requiredMethods.length);
 				isStatic= JdtFlags.isStatic(member);
-				for (final IType requiredType : requiredTypes) {
+				for (final IType requiredType : requiredTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isStatic && !JdtFlags.isStatic(requiredType))
 						continue;
 					if (isRequiredPullableMember(queue, requiredType))
@@ -946,7 +946,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private void addMethodStubForAbstractMethod(final IMethod sourceMethod, final CompilationUnit declaringCuNode, final AbstractTypeDeclaration typeToCreateStubIn, final ICompilationUnit newCu, final CompilationUnitRewrite rewriter, final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException {
+	private void addMethodStubForAbstractMethod(final IMethod sourceMethod, final CompilationUnit declaringCuNode, final AbstractTypeDeclaration typeToCreateStubIn, final ICompilationUnit newCu, final CompilationUnitRewrite rewriter, final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final MethodDeclaration methodToCreateStubFor= ASTNodeSearchUtil.getMethodDeclarationNode(sourceMethod, declaringCuNode);
 		final AST ast= rewriter.getRoot().getAST();
 		final MethodDeclaration newMethod= ast.newMethodDeclaration();
@@ -969,7 +969,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		newMethod.setJavadoc(createJavadocForStub(typeToCreateStubIn.getName().getIdentifier(), methodToCreateStubFor, newMethod, newCu, astRewrite));
 		ImportRewrite importRewrite= rewriter.getImportRewrite();
 		ImportRewriteContext context= new ContextSensitiveImportRewriteContext(typeToCreateStubIn, importRewrite);
-		ImportRewriteUtil.addImports(rewriter, context, methodToCreateStubFor, new HashMap<>(), new HashMap<>(), true);
+		ImportRewriteUtil.addImports(rewriter, context, methodToCreateStubFor, new HashMap<>(), new HashMap<>(), true); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		IJavaProject javaProject= newCu.getJavaProject();
 		CodeGenerationSettings codeGenerationSettings= JavaPreferencesSettings.getCodeGenerationSettings(javaProject);
 		StubUtility2Core.addOverrideAnnotation(codeGenerationSettings, javaProject, astRewrite, importRewrite, newMethod, getDeclaringType().isInterface(),
@@ -977,19 +977,19 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		astRewrite.getListRewrite(typeToCreateStubIn, typeToCreateStubIn.getBodyDeclarationsProperty()).insertAt(newMethod, BodyDeclarationRewrite.getInsertionIndex(newMethod, typeToCreateStubIn.bodyDeclarations()), rewriter.createCategorizedGroupDescription(RefactoringCoreMessages.PullUpRefactoring_add_method_stub, SET_PULL_UP));
 	}
 
-	private void addNecessaryMethodStubs(final List<IType> affected, final CompilationUnit root, final CompilationUnitRewrite unitRewriter, final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException {
+	private void addNecessaryMethodStubs(final List<IType> affected, final CompilationUnit root, final CompilationUnitRewrite unitRewriter, final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IType declaringType= getDeclaringType();
 		final IMethod[] methods= getAbstractMethods();
 		try {
 			SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking, affected.size());
-			for (IType type : affected) {
+			for (IType type : affected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (type.equals(declaringType))
 					continue;
 				final AbstractTypeDeclaration declaration= ASTNodeSearchUtil.getAbstractTypeDeclarationNode(type, unitRewriter.getRoot());
 				final ICompilationUnit unit= type.getCompilationUnit();
 				final SubMonitor subsubMonitor=  SubMonitor.convert(subMonitor.newChild(1), methods.length);
 				try {
-					for (final IMethod method : methods) {
+					for (final IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (null == JavaModelUtil.findMethod(method.getElementName(), method.getParameterTypes(), method.isConstructor(), type)) {
 							addMethodStubForAbstractMethod(method, root, declaration, unit, unitRewriter, adjustments, subsubMonitor.newChild(1), status);
 						}
@@ -1003,7 +1003,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canBeAccessedFrom(final IMember member, final IType target, final ITypeHierarchy hierarchy) throws JavaModelException {
 		if (super.canBeAccessedFrom(member, target, hierarchy)) {
 			if (target.isInterface())
@@ -1042,7 +1042,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return false;
 	}
 
-	private RefactoringStatus checkAccessedFields(final IProgressMonitor monitor, final ITypeHierarchy hierarchy) throws JavaModelException {
+	private RefactoringStatus checkAccessedFields(final IProgressMonitor monitor, final ITypeHierarchy hierarchy) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking_referenced_elements, 3);
 		final RefactoringStatus result= new RefactoringStatus();
 
@@ -1051,7 +1051,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		final IField[] accessedFields= ReferenceFinderUtil.getFieldsReferencedIn(fMembersToMove, fOwner, subMonitor.newChild(1));
 
 		final IType destination= getDestinationType();
-		for (final IField field : accessedFields) {
+		for (final IField field : accessedFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!field.exists())
 				continue;
 
@@ -1068,7 +1068,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return result;
 	}
 
-	private RefactoringStatus checkAccessedMethods(final IProgressMonitor monitor, final ITypeHierarchy hierarchy) throws JavaModelException {
+	private RefactoringStatus checkAccessedMethods(final IProgressMonitor monitor, final ITypeHierarchy hierarchy) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking_referenced_elements, 3);
 		final RefactoringStatus result= new RefactoringStatus();
 
@@ -1078,7 +1078,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		final IMethod[] accessedMethods= ReferenceFinderUtil.getMethodsReferencedIn(fMembersToMove, fOwner, subMonitor.newChild(1));
 
 		final IType destination= getDestinationType();
-		for (final IMethod method : accessedMethods) {
+		for (final IMethod method : accessedMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!method.exists())
 				continue;
 			boolean isAccessible= pulledUpList.contains(method) || deletedList.contains(method) || declaredAbstractList.contains(method) || canBeAccessedFrom(method, destination, hierarchy);
@@ -1099,7 +1099,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		final RefactoringStatus result= new RefactoringStatus();
 		final IType destination= getDestinationType();
 		final List<IMember> pulledUpList= Arrays.asList(fMembersToMove);
-		for (final IType type : getTypesReferencedInMovedMembers(monitor)) {
+		for (final IType type : getTypesReferencedInMovedMembers(monitor)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!type.exists())
 				continue;
 
@@ -1130,7 +1130,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		if (fDestinationType.isInterface())
 			return;
 		final List<IMethod> toDeclareAbstract= Arrays.asList(fAbstractMethods);
-		for (IMember member : notDeletedMembersInSubtypes) {
+		for (IMember member : notDeletedMembersInSubtypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member.getElementType() == IJavaElement.METHOD && !toDeclareAbstract.contains(member)) {
 				final IMethod method= ((IMethod) member);
 				if (method.getDeclaringType().getPackageFragment().equals(fDestinationType.getPackageFragment())) {
@@ -1160,15 +1160,15 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return status;
 	}
 
-	private void checkFieldTypes(final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException {
+	private void checkFieldTypes(final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Map<IMember, Set<IMember>> mapping= getMatchingMembers(getDestinationTypeHierarchy(monitor), getDestinationType(), true);
-		for (IMember element : fMembersToMove) {
+		for (IMember element : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getElementType() != IJavaElement.FIELD)
 				continue;
 			final IField field= (IField) element;
 			final String type= Signature.toString(field.getTypeSignature());
 			Assert.isTrue(mapping.containsKey(field));
-			for (IMember member : mapping.get(field)) {
+			for (IMember member : mapping.get(field)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IField matchingField= (IField) member;
 				if (field.equals(matchingField))
 					continue;
@@ -1182,7 +1182,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(final IProgressMonitor monitor, final CheckConditionsContext context) throws CoreException, OperationCanceledException {
 		try {
 			SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking, 16);
@@ -1213,7 +1213,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				monitor.worked(1);
 			if (result.hasFatalError())
 				return result;
-			fCompilationUnitRewrites= new HashMap<>(3);
+			fCompilationUnitRewrites= new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			result.merge(checkProjectCompliance());
 			fChangeManager= createChangeManager(subMonitor.newChild(1), result);
 
@@ -1236,13 +1236,13 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return null;
 	}
 
-	private RefactoringStatus checkIfHidingMethod(SubMonitor newChild) throws JavaModelException {
+	private RefactoringStatus checkIfHidingMethod(SubMonitor newChild) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SearchResultGroup[] matches= findImplementors(fDestinationType, newChild);
-		for (SearchResultGroup match : matches) {
-			for (SearchMatch result : match.getSearchResults()) {
+		for (SearchResultGroup match : matches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (SearchMatch result : match.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result instanceof TypeReferenceMatch typeMatch) {
 					IType type= (IType) typeMatch.getElement();
-					for (IMember member : fMembersToMove) {
+					for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (member instanceof IMethod iMethod) {
 							final IMethod methodInType= JavaModelUtil.findMethod(iMethod.getElementName(), iMethod.getParameterTypes(), iMethod.isConstructor(), type);
 							if (methodInType != null && Modifier.isStatic(iMethod.getFlags()) != Modifier.isStatic(methodInType.getFlags())) {
@@ -1275,7 +1275,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			return fConflictBinding;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SimpleName node) {
 			IBinding binding= node.resolveBinding();
 			if (binding != null) {
@@ -1324,24 +1324,24 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				return true;
 			}
 			ITypeBinding[] childTypes= parentTypeBinding.getDeclaredTypes();
-			for (ITypeBinding childType : childTypes) {
+			for (ITypeBinding childType : childTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				return isChildTypeMember(childType, type);
 			}
 			return false;
 		}
 	}
 
-	protected RefactoringStatus checkOuterFields(final IProgressMonitor monitor) throws JavaModelException {
+	protected RefactoringStatus checkOuterFields(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking, 1);
 		final RefactoringStatus result= new RefactoringStatus();
 		final IType sourceType= getDeclaringType();
 		final ICompilationUnit source= getDeclaringType().getCompilationUnit();
 		final IType destination= getDestinationType();
-		Map<ICompilationUnit, CompilationUnitRewrite> compilationUnitRewrites= new HashMap<>(3);
+		Map<ICompilationUnit, CompilationUnitRewrite> compilationUnitRewrites= new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final CompilationUnitRewrite sourceRewriter= getCompilationUnitRewrite(compilationUnitRewrites, source);
 		final CompilationUnit root= sourceRewriter.getRoot();
 
-		for (final IMember member : fMembersToMove) {
+		for (final IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member.getElementType() == IJavaElement.METHOD) {
 				final MethodDeclaration oldMethod= ASTNodeSearchUtil.getMethodDeclarationNode((IMethod) member, root);
 				AbstractTypeDeclaration typeDecl= ASTNodes.getFirstAncestorOrNull(oldMethod, AbstractTypeDeclaration.class);
@@ -1363,10 +1363,10 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return result;
 	}
 
-	protected RefactoringStatus checkFinalFields(final IProgressMonitor monitor) throws JavaModelException {
+	protected RefactoringStatus checkFinalFields(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final RefactoringStatus result= new RefactoringStatus();
 		monitor.beginTask(RefactoringCoreMessages.PullUpRefactoring_checking, fMembersToMove.length);
-		for (final IMember member : fMembersToMove) {
+		for (final IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member.getElementType() == IJavaElement.FIELD) {
 				if (!JdtFlags.isStatic(member)) {
 					if (JdtFlags.isFinal(member)) {
@@ -1386,7 +1386,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return result;
 	}
 
-	private RefactoringStatus checkGenericDeclaringType(final IProgressMonitor monitor) throws JavaModelException {
+	private RefactoringStatus checkGenericDeclaringType(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(monitor);
 
 		final RefactoringStatus status= new RefactoringStatus();
@@ -1400,7 +1400,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				final TypeVariableMaplet[] mapping= TypeVariableUtil.subTypeToInheritedType(declaring);
 				IMember member= null;
 				int length= 0;
-				for (IMember pullable : pullables) {
+				for (IMember pullable : pullables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					member= pullable;
 					final String[] unmapped= TypeVariableUtil.getUnmappedVariables(mapping, declaring, member);
 					length= unmapped.length;
@@ -1470,8 +1470,8 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			final Set<IType> skippedTypes= getSkippedSuperTypes(subMonitor.newChild(1));
 			final IType[] skipped= skippedTypes.toArray(new IType[skippedTypes.size()]);
 			final RefactoringStatus result= new RefactoringStatus();
-			for (final IMember element : fMembersToMove) {
-				for (IType element2 : skipped) {
+			for (final IMember element : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IType element2 : skipped) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.merge(checkIfDeclaredIn(element, element2));
 				}
 			}
@@ -1487,8 +1487,8 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			final Set<IType> superTypeSet= getAllSuperTypes(subMonitor.newChild(1));
 			final IType[] superTypes= superTypeSet.toArray(new IType[superTypeSet.size()]);
 			final RefactoringStatus result= new RefactoringStatus();
-			for (final IMember element : fMembersToMove) {
-				for (IType element2 : superTypes) {
+			for (final IMember element : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IType element2 : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.merge(checkIfDeclaredIn(element, element2));
 				}
 			}
@@ -1527,7 +1527,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 
 	private void checkMembersInDestinationType(final RefactoringStatus status, final Set<IMember> set) throws JavaModelException {
 		final IMember[] destinationMembers= getCreatedDestinationMembers();
-		final List<IMember> list= new ArrayList<>(destinationMembers.length);
+		final List<IMember> list= new ArrayList<>(destinationMembers.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.addAll(Arrays.asList(destinationMembers));
 		list.addAll(set);
 		list.removeAll(Arrays.asList(fDeletedMethods));
@@ -1535,13 +1535,13 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		status.merge(MemberCheckUtil.checkMembersInDestinationType(members, getDestinationType()));
 	}
 
-	private RefactoringStatus checkMembersInTypeAndAllSubtypes(final IProgressMonitor monitor) throws JavaModelException {
+	private RefactoringStatus checkMembersInTypeAndAllSubtypes(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final RefactoringStatus result= new RefactoringStatus();
 		SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking, 3);
 		final Set<IMember> notDeletedMembers= getNotDeletedMembers(subMonitor.newChild(1));
-		final Set<IMember> notDeletedMembersInTargetType= new HashSet<>();
-		final Set<IMember> notDeletedMembersInSubtypes= new HashSet<>();
-		for (IMember member : notDeletedMembers) {
+		final Set<IMember> notDeletedMembersInTargetType= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final Set<IMember> notDeletedMembersInSubtypes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMember member : notDeletedMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getDestinationType().equals(member.getDeclaringType()))
 				notDeletedMembersInTargetType.add(member);
 			else
@@ -1555,9 +1555,9 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return result;
 	}
 
-	private void checkMethodReturnTypes(final IProgressMonitor monitor, final RefactoringStatus status, final Set<IMember> notDeletedMembersInSubtypes) throws JavaModelException {
+	private void checkMethodReturnTypes(final IProgressMonitor monitor, final RefactoringStatus status, final Set<IMember> notDeletedMembersInSubtypes) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Map<IMember, Set<IMember>> mapping= getMatchingMembers(getDestinationTypeHierarchy(monitor), getDestinationType(), true);
-		for (IMember member : getCreatedDestinationMembers()) {
+		for (IMember member : getCreatedDestinationMembers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member.getElementType() != IJavaElement.METHOD)
 				continue;
 			final IMethod method= (IMethod) member;
@@ -1565,7 +1565,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				final Set<IMember> set= mapping.get(method);
 				if (set != null) {
 					final String returnType= Signature.toString(Signature.getReturnType(method.getSignature()).toString());
-					for (IMember iMember : set) {
+					for (IMember iMember : set) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						final IMethod matchingMethod= (IMethod) iMember;
 						if (method.equals(matchingMethod))
 							continue;
@@ -1591,7 +1591,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		fCachedDeclaringSuperTypeHierarchy= null;
 	}
 
-	private void copyBodyOfPulledUpMethod(final CompilationUnitRewrite sourceRewrite, final CompilationUnitRewrite targetRewrite, final IMethod method, final MethodDeclaration oldMethod, final MethodDeclaration newMethod, final TypeVariableMaplet[] mapping,
+	private void copyBodyOfPulledUpMethod(final CompilationUnitRewrite sourceRewrite, final CompilationUnitRewrite targetRewrite, final IMethod method, final MethodDeclaration oldMethod, final MethodDeclaration newMethod, final TypeVariableMaplet[] mapping, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Map<IMethod, String> newArgumentMap, final IProgressMonitor monitor) throws JavaModelException {
 		final Block body= oldMethod.getBody();
 		if (body == null) {
@@ -1616,7 +1616,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private void createAbstractMethod(final IMethod sourceMethod, final CompilationUnitRewrite sourceRewriter, final CompilationUnit declaringCuNode, final AbstractTypeDeclaration destination, final TypeVariableMaplet[] mapping, final CompilationUnitRewrite targetRewrite, final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException {
+	private void createAbstractMethod(final IMethod sourceMethod, final CompilationUnitRewrite sourceRewriter, final CompilationUnit declaringCuNode, final AbstractTypeDeclaration destination, final TypeVariableMaplet[] mapping, final CompilationUnitRewrite targetRewrite, final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final MethodDeclaration oldMethod= ASTNodeSearchUtil.getMethodDeclarationNode(sourceMethod, declaringCuNode);
 		ITypeBinding destinationBinding= destination.resolveBinding();
 		StubUtility2Core.addOverrideAnnotation(fSettings, sourceMethod.getJavaProject(), sourceRewriter.getASTRewrite(), sourceRewriter.getImportRewrite(), oldMethod,
@@ -1645,14 +1645,14 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		copyThrownExceptions(oldMethod, newMethod);
 		copyTypeParameters(oldMethod, newMethod);
 		ImportRewriteContext context= new ContextSensitiveImportRewriteContext(destination, targetRewrite.getImportRewrite());
-		ImportRewriteUtil.addImports(targetRewrite, context, oldMethod, new HashMap<>(), new HashMap<>(), true);
+		ImportRewriteUtil.addImports(targetRewrite, context, oldMethod, new HashMap<>(), new HashMap<>(), true); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		targetRewrite.getASTRewrite().getListRewrite(destination, destination.getBodyDeclarationsProperty()).insertAt(newMethod, org.eclipse.jdt.internal.corext.dom.BodyDeclarationRewrite.getInsertionIndex(newMethod, destination.bodyDeclarations()), targetRewrite.createCategorizedGroupDescription(RefactoringCoreMessages.PullUpRefactoring_add_abstract_method, SET_PULL_UP));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(final IProgressMonitor monitor) throws CoreException, OperationCanceledException {
 		try {
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			String project= null;
 			final IType declaring= getDeclaringType();
 			final IJavaProject javaProject= declaring.getJavaProject();
@@ -1676,14 +1676,14 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			arguments.put(ATTRIBUTE_INSTANCEOF, Boolean.toString(fInstanceOf));
 			arguments.put(ATTRIBUTE_STUBS, Boolean.toString(fCreateMethodStubs));
 			arguments.put(ATTRIBUTE_PULL, Integer.toString(fMembersToMove.length));
-			for (int offset= 0; offset < fMembersToMove.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fMembersToMove[offset]));
+			for (int offset= 0; offset < fMembersToMove.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fMembersToMove[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.put(ATTRIBUTE_DELETE, Integer.toString(fDeletedMethods.length));
-			for (int offset= 0; offset < fDeletedMethods.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fMembersToMove.length + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fDeletedMethods[offset]));
+			for (int offset= 0; offset < fDeletedMethods.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fMembersToMove.length + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fDeletedMethods[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.put(ATTRIBUTE_ABSTRACT, Integer.toString(fAbstractMethods.length));
-			for (int offset= 0; offset < fAbstractMethods.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fMembersToMove.length + fDeletedMethods.length + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fAbstractMethods[offset]));
+			for (int offset= 0; offset < fAbstractMethods.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fMembersToMove.length + fDeletedMethods.length + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fAbstractMethods[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return new DynamicValidationRefactoringChange(descriptor, RefactoringCoreMessages.PullUpRefactoring_Pull_Up, fChangeManager.getAllChanges());
 		} finally {
 			monitor.done();
@@ -1691,7 +1691,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private TextEditBasedChangeManager createChangeManager(final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException {
+	private TextEditBasedChangeManager createChangeManager(final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(monitor);
 		Assert.isNotNull(status);
 		try {
@@ -1705,12 +1705,12 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			final Map<ICompilationUnit, ArrayList<IType>> affectedMap= createAffectedTypesMap(subMonitor.newChild(1));
 			final ICompilationUnit[] units= getAffectedCompilationUnits(subMonitor.newChild(1));
 
-			final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments= new HashMap<>();
+			final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			MemberVisibilityAdjustor adjustor= null;
 			final SubMonitor sub= subMonitor.newChild(1);
 			try {
 				sub.beginTask(RefactoringCoreMessages.PullUpRefactoring_checking, units.length * 11);
-				for (ICompilationUnit unit : units) {
+				for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!source.equals(unit)
 							&& !target.equals(unit)
 							&& !deleteMap.containsKey(unit)
@@ -1722,7 +1722,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 					if (deleteMap.containsKey(unit)) {
 						LinkedList<IMember> list= new LinkedList<>(deleteMap.get(unit));
 						if (destination.isInterface()) {
-							for (final Iterator<IMember> iterator= list.iterator(); iterator.hasNext();) {
+							for (final Iterator<IMember> iterator= list.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								final IMember member= iterator.next();
 								if (member instanceof IMethod)
 									iterator.remove();
@@ -1749,7 +1749,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 
 						subsub.beginTask(RefactoringCoreMessages.PullUpRefactoring_checking, fMembersToMove.length);
 						IMember member= null;
-						for (int offset= fMembersToMove.length - 1; offset >= 0; offset--) {
+						for (int offset= fMembersToMove.length - 1; offset >= 0; offset--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							member= fMembersToMove[offset];
 							adjustor= new MemberVisibilityAdjustor(destination, member);
 							adjustor.setRewrite(sourceRewriter.getASTRewrite(), root);
@@ -1769,7 +1769,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 									int flags= getModifiersWithUpdatedVisibility(member, member.getFlags(), adjustments, subsub.newChild(1), true, status);
 									final FieldDeclaration newField= createNewFieldDeclarationNode(rewriter, root, (IField) member, oldField, mapping, flags);
 									rewriter.getListRewrite(declaration, declaration.getBodyDeclarationsProperty()).insertAt(newField, org.eclipse.jdt.internal.corext.dom.BodyDeclarationRewrite.getInsertionIndex(newField, declaration.bodyDeclarations()), rewrite.createCategorizedGroupDescription(RefactoringCoreMessages.HierarchyRefactoring_add_member, SET_PULL_UP));
-									ImportRewriteUtil.addImports(rewrite, context, oldField.getParent(), new HashMap<>(), new HashMap<>(), false);
+									ImportRewriteUtil.addImports(rewrite, context, oldField.getParent(), new HashMap<>(), new HashMap<>(), false); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 									if (oldField.getParent() instanceof FieldDeclaration) {
 										// set fully qualified type name for pulled up types
@@ -1780,13 +1780,13 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 										}
 										String sourcePackage= oldTypeBinding.getPackage() == null ? "" : oldTypeBinding.getPackage().getName(); //$NON-NLS-1$
 										String targetPackage= targetRewriter.getRoot().getPackage() == null ? "" : targetRewriter.getRoot().getPackage().getName().toString(); //$NON-NLS-1$
-										String targetTypeBinding= targetPackage + "." + oldTypeBinding.getName(); //$NON-NLS-1$
+										String targetTypeBinding= targetPackage + "." + oldTypeBinding.getName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 										// Find the same type-name field but fully qualified.
 										// In that case it won't shadow the pulled up field
 										boolean qualifiedTypeNameInTarget= true;
 										String sourceSignature= ((IField) member).getTypeSignature();
-										for (IField targetField : fDestinationType.getFields()) {
+										for (IField targetField : fDestinationType.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 											if (sourceSignature.equals(targetField.getTypeSignature())) {
 												qualifiedTypeNameInTarget= false;
 												break;
@@ -1824,28 +1824,28 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 										status.merge(RefactoringStatus.createErrorStatus(Messages.format(RefactoringCoreMessages.PullUpRefactoring_moving_static_method_to_interface, new String[] { JavaElementLabelsCore.getTextLabel(member, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)}), JavaStatusContext.create(member)));
 									final MethodDeclaration newMethod= createNewMethodDeclarationNode(sourceRewriter, rewrite, ((IMethod) member), oldMethod, mapping, adjustments, newArgumentMap,  subsub.newChild(1), status);
 									rewriter.getListRewrite(declaration, declaration.getBodyDeclarationsProperty()).insertAt(newMethod, org.eclipse.jdt.internal.corext.dom.BodyDeclarationRewrite.getInsertionIndex(newMethod, declaration.bodyDeclarations()), rewrite.createCategorizedGroupDescription(RefactoringCoreMessages.HierarchyRefactoring_add_member, SET_PULL_UP));
-									ImportRewriteUtil.addImports(rewrite, context, oldMethod, new HashMap<>(), new HashMap<>(), newMethod.getBody() == null);
+									ImportRewriteUtil.addImports(rewrite, context, oldMethod, new HashMap<>(), new HashMap<>(), newMethod.getBody() == null); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 								}
 							} else if (member instanceof IType) {
 								final AbstractTypeDeclaration oldType= ASTNodeSearchUtil.getAbstractTypeDeclarationNode((IType) member, root);
 								if (oldType != null) {
 									final BodyDeclaration newType= createNewTypeDeclarationNode(((IType) member), oldType, root, mapping, rewriter);
 									rewriter.getListRewrite(declaration, declaration.getBodyDeclarationsProperty()).insertAt(newType, org.eclipse.jdt.internal.corext.dom.BodyDeclarationRewrite.getInsertionIndex(newType, declaration.bodyDeclarations()), rewrite.createCategorizedGroupDescription(RefactoringCoreMessages.HierarchyRefactoring_add_member, SET_PULL_UP));
-									ImportRewriteUtil.addImports(rewrite, context, oldType, new HashMap<>(), new HashMap<>(), false);
+									ImportRewriteUtil.addImports(rewrite, context, oldType, new HashMap<>(), new HashMap<>(), false); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 								}
 							} else
 								Assert.isTrue(false);
 							subsub.worked(1);
 						}
 						subsub.done();
-						for (IMethod abstractMethod : fAbstractMethods)
+						for (IMethod abstractMethod : fAbstractMethods) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							createAbstractMethod(abstractMethod, sourceRewriter, root, declaration, mapping, rewrite, adjustments, sub.newChild(1), status);
 					} else
 						sub.worked(2);
 					if (unit.equals(sourceRewriter.getCu())) {
 						final SubMonitor subsub= sub.newChild(1);
 						subsub.beginTask(RefactoringCoreMessages.PullUpRefactoring_checking, fAbstractMethods.length * 2);
-						for (IMethod method : fAbstractMethods) {
+						for (IMethod method : fAbstractMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							adjustor= new MemberVisibilityAdjustor(destination, method);
 							adjustor.setRewrite(sourceRewriter.getASTRewrite(), root);
 							adjustor.setRewrites(fCompilationUnitRewrites);
@@ -1877,7 +1877,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			final TextEditBasedChangeManager manager= new TextEditBasedChangeManager();
 			if (fReplace) {
 				final Set<Entry<ICompilationUnit, CompilationUnitRewrite>> entrySet= fCompilationUnitRewrites.entrySet();
-				for (final Entry<ICompilationUnit, CompilationUnitRewrite> entry : entrySet) {
+				for (final Entry<ICompilationUnit, CompilationUnitRewrite> entry : entrySet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ICompilationUnit unit= entry.getKey();
 					CompilationUnitRewrite rewrite= entry.getValue();
 					if (rewrite != null) {
@@ -1888,11 +1888,11 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				}
 				TextEdit edit= null;
 				TextEditBasedChange change= null;
-				final Map<ICompilationUnit, ICompilationUnit> workingcopies= new HashMap<>();
+				final Map<ICompilationUnit, ICompilationUnit> workingcopies= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				final SubMonitor subsubMonitor= subMonitor.newChild(1);
 				try {
 					subsubMonitor.beginTask(RefactoringCoreMessages.PullUpRefactoring_checking, entrySet.size());
-					for (final Entry<ICompilationUnit, CompilationUnitRewrite> entry : entrySet) {
+					for (final Entry<ICompilationUnit, CompilationUnitRewrite> entry : entrySet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ICompilationUnit unit= entry.getKey();
 						change= manager.get(unit);
 						if (change instanceof TextChange) {
@@ -1906,10 +1906,10 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 					}
 					final ICompilationUnit current= workingcopies.get(sourceRewriter.getCu());
 					if (current != null)
-						rewriteTypeOccurrences(manager, sourceRewriter, current, new HashSet<>(), status, subMonitor.newChild(16));
+						rewriteTypeOccurrences(manager, sourceRewriter, current, new HashSet<>(), status, subMonitor.newChild(16)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				} finally {
 					subMonitor.done();
-					for (ICompilationUnit unit : manager.getAllCompilationUnits()) {
+					for (ICompilationUnit unit : manager.getAllCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						CompilationUnitChange current= (CompilationUnitChange) manager.get(unit);
 						if (change != null && current.getEdit() == null)
 							manager.remove(unit);
@@ -1925,8 +1925,8 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private Map<IMethod, String> getNewArgumentMap(IMember[] membersToMove, CompilationUnit root) throws JavaModelException {
-		Map<IMethod, String> newArgumentsMap= new HashMap<>();
-		for (IMember member : membersToMove) {
+		Map<IMethod, String> newArgumentsMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IMember member : membersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member instanceof IMethod) {
 				final MethodDeclaration oldMethod= ASTNodeSearchUtil.getMethodDeclarationNode((IMethod) member, root);
 				if (oldMethod != null) {
@@ -1942,13 +1942,13 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 
 	private Map<ICompilationUnit, ArrayList<IType>> createAffectedTypesMap(final IProgressMonitor monitor) throws JavaModelException {
 		if (!fCreateMethodStubs || (getAbstractMethods().length <= 0))
-			return new HashMap<>(0);
+			return new HashMap<>(0); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final Set<IType> affected= getAffectedSubTypes(getDestinationTypeHierarchy(monitor), getDestinationType());
-		final Map<ICompilationUnit, ArrayList<IType>> result= new HashMap<>();
-		for (IType type : affected) {
+		final Map<ICompilationUnit, ArrayList<IType>> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IType type : affected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ICompilationUnit unit= type.getCompilationUnit();
 			if (!result.containsKey(unit))
-				result.put(unit, new ArrayList<>(1));
+				result.put(unit, new ArrayList<>(1)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			result.get(unit).add(type);
 		}
 		return result;
@@ -1961,7 +1961,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				final ITypeBinding[] params= binding.getParameterTypes();
 				final String fullTypeName= getDestinationType().getFullyQualifiedName('.');
 				final String[] fullParamNames= new String[params.length];
-				for (int i= 0; i < fullParamNames.length; i++) {
+				for (int i= 0; i < fullParamNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fullParamNames[i]= Bindings.getFullyQualifiedName(params[i]);
 				}
 				final String comment= CodeGeneration.getMethodComment(cu, enclosingTypeName, newMethodNode, false, binding.getName(), fullTypeName, fullParamNames, StubUtility.getLineDelimiterUsed(cu));
@@ -1973,17 +1973,17 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private Map<ICompilationUnit, ArrayList<IMember>> createMembersToDeleteMap(final IProgressMonitor monitor) throws JavaModelException {
-		final Map<ICompilationUnit, ArrayList<IMember>> result= new HashMap<>();
-		for (final IMember member : getMembersToDelete(monitor)) {
+		final Map<ICompilationUnit, ArrayList<IMember>> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (final IMember member : getMembersToDelete(monitor)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ICompilationUnit cu= member.getCompilationUnit();
 			if (!result.containsKey(cu))
-				result.put(cu, new ArrayList<>(1));
+				result.put(cu, new ArrayList<>(1)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			result.get(cu).add(member);
 		}
 		return result;
 	}
 
-	private MethodDeclaration createNewMethodDeclarationNode(final CompilationUnitRewrite sourceRewrite, final CompilationUnitRewrite targetRewrite, final IMethod sourceMethod, final MethodDeclaration oldMethod, final TypeVariableMaplet[] mapping, final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments,
+	private MethodDeclaration createNewMethodDeclarationNode(final CompilationUnitRewrite sourceRewrite, final CompilationUnitRewrite targetRewrite, final IMethod sourceMethod, final MethodDeclaration oldMethod, final TypeVariableMaplet[] mapping, final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Map<IMethod, String> newArgumentsMap, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException {
 		final ASTRewrite rewrite= targetRewrite.getASTRewrite();
 		final AST ast= rewrite.getAST();
@@ -2012,11 +2012,11 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		String newArgument= newArgumentsMap.get(sourceMethod);
 		if (newArgument != null) {
 			SearchResultGroup[] matches= findReferences(sourceMethod, new NullProgressMonitor());
-			for (SearchResultGroup match : matches) {
+			for (SearchResultGroup match : matches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu= match.getCompilationUnit();
 				final CompilationUnitRewrite rewriter= getCompilationUnitRewrite(fCompilationUnitRewrites, cu);
 
-				for (SearchMatch result : match.getSearchResults()) {
+				for (SearchMatch result : match.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (result instanceof MethodReferenceMatch methodMatch) {
 						final MethodDeclaration methodDecl= ASTNodeSearchUtil.getMethodDeclarationNode((IMethod) methodMatch.getElement(), rewriter.getRoot());
 						methodDecl.accept(new AddParameterVisitor(rewriter, oldMethod.getName().getFullyQualifiedName()));
@@ -2112,7 +2112,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		final IMethod[] abstractPulledUp= getAbstractMethodsToPullUp();
 		final Set<IMember> result= new LinkedHashSet<>(toDeclareAbstract.length + abstractPulledUp.length + fMembersToMove.length);
 		if (fDestinationType.isInterface()) {
-			for (IMember element : fMembersToMove) {
+			for (IMember element : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.getElementType() == IJavaElement.METHOD) {
 					result.add(element);
 				}
@@ -2124,26 +2124,26 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private IMethod[] getAbstractMethodsToPullUp() throws JavaModelException {
-		final List<IMember> result= new ArrayList<>(fMembersToMove.length);
-		for (final IMember member : fMembersToMove) {
+		final List<IMember> result= new ArrayList<>(fMembersToMove.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (final IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member instanceof IMethod && JdtFlags.isAbstract(member))
 				result.add(member);
 		}
 		return result.toArray(new IMethod[result.size()]);
 	}
 
-	public IMember[] getAdditionalRequiredMembersToPullUp(final IProgressMonitor monitor) throws JavaModelException {
+	public IMember[] getAdditionalRequiredMembersToPullUp(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IMember[] members= getCreatedDestinationMembers();
 		List<IMember> queue;
 		try {
 			SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_calculating_required, getDeclaringType().getChildren().length);// maximum
-			queue= new ArrayList<>(members.length);
+			queue= new ArrayList<>(members.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			queue.addAll(Arrays.asList(members));
 			if (queue.isEmpty())
 				return new IMember[0];
 			int i= 0;
 			IMember current;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				current= queue.get(i);
 				addAllRequiredPullableMembers(queue, current, subMonitor.newChild(1));
 				i++;
@@ -2161,8 +2161,8 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 
 	private ICompilationUnit[] getAffectedCompilationUnits(final IProgressMonitor monitor) throws JavaModelException {
 		final IType[] allSubtypes= getDestinationTypeHierarchy(monitor).getAllSubtypes(getDestinationType());
-		final Set<ICompilationUnit> result= new HashSet<>(allSubtypes.length);
-		for (IType subtype : allSubtypes) {
+		final Set<ICompilationUnit> result= new HashSet<>(allSubtypes.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IType subtype : allSubtypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= subtype.getCompilationUnit();
 			if (cu != null)
 				result.add(cu);
@@ -2171,12 +2171,12 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		return result.toArray(new ICompilationUnit[result.size()]);
 	}
 
-	public IType[] getCandidateTypes(final RefactoringStatus status, final IProgressMonitor monitor) throws JavaModelException {
+	public IType[] getCandidateTypes(final RefactoringStatus status, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IType declaring= getDeclaringType();
 		final IType[] superTypes= declaring.newSupertypeHierarchy(fOwner, monitor).getAllSupertypes(declaring);
-		final List<IType> list= new ArrayList<>(superTypes.length);
+		final List<IType> list= new ArrayList<>(superTypes.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int binary= 0;
-		for (final IType type : superTypes) {
+		for (final IType type : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type != null && type.exists() && !type.isReadOnly() && !type.isBinary() && !"java.lang.Object".equals(type.getFullyQualifiedName())) { //$NON-NLS-1$
 				list.add(type);
 			} else {
@@ -2206,7 +2206,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private IMember[] getCreatedDestinationMembers() {
-		final List<IMember> result= new ArrayList<>(fMembersToMove.length + fAbstractMethods.length);
+		final List<IMember> result= new ArrayList<>(fMembersToMove.length + fAbstractMethods.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.addAll(Arrays.asList(fMembersToMove));
 		result.addAll(Arrays.asList(fAbstractMethods));
 		return result.toArray(new IMember[result.size()]);
@@ -2254,10 +2254,10 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 
 	public IMember[] getMatchingElements(final IProgressMonitor monitor, final boolean includeAbstract) throws JavaModelException {
 		try {
-			final Set<IMember> result= new HashSet<>();
+			final Set<IMember> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			final IType destination= getDestinationType();
 			final Map<IMember, Set<IMember>> matching= getMatchingMembers(getDestinationTypeHierarchy(monitor), getDestinationType(), includeAbstract);
-			for (Entry<IMember, Set<IMember>> entry : matching.entrySet()) {
+			for (Entry<IMember, Set<IMember>> entry : matching.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMember key= entry.getKey();
 				Assert.isTrue(!key.getDeclaringType().equals(destination));
 				result.addAll(entry.getValue());
@@ -2269,8 +2269,8 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private Map<IMember, Set<IMember>> getMatchingMembers(final ITypeHierarchy hierarchy, final IType type, final boolean includeAbstract) throws JavaModelException {
-		final Map<IMember, Set<IMember>> result= new HashMap<>(getMatchingMembersMapping(type));
-		for (IType subType : hierarchy.getAllSubtypes(type)) {
+		final Map<IMember, Set<IMember>> result= new HashMap<>(getMatchingMembersMapping(type)); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IType subType : hierarchy.getAllSubtypes(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map<IMember, Set<IMember>> map= getMatchingMembersMapping(subType);
 			mergeMaps(result, map);
 			upgradeMap(result, map);
@@ -2278,16 +2278,16 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		if (includeAbstract)
 			return result;
 
-		for (IMethod abstractMethod : fAbstractMethods) {
+		for (IMethod abstractMethod : fAbstractMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (result.containsKey(abstractMethod))
 				result.remove(abstractMethod);
 		}
 		return result;
 	}
 
-	private Map<IMember, Set<IMember>> getMatchingMembersMapping(final IType initial) throws JavaModelException {
-		final Map<IMember, Set<IMember>> result= new HashMap<>();
-		for (final IMember member : getCreatedDestinationMembers()) {
+	private Map<IMember, Set<IMember>> getMatchingMembersMapping(final IType initial) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<IMember, Set<IMember>> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (final IMember member : getCreatedDestinationMembers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member instanceof IMethod) {
 				final IMethod method= (IMethod) member;
 				final IMethod found= MemberCheckUtil.findMethod(method, initial.getMethods());
@@ -2317,7 +2317,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			final IMember[] matchingElements= getMatchingElements(monitor, false);
 			final IMember[] matchingFields= getMembers(matchingElements, IJavaElement.FIELD);
 
-			List<IMember> toDelete= new ArrayList<>();
+			List<IMember> toDelete= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IMember[] all= JavaElementUtil.merge(matchingFields, typesToDelete);
 
 			toDelete.addAll(Arrays.asList(fMembersToMove));
@@ -2345,7 +2345,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private Set<IMember> getNotDeletedMembers(final IProgressMonitor monitor) throws JavaModelException {
-		final Set<IMember> matchingSet= new HashSet<>();
+		final Set<IMember> matchingSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking, 2);
 		matchingSet.addAll(Arrays.asList(getMatchingElements(subMonitor.newChild(1), true)));
 		matchingSet.removeAll(Arrays.asList(getMembersToDelete(subMonitor.newChild(1))));
@@ -2375,9 +2375,9 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			if (fCachedSkippedSuperTypes != null && getDestinationTypeHierarchy(subMonitor.newChild(1)).getType().equals(getDestinationType()))
 				return fCachedSkippedSuperTypes;
 			final ITypeHierarchy hierarchy= getDestinationTypeHierarchy(subMonitor.newChild(1));
-			fCachedSkippedSuperTypes= new HashSet<>(2);
+			fCachedSkippedSuperTypes= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			IType current= hierarchy.getSuperclass(getDeclaringType());
-			while (current != null && !current.equals(getDestinationType())) {
+			while (current != null && !current.equals(getDestinationType())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fCachedSkippedSuperTypes.add(current);
 				current= hierarchy.getSuperclass(current);
 			}
@@ -2388,15 +2388,15 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	// All super classes of the destination
-	private Set<IType> getAllSuperTypes(final IProgressMonitor monitor) throws JavaModelException {
+	private Set<IType> getAllSuperTypes(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking, 1);
 		try {
 			if (fCachedSuperTypes != null)
 				return fCachedSkippedSuperTypes;
 			final ITypeHierarchy hierarchy= getDestinationTypeHierarchy(subMonitor.newChild(1));
-			fCachedSuperTypes= new HashSet<>(2);
+			fCachedSuperTypes= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			IType current= hierarchy.getSuperclass(getDeclaringType());
-			while (current != null && !current.getFullyQualifiedName().equals("java.lang.Object")) { //$NON-NLS-1$
+			while (current != null && !current.getFullyQualifiedName().equals("java.lang.Object")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fCachedSuperTypes.add(current);
 				current= hierarchy.getSuperclass(current);
 			}
@@ -2407,7 +2407,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 
 	}
 
-	private RefactoringStatus initialize(final JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(final JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -2463,9 +2463,9 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		} else
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, ATTRIBUTE_PULL));
 		final RefactoringStatus status= new RefactoringStatus();
-		List<IJavaElement> elements= new ArrayList<>();
-		for (int index= 0; index < pullCount; index++) {
-			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1);
+		List<IJavaElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int index= 0; index < pullCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			handle= extended.getAttribute(attribute);
 			if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 				final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -2477,9 +2477,9 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, attribute));
 		}
 		fMembersToMove= elements.toArray(new IMember[elements.size()]);
-		elements= new ArrayList<>();
-		for (int index= 0; index < deleteCount; index++) {
-			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (pullCount + index + 1);
+		elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int index= 0; index < deleteCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (pullCount + index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			handle= extended.getAttribute(attribute);
 			if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 				final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -2491,9 +2491,9 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 				return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, attribute));
 		}
 		fDeletedMethods= elements.toArray(new IMethod[elements.size()]);
-		elements= new ArrayList<>();
-		for (int index= 0; index < abstractCount; index++) {
-			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (pullCount + abstractCount + index + 1);
+		elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int index= 0; index < abstractCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (pullCount + abstractCount + index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			handle= extended.getAttribute(attribute);
 			if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 				final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -2541,7 +2541,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	protected void registerChanges(final TextEditBasedChangeManager manager) throws CoreException {
-		for (final Entry<ICompilationUnit, CompilationUnitRewrite> entry : fCompilationUnitRewrites.entrySet()) {
+		for (final Entry<ICompilationUnit, CompilationUnitRewrite> entry : fCompilationUnitRewrites.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CompilationUnitRewrite rewrite= entry.getValue();
 			if (rewrite != null) {
 				final CompilationUnitChange change= rewrite.createChange(true);
@@ -2561,7 +2561,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		resetWorkingCopies(unit);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void rewriteTypeOccurrences(final TextEditBasedChangeManager manager, final ASTRequestor requestor, final CompilationUnitRewrite rewrite, final ICompilationUnit unit, final CompilationUnit node, final Set<String> replacements, final IProgressMonitor monitor) throws CoreException {
 		try {
 			CompilationUnitRewrite currentRewrite;
@@ -2575,7 +2575,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			if (collection != null && !collection.isEmpty() && !fArgumentAddedToHandleThis) {
 				SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.ExtractInterfaceProcessor_creating, collection.size());
 				try {
-					for (ITypeConstraintVariable iTypeConstraintVariable : collection) {
+					for (ITypeConstraintVariable iTypeConstraintVariable : collection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (iTypeConstraintVariable != null) {
 							TType estimate= (TType) iTypeConstraintVariable.getData(SuperTypeConstraintsSolver.DATA_TYPE_ESTIMATE);
 							if (estimate != null) {
@@ -2605,7 +2605,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	protected void rewriteTypeOccurrences(final TextEditBasedChangeManager manager, final CompilationUnitRewrite sourceRewrite, final ICompilationUnit copy, final Set<String> replacements, final RefactoringStatus status, final IProgressMonitor monitor) {
+	protected void rewriteTypeOccurrences(final TextEditBasedChangeManager manager, final CompilationUnitRewrite sourceRewrite, final ICompilationUnit copy, final Set<String> replacements, final RefactoringStatus status, final IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, RefactoringCoreMessages.PullUpRefactoring_checking, 100);
 		try {
 			final IType declaring= getDeclaringType();
@@ -2617,7 +2617,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 			parser.setCompilerOptions(RefactoringASTParser.getCompilerOptions(project));
 			parser.createASTs(new ICompilationUnit[] { copy}, new String[0], new ASTRequestor() {
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public final void acceptAST(final ICompilationUnit unit, final CompilationUnit node) {
 					try {
 						final IType subType= (IType) JavaModelUtil.findInCompilationUnit(unit, declaring);
@@ -2626,7 +2626,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 							final ITypeBinding subBinding= subDeclaration.resolveBinding();
 							if (subBinding != null) {
 								ITypeBinding superBinding= null;
-								for (ITypeBinding superBinding2 : Bindings.getAllSuperTypes(subBinding)) {
+								for (ITypeBinding superBinding2 : Bindings.getAllSuperTypes(subBinding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									String name= superBinding2.getName();
 									if (name.startsWith(fDestinationType.getElementName()))
 										superBinding= superBinding2;

@@ -57,7 +57,7 @@ public class SemanticHighlightingPresenterCore {
 		/*
 		 * @see org.eclipse.jface.text.IPositionUpdater#update(org.eclipse.jface.text.DocumentEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void update(DocumentEvent event) {
 
 			int eventOffset= event.getOffset();
@@ -67,7 +67,7 @@ public class SemanticHighlightingPresenterCore {
 			try {
 				Position[] positions= event.getDocument().getPositions(fCategory);
 
-				for (Position position2 : positions) {
+				for (Position position2 : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					HighlightedPositionCore position= (HighlightedPositionCore) position2;
 
@@ -126,7 +126,7 @@ public class SemanticHighlightingPresenterCore {
 		 * @param position The position
 		 * @param event The event
 		 */
-		private void updateWithIncludedEvent(HighlightedPositionCore position, DocumentEvent event) {
+		private void updateWithIncludedEvent(HighlightedPositionCore position, DocumentEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int eventOffset= event.getOffset();
 			String newText= event.getText();
 			if (newText == null)
@@ -140,7 +140,7 @@ public class SemanticHighlightingPresenterCore {
 			int end= offset + length;
 
 			int includedLength= 0;
-			while (includedLength < eventNewLength && Character.isJavaIdentifierPart(newText.charAt(includedLength)))
+			while (includedLength < eventNewLength && Character.isJavaIdentifierPart(newText.charAt(includedLength))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				includedLength++;
 			if (includedLength == eventNewLength)
 				position.setLength(length + deltaLength);
@@ -148,7 +148,7 @@ public class SemanticHighlightingPresenterCore {
 				int newLeftLength= eventOffset - offset + includedLength;
 
 				int excludedLength= eventNewLength;
-				while (excludedLength > 0 && Character.isJavaIdentifierPart(newText.charAt(excludedLength - 1)))
+				while (excludedLength > 0 && Character.isJavaIdentifierPart(newText.charAt(excludedLength - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					excludedLength--;
 				int newRightOffset= eventOffset + excludedLength;
 				int newRightLength= end + deltaLength - newRightOffset;
@@ -179,7 +179,7 @@ public class SemanticHighlightingPresenterCore {
 			int eventNewLength= newText.length();
 
 			int includedLength= 0;
-			while (includedLength < eventNewLength && Character.isJavaIdentifierPart(newText.charAt(includedLength)))
+			while (includedLength < eventNewLength && Character.isJavaIdentifierPart(newText.charAt(includedLength))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				includedLength++;
 			position.setLength(event.getOffset() - position.getOffset() + includedLength);
 		}
@@ -200,7 +200,7 @@ public class SemanticHighlightingPresenterCore {
 			int eventNewLength= newText.length();
 
 			int excludedLength= eventNewLength;
-			while (excludedLength > 0 && Character.isJavaIdentifierPart(newText.charAt(excludedLength - 1)))
+			while (excludedLength > 0 && Character.isJavaIdentifierPart(newText.charAt(excludedLength - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				excludedLength--;
 			int deleted= eventEnd - position.getOffset();
 			int inserted= eventNewLength - excludedLength;
@@ -223,7 +223,7 @@ public class SemanticHighlightingPresenterCore {
 	protected IPositionUpdater fPositionUpdater= new HighlightingPositionUpdater(getPositionCategory());
 
 	/** UI's current highlighted positions - can contain <code>null</code> elements */
-	protected List<Position> fPositions= new ArrayList<>();
+	protected List<Position> fPositions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	/** UI position lock */
 	protected Object fPositionLock= new Object();
 
@@ -315,7 +315,7 @@ public class SemanticHighlightingPresenterCore {
 	 * @param addedPositions the added positions
 	 * @param removedPositions the removed positions
 	 */
-	public void updatePresentationCore(IDocument document, HighlightedPositionCore[] addedPositions, HighlightedPositionCore[] removedPositions) {
+	public void updatePresentationCore(IDocument document, HighlightedPositionCore[] addedPositions, HighlightedPositionCore[] removedPositions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// TODO: double-check consistency with document.getPositions(...)
 		// TODO: reuse removed positions
@@ -341,14 +341,14 @@ public class SemanticHighlightingPresenterCore {
 				 * removed on the fly. The second of two is the list of added positions. The result
 				 * is stored in newPositions.
 				 */
-				List<Position> newPositions= new ArrayList<>(newSize);
+				List<Position> newPositions= new ArrayList<>(newSize); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				Position position= null;
 				Position addedPosition= null;
-				for (int i= 0, j= 0, n= oldPositions.size(), m= addedPositions.length; i < n || position != null || j < m || addedPosition != null;) {
+				for (int i= 0, j= 0, n= oldPositions.size(), m= addedPositions.length; i < n || position != null || j < m || addedPosition != null;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// loop variant: i + j < old(i + j)
 
 					// a) find the next non-deleted Position from the old list
-					while (position == null && i < n) {
+					while (position == null && i < n) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						position= oldPositions.get(i++);
 						if (position.isDeleted() || contain(removedPositionsList, position)) {
 							document.removePosition(positionCategory, position);
@@ -408,7 +408,7 @@ public class SemanticHighlightingPresenterCore {
 	protected int indexOf(List<? extends Position> positions, Position position) {
 		int index= computeIndexAtOffset(positions, position.getOffset());
 		int size= positions.size();
-		while (index < size) {
+		while (index < size) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (positions.get(index) == position)
 				return index;
 			index++;
@@ -426,7 +426,7 @@ public class SemanticHighlightingPresenterCore {
 	protected int computeIndexAtOffset(List<? extends Position> positions, int offset) {
 		int i= -1;
 		int j= positions.size();
-		while (j - i > 1) {
+		while (j - i > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int k= (i + j) >> 1;
 			Position position= positions.get(k);
 			if (position.getOffset() >= offset)

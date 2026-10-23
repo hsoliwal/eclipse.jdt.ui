@@ -198,9 +198,9 @@ public class JavaActivationTest {
 
 	public void checkNotLoaded(Set<String> inactiveBundles) {
 		Bundle bundle= Platform.getBundle("org.eclipse.jdt.ui.tests");
-		for (Bundle b : bundle.getBundleContext().getBundles()) {
+		for (Bundle b : bundle.getBundleContext().getBundles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (b.getState() == Bundle.ACTIVE && inactiveBundles.contains(b.getSymbolicName())) {
-				Assert.fail("plugin should not be activated: " + b.getSymbolicName());
+				Assert.fail("plugin should not be activated: " + b.getSymbolicName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}

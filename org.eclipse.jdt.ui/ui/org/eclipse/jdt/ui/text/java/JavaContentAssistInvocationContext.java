@@ -232,7 +232,7 @@ public class JavaContentAssistInvocationContext extends ContentAssistInvocationC
 	 *
 	 * @return the expected type if any, <code>null</code> otherwise
 	 */
-	public IType getExpectedType() {
+	public IType getExpectedType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fType == null && getCompilationUnit() != null) {
 			CompletionContext context= getCoreContext();
 			if (context != null) {
@@ -291,7 +291,7 @@ public class JavaContentAssistInvocationContext extends ContentAssistInvocationC
 	 *
 	 * @since 3.3
 	 */
-	private void computeKeywordsAndContext() {
+	private void computeKeywordsAndContext() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= getCompilationUnit();
 		if (cu == null) {
 			if (fKeywordProposals == null) {

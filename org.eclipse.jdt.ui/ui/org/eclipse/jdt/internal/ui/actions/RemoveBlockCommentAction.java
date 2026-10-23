@@ -54,7 +54,7 @@ public class RemoveBlockCommentAction extends BlockCommentAction {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.actions.AddBlockCommentAction#runInternal(org.eclipse.jface.text.ITextSelection, org.eclipse.jface.text.IDocumentExtension3, org.eclipse.jdt.internal.ui.actions.AddBlockCommentAction.Edit.EditFactory)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void runInternal(ITextSelection selection, IDocumentExtension3 docExtension, Edit.EditFactory factory) throws BadPartitioningException, BadLocationException {
 		List<Edit> edits= new LinkedList<>();
 		int tokenLength= getCommentStart().length();
@@ -66,7 +66,7 @@ public class RemoveBlockCommentAction extends BlockCommentAction {
 		int partOffset= partition.getOffset();
 		int partEndOffset= partOffset + partition.getLength();
 
-		while (partEndOffset < endOffset) {
+		while (partEndOffset < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			if (partition.getType() == IJavaPartitions.JAVA_MULTI_LINE_COMMENT) {
 				// remove first '/*'
@@ -97,19 +97,19 @@ public class RemoveBlockCommentAction extends BlockCommentAction {
 	/*
 	 * Remove the first '*' token from each line if it is the first character, from block comment.
 	 */
-	private void removeToken(final ITypedRegion partition, int partOffset, final Edit.EditFactory factory, final List<Edit> edits) throws BadLocationException {
+	private void removeToken(final ITypedRegion partition, int partOffset, final Edit.EditFactory factory, final List<Edit> edits) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEditorInput editorInput = getTextEditor().getEditorInput();
 		IDocument document = getTextEditor().getDocumentProvider().getDocument(editorInput);
 		int startLine = document.getLineOfOffset(partOffset);
 		int lines = document.getNumberOfLines(partOffset, partition.getLength());
 
-		for(int line = startLine; line < startLine + lines; line++) {
+		for(int line = startLine; line < startLine + lines; line++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int lineOffset = document.getLineOffset(line);
 			int lineLength = document.getLineLength(line);
 			char ch1 = document.getChar(lineOffset);
 			int pos = 0;
 			// skip all character codes <= 0x20 from start of line
-			while(pos < lineLength && ((ch1 = document.getChar(lineOffset + pos)) <= 0x20)) {
+			while(pos < lineLength && ((ch1 = document.getChar(lineOffset + pos)) <= 0x20)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pos++;
 			}
 			if(ch1 == '*') {

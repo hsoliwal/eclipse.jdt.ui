@@ -38,7 +38,7 @@ public class JavaMultiLineStringAutoIndentStrategy extends JavaStringAutoIndentS
 		super(partitioning, project);
 	}
 
-	private void javaMultiLineStringIndentAfterNewLine(IDocument document, DocumentCommand command) throws BadLocationException {
+	private void javaMultiLineStringIndentAfterNewLine(IDocument document, DocumentCommand command) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ITypedRegion partition= TextUtilities.getPartition(document, fPartitioning, command.offset, true);
 		int offset= partition.getOffset();
@@ -62,13 +62,13 @@ public class JavaMultiLineStringAutoIndentStrategy extends JavaStringAutoIndentS
 		if (isEditorWrapStrings() && isLineDelimiter && isTextBlock) {
 			indentation= IndentAction.getTextBlockIndentationString(document, command.offset, command.offset, -1, fProject);
 			if (hasTextBlockEnded) {
-				command.text= command.text + indentation;
+				command.text= command.text + indentation; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				command.text= command.text + indentation;
+				command.text= command.text + indentation; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (isCloseStringsPreferenceSet(fProject)) {
 					command.caretOffset= command.offset + command.text.length();
 					command.shiftsCaret= false;
-					command.text= command.text + delimiter + IndentAction.getTextBlockIndentationString(document, offset, command.offset, 0, fProject) + IndentAction.TEXT_BLOCK_STR;
+					command.text= command.text + delimiter + IndentAction.getTextBlockIndentationString(document, offset, command.offset, 0, fProject) + IndentAction.TEXT_BLOCK_STR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		} else if (command.text.length() > 1 && !isLineDelimiter && isEditorEscapeStrings()) {
@@ -84,49 +84,49 @@ public class JavaMultiLineStringAutoIndentStrategy extends JavaStringAutoIndentS
 	 * @param delimiter the line delimiter
 	 * @return the display string
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String displayString(String inputString, String indentation, String delimiter, boolean escapeNonAscii) {
 
 		int length= inputString.length();
-		StringBuilder buffer= new StringBuilder(length);
+		StringBuilder buffer= new StringBuilder(length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		StringTokenizer tokenizer= new StringTokenizer(inputString, "\n\r", true); //$NON-NLS-1$
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token= tokenizer.nextToken();
 			if ("\r".equals(token)) { //$NON-NLS-1$
-				buffer.append('\r');
+				buffer.append('\r'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (tokenizer.hasMoreTokens()) {
 					token= tokenizer.nextToken();
 					if ("\n".equals(token)) { //$NON-NLS-1$
-						buffer.append('\n');
+						buffer.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						continue;
 					}
 				} else {
 					continue;
 				}
 			} else if ("\n".equals(token)) { //$NON-NLS-1$
-				buffer.append('\n');
+				buffer.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				continue;
 			}
 
-			StringBuilder tokenBuffer= new StringBuilder();
-			for (int i= 0; i < token.length(); i++) {
+			StringBuilder tokenBuffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i= 0; i < token.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char c= token.charAt(i);
 				switch (c) {
 					default:
 						if (escapeNonAscii && (c < 0x20 || c >= 0x80)) {
 							String hex= "0123456789ABCDEF"; //$NON-NLS-1$
-							tokenBuffer.append('\\');
-							tokenBuffer.append('u');
-							tokenBuffer.append(hex.charAt((c >> 12) & 0xF));
-							tokenBuffer.append(hex.charAt((c >> 8) & 0xF));
-							tokenBuffer.append(hex.charAt((c >> 4) & 0xF));
-							tokenBuffer.append(hex.charAt(c & 0xF));
+							tokenBuffer.append('\\'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append('u'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append(hex.charAt((c >> 12) & 0xF)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append(hex.charAt((c >> 8) & 0xF)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append(hex.charAt((c >> 4) & 0xF)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append(hex.charAt(c & 0xF)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							tokenBuffer.append(c);
+							tokenBuffer.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 				}
 			}
-			buffer.append(tokenBuffer);
+			buffer.append(tokenBuffer); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buffer.toString();
 	}

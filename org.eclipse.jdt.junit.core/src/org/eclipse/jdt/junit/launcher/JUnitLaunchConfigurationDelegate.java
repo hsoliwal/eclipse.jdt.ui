@@ -93,7 +93,7 @@ import org.eclipse.jdt.launching.VMRunnerConfiguration;
  * </p>
  * @since 3.3
  */
-public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigurationDelegate {
+public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigurationDelegate { //FLLDCIM: MARK — T27  IMPLEMENTS
 
 	private boolean fKeepAlive= false;
 	private int fPort;
@@ -101,7 +101,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 
 	private static final String DEFAULT= "<default>"; //$NON-NLS-1$
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String showCommandLine(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor) throws CoreException {
 		if (monitor == null) {
 			monitor = new NullProgressMonitor();
@@ -137,7 +137,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 	 * @throws CoreException if the launch configuration cannot be resolved
 	 * @since 3.15
 	 */
-	protected final VMRunnerConfiguration getVMRunnerConfiguration(ILaunchConfiguration configuration, ILaunch launch, String mode, IProgressMonitor monitor) throws CoreException {
+	protected final VMRunnerConfiguration getVMRunnerConfiguration(ILaunchConfiguration configuration, ILaunch launch, String mode, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMon= SubMonitor.convert(monitor, JUnitMessages.JUnitLaunchConfigurationDelegate_verifying_attriburtes_description, 4);
 		// check for cancellation
 		if (subMon.isCanceled()) {
@@ -192,8 +192,8 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 			// Environment variables
 			String[] envp= getEnvironment(configuration);
 
-			ArrayList<String> vmArguments= new ArrayList<>();
-			ArrayList<String> programArguments= new ArrayList<>();
+			ArrayList<String> vmArguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			ArrayList<String> programArguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			collectExecutionArguments(configuration, vmArguments, programArguments);
 			vmArguments.addAll(Arrays.asList(DebugPlugin.parseArguments(getVMArguments(configuration, mode))));
 			if (JavaRuntime.isModularProject(javaProject)) {
@@ -289,7 +289,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public synchronized void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor) throws CoreException {
 		if (monitor == null) {
 			monitor = new NullProgressMonitor();
@@ -337,7 +337,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 	 * @param monitor the progress monitor to use
 	 * @throws CoreException an exception is thrown when the verification fails
 	 */
-	protected void preLaunchCheck(ILaunchConfiguration configuration, ILaunch launch, IProgressMonitor monitor) throws CoreException {
+	protected void preLaunchCheck(ILaunchConfiguration configuration, ILaunch launch, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IJavaProject javaProject= getJavaProject(configuration);
 			if ((javaProject == null) || !javaProject.exists()) {
@@ -391,7 +391,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 	 * @return returns all types or methods that should be ran
 	 * @throws CoreException an exception is thrown when the search for tests failed
 	 */
-	protected IMember[] evaluateTests(ILaunchConfiguration configuration, IProgressMonitor monitor) throws CoreException {
+	protected IMember[] evaluateTests(ILaunchConfiguration configuration, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= getJavaProject(configuration);
 
 		IJavaElement testTarget= getTestTarget(configuration, javaProject);
@@ -403,7 +403,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 				return new IMember[] { testedType.getMethod(testMethodName, new String[0]) };
 			}
 		}
-		HashSet<IType> result= new HashSet<>();
+		HashSet<IType> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ITestKind testKind= getTestRunnerKind(configuration);
 		testKind.getFinder().findTestsInContainer(testTarget, result, monitor);
 		if (result.isEmpty()) {
@@ -421,7 +421,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 	 * @param programArguments a {@link List} of {@link String} representing the resulting program arguments
 	 * @exception CoreException if unable to collect the execution arguments
 	 */
-	protected void collectExecutionArguments(ILaunchConfiguration configuration, List<String> vmArguments, List<String> programArguments) throws CoreException {
+	protected void collectExecutionArguments(ILaunchConfiguration configuration, List<String> vmArguments, List<String> programArguments) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// add program & VM arguments provided by getProgramArguments and getVMArguments
 		String pgmArgs= getProgramArguments(configuration);
@@ -451,7 +451,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		} else {
 			addOpensTargets= null;
 		}
-		List<String> addOpensVmArgs= new ArrayList<>();
+		List<String> addOpensVmArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		/*
 		 * The "-version" "3" arguments don't make sense and should eventually be removed.
@@ -484,18 +484,18 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 			IJavaElement testElement= testElements[0];
 			if (testElement instanceof IMethod method) {
 				programArguments.add("-test"); //$NON-NLS-1$
-				programArguments.add(method.getDeclaringType().getFullyQualifiedName() + ':' + method.getElementName());
+				programArguments.add(method.getDeclaringType().getFullyQualifiedName() + ':' + method.getElementName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				collectAddOpensVmArgs(addOpensTargets, addOpensVmArgs, method, configuration);
 			} else if (testElement instanceof IType type) {
 				programArguments.add("-classNames"); //$NON-NLS-1$
 				programArguments.add(type.getFullyQualifiedName());
 				collectAddOpensVmArgs(addOpensTargets, addOpensVmArgs, type, configuration);
 			} else if (testElement instanceof IPackageFragment || testElement instanceof IJavaProject) {
-				Set<String> pkgNames= new HashSet<>();
+				Set<String> pkgNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				String fileName= createPackageNamesFile(testElement, testRunnerKind, pkgNames);
 				programArguments.add("-packageNameFile"); //$NON-NLS-1$
 				programArguments.add(fileName);
-				for (String pkgName : pkgNames) {
+				for (String pkgName : pkgNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!DEFAULT.equals(pkgName)) { // skip --add-opens for default package
 						collectAddOpensVmArgs(addOpensTargets, addOpensVmArgs, pkgName, configuration);
 					}
@@ -506,7 +506,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 				String fileName= createTestNamesFile(collectedTestElements);
 				programArguments.add("-testNameFile"); //$NON-NLS-1$
 				programArguments.add(fileName);
-				for (IJavaElement singleTestType : collectedTestElements) {
+				for (IJavaElement singleTestType : collectedTestElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					collectAddOpensVmArgs(addOpensTargets, addOpensVmArgs, singleTestType, configuration);
 				}
 			} else {
@@ -516,7 +516,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 			String fileName= createTestNamesFile(testElements);
 			programArguments.add("-testNameFile"); //$NON-NLS-1$
 			programArguments.add(fileName);
-			for (IJavaElement testElement : testElements) {
+			for (IJavaElement testElement : testElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collectAddOpensVmArgs(addOpensTargets, addOpensVmArgs, testElement, configuration);
 			}
 		}
@@ -538,7 +538,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 			String includeTags= configuration.getAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_INCLUDE_TAGS, ""); //$NON-NLS-1$
 			if (includeTags != null && !includeTags.trim().isEmpty()) {
 				String[] tags= includeTags.split(","); //$NON-NLS-1$
-				for (String tag : tags) {
+				for (String tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					programArguments.add("--include-tag"); //$NON-NLS-1$
 					programArguments.add(tag.trim());
 				}
@@ -550,7 +550,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 			String excludeTags= configuration.getAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_EXCLUDE_TAGS, ""); //$NON-NLS-1$
 			if (excludeTags != null && !excludeTags.trim().isEmpty()) {
 				String[] tags= excludeTags.split(","); //$NON-NLS-1$
-				for (String tag : tags) {
+				for (String tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					programArguments.add("--exclude-tag"); //$NON-NLS-1$
 					programArguments.add(tag.trim());
 				}
@@ -562,16 +562,16 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		}
 	}
 
-	private List<IType> enumerateTypesInPackage(IPackageFragmentRoot packageFragmentRoot) throws JavaModelException {
-		List<IType> typesToExecute = new ArrayList<>();
-		for (IJavaElement child : packageFragmentRoot.getChildren()) {
+	private List<IType> enumerateTypesInPackage(IPackageFragmentRoot packageFragmentRoot) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IType> typesToExecute = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement child : packageFragmentRoot.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IPackageFragment packageFragment) {
 				if (packageFragment.hasChildren()) {
 					IJavaElement[] children= packageFragment.getChildren();
-					for (IJavaElement ije : children) {
+					for (IJavaElement ije : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (ije instanceof ICompilationUnit icu) {
 							IType[] allTypes= icu.getAllTypes();
-							for (IType topLevelType: allTypes) {
+							for (IType topLevelType: allTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								typesToExecute.add(topLevelType);
 								break; // just one
 							}
@@ -613,13 +613,13 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 			IJavaProject javaProject= getJavaProject(configuration);
 			String sourceModuleName= javaProject.getModuleDescription().getElementName();
 			addOpensVmArgs.add("--add-opens"); //$NON-NLS-1$
-			addOpensVmArgs.add(sourceModuleName + "/" + pkgName + "=" + addOpensTargets); //$NON-NLS-1$ //$NON-NLS-2$
+			addOpensVmArgs.add(sourceModuleName + "/" + pkgName + "=" + addOpensTargets); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private IPackageFragment getParentPackageFragment(IJavaElement element) {
 		IJavaElement parent= element.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent instanceof IPackageFragment parentFragment) {
 				return parentFragment;
 			}
@@ -628,7 +628,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		return null;
 	}
 
-	private String createPackageNamesFile(IJavaElement testContainer, ITestKind testRunnerKind, Set<String> pkgNames) throws CoreException {
+	private String createPackageNamesFile(IJavaElement testContainer, ITestKind testRunnerKind, Set<String> pkgNames) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			File file= File.createTempFile("packageNames", ".txt"); //$NON-NLS-1$ //$NON-NLS-2$
 			file.deleteOnExit();
@@ -639,7 +639,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 				} else if (testContainer instanceof IPackageFragmentRoot testFragmentRoot) {
 					addAllPackageFragments(testFragmentRoot, pkgNames);
 				} else if (testContainer instanceof IJavaProject testProject) {
-					for (IPackageFragmentRoot pkgFragmentRoot : testProject.getPackageFragmentRoots()) {
+					for (IPackageFragmentRoot pkgFragmentRoot : testProject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!pkgFragmentRoot.isExternal() && !pkgFragmentRoot.isArchive()) {
 							addAllPackageFragments(pkgFragmentRoot, pkgNames);
 						}
@@ -651,7 +651,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 					String msg= Messages.format(JUnitMessages.JUnitLaunchConfigurationDelegate_error_notests_kind, testRunnerKind.getDisplayName());
 					abort(msg, null, IJavaLaunchConfigurationConstants.ERR_UNSPECIFIED_MAIN_TYPE);
 				} else {
-					for (String pkgName : pkgNames) {
+					for (String pkgName : pkgNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						bw.write(pkgName);
 						bw.newLine();
 					}
@@ -664,7 +664,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 	}
 
 	private Set<String> addAllPackageFragments(IPackageFragmentRoot pkgFragmentRoot, Set<String> pkgNames) throws JavaModelException {
-		for (IJavaElement child : pkgFragmentRoot.getChildren()) {
+		for (IJavaElement child : pkgFragmentRoot.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IPackageFragment childFragment && childFragment.hasChildren()) {
 				pkgNames.add(getPackageName(child.getElementName()));
 			}
@@ -675,15 +675,15 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 	private void addAllSubPackageFragments(IPackageFragment pkgFragment, Set<String> pkgNames) throws JavaModelException {
 		String elementName= getPackageName(pkgFragment.getElementName());
 		IPackageFragmentRoot pkgFragmentRoot= (IPackageFragmentRoot) pkgFragment.getParent();
-		Pattern packagePattern = Pattern.compile(elementName.replace(".", "\\.") + "(?:$|\\..*)"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		for (IJavaElement child : pkgFragmentRoot.getChildren()) {
+		Pattern packagePattern = Pattern.compile(elementName.replace(".", "\\.") + "(?:$|\\..*)"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (IJavaElement child : pkgFragmentRoot.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(child instanceof IPackageFragment childFragment)) {
 				continue;
 			}
 
 			final String childPackageName = getPackageName(childFragment.getElementName());
 
-			if (childFragment.hasChildren() && packagePattern.matcher(childPackageName).matches()) {
+			if (childFragment.hasChildren() && packagePattern.matcher(childPackageName).matches()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				pkgNames.add(childPackageName);
 			}
 		}
@@ -696,12 +696,12 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		return elementName;
 	}
 
-	private String createTestNamesFile(IJavaElement[] testElements) throws CoreException {
+	private String createTestNamesFile(IJavaElement[] testElements) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			File file= File.createTempFile("testNames", ".txt"); //$NON-NLS-1$ //$NON-NLS-2$
 			file.deleteOnExit();
 			try (BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));) {
-				for (IJavaElement testElement : testElements) {
+				for (IJavaElement testElement : testElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (testElement instanceof IType type) {
 						String testName= type.getFullyQualifiedName();
 						bw.write(testName);
@@ -716,7 +716,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 						if (declaringType == null) {
 							abort(JUnitMessages.JUnitLaunchConfigurationDelegate_error_wrong_input, null, IJavaLaunchConfigurationConstants.ERR_UNSPECIFIED_MAIN_TYPE);
 						} else {
-							bw.write(declaringType.getFullyQualifiedName() + ':' + method.getElementName());
+							bw.write(declaringType.getFullyQualifiedName() + ':' + method.getElementName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							bw.newLine();
 						}
 					} else {
@@ -782,13 +782,13 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 
 		public List<String> localizeClasspath(ITestKind kind) {
 			JUnitRuntimeClasspathEntry[] entries= kind.getClasspathEntries();
-			List<String> junitEntries= new ArrayList<>();
+			List<String> junitEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (JUnitRuntimeClasspathEntry entrie : entries) {
+			for (JUnitRuntimeClasspathEntry entrie : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					addEntry(junitEntries, entrie);
 				} catch (IOException | URISyntaxException e) {
-					Assert.isTrue(false, entrie.getPluginId() + " is available (required JAR)"); //$NON-NLS-1$
+					Assert.isTrue(false, entrie.getPluginId() + " is available (required JAR)"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			return junitEntries;
@@ -815,7 +815,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 			return fInDevelopmentMode;
 		}
 
-		private String localURL(JUnitRuntimeClasspathEntry jar) throws IOException, MalformedURLException, URISyntaxException {
+		private String localURL(JUnitRuntimeClasspathEntry jar) throws IOException, MalformedURLException, URISyntaxException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Bundle[] bundles= Platform.getBundles(jar.getPluginId(), jar.getVersion());
 			URL url = null;
 			if (bundles != null && bundles.length > 0) {
@@ -837,7 +837,7 @@ public class JUnitLaunchConfigurationDelegate extends AbstractJavaLaunchConfigur
 		}
 	}
 
-	private final IJavaElement getTestTarget(ILaunchConfiguration configuration, IJavaProject javaProject) throws CoreException {
+	private final IJavaElement getTestTarget(ILaunchConfiguration configuration, IJavaProject javaProject) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String containerHandle = configuration.getAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_CONTAINER, ""); //$NON-NLS-1$
 		if (containerHandle.length() != 0) {
 			 IJavaElement element= JavaCore.create(containerHandle);

@@ -56,7 +56,7 @@ public class ResourceTransferDragAdapter extends DragSourceAdapter implements Tr
 
 	private ISelectionProvider fProvider;
 
-	private static final List<IResource> EMPTY_LIST= new ArrayList<>(0);
+	private static final List<IResource> EMPTY_LIST= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Creates a new ResourceTransferDragAdapter for the given selection
@@ -95,13 +95,13 @@ public class ResourceTransferDragAdapter extends DragSourceAdapter implements Tr
 		}
 	}
 
-	private List<IResource> convertSelection() {
+	private List<IResource> convertSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection s= fProvider.getSelection();
 		if (!(s instanceof IStructuredSelection))
 			return EMPTY_LIST;
 		IStructuredSelection selection= (IStructuredSelection)s;
-		List<IResource> result= new ArrayList<>(selection.size());
-		for (Object element : selection) {
+		List<IResource> result= new ArrayList<>(selection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= null;
 			if (element instanceof IJavaElement) {
 				// don't use IAdaptable as for members only the top level type adapts
@@ -115,14 +115,14 @@ public class ResourceTransferDragAdapter extends DragSourceAdapter implements Tr
 		return result;
 	}
 
-	private void handleFinishedDropMove(DragSourceEvent event) {
+	private void handleFinishedDropMove(DragSourceEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MultiStatus status= new MultiStatus(
 			JavaPlugin.getPluginId(),
 			IJavaStatusConstants.INTERNAL_ERROR,
 			JavaUIMessages.ResourceTransferDragAdapter_cannot_delete_resource,
 			null);
 		List<IResource> resources= convertSelection();
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				resource.delete(true, null);
 			} catch (CoreException e) {

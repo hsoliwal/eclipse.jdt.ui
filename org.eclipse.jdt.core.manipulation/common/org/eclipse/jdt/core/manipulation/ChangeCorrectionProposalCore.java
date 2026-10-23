@@ -67,7 +67,7 @@ public class ChangeCorrectionProposalCore implements IAdaptable {
 	 * @throws CoreException
 	 *             when the invocation of the change failed
 	 */
-	protected void performChange() throws CoreException {
+	protected void performChange() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Change change= null;
 		try {
@@ -106,10 +106,10 @@ public class ChangeCorrectionProposalCore implements IAdaptable {
 		}
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unused") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getAdditionalProposalInfo(IProgressMonitor monitor) {
-		StringBuilder buf= new StringBuilder();
-		buf.append("<p>"); //$NON-NLS-1$
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("<p>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		try {
 			Change change= getChange();
 			if (change != null) {
@@ -117,16 +117,16 @@ public class ChangeCorrectionProposalCore implements IAdaptable {
 				if (name.length() == 0) {
 					return null;
 				}
-				buf.append(name);
+				buf.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
 				return null;
 			}
 		} catch (CoreException e) {
-			buf.append("Unexpected error when accessing this proposal:<p><pre>"); //$NON-NLS-1$
-			buf.append(e.getLocalizedMessage());
-			buf.append("</pre>"); //$NON-NLS-1$
+			buf.append("Unexpected error when accessing this proposal:<p><pre>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(e.getLocalizedMessage()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("</pre>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("</p>"); //$NON-NLS-1$
+		buf.append("</p>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 

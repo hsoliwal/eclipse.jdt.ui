@@ -63,7 +63,7 @@ public class AssertionVMArg {
 	public static int findAssertEnabledArg(String[] argArray) {
 		int assertArgIndex= ASSERT_ARG_NOT_FOUND;
 
-		for (int i= 0; i < argArray.length; ++i) {
+		for (int i= 0; i < argArray.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String arg= argArray[i].toLowerCase();
 			if (arg.startsWith(SHORT_VM_ARG_TEXT) || arg.startsWith(LONG_VM_ARG_TEXT)) {
 				assertArgIndex= i;
@@ -80,7 +80,7 @@ public class AssertionVMArg {
 		// ..otherwise, default args to single enabling arg
 		return (currentArgs.length() == 0)
 			? SHORT_VM_ARG_TEXT
-			: currentArgs + " " + SHORT_VM_ARG_TEXT; //$NON-NLS-1$
+			: currentArgs + " " + SHORT_VM_ARG_TEXT; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static boolean getEnableAssertionsPreference() {

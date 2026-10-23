@@ -124,8 +124,8 @@ abstract class FlowAnalyzer extends GenericVisitor {
 
 	static protected class SwitchData {
 		private boolean fHasDefaultCase;
-		private List<IRegion> fRanges= new ArrayList<>(4);
-		private List<FlowInfo> fInfos= new ArrayList<>(4);
+		private List<IRegion> fRanges= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		private List<FlowInfo> fInfos= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		public void setHasDefaultCase() {
 			fHasDefaultCase= true;
 		}
@@ -147,7 +147,7 @@ abstract class FlowAnalyzer extends GenericVisitor {
 		}
 	}
 
-	private HashMap<ASTNode, FlowInfo> fData = new HashMap<>(100);
+	private HashMap<ASTNode, FlowInfo> fData = new HashMap<>(100); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	/* package */ FlowContext fFlowContext= null;
 
 	public FlowAnalyzer(FlowContext context) {
@@ -295,7 +295,7 @@ abstract class FlowAnalyzer extends GenericVisitor {
 	protected void process(GenericSequentialFlowInfo info, List<? extends ASTNode> nodes) {
 		if (nodes == null)
 			return;
-		for (ASTNode node : nodes) {
+		for (ASTNode node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			info.merge(getFlowInfo(node), fFlowContext);
 		}
 	}
@@ -320,17 +320,17 @@ abstract class FlowAnalyzer extends GenericVisitor {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(TryStatement node) {
 		if (traverseNode(node)) {
 			fFlowContext.pushExcptions(node);
-			for (Iterator<Expression> iterator= node.resources().iterator(); iterator.hasNext();) {
+			for (Iterator<Expression> iterator= node.resources().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				iterator.next().accept(this);
 			}
 			node.getBody().accept(this);
 			fFlowContext.popExceptions();
 			List<CatchClause> catchClauses= node.catchClauses();
-			for (CatchClause catchClause : catchClauses) {
+			for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				catchClause.accept(this);
 			}
 			Block finallyBlock= node.getFinally();
@@ -351,7 +351,7 @@ abstract class FlowAnalyzer extends GenericVisitor {
 		return createSwitchData(node.statements());
 	}
 
-	protected SwitchData createSwitchData(List<Statement> statements) {
+	protected SwitchData createSwitchData(List<Statement> statements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SwitchData result= new SwitchData();
 		if (statements == null || statements.isEmpty())
 			return result;
@@ -359,7 +359,7 @@ abstract class FlowAnalyzer extends GenericVisitor {
 		int start= -1, end= -1;
 		GenericSequentialFlowInfo info= null;
 
-		for (Statement statement : statements) {
+		for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (statement instanceof SwitchCase) {
 				SwitchCase switchCase= (SwitchCase) statement;
 				if (switchCase.isDefault()) {
@@ -398,7 +398,7 @@ abstract class FlowAnalyzer extends GenericVisitor {
 		SwitchFlowInfo switchFlowInfo= createSwitch();
 		setFlowInfo(node, switchFlowInfo);
 		switchFlowInfo.mergeTest(getFlowInfo(expression), fFlowContext);
-		for (FlowInfo case1 : data.getInfos())
+		for (FlowInfo case1 : data.getInfos()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switchFlowInfo.mergeCase(case1, fFlowContext);
 		switchFlowInfo.mergeDefault(data.hasDefaultCase(), fFlowContext);
 		switchFlowInfo.removeLabel(null);
@@ -470,7 +470,7 @@ abstract class FlowAnalyzer extends GenericVisitor {
 		info.merge(getFlowInfo(node.getMessage()), null, fFlowContext);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(Assignment node) {
 		if (skipNode(node))
 			return;
@@ -869,7 +869,7 @@ abstract class FlowAnalyzer extends GenericVisitor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(SimpleName node) {
 		if (skipNode(node) || node.isDeclaration())
 			return;
@@ -991,11 +991,11 @@ abstract class FlowAnalyzer extends GenericVisitor {
 			return;
 		TryFlowInfo info= createTry();
 		setFlowInfo(node, info);
-		for (Iterator<Expression> iterator= node.resources().iterator(); iterator.hasNext();) {
+		for (Iterator<Expression> iterator= node.resources().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			info.mergeResources(getFlowInfo(iterator.next()), fFlowContext);
 		}
 		info.mergeTry(getFlowInfo(node.getBody()), fFlowContext);
-		for (Iterator<CatchClause> iter= node.catchClauses().iterator(); iter.hasNext();) {
+		for (Iterator<CatchClause> iter= node.catchClauses().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CatchClause element= iter.next();
 			info.mergeCatch(getFlowInfo(element), fFlowContext);
 		}
@@ -1090,7 +1090,7 @@ abstract class FlowAnalyzer extends GenericVisitor {
 			return;
 		MessageSendFlowInfo info= createMessageSendFlowInfo();
 		setFlowInfo(node, info);
-		for (Expression arg : arguments) {
+		for (Expression arg : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (arg instanceof ExpressionMethodReference) {
 				arg= ((ExpressionMethodReference)arg).getExpression();
 			}

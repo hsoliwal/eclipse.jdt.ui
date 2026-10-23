@@ -76,7 +76,7 @@ public abstract class ReorgCorrectionsBaseSubProcessor<T> {
 	}
 
 
-	public void addWrongTypeNameProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void addWrongTypeNameProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		boolean isLinked= cu.getResource().isLinked();
 
@@ -102,7 +102,7 @@ public abstract class ReorgCorrectionsBaseSubProcessor<T> {
 
 		boolean found= false;
 		List<AbstractTypeDeclaration> types= root.types();
-		for (AbstractTypeDeclaration curr : types) {
+		for (AbstractTypeDeclaration curr : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parentType != curr) {
 				if (newTypeName.equals(curr.getName().getIdentifier())) {
 					return;
@@ -136,7 +136,7 @@ public abstract class ReorgCorrectionsBaseSubProcessor<T> {
 	}
 
 
-	public void addWrongPackageDeclNameProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void addWrongPackageDeclNameProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		boolean isLinked= cu.getResource().isLinked();
 
@@ -230,7 +230,7 @@ public abstract class ReorgCorrectionsBaseSubProcessor<T> {
 	 * @param enablePreviews --enable-previews option will be enabled if set to true
 	 * @param requiredVersion the minimal required Java compiler version
 	 */
-	protected void addNeedHigherComplianceProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, boolean enablePreviews, String requiredVersion) {
+	protected void addNeedHigherComplianceProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, boolean enablePreviews, String requiredVersion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project= context.getCompilationUnit().getJavaProject();
 		String label1= Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_change_project_compliance_description, requiredVersion);
 		if (enablePreviews) {
@@ -286,7 +286,7 @@ public abstract class ReorgCorrectionsBaseSubProcessor<T> {
 
 
 	/* answers false if the problem location is not an import declaration, and hence no proposal have been added. */
-	public boolean addImportNotFoundProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public boolean addImportNotFoundProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		UnresolvedElementsBaseSubProcessor<T> unresolvedElements = getUnresolvedElementsSubProcessor();
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -316,7 +316,7 @@ public abstract class ReorgCorrectionsBaseSubProcessor<T> {
 		return true;
 	}
 
-	private static boolean canModifyAccessRules(IBinding binding) {
+	private static boolean canModifyAccessRules(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement element= binding.getJavaElement();
 		if (element == null)
 			return false;

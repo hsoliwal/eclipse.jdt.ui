@@ -42,7 +42,7 @@ import org.eclipse.jdt.internal.ui.JavaUIStatus;
  * {@link OperationCanceledException}s thrown by the
  * adapted runnable are caught and re-thrown as {@link InterruptedException}s.
  */
-public class WorkbenchRunnableAdapter implements IRunnableWithProgress, IThreadListener {
+public class WorkbenchRunnableAdapter implements IRunnableWithProgress, IThreadListener { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	private boolean fTransfer= false;
 	private IWorkspaceRunnable fWorkspaceRunnable;
@@ -113,7 +113,7 @@ public class WorkbenchRunnableAdapter implements IRunnableWithProgress, IThreadL
 		}
 	}
 
-	public void runAsUserJob(String name, final Object jobFamiliy) {
+	public void runAsUserJob(String name, final Object jobFamiliy) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Job job= new Job(name) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {

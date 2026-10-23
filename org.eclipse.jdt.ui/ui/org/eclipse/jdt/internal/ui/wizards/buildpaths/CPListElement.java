@@ -115,7 +115,7 @@ public class CPListElement {
 		this(parent, project, null, entryKind, path, null, newElement, res, linkTarget);
 	}
 
-	public CPListElement(Object parent, IJavaProject project, IClasspathEntry entry, int entryKind, IPath path, IModuleDescription module, boolean newElement, IResource res, IPath linkTarget) {
+	public CPListElement(Object parent, IJavaProject project, IClasspathEntry entry, int entryKind, IPath path, IModuleDescription module, boolean newElement, IResource res, IPath linkTarget) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fProject= project;
 
 		fEntryKind= entryKind;
@@ -123,7 +123,7 @@ public class CPListElement {
 		fOrginalPath= newElement ? null : path;
 		fLinkTarget= linkTarget;
 		fOrginalLinkTarget= linkTarget;
-		fChildren= new ArrayList<>();
+		fChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fResource= res;
 		fIsExported= false;
 		fModule= module;
@@ -183,16 +183,16 @@ public class CPListElement {
 									return;
 								}
 							}
-							for (IClasspathEntry currEntry : entries) {
+							for (IClasspathEntry currEntry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (currEntry != null) {
 									CPListElement curr= createFromExisting(this, currEntry, fProject);
 									fChildren.add(curr);
 								} else {
-									JavaPlugin.logErrorMessage("Null entry in container '" + fPath + "'");  //$NON-NLS-1$//$NON-NLS-2$
+									JavaPlugin.logErrorMessage("Null entry in container '" + fPath + "'");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								}
 							}
 						} else {
-							JavaPlugin.logErrorMessage("container returns null as entries: '" + fPath + "'");  //$NON-NLS-1$//$NON-NLS-2$
+							JavaPlugin.logErrorMessage("container returns null as entries: '" + fPath + "'");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					}
 				} catch (JavaModelException e) {
@@ -203,7 +203,7 @@ public class CPListElement {
 		}
 	}
 
-	private boolean addModuleNodes(IClasspathEntry containerEntry, IClasspathEntry pseudoEntry) {
+	private boolean addModuleNodes(IClasspathEntry containerEntry, IClasspathEntry pseudoEntry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean modulesAdded= false;
 		if (containerEntry != null) {
 			IPackageFragmentRoot[] fragmentRoots= fProject.findPackageFragmentRoots(containerEntry);
@@ -216,7 +216,7 @@ public class CPListElement {
 						addChildren= true;
 				}
 				if (addChildren) {
-					for (IPackageFragmentRoot fragmentRoot : fragmentRoots) {
+					for (IPackageFragmentRoot fragmentRoot : fragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IModuleDescription currModule= fragmentRoot.getModuleDescription();
 						if (currModule != null) {
 							CPListElement curr= create(this, pseudoEntry, currModule, true, fProject);
@@ -227,7 +227,7 @@ public class CPListElement {
 				}
 			}
 		} else {
-			JavaPlugin.logErrorMessage("Null entry for container '" + fPath + "'");  //$NON-NLS-1$//$NON-NLS-2$
+			JavaPlugin.logErrorMessage("Null entry for container '" + fPath + "'");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return modulesAdded;
 	}
@@ -240,9 +240,9 @@ public class CPListElement {
 	}
 
 
-	private IClasspathAttribute[] getClasspathAttributes() {
-		ArrayList<IClasspathAttribute> res= new ArrayList<>();
-		for (Object curr : fChildren) {
+	private IClasspathAttribute[] getClasspathAttributes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IClasspathAttribute> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object curr : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof CPListElementAttribute) {
 				CPListElementAttribute elem= (CPListElementAttribute) curr;
 				if (!elem.isBuiltIn()) {
@@ -279,7 +279,7 @@ public class CPListElement {
 		return res.toArray(new IClasspathAttribute[res.size()]);
 	}
 
-	private IClasspathEntry newClasspathEntry() {
+	private IClasspathEntry newClasspathEntry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IClasspathAttribute[] extraAttributes= getClasspathAttributes();
 		switch (fEntryKind) {
@@ -347,7 +347,7 @@ public class CPListElement {
 		return fModule;
 	}
 
-	public CPListElementAttribute setAttribute(String key, Object value) {
+	public CPListElementAttribute setAttribute(String key, Object value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPListElementAttribute attribute= findAttributeElement(key);
 		if (attribute == null) {
 			return null;
@@ -410,7 +410,7 @@ public class CPListElement {
 
 		IPath toRemove= path.removeFirstSegments(getPath().segmentCount()).addTrailingSeparator();
 		if (JavaModelUtil.isExcludedPath(toRemove, filters)) {
-			List<IPath> l= new ArrayList<>(Arrays.asList(filters));
+			List<IPath> l= new ArrayList<>(Arrays.asList(filters)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			l.remove(toRemove);
 			IPath[] newFilters= l.toArray(new IPath[l.size()]);
 			setAttribute(key, newFilters);
@@ -420,7 +420,7 @@ public class CPListElement {
 	}
 
 	public CPListElementAttribute findAttributeElement(String key) {
-		for (Object curr : fChildren) {
+		for (Object curr : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof CPListElementAttribute) {
 				CPListElementAttribute elem= (CPListElementAttribute) curr;
 				if (key.equals(elem.getKey())) {
@@ -441,8 +441,8 @@ public class CPListElement {
 	}
 
 	public CPListElementAttribute[] getAllAttributes() {
-		ArrayList<Object> res= new ArrayList<>();
-		for (Object curr : fChildren) {
+		ArrayList<Object> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object curr : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof CPListElementAttribute) {
 				res.add(curr);
 			}
@@ -454,8 +454,8 @@ public class CPListElement {
 		Object moduleDetails= getAttribute(CPListElement.MODULE);
 		if (moduleDetails instanceof ModuleEncapsulationDetail[]) {
 			ModuleEncapsulationDetail[] details= (ModuleEncapsulationDetail[]) moduleDetails;
-			List<T> elements= new ArrayList<>(details.length);
-			for (ModuleEncapsulationDetail detail : details) {
+			List<T> elements= new ArrayList<>(details.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ModuleEncapsulationDetail detail : details) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (clazz.isInstance(detail)) {
 					elements.add(clazz.cast(detail));
 				}
@@ -472,11 +472,11 @@ public class CPListElement {
 		return attribute;
 	}
 
-	private static boolean isFiltered(Object entry, String[] filteredKeys) {
+	private static boolean isFiltered(Object entry, String[] filteredKeys) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (entry instanceof CPListElementAttribute) {
 			CPListElementAttribute curr= (CPListElementAttribute) entry;
 			String key= curr.getKey();
-			for (String filteredKey : filteredKeys) {
+			for (String filteredKey : filteredKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (key.equals(filteredKey)) {
 					return true;
 				}
@@ -493,9 +493,9 @@ public class CPListElement {
 
 	private Object[] getFilteredChildren(String[] filteredKeys) {
 		int nChildren= fChildren.size();
-		ArrayList<Object> res= new ArrayList<>(nChildren);
+		ArrayList<Object> res= new ArrayList<>(nChildren); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object curr : fChildren) {
+		for (Object curr : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isFiltered(curr, filteredKeys)) {
 				res.add(curr);
 			}
@@ -539,7 +539,7 @@ public class CPListElement {
 		fCachedEntry= null;
 	}
 
-	private IStatus evaluateContainerChildStatus(CPListElementAttribute attrib) {
+	private IStatus evaluateContainerChildStatus(CPListElementAttribute attrib) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fProject != null) {
 			ClasspathContainerInitializer initializer= JavaCore.getClasspathContainerInitializer(fPath.segment(0));
 			if (initializer != null && initializer.canUpdateClasspathContainer(fPath, fProject)) {
@@ -654,7 +654,7 @@ public class CPListElement {
 	 * @return Returns a boolean
 	 */
 	public boolean hasMissingChildren() {
-		for (Object curr : fChildren) {
+		for (Object curr : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof CPListElement && ((CPListElement) curr).isMissing()) {
 				return true;
 			}
@@ -712,7 +712,7 @@ public class CPListElement {
 		return create(null, curr, null, newElement, project);
 	}
 
-	public static CPListElement create(Object parent, IClasspathEntry curr, IModuleDescription module, boolean newElement, IJavaProject project) {
+	public static CPListElement create(Object parent, IClasspathEntry curr, IModuleDescription module, boolean newElement, IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath path= curr.getPath();
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 
@@ -781,7 +781,7 @@ public class CPListElement {
 		elem.setAttribute(COMBINE_ACCESSRULES, Boolean.valueOf(curr.combineAccessRules()));
 
 		IClasspathAttribute[] extraAttributes= curr.getExtraAttributes();
-		for (IClasspathAttribute attrib : extraAttributes) {
+		for (IClasspathAttribute attrib : extraAttributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElementAttribute attribElem= elem.findAttributeElement(attrib.getName());
 			if (attribElem == null) {
 				if (!isModuleAttribute(attrib.getName())) {
@@ -804,10 +804,10 @@ public class CPListElement {
 		return elem;
 	}
 
-	private static Object getModuleAttributeValue(CPListElementAttribute attribElem, IClasspathAttribute attrib, IClasspathAttribute[] extraAttributes) {
+	private static Object getModuleAttributeValue(CPListElementAttribute attribElem, IClasspathAttribute attrib, IClasspathAttribute[] extraAttributes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (ModuleAttributeConfiguration.TRUE.equals(attrib.getValue())) {
-			List<ModuleEncapsulationDetail> details= new ArrayList<>();
-			for (IClasspathAttribute otherAttrib : extraAttributes) {
+			List<ModuleEncapsulationDetail> details= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IClasspathAttribute otherAttrib : extraAttributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (IClasspathAttribute.PATCH_MODULE.equals(otherAttrib.getName())) {
 					details.addAll(ModulePatch.fromMultiString(attribElem, otherAttrib.getValue()));
 				} else if (IClasspathAttribute.ADD_EXPORTS.equals(otherAttrib.getName())) {
@@ -854,7 +854,7 @@ public class CPListElement {
 	public static StringBuffer appendEncodedFilter(IPath[] filters, StringBuffer buf) {
 		if (filters != null) {
 			buf.append('[').append(filters.length).append(']');
-			for (IPath filter : filters) {
+			for (IPath filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				appendEncodePath(filter, buf).append(';');
 			}
 		} else {
@@ -866,7 +866,7 @@ public class CPListElement {
 	public static StringBuffer appendEncodedAccessRules(IAccessRule[] rules, StringBuffer buf) {
 		if (rules != null) {
 			buf.append('[').append(rules.length).append(']');
-			for (IAccessRule rule : rules) {
+			for (IAccessRule rule : rules) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				appendEncodePath(rule.getPattern(), buf).append(';');
 				buf.append(rule.getKind()).append(';');
 			}
@@ -877,7 +877,7 @@ public class CPListElement {
 	}
 
 
-	public StringBuffer appendEncodedSettings(StringBuffer buf) {
+	public StringBuffer appendEncodedSettings(StringBuffer buf) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		buf.append(fEntryKind).append(';');
 		if (getLinkTarget() == null) {
 			appendEncodePath(fPath, buf).append(';');
@@ -886,7 +886,7 @@ public class CPListElement {
 			appendEncodePath(getLinkTarget(), buf).append(';');
 		}
 		buf.append(Boolean.valueOf(fIsExported)).append(';');
-		for (Object curr : fChildren) {
+		for (Object curr : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof CPListElementAttribute) {
 				CPListElementAttribute elem= (CPListElementAttribute) curr;
 				if (elem.isBuiltIn()) {
@@ -910,21 +910,21 @@ public class CPListElement {
 							case MODULE:
 								Object value= elem.getValue();
 								if (value instanceof ModuleEncapsulationDetail[]) {
-									buf.append(MODULE+"=true;"); //$NON-NLS-1$
-									for (ModuleEncapsulationDetail detail : ((ModuleEncapsulationDetail[]) value)) {
+									buf.append(MODULE+"=true;"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+									for (ModuleEncapsulationDetail detail : ((ModuleEncapsulationDetail[]) value)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (detail instanceof ModulePatch)
-											buf.append(IClasspathAttribute.PATCH_MODULE+':'+detail.toString()).append(';');
+											buf.append(IClasspathAttribute.PATCH_MODULE+':'+detail.toString()).append(';'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										if (detail instanceof ModuleAddExport)
-											buf.append(IClasspathAttribute.ADD_EXPORTS+':'+detail.toString()).append(';');
+											buf.append(IClasspathAttribute.ADD_EXPORTS+':'+detail.toString()).append(';'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										if (detail instanceof ModuleAddOpens)
-											buf.append(IClasspathAttribute.ADD_OPENS+':'+detail.toString()).append(';');
+											buf.append(IClasspathAttribute.ADD_OPENS+':'+detail.toString()).append(';'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										if (detail instanceof ModuleAddReads)
-											buf.append(IClasspathAttribute.ADD_READS+':'+detail.toString()).append(';');
+											buf.append(IClasspathAttribute.ADD_READS+':'+detail.toString()).append(';'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										if (detail instanceof LimitModules)
-											buf.append(IClasspathAttribute.LIMIT_MODULES+':'+detail.toString()).append(';');
+											buf.append(IClasspathAttribute.LIMIT_MODULES+':'+detail.toString()).append(';'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									}
 								} else {
-									buf.append(MODULE+"=false;"); //$NON-NLS-1$
+									buf.append(MODULE+"=false;"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								}
 								break;
 							default:
@@ -953,16 +953,16 @@ public class CPListElement {
 		fLinkTarget= linkTarget;
 	}
 
-	public static void insert(CPListElement element, List<CPListElement> cpList) {
+	public static void insert(CPListElement element, List<CPListElement> cpList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length= cpList.size();
 		CPListElement[] elements= cpList.toArray(new CPListElement[length]);
 		int i= 0;
-		while (i < length && elements[i].getEntryKind() != element.getEntryKind()) {
+		while (i < length && elements[i].getEntryKind() != element.getEntryKind()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
 		}
 		if (i < length) {
 			i++;
-			while (i < length && elements[i].getEntryKind() == element.getEntryKind()) {
+			while (i < length && elements[i].getEntryKind() == element.getEntryKind()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i++;
 			}
 			cpList.add(i, element);
@@ -986,7 +986,7 @@ public class CPListElement {
 	public static IClasspathEntry[] convertToClasspathEntries(List<CPListElement> cpList) {
 		IClasspathEntry[] result= new IClasspathEntry[cpList.size()];
 		int i= 0;
-		for (CPListElement cur : cpList) {
+		for (CPListElement cur : cpList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= cur.getClasspathEntry();
 			i++;
 		}
@@ -996,7 +996,7 @@ public class CPListElement {
 	public static CPListElement[] createFromExisting(IJavaProject project) throws JavaModelException {
 		IClasspathEntry[] rawClasspath= project.getRawClasspath();
 		CPListElement[] result= new CPListElement[rawClasspath.length];
-		for (int i= 0; i < rawClasspath.length; i++) {
+		for (int i= 0; i < rawClasspath.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= CPListElement.createFromExisting(rawClasspath[i], project);
 		}
 		return result;
@@ -1004,7 +1004,7 @@ public class CPListElement {
 
 	public static boolean isProjectSourceFolder(CPListElement[] existing, IJavaProject project) {
 		IPath projPath= project.getProject().getFullPath();
-		for (CPListElement e : existing) {
+		for (CPListElement e : existing) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= e.getClasspathEntry();
 			if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 				if (projPath.equals(curr.getPath())) {
@@ -1024,7 +1024,7 @@ public class CPListElement {
 	}
 
 
-    public CPListElement copy() {
+    public CPListElement copy() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	CPListElement result= new CPListElement();
     	result.fProject= fProject;
     	result.fEntryKind= fEntryKind;
@@ -1035,8 +1035,8 @@ public class CPListElement {
     	result.fIsMissing= fIsMissing;
     	result.fParentContainer= fParentContainer;
     	result.fCachedEntry= null;
-    	result.fChildren= new ArrayList<>(fChildren.size());
-		for (Object child : fChildren) {
+    	result.fChildren= new ArrayList<>(fChildren.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object child : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof CPListElement) {
 				result.fChildren.add(((CPListElement)child).copy());
 			} else {
@@ -1050,7 +1050,7 @@ public class CPListElement {
 
     public void setAttributesFromExisting(CPListElement existing) {
     	Assert.isTrue(existing.getEntryKind() == getEntryKind());
-		for (CPListElementAttribute curr : existing.getAllAttributes()) {
+		for (CPListElementAttribute curr : existing.getAllAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElementAttribute elem= findAttributeElement(curr.getKey());
 			if (elem == null) {
 				createAttributeElement(curr.getKey(), curr.getValue(), curr.isBuiltIn());
@@ -1074,7 +1074,7 @@ public class CPListElement {
 
 	public void updateExtraAttributeOfClasspathEntry() {
 		if (fChildren != null) {
-			for (Object curr : fChildren) {
+			for (Object curr : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr instanceof CPListElementAttribute) {
 					CPListElementAttribute elem= (CPListElementAttribute) curr;
 					String key= elem.getKey();

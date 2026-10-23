@@ -139,7 +139,7 @@ public class RenameModuleProcessor extends JavaRenameProcessor implements IRefer
 		fChangeManager= manager;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -216,7 +216,7 @@ public class RenameModuleProcessor extends JavaRenameProcessor implements IRefer
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException {
 		try{
 			pm.beginTask("", 7); //$NON-NLS-1$
@@ -253,7 +253,7 @@ public class RenameModuleProcessor extends JavaRenameProcessor implements IRefer
 		}
 	}
 
-	private RefactoringStatus createChanges(IProgressMonitor pm) throws CoreException {
+	private RefactoringStatus createChanges(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask(RefactoringCoreMessages.RenameFieldRefactoring_checking, 10);
 		RefactoringStatus result= new RefactoringStatus();
 
@@ -273,7 +273,7 @@ public class RenameModuleProcessor extends JavaRenameProcessor implements IRefer
 	}
 
 	//----------------
-	private RefactoringStatus analyzeRenameChanges(IProgressMonitor pm) throws CoreException {
+	private RefactoringStatus analyzeRenameChanges(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit[] newWorkingCopies= null;
 		WorkingCopyOwner newWCOwner= new WorkingCopyOwner() { /* must subclass */ };
 		try {
@@ -281,7 +281,7 @@ public class RenameModuleProcessor extends JavaRenameProcessor implements IRefer
 			RefactoringStatus result= new RefactoringStatus();
 			SearchResultGroup[] oldReferences= fReferences;
 
-			List<ICompilationUnit> compilationUnitsToModify= new ArrayList<>();
+			List<ICompilationUnit> compilationUnitsToModify= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			compilationUnitsToModify.addAll(Arrays.asList(fChangeManager.getAllCompilationUnits()));
 			newWorkingCopies= RenameAnalyzeUtil.createNewWorkingCopies(compilationUnitsToModify.toArray(new ICompilationUnit[compilationUnitsToModify.size()]),
 					fChangeManager, newWCOwner, Progress.subMonitor(pm, 1));
@@ -291,14 +291,14 @@ public class RenameModuleProcessor extends JavaRenameProcessor implements IRefer
 		} finally{
 			pm.done();
 			if (newWorkingCopies != null){
-				for (ICompilationUnit newWorkingCopy : newWorkingCopies) {
+				for (ICompilationUnit newWorkingCopy : newWorkingCopies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newWorkingCopy.discardWorkingCopy();
 				}
 			}
 		}
 	}
 
-	private SearchResultGroup[] getNewReferences(IProgressMonitor pm, RefactoringStatus status, WorkingCopyOwner owner, ICompilationUnit[] newWorkingCopies) throws CoreException {
+	private SearchResultGroup[] getNewReferences(IProgressMonitor pm, RefactoringStatus status, WorkingCopyOwner owner, ICompilationUnit[] newWorkingCopies) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask("", 2); //$NON-NLS-1$
 		ICompilationUnit declaringCuWorkingCopy= RenameAnalyzeUtil.findWorkingCopyForCu(newWorkingCopies, fModule.getCompilationUnit());
 		if (declaringCuWorkingCopy == null)
@@ -405,7 +405,7 @@ public class RenameModuleProcessor extends JavaRenameProcessor implements IRefer
 	 * Overridden by subclasses.
 	 * @return return the refactoring descriptor for this refactoring
 	 */
-	protected RenameJavaElementDescriptor createRefactoringDescriptor() {
+	protected RenameJavaElementDescriptor createRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String project= null;
 		IJavaProject javaProject= fModule.getJavaProject();
 		if (javaProject != null)
@@ -462,11 +462,11 @@ public class RenameModuleProcessor extends JavaRenameProcessor implements IRefer
 	private void addReferenceUpdates(IProgressMonitor pm) {
 		pm.beginTask("", fReferences.length); //$NON-NLS-1$
 		String editName= RefactoringCoreMessages.RenameModuleRefactoring_Update_module_reference;
-		for (SearchResultGroup reference : fReferences) {
+		for (SearchResultGroup reference : fReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= reference.getCompilationUnit();
 			if (cu == null)
 				continue;
-			for (SearchMatch result : reference.getSearchResults()) {
+			for (SearchMatch result : reference.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addTextEdit(fChangeManager.get(cu), editName, createTextChange(result));
 			}
 			pm.worked(1);

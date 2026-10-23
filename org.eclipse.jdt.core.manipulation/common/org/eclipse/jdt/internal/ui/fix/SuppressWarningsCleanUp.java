@@ -138,7 +138,7 @@ public class SuppressWarningsCleanUp extends AbstractMultiFix {
 		if (fWarningToken == null) {
 			return 1;
 		}
-		for (IProblem problem : problems) {
+		for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblemLocation location= new ProblemLocation(problem);
 			if (fWarningToken.equals(CorrectionEngine.getWarningToken(location.getProblemId()))) {
 				result++;

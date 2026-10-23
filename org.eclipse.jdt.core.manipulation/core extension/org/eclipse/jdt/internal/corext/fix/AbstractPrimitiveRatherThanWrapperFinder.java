@@ -79,7 +79,7 @@ public abstract class AbstractPrimitiveRatherThanWrapperFinder extends ASTVisito
 	 * @return the prefix in safe operators.
 	 */
 	public List<PrefixExpression.Operator> getPrefixInSafeOperators() {
-		return new ArrayList<>(0);
+		return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -156,7 +156,7 @@ public abstract class AbstractPrimitiveRatherThanWrapperFinder extends ASTVisito
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(final VariableDeclarationStatement visited) {
 		VariableDeclarationFragment fragment= ASTNodes.getUniqueFragment(visited);
 
@@ -194,7 +194,7 @@ public abstract class AbstractPrimitiveRatherThanWrapperFinder extends ASTVisito
 		return true;
 	}
 
-	private boolean isNotNull(final Expression expression) {
+	private boolean isNotNull(final Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (expression instanceof ParenthesizedExpression) {
 			ParenthesizedExpression parenthesizedExpression= (ParenthesizedExpression) expression;
 			return isNotNull(parenthesizedExpression.getExpression());
@@ -252,7 +252,7 @@ public abstract class AbstractPrimitiveRatherThanWrapperFinder extends ASTVisito
 		return false;
 	}
 
-	private boolean canReturnPrimitiveInstead(final Expression expression) {
+	private boolean canReturnPrimitiveInstead(final Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MethodInvocation methodInvocation= ASTNodes.as(expression, MethodInvocation.class);
 
 		if (methodInvocation != null) {
@@ -278,7 +278,7 @@ public abstract class AbstractPrimitiveRatherThanWrapperFinder extends ASTVisito
 		return false;
 	}
 
-	private String getParsingMethodName(final String wrapperFullyQualifiedName) {
+	private String getParsingMethodName(final String wrapperFullyQualifiedName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Boolean.class.getCanonicalName().equals(wrapperFullyQualifiedName)) {
 			return "parseBoolean"; //$NON-NLS-1$
 		}
@@ -312,9 +312,9 @@ public abstract class AbstractPrimitiveRatherThanWrapperFinder extends ASTVisito
 
 	private class VarOccurrenceVisitor extends InterruptibleVisitor {
 		private final VariableDeclarationFragment varDecl;
-		private final List<MethodInvocation> toStringMethods = new ArrayList<>();
-		private final List<MethodInvocation> compareToMethods = new ArrayList<>();
-		private final List<MethodInvocation> primitiveValueMethods = new ArrayList<>();
+		private final List<MethodInvocation> toStringMethods = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		private final List<MethodInvocation> compareToMethods = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		private final List<MethodInvocation> primitiveValueMethods = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private boolean isPrimitiveAllowed= true;
 		private boolean isVarReturned;
 		private int autoBoxingCount;
@@ -357,7 +357,7 @@ public abstract class AbstractPrimitiveRatherThanWrapperFinder extends ASTVisito
 			return true;
 		}
 
-		private boolean isPrimitiveAllowed(final ASTNode node) {
+		private boolean isPrimitiveAllowed(final ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode parentNode= node.getParent();
 
 			switch (parentNode.getNodeType()) {
@@ -444,7 +444,7 @@ public abstract class AbstractPrimitiveRatherThanWrapperFinder extends ASTVisito
 				MethodInvocation methodInvocation= (MethodInvocation) parentNode;
 
 				if (node.getLocationInParent() == MethodInvocation.EXPRESSION_PROPERTY) {
-					if (ASTNodes.usesGivenSignature(methodInvocation, getWrapperFullyQualifiedName(), getPrimitiveTypeName() + "Value")) { //$NON-NLS-1$
+					if (ASTNodes.usesGivenSignature(methodInvocation, getWrapperFullyQualifiedName(), getPrimitiveTypeName() + "Value")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						primitiveValueMethods.add(methodInvocation);
 						return true;
 					}

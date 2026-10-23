@@ -47,10 +47,10 @@ class OccurrencesSearchLabelProvider extends TextSearchLabelProvider implements 
 
 	private String internalGetText(Object element) {
 		JavaElementLine jel= (JavaElementLine) element;
-		return getLineNumberLabel(jel) + jel.getLineContents();
+		return getLineNumberLabel(jel) + jel.getLineContents(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private StyledString internalGetRichText(Object element) {
+	private StyledString internalGetRichText(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavaElementLine jel= (JavaElementLine) element;
 
 		String lineNumberString= getLineNumberLabel(jel);
@@ -60,7 +60,7 @@ class OccurrencesSearchLabelProvider extends TextSearchLabelProvider implements 
 		StyledString res= new StyledString();
 		res.append(lineNumberString, StyledString.QUALIFIER_STYLER);
 		res.append(jel.getLineContents());
-		for (Match match : getPage().getInput().getMatches(jel)) {
+		for (Match match : getPage().getInput().getMatches(jel)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			OccurrenceMatch curr= (OccurrenceMatch) match;
 			int offset= curr.getOriginalOffset() - jel.getLineStartOffset() + lineNumberString.length();
 			int length= curr.getOriginalLength();

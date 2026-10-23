@@ -42,7 +42,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
 
 
-class CallHierarchyLabelProvider extends AppearanceAwareLabelProvider {
+class CallHierarchyLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 	private static final long TEXTFLAGS= DEFAULT_TEXTFLAGS | JavaElementLabels.ALL_POST_QUALIFIED | JavaElementLabels.P_COMPRESSED;
 
 	private static final int IMAGEFLAGS= DEFAULT_IMAGEFLAGS | JavaElementImageProvider.SMALL_ICONS;
@@ -62,7 +62,7 @@ class CallHierarchyLabelProvider extends AppearanceAwareLabelProvider {
 	/*
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getImage(Object element) {
 		if (element instanceof MethodWrapper) {
 			MethodWrapper methodWrapper;
@@ -99,7 +99,7 @@ class CallHierarchyLabelProvider extends AppearanceAwareLabelProvider {
 		return getSpecialLabel(element);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public StyledString getStyledText(Object element) {
 		if (isNormalMethodWrapper(element)) {
 			MethodWrapper wrapper= (MethodWrapper)element;
@@ -130,7 +130,7 @@ class CallHierarchyLabelProvider extends AppearanceAwareLabelProvider {
 		return element instanceof MethodWrapper && ((MethodWrapper)element).getMember() != null && !(element instanceof RealCallers);
 	}
 
-	private SpecialNodeType getSpecialNodeType(MethodWrapper wrapper) {
+	private SpecialNodeType getSpecialNodeType(MethodWrapper wrapper) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MethodWrapper parentWrapper= wrapper.getParent();
 		if (!CallHierarchyContentProvider.isExpandWithConstructors(parentWrapper))
 			return null;

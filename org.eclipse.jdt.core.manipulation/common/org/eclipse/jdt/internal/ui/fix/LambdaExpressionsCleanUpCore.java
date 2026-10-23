@@ -71,7 +71,7 @@ public class LambdaExpressionsCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.CONVERT_FUNCTIONAL_INTERFACES)) {
 			if (isEnabled(CleanUpConstants.USE_LAMBDA)) {
 				if (isEnabled(CleanUpConstants.ALSO_SIMPLIFY_LAMBDA)) {
@@ -88,9 +88,9 @@ public class LambdaExpressionsCleanUpCore extends AbstractCleanUp {
 		return result.toArray(new String[result.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		boolean convert= isEnabled(CleanUpConstants.CONVERT_FUNCTIONAL_INTERFACES);
 		boolean useLambda= isEnabled(CleanUpConstants.USE_LAMBDA);
@@ -102,39 +102,39 @@ public class LambdaExpressionsCleanUpCore extends AbstractCleanUp {
 
 		if (firstLambda) {
 			if (simplifyLambda) {
-				buf.append("IntConsumer c = System.out::println;\n"); //$NON-NLS-1$
-				buf.append("\n"); //$NON-NLS-1$
-				buf.append("\n"); //$NON-NLS-1$
-				buf.append("\n"); //$NON-NLS-1$
-				buf.append("\n"); //$NON-NLS-1$
+				buf.append("IntConsumer c = System.out::println;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			} else {
-				buf.append("IntConsumer c = i -> {\n"); //$NON-NLS-1$
-				buf.append("    System.out.println(i);\n"); //$NON-NLS-1$
-				buf.append("};\n"); //$NON-NLS-1$
-				buf.append("\n"); //$NON-NLS-1$
-				buf.append("\n"); //$NON-NLS-1$
+				buf.append("IntConsumer c = i -> {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    System.out.println(i);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else {
-			buf.append("IntConsumer c = new IntConsumer() {\n"); //$NON-NLS-1$
-			buf.append("    @Override public void accept(int value) {\n"); //$NON-NLS-1$
-			buf.append("        System.out.println(i);\n"); //$NON-NLS-1$
-			buf.append("    }\n"); //$NON-NLS-1$
-			buf.append("};\n"); //$NON-NLS-1$
+			buf.append("IntConsumer c = new IntConsumer() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("    @Override public void accept(int value) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("        System.out.println(i);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (secondLambda) {
-			buf.append("Runnable r = () -> { /* do something */ };\n"); //$NON-NLS-1$
-			buf.append("\n"); //$NON-NLS-1$
-			buf.append("\n"); //$NON-NLS-1$
-			buf.append("\n"); //$NON-NLS-1$
-			buf.append("\n"); //$NON-NLS-1$
+			buf.append("Runnable r = () -> { /* do something */ };\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("Runnable r = new Runnable() {\n"); //$NON-NLS-1$
-			buf.append("    @Override public void run() {\n"); //$NON-NLS-1$
-			buf.append("        //do something\n"); //$NON-NLS-1$
-			buf.append("    }\n"); //$NON-NLS-1$
-			buf.append("};\n"); //$NON-NLS-1$
+			buf.append("Runnable r = new Runnable() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("    @Override public void run() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("        //do something\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

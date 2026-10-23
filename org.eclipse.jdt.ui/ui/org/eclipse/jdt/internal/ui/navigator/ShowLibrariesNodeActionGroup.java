@@ -62,7 +62,7 @@ public class ShowLibrariesNodeActionGroup extends ActionGroup {
 
 				fStructuredViewer.getControl().setRedraw(false);
 				try {
-					fStructuredViewer.refresh();
+					fStructuredViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				} finally {
 					fStructuredViewer.getControl().setRedraw(true);
 				}

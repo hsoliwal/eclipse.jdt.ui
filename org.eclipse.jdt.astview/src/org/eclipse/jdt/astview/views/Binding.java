@@ -73,18 +73,18 @@ public class Binding extends ASTAttribute {
 		return (typeKinds & kind) != 0;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren() {
 		try {
 			if (fBinding != null) {
 				fBinding.getKey();
 			}
 		} catch (RuntimeException e) {
-			ASTViewPlugin.log("Exception thrown in IBinding#getKey() for \"" + fBinding + "\"", e);
-			return new Object[] { new Error(this, "BrokenBinding: " + fBinding, null) };
+			ASTViewPlugin.log("Exception thrown in IBinding#getKey() for \"" + fBinding + "\"", e); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			return new Object[] { new Error(this, "BrokenBinding: " + fBinding, null) }; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (fBinding != null) {
-			ArrayList<ASTAttribute> res= new ArrayList<>();
+			ArrayList<ASTAttribute> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			res.add(new BindingProperty(this, "NAME", fBinding.getName(), true)); //$NON-NLS-1$
 			res.add(new BindingProperty(this, "KEY", fBinding.getKey(), true)); //$NON-NLS-1$
 			res.add(new BindingProperty(this, "IS RECOVERED", fBinding.isRecovered(), true)); //$NON-NLS-1$
@@ -122,26 +122,26 @@ public class Binding extends ASTAttribute {
 					boolean isRefType= isType(typeKind, REF_TYPE);
 					final boolean isNonPrimitive= ! isType(typeKind, PRIMITIVE_TYPE);
 
-					StringBuilder kinds= new StringBuilder("KIND:"); //$NON-NLS-1$
-					if (typeBinding.isArray()) kinds.append(" isArray"); //$NON-NLS-1$
-					if (typeBinding.isCapture()) kinds.append(" isCapture"); //$NON-NLS-1$
-					if (typeBinding.isNullType()) kinds.append(" isNullType"); //$NON-NLS-1$
-					if (typeBinding.isPrimitive()) kinds.append(" isPrimitive"); //$NON-NLS-1$
-					if (typeBinding.isTypeVariable()) kinds.append(" isTypeVariable"); //$NON-NLS-1$
-					if (typeBinding.isWildcardType()) kinds.append(" isWildcardType"); //$NON-NLS-1$
+					StringBuilder kinds= new StringBuilder("KIND:"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					if (typeBinding.isArray()) kinds.append(" isArray"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isCapture()) kinds.append(" isCapture"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isNullType()) kinds.append(" isNullType"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isPrimitive()) kinds.append(" isPrimitive"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isTypeVariable()) kinds.append(" isTypeVariable"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isWildcardType()) kinds.append(" isWildcardType"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					// ref types
-					if (typeBinding.isAnnotation()) kinds.append(" isAnnotation"); //$NON-NLS-1$
-					if (typeBinding.isClass()) kinds.append(" isClass"); //$NON-NLS-1$
-					if (typeBinding.isInterface()) kinds.append(" isInterface"); //$NON-NLS-1$
-					if (typeBinding.isEnum()) kinds.append(" isEnum"); //$NON-NLS-1$
+					if (typeBinding.isAnnotation()) kinds.append(" isAnnotation"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isClass()) kinds.append(" isClass"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isInterface()) kinds.append(" isInterface"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isEnum()) kinds.append(" isEnum"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					res.add(new BindingProperty(this, kinds, true));
 
-					StringBuilder generics= new StringBuilder("GENERICS:"); //$NON-NLS-1$
-					if (typeBinding.isRawType()) generics.append(" isRawType"); //$NON-NLS-1$
-					if (typeBinding.isGenericType()) generics.append(" isGenericType"); //$NON-NLS-1$
-					if (typeBinding.isParameterizedType()) generics.append(" isParameterizedType"); //$NON-NLS-1$
+					StringBuilder generics= new StringBuilder("GENERICS:"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					if (typeBinding.isRawType()) generics.append(" isRawType"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isGenericType()) generics.append(" isGenericType"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isParameterizedType()) generics.append(" isParameterizedType"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (!isType(typeKind, GENERIC | PARAMETRIZED)) {
-						generics.append(" (non-generic, non-parameterized)");
+						generics.append(" (non-generic, non-parameterized)"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					res.add(new BindingProperty(this, generics, isRefType));
 
@@ -153,21 +153,21 @@ public class Binding extends ASTAttribute {
 						ITypeBinding arrayType= typeBinding.createArrayType(1);
 						res.add(new Binding(this, createArrayTypeLabel, arrayType, true));
 					} catch (RuntimeException e) {
-						String msg= e.getClass().getName() + ": " + e.getLocalizedMessage();
+						String msg= e.getClass().getName() + ": " + e.getLocalizedMessage(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						boolean isRelevant= ! typeBinding.getName().equals(PrimitiveType.VOID.toString()) && ! typeBinding.isRecovered();
 						if (isRelevant) {
-							res.add(new Error(this, createArrayTypeLabel + ": " + msg, e));
+							res.add(new Error(this, createArrayTypeLabel + ": " + msg, e)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						} else {
 							res.add(new BindingProperty(this, createArrayTypeLabel, msg, false));
 						}
 					}
 
-					StringBuilder origin= new StringBuilder("ORIGIN:"); //$NON-NLS-1$
-					if (typeBinding.isTopLevel()) origin.append(" isTopLevel"); //$NON-NLS-1$
-					if (typeBinding.isNested()) origin.append(" isNested"); //$NON-NLS-1$
-					if (typeBinding.isLocal()) origin.append(" isLocal"); //$NON-NLS-1$
-					if (typeBinding.isMember()) origin.append(" isMember"); //$NON-NLS-1$
-					if (typeBinding.isAnonymous()) origin.append(" isAnonymous"); //$NON-NLS-1$
+					StringBuilder origin= new StringBuilder("ORIGIN:"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					if (typeBinding.isTopLevel()) origin.append(" isTopLevel"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isNested()) origin.append(" isNested"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isLocal()) origin.append(" isLocal"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isMember()) origin.append(" isMember"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (typeBinding.isAnonymous()) origin.append(" isAnonymous"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					res.add(new BindingProperty(this, origin, isRefType));
 
 					res.add(new BindingProperty(this, "IS FROM SOURCE", typeBinding.isFromSource(), isType(typeKind, REF_TYPE | VARIABLE_TYPE | CAPTURE_TYPE))); //$NON-NLS-1$
@@ -180,9 +180,9 @@ public class Binding extends ASTAttribute {
 					res.add(new BindingProperty(this, "BINARY NAME", typeBinding.getBinaryName(), true)); //$NON-NLS-1$
 
 					String isTypeDeclaration= typeBinding == typeBinding.getTypeDeclaration() ? " ( == this)" : " ( != this)";
-					res.add(new Binding(this, "TYPE DECLARATION" + isTypeDeclaration, typeBinding.getTypeDeclaration(), true)); //$NON-NLS-1$
+					res.add(new Binding(this, "TYPE DECLARATION" + isTypeDeclaration, typeBinding.getTypeDeclaration(), true)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					String isErasure= typeBinding == typeBinding.getErasure() ? " ( == this)" : " ( != this)";
-					res.add(new Binding(this, "ERASURE" + isErasure, typeBinding.getErasure(), isNonPrimitive)); //$NON-NLS-1$
+					res.add(new Binding(this, "ERASURE" + isErasure, typeBinding.getErasure(), isNonPrimitive)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					res.add(new BindingProperty(this, "TYPE PARAMETERS", typeBinding.getTypeParameters(), isType(typeKind, GENERIC))); //$NON-NLS-1$
 					res.add(new BindingProperty(this, "TYPE ARGUMENTS", typeBinding.getTypeArguments(), isType(typeKind, PARAMETRIZED))); //$NON-NLS-1$
 					res.add(new BindingProperty(this, "TYPE BOUNDS", typeBinding.getTypeBounds(), isType(typeKind, VARIABLE_TYPE | WILDCARD_TYPE | CAPTURE_TYPE))); //$NON-NLS-1$
@@ -215,14 +215,14 @@ public class Binding extends ASTAttribute {
 					res.add(new BindingProperty(this, "IS VARARGS", methodBinding.isVarargs(), true)); //$NON-NLS-1$
 					res.add(new BindingProperty(this, "EXCEPTION TYPES", methodBinding.getExceptionTypes(), true)); //$NON-NLS-1$
 
-					StringBuilder genericsM= new StringBuilder("GENERICS:"); //$NON-NLS-1$
-					if (methodBinding.isRawMethod()) genericsM.append(" isRawMethod"); //$NON-NLS-1$
-					if (methodBinding.isGenericMethod()) genericsM.append(" isGenericMethod"); //$NON-NLS-1$
-					if (methodBinding.isParameterizedMethod()) genericsM.append(" isParameterizedMethod"); //$NON-NLS-1$
+					StringBuilder genericsM= new StringBuilder("GENERICS:"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					if (methodBinding.isRawMethod()) genericsM.append(" isRawMethod"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (methodBinding.isGenericMethod()) genericsM.append(" isGenericMethod"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					if (methodBinding.isParameterizedMethod()) genericsM.append(" isParameterizedMethod"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					res.add(new BindingProperty(this, genericsM, true));
 
 					String isMethodDeclaration= methodBinding == methodBinding.getMethodDeclaration() ? " ( == this)" : " ( != this)";
-					res.add(new Binding(this, "METHOD DECLARATION" + isMethodDeclaration, methodBinding.getMethodDeclaration(), true)); //$NON-NLS-1$
+					res.add(new Binding(this, "METHOD DECLARATION" + isMethodDeclaration, methodBinding.getMethodDeclaration(), true)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					res.add(new BindingProperty(this, "TYPE PARAMETERS", methodBinding.getTypeParameters(), true)); //$NON-NLS-1$
 					res.add(new BindingProperty(this, "TYPE ARGUMENTS", methodBinding.getTypeArguments(), true)); //$NON-NLS-1$
 					res.add(new BindingProperty(this, "IS SYNTHETIC", fBinding.isSynthetic(), true)); //$NON-NLS-1$
@@ -233,8 +233,8 @@ public class Binding extends ASTAttribute {
 
 					int parameterCount= methodBinding.getParameterTypes().length;
 					BindingProperty[] parametersAnnotations= new BindingProperty[parameterCount];
-					for (int i= 0; i < parameterCount; i++) {
-						parametersAnnotations[i]= new BindingProperty(this, "Parameter " + String.valueOf(i), methodBinding.getParameterAnnotations(i), true);
+					for (int i= 0; i < parameterCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						parametersAnnotations[i]= new BindingProperty(this, "Parameter " + String.valueOf(i), methodBinding.getParameterAnnotations(i), true); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					res.add(new BindingProperty(this, "PARAMETER ANNOTATIONS", parametersAnnotations, true));
 					break;
@@ -272,41 +272,41 @@ public class Binding extends ASTAttribute {
 				IAnnotationBinding[] annotations= fBinding.getAnnotations();
 				res.add(new BindingProperty(this, "ANNOTATIONS", annotations, true)); //$NON-NLS-1$
 			} catch (RuntimeException e) {
-				String label= "Error in IBinding#getAnnotations() for \"" + fBinding.getKey() + "\"";
+				String label= "Error in IBinding#getAnnotations() for \"" + fBinding.getKey() + "\""; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				res.add(new Error(this, label, e));
-				ASTViewPlugin.log("Exception thrown in IBinding#getAnnotations() for \"" + fBinding.getKey() + "\"", e);
+				ASTViewPlugin.log("Exception thrown in IBinding#getAnnotations() for \"" + fBinding.getKey() + "\"", e); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			try {
 				IJavaElement javaElement= fBinding.getJavaElement();
 				res.add(new JavaElement(this, javaElement));
 			} catch (RuntimeException e) {
-				String label= ">java element: " + e.getClass().getName() + " for \"" + fBinding.getKey() + "\"";  //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				String label= ">java element: " + e.getClass().getName() + " for \"" + fBinding.getKey() + "\"";  //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				res.add(new Error(this, label, e));
-				ASTViewPlugin.log("Exception thrown in IBinding#getJavaElement() for \"" + fBinding.getKey() + "\"", e);
+				ASTViewPlugin.log("Exception thrown in IBinding#getJavaElement() for \"" + fBinding.getKey() + "\"", e); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return res.toArray();
 		}
 		return EMPTY;
 	}
 
-	private <T extends IBinding> BindingProperty createPropertiesWithSecondary(T[] bindings, String propertiesName, String propertyName, String secondaryName,
+	private <T extends IBinding> BindingProperty createPropertiesWithSecondary(T[] bindings, String propertiesName, String propertyName, String secondaryName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Function<T, Object[]> secondaryAccessor) {
 		int count= bindings.length;
 		ASTAttribute[] attributes= new ASTAttribute[count * 2];
 		BindingProperty property= new BindingProperty(this, propertiesName, attributes, true) {
 			@Override
 			public String getLabel() {
-				return propertiesName + " (" + count + ")";
+				return propertiesName + " (" + count + ")"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		};
-		for (int i= 0; i < count; i++) {
+		for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			attributes[i * 2]= new Binding(this, propertyName, bindings[i], true);
 			Object[] secondaryPropertyValues= secondaryAccessor.apply(bindings[i]);
 			if (secondaryPropertyValues instanceof IBinding[]) {
 				attributes[i * 2 + 1]= new BindingProperty(this, secondaryName, (IBinding[]) secondaryPropertyValues, true);
 			} else {
 				GeneralAttribute[] secondaryProperties= new GeneralAttribute[secondaryPropertyValues.length];
-				for (int j= 0; j < secondaryProperties.length; j++) {
+				for (int j= 0; j < secondaryProperties.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					secondaryProperties[j]= new GeneralAttribute(property, String.valueOf(j), String.valueOf(secondaryPropertyValues[j]));
 				}
 				attributes[i * 2 + 1]= new BindingProperty(this, secondaryName, secondaryProperties, true);
@@ -341,7 +341,7 @@ public class Binding extends ASTAttribute {
 		return REF_TYPE;
 	}
 
-	@SuppressWarnings("incomplete-switch")
+	@SuppressWarnings("incomplete-switch") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public String getLabel() {
 		StringBuffer buf= new StringBuffer(fLabel);
@@ -377,7 +377,7 @@ public class Binding extends ASTAttribute {
 					buf.append(methodBinding.getName());
 					buf.append('(');
 					ITypeBinding[] parameters= methodBinding.getParameterTypes();
-					for (int i= 0; i < parameters.length; i++) {
+					for (int i= 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (i > 0) {
 							buf.append(", "); //$NON-NLS-1$
 						}
@@ -424,7 +424,7 @@ public class Binding extends ASTAttribute {
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -459,7 +459,7 @@ public class Binding extends ASTAttribute {
 		return result;
 	}
 
-	public static String getBindingLabel(IBinding binding) {
+	public static String getBindingLabel(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String label;
 		if (binding == null) {
 			label= ">binding"; //$NON-NLS-1$
@@ -503,11 +503,11 @@ public class Binding extends ASTAttribute {
 	 * @param value the attribute value
 	 * @return an ASTAttribute
 	 */
-	public static ASTAttribute createValueAttribute(ASTAttribute parent, String name, Object value) {
+	public static ASTAttribute createValueAttribute(ASTAttribute parent, String name, Object value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTAttribute res;
 		if (value instanceof IBinding) {
 			IBinding binding= (IBinding) value;
-			res= new Binding(parent, name + ": " + getBindingLabel(binding), binding, true);
+			res= new Binding(parent, name + ": " + getBindingLabel(binding), binding, true); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} else if (value instanceof String) {
 			res= new GeneralAttribute(parent, name, getEscapedStringLiteral((String) value));
@@ -536,7 +536,7 @@ public class Binding extends ASTAttribute {
 		return charLiteral.getEscapedValue();
 	}
 
-	private static StringBuffer getModifiersString(int flags, boolean isMethod) {
+	private static StringBuffer getModifiersString(int flags, boolean isMethod) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer sb = new StringBuffer().append("0x").append(Integer.toHexString(flags)).append(" (");
 		int prologLen= sb.length();
 		int rest= flags;

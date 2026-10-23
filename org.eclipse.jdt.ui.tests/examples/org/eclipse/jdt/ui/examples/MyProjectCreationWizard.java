@@ -88,7 +88,7 @@ public class MyProjectCreationWizard extends Wizard implements IExecutableExtens
 		fWorkbench= workbench;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addPages() {
 		super.addPages();
 		fMainPage= new WizardNewProjectCreationPage("NewProjectCreationWizard");
@@ -124,7 +124,7 @@ public class MyProjectCreationWizard extends Wizard implements IExecutableExtens
 		}
 	}
 
-	private void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
+	private void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null) {
 			monitor= new NullProgressMonitor();
 		}
@@ -157,7 +157,7 @@ public class MyProjectCreationWizard extends Wizard implements IExecutableExtens
 
 	@Override
 	public boolean performFinish() {
-		WorkspaceModifyOperation op= new WorkspaceModifyOperation() {
+		WorkspaceModifyOperation op= new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
 				finishPage(monitor);

@@ -34,7 +34,7 @@ class TopLevelTypeProblemsLabelDecorator extends ProblemsLabelDecorator {
 		super(registry);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean isInside(int pos, ISourceReference sourceElement) throws CoreException {
 //		XXX: Work in progress for problem decorator being a workbench decorator
 //		IDecoratorManager decoratorMgr= PlatformUI.getWorkbench().getDecoratorManager();

@@ -44,10 +44,10 @@ import org.eclipse.jdt.ui.StandardJavaElementContentProvider;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
 
-public final class DestinationContentProvider extends StandardJavaElementContentProvider {
+public final class DestinationContentProvider extends StandardJavaElementContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	private IReorgDestinationValidator fValidator;
-	private final Map<IPath, Set<IPath>> classPathRoots = new HashMap<>();
+	private final Map<IPath, Set<IPath>> classPathRoots = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public DestinationContentProvider(IReorgDestinationValidator validator) {
 		super(true);
@@ -72,15 +72,15 @@ public final class DestinationContentProvider extends StandardJavaElementContent
 		return super.hasChildren(element);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object element) {
 		try {
 			if (element instanceof IJavaModel javaModel) {
 				return concatenate(getJavaProjects(javaModel), getOpenNonJavaProjects(javaModel));
 			} else {
 				Object[] children= doGetChildren(element);
-				ArrayList<Object> result= new ArrayList<>(children.length);
-				for (Object child : children) {
+				ArrayList<Object> result= new ArrayList<>(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IReorgDestination destination= ReorgDestinationFactory.createDestination(child);
 					if (fValidator.canElementBeDestination(destination) || fValidator.canChildrenBeDestinations(destination)) {
 						result.add(child);
@@ -102,7 +102,7 @@ public final class DestinationContentProvider extends StandardJavaElementContent
 	}
 
 	// Copied from supertype
-	private Object[] getResources(IContainer container) {
+	private Object[] getResources(IContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IResource[] members= container.members();
 			IJavaProject javaProject= JavaCore.create(container.getProject());
@@ -111,9 +111,9 @@ public final class DestinationContentProvider extends StandardJavaElementContent
 			}
 			boolean isFolderOnClasspath = javaProject.isOnClasspath(container);
 			Set<IPath> classRootPaths= getClassPathRoots(javaProject);
-			List<IResource> nonJavaResources= new ArrayList<>();
+			List<IResource> nonJavaResources= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			// Can be on classpath but as a member of non-java resource folder
-			for (IResource member : members) {
+			for (IResource member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// A resource can also be a java element
 				// in the case of exclusion and inclusion filters.
 				// We therefore exclude Java elements from the list
@@ -134,9 +134,9 @@ public final class DestinationContentProvider extends StandardJavaElementContent
 
 	private synchronized Set<IPath> getClassPathRoots(IJavaProject javaProject) {
 		return classPathRoots.computeIfAbsent(javaProject.getPath(), unused -> {
-			Set<IPath> classRootPaths= new HashSet<>();
+			Set<IPath> classRootPaths= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			try {
-				for (IPackageFragmentRoot classpathRoot : javaProject.getAllPackageFragmentRoots()) {
+				for (IPackageFragmentRoot classpathRoot : javaProject.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPath classRootPath= classpathRoot.getPath();
 					if (classRootPath != null) {
 						classRootPaths.add(classRootPath);
@@ -152,8 +152,8 @@ public final class DestinationContentProvider extends StandardJavaElementContent
 
 	private static Object[] getOpenNonJavaProjects(IJavaModel model) throws JavaModelException {
 		Object[] nonJavaProjects= model.getNonJavaResources();
-		ArrayList<IProject> result= new ArrayList<>(nonJavaProjects.length);
-		for (Object nonJavaProject : nonJavaProjects) {
+		ArrayList<IProject> result= new ArrayList<>(nonJavaProjects.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object nonJavaProject : nonJavaProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject project = (IProject) nonJavaProject;
 			if (project.isOpen())
 				result.add(project);

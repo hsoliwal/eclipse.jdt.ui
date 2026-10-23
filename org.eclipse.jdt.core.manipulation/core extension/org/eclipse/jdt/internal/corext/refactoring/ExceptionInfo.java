@@ -88,16 +88,16 @@ public class ExceptionInfo {
 
 	@Override
 	public String toString() {
-		StringBuilder result= new StringBuilder();
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		switch (fKind) {
-			case OLD : result.append("OLD: "); break; //$NON-NLS-1$
-			case ADDED : result.append("ADDED: "); break; //$NON-NLS-1$
-			case DELETED : result.append("DELETED: "); break; //$NON-NLS-1$
+			case OLD : result.append("OLD: "); break; //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			case ADDED : result.append("ADDED: "); break; //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			case DELETED : result.append("DELETED: "); break; //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (fElement == null)
-			result.append("null"); //$NON-NLS-1$
+			result.append("null"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else
-			result.append(fElement.toString());
+			result.append(fElement.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 }

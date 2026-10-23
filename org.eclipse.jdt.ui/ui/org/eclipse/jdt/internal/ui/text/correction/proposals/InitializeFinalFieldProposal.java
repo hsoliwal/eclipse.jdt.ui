@@ -29,7 +29,7 @@ import org.eclipse.jdt.ui.text.java.IProblemLocation;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.text.correction.CorrectionMessages;
 
-public class InitializeFinalFieldProposal extends LinkedCorrectionProposal {
+public class InitializeFinalFieldProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public InitializeFinalFieldProposal(IProblemLocation problem, ICompilationUnit cu, ASTNode astNode, IVariableBinding variableBinding, int relevance) {
 		super(Messages.format(CorrectionMessages.InitializeFieldAtDeclarationCorrectionProposal_description, problem.getProblemArguments()[0]), cu, null, relevance,
 				JavaPluginImages.get(JavaPluginImages.IMG_FIELD_PRIVATE), new InitializeFinalFieldProposalCore(problem, cu, astNode, variableBinding, relevance));

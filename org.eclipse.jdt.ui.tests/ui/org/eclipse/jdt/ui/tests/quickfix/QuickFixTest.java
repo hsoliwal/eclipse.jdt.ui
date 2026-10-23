@@ -93,10 +93,10 @@ public class QuickFixTest {
 		""";
 
 	public static void assertCorrectLabels(List<? extends ICompletionProposal> proposals) {
-		for (ICompletionProposal proposal : proposals) {
+		for (ICompletionProposal proposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= proposal.getDisplayString();
 			if (name == null || name.length() == 0 || name.charAt(0) == '!' || name.contains("{0}") || name.contains("{1}")) {
-				fail("wrong proposal label: " + name);
+				fail("wrong proposal label: " + name); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			assertNotNull("wrong proposal image", proposal.getImage());
 		}
@@ -104,12 +104,12 @@ public class QuickFixTest {
 
 	public static void assertCorrectContext(IInvocationContext context, ProblemLocation problem) {
 		if (problem.getProblemId() != 0) {
-			assertTrue("Problem type not marked with light bulb: " + problem, JavaCorrectionProcessor.hasCorrections(context.getCompilationUnit(), problem.getProblemId(), problem.getMarkerType()));
+			assertTrue("Problem type not marked with light bulb: " + problem, JavaCorrectionProcessor.hasCorrections(context.getCompilationUnit(), problem.getProblemId(), problem.getMarkerType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	public static void assertNumberOf(String name, int nProblems, int nProblemsExpected) {
-		assertEquals("Wrong number of " + name + ", is: " + nProblems + ", expected: " + nProblemsExpected, nProblems, nProblemsExpected);
+		assertEquals("Wrong number of " + name + ", is: " + nProblems + ", expected: " + nProblemsExpected, nProblems, nProblemsExpected); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static void assertEqualString(String actual, String expected) {
@@ -136,7 +136,7 @@ public class QuickFixTest {
 
 	protected static void assertProposalPreviewEquals(String expected, String proposalName, List<IJavaCompletionProposal> proposals) throws CoreException, BadLocationException {
 		final ICompletionProposal proposal= findProposalByName(proposalName, proposals);
-		assertNotNull("proposal \""+proposalName+"\" not found", proposal);
+		assertNotNull("proposal \""+proposalName+"\" not found", proposal); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(expected, getProposalPreviewContent(proposal));
 	}
 
@@ -154,7 +154,7 @@ public class QuickFixTest {
 
 	public static TypeDeclaration findTypeDeclaration(CompilationUnit astRoot, String simpleTypeName) {
 		List<AbstractTypeDeclaration> types= astRoot.types();
-		for (AbstractTypeDeclaration type : types) {
+		for (AbstractTypeDeclaration type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeDeclaration elem= (TypeDeclaration) type;
 			if (simpleTypeName.equals(elem.getName().getIdentifier())) {
 				return elem;
@@ -164,7 +164,7 @@ public class QuickFixTest {
 	}
 
 	public static MethodDeclaration findMethodDeclaration(TypeDeclaration typeDecl, String methodName) {
-		for (MethodDeclaration method : typeDecl.getMethods()) {
+		for (MethodDeclaration method : typeDecl.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (methodName.equals(method.getName().getIdentifier())) {
 				return method;
 			}
@@ -173,9 +173,9 @@ public class QuickFixTest {
 	}
 
 	public static VariableDeclarationFragment findFieldDeclaration(TypeDeclaration typeDecl, String fieldName) {
-		for (FieldDeclaration field : typeDecl.getFields()) {
+		for (FieldDeclaration field : typeDecl.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<VariableDeclarationFragment> list= field.fragments();
-			for (VariableDeclarationFragment fragment : list) {
+			for (VariableDeclarationFragment fragment : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fieldName.equals(fragment.getName().getIdentifier())) {
 					return fragment;
 				}
@@ -223,8 +223,8 @@ public class QuickFixTest {
 		IProblem[] problems= astRoot.getProblems();
 		assertNumberOfProblems(nProblems, problems);
 
-		ArrayList<ICompletionProposal> corrections= new ArrayList<>();
-		for (int i= 0; i < nProblems; i++) {
+		ArrayList<ICompletionProposal> corrections= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < nProblems; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			corrections.addAll(collectCorrections(cu, problems[i], null));
 		}
 		return corrections;
@@ -232,12 +232,12 @@ public class QuickFixTest {
 
 	protected static void assertNumberOfProblems(int nProblems, IProblem[] problems) {
 		if (problems.length != nProblems) {
-			StringBuilder buf= new StringBuilder("Wrong number of problems, is: ");
-			buf.append(problems.length).append(", expected: ").append(nProblems).append('\n');
-			for (IProblem problem : problems) {
-				buf.append(problem);
-				buf.append('[').append(problem.getSourceStart()).append(" ,").append(problem.getSourceEnd()).append(']');
-				buf.append('\n');
+			StringBuilder buf= new StringBuilder("Wrong number of problems, is: "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append(problems.length).append(", expected: ").append(nProblems).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(problem); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('[').append(problem.getSourceStart()).append(" ,").append(problem.getSourceEnd()).append(']'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			fail(buf.toString());
 		}
@@ -246,9 +246,9 @@ public class QuickFixTest {
 	/**
 	 * Bad design: only collects corrections for the <b>first</b> problem!
 	 */
-	protected static final ArrayList<IJavaCompletionProposal> collectCorrections2(ICompilationUnit cu, int nProblems) throws CoreException {
+	protected static final ArrayList<IJavaCompletionProposal> collectCorrections2(ICompilationUnit cu, int nProblems) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		final ArrayList<IProblem> problemsList= new ArrayList<>();
+		final ArrayList<IProblem> problemsList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final IProblemRequestor requestor= new IProblemRequestor() {
 			@Override
 			public void acceptProblem(IProblem problem) {
@@ -313,7 +313,7 @@ public class QuickFixTest {
 	}
 
 	protected static ArrayList<IJavaCompletionProposal> collectCorrections(IInvocationContext context, IProblemLocation problem) throws CoreException {
-		ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+		ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IStatus status= JavaCorrectionProcessor.collectCorrections(context, new IProblemLocation[] { problem }, proposals);
 		assertStatusOk(status);
 		return proposals;
@@ -322,7 +322,7 @@ public class QuickFixTest {
 	public static void assertStatusOk(IStatus status) throws CoreException {
 		if (!status.isOK()) {
 			if (status.getException() == null) {  // find a status with an exception
-				for (IStatus child : status.getChildren()) {
+				for (IStatus child : status.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (child.getException() != null) {
 						throw new CoreException(child);
 					}
@@ -331,8 +331,8 @@ public class QuickFixTest {
 		}
 	}
 
-	protected static final ArrayList<IJavaCompletionProposal> collectAssists(IInvocationContext context, Class<?>[] filteredTypes) throws CoreException {
-		ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+	protected static final ArrayList<IJavaCompletionProposal> collectAssists(IInvocationContext context, Class<?>[] filteredTypes) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IStatus status= JavaCorrectionProcessor.collectAssists(context, new IProblemLocation[0], proposals);
 		assertStatusOk(status);
 
@@ -341,7 +341,7 @@ public class QuickFixTest {
 		}
 
 		if (filteredTypes != null && filteredTypes.length > 0) {
-			for (Iterator<IJavaCompletionProposal> iter= proposals.iterator(); iter.hasNext(); ) {
+			for (Iterator<IJavaCompletionProposal> iter= proposals.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isFiltered(iter.next(), filteredTypes)) {
 					iter.remove();
 				}
@@ -351,7 +351,7 @@ public class QuickFixTest {
 	}
 
 	protected static final ArrayList<IJavaCompletionProposal> collectAssistsWithProblems(IInvocationContext context) throws CoreException {
-		ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+		ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IProblem[] problems= context.getASTRoot().getProblems();
 		IProblemLocation firstProblemLocation= new ProblemLocation(problems[0]);
 		IStatus status= JavaCorrectionProcessor.collectAssists(context, new IProblemLocation[] { firstProblemLocation }, proposals);
@@ -365,7 +365,7 @@ public class QuickFixTest {
 	}
 
 	private static boolean isFiltered(Object curr, Class<?>[] filteredTypes) {
-		for (Class<?> filteredType : filteredTypes) {
+		for (Class<?> filteredType : filteredTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (filteredType.isInstance(curr)) {
 				return true;
 			}
@@ -390,7 +390,7 @@ public class QuickFixTest {
 
 	protected static String[] getPreviewContents(List<IJavaCompletionProposal> proposals) throws CoreException, BadLocationException {
 		String[] res= new String[proposals.size()];
-		for (int i= 0; i < proposals.size(); i++) {
+		for (int i= 0; i < proposals.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res[i]=getProposalPreviewContent(proposals.get(i));
 		}
 		return res;
@@ -430,8 +430,8 @@ public class QuickFixTest {
 	}
 
 	protected static String[] getAllPreviewContent(Collection<? extends IJavaCompletionProposal> proposals) throws CoreException {
-		ArrayList<String> result = new ArrayList<>(proposals.size());
-		for ( IJavaCompletionProposal proposal: proposals) {
+		ArrayList<String> result = new ArrayList<>(proposals.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for ( IJavaCompletionProposal proposal: proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ( proposal instanceof CUCorrectionProposal) {
 				result.add(getPreviewContent((CUCorrectionProposal) proposal));
 			}
@@ -446,7 +446,7 @@ public class QuickFixTest {
 				.toArray(String[]::new);
 	}
 
-	protected static String getWizardPreviewContent(NewCUUsingWizardProposal newCUWizard) throws CoreException, BadLocationException {
+	protected static String getWizardPreviewContent(NewCUUsingWizardProposal newCUWizard) throws CoreException, BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		newCUWizard.setShowDialog(false);
 		newCUWizard.apply(null);
 
@@ -460,14 +460,14 @@ public class QuickFixTest {
 		} else {
 			JavaProjectHelper.delete(parent);
 		}
-		StringBuilder res= new StringBuilder();
+		StringBuilder res= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		IDocument doc= new Document(preview);
 		int nLines= doc.getNumberOfLines();
-		for (int i= 0; i < nLines; i++) {
+		for (int i= 0; i < nLines; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IRegion lineInformation= doc.getLineInformation(i);
-			res.append(doc.get(lineInformation.getOffset(), lineInformation.getLength()));
+			res.append(doc.get(lineInformation.getOffset(), lineInformation.getLength())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (i != nLines - 1) {
-				res.append('\n');
+				res.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return res.toString();
@@ -477,7 +477,7 @@ public class QuickFixTest {
 		if (proposals.size() != expectedProposals) {
 			StringBuffer buf= new StringBuffer();
 			buf.append("Wrong number of proposals, is: ").append(proposals.size()). append(", expected: ").append(expectedProposals).append('\n');
-			for (ICompletionProposal curr : proposals) {
+			for (ICompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				buf.append(" - ").append(curr.getDisplayString()).append('\n');
 				if (curr instanceof CUCorrectionProposal) {
 					appendSource(((CUCorrectionProposal) curr), buf);
@@ -488,7 +488,7 @@ public class QuickFixTest {
 	}
 
 	protected static ICommandAccess findProposalByCommandId(String commandId, List<? extends ICompletionProposal> proposals) {
-		for (ICompletionProposal curr : proposals) {
+		for (ICompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof ICommandAccess) {
 				if (commandId.equals(((ICommandAccess) curr).getCommandId())) {
 					return (ICommandAccess) curr;
@@ -499,7 +499,7 @@ public class QuickFixTest {
 	}
 
 	protected static ICompletionProposal findProposalByName(String name, List<? extends ICompletionProposal> proposals) {
-		for (ICompletionProposal curr : proposals) {
+		for (ICompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(curr.getDisplayString()))
 				return curr;
 		}
@@ -516,8 +516,8 @@ public class QuickFixTest {
 	}
 
 	protected static void assertNoErrors(IInvocationContext context) {
-		for (IProblem problem : context.getASTRoot().getProblems()) {
-			assertFalse("source has error: " + problem.getMessage(), problem.isError());
+		for (IProblem problem : context.getASTRoot().getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertFalse("source has error: " + problem.getMessage(), problem.isError()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -530,7 +530,7 @@ public class QuickFixTest {
 		return getPreviewsInBufAppend(cu, proposals);
 	}
 
-	protected static String getPreviewsInBufAppend(ICompilationUnit cu, List<IJavaCompletionProposal> proposals) throws CoreException, BadLocationException {
+	protected static String getPreviewsInBufAppend(ICompilationUnit cu, List<IJavaCompletionProposal> proposals) throws CoreException, BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer buf= new StringBuffer();
 		String[] previewContents= getPreviewContents(proposals);
 
@@ -546,7 +546,7 @@ public class QuickFixTest {
 		buf.append("assertNumberOfProposals(proposals, ").append(previewContents.length).append(");\n\n");
 		buf.append("String[] expected= new String[").append(previewContents.length).append("];\n");
 
-		for (int i= 0; i < previewContents.length; i++) {
+		for (int i= 0; i < previewContents.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String curr= previewContents[i];
 			if (curr == null) {
 				continue;
@@ -554,7 +554,7 @@ public class QuickFixTest {
 
 			buf.append("buf= new StringBuffer();\n");
 			wrapInBufAppend(curr, buf);
-			buf.append("expected[" + i + "]= buf.toString();\n\n");
+			buf.append("expected[" + i + "]= buf.toString();\n\n"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		buf.append("assertExpectedExistInProposals(proposals, expected);\n");
@@ -562,11 +562,11 @@ public class QuickFixTest {
 		return buf.toString();
 	}
 
-	private static void wrapInBufAppend(String curr, StringBuffer buf) {
+	private static void wrapInBufAppend(String curr, StringBuffer buf) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		buf.append("buf.append(\"");
 
 		int last= curr.length() - 1;
-		for (int k= 0; k <= last ; k++) {
+		for (int k= 0; k <= last ; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= curr.charAt(k);
 			switch (ch) {
 			case '\n':
@@ -608,7 +608,7 @@ public class QuickFixTest {
 									.map(ProposalCore::getDisplayString)
 									.sorted()
 									.collect(Collectors.toList());
-		for (int i=0; i<expectedChoices.length; i++) {
+		for (int i=0; i<expectedChoices.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertEquals("Unexpected choice", expectedChoices[i], sortedChoices.get(i));
 		}
 	}
@@ -624,8 +624,8 @@ public class QuickFixTest {
 									.map(ProposalCore::getDisplayString)
 									.sorted()
 									.collect(Collectors.toList());
-		for (int i=0; i<expectedChoices.length; i++) {
-			assertTrue("choice not found" + expectedChoices[i], sortedChoices.contains(expectedChoices[i]));
+		for (int i=0; i<expectedChoices.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue("choice not found" + expectedChoices[i], sortedChoices.contains(expectedChoices[i])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

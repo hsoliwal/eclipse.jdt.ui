@@ -96,7 +96,7 @@ public class GenerateBuildPathActionGroup extends ActionGroup {
 	}
 	private Action fNoActionAvailable= new NoActionAvailable();
 
-    private class UpdateJarFileAction extends JarImportWizardAction implements IUpdate {
+    private class UpdateJarFileAction extends JarImportWizardAction implements IUpdate { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		public UpdateJarFileAction() {
 			setText(ActionMessages.GenerateBuildPathActionGroup_update_jar_text);
@@ -154,10 +154,10 @@ public class GenerateBuildPathActionGroup extends ActionGroup {
 	 *
 	 * @since 3.4
 	 */
-	public GenerateBuildPathActionGroup(IWorkbenchSite site, ISelectionProvider selectionProvider) {
+	public GenerateBuildPathActionGroup(IWorkbenchSite site, ISelectionProvider selectionProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         fSite= site;
 		fSelectionProvider= selectionProvider;
-        fActions= new ArrayList<>();
+        fActions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		final CreateLinkedSourceFolderAction addLinkedSourceFolderAction= new CreateLinkedSourceFolderAction(site);
 		fActions.add(addLinkedSourceFolderAction);
@@ -201,10 +201,10 @@ public class GenerateBuildPathActionGroup extends ActionGroup {
 		final ConfigureBuildPathAction configure= new ConfigureBuildPathAction(site);
 		fActions.add(configure);
 
-		for (Action action : fActions) {
+		for (Action action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (action instanceof ISelectionChangedListener) {
 				ISelectionChangedListener listener= (ISelectionChangedListener)action;
-				selectionProvider.addSelectionChangedListener(listener);
+				selectionProvider.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				listener.selectionChanged(new SelectionChangedEvent(selectionProvider, selectionProvider.getSelection()));
 			}
 		}
@@ -224,16 +224,16 @@ public class GenerateBuildPathActionGroup extends ActionGroup {
         	return;
         String menuText= ActionMessages.BuildPath_label;
         IMenuManager subMenu= new MenuManager(menuText, MENU_ID);
-        subMenu.addMenuListener(this::fillViewSubMenu);
+        subMenu.addMenuListener(this::fillViewSubMenu); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
         subMenu.setRemoveAllWhenShown(true);
         subMenu.add(new ConfigureBuildPathAction(fSite));
         menu.appendToGroup(fGroupName, subMenu);
     }
 
-	private void fillViewSubMenu(IMenuManager source) {
+	private void fillViewSubMenu(IMenuManager source) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         int added= 0;
         int i=0;
-        for (Action action : fActions) {
+        for (Action action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (action instanceof IUpdate)
 				((IUpdate) action).update();
 
@@ -281,7 +281,7 @@ public class GenerateBuildPathActionGroup extends ActionGroup {
     	IStructuredSelection selection= (IStructuredSelection)sel;
     	if (selection.isEmpty())
 			return false;
-    	for (Object element : selection) {
+    	for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IWorkingSet)
 				return false;
 		}
@@ -291,7 +291,7 @@ public class GenerateBuildPathActionGroup extends ActionGroup {
 	@Override
 	public void dispose() {
 		if (fActions != null) {
-			for (Action action : fActions) {
+			for (Action action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (action instanceof ISelectionChangedListener)
 					fSelectionProvider.removeSelectionChangedListener((ISelectionChangedListener) action);
 			}

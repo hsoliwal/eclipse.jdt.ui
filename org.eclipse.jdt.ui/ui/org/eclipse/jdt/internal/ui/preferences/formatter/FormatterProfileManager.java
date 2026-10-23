@@ -40,7 +40,7 @@ public class FormatterProfileManager extends ProfileManager {
 	public final static String DEFAULT_PROFILE= ECLIPSE_PROFILE;
 
 	private final static KeySet[] KEY_SETS= new KeySet[] {
-		new KeySet(JavaCore.PLUGIN_ID, new ArrayList<>(DefaultCodeFormatterConstants.getJavaConventionsSettings().keySet())),
+		new KeySet(JavaCore.PLUGIN_ID, new ArrayList<>(DefaultCodeFormatterConstants.getJavaConventionsSettings().keySet())), //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		new KeySet(JavaUI.ID_PLUGIN, Collections.<String>emptyList())
 	};
 
@@ -95,7 +95,7 @@ public class FormatterProfileManager extends ProfileManager {
 		return FormatterProfileManagerCore.getProjectSettings(javaProject);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String getSelectedProfileId(IScopeContext instanceScope) {
 		String profileId= instanceScope.getNode(JavaUI.ID_PLUGIN).get(PROFILE_KEY, null);
 		if (profileId == null) {

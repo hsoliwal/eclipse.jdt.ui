@@ -102,7 +102,7 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 			return null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) {
 				return ((IJavaProject)element).getProject().getName();
@@ -127,14 +127,14 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 
 		private Hashtable<String, Profile> loadProfiles() {
     		Hashtable<String, Profile> profileIdsTable= new Hashtable<>();
-			for (Profile profile : CleanUpPreferenceUtil.loadProfiles(InstanceScope.INSTANCE)) {
+			for (Profile profile : CleanUpPreferenceUtil.loadProfiles(InstanceScope.INSTANCE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				profileIdsTable.put(profile.getID(), profile);
 			}
 
     		return profileIdsTable;
         }
 
-		private String getProjectProfileName(final IJavaProject project, Hashtable<String, Profile> profileIdsTable, String workbenchProfileId) {
+		private String getProjectProfileName(final IJavaProject project, Hashtable<String, Profile> profileIdsTable, String workbenchProfileId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ProjectScope projectScope= new ProjectScope(project.getProject());
 	        IEclipsePreferences node= projectScope.getNode(JavaUI.ID_PLUGIN);
 	        String id= node.get(CleanUpConstants.CLEANUP_PROFILE, null);
@@ -170,13 +170,13 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 				super(parent, settings, MultiFixMessages.CleanUpRefactoringWizard_CustomCleanUpsDialog_title);
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected NamedCleanUpTabPage[] createTabPages(Map<String, String> workingValues) {
 				CleanUpTabPageDescriptor[] descriptors= JavaPlugin.getDefault().getCleanUpRegistry().getCleanUpTabPageDescriptors(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS);
 
 				NamedCleanUpTabPage[] result= new NamedCleanUpTabPage[descriptors.length];
 
-				for (int i= 0; i < descriptors.length; i++) {
+				for (int i= 0; i < descriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String name= descriptors[i].getName();
 					CleanUpTabPage page= descriptors[i].createTabPage();
 
@@ -266,7 +266,7 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 			}
         }
 
-        @Override
+        @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			initializeDialogUnits(parent);
 
@@ -356,7 +356,7 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 			configure.setLayoutData(data);
 
 			showCustomSettings(bulletListBlock);
-			configure.addSelectionListener(new SelectionAdapter() {
+			configure.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					Hashtable<String, String> workingValues= new Hashtable<>(fCustomSettings);
@@ -379,7 +379,7 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 			gridData.widthHint= convertWidthInCharsToPixels(50);
 			gridData.horizontalSpan= 2;
 			preferencePageLink.setLayoutData(gridData);
-			preferencePageLink.addSelectionListener(new SelectionAdapter() {
+			preferencePageLink.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					PreferencesUtil.createPreferenceDialogOn(composite.getShell(), CleanUpPreferencePage.PREF_ID, null, null).open();
@@ -403,19 +403,19 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 			configureCustom.setEnabled(isCustom);
 		}
 
-        private void showCustomSettings(BulletListBlock bulletListBlock) {
-        	StringBuilder buf= new StringBuilder();
+        private void showCustomSettings(BulletListBlock bulletListBlock) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+        	StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 			CleanUpOptions options= new MapCleanUpOptions(fCustomSettings);
-			for (ICleanUp cleanUp : JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps()) {
+			for (ICleanUp cleanUp : JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				cleanUp.setOptions(options);
 				String[] descriptions= cleanUp.getStepDescriptions();
 				if (descriptions != null) {
-					for (String description : descriptions) {
+					for (String description : descriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (buf.length() > 0) {
-							buf.append('\n');
+							buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
-						buf.append(description);
+						buf.append(description); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 			}
@@ -445,7 +445,7 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
             }
         }
 
-		private void initializeRefactoring() {
+		private void initializeRefactoring() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CleanUpRefactoring refactoring= (CleanUpRefactoring)getRefactoring();
 
 			CleanUpOptions options= null;
@@ -458,7 +458,7 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 
 			refactoring.clearCleanUps();
 			ICleanUp[] cleanups= JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps();
-			for (ICleanUp cleanup : cleanups) {
+			for (ICleanUp cleanup : cleanups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (options != null) {
 					cleanup.setOptions(options);
 				}
@@ -470,7 +470,7 @@ public class CleanUpRefactoringWizard extends RefactoringWizard {
 			ByteArrayOutputStream stream= new ByteArrayOutputStream(2000);
 			CleanUpProfileVersioner versioner= new CleanUpProfileVersioner();
 			CustomProfile profile= new ProfileManager.CustomProfile("custom", settings, versioner.getCurrentVersion(), versioner.getProfileKind()); //$NON-NLS-1$
-			ArrayList<Profile> profiles= new ArrayList<>();
+			ArrayList<Profile> profiles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			profiles.add(profile);
 			ProfileStore.writeProfilesToStream(profiles, stream, ENCODING, versioner);
 			try {

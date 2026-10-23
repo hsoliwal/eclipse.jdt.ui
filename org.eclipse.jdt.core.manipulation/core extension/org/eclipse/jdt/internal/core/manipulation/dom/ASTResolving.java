@@ -112,20 +112,20 @@ public class ASTResolving {
 	}
 
 	public static String getMethodSignature(String name, ITypeBinding[] params, boolean isVarArgs) {
-		StringBuilder buf= new StringBuilder();
-		buf.append(name).append('(');
-		for (int i= 0; i < params.length; i++) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(name).append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < params.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
-				buf.append(JavaElementLabelsCore.COMMA_STRING);
+				buf.append(JavaElementLabelsCore.COMMA_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			if (isVarArgs && i == params.length - 1) {
-				buf.append(getTypeSignature(params[i].getElementType()));
-				buf.append("..."); //$NON-NLS-1$
+				buf.append(getTypeSignature(params[i].getElementType())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("..."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buf.append(getTypeSignature(params[i]));
+				buf.append(getTypeSignature(params[i])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
-		buf.append(')');
+		buf.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return BasicElementLabels.getJavaElementName(buf.toString());
 	}
 
@@ -133,9 +133,9 @@ public class ASTResolving {
 		return BindingLabelProviderCore.getBindingLabel(type, BindingLabelProviderCore.DEFAULT_TEXTFLAGS);
 	}
 
-	public static Type guessTypeForReference(AST ast, ASTNode node) {
+	public static Type guessTypeForReference(AST ast, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= node.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (parent.getNodeType()) {
 				case ASTNode.VARIABLE_DECLARATION_FRAGMENT:
 				case ASTNode.SINGLE_VARIABLE_DECLARATION:
@@ -183,7 +183,7 @@ public class ASTResolving {
 		return Bindings.normalizeTypeBinding(getPossibleReferenceBinding(node));
 	}
 
-	private static ITypeBinding getPossibleReferenceBinding(ASTNode node) {
+	private static ITypeBinding getPossibleReferenceBinding(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= node.getParent();
 		switch (parent.getNodeType()) {
 		case ASTNode.ASSIGNMENT:
@@ -288,7 +288,7 @@ public class ASTResolving {
 		case ASTNode.ARRAY_INITIALIZER:
 			ASTNode initializerParent= parent.getParent();
 			int dim= 1;
-			while (initializerParent instanceof ArrayInitializer) {
+			while (initializerParent instanceof ArrayInitializer) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				initializerParent= initializerParent.getParent();
 				dim++;
 			}
@@ -453,7 +453,7 @@ public class ASTResolving {
 	}
 
 	public static ITypeBinding getReducedDimensionBinding(ITypeBinding arrayBinding, int dimsToReduce) {
-		while (dimsToReduce > 0) {
+		while (dimsToReduce > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			arrayBinding= arrayBinding.getComponentType();
 			dimsToReduce--;
 		}
@@ -494,7 +494,7 @@ public class ASTResolving {
     	return binding;
     }
 
-	private static ITypeBinding getPossibleTypeBinding(ASTNode node) {
+	private static ITypeBinding getPossibleTypeBinding(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= node.getParent();
 		switch (parent.getNodeType()) {
 			case ASTNode.ARRAY_TYPE: {
@@ -594,7 +594,7 @@ public class ASTResolving {
 	}
 
 	public static ITypeBinding guessVariableType(List<VariableDeclarationFragment> fragments) {
-		for (VariableDeclarationFragment frag : fragments) {
+		for (VariableDeclarationFragment frag : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (frag.getInitializer() != null) {
 				return Bindings.normalizeTypeBinding(frag.getInitializer().resolveTypeBinding());
 			}
@@ -610,22 +610,22 @@ public class ASTResolving {
    	 * @param context the context in which the method would be called
    	 * @return returns all types known in the AST that have a method with a given name
    	 */
-	public static ITypeBinding[] getQualifierGuess(ASTNode searchRoot, final String selector, List<Expression> arguments, final IBinding context) {
+	public static ITypeBinding[] getQualifierGuess(ASTNode searchRoot, final String selector, List<Expression> arguments, final IBinding context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int nArgs= arguments.size();
-		final ArrayList<ITypeBinding> result= new ArrayList<>();
+		final ArrayList<ITypeBinding> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// test if selector is a object method
 		ITypeBinding binding= searchRoot.getAST().resolveWellKnownType("java.lang.Object"); //$NON-NLS-1$
-		for (IMethodBinding meth : binding.getDeclaredMethods()) {
+		for (IMethodBinding meth : binding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (meth.getName().equals(selector) && meth.getParameterTypes().length == nArgs) {
 				return new ITypeBinding[] { binding };
 			}
 		}
 
 		visitAllBindings(searchRoot, new TypeBindingVisitor() {
-			private HashSet<String> fVisitedBindings= new HashSet<>(100);
+			private HashSet<String> fVisitedBindings= new HashSet<>(100); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(ITypeBinding node) {
 				node= Bindings.normalizeTypeBinding(node);
 				if (node == null) {
@@ -642,7 +642,7 @@ public class ASTResolving {
 					return true;
 				}
 
-				for (IMethodBinding meth : node.getDeclaredMethods()) {
+				for (IMethodBinding meth : node.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (meth.getName().equals(selector) && meth.getParameterTypes().length == nArgs) {
 						result.add(node);
 					}
@@ -689,7 +689,7 @@ public class ASTResolving {
 
 
 	public static IBinding getParentMethodOrTypeBinding(ASTNode node) {
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof MethodDeclaration) {
 				return ((MethodDeclaration) node).resolveBinding();
 			} else if (node instanceof AbstractTypeDeclaration) {
@@ -704,7 +704,7 @@ public class ASTResolving {
 	}
 
 	public static BodyDeclaration findParentBodyDeclaration(ASTNode node) {
-		while ((node != null) && (!(node instanceof BodyDeclaration))) {
+		while ((node != null) && (!(node instanceof BodyDeclaration))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 		}
 		return (BodyDeclaration) node;
@@ -713,7 +713,7 @@ public class ASTResolving {
 	public static BodyDeclaration findParentBodyDeclaration(ASTNode node, boolean treatModifiersOutside) {
 		StructuralPropertyDescriptor lastLocation= null;
 
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof BodyDeclaration) {
 				BodyDeclaration decl= (BodyDeclaration) node;
 				if (!treatModifiersOutside || lastLocation != decl.getModifiersProperty()) {
@@ -745,7 +745,7 @@ public class ASTResolving {
 	public static ASTNode findParentType(ASTNode node, boolean treatModifiersOutside) {
 		StructuralPropertyDescriptor lastLocation= null;
 
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof AbstractTypeDeclaration) {
 				AbstractTypeDeclaration decl= (AbstractTypeDeclaration) node;
 				if (!treatModifiersOutside || lastLocation != decl.getModifiersProperty()) {
@@ -780,7 +780,7 @@ public class ASTResolving {
 	 * @return the enclosing method declaration or <code>null</code>
 	 */
 	public static MethodDeclaration findParentMethodDeclaration(ASTNode node) {
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof MethodDeclaration) {
 				return (MethodDeclaration) node;
 			} else if (node instanceof BodyDeclaration || node instanceof AnonymousClassDeclaration || node instanceof LambdaExpression) {
@@ -803,7 +803,7 @@ public class ASTResolving {
 	 */
 	public static LambdaExpression findEnclosingLambdaExpression(ASTNode node) {
 		node= node.getParent();
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof LambdaExpression) {
 				return (LambdaExpression) node;
 			}
@@ -829,14 +829,14 @@ public class ASTResolving {
 	 *         whose type is <code>nodeType</code>, or <code>null</code> if none
 	 */
 	public static ASTNode findAncestor(ASTNode node, int nodeType) {
-		while ((node != null) && (node.getNodeType() != nodeType)) {
+		while ((node != null) && (node.getNodeType() != nodeType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 		}
 		return node;
 	}
 
 	public static Statement findParentStatement(ASTNode node) {
-		while ((node != null) && (!(node instanceof Statement))) {
+		while ((node != null) && (!(node instanceof Statement))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 			if (node instanceof BodyDeclaration) {
 				return null;
@@ -846,7 +846,7 @@ public class ASTResolving {
 	}
 
 	public static TryStatement findParentTryStatement(ASTNode node) {
-		while ((node != null) && (!(node instanceof TryStatement))) {
+		while ((node != null) && (!(node instanceof TryStatement))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 			if (node instanceof BodyDeclaration || node instanceof LambdaExpression) {
 				return null;
@@ -866,7 +866,7 @@ public class ASTResolving {
 	}
 
 	public static boolean isInsideModifiers(ASTNode node) {
-		while (node != null && !(node instanceof BodyDeclaration)) {
+		while (node != null && !(node instanceof BodyDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof Annotation) {
 				return true;
 			}
@@ -890,10 +890,10 @@ public class ASTResolving {
 		return false;
 	}
 
-	public static boolean isWriteAccess(Name selectedNode) {
+	public static boolean isWriteAccess(Name selectedNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode curr= selectedNode;
 		ASTNode parent= curr.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (parent.getNodeType()) {
 				case ASTNode.QUALIFIED_NAME:
 					if (((QualifiedName) parent).getQualifier() == curr) {
@@ -952,11 +952,11 @@ public class ASTResolving {
 	private static final Code[] CODE_ORDER= { PrimitiveType.CHAR, PrimitiveType.SHORT, PrimitiveType.INT, PrimitiveType.LONG, PrimitiveType.FLOAT, PrimitiveType.DOUBLE };
 
 	public static ITypeBinding[] getNarrowingTypes(AST ast, ITypeBinding type) {
-		ArrayList<ITypeBinding> res= new ArrayList<>();
+		ArrayList<ITypeBinding> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		res.add(type);
 		if (type.isPrimitive()) {
 			Code code= PrimitiveType.toCode(type.getName());
-			for (int i= 0; i < CODE_ORDER.length && code != CODE_ORDER[i]; i++) {
+			for (int i= 0; i < CODE_ORDER.length && code != CODE_ORDER[i]; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String typeName= CODE_ORDER[i].toString();
 				res.add(ast.resolveWellKnownType(typeName));
 			}
@@ -964,8 +964,8 @@ public class ASTResolving {
 		return res.toArray(new ITypeBinding[res.size()]);
 	}
 
-	public static ITypeBinding[] getRelaxingTypes(AST ast, ITypeBinding type) {
-		ArrayList<ITypeBinding> res= new ArrayList<>();
+	public static ITypeBinding[] getRelaxingTypes(AST ast, ITypeBinding type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<ITypeBinding> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		res.add(type);
 		if (type.isArray()) {
 			res.add(ast.resolveWellKnownType("java.lang.Object")); //$NON-NLS-1$
@@ -979,7 +979,7 @@ public class ASTResolving {
 		} else if (type.isPrimitive()) {
 			Code code= PrimitiveType.toCode(type.getName());
 			boolean found= false;
-			for (Code order : CODE_ORDER) {
+			for (Code order : CODE_ORDER) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (found) {
 					String typeName= order.toString();
 					res.add(ast.resolveWellKnownType(typeName));
@@ -995,7 +995,7 @@ public class ASTResolving {
 	}
 
 	private static void collectRelaxingTypes(Collection<ITypeBinding> res, ITypeBinding type) {
-		for (ITypeBinding curr : type.getInterfaces()) {
+		for (ITypeBinding curr : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!res.contains(curr)) {
 				res.add(curr);
 			}
@@ -1016,7 +1016,7 @@ public class ASTResolving {
 		return res.toArray(new String[res.size()]);
 	}
 
-	private static boolean isVariableDefinedInContext(IBinding binding, ITypeBinding typeVariable) {
+	private static boolean isVariableDefinedInContext(IBinding binding, ITypeBinding typeVariable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding.getKind() == IBinding.VARIABLE) {
 			IVariableBinding var= (IVariableBinding) binding;
 			binding= var.getDeclaringMethod();
@@ -1031,7 +1031,7 @@ public class ASTResolving {
 			binding= ((IMethodBinding) binding).getDeclaringClass();
 		}
 
-		while (binding instanceof ITypeBinding) {
+		while (binding instanceof ITypeBinding) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (binding == typeVariable.getDeclaringClass()) {
 				return true;
 			}
@@ -1043,7 +1043,7 @@ public class ASTResolving {
 		return false;
 	}
 
-	public static boolean isUseableTypeInContext(ITypeBinding type, IBinding context, boolean noWildcards) {
+	public static boolean isUseableTypeInContext(ITypeBinding type, IBinding context, boolean noWildcards) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.isArray()) {
 			type= type.getElementType();
 		}
@@ -1057,7 +1057,7 @@ public class ASTResolving {
 			return isVariableDefinedInContext(context, type);
 		}
 		if (type.isGenericType()) {
-			for (ITypeBinding typeParameter : type.getTypeParameters()) {
+			for (ITypeBinding typeParameter : type.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isUseableTypeInContext(typeParameter, context, noWildcards)) {
 					return false;
 				}
@@ -1065,7 +1065,7 @@ public class ASTResolving {
 			return true;
 		}
 		if (type.isParameterizedType()) {
-			for (ITypeBinding typeArgument : type.getTypeArguments()) {
+			for (ITypeBinding typeArgument : type.getTypeArguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isUseableTypeInContext(typeArgument, context, noWildcards)) {
 					return false;
 				}
@@ -1098,7 +1098,7 @@ public class ASTResolving {
 	 *
 	 * @see Bindings#normalizeForDeclarationUse(ITypeBinding, AST)
 	 */
-	public static ITypeBinding normalizeWildcardType(ITypeBinding wildcardType, boolean isBindingToAssign, AST ast) {
+	public static ITypeBinding normalizeWildcardType(ITypeBinding wildcardType, boolean isBindingToAssign, AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding bound= wildcardType.getBound();
 		if (isBindingToAssign) {
 			if (bound == null || !wildcardType.isUpperbound()) {
@@ -1127,13 +1127,13 @@ public class ASTResolving {
 		return (CompilationUnit) astParser.createAST(monitor);
 	}
 
-	public static int getPossibleTypeKinds(ASTNode node) {
+	public static int getPossibleTypeKinds(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int kind= TypeKinds.ALL_TYPES;
 
 		int mask= TypeKinds.ALL_TYPES | TypeKinds.VOIDTYPE;
 
 		ASTNode parent= node.getParent();
-		while (parent instanceof QualifiedName) {
+		while (parent instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node.getLocationInParent() == QualifiedName.QUALIFIER_PROPERTY) {
 				return TypeKinds.REF_TYPES;
 			}
@@ -1141,7 +1141,7 @@ public class ASTResolving {
 			parent= parent.getParent();
 			mask= TypeKinds.REF_TYPES;
 		}
-		while (parent instanceof Type) {
+		while (parent instanceof Type) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent instanceof QualifiedType) {
 				if (node.getLocationInParent() == QualifiedType.QUALIFIER_PROPERTY) {
 					return mask & (TypeKinds.REF_TYPES);

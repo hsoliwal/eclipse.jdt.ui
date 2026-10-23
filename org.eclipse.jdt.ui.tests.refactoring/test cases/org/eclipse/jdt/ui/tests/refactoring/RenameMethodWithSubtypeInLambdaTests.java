@@ -46,7 +46,7 @@ public class RenameMethodWithSubtypeInLambdaTests extends GenericRefactoringTest
 		return REFACTORING_PATH;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGH4704() throws Exception{
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");

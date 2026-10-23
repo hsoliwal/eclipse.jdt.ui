@@ -34,7 +34,7 @@ import org.eclipse.jdt.internal.ui.text.correction.proposals.FixCorrectionPropos
  */
 public final class SerialVersionSubProcessor extends SerialVersionBaseSubProcessor<ICommandAccess> {
 
-	public static final class SerialVersionProposal extends FixCorrectionProposal {
+	public static final class SerialVersionProposal extends FixCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 		public SerialVersionProposal(IProposableFix fix, int relevance, IInvocationContext context, boolean isDefault) {
 			super(fix, null, relevance, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_ADD), context, new SerialVersionProposalCore(fix, relevance, context, isDefault));
 		}

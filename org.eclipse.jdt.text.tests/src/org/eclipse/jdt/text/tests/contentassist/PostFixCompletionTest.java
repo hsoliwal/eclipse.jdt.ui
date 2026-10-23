@@ -82,7 +82,7 @@ public class PostFixCompletionTest {
 		JavaCore.setOptions(savedOptions);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -112,7 +112,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringVar2() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -146,7 +146,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIntegerVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -176,7 +176,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBooleanVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -206,7 +206,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIntVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -236,7 +236,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringConcatVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -266,7 +266,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringConcatVar2() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -296,7 +296,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -326,7 +326,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayAccessVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -358,7 +358,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBoundedExtendsTypeParameterVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -392,7 +392,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBoundedSuperTypeParameterVar() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -426,7 +426,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarForMethodInvocation() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -462,7 +462,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarForMethodInvocation2() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -494,7 +494,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarForMethodInvocation3() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -534,7 +534,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarForClassCreation() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -566,7 +566,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBegForVoidMethodInvocation() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -592,7 +592,7 @@ public class PostFixCompletionTest {
 		assertEquals(expectedBeg, viewer.getSelectedRange().x);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarForAnonymousClass() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -636,7 +636,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNestedQualifiedNames() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -682,7 +682,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFieldAccess() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -718,7 +718,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testForStatement() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -754,7 +754,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testForStatement2() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -790,7 +790,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testShorthandIfStatement() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -820,7 +820,7 @@ public class PostFixCompletionTest {
 		assertEquals(str, viewer.getDocument().get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatenatedShorthandIfStatement() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -866,7 +866,7 @@ public class PostFixCompletionTest {
 		computeCompletionProposals(cu, completionIndex);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStreamOf() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -924,7 +924,7 @@ public class PostFixCompletionTest {
 	}
 
 	private void assertProposalsExist(List<String> expected, List<ICompletionProposal> proposals) {
-		for (String propDisplay : expected) {
+		for (String propDisplay : expected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(proposals.stream().anyMatch(p -> propDisplay.equals(p.getDisplayString())));
 		}
 	}

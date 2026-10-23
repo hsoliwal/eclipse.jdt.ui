@@ -160,7 +160,7 @@ public class PropertiesFileQuickAssistTest {
 		return new PropertiesAssistContext(sourceViewer, offset, length, file, sourceViewer.getDocument(), accessorType);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateFieldInAccessor1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -213,7 +213,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfCu("nls file", cu, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateFieldInAccessor2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -268,7 +268,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfCu("nls file", cu, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateFieldInAccessor3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -330,7 +330,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfCu("nls file", cu, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateFieldInAccessor4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -397,7 +397,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfCu("nls file", cu, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateFieldInAccessor5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -464,7 +464,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfCu("nls file", cu, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateFieldInAccessor6() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=361535
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -518,7 +518,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfCu("nls file", cu, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveProperty1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -561,7 +561,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfFile("property file", file, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveProperty2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -604,7 +604,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfFile("property file", file, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveProperty3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -665,7 +665,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfFile("property file", file, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveProperty4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -741,7 +741,7 @@ public class PropertiesFileQuickAssistTest {
 		checkContentOfFile("property file", file, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoProposals1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -781,7 +781,7 @@ public class PropertiesFileQuickAssistTest {
 		QuickFixTest.assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoProposals2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -821,7 +821,7 @@ public class PropertiesFileQuickAssistTest {
 		QuickFixTest.assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoProposals3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 

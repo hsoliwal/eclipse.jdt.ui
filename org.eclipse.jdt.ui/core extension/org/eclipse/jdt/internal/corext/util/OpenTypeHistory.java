@@ -59,7 +59,7 @@ import org.eclipse.jdt.internal.corext.CorextMessages;
  */
 public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 
-	private static class TypeHistoryDeltaListener implements IElementChangedListener {
+	private static class TypeHistoryDeltaListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 		@Override
 		public void elementChanged(ElementChangedEvent event) {
 			if (processDelta(event.getDelta())) {
@@ -75,7 +75,7 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 		 * @return <code>true</code> if consistency must be checked
 		 *  <code>false</code> otherwise.
 		 */
-		private boolean processDelta(IJavaElementDelta delta) {
+		private boolean processDelta(IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement elem= delta.getElement();
 
 			boolean isChanged= delta.getKind() == IJavaElementDelta.CHANGED;
@@ -139,7 +139,7 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 		*/
 
 		private boolean processChildrenDelta(IJavaElementDelta delta) {
-			for (IJavaElementDelta child : delta.getAffectedChildren()) {
+			for (IJavaElementDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (processDelta(child)) {
 					return true;
 				}
@@ -196,11 +196,11 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 
 	private OpenTypeHistory() {
 		super(FILENAME, NODE_ROOT, NODE_TYPE_INFO);
-		fTimestampMapping= new HashMap<>();
+		fTimestampMapping= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		fNeedsConsistencyCheck= true;
 		load();
 		fDeltaListener= new TypeHistoryDeltaListener();
-		JavaCore.addElementChangedListener(fDeltaListener);
+		JavaCore.addElementChangedListener(fDeltaListener); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		fUpdateJob= new UpdateJob();
 		// It is not necessary anymore that the update job has a rule since
 		// markAsInconsistent isn't synchronized anymore. See bugs
@@ -270,7 +270,7 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 		int size= values.size();
 		TypeNameMatch[] result= new TypeNameMatch[size];
 		int i= size - 1;
-		for (TypeNameMatch typeNameMatch : values) {
+		for (TypeNameMatch typeNameMatch : values) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= typeNameMatch;
 			i--;
 		}
@@ -278,8 +278,8 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 	}
 
 	public synchronized TypeNameMatch[] getFilteredTypeInfos(TypeInfoFilter filter) {
-		List<TypeNameMatch> result= new ArrayList<>();
-		for (TypeNameMatch type : getValues()) {
+		List<TypeNameMatch> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TypeNameMatch type : getValues()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((filter == null || filter.matchesHistoryElement(type)) && !TypeFilter.isFiltered(type.getFullyQualifiedName()))
 				result.add(type);
 		}
@@ -293,14 +293,14 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 		return object;
 	}
 
-	private synchronized void internalCheckConsistency(IProgressMonitor monitor) throws OperationCanceledException {
+	private synchronized void internalCheckConsistency(IProgressMonitor monitor) throws OperationCanceledException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Setting fNeedsConsistencyCheck is necessary here since
 		// markAsInconsistent isn't synchronized.
 		fNeedsConsistencyCheck= true;
-		List<TypeNameMatch> typesToCheck= new ArrayList<>(getKeys());
+		List<TypeNameMatch> typesToCheck= new ArrayList<>(getKeys()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		monitor.beginTask(CorextMessages.TypeInfoHistory_consistency_check, typesToCheck.size());
 		monitor.setTaskName(CorextMessages.TypeInfoHistory_consistency_check);
-		for (TypeNameMatch type : typesToCheck) {
+		for (TypeNameMatch type : typesToCheck) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			long currentTimestamp= getContainerTimestamp(type);
 			Long lastTested= fTimestampMapping.get(type);
 			if (lastTested != null && currentTimestamp != IResource.NULL_STAMP && currentTimestamp == lastTested.longValue() && !isContainerDirty(type))
@@ -329,7 +329,7 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 		fNeedsConsistencyCheck= false;
 	}
 
-	private long getContainerTimestamp(TypeNameMatch match) {
+	private long getContainerTimestamp(TypeNameMatch match) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IType type= match.getType();
 			IResource resource= type.getResource();
@@ -381,7 +381,7 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 		save();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TypeNameMatch createFromElement(Element type) {
 		String handle= type.getAttribute(NODE_HANDLE);
 		if (handle == null )

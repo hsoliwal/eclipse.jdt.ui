@@ -60,13 +60,13 @@ public class SelectionAwareSourceRangeComputer extends TargetSourceRangeComputer
 			return super.computeSourceRange(node);
 		} catch (CoreException e) {
 			// fall back to standard implementation
-			fRanges= new HashMap<>();
+			fRanges= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		return super.computeSourceRange(node);
 	}
 
-	private void initializeRanges() throws CoreException {
-		fRanges= new HashMap<>();
+	private void initializeRanges() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fRanges= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		if (fSelectedNodes.length == 0)
 			return;
 
@@ -96,7 +96,7 @@ public class SelectionAwareSourceRangeComputer extends TargetSourceRangeComputer
 		pos= scannerStart;
 		int token= -1;
 		try {
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				token= tokenizer.readNext(false);
 				pos= tokenizer.getCurrentEndOffset();
 			}
@@ -104,7 +104,7 @@ public class SelectionAwareSourceRangeComputer extends TargetSourceRangeComputer
 		}
 		if (token == ITerminalSymbols.TokenNameCOMMENT_LINE) {
 			int index= pos - 1;
-			while (index >= 0 && IndentManipulation.isLineDelimiterChar(source[index])) {
+			while (index >= 0 && IndentManipulation.isLineDelimiterChar(source[index])) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pos--;
 				index--;
 			}
@@ -118,7 +118,7 @@ public class SelectionAwareSourceRangeComputer extends TargetSourceRangeComputer
 		// We have to ensure that the source range of such child nodes is also capped by the selection range.
 		// Example: (/*]*/TRANSFORMER::transform/*[*/)
 		// Selection is between /*]*/ and /*[*/, but the extended range of the "transform" node actually includes /*[*/ as well.
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<ASTNode> children= ASTNodes.getChildren(currentNode);
 			if (!children.isEmpty()) {
 				ASTNode lastChild= children.get(children.size() - 1);

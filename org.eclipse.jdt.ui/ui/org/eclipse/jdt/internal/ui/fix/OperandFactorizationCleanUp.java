@@ -101,16 +101,16 @@ public class OperandFactorizationCleanUp extends AbstractMultiFix {
 		return "boolean newBoolean = repeatedExpression && thenExpression || repeatedExpression && elseExpression;\n"; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.OPERAND_FACTORIZATION)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final InfixExpression visited) {
 				if (!visited.hasExtendedOperands()
 						&& ASTNodes.hasOperator(visited, InfixExpression.Operator.CONDITIONAL_OR, InfixExpression.Operator.CONDITIONAL_AND, InfixExpression.Operator.OR, InfixExpression.Operator.AND)) {
@@ -142,7 +142,7 @@ public class OperandFactorizationCleanUp extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean maybeReplaceDuplicateExpression(final InfixExpression visited, final InfixExpression.Operator innerOperator,
+			private boolean maybeReplaceDuplicateExpression(final InfixExpression visited, final InfixExpression.Operator innerOperator, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final Expression factor, final Expression factorDuplicate, final Expression thenExpression, final Expression elseExpression,
 					final boolean eagerEvaluation, final boolean isThenExpressionFirst, boolean isElseExpressionLast) {
 				if (ASTNodes.match(factor, factorDuplicate)
@@ -229,7 +229,7 @@ public class OperandFactorizationCleanUp extends AbstractMultiFix {
 			this.isFactorOnTheLeft= isFactorOnTheLeft;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();

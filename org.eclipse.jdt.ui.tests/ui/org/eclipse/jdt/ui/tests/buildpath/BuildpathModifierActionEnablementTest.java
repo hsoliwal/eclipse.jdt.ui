@@ -114,7 +114,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertFalse(fProject.isOnClasspath(fProject.getUnderlyingResource()));
 	}
 
-	private BuildpathModifierAction[] createActions() {
+	private BuildpathModifierAction[] createActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISetSelectionTarget nullSelectionTarget= unused -> {};
 
 		IRunnableContext context= PlatformUI.getWorkbench().getProgressService();
@@ -144,17 +144,17 @@ public class BuildpathModifierActionEnablementTest {
 	}
 
 	private void assertOnlyEnabled(IAction[] enabledActions) {
-		for (BuildpathModifierAction action : fActions) {
+		for (BuildpathModifierAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (action.isEnabled()) {
-				assertTrue(contains(enabledActions, action), action.getText() + " is enabled but should not be.");
+				assertTrue(contains(enabledActions, action), action.getText() + " is enabled but should not be."); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				assertFalse(contains(enabledActions, action), action.getText() + " is disabled but should not be.");
+				assertFalse(contains(enabledActions, action), action.getText() + " is disabled but should not be."); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
 
 	private boolean contains(IAction[] actions, IAction action) {
-		for (IAction a : actions) {
+		for (IAction a : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (a == action) {
 				return true;
 			}
@@ -163,12 +163,12 @@ public class BuildpathModifierActionEnablementTest {
 	}
 
 	private void assertAllDisabled() {
-		for (BuildpathModifierAction action : fActions) {
-			assertFalse(action.isEnabled(), action.getText() + " is enabled but should not be.");
+		for (BuildpathModifierAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertFalse(action.isEnabled(), action.getText() + " is enabled but should not be."); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testProjectWithOthers() {
 		select(new Object[] {fProject});
 		assertOnlyEnabled(new IAction[] {fAddFolderToBuildpathAction, fCreateLinkedSourceFolderAction});
@@ -300,7 +300,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertAllDisabled();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSrcWithOthers() {
 		select(new Object[] {fSourceFolder});
 		assertOnlyEnabled(new IAction[] {fRemoveFromBuildpathAction, fEditFilterAction});
@@ -345,7 +345,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertAllDisabled();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNormalFolderWithOthers() {
 		select(new Object[] {fFolder});
 		assertOnlyEnabled(new IAction[] {fAddFolderToBuildpathAction});
@@ -414,7 +414,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertAllDisabled();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageWithOthers() {
 		select(new Object[] {fPackage});
 		assertOnlyEnabled(new IAction[] {fAddFolderToBuildpathAction, fExcludeFromBuildpathAction});
@@ -471,7 +471,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertAllDisabled();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCUWithOthers() {
 		select(new Object[] {fCompilationUnit});
 		assertOnlyEnabled(new IAction[] {fExcludeFromBuildpathAction});
@@ -516,7 +516,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertAllDisabled();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExcludedFileWithOthers() {
 		select(new Object[] {fExcludedFile});
 		assertOnlyEnabled(new IAction[] {fIncludeToBuildpathAction});
@@ -549,7 +549,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertAllDisabled();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFileWithOthers() {
 		select(new Object[] {fFile});
 		assertAllDisabled();
@@ -570,7 +570,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertAllDisabled();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExcludedPackWithOthers() {
 		select(new Object[] {fExcludedPackage});
 		assertOnlyEnabled(new IAction[] {fAddFolderToBuildpathAction, fIncludeToBuildpathAction});
@@ -621,7 +621,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertAllDisabled();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDefaultZipWithOthers() {
 		select(new Object[] {fExcludedLibrary});
 		assertAllDisabled();
@@ -644,7 +644,7 @@ public class BuildpathModifierActionEnablementTest {
 		assertOnlyEnabled(new IAction[] {fRemoveFromBuildpathAction});
 	}
 
-	private IJavaProject createProject() throws CoreException {
+	private IJavaProject createProject() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fProject= JavaProjectHelper.createJavaProject("Dummy project", "bin");
 		IPath srcPath= new Path("src");
 		IPath normalFolderPath= new Path("NormalFolder");
@@ -662,7 +662,7 @@ public class BuildpathModifierActionEnablementTest {
 		final IPath projectPath= fProject.getProject().getFullPath();
 
 		// configure the classpath entries, including the default jre library.
-		List<IClasspathEntry> cpEntries= new ArrayList<>();
+		List<IClasspathEntry> cpEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		cpEntries.add(JavaCore.newSourceEntry(projectPath.append(srcPath)));
 		cpEntries.addAll(Arrays.asList(PreferenceConstants.getDefaultJRELibrary()));
 		IClasspathEntry[] entries= cpEntries.toArray(new IClasspathEntry[cpEntries.size()]);
@@ -742,7 +742,7 @@ public class BuildpathModifierActionEnablementTest {
 	}
 
 	private void select(final StructuredSelection selection) {
-		for (BuildpathModifierAction action : fActions) {
+		for (BuildpathModifierAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			action.selectionChanged(new SelectionChangedEvent(new ISelectionProvider(){
 				@Override
 				public void addSelectionChangedListener(ISelectionChangedListener listener) {}
@@ -759,16 +759,16 @@ public class BuildpathModifierActionEnablementTest {
 	}
 
 	private ICompilationUnit createICompilationUnit(String className, IPackageFragment fragment) throws JavaModelException {
-		String packString= "".equals(fragment.getElementName()) ? fragment.getElementName() : "package " + fragment.getElementName() +";\n";
+		String packString= "".equals(fragment.getElementName()) ? fragment.getElementName() : "package " + fragment.getElementName() +";\n"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		StringBuffer content= getFileContent(className, packString);
-		return fragment.createCompilationUnit(className+".java", content.toString(), false, null);
+		return fragment.createCompilationUnit(className+".java", content.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private StringBuffer getFileContent(String className, String packageHeader) {
 		StringBuffer buf= new StringBuffer();
 		buf.append(packageHeader);
 		buf.append("\n");
-		buf.append("public class "+className+ " {\n");
+		buf.append("public class "+className+ " {\n"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		buf.append("    public void foo() {\n");
 		buf.append("    }\n");
 		buf.append("}\n");

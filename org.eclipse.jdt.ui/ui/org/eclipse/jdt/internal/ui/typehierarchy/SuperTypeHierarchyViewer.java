@@ -37,11 +37,11 @@ public class SuperTypeHierarchyViewer extends TypeHierarchyViewer {
 	@Override
 	protected void hookUpdateContent(boolean expand) {
 		getTree().setRedraw(false);
-		refresh();
+		refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		if (expand) {
-			HashSet<Object> visited= new HashSet<>();
+			HashSet<Object> visited= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			TreeItem[] rootNodes= getTree().getItems();
-			for (TreeItem rootNode : rootNodes) {
+			for (TreeItem rootNode : rootNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				expandNode(rootNode, visited);
 			}
 		}
@@ -51,7 +51,7 @@ public class SuperTypeHierarchyViewer extends TypeHierarchyViewer {
 	private void expandNode(TreeItem treeItem, HashSet<Object> visited) {
 		internalExpandToLevel(treeItem, 1);
 		visited.add(treeItem.getData());
-		for (TreeItem child : treeItem.getItems()) {
+		for (TreeItem child : treeItem.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!visited.contains(child.getData())) {
 				expandNode(child, visited);
 			}
@@ -61,7 +61,7 @@ public class SuperTypeHierarchyViewer extends TypeHierarchyViewer {
 	/*
 	 * Content provider for the supertype hierarchy
 	 */
-	public static class SuperTypeHierarchyContentProvider extends TypeHierarchyContentProvider {
+	public static class SuperTypeHierarchyContentProvider extends TypeHierarchyContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		public SuperTypeHierarchyContentProvider(TypeHierarchyLifeCycle lifeCycle) {
 			super(lifeCycle);
 		}

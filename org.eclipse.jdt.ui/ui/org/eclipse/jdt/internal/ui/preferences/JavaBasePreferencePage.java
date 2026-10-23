@@ -86,9 +86,9 @@ public class JavaBasePreferencePage extends PreferencePage implements IWorkbench
 		setDescription(PreferencesMessages.JavaBasePreferencePage_description);
 
 		fJavaCorePreferences = new ScopedPreferenceStore(InstanceScope.INSTANCE, JavaCore.PLUGIN_ID);
-		fRadioButtons= new ArrayList<>();
-		fCheckBoxes= new ArrayList<>();
-		fTextControls= new ArrayList<>();
+		fRadioButtons= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fCheckBoxes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fTextControls= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class JavaBasePreferencePage extends PreferencePage implements IWorkbench
 		return button;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -202,10 +202,10 @@ public class JavaBasePreferencePage extends PreferencePage implements IWorkbench
 		Button rebuildIndexButton= new Button(group, SWT.PUSH);
 		rebuildIndexButton.setText(PreferencesMessages.JavaBasePreferencePage_rebuildIndexButtonName);
 		rebuildIndexButton.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, false, false));
-		rebuildIndexButton.addSelectionListener(new SelectionAdapter() {
+		rebuildIndexButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Job job= Job.create(PreferencesMessages.JavaBasePreferencePage_rebuildingIndexJobName, monitor -> {
+				Job job= Job.create(PreferencesMessages.JavaBasePreferencePage_rebuildingIndexJobName, monitor -> { //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 					JavaCore.rebuildIndex(monitor);
 				});
 				job.setUser(true);
@@ -231,7 +231,7 @@ public class JavaBasePreferencePage extends PreferencePage implements IWorkbench
 		Button clearButton= new Button(dontAskGroup, SWT.PUSH);
 		clearButton.setText(PreferencesMessages.JavaBasePreferencePage_do_not_hide_button);
 		clearButton.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, false, false));
-		clearButton.addSelectionListener(new SelectionListener() {
+		clearButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				unhideAllDialogs();
@@ -258,17 +258,17 @@ public class JavaBasePreferencePage extends PreferencePage implements IWorkbench
 	 */
 	@Override
 	protected void performDefaults() {
-		for (Button button : fCheckBoxes) {
+		for (Button button : fCheckBoxes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= (String) button.getData();
 			IPreferenceStore buttonPreferenceStore = (IPreferenceStore) button.getData(PREFERENCE_STORE_KEY);
 			button.setSelection(buttonPreferenceStore.getDefaultBoolean(key));
 		}
 		IPreferenceStore store= getPreferenceStore();
-		for (Button button : fRadioButtons) {
+		for (Button button : fRadioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] info= (String[]) button.getData();
 			button.setSelection(info[1].equals(store.getDefaultString(info[0])));
 		}
-		for (Text text : fTextControls) {
+		for (Text text : fTextControls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= (String) text.getData();
 			text.setText(store.getDefaultString(key));
 		}
@@ -278,21 +278,21 @@ public class JavaBasePreferencePage extends PreferencePage implements IWorkbench
 	/*
 	 * @see IPreferencePage#performOk()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
-		for (Button button : fCheckBoxes) {
+		for (Button button : fCheckBoxes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= (String) button.getData();
 			IPreferenceStore buttonPreferenceStore = (IPreferenceStore) button.getData(PREFERENCE_STORE_KEY);
 			buttonPreferenceStore.setValue(key, button.getSelection());
 		}
 		IPreferenceStore store= getPreferenceStore();
-		for (Button button : fRadioButtons) {
+		for (Button button : fRadioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (button.getSelection()) {
 				String[] info= (String[]) button.getData();
 				store.setValue(info[0], info[1]);
 			}
 		}
-		for (Text text : fTextControls) {
+		for (Text text : fTextControls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= (String) text.getData();
 			store.setValue(key, text.getText());
 		}

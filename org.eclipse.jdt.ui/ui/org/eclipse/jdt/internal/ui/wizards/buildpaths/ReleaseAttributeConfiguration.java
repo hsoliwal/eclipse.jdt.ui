@@ -127,7 +127,7 @@ public class ReleaseAttributeConfiguration extends ClasspathAttributeConfigurati
 			newShell.setSize(600, 350);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite) super.createDialogArea(parent);
 			GridLayout layout= (GridLayout) composite.getLayout();
@@ -136,13 +136,13 @@ public class ReleaseAttributeConfiguration extends ClasspathAttributeConfigurati
 			nameLabel.setText(NewWizardMessages.ReleaseAttributeConfiguration_nameLabel);
 			ComboViewer viewer= new ComboViewer(composite);
 			viewer.setContentProvider(ArrayContentProvider.getInstance());
-			viewer.setInput(fVersionsList);
+			viewer.setInput(fVersionsList); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (isValidRelease()) {
 				viewer.setSelection(new StructuredSelection(fValue));
 			} else {
 				viewer.setSelection(new StructuredSelection(NewWizardMessages.ReleaseAttributeConfiguration_defaultReleaseName));
 			}
-			viewer.addSelectionChangedListener(unused -> {
+			viewer.addSelectionChangedListener(unused -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				fValue= (String) viewer.getStructuredSelection().getFirstElement();
 			});
 			Label pathLabel= new Label(composite, SWT.NONE);
@@ -159,7 +159,7 @@ public class ReleaseAttributeConfiguration extends ClasspathAttributeConfigurati
 			infoLabel.setLayoutData(gdInfo);
 			infoLabel.setText(NewWizardMessages.ReleaseAttributeConfiguration_warning);
 			applyDialogFont(composite);
-			infoLabel.addSelectionListener(new SelectionListener() {
+			infoLabel.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {

@@ -46,7 +46,7 @@ import org.eclipse.jdt.internal.ui.text.spelling.engine.ISpellChecker;
  *
  * @since 3.0
  */
-public class AddWordProposal implements IJavaCompletionProposal {
+public class AddWordProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private static final String PREF_KEY_DO_NOT_ASK= "do_not_ask_to_install_user_dictionary"; //$NON-NLS-1$
 
@@ -73,7 +73,7 @@ public class AddWordProposal implements IJavaCompletionProposal {
 	/*
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final void apply(final IDocument document) {
 
 		final ISpellCheckEngine engine= SpellCheckEngine.getInstance();

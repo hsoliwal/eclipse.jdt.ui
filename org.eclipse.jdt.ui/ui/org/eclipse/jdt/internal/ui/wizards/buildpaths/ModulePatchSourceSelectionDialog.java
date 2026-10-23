@@ -58,7 +58,7 @@ public class ModulePatchSourceSelectionDialog extends TrayDialog {
 	/**
 	 * Selective tree showing only java projects and their source folders.
 	 */
-	static class SourcesContentProvider implements ITreeContentProvider {
+	static class SourcesContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof List<?>)
@@ -68,7 +68,7 @@ public class ModulePatchSourceSelectionDialog extends TrayDialog {
 		@Override
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof IJavaProject) {
-				List<IPackageFragmentRoot> sourceRoots= new ArrayList<>();
+				List<IPackageFragmentRoot> sourceRoots= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				IJavaProject parentProject= (IJavaProject) parentElement;
 				collectSourceFolders(sourceRoots, parentProject);
 				return sourceRoots.toArray();
@@ -128,8 +128,8 @@ public class ModulePatchSourceSelectionDialog extends TrayDialog {
 		return super.getShellStyle() | SWT.RESIZE;
 	}
 
-	private void  findProjects() {
-		fProjects= new ArrayList<>();
+	private void  findProjects() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fProjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IProject toSkip= null;
 		IPackageFragmentRoot focusRoot= (IPackageFragmentRoot) fFocusModule.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 		try {
@@ -145,7 +145,7 @@ public class ModulePatchSourceSelectionDialog extends TrayDialog {
 		} catch (JavaModelException e1) {
 			JavaPlugin.log(e1);
 		}
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (toSkip != null && toSkip.equals(project)) {
 				continue;
 			}
@@ -164,9 +164,9 @@ public class ModulePatchSourceSelectionDialog extends TrayDialog {
 
 	static void collectSourceFolders(List<IPackageFragmentRoot> sourceRoots, IJavaProject project) {
 		try {
-			for (IClasspathEntry entry : project.getRawClasspath()) {
+			for (IClasspathEntry entry : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-					for (IPackageFragmentRoot packageFragmentRoot : project.findPackageFragmentRoots(entry)) {
+					for (IPackageFragmentRoot packageFragmentRoot : project.findPackageFragmentRoots(entry)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (packageFragmentRoot.getModuleDescription() == null) {
 							sourceRoots.add(packageFragmentRoot);
 						}
@@ -178,7 +178,7 @@ public class ModulePatchSourceSelectionDialog extends TrayDialog {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 		PixelConverter converter= new PixelConverter(parent);
@@ -193,10 +193,10 @@ public class ModulePatchSourceSelectionDialog extends TrayDialog {
 
 		TreeViewer treeViewer= new TreeViewer(composite, SWT.MULTI | SWT.BORDER);
 		treeViewer.setContentProvider(new SourcesContentProvider());
-		treeViewer.setLabelProvider(new JavaElementLabelProvider());
+		treeViewer.setLabelProvider(new JavaElementLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		treeViewer.setComparator(new ContextProjectFirstComparator());
-		treeViewer.addSelectionChangedListener(this::selectionChanged);
-		treeViewer.setInput(fProjects);
+		treeViewer.addSelectionChangedListener(this::selectionChanged); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		treeViewer.setInput(fProjects); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		GridData gd= new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.widthHint= widthHint;
@@ -215,8 +215,8 @@ public class ModulePatchSourceSelectionDialog extends TrayDialog {
 	}
 	void selectionChanged(SelectionChangedEvent event) {
 		IStructuredSelection selection= event.getStructuredSelection();
-		fResult= new ArrayList<>();
-		for (Object object : selection) {
+		fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object object : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IPackageFragmentRoot) {
 				fResult.add((IPackageFragmentRoot) object);
 			} else if (object instanceof IJavaProject) {

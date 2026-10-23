@@ -61,7 +61,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
  * If selection changes, then the <code>HintTextGroup</code> will be
  * notified through the <code>IPackageExplorerActionListener</code> interface.
  */
-public final class HintTextGroup implements ISelectionChangedListener {
+public final class HintTextGroup implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
     private Composite fTopComposite;
     private DialogPackageExplorerActionGroup fActionGroup;
@@ -69,11 +69,11 @@ public final class HintTextGroup implements ISelectionChangedListener {
     private HashMap<String, Image> fImageMap;
 
     public HintTextGroup() {
-        fNewFolders= new ArrayList<>();
-        fImageMap= new HashMap<>();
+        fNewFolders= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+        fImageMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
     }
 
-    public Composite createControl(Composite parent) {
+    public Composite createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         fTopComposite= new Composite(parent, SWT.NONE);
         fTopComposite.setFont(parent.getFont());
 
@@ -87,10 +87,10 @@ public final class HintTextGroup implements ISelectionChangedListener {
         fTopComposite.setLayout(gridLayout);
         fTopComposite.setLayoutData(gridData);
         fTopComposite.setData(null);
-        fTopComposite.addDisposeListener(unused -> {
+        fTopComposite.addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		    Collection<Image> collection= fImageMap.values();
 		    Iterator<Image> iterator= collection.iterator();
-		    while(iterator.hasNext()) {
+		    while(iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		        Image image= iterator.next();
 		        image.dispose();
 		    }
@@ -129,7 +129,7 @@ public final class HintTextGroup implements ISelectionChangedListener {
      *
      * @see FormToolkit#createFormText(org.eclipse.swt.widgets.Composite, boolean)
      */
-    private FormText createFormText(Composite parent, String text) {
+    private FormText createFormText(Composite parent, String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         FormToolkit toolkit= new FormToolkit(getShell().getDisplay());
         try {
         	FormText formText= toolkit.createFormText(parent, true);
@@ -219,11 +219,11 @@ public final class HintTextGroup implements ISelectionChangedListener {
     	}
  	}
 
-    private void handlePostSelectionChange(StructuredSelection selection) {
+    private void handlePostSelectionChange(StructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
     	BuildpathModifierAction[] actions= fActionGroup.getHintTextGroupActions();
     	String[] descriptions= new String[actions.length];
-    	for (int i= 0; i < actions.length; i++) {
+    	for (int i= 0; i < actions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        descriptions[i]= actions[i].getDetailedDescription();
         }
 
@@ -265,7 +265,7 @@ public final class HintTextGroup implements ISelectionChangedListener {
             return;
         }
 
-        for (int i= 0; i < actions.length; i++) {
+        for (int i= 0; i < actions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         	createLabel(childComposite, descriptions[i], actions[i]);
         }
 

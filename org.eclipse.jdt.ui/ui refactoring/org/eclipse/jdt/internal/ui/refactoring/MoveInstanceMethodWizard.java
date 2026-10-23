@@ -106,7 +106,7 @@ public final class MoveInstanceMethodWizard extends RefactoringWizard {
 		/*
 		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(final Composite parent) {
 			Assert.isNotNull(parent);
 			final Composite control= new Composite(parent, SWT.NONE);
@@ -144,19 +144,19 @@ public final class MoveInstanceMethodWizard extends RefactoringWizard {
 
 			final TableViewer viewer= new TableViewer(table);
 			viewer.setContentProvider(ArrayContentProvider.getInstance());
-			viewer.setLabelProvider(new TargetLabelProvider());
+			viewer.setLabelProvider(new TargetLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 			final IVariableBinding[] candidateTargets= fProcessor.getCandidateTargets();
-			viewer.setInput(candidateTargets);
+			viewer.setInput(candidateTargets); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			final IVariableBinding[] possibleTargets= fProcessor.getPossibleTargets();
 			viewer.setSelection(new StructuredSelection(new Object[] { possibleTargets[0]}));
 
-			viewer.addSelectionChangedListener(event -> {
+			viewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				final Object element= ((IStructuredSelection) event.getSelection()).getFirstElement();
 				if (element instanceof IVariableBinding) {
 					final IVariableBinding target= (IVariableBinding) element;
 					boolean success= false;
-					for (IVariableBinding v : fProcessor.getPossibleTargets()) {
+					for (IVariableBinding v : fProcessor.getPossibleTargets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (Bindings.equals(target, v)) {
 							handleTargetChanged(target);
 							success= true;
@@ -186,7 +186,7 @@ public final class MoveInstanceMethodWizard extends RefactoringWizard {
 			fMethodNameField.selectAll();
 			fMethodNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			fMethodNameField.setFocus();
-			fMethodNameField.addModifyListener(unused -> {
+			fMethodNameField.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				fMethodNameStatus= fProcessor.setMethodName(fMethodNameField.getText());
 				handleStatusChanged();
 			});
@@ -205,7 +205,7 @@ public final class MoveInstanceMethodWizard extends RefactoringWizard {
 				setPageComplete(false);
 			}
 			fTargetNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			fTargetNameField.addModifyListener(unused -> {
+			fTargetNameField.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				fTargetNameStatus= fProcessor.setTargetName(fTargetNameField.getText());
 				handleStatusChanged();
 			});
@@ -231,14 +231,14 @@ public final class MoveInstanceMethodWizard extends RefactoringWizard {
 				fDeprecateDelegateCheckBox.setText(DelegateUIHelper.getDeprecateDelegateCheckBoxTitle());
 				fDeprecateDelegateCheckBox.setSelection(DelegateUIHelper.loadDeprecateDelegateSetting(fProcessor));
 				fProcessor.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
-				fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+				fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						fProcessor.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
 					}
 				});
 				fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
-				fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+				fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());

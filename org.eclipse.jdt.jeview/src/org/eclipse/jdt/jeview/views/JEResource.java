@@ -49,7 +49,7 @@ public class JEResource extends JEAttribute {
 		return fParent;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -85,9 +85,9 @@ public class JEResource extends JEAttribute {
 		return fResource;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public JEAttribute[] getChildren() {
-		ArrayList<JEAttribute> result= new ArrayList<>();
+		ArrayList<JEAttribute> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IContainer parent= fResource.getParent();
 		if (parent != null )
@@ -108,7 +108,7 @@ public class JEResource extends JEAttribute {
 				@Override protected JEAttribute[] computeChildren() throws CoreException {
 					IResource[] resources= container.members();
 					JEAttribute[] children= new JEAttribute[resources.length];
-					for (int i= 0; i < resources.length; i++) {
+					for (int i= 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						children[i]= new JEResource(this, null, resources[i]);
 					}
 					return children;
@@ -119,8 +119,8 @@ public class JEResource extends JEAttribute {
 			@Override protected JEAttribute[] computeChildren() throws CoreException {
 				IMarker[] markers= getResource().findMarkers(null, true, IResource.DEPTH_ZERO);
 				JEAttribute[] children= new JEAttribute[markers.length];
-				for (int i= 0; i < markers.length; i++) {
-					children[i]= new JEMarker(this, "[" + i + "]", markers[i]);
+				for (int i= 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					children[i]= new JEMarker(this, "[" + i + "]", markers[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				return children;
 			}
@@ -130,7 +130,7 @@ public class JEResource extends JEAttribute {
 				Map<QualifiedName, String> properties= getResource().getPersistentProperties();
 				JEAttribute[] children= new JEAttribute[properties.size()];
 				int i= 0;
-				for (Entry<QualifiedName, String> property : properties.entrySet()) {
+				for (Entry<QualifiedName, String> property : properties.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JavaElementProperty(this, property.getKey().toString(), property.getValue());
 					i++;
 				}
@@ -142,7 +142,7 @@ public class JEResource extends JEAttribute {
 				Map<QualifiedName, Object> properties= getResource().getSessionProperties();
 				JEAttribute[] children= new JEAttribute[properties.size()];
 				int i= 0;
-				for (Entry<QualifiedName, Object> property : properties.entrySet()) {
+				for (Entry<QualifiedName, Object> property : properties.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JavaElementProperty(this, property.getKey().toString(), property.getValue());
 					i++;
 				}
@@ -157,9 +157,9 @@ public class JEResource extends JEAttribute {
 	public String getLabel() {
 		String label= fResource.getName();
 		if (fName != null)
-			label= fName +  ": " + label;
+			label= fName +  ": " + label; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (! fResource.exists())
-			label= label + " (does not exist)";
+			label= label + " (does not exist)"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return label;
 	}
 

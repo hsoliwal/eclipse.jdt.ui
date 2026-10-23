@@ -306,7 +306,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		try {
 			if (fIntermediaryType != null) {
 				IMethod[] toCheck= fIntermediaryType.getMethods();
-				for (IMethod method : toCheck) {
+				for (IMethod method : toCheck) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (method.getElementName().equals(fIntermediaryMethodName))
 						return RefactoringStatus.createWarningStatus(Messages.format(RefactoringCoreMessages.IntroduceIndirectionRefactoring_duplicate_method_name_in_declaring_type_error,
 							BasicElementLabels.getJavaElementName(fIntermediaryMethodName)));
@@ -326,7 +326,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	 * @param fullyQualifiedTypeName the fully qualified name of the intermediary method
 	 * @return status for type name. Use {@link #setIntermediaryMethodName(String)} to check for overridden methods.
 	 */
-	public RefactoringStatus setIntermediaryTypeName(String fullyQualifiedTypeName) {
+	public RefactoringStatus setIntermediaryTypeName(String fullyQualifiedTypeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType target= null;
 
 		try {
@@ -364,11 +364,11 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 
 	// ********** CONDITION CHECKING **********
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		try {
 			pm.beginTask(RefactoringCoreMessages.IntroduceIndirectionRefactoring_checking_activation, 1);
-			fRewrites= new HashMap<>();
+			fRewrites= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 			// This refactoring has been invoked on
 			// (1) a TextSelection inside an ICompilationUnit or inside an IClassFile (definitely with source), or
@@ -467,14 +467,14 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 
 		RefactoringStatus result= new RefactoringStatus();
 		fTextChangeManager= new TextChangeManager();
 		fIntermediaryFirstParameterType= null;
 		fIntermediaryTypeBinding= null;
-		for (CompilationUnitRewrite compilationUnitRewrite : fRewrites.values())
+		for (CompilationUnitRewrite compilationUnitRewrite : fRewrites.values()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			compilationUnitRewrite.clearASTAndImportRewrites();
 
 		int startupTicks= 5;
@@ -498,7 +498,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		fIntermediaryTypeBinding= typeToBinding(fIntermediaryType, imRewrite.getRoot());
 
 		fAdjustor= new MemberVisibilityAdjustor(fIntermediaryType, fIntermediaryType);
-		fIntermediaryAdjustments= new HashMap<>();
+		fIntermediaryAdjustments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		// check static method in non-static nested type
 		if (fIntermediaryTypeBinding.isNested() && !Modifier.isStatic(fIntermediaryTypeBinding.getModifiers()))
@@ -509,7 +509,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 			throw new OperationCanceledException();
 
 		if (fUpdateReferences) {
-			pm.setTaskName(RefactoringCoreMessages.IntroduceIndirectionRefactoring_checking_conditions + " " + RefactoringCoreMessages.IntroduceIndirectionRefactoring_looking_for_references); //$NON-NLS-1$
+			pm.setTaskName(RefactoringCoreMessages.IntroduceIndirectionRefactoring_checking_conditions + " " + RefactoringCoreMessages.IntroduceIndirectionRefactoring_looking_for_references); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			result.merge(updateReferences(noOverrideSubMonitor(pm, referenceTicks)));
 			pm.setTaskName(RefactoringCoreMessages.IntroduceIndirectionRefactoring_checking_conditions);
 		} else {
@@ -559,7 +559,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		createIntermediaryMethod();
 		pm.worked(creationTicks);
 
-		pm.setTaskName(RefactoringCoreMessages.IntroduceIndirectionRefactoring_checking_conditions + " " + RefactoringCoreMessages.IntroduceIndirectionRefactoring_adjusting_visibility); //$NON-NLS-1$
+		pm.setTaskName(RefactoringCoreMessages.IntroduceIndirectionRefactoring_checking_conditions + " " + RefactoringCoreMessages.IntroduceIndirectionRefactoring_adjusting_visibility); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		result.merge(updateTargetVisibility(noOverrideSubMonitor(pm, 0))); // XXX 0 ticks?
 		result.merge(updateIntermediaryVisibility(noOverrideSubMonitor(pm, 0))); // XXX 0 ticks?
 		pm.worked(visibilityTicks);
@@ -573,7 +573,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		return result;
 	}
 
-	private RefactoringStatus updateTargetVisibility(IProgressMonitor monitor) throws JavaModelException, CoreException {
+	private RefactoringStatus updateTargetVisibility(IProgressMonitor monitor) throws JavaModelException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringStatus result= new RefactoringStatus();
 
@@ -597,7 +597,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		// Need to adjust the overridden methods of the target method.
 		ITypeHierarchy hierarchy= fTargetMethod.getDeclaringType().newTypeHierarchy(null);
 		MethodOverrideTester tester= new MethodOverrideTester(fTargetMethod.getDeclaringType(), hierarchy);
-		for (IType subtype : hierarchy.getAllSubtypes(fTargetMethod.getDeclaringType())) {
+		for (IType subtype : hierarchy.getAllSubtypes(fTargetMethod.getDeclaringType())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod method= tester.findOverridingMethodInType(subtype, fTargetMethod);
 			if (method != null && method.exists()) {
 				result.merge(adjustVisibility(method, neededVisibility, monitor));
@@ -616,7 +616,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		return rewriteVisibility(fIntermediaryAdjustments, fRewrites, monitor);
 	}
 
-	private RefactoringStatus updateReferences(IProgressMonitor monitor) throws CoreException {
+	private RefactoringStatus updateReferences(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringStatus result= new RefactoringStatus();
 
@@ -642,10 +642,10 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 
 		int ticksPerCU= references.length == 0 ? 0 : 70 / references.length;
 
-		for (SearchResultGroup group : references) {
+		for (SearchResultGroup group : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SearchMatch[] searchResults= group.getSearchResults();
 			CompilationUnitRewrite currentCURewrite= getCachedCURewrite(group.getCompilationUnit());
-			for (SearchMatch match : searchResults) {
+			for (SearchMatch match : searchResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (match.isInsideDocComment())
 					continue;
 
@@ -693,7 +693,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		return result;
 	}
 
-	private RefactoringStatus findCommonParent(ITypeBinding typeBinding) {
+	private RefactoringStatus findCommonParent(ITypeBinding typeBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringStatus status= new RefactoringStatus();
 
@@ -710,8 +710,8 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		ITypeBinding[] highestAndSupers= getTypeAndAllSuperTypes(highest);
 
 		ITypeBinding foundBinding= null;
-		for (ITypeBinding currentAndSuper : currentAndSupers) {
-			for (ITypeBinding highestAndSuper : highestAndSupers) {
+		for (ITypeBinding currentAndSuper : currentAndSupers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (ITypeBinding highestAndSuper : highestAndSupers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (highestAndSuper.isEqualTo(currentAndSuper) && (Bindings.findMethodInHierarchy(highestAndSuper, fTargetMethodBinding.getName(), fTargetMethodBinding.getParameterTypes()) != null)) {
 					foundBinding= highestAndSuper;
 					break;
@@ -734,9 +734,9 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 
 	// ******************** CHANGE CREATION ***********************
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
-		final Map<String, String> arguments= new HashMap<>();
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String project= null;
 		IJavaProject javaProject= fTargetMethod.getJavaProject();
 		if (javaProject != null)
@@ -760,7 +760,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		final IntroduceIndirectionDescriptor descriptor= RefactoringSignatureDescriptorFactory.createIntroduceIndirectionDescriptor(project, description, comment.asString(), arguments, flags);
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fTargetMethod));
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_NAME, fIntermediaryMethodName);
-		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1, JavaRefactoringDescriptorUtil.elementToHandle(project, fIntermediaryType));
+		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1, JavaRefactoringDescriptorUtil.elementToHandle(project, fIntermediaryType)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_REFERENCES, Boolean.toString(fUpdateReferences));
 		return new DynamicValidationRefactoringChange(descriptor, RefactoringCoreMessages.IntroduceIndirectionRefactoring_introduce_indirection, fTextChangeManager.getAllChanges());
 	}
@@ -775,14 +775,14 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	 */
 	private RefactoringStatus checkCanCreateIntermediaryMethod() throws JavaModelException {
 		// check if method already exists:
-		List<ITypeBinding> parameterBindings= new ArrayList<>();
+		List<ITypeBinding> parameterBindings= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (!isStaticTarget())
 			parameterBindings.add(fIntermediaryFirstParameterType);
 		parameterBindings.addAll(Arrays.asList(fTargetMethodBinding.getParameterTypes()));
 		return Checks.checkMethodInType(fIntermediaryTypeBinding, fIntermediaryMethodName, parameterBindings.toArray(new ITypeBinding[parameterBindings.size()]));
 	}
 
-	private void createIntermediaryMethod() throws CoreException {
+	private void createIntermediaryMethod() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		CompilationUnitRewrite imRewrite= getCachedCURewrite(fIntermediaryType.getCompilationUnit());
 		AST ast= imRewrite.getAST();
@@ -811,7 +811,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 			Type t= imRewrite.getImportRewrite().addImport(fIntermediaryFirstParameterType, imRewrite.getAST(), context, TypeLocation.PARAMETER);
 			if (fIntermediaryFirstParameterType.isGenericType()) {
 				ParameterizedType parameterized= imRewrite.getAST().newParameterizedType(t);
-				for (ITypeBinding typeParameter : fIntermediaryFirstParameterType.getTypeParameters()) {
+				for (ITypeBinding typeParameter : fIntermediaryFirstParameterType.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					parameterized.typeArguments().add(imRewrite.getImportRewrite().addImport(typeParameter, imRewrite.getAST()));
 				}
 				t= parameterized;
@@ -876,10 +876,10 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		if (enclosing != null)
 			addTypeParameters(imRewrite, list, enclosing, context);
 
-		for (ITypeBinding typeParameter : parent.getTypeParameters()) {
+		for (ITypeBinding typeParameter : parent.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter ntp= imRewrite.getAST().newTypeParameter();
 			ntp.setName(imRewrite.getAST().newSimpleName(typeParameter.getName()));
-			for (ITypeBinding bound : typeParameter.getTypeBounds()) {
+			for (ITypeBinding bound : typeParameter.getTypeBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!"java.lang.Object".equals(bound.getQualifiedName())) { //$NON-NLS-1$
 					ntp.typeBounds().add(imRewrite.getImportRewrite().addImport(bound, imRewrite.getAST(), context, TypeLocation.TYPE_BOUND));
 				}
@@ -900,15 +900,15 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	}
 
 	private void copyInvocationParameters(MethodInvocation invocation, AST ast) throws JavaModelException {
-		for (String name : fTargetMethod.getParameterNames()) {
+		for (String name : fTargetMethod.getParameterNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			invocation.arguments().add(ast.newSimpleName(name));
 		}
 	}
 
-	private void copyArguments(MethodDeclaration intermediary, CompilationUnitRewrite rew, ImportRewriteContext context) throws JavaModelException {
+	private void copyArguments(MethodDeclaration intermediary, CompilationUnitRewrite rew, ImportRewriteContext context) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] names= fTargetMethod.getParameterNames();
 		ITypeBinding[] types= fTargetMethodBinding.getParameterTypes();
-		for (int i= 0; i < names.length; i++) {
+		for (int i= 0; i < names.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding typeBinding= types[i];
 			SingleVariableDeclaration newElement= rew.getAST().newSingleVariableDeclaration();
 			newElement.setName(rew.getAST().newSimpleName(names[i]));
@@ -925,10 +925,10 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	}
 
 	private void copyTypeParameters(MethodDeclaration intermediary, CompilationUnitRewrite rew,  ImportRewriteContext context) {
-		for (ITypeBinding current : fTargetMethodBinding.getTypeParameters()) {
+		for (ITypeBinding current : fTargetMethodBinding.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter parameter= rew.getAST().newTypeParameter();
 			parameter.setName(rew.getAST().newSimpleName(current.getName()));
-			for (ITypeBinding bound : current.getTypeBounds()) {
+			for (ITypeBinding bound : current.getTypeBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!"java.lang.Object".equals(bound.getQualifiedName())) { //$NON-NLS-1$
 					parameter.typeBounds().add(rew.getImportRewrite().addImport(bound, rew.getAST(), context, TypeLocation.TYPE_BOUND));
 				}
@@ -938,7 +938,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	}
 
 	private void copyExceptions(MethodDeclaration intermediary, CompilationUnitRewrite imRewrite,  ImportRewriteContext context) {
-		for (ITypeBinding typebinding : fTargetMethodBinding.getExceptionTypes()) {
+		for (ITypeBinding typebinding : fTargetMethodBinding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type exceptionType= imRewrite.getImportRewrite().addImport(typebinding, imRewrite.getAST(), context, TypeLocation.EXCEPTION);
 			intermediary.thrownExceptionTypes().add(exceptionType);
 		}
@@ -946,7 +946,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 
 	// ******************* UPDATE CALLS **********************
 
-	private RefactoringStatus updateMethodInvocation(MethodInvocation originalInvocation, IMember enclosing, CompilationUnitRewrite unitRewriter) throws JavaModelException {
+	private RefactoringStatus updateMethodInvocation(MethodInvocation originalInvocation, IMember enclosing, CompilationUnitRewrite unitRewriter) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringStatus status= new RefactoringStatus();
 
@@ -991,7 +991,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 			}
 		}
 
-		for (int i= 0; i < originalInvocationArgs.size(); i++) {
+		for (int i= 0; i < originalInvocationArgs.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression originalInvocationArg= originalInvocationArgs.get(i);
 			Expression movedArg= (Expression) unitRewriter.getASTRewrite().createMoveTarget(originalInvocationArg);
 			newInvocationArgs.add(movedArg);
@@ -1023,7 +1023,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	 * @param unitRewriter the rewrite
 	 * @return resulting status
 	 */
-	private RefactoringStatus qualifyThisExpression(ThisExpression expr, MethodInvocation originalInvocation, IMember enclosing, CompilationUnitRewrite unitRewriter) {
+	private RefactoringStatus qualifyThisExpression(ThisExpression expr, MethodInvocation originalInvocation, IMember enclosing, CompilationUnitRewrite unitRewriter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringStatus status= new RefactoringStatus();
 
@@ -1041,7 +1041,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 			// Case 2) : Declaring type is outside of this cu => find subclass in this cu
 			ASTNode currentTypeDeclaration= getEnclosingTypeDeclaration(originalInvocation);
 			currentTypeBinding= ASTNodes.getEnclosingType(currentTypeDeclaration);
-			while (currentTypeDeclaration != null && (Bindings.findMethodInHierarchy(currentTypeBinding, methodBinding.getName(), methodBinding.getParameterTypes()) == null)) {
+			while (currentTypeDeclaration != null && (Bindings.findMethodInHierarchy(currentTypeBinding, methodBinding.getName(), methodBinding.getParameterTypes()) == null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				currentTypeDeclaration= getEnclosingTypeDeclaration(currentTypeDeclaration.getParent());
 				currentTypeBinding= ASTNodes.getEnclosingType(currentTypeDeclaration);
 			}
@@ -1074,8 +1074,8 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	/*
 	 * Helper method for finding an IMethod inside a binding hierarchy
 	 */
-	private IMethodBinding findMethodBindingInHierarchy(ITypeBinding currentTypeBinding, IMethod methodDeclaration) {
-		for (IMethodBinding binding : currentTypeBinding.getDeclaredMethods()) {
+	private IMethodBinding findMethodBindingInHierarchy(ITypeBinding currentTypeBinding, IMethod methodDeclaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IMethodBinding binding : currentTypeBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (methodDeclaration.equals(binding.getJavaElement())) {
 				return binding;
 			}
@@ -1087,7 +1087,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 			if (b != null)
 				return b;
 		}
-		for (ITypeBinding intf : currentTypeBinding.getInterfaces()) {
+		for (ITypeBinding intf : currentTypeBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding b= findMethodBindingInHierarchy(intf, methodDeclaration);
 			if (b != null)
 				return b;
@@ -1099,14 +1099,14 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	 * Helper method for retrieving a *bottom-up* list of super type bindings
 	 */
 	private ITypeBinding[] getTypeAndAllSuperTypes(ITypeBinding type) {
-		List<ITypeBinding> result= new ArrayList<>();
+		List<ITypeBinding> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectSuperTypes(type, result);
 		return result.toArray(new ITypeBinding[result.size()]);
 	}
 
 	private void collectSuperTypes(ITypeBinding curr, List<ITypeBinding> list) {
 		if (list.add(curr.getTypeDeclaration())) {
-			for (ITypeBinding intf : curr.getInterfaces()) {
+			for (ITypeBinding intf : curr.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collectSuperTypes(intf, list);
 			}
 			ITypeBinding superClass= curr.getSuperclass();
@@ -1169,7 +1169,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 	}
 
 	private ASTNode getEnclosingTypeDeclaration(ASTNode node) {
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof AbstractTypeDeclaration
 					|| node instanceof AnonymousClassDeclaration) {
 				return node;
@@ -1196,7 +1196,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		return RefactoringStatus.createWarningStatus(Messages.format(message, new String[] { name, container }), JavaStatusContext.create(enclosing.getCompilationUnit(), concreteNode));
 	}
 
-	private ITypeBinding getExpressionType(MethodInvocation invocation) {
+	private ITypeBinding getExpressionType(MethodInvocation invocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression expression= invocation.getExpression();
 		ITypeBinding typeBinding= null;
 		if (expression == null) {
@@ -1207,7 +1207,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		if (typeBinding != null && typeBinding.isTypeVariable()) {
 			ITypeBinding[] typeBounds= typeBinding.getTypeBounds();
 			if (typeBounds.length > 0) {
-				for (ITypeBinding typeBound : typeBounds) {
+				for (ITypeBinding typeBound : typeBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeBinding expressionType= getExpressionType(invocation, typeBound);
 					if (expressionType != null) {
 						return expressionType;
@@ -1222,10 +1222,10 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		return typeBinding;
 	}
 
-	private ITypeBinding getExpressionType(final MethodInvocation invocation, ITypeBinding typeBinding) {
+	private ITypeBinding getExpressionType(final MethodInvocation invocation, ITypeBinding typeBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (typeBinding == null)
 			return null;
-		for (IMethodBinding iMethodBinding : typeBinding.getDeclaredMethods()) {
+		for (IMethodBinding iMethodBinding : typeBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (invocation.resolveMethodBinding() == iMethodBinding)
 				return typeBinding.getTypeDeclaration();
 		}
@@ -1233,7 +1233,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		if (expressionType != null) {
 			return expressionType;
 		}
-		for (ITypeBinding interfaceBinding : typeBinding.getInterfaces()) {
+		for (ITypeBinding interfaceBinding : typeBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expressionType= getExpressionType(invocation, interfaceBinding);
 			if (expressionType != null) {
 				return expressionType;
@@ -1300,19 +1300,19 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 		return adjustVisibility(whoToAdjust, neededVisibility, false, monitor);
 	}
 
-	private RefactoringStatus adjustVisibility(IMember whoToAdjust, ModifierKeyword neededVisibility, boolean alsoIncreaseEnclosing, IProgressMonitor monitor) throws CoreException {
+	private RefactoringStatus adjustVisibility(IMember whoToAdjust, ModifierKeyword neededVisibility, boolean alsoIncreaseEnclosing, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Map<IMember, IncomingMemberVisibilityAdjustment> adjustments;
 		if (isRewriteKept(whoToAdjust.getCompilationUnit()))
 			adjustments= fIntermediaryAdjustments;
 		else
-			adjustments= new HashMap<>();
+			adjustments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		int existingAdjustments= adjustments.size();
 		addAdjustment(whoToAdjust, neededVisibility, adjustments);
 
 		if (alsoIncreaseEnclosing)
-			while (whoToAdjust.getDeclaringType() != null) {
+			while (whoToAdjust.getDeclaringType() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				whoToAdjust= whoToAdjust.getDeclaringType();
 				addAdjustment(whoToAdjust, neededVisibility, adjustments);
 			}
@@ -1334,7 +1334,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 			if (!isRewriteKept(whoToAdjust.getCompilationUnit())) {
 				CompilationUnitRewrite rewrite= new CompilationUnitRewrite(whoToAdjust.getCompilationUnit());
 				rewrite.setResolveBindings(false);
-				rewrites= new HashMap<>();
+				rewrites= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				rewrites.put(whoToAdjust.getCompilationUnit(), rewrite);
 				status.merge(rewriteVisibility(adjustments, rewrites, Progress.subMonitorSupressed(monitor, 1)));
 				rewrite.attachChange((CompilationUnitChange) fTextChangeManager.get(whoToAdjust.getCompilationUnit()), true, Progress.subMonitorSupressed(monitor, 1));
@@ -1364,7 +1364,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 							.create(whoToAdjust))));
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String handle= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
@@ -1374,7 +1374,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 				fTargetMethod= (IMethod) element;
 		} else
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT));
-		handle= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1);
+		handle= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
 			if (element == null || !element.exists() || element.getElementType() != IJavaElement.TYPE)
@@ -1382,7 +1382,7 @@ public class IntroduceIndirectionRefactoring extends Refactoring {
 			else
 				fIntermediaryType= (IType) element;
 		} else
-			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1));
+			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final String references= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_REFERENCES);
 		if (references != null) {
 			fUpdateReferences= Boolean.parseBoolean(references);

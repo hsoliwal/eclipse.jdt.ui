@@ -100,7 +100,7 @@ public class JavaDoubleClickSelector extends DefaultTextDoubleClickStrategy {
 		 * @return <code>true</code> if further characters may be added to the
 		 *         word
 		 */
-		private boolean backward(char c, int offset) {
+		private boolean backward(char c, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			checkDirection(BACKWARD);
 			switch (fState) {
 				case IDS:
@@ -168,7 +168,7 @@ public class JavaDoubleClickSelector extends DefaultTextDoubleClickStrategy {
 		 * @return <code>true</code> if further characters may be added to the
 		 *         word
 		 */
-		private boolean forward(char c, int offset) {
+		private boolean forward(char c, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			checkDirection(FORWARD);
 			switch (fState) {
 				case WS:
@@ -253,7 +253,7 @@ public class JavaDoubleClickSelector extends DefaultTextDoubleClickStrategy {
 		 * @param anchor the offset around which to select a word
 		 * @return the region describing a java word around <code>anchor</code>
 		 */
-		public IRegion getWordSelection(IDocument document, int anchor) {
+		public IRegion getWordSelection(IDocument document, int anchor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			try {
 
@@ -264,7 +264,7 @@ public class JavaDoubleClickSelector extends DefaultTextDoubleClickStrategy {
 				char c;
 
 				int offset= anchor;
-				while (offset < max) {
+				while (offset < max) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					c= document.getChar(offset);
 					if (!forward(c, offset))
 						break;
@@ -273,7 +273,7 @@ public class JavaDoubleClickSelector extends DefaultTextDoubleClickStrategy {
 
 				offset= anchor; // use to not select the previous word when right behind it
 //				offset= anchor - 1; // use to select the previous word when right behind it
-				while (offset >= min) {
+				while (offset >= min) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					c= document.getChar(offset);
 					if (!backward(c, offset))
 						break;

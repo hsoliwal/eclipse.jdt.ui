@@ -88,8 +88,8 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	 * The list of used local names.
 	 * @since 3.3
 	 */
-	private Set<String> fUsedNames= new HashSet<>();
-	private Map<String, MultiVariable> fVariables= new HashMap<>();
+	private Set<String> fUsedNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+	private Map<String, MultiVariable> fVariables= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private ImportRewrite fImportRewrite;
 
 	private Set<String> fCompatibleContextTypeIds;
@@ -127,14 +127,14 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	@Override
 	public void addCompatibleContextType(String contextTypeId) {
 		if (fCompatibleContextTypeIds == null)
-			fCompatibleContextTypeIds= new HashSet<>();
+			fCompatibleContextTypeIds= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fCompatibleContextTypeIds.add(contextTypeId);
 	}
 
 	/*
 	 * @see TemplateContext#evaluate(Template template)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public TemplateBuffer evaluate(Template template) throws BadLocationException, TemplateException {
 		clear();
 
@@ -208,7 +208,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 			return false;
 
 		Iterator<String> iter= fCompatibleContextTypeIds.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (template.matches(key, iter.next()))
 				return true;
 		}
@@ -219,7 +219,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	/*
 	 * @see DocumentTemplateContext#getCompletionPosition();
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int getStart() {
 
 		if (this.isManaged() && getCompletionLength() > 0)
@@ -231,10 +231,10 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 			int start= getCompletionOffset();
 			int end= getCompletionOffset() + getCompletionLength();
 
-			while (start != 0 && Character.isUnicodeIdentifierPart(document.getChar(start - 1)))
+			while (start != 0 && Character.isUnicodeIdentifierPart(document.getChar(start - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				start--;
 
-			while (start != end && Character.isWhitespace(document.getChar(start)))
+			while (start != end && Character.isWhitespace(document.getChar(start))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				start++;
 
 			if (start == end)
@@ -250,7 +250,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	/*
 	 * @see org.eclipse.jdt.internal.corext.template.DocumentTemplateContext#getEnd()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int getEnd() {
 
 		if (this.isManaged() || getCompletionLength() == 0)
@@ -262,7 +262,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 			int start= getCompletionOffset();
 			int end= getCompletionOffset() + getCompletionLength();
 
-			while (start != end && Character.isWhitespace(document.getChar(end - 1)))
+			while (start != end && Character.isWhitespace(document.getChar(end - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				end--;
 
 			return end;
@@ -275,7 +275,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	/*
 	 * @see org.eclipse.jdt.internal.corext.template.DocumentTemplateContext#getKey()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getKey() {
 
 		if (getCompletionLength() == 0)
@@ -432,7 +432,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 
 	private String[] suggestVariableName(String type, String[] excludes) throws IllegalArgumentException {
 		int dim=0;
-		while (type.endsWith("[]")) {//$NON-NLS-1$
+		while (type.endsWith("[]")) {//$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dim++;
 			type= type.substring(0, type.length() - 2);
 		}
@@ -455,7 +455,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	 * 	It is fully qualified, if an import conflict prevented the import.
 	 * @since 3.4
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String addImport(String type) {
 		if (isReadOnly())
 			return type;
@@ -506,7 +506,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	 * @return returns either the simple member name if the import was successful or else the qualified name.
 	 * @since 3.4
 	 */
-	public String addStaticImport(String qualifiedMemberName) {
+	public String addStaticImport(String qualifiedMemberName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isReadOnly())
 			return qualifiedMemberName;
 
@@ -574,7 +574,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	 */
 	private boolean hasMethod(IType type, String name) throws JavaModelException {
 		IMethod[] methods= type.getMethods();
-		for (IMethod method : methods) {
+		for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(method.getElementName()))
 				return true;
 		}
@@ -582,7 +582,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 		return false;
 	}
 
-	private void rewriteImports() {
+	private void rewriteImports() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fImportRewrite == null)
 			return;
 
@@ -596,7 +596,7 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 		try {
 			Position position= new Position(getCompletionOffset(), 0);
 			IDocument document= getDocument();
-			final String category= "__template_position_importer" + System.currentTimeMillis(); //$NON-NLS-1$
+			final String category= "__template_position_importer" + System.currentTimeMillis(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			IPositionUpdater updater= new DefaultPositionUpdater(category);
 			document.addPositionCategory(category);
 			document.addPositionUpdater(updater);
@@ -625,18 +625,18 @@ public class JavaContextCore extends CompilationUnitContext implements IJavaCont
 	/*
 	 * Finds a type by the simple name. From AddImportsOperation
 	 */
-	private TypeNameMatch[] findAllTypes(String simpleTypeName, IJavaSearchScope searchScope, SimpleName nameNode, IProgressMonitor monitor, ICompilationUnit cu) throws JavaModelException {
+	private TypeNameMatch[] findAllTypes(String simpleTypeName, IJavaSearchScope searchScope, SimpleName nameNode, IProgressMonitor monitor, ICompilationUnit cu) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int typeKinds= TypeKinds.ALL_TYPES;
 		if (nameNode != null) {
 			typeKinds= ASTResolving.getPossibleTypeKinds(nameNode);
 		}
 
-		ArrayList<TypeNameMatch> typeInfos= new ArrayList<>();
+		ArrayList<TypeNameMatch> typeInfos= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		TypeNameMatchCollector requestor= new TypeNameMatchCollector(typeInfos);
 		new SearchEngine().searchAllTypeNames(null, 0, simpleTypeName.toCharArray(), SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE, getSearchForConstant(typeKinds), searchScope, requestor, IJavaSearchConstants.FORCE_IMMEDIATE_SEARCH, monitor);
 
-		ArrayList<TypeNameMatch> typeRefsFound= new ArrayList<>(typeInfos.size());
-		for (TypeNameMatch curr : typeInfos) {
+		ArrayList<TypeNameMatch> typeRefsFound= new ArrayList<>(typeInfos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TypeNameMatch curr : typeInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getPackageName().length() > 0) { // do not suggest imports from the default package
 				if (isOfKind(curr, typeKinds) && isVisible(curr, cu)) {
 					typeRefsFound.add(curr);

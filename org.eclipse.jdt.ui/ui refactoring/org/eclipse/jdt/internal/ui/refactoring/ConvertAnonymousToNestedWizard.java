@@ -110,7 +110,7 @@ public class ConvertAnonymousToNestedWizard extends RefactoringWizard {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			Composite result= new Composite(parent, SWT.NONE);
 			setControl(result);
@@ -138,7 +138,7 @@ public class ConvertAnonymousToNestedWizard extends RefactoringWizard {
 
 			final Text classNameField= new Text(result, SWT.BORDER | SWT.SINGLE);
 			classNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			classNameField.addModifyListener(unused -> {
+			classNameField.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				ConvertAnonymousToNestedInputPage.this.getConvertRefactoring().setClassName(classNameField.getText());
 				ConvertAnonymousToNestedInputPage.this.updateStatus();
 			});
@@ -150,7 +150,7 @@ public class ConvertAnonymousToNestedWizard extends RefactoringWizard {
 			setPageComplete(getConvertRefactoring().validateInput());
 		}
 
-		private void addVisibilityControl(Composite result) {
+		private void addVisibilityControl(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ConvertAnonymousToNestedRefactoring r= getConvertRefactoring();
 			int[] availableVisibilities= r.getAvailableVisibilities();
 			int currectVisibility;
@@ -179,7 +179,7 @@ public class ConvertAnonymousToNestedWizard extends RefactoringWizard {
 			}
 		}
 
-		public void addDeclareFinalCheckbox(Composite result) {
+		public void addDeclareFinalCheckbox(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			GridData gd;
 			final Button declareFinalCheckbox= new Button(result, SWT.CHECK);
 			final ConvertAnonymousToNestedRefactoring r= getConvertRefactoring();
@@ -191,7 +191,7 @@ public class ConvertAnonymousToNestedWizard extends RefactoringWizard {
 			gd= new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan= 2;
 			declareFinalCheckbox.setLayoutData(gd);
-			declareFinalCheckbox.addSelectionListener(new SelectionAdapter(){
+			declareFinalCheckbox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					boolean declareFinal= declareFinalCheckbox.getSelection();
@@ -201,7 +201,7 @@ public class ConvertAnonymousToNestedWizard extends RefactoringWizard {
 			});
 		}
 
-		public void addDeclareAsStaticCheckbox(Composite result) {
+		public void addDeclareAsStaticCheckbox(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			GridData gd;
 			final Button declareAsStaticCheckbox= new Button(result, SWT.CHECK);
 			final ConvertAnonymousToNestedRefactoring r= getConvertRefactoring();
@@ -219,7 +219,7 @@ public class ConvertAnonymousToNestedWizard extends RefactoringWizard {
 			gd= new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan= 2;
 			declareAsStaticCheckbox.setLayoutData(gd);
-			declareAsStaticCheckbox.addSelectionListener(new SelectionAdapter() {
+			declareAsStaticCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			    @Override
 				public void widgetSelected(SelectionEvent e) {
 					boolean declareAsStatic= declareAsStaticCheckbox.getSelection();

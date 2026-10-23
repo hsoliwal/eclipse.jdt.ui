@@ -125,19 +125,19 @@ public class TextFieldNavigationHandler {
 
 		private final Text fText;
 
-		public TextNavigable(Text text) {
+		public TextNavigable(Text text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fText= text;
 			// workaround for bug 106024:
 			if (BUG_106024_TEXT_SELECTION) {
 				fLastSelection= getSelection();
 				fCaretPosition= fLastSelection.y;
-				fText.addKeyListener(new KeyAdapter() {
+				fText.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 					@Override
 					public void keyReleased(KeyEvent e) {
 						selectionChanged();
 					}
 				});
-				fText.addMouseListener(new MouseAdapter() {
+				fText.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 					@Override
 					public void mouseUp(MouseEvent e) {
 						selectionChanged();
@@ -223,18 +223,18 @@ public class TextFieldNavigationHandler {
 	private static class ComboNavigable extends WorkaroundNavigable {
 		private final Combo fCombo;
 
-		public ComboNavigable(Combo combo) {
+		public ComboNavigable(Combo combo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fCombo= combo;
 			// workaround for bug 103630 and bug 106024:
 			fLastSelection= getSelection();
 			fCaretPosition= fLastSelection.y;
-			fCombo.addKeyListener(new KeyAdapter() {
+			fCombo.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				@Override
 				public void keyReleased(KeyEvent e) {
 					selectionChanged();
 				}
 			});
-			fCombo.addMouseListener(new MouseAdapter() {
+			fCombo.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				@Override
 				public void mouseUp(MouseEvent e) {
 					selectionChanged();
@@ -288,10 +288,10 @@ public class TextFieldNavigationHandler {
 			fNavigable= navigable;
 
 			Control control= navigable.getControl();
-			control.addFocusListener(this);
+			control.addFocusListener(this); //FLLDCIM: MARK — T15 FOCUS CALL
 			if (control.isFocusControl())
 				activate();
-			control.addDisposeListener(unused -> deactivate());
+			control.addDisposeListener(unused -> deactivate()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 
 		@Override
@@ -305,7 +305,7 @@ public class TextFieldNavigationHandler {
 		}
 
 		private void activate() {
-			fNavigable.getControl().addKeyListener(getKeyListener());
+			fNavigable.getControl().addKeyListener(getKeyListener()); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		}
 
 		private void deactivate() {
@@ -317,14 +317,14 @@ public class TextFieldNavigationHandler {
 			}
 		}
 
-		private KeyAdapter getKeyListener() {
+		private KeyAdapter getKeyListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fKeyListener == null) {
 				fKeyListener= new KeyAdapter() {
 					private final boolean IS_WORKAROUND= (fNavigable instanceof ComboNavigable)
 							|| (fNavigable instanceof TextNavigable && TextNavigable.BUG_106024_TEXT_SELECTION);
 					private List<Submission> fSubmissions;
 
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public void keyPressed(KeyEvent e) {
 						if (IS_WORKAROUND) {
 							if (e.keyCode == SWT.ARROW_LEFT && e.stateMask == SWT.MOD2) {
@@ -356,8 +356,8 @@ public class TextFieldNavigationHandler {
 						int accelerator = SWTKeySupport.convertEventToUnmodifiedAccelerator(e);
 						KeySequence keySequence = KeySequence.getInstance(SWTKeySupport.convertAcceleratorToKeyStroke(accelerator));
 						getSubmissions();
-						for (Submission submission : getSubmissions()) {
-							for (TriggerSequence triggerSequence : submission.getTriggerSequences()) {
+						for (Submission submission : getSubmissions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							for (TriggerSequence triggerSequence : submission.getTriggerSequences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (triggerSequence.equals(keySequence)) { // XXX does not work for multi-stroke bindings
 									e.doit= false;
 									submission.execute();
@@ -367,11 +367,11 @@ public class TextFieldNavigationHandler {
 						}
 					}
 
-					private List<Submission> getSubmissions() {
+					private List<Submission> getSubmissions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						if (fSubmissions != null)
 							return fSubmissions;
 
-						fSubmissions= new ArrayList<>();
+						fSubmissions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 						ICommandService commandService= PlatformUI.getWorkbench().getAdapter(ICommandService.class);
 						IBindingService bindingService= PlatformUI.getWorkbench().getAdapter(IBindingService.class);
@@ -384,7 +384,7 @@ public class TextFieldNavigationHandler {
 						final Scheme[] definedSchemes= bindingService.getDefinedSchemes();
 						if (definedSchemes != null) {
 							try {
-								for (Scheme scheme : definedSchemes) {
+								for (Scheme scheme : definedSchemes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									Scheme localSchemeCopy= localBindingManager.getScheme(scheme.getId());
 									localSchemeCopy.define(scheme.getName(), scheme.getDescription(), scheme.getParentId());
 								}
@@ -459,7 +459,7 @@ public class TextFieldNavigationHandler {
 							}
 						});
 						fSubmissions.add(new Submission(getKeyBindings(localBindingManager, commandService, ITextEditorActionDefinitionIds.DELETE_NEXT_WORD)) {
-							@Override
+							@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 							public void execute() {
 								Point selection= fNavigable.getSelection();
 								String text= fNavigable.getText();
@@ -476,12 +476,12 @@ public class TextFieldNavigationHandler {
 									if (end == BreakIterator.DONE)
 										return;
 								}
-								fNavigable.setText(text.substring(0, start) + text.substring(end));
+								fNavigable.setText(text.substring(0, start) + text.substring(end)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								fNavigable.setSelection(start, start);
 							}
 						});
 						fSubmissions.add(new Submission(getKeyBindings(localBindingManager, commandService, ITextEditorActionDefinitionIds.DELETE_PREVIOUS_WORD)) {
-							@Override
+							@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 							public void execute() {
 								Point selection= fNavigable.getSelection();
 								String text= fNavigable.getText();
@@ -498,7 +498,7 @@ public class TextFieldNavigationHandler {
 									if (start == BreakIterator.DONE)
 										return;
 								}
-								fNavigable.setText(text.substring(0, start) + text.substring(end));
+								fNavigable.setText(text.substring(0, start) + text.substring(end)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								fNavigable.setSelection(start, start);
 							}
 						});

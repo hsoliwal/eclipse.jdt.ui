@@ -136,11 +136,11 @@ public class SmokeViewsTest {
 	@SuppressWarnings("restriction") // org.eclipse.ui.internal.ErrorViewPart
 	private void smokeTest(String viewId) throws PartInitException {
 		view = window.getActivePage().showView(viewId);
-		assertNotNull("View " + viewId + " should be created", view);
+		assertNotNull("View " + viewId + " should be created", view); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		DisplayHelper.driveEventQueue(Display.getDefault());
 		if(view instanceof org.eclipse.ui.internal.ErrorViewPart errorView) {
 			System.out.println(errorView.getContentDescription());
-			fail("Error happened on opening view " + viewId);
+			fail("Error happened on opening view " + viewId); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -178,10 +178,10 @@ public class SmokeViewsTest {
 		return ceditor;
 	}
 
-	private IJavaProject createProject() throws CoreException {
+	private IJavaProject createProject() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project = JavaProjectHelper.createJavaProject("SmokeViewsTest", "bin");
 
-		String javaHome = System.getProperty("java.home") + File.separator;
+		String javaHome = System.getProperty("java.home") + File.separator; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String latestSupportedJavaVersion = JavaCore.latestSupportedJavaVersion();
 		String jdkRelease = System.getProperty("java.specification.version");
 		if(jdkRelease.compareTo(latestSupportedJavaVersion) >= 0) {
@@ -191,8 +191,8 @@ public class SmokeViewsTest {
 			JavaProjectHelper.set18CompilerOptions(project);
 		}
 
-		Path bootModPath = new Path(javaHome + "/lib/jrt-fs.jar");
-		Path sourceAttachment = new Path(javaHome + "/lib/src.zip");
+		Path bootModPath = new Path(javaHome + "/lib/jrt-fs.jar"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		Path sourceAttachment = new Path(javaHome + "/lib/src.zip"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IClasspathAttribute[] attributes = { JavaCore.newClasspathAttribute(IClasspathAttribute.MODULE, "true") };
 		IClasspathEntry jrtEntry = JavaCore.newLibraryEntry(bootModPath, sourceAttachment, null, null, attributes, false);

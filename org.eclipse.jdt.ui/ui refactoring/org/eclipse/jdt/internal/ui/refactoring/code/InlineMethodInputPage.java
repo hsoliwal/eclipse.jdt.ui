@@ -55,7 +55,7 @@ public class InlineMethodInputPage extends UserInputWizardPage {
 		setDescription(DESCRIPTION);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		fRefactoring= (InlineMethodRefactoring)getRefactoring();
@@ -78,7 +78,7 @@ public class InlineMethodInputPage extends UserInputWizardPage {
 		radioAll.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		radioAll.setText(RefactoringMessages.InlineMethodInputPage_all_invocations);
 		radioAll.setSelection(all);
-		radioAll.addSelectionListener(new SelectionAdapter() {
+		radioAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				fRemove.setEnabled(fRefactoring.canEnableDeleteSource());
@@ -95,7 +95,7 @@ public class InlineMethodInputPage extends UserInputWizardPage {
 		fRemove.setEnabled(all && fRefactoring.canEnableDeleteSource());
 		fRemove.setSelection(fRefactoring.canEnableDeleteSource());
 		fRefactoring.setDeleteSource(fRefactoring.canEnableDeleteSource());
-		fRemove.addSelectionListener(new SelectionAdapter() {
+		fRemove.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fRefactoring.setDeleteSource(((Button)e.widget).getSelection());
@@ -113,7 +113,7 @@ public class InlineMethodInputPage extends UserInputWizardPage {
 		} else {
 			radioSelected.setFocus();
 		}
-		radioSelected.addSelectionListener(new SelectionAdapter() {
+		radioSelected.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				fRemove.setEnabled(false);

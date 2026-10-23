@@ -68,7 +68,7 @@ public class JavaPreview {
 
 	private final class JavaSourcePreviewerUpdater {
 
-	    final IPropertyChangeListener propertyListener= new IPropertyChangeListener() {
+	    final IPropertyChangeListener propertyListener= new IPropertyChangeListener() { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				if (fViewerConfiguration.affectsTextPresentation(event)) {
@@ -83,7 +83,7 @@ public class JavaPreview {
 
 		    fPreferenceStore.addPropertyChangeListener(propertyListener);
 
-			fSourceViewer.getTextWidget().addDisposeListener(unused -> fPreferenceStore.removePropertyChangeListener(propertyListener));
+			fSourceViewer.getTextWidget().addDisposeListener(unused -> fPreferenceStore.removePropertyChangeListener(propertyListener)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 	}
 
@@ -108,16 +108,16 @@ public class JavaPreview {
 	private boolean fEditorMode;
 	private boolean fUpdateScheduled;
 
-	public JavaPreview(Map<String, String> workingValues, Composite parent) {
+	public JavaPreview(Map<String, String> workingValues, Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavaTextTools tools= JavaPlugin.getDefault().getJavaTextTools();
 		fPreviewDocument= new Document();
 		fWorkingValues= workingValues;
 		tools.setupJavaDocumentPartitioner( fPreviewDocument, IJavaPartitions.JAVA_PARTITIONING);
 
 		PreferenceStore prioritizedSettings= new PreferenceStore();
-		HashMap<String, String> complianceOptions= new HashMap<>();
+		HashMap<String, String> complianceOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		JavaModelUtil.setComplianceOptions(complianceOptions, JavaModelUtil.VERSION_LATEST);
-		for (Entry<String, String> complianceOption : complianceOptions.entrySet()) {
+		for (Entry<String, String> complianceOption : complianceOptions.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			prioritizedSettings.setValue(complianceOption.getKey(), complianceOption.getValue());
 		}
 
@@ -143,7 +143,7 @@ public class JavaPreview {
 		new JavaSourcePreviewerUpdater();
 		fSourceViewer.setDocument(fPreviewDocument);
 
-		fSourceViewer.getTextWidget().addKeyListener(new KeyAdapter() {
+		fSourceViewer.getTextWidget().addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.stateMask == SWT.CTRL) {
@@ -165,13 +165,13 @@ public class JavaPreview {
 		if (fUpdateScheduled)
 			return;
 		fUpdateScheduled= true;
-		Display.getDefault().asyncExec(() -> {
+		Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			doUpdate();
 			fUpdateScheduled= false;
 		});
 	}
 
-	private void doUpdate() {
+	private void doUpdate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fWorkingValues == null) {
 			fPreviewDocument.set(""); //$NON-NLS-1$
 			return;
@@ -227,18 +227,18 @@ public class JavaPreview {
 	private int getHeightOfAllLines(StyledText styledText) {
 		int height= 0;
 		int lineCount= styledText.getLineCount();
-		for (int i= 0; i < lineCount; i++)
+		for (int i= 0; i < lineCount; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			height= height + styledText.getLineHeight(styledText.getOffsetAtLine(i));
 		return height;
 	}
 
-	protected void doFormatPreview() {
+	protected void doFormatPreview() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fPreviewDocument.set(fPreviewText);
 
 		String delimiter= TextUtilities.getDefaultLineDelimiter(fPreviewDocument);
 		Map<String, String> prefs= fWorkingValues;
 		if (fFormatterId != null) {
-			prefs= new HashMap<>(fWorkingValues);
+			prefs= new HashMap<>(fWorkingValues); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			prefs.put(JavaCore.JAVA_FORMATTER, fFormatterId);
 		}
 		fSourceViewer.setRedraw(false);

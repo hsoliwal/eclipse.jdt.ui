@@ -67,7 +67,7 @@ public class JUnitPlugin extends AbstractUIPlugin {
 	private static JUnitPlugin fgPlugin= null;
 
 	public static final String PLUGIN_ID= "org.eclipse.jdt.junit"; //$NON-NLS-1$
-	public static final String ID_EXTENSION_POINT_JUNIT_LAUNCHCONFIGS= PLUGIN_ID + "." + "junitLaunchConfigs"; //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String ID_EXTENSION_POINT_JUNIT_LAUNCHCONFIGS= PLUGIN_ID + "." + "junitLaunchConfigs"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final IPath ICONS_PATH= new Path("$nl$/icons/full"); //$NON-NLS-1$
 
@@ -148,7 +148,7 @@ public class JUnitPlugin extends AbstractUIPlugin {
 	}
 
 	private static void setImageDescriptors(IAction action, String type, String relPath) {
-		ImageDescriptor descriptor= createImageDescriptor("e" + type, relPath, true); //$NON-NLS-1$
+		ImageDescriptor descriptor= createImageDescriptor("e" + type, relPath, true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		action.setImageDescriptor(descriptor);
 	}
 
@@ -201,7 +201,7 @@ public class JUnitPlugin extends AbstractUIPlugin {
 	 * Adds the JUnit, Mockito and AssertJ entries to the default content assist favorites for static
 	 * imports.
 	 */
-	private void setCodeassistFavoriteStaticMembers() {
+	private void setCodeassistFavoriteStaticMembers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Set<String> favoritesToAdd= new LinkedHashSet<>();
 		favoritesToAdd.add("org.junit.Assert.*"); //$NON-NLS-1$
 		favoritesToAdd.add("org.junit.Assume.*"); //$NON-NLS-1$
@@ -248,14 +248,14 @@ public class JUnitPlugin extends AbstractUIPlugin {
 	 * Loads the registered JUnit launch configurations
 	 */
 	private void loadLaunchConfigTypeIDs() {
-		fJUnitLaunchConfigTypeIDs= new ArrayList<>();
+		fJUnitLaunchConfigTypeIDs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IExtensionPoint extensionPoint= Platform.getExtensionRegistry().getExtensionPoint(ID_EXTENSION_POINT_JUNIT_LAUNCHCONFIGS);
 		if (extensionPoint == null) {
 			return;
 		}
 		IConfigurationElement[] configs= extensionPoint.getConfigurationElements();
 
-		for (IConfigurationElement config : configs) {
+		for (IConfigurationElement config : configs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String configTypeID= config.getAttribute("configTypeID"); //$NON-NLS-1$
 			fJUnitLaunchConfigTypeIDs.add(configTypeID);
 		}
@@ -317,10 +317,10 @@ public class JUnitPlugin extends AbstractUIPlugin {
 	}
 
 	public static void asyncShowTestRunnerViewPart() {
-		getDisplay().asyncExec(JUnitPlugin::showTestRunnerViewPartInActivePage);
+		getDisplay().asyncExec(JUnitPlugin::showTestRunnerViewPartInActivePage); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
-	public static TestRunnerViewPart showTestRunnerViewPartInActivePage() {
+	public static TestRunnerViewPart showTestRunnerViewPartInActivePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			// Have to force the creation of view part contents
 			// otherwise the UI will not be updated

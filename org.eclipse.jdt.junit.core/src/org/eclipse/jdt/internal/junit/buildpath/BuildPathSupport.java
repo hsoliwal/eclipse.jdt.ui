@@ -101,7 +101,7 @@ public class BuildPathSupport {
 			return getBundleLocation(aBundleId, aVersionRange, false);
 		}
 
-		private IPath getBundleLocation(String aBundleId, VersionRange aVersionRange, boolean isSourceBundle) {
+		private IPath getBundleLocation(String aBundleId, VersionRange aVersionRange, boolean isSourceBundle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			BundleInfo bundleInfo = P2Utils.findBundle(aBundleId, aVersionRange, isSourceBundle);
 			if (bundleInfo != null) {
 				resolvedVersion = bundleInfo.getVersion();
@@ -112,7 +112,7 @@ public class BuildPathSupport {
 				Bundle[] bundles= Platform.getBundles(aBundleId, aVersionRange.toString());
 				Bundle bestMatch = null;
 				if (bundles != null) {
-					for (Bundle bundle : bundles) {
+					for (Bundle bundle : bundles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (bestMatch == null || bundle.getState() > bestMatch.getState()) {
 							bestMatch= bundle;
 						}
@@ -138,7 +138,7 @@ public class BuildPathSupport {
 			return null;
 		}
 
-		private IPath getBundleFileLocation(String aBundleId, VersionRange aVersionRange, String filePath) {
+		private IPath getBundleFileLocation(String aBundleId, VersionRange aVersionRange, String filePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			BundleInfo bundleInfo = P2Utils.findBundle(aBundleId, aVersionRange, false);
 
 			if (bundleInfo != null) {
@@ -158,7 +158,7 @@ public class BuildPathSupport {
 				Bundle[] bundles= Platform.getBundles(aBundleId, aVersionRange.toString());
 				Bundle bestMatch= null;
 				if (bundles != null) {
-					for (Bundle bundle : bundles) {
+					for (Bundle bundle : bundles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (bestMatch == null || bundle.getState() > bestMatch.getState()) {
 							bestMatch= bundle;
 						}
@@ -189,7 +189,7 @@ public class BuildPathSupport {
 		 * @param filePath the file path within the bundle of the library to be extracted
 		 * @return the path to the extracted library
 		 */
-		private IPath extractArchiveEntry(BundleInfo bundleInfo, File bundleLoc, String filePath) {
+		private IPath extractArchiveEntry(BundleInfo bundleInfo, File bundleLoc, String filePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPath container= JUnitCorePlugin.getDefault().getStateLocation().append(bundleInfo.getSymbolicName()).append(bundleInfo.getVersion());
 			IPath extractedPath= container.append(filePath);
 			if (extractedPath.toFile().exists()) {
@@ -200,14 +200,14 @@ public class BuildPathSupport {
 				ZipEntry entry= jar.getEntry(filePath);
 				if (entry != null) {
 					if (!container.toFile().exists() && !container.toFile().mkdirs()) {
-						LOG.error("Unable to create directory to hold " + filePath); //$NON-NLS-1$
+						LOG.error("Unable to create directory to hold " + filePath); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						return null;
 					}
 					try (InputStream input= jar.getInputStream(entry);
 							OutputStream output= Files.newOutputStream(extractedPath.toFile().toPath())) {
 						int bytesRead;
 						byte[] buffer= new byte[8192];
-						while ((bytesRead= input.read(buffer)) > 0) {
+						while ((bytesRead= input.read(buffer)) > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							output.write(buffer, 0, bytesRead);
 						}
 					}
@@ -219,7 +219,7 @@ public class BuildPathSupport {
 			return null;
 		}
 
-		public IClasspathEntry getLibraryEntry() {
+		public IClasspathEntry getLibraryEntry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPath bundleLocation = getBundleLocation(bundleId, versionRange);
 			if (bundleLocation != null) {
 				IPath bundleRootLocation= null;
@@ -248,7 +248,7 @@ public class BuildPathSupport {
 
 				return JavaCore.newLibraryEntry(bundleRootLocation, srcLocation, null, getAccessRules(), attributes, false);
 			}
-			String message = "Unable to compute bundle location for '" + bundleId + "' with range " + versionRange;  //$NON-NLS-1$//$NON-NLS-2$
+			String message = "Unable to compute bundle location for '" + bundleId + "' with range " + versionRange;  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			LOG.error(message, new IllegalStateException(message));
 			return null;
 		}
@@ -257,7 +257,7 @@ public class BuildPathSupport {
 			return new IAccessRule[0];
 		}
 
-		private IPath getSourceLocation(IPath bundleLocation) {
+		private IPath getSourceLocation(IPath bundleLocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPath srcLocation= null;
 			if (repositorySource != null) {
 				// Try source in workspace (from repository)
@@ -279,7 +279,7 @@ public class BuildPathSupport {
 			return srcLocation;
 		}
 
-		private IPath getLocationIfExists(IPath bundleLocationPath, final String entryInBundle) {
+		private IPath getLocationIfExists(IPath bundleLocationPath, final String entryInBundle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPath srcLocation= null;
 			if (bundleLocationPath != null) {
 				File bundleFile= bundleLocationPath.toFile();

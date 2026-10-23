@@ -159,7 +159,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 	/*
 	 * @see IWizard#performFinish()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		updateStore();
 
@@ -183,9 +183,9 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 
 				URL newURL= fDestination.toFile().toURI().toURL();
 				String newExternalForm= newURL.toExternalForm();
-				List<IJavaProject> projs= new ArrayList<>();
+				List<IJavaProject> projs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				//get javadoc locations for all projects
-				for (IJavaProject curr : checkedProjects) {
+				for (IJavaProject curr : checkedProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					URL currURL= JavaUI.getProjectJavadocLocation(curr);
 					if (currURL == null || !newExternalForm.equals(currURL.toExternalForm())) {
 						//if not all projects have the same javadoc location ask if you want to change
@@ -209,14 +209,14 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 				if (javadocXMLElement != null) {
 
 					if (!fTreeWizardPage.getCustom()) {
-						for (ContributedJavadocWizardPage contributedJavadocWizardPage : fContributedJavadocWizardPages) {
+						for (ContributedJavadocWizardPage contributedJavadocWizardPage : fContributedJavadocWizardPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							contributedJavadocWizardPage.updateAntScript(javadocXMLElement);
 						}
 					}
 					File file= fStore.writeXML(javadocXMLElement);
 					IFile[] files= fRoot.findFilesForLocationURI(file.toURI());
 					if (files != null) {
-						for (IFile f : files) {
+						for (IFile f : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							f.refreshLocal(IResource.DEPTH_ONE, null);
 						}
 					}
@@ -252,11 +252,11 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 		return super.performCancel();
 	}
 
-	private void setAllJavadocLocations(IJavaProject[] projects, URL newURL) {
+	private void setAllJavadocLocations(IJavaProject[] projects, URL newURL) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell= getShell();
 		String[] buttonlabels= new String[] { IDialogConstants.YES_LABEL, IDialogConstants.YES_TO_ALL_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.NO_TO_ALL_LABEL };
 
-		for (int j= 0; j < projects.length; j++) {
+		for (int j= 0; j < projects.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject iJavaProject= projects[j];
 			String message= Messages.format(JavadocExportMessages.JavadocWizard_updatejavadoclocation_message, new String[] { BasicElementLabels.getJavaElementName(iJavaProject.getElementName()), BasicElementLabels.getPathLabel(fDestination, true) });
 			MessageDialog dialog= new MessageDialog(shell, JavadocExportMessages.JavadocWizard_updatejavadocdialog_label, null, message, MessageDialog.QUESTION, buttonlabels, 1);
@@ -266,7 +266,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 					JavaUI.setProjectJavadocLocation(iJavaProject, newURL);
 					break;
 				case YES_TO_ALL :
-					for (int i= j; i < projects.length; i++) {
+					for (int i= j; i < projects.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						iJavaProject= projects[i];
 						JavaUI.setProjectJavadocLocation(iJavaProject, newURL);
 						j++;
@@ -282,11 +282,11 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 		}
 	}
 
-	private boolean executeJavadocGeneration() {
+	private boolean executeJavadocGeneration() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Process process= null;
 		try {
-			ArrayList<String> vmArgs= new ArrayList<>();
-			ArrayList<String> progArgs= new ArrayList<>();
+			ArrayList<String> vmArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			ArrayList<String> progArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			IStatus status= fStore.getArgumentArray(vmArgs, progArgs);
 			if (!status.isOK()) {
@@ -294,16 +294,16 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 			}
 
 			if (!fTreeWizardPage.getCustom()) {
-				for (ContributedJavadocWizardPage fContributedJavadocWizardPage : fContributedJavadocWizardPages) {
+				for (ContributedJavadocWizardPage fContributedJavadocWizardPage : fContributedJavadocWizardPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fContributedJavadocWizardPage.updateArguments(vmArgs, progArgs);
 				}
 			}
 
 			File file= File.createTempFile("javadoc-arguments", ".tmp");  //$NON-NLS-1$//$NON-NLS-2$
-			vmArgs.add('@' + file.getAbsolutePath());
+			vmArgs.add('@' + file.getAbsolutePath()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			try (BufferedWriter writer= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), getEncoding(vmArgs)))) {
-				for (String progArg : progArgs) {
+				for (String progArg : progArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String curr= progArg;
 					curr= checkForSpaces(curr);
 
@@ -315,10 +315,10 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 			process= Runtime.getRuntime().exec(args);
 			if (process != null) {
 				// construct a formatted command line for the process properties
-				StringBuilder buf= new StringBuilder();
-				for (String arg : args) {
-					buf.append(arg);
-					buf.append(' ');
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				for (String arg : args) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buf.append(arg); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 
 				try {
@@ -377,7 +377,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 
 	private static String getEncoding(ArrayList<String> vmArgs) {
 		Iterator<String> iter= vmArgs.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String argument= iter.next();
 			if (argument.length() > ENCODING_ARGUMENT_PREFIX.length() && argument.startsWith(ENCODING_ARGUMENT_PREFIX)) {
 				String encoding= argument.substring(ENCODING_ARGUMENT_PREFIX.length());
@@ -394,22 +394,22 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 		if (curr.indexOf(' ') == -1) {
 			return curr;
 		}
-		StringBuilder buf= new StringBuilder();
-		buf.append('\'');
-		for (char ch : curr.toCharArray()) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append('\''); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (char ch : curr.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ch == '\\' || ch == '\'') {
-				buf.append('\\');
+				buf.append('\\'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(ch);
+			buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append('\'');
+		buf.append('\''); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
 	/*
 	 * @see IWizard#addPages()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addPages() {
 		fContributedJavadocWizardPages= ContributedJavadocWizardPage.getContributedPages(fStore);
 
@@ -420,7 +420,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 		super.addPage(fTreeWizardPage);
 		super.addPage(fStandardDocletWizardPage);
 
-		for (ContributedJavadocWizardPage fContributedJavadocWizardPage : fContributedJavadocWizardPages) {
+		for (ContributedJavadocWizardPage fContributedJavadocWizardPage : fContributedJavadocWizardPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			super.addPage(fContributedJavadocWizardPage);
 		}
 		super.addPage(fLastWizardPage);
@@ -451,7 +451,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 	private void refresh(IPath path) {
 		IContainer[] containers= fRoot.findContainersForLocationURI(path.toFile().toURI());
 		try {
-			for (IContainer container : containers) {
+			for (IContainer container : containers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				container.refreshLocal(IResource.DEPTH_INFINITE, null);
 			}
 		} catch (CoreException e) {
@@ -471,7 +471,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 		}
 	}
 
-	private class JavadocLaunchListener implements ILaunchesListener2 {
+	private class JavadocLaunchListener implements ILaunchesListener2 { //FLLDCIM: MARK — T27  IMPLEMENTS
 		private Display fDisplay;
 		private volatile ILaunch fLaunch;
 		private File fFile;
@@ -490,7 +490,7 @@ public class JavadocWizard extends Wizard implements IExportWizard {
 		}
 
 		private boolean containsJavadocLaunch(ILaunch[] launches) {
-			for (ILaunch launch : launches) {
+			for (ILaunch launch : launches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (launch == fLaunch) {
 					return true;
 				}

@@ -94,7 +94,7 @@ public class JarPackageWriter extends Object implements IJarDescriptionWriter {
 	 * @param jarPackage the JAR package data
 	 * @exception IOException if writing to the underlying stream fails
 	 */
-	public void writeXML(JarPackageData jarPackage) throws IOException {
+	public void writeXML(JarPackageData jarPackage) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(jarPackage);
 		DocumentBuilder docBuilder= null;
 		DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
@@ -141,27 +141,27 @@ public class JarPackageWriter extends Object implements IJarDescriptionWriter {
 	private void xmlWriteOptions(JarPackageData jarPackage, Document document, Element xmlJarDesc) throws DOMException {
 		Element options= document.createElement("options"); //$NON-NLS-1$
 		xmlJarDesc.appendChild(options);
-		options.setAttribute("overwrite", "" + jarPackage.allowOverwrite()); //$NON-NLS-2$ //$NON-NLS-1$
-		options.setAttribute("compress", "" + jarPackage.isCompressed()); //$NON-NLS-2$ //$NON-NLS-1$
-		options.setAttribute("exportErrors", "" + jarPackage.areErrorsExported()); //$NON-NLS-2$ //$NON-NLS-1$
-		options.setAttribute("exportWarnings", "" + jarPackage.exportWarnings()); //$NON-NLS-2$ //$NON-NLS-1$
-		options.setAttribute("saveDescription", "" + jarPackage.isDescriptionSaved()); //$NON-NLS-2$ //$NON-NLS-1$
+		options.setAttribute("overwrite", "" + jarPackage.allowOverwrite()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		options.setAttribute("compress", "" + jarPackage.isCompressed()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		options.setAttribute("exportErrors", "" + jarPackage.areErrorsExported()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		options.setAttribute("exportWarnings", "" + jarPackage.exportWarnings()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		options.setAttribute("saveDescription", "" + jarPackage.isDescriptionSaved()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		options.setAttribute("descriptionLocation", jarPackage.getDescriptionLocation().toPortableString()); //$NON-NLS-1$
-		options.setAttribute("useSourceFolders", "" + jarPackage.useSourceFolderHierarchy()); //$NON-NLS-2$ //$NON-NLS-1$
-		options.setAttribute("buildIfNeeded", "" + jarPackage.isBuildingIfNeeded()); //$NON-NLS-2$ //$NON-NLS-1$
-		options.setAttribute("includeDirectoryEntries", "" + jarPackage.areDirectoryEntriesIncluded());  //$NON-NLS-1$//$NON-NLS-2$
-		options.setAttribute("storeRefactorings", "" + jarPackage.isRefactoringAware());  //$NON-NLS-1$//$NON-NLS-2$
+		options.setAttribute("useSourceFolders", "" + jarPackage.useSourceFolderHierarchy()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		options.setAttribute("buildIfNeeded", "" + jarPackage.isBuildingIfNeeded()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		options.setAttribute("includeDirectoryEntries", "" + jarPackage.areDirectoryEntriesIncluded());  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		options.setAttribute("storeRefactorings", "" + jarPackage.isRefactoringAware());  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void xmlWriteRefactoring(JarPackageData jarPackage, Document document, Element xmlJarDesc) throws DOMException {
+	private void xmlWriteRefactoring(JarPackageData jarPackage, Document document, Element xmlJarDesc) throws DOMException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Element refactoring= document.createElement("storedRefactorings"); //$NON-NLS-1$
 		xmlJarDesc.appendChild(refactoring);
-		refactoring.setAttribute("structuralOnly", "" + jarPackage.isExportStructuralOnly()); //$NON-NLS-1$ //$NON-NLS-2$
-		refactoring.setAttribute("deprecationInfo", "" + jarPackage.isDeprecationAware()); //$NON-NLS-1$ //$NON-NLS-2$
+		refactoring.setAttribute("structuralOnly", "" + jarPackage.isExportStructuralOnly()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		refactoring.setAttribute("deprecationInfo", "" + jarPackage.isDeprecationAware()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final IProject[] projects= jarPackage.getRefactoringProjects();
 		if (projects != null) {
-			for (int index= 0; index < projects.length; index++)
-				refactoring.setAttribute("project" + (index + 1), projects[index].getName()); //$NON-NLS-1$
+			for (int index= 0; index < projects.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				refactoring.setAttribute("project" + (index + 1), projects[index].getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		final RefactoringDescriptorProxy[] proxies= jarPackage.getRefactoringDescriptors();
 		if (proxies != null && proxies.length > 0) {
@@ -169,11 +169,11 @@ public class JarPackageWriter extends Object implements IJarDescriptionWriter {
 			IRefactoringHistoryService service= RefactoringCore.getHistoryService();
 			try {
 				service.connect();
-				for (int index= 0; index < proxies.length; index++, count++) {
+				for (int index= 0; index < proxies.length; index++, count++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						final ByteArrayOutputStream stream= new ByteArrayOutputStream();
 						service.writeRefactoringDescriptors(new RefactoringDescriptorProxy[] { proxies[index]}, stream, RefactoringDescriptor.NONE, true, null);
-						refactoring.setAttribute("refactoring" + count, stream.toString(StandardCharsets.UTF_8)); //$NON-NLS-1$
+						refactoring.setAttribute("refactoring" + count, stream.toString(StandardCharsets.UTF_8)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} catch (CoreException exception) {
 						JavaPlugin.log(exception);
 					}
@@ -188,10 +188,10 @@ public class JarPackageWriter extends Object implements IJarDescriptionWriter {
 		Element manifest= document.createElement("manifest"); //$NON-NLS-1$
 		xmlJarDesc.appendChild(manifest);
 		manifest.setAttribute("manifestVersion", jarPackage.getManifestVersion()); //$NON-NLS-1$
-		manifest.setAttribute("usesManifest", "" + jarPackage.usesManifest()); //$NON-NLS-2$ //$NON-NLS-1$
-		manifest.setAttribute("reuseManifest", "" + jarPackage.isManifestReused()); //$NON-NLS-2$ //$NON-NLS-1$
-		manifest.setAttribute("saveManifest", "" + jarPackage.isManifestSaved()); //$NON-NLS-2$ //$NON-NLS-1$
-		manifest.setAttribute("generateManifest", "" + jarPackage.isManifestGenerated()); //$NON-NLS-2$ //$NON-NLS-1$
+		manifest.setAttribute("usesManifest", "" + jarPackage.usesManifest()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		manifest.setAttribute("reuseManifest", "" + jarPackage.isManifestReused()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		manifest.setAttribute("saveManifest", "" + jarPackage.isManifestSaved()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		manifest.setAttribute("generateManifest", "" + jarPackage.isManifestGenerated()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		manifest.setAttribute("manifestLocation", jarPackage.getManifestLocation().toPortableString()); //$NON-NLS-1$
 		if (jarPackage.getManifestMainClass() != null)
 			manifest.setAttribute("mainClassHandleIdentifier", jarPackage.getManifestMainClass().getHandleIdentifier()); //$NON-NLS-1$
@@ -201,7 +201,7 @@ public class JarPackageWriter extends Object implements IJarDescriptionWriter {
 	private void xmlWriteSealingInfo(JarPackageData jarPackage, Document document, Element manifest) throws DOMException {
 		Element sealing= document.createElement("sealing"); //$NON-NLS-1$
 		manifest.appendChild(sealing);
-		sealing.setAttribute("sealJar", "" + jarPackage.isJarSealed()); //$NON-NLS-2$ //$NON-NLS-1$
+		sealing.setAttribute("sealJar", "" + jarPackage.isJarSealed()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		Element packagesToSeal= document.createElement("packagesToSeal"); //$NON-NLS-1$
 		sealing.appendChild(packagesToSeal);
 		add(jarPackage.getPackagesToSeal(), packagesToSeal, document);
@@ -213,10 +213,10 @@ public class JarPackageWriter extends Object implements IJarDescriptionWriter {
 	private void xmlWriteSelectedElements(JarPackageData jarPackage, Document document, Element xmlJarDesc) throws DOMException {
 		Element selectedElements= document.createElement("selectedElements"); //$NON-NLS-1$
 		xmlJarDesc.appendChild(selectedElements);
-		selectedElements.setAttribute("exportClassFiles", "" + jarPackage.areClassFilesExported()); //$NON-NLS-2$ //$NON-NLS-1$
-		selectedElements.setAttribute("exportOutputFolder", "" + jarPackage.areOutputFoldersExported()); //$NON-NLS-2$ //$NON-NLS-1$
-		selectedElements.setAttribute("exportJavaFiles", "" + jarPackage.areJavaFilesExported()); //$NON-NLS-2$ //$NON-NLS-1$
-		for (Object element : jarPackage.getElements()) {
+		selectedElements.setAttribute("exportClassFiles", "" + jarPackage.areClassFilesExported()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		selectedElements.setAttribute("exportOutputFolder", "" + jarPackage.areOutputFoldersExported()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		selectedElements.setAttribute("exportJavaFiles", "" + jarPackage.areJavaFilesExported()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (Object element : jarPackage.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource)
 				add((IResource)element, selectedElements, document);
 			else if (element instanceof IJavaElement)
@@ -228,7 +228,7 @@ public class JarPackageWriter extends Object implements IJarDescriptionWriter {
 	private void xmlWriteSelectedProjects(JarPackageData jarPackage, Document document, Element xmlJarDesc) throws DOMException {
 		Element selectedElements= document.createElement("selectedProjects"); //$NON-NLS-1$
 		xmlJarDesc.appendChild(selectedElements);
-		for (IProject element : jarPackage.getRefactoringProjects()) {
+		for (IProject element : jarPackage.getRefactoringProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element != null)
 				add(element, selectedElements, document);
 		}
@@ -274,7 +274,7 @@ public class JarPackageWriter extends Object implements IJarDescriptionWriter {
 	}
 
 	private void add(IPackageFragment[] packages, Element parent, Document document) {
-		for (IPackageFragment p : packages) {
+		for (IPackageFragment p : packages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Element pkg= document.createElement("package"); //$NON-NLS-1$
 			parent.appendChild(pkg);
 			pkg.setAttribute("handleIdentifier", p.getHandleIdentifier()); //$NON-NLS-1$

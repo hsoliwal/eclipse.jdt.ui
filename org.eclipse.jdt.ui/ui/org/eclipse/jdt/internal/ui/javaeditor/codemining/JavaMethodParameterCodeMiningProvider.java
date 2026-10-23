@@ -68,7 +68,7 @@ public class JavaMethodParameterCodeMiningProvider extends AbstractCodeMiningPro
 		}
 		try {
 			IJavaElement[] elements= unit.getChildren();
-			List<ICodeMining> minings= new ArrayList<>(elements.length);
+			List<ICodeMining> minings= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			collectLineContentCodeMinings(unit, minings);
 			return minings;
 		} catch (JavaModelException e) {

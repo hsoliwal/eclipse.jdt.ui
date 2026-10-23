@@ -47,7 +47,7 @@ public class OpenJavaEditorTest extends OpenEditorTest {
 
 		@Override
 		protected void setUp() throws Exception {
-			ResourceTestHelper.replicate(PREFIX + FILE_SUFFIX, PREFIX, FILE_SUFFIX, WARM_UP_RUNS + MEASURED_RUNS, FILE_PREFIX, FILE_PREFIX, ResourceTestHelper.SKIP_IF_EXISTS);
+			ResourceTestHelper.replicate(PREFIX + FILE_SUFFIX, PREFIX, FILE_SUFFIX, WARM_UP_RUNS + MEASURED_RUNS, FILE_PREFIX, FILE_PREFIX, ResourceTestHelper.SKIP_IF_EXISTS); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -69,7 +69,7 @@ public class OpenJavaEditorTest extends OpenEditorTest {
 
 	private static final String FILE_PREFIX= "TextLayout";
 
-	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX;
+	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String FILE_SUFFIX= ".java";
 
@@ -83,7 +83,7 @@ public class OpenJavaEditorTest extends OpenEditorTest {
 		super(name);
 	}
 
-	public static Test suite() {
+	public static Test suite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// ensure sequence
 		TestSuite suite= new TestSuite(THIS.getName());
 
@@ -124,7 +124,7 @@ public class OpenJavaEditorTest extends OpenEditorTest {
 
 	public void testOpenFirstEditor() throws Exception {
 		PerformanceMeter performanceMeter= createPerformanceMeterForSummary(SHORT_NAME_FIRST_RUN, Dimension.ELAPSED_PROCESS);
-		measureOpenInEditor(new IFile[] { ResourceTestHelper.findFile(PREFIX + FILE_SUFFIX) }, performanceMeter, false);
+		measureOpenInEditor(new IFile[] { ResourceTestHelper.findFile(PREFIX + FILE_SUFFIX) }, performanceMeter, false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public void testOpenJavaEditor1() throws Exception {

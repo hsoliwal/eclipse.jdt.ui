@@ -74,7 +74,7 @@ public class JUnit5TestFinder implements ITestFinder {
 			return fName;
 		}
 
-		boolean annotatesAtLeastOneInnerClass(ITypeBinding type) {
+		boolean annotatesAtLeastOneInnerClass(ITypeBinding type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (type == null) {
 				return false;
 			}
@@ -86,7 +86,7 @@ public class JUnit5TestFinder implements ITestFinder {
 				return true;
 			}
 			ITypeBinding[] interfaces= type.getInterfaces();
-			for (ITypeBinding intf : interfaces) {
+			for (ITypeBinding intf : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (annotatesAtLeastOneInnerClass(intf)) {
 					return true;
 				}
@@ -96,7 +96,7 @@ public class JUnit5TestFinder implements ITestFinder {
 
 		private boolean annotatesDeclaredTypes(ITypeBinding type) {
 			ITypeBinding[] declaredTypes= type.getDeclaredTypes();
-			for (ITypeBinding declaredType : declaredTypes) {
+			for (ITypeBinding declaredType : declaredTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isNestedClass(declaredType)) {
 					return true;
 				}
@@ -116,7 +116,7 @@ public class JUnit5TestFinder implements ITestFinder {
 		}
 
 		boolean annotatesTypeOrSuperTypes(ITypeBinding type) {
-			while (type != null) {
+			while (type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (annotates(type.getAnnotations())) {
 					return true;
 				}
@@ -125,7 +125,7 @@ public class JUnit5TestFinder implements ITestFinder {
 			return false;
 		}
 
-		boolean annotatesAtLeastOneMethod(ITypeBinding type) {
+		boolean annotatesAtLeastOneMethod(ITypeBinding type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (type == null) {
 				return false;
 			}
@@ -137,7 +137,7 @@ public class JUnit5TestFinder implements ITestFinder {
 				return true;
 			}
 			ITypeBinding[] interfaces= type.getInterfaces();
-			for (ITypeBinding intf : interfaces) {
+			for (ITypeBinding intf : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (annotatesAtLeastOneMethod(intf)) {
 					return true;
 				}
@@ -147,7 +147,7 @@ public class JUnit5TestFinder implements ITestFinder {
 
 		private boolean annotatesDeclaredMethods(ITypeBinding type) {
 			IMethodBinding[] declaredMethods= type.getDeclaredMethods();
-			for (IMethodBinding curr : declaredMethods) {
+			for (IMethodBinding curr : declaredMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (annotates(curr.getAnnotations())) {
 					return true;
 				}
@@ -157,7 +157,7 @@ public class JUnit5TestFinder implements ITestFinder {
 
 		// See JUnitLaunchConfigurationTab#isAnnotatedWithTestable also.
 		private boolean annotates(IAnnotationBinding[] annotations) {
-			for (IAnnotationBinding annotation : annotations) {
+			for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (annotation == null) {
 					continue;
 				}
@@ -165,7 +165,7 @@ public class JUnit5TestFinder implements ITestFinder {
 					return true;
 				}
 				if (TESTABLE.getName().equals(fName) || NESTED.getName().equals(fName)) {
-					Set<ITypeBinding> hierarchy= new HashSet<>();
+					Set<ITypeBinding> hierarchy= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					if (matchesNameInAnnotationHierarchy(annotation, hierarchy)) {
 						return true;
 					}
@@ -187,7 +187,7 @@ public class JUnit5TestFinder implements ITestFinder {
 		private boolean matchesNameInAnnotationHierarchy(IAnnotationBinding annotation, Set<ITypeBinding> hierarchy) {
 			ITypeBinding type= annotation.getAnnotationType();
 			if (type != null) {
-				for (IAnnotationBinding annotationBinding : type.getAnnotations()) {
+				for (IAnnotationBinding annotationBinding : type.getAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (annotationBinding != null) {
 						ITypeBinding annotationType= annotationBinding.getAnnotationType();
 						if (annotationType != null && hierarchy.add(annotationType)) {
@@ -202,7 +202,7 @@ public class JUnit5TestFinder implements ITestFinder {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findTestsInContainer(IJavaElement element, Set<IType> result, IProgressMonitor pm) throws CoreException {
 		if (element == null || result == null) {
 			throw new IllegalArgumentException();
@@ -221,10 +221,10 @@ public class JUnit5TestFinder implements ITestFinder {
 		IRegion region= CoreTestSearchEngine.getRegion(element);
 		ITypeHierarchy hierarchy= JavaCore.newTypeHierarchy(region, null, subMonitor.split(1));
 		IType[] allClasses= hierarchy.getAllClasses();
-		Map<ICompilationUnit, List<IType>> typesByCompilationUnit= new HashMap<>();
+		Map<ICompilationUnit, List<IType>> typesByCompilationUnit= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		// search for all types with references to RunWith and Test and all subclasses
-		for (IType type : allClasses) {
+		for (IType type : allClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (region.contains(type) && CoreTestSearchEngine.isAccessibleClass(type, TestKindRegistry.JUNIT5_TEST_KIND_ID)) {
 				if (CoreTestSearchEngine.hasSuiteMethod(type)) {
 					addTypeAndSubtypes(type, result, hierarchy);
@@ -236,7 +236,7 @@ public class JUnit5TestFinder implements ITestFinder {
 						addTypeAndSubtypes(type, result, hierarchy);
 					}
 				} else {
-					typesByCompilationUnit.computeIfAbsent(compilationUnit, unused -> new ArrayList<>()).add(type);
+					typesByCompilationUnit.computeIfAbsent(compilationUnit, unused -> new ArrayList<>()).add(type); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 			}
 		}
@@ -252,7 +252,7 @@ public class JUnit5TestFinder implements ITestFinder {
 		CoreTestSearchEngine.findSuiteMethods(element, result, subMonitor.split(1));
 	}
 
-	private void findTestsInCompilationUnits(Map<ICompilationUnit, List<IType>> typesByCompilationUnit, Set<IType> result,
+	private void findTestsInCompilationUnits(Map<ICompilationUnit, List<IType>> typesByCompilationUnit, Set<IType> result, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ITypeHierarchy hierarchy, IProgressMonitor monitor) {
 		if (!typesByCompilationUnit.isEmpty()) {
 			ASTParser parser= ASTParser.newParser(AST.getJLSLatest());
@@ -262,7 +262,7 @@ public class JUnit5TestFinder implements ITestFinder {
 			parser.createASTs(compilationUnits, new String[0], new ASTRequestor() {
 				@Override
 				public void acceptAST(ICompilationUnit source, CompilationUnit root) {
-					for (IType type : typesByCompilationUnit.get(source)) {
+					for (IType type : typesByCompilationUnit.get(source)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ASTNode node= root.findDeclaringNode(type.getKey());
 						if (node instanceof TypeDeclaration || node instanceof RecordDeclaration) {
 							ITypeBinding binding= ((AbstractTypeDeclaration) node).resolveBinding();
@@ -279,7 +279,7 @@ public class JUnit5TestFinder implements ITestFinder {
 	private void addTypeAndSubtypes(IType type, Set<IType> result, ITypeHierarchy hierarchy) {
 		if (result.add(type)) {
 			IType[] subclasses= hierarchy.getSubclasses(type);
-			for (IType subclasse : subclasses) {
+			for (IType subclasse : subclasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addTypeAndSubtypes(subclasse, result, hierarchy);
 			}
 		}
@@ -290,7 +290,7 @@ public class JUnit5TestFinder implements ITestFinder {
 		return internalIsTest(type, null);
 	}
 
-	private boolean internalIsTest(IType type, IProgressMonitor monitor) throws JavaModelException {
+	private boolean internalIsTest(IType type, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (CoreTestSearchEngine.isAccessibleClass(type, TestKindRegistry.JUNIT5_TEST_KIND_ID)) {
 			if (CoreTestSearchEngine.hasSuiteMethod(type)) { // since JUnit 4.3.1
 				return true;

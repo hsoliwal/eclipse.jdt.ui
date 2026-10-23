@@ -70,7 +70,7 @@ public class FatJarRsrcUrlAntExporter extends FatJarAntExporter {
 		try (InputStream is= JavaPlugin.getDefault().getBundle().getEntry(FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP).openStream();
 			OutputStream os= new FileOutputStream(targetFile);) {
 			byte[] buf= new byte[1024];
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int cnt= is.read(buf);
 				if (cnt <= 0)
 					break;
@@ -79,7 +79,7 @@ public class FatJarRsrcUrlAntExporter extends FatJarAntExporter {
 		}
 	}
 
-	protected void buildANTScript(OutputStream outputStream, String projectName, IPath absJarfile, String mainClass, SourceInfo[] sourceInfos) throws IOException {
+	protected void buildANTScript(OutputStream outputStream, String projectName, IPath absJarfile, String mainClass, SourceInfo[] sourceInfos) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String absJarname= absJarfile.toString();
 
@@ -97,7 +97,7 @@ public class FatJarRsrcUrlAntExporter extends FatJarAntExporter {
 
 		// Create the document
 		Element project= document.createElement("project"); //$NON-NLS-1$
-		project.setAttribute("name", "Create Runnable Jar for Project " + projectName + " with Jar-in-Jar Loader"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		project.setAttribute("name", "Create Runnable Jar for Project " + projectName + " with Jar-in-Jar Loader"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		project.setAttribute("default", "create_run_jar"); //$NON-NLS-1$ //$NON-NLS-2$
 		comment= document.createComment("this file was created by Eclipse Runnable JAR file Export Wizard"); //$NON-NLS-1$
 		project.appendChild(comment);
@@ -135,11 +135,11 @@ public class FatJarRsrcUrlAntExporter extends FatJarAntExporter {
 
 		attribute= document.createElement("attribute"); //$NON-NLS-1$
 		attribute.setAttribute("name", JIJConstants.REDIRECTED_CLASS_PATH_MANIFEST_NAME); //$NON-NLS-1$
-		StringBuilder rsrcClassPath= new StringBuilder();
-		rsrcClassPath.append(JIJConstants.CURRENT_DIR);
-		for (SourceInfo sourceInfo : sourceInfos) {
+		StringBuilder rsrcClassPath= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		rsrcClassPath.append(JIJConstants.CURRENT_DIR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (SourceInfo sourceInfo : sourceInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (sourceInfo.isJar) {
-				rsrcClassPath.append(" ") //$NON-NLS-1$
+				rsrcClassPath.append(" ") //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					.append(new File(sourceInfo.absPath).getName());
 			}
 		}
@@ -150,7 +150,7 @@ public class FatJarRsrcUrlAntExporter extends FatJarAntExporter {
 		zipfileset.setAttribute("src", FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP); //$NON-NLS-1$
 		jar.appendChild(zipfileset);
 
-		for (SourceInfo sourceInfo : sourceInfos) {
+		for (SourceInfo sourceInfo : sourceInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (sourceInfo.isJar) {
 				File jarFile= new File(sourceInfo.absPath);
 				Element fileset= document.createElement("zipfileset"); //$NON-NLS-1$

@@ -61,9 +61,9 @@ public class TryWithResourceFixCore extends CompilationUnitRewriteOperationsFixC
 		super(name, compilationUnit, operation);
 	}
 
-	public static ICleanUpFix createCleanUp(final CompilationUnit unit) {
+	public static ICleanUpFix createCleanUp(final CompilationUnit unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -87,7 +87,7 @@ public class TryWithResourceFixCore extends CompilationUnitRewriteOperationsFixC
 					return startNode == visited;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(final TryStatement visited) {
 					if (!result) {
 						return true;
@@ -110,7 +110,7 @@ public class TryWithResourceFixCore extends CompilationUnitRewriteOperationsFixC
 					}
 
 					Statement finallyFirstFStatement= finallyStatements.get(0);
-					List<ASTNode> nodesToRemove= new ArrayList<>();
+					List<ASTNode> nodesToRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					nodesToRemove.add(finallyStatements.size() == 1 ? visited.getFinally() : finallyFirstFStatement);
 
 					boolean isCloseableUsedAfter= isCloseableUsedAfter(previousDeclarationFragment, visited);
@@ -125,7 +125,7 @@ public class TryWithResourceFixCore extends CompilationUnitRewriteOperationsFixC
 					return maybeUseTryWithResource(visited, previousDeclarationStatement, previousDeclarationFragment, isCloseableUsedAfter, nodesToRemove);
 				}
 
-				private boolean maybeUseTryWithResource(
+				private boolean maybeUseTryWithResource( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final TryStatement visited,
 						final VariableDeclarationStatement previousDeclarationStatement,
 						final VariableDeclarationFragment previousDeclarationFragment,
@@ -172,7 +172,7 @@ public class TryWithResourceFixCore extends CompilationUnitRewriteOperationsFixC
 					IVariableBinding varBinding= previousDeclarationFragment.resolveBinding();
 					List<Statement> nextStatements= ASTNodes.getNextSiblings(visited);
 
-					for (Statement nextStatement : nextStatements) {
+					for (Statement nextStatement : nextStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						VarDefinitionsUsesVisitor visitor= new VarDefinitionsUsesVisitor(varBinding, nextStatement, true);
 
 						if (!visitor.getReads().isEmpty() || !visitor.getWrites().isEmpty()) {
@@ -183,7 +183,7 @@ public class TryWithResourceFixCore extends CompilationUnitRewriteOperationsFixC
 					return false;
 				}
 
-				private Expression getClosedVariable(final VariableDeclarationFragment previousDeclarationFragment, final Statement finallyStatement) {
+				private Expression getClosedVariable(final VariableDeclarationFragment previousDeclarationFragment, final Statement finallyStatement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					Statement firstStatement= finallyStatement;
 					IfStatement finallyIfStatement= ASTNodes.as(finallyStatement, IfStatement.class);
 
@@ -240,7 +240,7 @@ public class TryWithResourceFixCore extends CompilationUnitRewriteOperationsFixC
 			this.nodesToRemove= nodesToRemove;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -282,7 +282,7 @@ public class TryWithResourceFixCore extends CompilationUnitRewriteOperationsFixC
 			ListRewrite listRewrite= rewrite.getListRewrite(visited, TryStatement.RESOURCES2_PROPERTY);
 			listRewrite.insertFirst(newResource, group);
 
-			for (ASTNode nodeToRemove : nodesToRemove) {
+			for (ASTNode nodeToRemove : nodesToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNodes.removeButKeepComment(rewrite, nodeToRemove, group);
 			}
 		}

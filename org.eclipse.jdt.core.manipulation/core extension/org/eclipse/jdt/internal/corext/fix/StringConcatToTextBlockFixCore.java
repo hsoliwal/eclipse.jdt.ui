@@ -104,7 +104,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			fAllConcats= allConcats;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final InfixExpression visited) {
 			if (visited.getOperator() != InfixExpression.Operator.PLUS
 					|| visited.extendedOperands().isEmpty()) {
@@ -150,7 +150,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			lineNo= getLineOfOffset(cUnit, rightLiteral.getStartPosition());
 			endPosition= getLineOffset(cUnit, lineNo + 1) == -1 ? cUnit.getLength() : getLineOffset(cUnit, lineNo + 1);
 			hasComments= hasComments || hasNLS(ASTNodes.getCommentsForRegion(cUnit, rightLiteral.getStartPosition(), endPosition - rightLiteral.getStartPosition()), cu);
-			for (int i= 0; i < extendedOperands.size(); ++i) {
+			for (int i= 0; i < extendedOperands.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression operand= extendedOperands.get(i);
 				if (operand instanceof StringLiteral) {
 					StringLiteral stringLiteral= (StringLiteral)operand;
@@ -172,7 +172,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 					IBuffer buffer;
 					try {
 						buffer= cu.getBuffer();
-						for (Comment comment : comments) {
+						for (Comment comment : comments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!(comment instanceof LineComment)) {
 								return false;
 							}
@@ -197,7 +197,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 				if (nlsLine == null || !isConsistent(nlsLine, isTagged)) {
 					return false;
 				}
-				for (int i= 0; i < extendedOperands.size(); ++i) {
+				for (int i= 0; i < extendedOperands.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Expression operand= extendedOperands.get(i);
 					nlsLine= scanCurrentLine(cu, operand);
 					if (nlsLine == null || !isConsistent(nlsLine, isTagged)) {
@@ -229,12 +229,12 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			return null;
 		}
 
-		private boolean hasNLS(List<Comment> trailingComments, ICompilationUnit cu) {
+		private boolean hasNLS(List<Comment> trailingComments, ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!trailingComments.isEmpty() && cu != null) {
 				IBuffer buffer;
 				try {
 					buffer= cu.getBuffer();
-					for (Comment comment : trailingComments) {
+					for (Comment comment : trailingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (comment instanceof LineComment) {
 							if (buffer.getText(comment.getStartPosition(), comment.getLength()).contains("$NON-NLS")) { //$NON-NLS-1$
 								return true;
@@ -258,7 +258,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 
 		private boolean isConsistent(NLSLine nlsLine, boolean isTagged) {
 			NLSElement[] elements= nlsLine.getElements();
-			for (NLSElement element : elements) {
+			for (NLSElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.hasTag() != isTagged) {
 					return false;
 				}
@@ -279,7 +279,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			this.isTagged= isTagged;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.StringConcatToTextBlockCleanUp_description, cuRewrite);
@@ -302,7 +302,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 					String tab_option= project.getOption(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, true);
 					if (JavaCore.SPACE.equals(tab_option)) {
 						fIndent= ""; //$NON-NLS-1$
-						for (int i= 0; i < CodeFormatterUtil.getTabWidth(project); ++i) {
+						for (int i= 0; i < CodeFormatterUtil.getTabWidth(project); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fIndent += " "; //$NON-NLS-1$
 						}
 					}
@@ -311,11 +311,11 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 				}
 			}
 
-			StringBuilder buf= new StringBuilder();
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 			Stream<Expression> expressions= Stream.concat(Stream.of(fInfix.getLeftOperand(), fInfix.getRightOperand()), ((List<Expression>) fInfix.extendedOperands()).stream());
 
-			List<String> parts= new ArrayList<>();
+			List<String> parts= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			expressions.forEach(new Consumer<Expression>() {
 				@Override
@@ -329,78 +329,78 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			});
 
 			if (needNewLineTextBlock) {
-				buf.append("\n" + fIndent); //$NON-NLS-1$
+				buf.append("\n" + fIndent); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
-			buf.append("\"\"\"\n"); //$NON-NLS-1$
+			buf.append("\"\"\"\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			boolean newLine= false;
 			boolean allWhiteSpaceStart= true;
 			boolean allEmpty= true;
 			int bufLength = (needNewLineTextBlock) ? 6 : 4;
-			for (String part : parts) {
+			for (String part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (buf.length() > bufLength) {// the first part has been added after the text block delimiter and newline
 					if (!newLine) {
 						// no line terminator in this part: merge the line by emitting a line continuation escape
-						buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$
+						buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 				newLine= part.endsWith(System.lineSeparator());
 				allWhiteSpaceStart= allWhiteSpaceStart && (part.isEmpty() || Character.isWhitespace(part.charAt(0)));
 				allEmpty= allEmpty && part.isEmpty();
-				buf.append(fIndent).append(part);
+				buf.append(fIndent).append(part); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			if (newLine || allEmpty) {
-				buf.append(fIndent);
+				buf.append(fIndent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else if (allWhiteSpaceStart) {
-				buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$
-				buf.append(fIndent);
+				buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(fIndent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
 				// Replace trailing un-escaped quotes with escaped quotes before adding text block end
 				int i= buf.length() - 1;
 				int count= 0;
-				while (i >= 0 && buf.charAt(i) == '"' && count <= 3) {
+				while (i >= 0 && buf.charAt(i) == '"' && count <= 3) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					--i;
 					++count;
 				}
 				if (i >= 0 && buf.charAt(i) == '\\') {
 					--count;
 				}
-				for (i= count; i > 0; --i) {
+				for (i= count; i > 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					buf.deleteCharAt(buf.length() - 1);
 				}
-				for (i= count; i > 0; --i) {
-					buf.append("\\\""); //$NON-NLS-1$
+				for (i= count; i > 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buf.append("\\\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				i= buf.length() - 1;
 				if (buf.charAt(i) == ' ') {
 					buf.deleteCharAt(i);
-					buf.append("\\s"); //$NON-NLS-1$
+					buf.append("\\s"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else if (buf.charAt(i) == '\t') {
 					buf.deleteCharAt(i);
-					buf.append("\\t"); //$NON-NLS-1$
+					buf.append("\\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 
 			if (needNewLineTextBlock) {
 				if (!newLine) {
-					buf.append("\\"); //$NON-NLS-1$
-					buf.append("\n");  //$NON-NLS-1$
-					buf.append(fIndent);
+					buf.append("\\"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append("\n");  //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(fIndent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 
-			buf.append("\"\"\""); //$NON-NLS-1$
+			buf.append("\"\"\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (!isTagged) {
 				TextBlock textBlock= (TextBlock) rewrite.createStringPlaceholder(buf.toString(), ASTNode.TEXT_BLOCK);
 				rewrite.replace(fInfix, textBlock, group);
 			} else {
 				ASTNode stmt= ASTNodes.getFirstAncestorOrNull(fInfix, Statement.class, FieldDeclaration.class);
 				ICompilationUnit cu= (ICompilationUnit)((CompilationUnit)fInfix.getRoot()).getJavaElement();
-				StringBuilder buffer= new StringBuilder();
-				buffer.append(cu.getBuffer().getText(stmt.getStartPosition(), fInfix.getStartPosition() - stmt.getStartPosition()));
-				buffer.append(buf.toString());
-				buffer.append(cu.getBuffer().getText(fInfix.getStartPosition() + fInfix.getLength(), stmt.getStartPosition() + stmt.getLength() - fInfix.getStartPosition() - fInfix.getLength()));
+				StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buffer.append(cu.getBuffer().getText(stmt.getStartPosition(), fInfix.getStartPosition() - stmt.getStartPosition())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(buf.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(cu.getBuffer().getText(fInfix.getStartPosition() + fInfix.getLength(), stmt.getStartPosition() + stmt.getLength() - fInfix.getStartPosition() - fInfix.getLength())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				ASTNode newStmt= rewrite.createStringPlaceholder(buffer.toString(), stmt.getNodeType());
 				ASTNodes.replaceButKeepComment(rewrite, stmt, newStmt, group);
 			}
@@ -417,61 +417,61 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 	 * 3. Transform any trailing spaces into \s escapes
 	 * 4. Transform any non-trailing \t characters into tab characters
 	 */
-	public static List<String> unescapeBlock(String escapedText) {
-		StringBuilder transformed= new StringBuilder();
+	public static List<String> unescapeBlock(String escapedText) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder transformed= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int readIndex= 0;
 		int bsIndex= 0;
 
-		List<String> parts= new ArrayList<>();
+		List<String> parts= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		while ((bsIndex= escapedText.indexOf("\\", readIndex)) >= 0) { //$NON-NLS-1$ "\"
+		while ((bsIndex= escapedText.indexOf("\\", readIndex)) >= 0) { //$NON-NLS-1$ "\" //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (escapedText.startsWith("\\n", bsIndex) || escapedText.startsWith("\\u005cn", bsIndex)) { //$NON-NLS-1$ //$NON-NLS-2$ "\n"
-				transformed.append(escapedText.substring(readIndex, bsIndex));
-				parts.add(escapeTrailingWhitespace(transformed.toString())+ System.lineSeparator());
-				transformed= new StringBuilder();
+				transformed.append(escapedText.substring(readIndex, bsIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				parts.add(escapeTrailingWhitespace(transformed.toString())+ System.lineSeparator()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				transformed= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				readIndex= bsIndex + (escapedText.startsWith("\\n", bsIndex) ? 2 : 7); //$NON-NLS-1$
 			} else if (escapedText.startsWith("\\\"", bsIndex) || escapedText.startsWith("\\u005c\"", bsIndex)) { //$NON-NLS-1$ //$NON-NLS-2$ "\""
 				// if there are more than three quotes in a row, escape the first quote of every triplet to
 				// avoid it being interpreted as a text block terminator. This code would be much simpler if
 				// we could escape the third quote of each triplet, but the text block spec recommends this way.
 
-				transformed.append(escapedText.substring(readIndex, bsIndex));
+				transformed.append(escapedText.substring(readIndex, bsIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				int quoteCount= 1;
 				int index= (escapedText.startsWith("\\\"", bsIndex) ? 2 : 7); //$NON-NLS-1$
-				while (escapedText.startsWith("\\\"", bsIndex + index) || escapedText.startsWith("\\u005c\"", bsIndex + index)) { //$NON-NLS-1$ //$NON-NLS-2$
+				while (escapedText.startsWith("\\\"", bsIndex + index) || escapedText.startsWith("\\u005c\"", bsIndex + index)) { //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					quoteCount++;
 					index += (escapedText.startsWith("\\\"", bsIndex + index) ? 2 : 7); //$NON-NLS-1$
 				}
 				int i= 0;
-				while (i < quoteCount / 3) {
-					transformed.append("\\\"\"\""); //$NON-NLS-1$
+				while (i < quoteCount / 3) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					transformed.append("\\\"\"\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					i++;
 				}
 
 				if (i > 0 && quoteCount % 3 != 0) {
-					transformed.append("\\"); //$NON-NLS-1$
+					transformed.append("\\"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				for (int j = 0; j < quoteCount % 3; j++) {
-					transformed.append("\""); //$NON-NLS-1$
+				for (int j = 0; j < quoteCount % 3; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					transformed.append("\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				readIndex= bsIndex + index;
 			} else if (escapedText.startsWith("\\t", bsIndex) || escapedText.startsWith("\\u005ct", bsIndex)) { //$NON-NLS-1$ //$NON-NLS-2$ "\t"
-				transformed.append(escapedText.substring(readIndex, bsIndex));
-				transformed.append("\t"); //$NON-NLS-1$
+				transformed.append(escapedText.substring(readIndex, bsIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				transformed.append("\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				readIndex= bsIndex + (escapedText.startsWith("\\t", bsIndex) ? 2 : 7); //$NON-NLS-1$
 			} else if (escapedText.startsWith("\\'", bsIndex) || escapedText.startsWith("\\u005c'", bsIndex)) { //$NON-NLS-1$ //$NON-NLS-2$
-				transformed.append(escapedText.substring(readIndex, bsIndex));
-				transformed.append("'"); //$NON-NLS-1$
+				transformed.append(escapedText.substring(readIndex, bsIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				transformed.append("'"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				readIndex= bsIndex + (escapedText.startsWith("\\'", bsIndex) ? 2 : 7); //$NON-NLS-1$
 			} else {
-				transformed.append(escapedText.substring(readIndex, bsIndex));
-				transformed.append("\\").append(escapedText.charAt(bsIndex + 1)); //$NON-NLS-1$
+				transformed.append(escapedText.substring(readIndex, bsIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				transformed.append("\\").append(escapedText.charAt(bsIndex + 1)); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				readIndex= bsIndex + 2;
 			}
 		}
 		if (readIndex < escapedText.length()) {
 			// there is text at the end of the string that is not followed by a newline
-			transformed.append(escapedText.substring(readIndex));
+			transformed.append(escapedText.substring(readIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (transformed.length() > 0) {
 			parts.add(transformed.toString());
@@ -487,32 +487,32 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			return ""; //$NON-NLS-1$
 		}
 		int whitespaceStart= unescaped.length()-1;
-		StringBuilder trailingWhitespace= new StringBuilder();
+		StringBuilder trailingWhitespace= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (unescaped.charAt(whitespaceStart) == ' ') {
 			--whitespaceStart;
-			trailingWhitespace.append("\\s"); //$NON-NLS-1$
+			trailingWhitespace.append("\\s"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else if (unescaped.charAt(whitespaceStart) == '\t') {
 			--whitespaceStart;
-			trailingWhitespace.append("\\t"); //$NON-NLS-1$
+			trailingWhitespace.append("\\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		return unescaped.substring(0, whitespaceStart + 1) + trailingWhitespace;
+		return unescaped.substring(0, whitespaceStart + 1) + trailingWhitespace; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static final class StringBufferFinder extends ASTVisitor {
 
 		private final List<CompilationUnitRewriteOperation> fOperations;
-		private List<StringLiteral> fLiterals= new ArrayList<>();
-		private List<Statement> statementList= new ArrayList<>();
-		private Set<Statement> ignoredConstructorStatements= new HashSet<>();
+		private List<StringLiteral> fLiterals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		private List<Statement> statementList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		private Set<Statement> ignoredConstructorStatements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		private SimpleName originalVarName;
-		private Map<ExpressionStatement, ChangeStringBufferToTextBlock> conversions= new HashMap<>();
+		private Map<ExpressionStatement, ChangeStringBufferToTextBlock> conversions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		private static final String APPEND= "append"; //$NON-NLS-1$
 		private static final String TO_STRING= "toString"; //$NON-NLS-1$
 		private static final String INDEX_OF= "indexOf"; //$NON-NLS-1$
 		private BodyDeclaration fLastBodyDecl;
 		private final Set<String> fExcludedNames;
-		private final Set<IBinding> fRemovedDeclarations= new HashSet<>();
+		private final Set<IBinding> fRemovedDeclarations= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		public StringBufferFinder(List<CompilationUnitRewriteOperation> operations, Set<String> excludedNames) {
 			super(true);
@@ -525,9 +525,9 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			private ExpressionStatement nextAssignment= null;
 			private int lastStatementEnd;
 			private IBinding varBinding;
-			private List<MethodInvocation> toStringList= new ArrayList<>();
-			private List<MethodInvocation> indexOfList= new ArrayList<>();
-			private List<SimpleName> argList= new ArrayList<>();
+			private List<MethodInvocation> toStringList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			private List<MethodInvocation> indexOfList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			private List<SimpleName> argList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			private boolean passedAsArgument= false;
 
 			public CheckValidityVisitor(int lastStatementEnd, IBinding varBinding) {
@@ -559,7 +559,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 				return argList;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(SimpleName name) {
 				if (name.getStartPosition() > lastStatementEnd) {
 					IBinding binding= name.resolveBinding();
@@ -593,7 +593,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 							if (methodBinding != null) {
 								List<Expression> args= invocation.arguments();
 								int index= -1;
-								for (int i= 0; i < args.size(); ++i) {
+								for (int i= 0; i < args.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (args.get(i) == name) {
 										index= i;
 										break;
@@ -637,7 +637,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(ClassInstanceCreation node) {
 			if (!isStringBufferType(node.getType())) {
 				return false;
@@ -678,7 +678,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			int startIndex= stmtList.indexOf(statement);
 			int i= startIndex;
 			Statement previousStatement= null;
-			while (++i < stmtList.size()) {
+			while (++i < stmtList.size()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Statement s= stmtList.get(i);
 				if (s instanceof ExpressionStatement) {
 					Expression exp= ((ExpressionStatement)s).getExpression();
@@ -689,7 +689,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 							public boolean isValid() {
 								return valid;
 							}
-							@Override
+							@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 							public boolean visit(SimpleName simpleName) {
 								if (simpleName.getFullyQualifiedName().equals(APPEND) && simpleName.getLocationInParent() == MethodInvocation.NAME_PROPERTY) {
 									return true;
@@ -751,7 +751,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			if (!fLiterals.isEmpty()) {
 				try {
 					nonNLS= hasNLSMarker(fLiterals.get(0), icu);
-					for (int j= 1; j < fLiterals.size(); ++j) {
+					for (int j= 1; j < fLiterals.size(); ++j) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (nonNLS != hasNLSMarker(fLiterals.get(j), icu)) {
 							return failure();
 						}
@@ -773,8 +773,8 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 				if (fLiterals.size() < 3) {
 					return failure();
 				}
-				List<Statement> statements= new ArrayList<>(statementList);
-				List<StringLiteral> literals= new ArrayList<>(fLiterals);
+				List<Statement> statements= new ArrayList<>(statementList); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<StringLiteral> literals= new ArrayList<>(fLiterals); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				ModifyStringBufferToUseTextBlock operation= new ModifyStringBufferToUseTextBlock(node, statements,
 						literals);
 				fOperations.add(operation);
@@ -786,11 +786,11 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			}
 
 			ExpressionStatement assignmentToConvert= checkValidityVisitor.getNextAssignment();
-			List<Statement> statements= new ArrayList<>(statementList);
-			List<StringLiteral> literals= new ArrayList<>(fLiterals);
-			List<MethodInvocation> toStringList= new ArrayList<>(checkValidityVisitor.getToStringList());
-			List<MethodInvocation> indexOfList= new ArrayList<>(checkValidityVisitor.getIndexOfList());
-			List<SimpleName> argList= new ArrayList<>(checkValidityVisitor.getArgList());
+			List<Statement> statements= new ArrayList<>(statementList); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<StringLiteral> literals= new ArrayList<>(fLiterals); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<MethodInvocation> toStringList= new ArrayList<>(checkValidityVisitor.getToStringList()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<MethodInvocation> indexOfList= new ArrayList<>(checkValidityVisitor.getIndexOfList()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<SimpleName> argList= new ArrayList<>(checkValidityVisitor.getArgList()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			BodyDeclaration bodyDecl= ASTNodes.getFirstAncestorOrNull(node, BodyDeclaration.class);
 			if (statements.get(0) instanceof VariableDeclarationStatement) {
 				fRemovedDeclarations.add(originalVarName.resolveBinding());
@@ -805,9 +805,9 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			return true;
 		}
 
-		private void extractConcatenatedAppends(ASTNode node) throws AbortSearchException {
+		private void extractConcatenatedAppends(ASTNode node) throws AbortSearchException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode parent= node.getParent();
-			while (!(parent instanceof Statement)) {
+			while (!(parent instanceof Statement)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parent instanceof MethodInvocation methodCall) {
 					if (!methodCall.getName().getFullyQualifiedName().equals(APPEND)) {
 						throw new AbortSearchException();
@@ -833,14 +833,14 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			return false;
 		}
 
-		private boolean processInfixExpression(InfixExpression infix) {
+		private boolean processInfixExpression(InfixExpression infix) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (infix.getOperator() == Operator.PLUS) {
 				Expression left= infix.getLeftOperand();
 				Expression right= infix.getRightOperand();
 				List<Expression> extendedOps= infix.extendedOperands();
 				if (left instanceof StringLiteral && right instanceof StringLiteral) {
-					List<StringLiteral> extendedLiterals= new ArrayList<>();
-					for (Expression extendedOp : extendedOps) {
+					List<StringLiteral> extendedLiterals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (Expression extendedOp : extendedOps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (extendedOp instanceof StringLiteral) {
 							extendedLiterals.add((StringLiteral)extendedOp);
 						} else {
@@ -899,12 +899,12 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 
 	}
 
-	private static boolean hasNLSMarker(ASTNode node, ICompilationUnit cu) throws AbortSearchException {
+	private static boolean hasNLSMarker(ASTNode node, ICompilationUnit cu) throws AbortSearchException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean hasNLS= false;
 		List<Comment> commentList= ASTNodes.getTrailingComments(node);
 		if (commentList.isEmpty()) {
 			ASTNode n= node;
-			while (!(n instanceof Statement) && commentList.isEmpty()) {
+			while (!(n instanceof Statement) && commentList.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				n= n.getParent();
 				commentList= ASTNodes.getTrailingComments(n);
 			}
@@ -938,7 +938,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			fConstructor= constructor;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.StringConcatToTextBlockCleanUp_description, cuRewrite);
@@ -957,11 +957,11 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			TextBlock textBlock= (TextBlock) rewrite.createStringPlaceholder(buf.toString(), ASTNode.TEXT_BLOCK);
 			ListRewrite argList= rewrite.getListRewrite(fConstructor, ClassInstanceCreation.ARGUMENTS_PROPERTY);
 			List<ASTNode> original= argList.getOriginalList();
-			for (ASTNode node : original) {
+			for (ASTNode node : original) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.remove(node, group);
 			}
 			argList.insertFirst(textBlock, group);
-			for (int i= 1; i < fStatements.size(); ++i) {
+			for (int i= 1; i < fStatements.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.remove(fStatements.get(i), group);
 			}
 		}
@@ -1003,7 +1003,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			fAssignmentToConvert= null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			String DEFAULT_NAME= "str"; //$NON-NLS-1$
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -1045,14 +1045,14 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 				// put the text block in place of the buffer.toString() call and delete the whole StringBuffer/StringBuilder
 				TextBlock textBlock= (TextBlock) rewrite.createStringPlaceholder(buf.toString(), ASTNode.TEXT_BLOCK);
 				rewrite.replace(fToStringList.get(0), textBlock, group);
-				for (Statement statement : fStatements) {
+				for (Statement statement : fStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					rewrite.remove(statement, group);
 				}
 			} else {
 				// otherwise, create a new text block variable and use the variable name in every place the buffer.toString()
 				// call is found before the variable is reused to form a new StringBuilder/StringBuffer
 				ImportRewrite importRewriter= cuRewrite.getImportRewrite();
-				Set<String> excludedNames= new HashSet<>(ASTNodes.getAllLocalVariablesInBlock(fStatements.get(0)));
+				Set<String> excludedNames= new HashSet<>(ASTNodes.getAllLocalVariablesInBlock(fStatements.get(0))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				excludedNames.addAll(fExcludedNames);
 				String newVarName= DEFAULT_NAME;
 				if (excludedNames.contains(DEFAULT_NAME)) {
@@ -1069,34 +1069,34 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 					newStmt.setType(t);
 					ASTNodes.replaceButKeepComment(rewrite, fStatements.get(0), newStmt, group);
 				} else {
-					StringBuilder builder= new StringBuilder();
-					builder.append("String "); //$NON-NLS-1$
-					builder.append(newVarName);
-					builder.append(" = "); //$NON-NLS-1$
-					builder.append(buf.toString());
-					builder.append("; //$NON-NLS-1$"); //$NON-NLS-1$
+					StringBuilder builder= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					builder.append("String "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					builder.append(newVarName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					builder.append(" = "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					builder.append(buf.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					builder.append("; //$NON-NLS-1$"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					VariableDeclarationStatement newStmt= (VariableDeclarationStatement) rewrite.createStringPlaceholder(builder.toString(), ASTNode.VARIABLE_DECLARATION_STATEMENT);
 					ASTNodes.replaceButKeepComment(rewrite, fStatements.get(0), newStmt, group);
 				}
-				for (int i= 1; i < fStatements.size(); ++i) {
+				for (int i= 1; i < fStatements.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					rewrite.remove(fStatements.get(i), group);
 				}
-				for (MethodInvocation toStringCall : fToStringList) {
+				for (MethodInvocation toStringCall : fToStringList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SimpleName name= ast.newSimpleName(newVarName);
 					rewrite.replace(toStringCall, name, group);
 				}
-				for (MethodInvocation indexOfCall : fIndexOfList) {
+				for (MethodInvocation indexOfCall : fIndexOfList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MethodInvocation newCall= ast.newMethodInvocation();
 					newCall.setName(ast.newSimpleName("indexOf")); //$NON-NLS-1$
 					SimpleName caller= ast.newSimpleName(newVarName);
 					newCall.setExpression(caller);
 					List<Expression> arguments= indexOfCall.arguments();
-					for (Expression argument : arguments) {
+					for (Expression argument : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						newCall.arguments().add(rewrite.createCopyTarget(argument));
 					}
 					rewrite.replace(indexOfCall, newCall, group);
 				}
-				for (SimpleName arg : fArgList) {
+				for (SimpleName arg : fArgList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SimpleName name= ast.newSimpleName(newVarName);
 					rewrite.replace(arg, name, group);
 				}
@@ -1123,8 +1123,8 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			int i= 1;
 			String candidate;
 
-			do {
-				candidate= nameRoot + i++;
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				candidate= nameRoot + i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} while (excludedNames.remove(candidate));
 
 			return candidate;
@@ -1132,23 +1132,23 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 
 	}
 
-	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit, boolean includeStringBufferBuilder) {
+	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit, boolean includeStringBufferBuilder) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!JavaModelUtil.is15OrHigher(compilationUnit.getJavaElement().getJavaProject()))
 			return null;
 
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		StringConcatFinder finder= new StringConcatFinder(operations, true);
 		compilationUnit.accept(finder);
 
 		if (includeStringBufferBuilder) {
-			Set<String> excludedNames= new HashSet<>();
+			Set<String> excludedNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			StringBufferFinder finder2= new StringBufferFinder(operations, excludedNames);
 			compilationUnit.accept(finder2);
 			Map<ExpressionStatement, ChangeStringBufferToTextBlock> conversions= finder2.getConversionMap();
-			for (CompilationUnitRewriteOperation operation : operations) {
+			for (CompilationUnitRewriteOperation operation : operations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (operation instanceof ChangeStringBufferToTextBlock) {
-					for (Statement s : ((ChangeStringBufferToTextBlock)operation).getStatements()) {
+					for (Statement s : ((ChangeStringBufferToTextBlock)operation).getStatements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (conversions.containsKey(s)) {
 							ChangeStringBufferToTextBlock op= conversions.get(s);
 							op.resetAssignmentToConvert();
@@ -1166,17 +1166,17 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 		return new StringBufferToStringBuilderFixCore(FixMessages.StringConcatToTextBlockFix_convert_msg, compilationUnit, ops);
 	}
 
-	public static StringConcatToTextBlockFixCore createStringConcatToTextBlockFix(ASTNode exp) {
+	public static StringConcatToTextBlockFixCore createStringConcatToTextBlockFix(ASTNode exp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= (CompilationUnit) exp.getRoot();
 		if (!JavaModelUtil.is15OrHigher(root.getJavaElement().getJavaProject()))
 			return null;
-		List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		StringConcatFinder finder= new StringConcatFinder(operations, true);
 		exp.accept(finder);
 
 		String descriptionMessage= FixMessages.StringConcatToTextBlockFix_convert_msg;
 		if (operations.isEmpty()) {
-			StringBufferFinder finder2= new StringBufferFinder(operations, new HashSet<>());
+			StringBufferFinder finder2= new StringBufferFinder(operations, new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			exp.accept(finder2);
 		}
 		if (operations.isEmpty()) {
@@ -1202,7 +1202,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 		return null;
 	}
 
-	private static StringBuilder createTextBlockBuffer(List<StringLiteral> literals, CompilationUnitRewrite cuRewrite) {
+	private static StringBuilder createTextBlockBuffer(List<StringLiteral> literals, CompilationUnitRewrite cuRewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement root= cuRewrite.getRoot().getJavaElement();
 		String fIndent= "\t"; //$NON-NLS-1$
 		boolean needNewLineTextBlock = false;
@@ -1212,7 +1212,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 				String tab_option= project.getOption(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, true);
 				if (JavaCore.SPACE.equals(tab_option)) {
 					fIndent= ""; //$NON-NLS-1$
-					for (int i= 0; i < CodeFormatterUtil.getTabWidth(project); ++i) {
+					for (int i= 0; i < CodeFormatterUtil.getTabWidth(project); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fIndent += " "; //$NON-NLS-1$
 					}
 				}
@@ -1220,59 +1220,59 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 				needNewLineTextBlock = DefaultCodeFormatterConstants.TRUE.equals(newLineTextBlockStr);
 			}
 		}
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		List<String> parts= new ArrayList<>();
+		List<String> parts= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		literals.stream().forEach((t) -> { String value= t.getEscapedValue(); parts.addAll(unescapeBlock(value.substring(1, value.length() - 1))); });
 		if(needNewLineTextBlock) {
-			buf.append("\n" + fIndent); //$NON-NLS-1$
+			buf.append("\n" + fIndent); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("\"\"\"\n"); //$NON-NLS-1$
+		buf.append("\"\"\"\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		boolean newLine= false;
 		boolean allWhiteSpaceStart= true;
 		boolean allEmpty= true;
 		int bufLength = (needNewLineTextBlock) ? 6 : 4;
-		for (String part : parts) {
+		for (String part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (buf.length() > bufLength) {// the first part has been added after the text block delimiter and newline
 				if (!newLine) {
 					// no line terminator in this part: merge the line by emitting a line continuation escape
-					buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$
+					buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			newLine= part.endsWith(System.lineSeparator());
 			allWhiteSpaceStart= allWhiteSpaceStart && (part.isEmpty() || Character.isWhitespace(part.charAt(0)));
 			allEmpty= allEmpty && part.isEmpty();
-			buf.append(fIndent).append(part);
+			buf.append(fIndent).append(part); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (newLine || allEmpty) {
-			buf.append(fIndent);
+			buf.append(fIndent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else if (allWhiteSpaceStart) {
-			buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$
-			buf.append(fIndent);
+			buf.append("\\").append(System.lineSeparator()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(fIndent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
 			// Replace trailing un-escaped quotes with escaped quotes before adding text block end
 			int readIndex= buf.length() - 1;
 			int count= 0;
-			while (readIndex >= 0 && buf.charAt(readIndex) == '"' && count <= 3) {
+			while (readIndex >= 0 && buf.charAt(readIndex) == '"' && count <= 3) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				--readIndex;
 				++count;
 			}
 			if (readIndex >= 0 && buf.charAt(readIndex) == '\\') {
 				--count;
 			}
-			for (int i= count; i > 0; --i) {
+			for (int i= count; i > 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				buf.deleteCharAt(buf.length() - 1);
 			}
-			for (int i= count; i > 0; --i) {
-				buf.append("\\\""); //$NON-NLS-1$
+			for (int i= count; i > 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append("\\\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		if(needNewLineTextBlock) {
 			if (!newLine)
-				buf.append("\\").append(System.lineSeparator()).append(fIndent); //$NON-NLS-1$
+				buf.append("\\").append(System.lineSeparator()).append(fIndent); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("\"\"\""); //$NON-NLS-1$
+		buf.append("\"\"\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf;
 	}
 

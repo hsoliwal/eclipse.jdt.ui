@@ -138,7 +138,7 @@ public class NLSHintTest {
     /*
      * method has no necessary static modifier.
      */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void noAccessorClassHint2() throws Exception {
     	IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
     	String klazz =
@@ -169,7 +169,7 @@ public class NLSHintTest {
 	@Test
 	public void noAccessorClassHint3() throws Exception {
         IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
-        String klazz = "package test;\n" + TEST_KLAZZ;
+        String klazz = "package test;\n" + TEST_KLAZZ; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         ICompilationUnit cu= pack.createCompilationUnit("Test.java", klazz, false, null);
         NLSHint hint = createNLSHint(cu);
         assertEquals("Messages", hint.getAccessorClassName());
@@ -178,10 +178,10 @@ public class NLSHintTest {
 	@Test
 	public void accessorClassAndPackageHint() throws Exception {
         IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
-        String klazz = "package test;\n" + TEST_KLAZZ;
+        String klazz = "package test;\n" + TEST_KLAZZ; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         ICompilationUnit cu= pack.createCompilationUnit("Test.java", klazz, false, null);
 
-        klazz = "package test;\n" + ACCESSOR_KLAZZ;
+        klazz = "package test;\n" + ACCESSOR_KLAZZ; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         pack.createCompilationUnit("TestMessages.java", klazz, false, null);
 
         NLSHint hint = createNLSHint(cu);
@@ -204,13 +204,13 @@ public class NLSHintTest {
 	public void packageHintWithDifferentPackages() throws Exception {
         IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
         String klazz =
-            "package test;\n" +
+            "package test;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
             "import test.foo.TestMessages;\n" +
             TEST_KLAZZ;
         ICompilationUnit cu= pack.createCompilationUnit("Test.java", klazz, false, null);
 
         IPackageFragment fooPackage = fSourceFolder.createPackageFragment("test.foo", false, null);
-        klazz = "package test.foo;\n" + ACCESSOR_KLAZZ;
+        klazz = "package test.foo;\n" + ACCESSOR_KLAZZ; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         fooPackage.createCompilationUnit("TestMessages.java", klazz, false, null);
 
         NLSHint hint = createNLSHint(cu);
@@ -220,20 +220,20 @@ public class NLSHintTest {
 	@Test
 	public void resourceBundleHint() throws Exception {
         IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
-        String klazz = "package test;\n" + TEST_KLAZZ;
+        String klazz = "package test;\n" + TEST_KLAZZ; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         ICompilationUnit cu= pack.createCompilationUnit("Test.java", klazz, false, null);
 
-        klazz = "package test;\n" +ACCESSOR_KLAZZ;
+        klazz = "package test;\n" +ACCESSOR_KLAZZ; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         pack.createCompilationUnit("TestMessages.java", klazz, false, null);
         NLSHint hint = createNLSHint(cu);
         assertEquals("test.properties", hint.getResourceBundleName());
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resourceBundleHintWithDifferentPackagesAndClassGetName() throws Exception {
         IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
         String klazz =
-            "package test;\n" +
+            "package test;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         	"import test.foo.TestMessages;\n" +
         	TEST_KLAZZ;
         ICompilationUnit cu= pack.createCompilationUnit("Test.java", klazz, false, null);
@@ -260,7 +260,7 @@ public class NLSHintTest {
 	public void resourceBundlePackageHint() throws Exception {
         IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
         String klazz =
-            "package test;\n" +
+            "package test;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         	"import test.foo.TestMessages;\n" +
         	TEST_KLAZZ;
         ICompilationUnit cu= pack.createCompilationUnit("Test.java", klazz, false, null);
@@ -273,11 +273,11 @@ public class NLSHintTest {
         assertEquals(pack, hint.getResourceBundlePackage());
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resourceBundlePackageHintWithClassGetName() throws Exception {
         IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
         String klazz =
-            "package test;\n" +
+            "package test;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         	"import test.foo.TestMessages;\n" +
         	TEST_KLAZZ;
         ICompilationUnit cu= pack.createCompilationUnit("Test.java", klazz, false, null);
@@ -307,7 +307,7 @@ public class NLSHintTest {
 	@Test
 	public void packageHintWithoutPreviousNLSing() throws Exception {
         IPackageFragment pack = fSourceFolder.createPackageFragment("test", false, null);
-        String klazz = "package test;\n" + TEST_KLAZZ;
+        String klazz = "package test;\n" + TEST_KLAZZ; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         ICompilationUnit cu= pack.createCompilationUnit("Test.java", klazz, false, null);
 
         NLSHint hint = createNLSHint(cu);

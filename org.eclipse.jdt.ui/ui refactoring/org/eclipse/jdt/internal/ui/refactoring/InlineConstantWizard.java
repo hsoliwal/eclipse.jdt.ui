@@ -74,7 +74,7 @@ public class InlineConstantWizard extends RefactoringWizard {
 			setDescription(description);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			initializeDialogUnits(parent);
 			fRefactoring= (InlineConstantRefactoring)getRefactoring();
@@ -98,7 +98,7 @@ public class InlineConstantWizard extends RefactoringWizard {
 			all.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			all.setText(RefactoringMessages.InlineConstantInputPage_All_references);
 			all.setSelection(fRefactoring.getReplaceAllReferences());
-			all.addSelectionListener(new SelectionAdapter() {
+			all.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent event) {
 					fRefactoring.setReplaceAllReferences(true);
@@ -113,7 +113,7 @@ public class InlineConstantWizard extends RefactoringWizard {
 			fRemove.setText(RefactoringMessages.InlineConstantInputPage_Delete_constant);
 			fRemove.setEnabled(all.getSelection());
 			fRemove.setSelection(fRefactoring.getRemoveDeclaration());
-			fRemove.addSelectionListener(new SelectionAdapter() {
+			fRemove.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fRefactoring.setRemoveDeclaration(fRemove.getSelection());
@@ -131,7 +131,7 @@ public class InlineConstantWizard extends RefactoringWizard {
 			} else {
 				onlySelected.setFocus();
 			}
-			onlySelected.addSelectionListener(new SelectionAdapter() {
+			onlySelected.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent event) {
 					fRefactoring.setReplaceAllReferences(false);

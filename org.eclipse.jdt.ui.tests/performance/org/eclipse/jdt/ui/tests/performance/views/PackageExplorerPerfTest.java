@@ -113,7 +113,7 @@ public class PackageExplorerPerfTest extends JdtPerformanceTestCaseCommon {
 	}
 
 	// test for Bug 311212: [package explorer] Performance problem with refreshing external class folders
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDRefreshClassFolder() throws Throwable {
 		// Import rtstubs a few times. Caveat: Only import class files, but not META-INF.
 		// PackageExplorerContentProvider#processResourceDelta(..) refreshes the parent if a resource changes.
@@ -123,9 +123,9 @@ public class PackageExplorerPerfTest extends JdtPerformanceTestCaseCommon {
 		IPackageFragmentRoot classFolder= JavaProjectHelper.addClassFolderWithImport(javaProject, "classes", null, null, jreArchive);
 		((IFolder) classFolder.getResource()).getFolder("META-INF").delete(true, null);
 
-		try (ZipFile zipFile= new ZipFile(jreArchive)) {
-			for (int i= 1; i <= 5; i++) {
-				String packName= "copy" + i;
+		try (ZipFile zipFile= new ZipFile(jreArchive)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
+			for (int i= 1; i <= 5; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				String packName= "copy" + i; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				classFolder.createPackageFragment(packName, true, null);
 				IFolder folder= javaProject.getProject().getFolder("classes").getFolder(packName);
 				JavaProjectHelper.importFilesFromZip(zipFile, folder.getFullPath(), null);
@@ -133,7 +133,7 @@ public class PackageExplorerPerfTest extends JdtPerformanceTestCaseCommon {
 			}
 		}
 
-		javaProject.getProject().getWorkspace().run((IWorkspaceRunnable) unused -> javaProject.getProject().refreshLocal(IResource.DEPTH_INFINITE, null), null);
+		javaProject.getProject().getWorkspace().run((IWorkspaceRunnable) unused -> javaProject.getProject().refreshLocal(IResource.DEPTH_INFINITE, null), null); //FLLDCIM: MARK — T09  LAMBDA
 		getViewer().expandToLevel(classFolder, 1);
 
 		PackageExplorerPart view= getView();

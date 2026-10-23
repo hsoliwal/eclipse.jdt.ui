@@ -164,7 +164,7 @@ public class JavadocOptionsManager {
 	private String fDestination;
 	private String fAntpath;
 
-	public JavadocOptionsManager(IFile xmlJavadocFile, IDialogSettings dialogSettings, List<?> currSelection) {
+	public JavadocOptionsManager(IFile xmlJavadocFile, IDialogSettings dialogSettings, List<?> currSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fXmlfile= xmlJavadocFile;
 		fWizardStatus= new StatusInfo();
 
@@ -213,7 +213,7 @@ public class JavadocOptionsManager {
 	 */
 	private IJavaProject getSingleProjectFromInitialSelection() {
 		IJavaProject res= null;
-		for (IJavaElement initialElement : fInitialElements) {
+		for (IJavaElement initialElement : fInitialElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject curr= initialElement.getJavaProject();
 			if (res == null) {
 				res= curr;
@@ -228,7 +228,7 @@ public class JavadocOptionsManager {
 	}
 
 
-	private void loadFromDialogStore(IDialogSettings settings, List<?> sel) {
+	private void loadFromDialogStore(IDialogSettings settings, List<?> sel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fInitialElements= getInitialElementsFromSelection(sel);
 
 		IJavaProject project= getSingleProjectFromInitialSelection();
@@ -314,7 +314,7 @@ public class JavadocOptionsManager {
 
 
 	//loads defaults for wizard (nothing is stored)
-	private void loadDefaults(List<?> sel) {
+	private void loadDefaults(List<?> sel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fInitialElements= getInitialElementsFromSelection(sel);
 
 		IJavaProject project= getSingleProjectFromInitialSelection();
@@ -358,7 +358,7 @@ public class JavadocOptionsManager {
 		fFromStandard= true;
 	}
 
-	private void loadFromXML(Element element) {
+	private void loadFromXML(Element element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fAccess= element.getAttribute(VISIBILITY);
 		if (fAccess.length() == 0)
@@ -373,7 +373,7 @@ public class JavadocOptionsManager {
 
 		if (destination.length() == 0) {
 			NodeList list= element.getChildNodes();
-			for (int i= 0; i < list.getLength(); i++) {
+			for (int i= 0; i < list.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Node child= list.item(i);
 				if ("doclet".equals(child.getNodeName())) { //$NON-NLS-1$
 					fDocletpath= ((Element) child).getAttribute(PATH);
@@ -395,7 +395,7 @@ public class JavadocOptionsManager {
 		//find all the links stored in the ant script
 		NodeList children= element.getChildNodes();
 		fHRefs= new String[children.getLength()];
-		for (int i= 0; i < fHRefs.length; i++) {
+		for (int i= 0; i < fHRefs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node child= children.item(i);
 			if ("link".equals(child.getNodeName())) { //$NON-NLS-1$
 				fHRefs[i]= ((Element) child).getAttribute(HREF);
@@ -413,22 +413,22 @@ public class JavadocOptionsManager {
 		fTitle= element.getAttribute(TITLE);
 
 
-		StringBuilder additionals= new StringBuilder();
-		StringBuilder vmargs= new StringBuilder();
+		StringBuilder additionals= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		StringBuilder vmargs= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String extraOptions= element.getAttribute(EXTRAOPTIONS);
 		if (extraOptions.length() > 0) {
 			ExecutionArguments tokens= new ExecutionArguments("", extraOptions); //$NON-NLS-1$
 
 			boolean vmarg= false;
-			for (String curr : tokens.getProgramArgumentsArray()) {
+			for (String curr : tokens.getProgramArgumentsArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.length() > 0 && curr.charAt(0) == '-') {
 					// an command
 					vmarg=(curr.length() > 1 && curr.charAt(1) == 'J');
 				}
 				if (vmarg) {
-					vmargs.append(curr).append(' ');
+					vmargs.append(curr).append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					additionals.append(curr).append(' ');
+					additionals.append(curr).append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		}
@@ -472,7 +472,7 @@ public class JavadocOptionsManager {
 		return path;
 	}
 
-	private IContainer[] getSourceContainers(Element element) {
+	private IContainer[] getSourceContainers(Element element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String sourcePaths= element.getAttribute(SOURCEPATH);
 
 		if (sourcePaths.endsWith(File.pathSeparator)) {
@@ -480,9 +480,9 @@ public class JavadocOptionsManager {
 		}
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 
-		ArrayList<IContainer> res= new ArrayList<>();
+		ArrayList<IContainer> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String string : sourcePaths.split(File.pathSeparator)) {
+		for (String string : sourcePaths.split(File.pathSeparator)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath path= makeAbsolutePathFromRelative(new Path(string.trim()));
 			if (path != null) {
 				IContainer[] containers= root.findContainersForLocationURI(URIUtil.toURI(path.makeAbsolute()));
@@ -492,8 +492,8 @@ public class JavadocOptionsManager {
 		return res.toArray(new IContainer[res.size()]);
 	}
 
-	private IJavaElement[] getSelectedElementsFromAnt(Element element) {
-		List<IJavaElement> res= new ArrayList<>();
+	private IJavaElement[] getSelectedElementsFromAnt(Element element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IJavaElement> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// get all the packages listed in the ANT file
 		String packagenames= element.getAttribute(PACKAGENAMES);
@@ -501,9 +501,9 @@ public class JavadocOptionsManager {
 			IContainer[] containers= getSourceContainers(element);
 
 			StringTokenizer tokenizer= new StringTokenizer(packagenames, ","); //$NON-NLS-1$
-			while (tokenizer.hasMoreTokens()) {
+			while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPath relPackagePath= new Path(tokenizer.nextToken().trim().replace('.', '/'));
-				for (IContainer curr : containers) {
+				for (IContainer curr : containers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IResource resource= curr.findMember(relPackagePath);
 					if (resource != null) {
 						IJavaElement javaElem= JavaCore.create(resource);
@@ -521,13 +521,13 @@ public class JavadocOptionsManager {
 			IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 
 			StringTokenizer tokenizer= new StringTokenizer(sourcefiles, ","); //$NON-NLS-1$
-			while (tokenizer.hasMoreTokens()) {
+			while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String name= tokenizer.nextToken().trim();
 				if (JavaCore.isJavaLikeFileName(name)) {
 					IPath path= makeAbsolutePathFromRelative(new Path(name));
 					//if unable to create an absolute path to the resource skip it
 					if (path != null) {
-						for (IFile file : root.findFilesForLocationURI(URIUtil.toURI(path.makeAbsolute()))) {
+						for (IFile file : root.findFilesForLocationURI(URIUtil.toURI(path.makeAbsolute()))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IJavaElement el= JavaCore.createCompilationUnitFrom(file);
 							if (el != null) {
 								res.add(el);
@@ -621,7 +621,7 @@ public class JavadocOptionsManager {
 		return fHRefs;
 	}
 
-	public boolean getBoolean(String flag) {
+	public boolean getBoolean(String flag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		switch (flag) {
 		case AUTHOR:
@@ -652,12 +652,12 @@ public class JavadocOptionsManager {
 	}
 
 	private String flatPathList(IPath[] paths) {
-		StringBuilder buf= new StringBuilder();
-		for (int i= 0; i < paths.length; i++) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < paths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
-				buf.append(File.pathSeparatorChar);
+				buf.append(File.pathSeparatorChar); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(paths[i].toOSString());
+			buf.append(paths[i].toOSString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -669,14 +669,14 @@ public class JavadocOptionsManager {
 	private String[] arrayFromFlatString(String str) {
 		StringTokenizer tok= new StringTokenizer(str, File.pathSeparator);
 		String[] res= new String[tok.countTokens()];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res[i]= tok.nextToken();
 		}
 		return res;
 	}
 
 
-	public IStatus getArgumentArray(List<String> vmArgs, List<String> toolArgs) {
+	public IStatus getArgumentArray(List<String> vmArgs, List<String> toolArgs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MultiStatus status= new MultiStatus(JavaUI.ID_PLUGIN, IStatus.OK, JavadocExportMessages.JavadocOptionsManager_status_title, null);
 
 		//bug 38692
@@ -701,7 +701,7 @@ public class JavadocOptionsManager {
 			toolArgs.add("-classpath"); //$NON-NLS-1$
 			toolArgs.add(flatPathList(fClasspath));
 		}
-		toolArgs.add("-" + fAccess); //$NON-NLS-1$
+		toolArgs.add("-" + fAccess); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (fFromStandard) {
 			if (fSource.length() > 0 && !"-".equals(fSource)) { //$NON-NLS-1$
@@ -739,7 +739,7 @@ public class JavadocOptionsManager {
 				toolArgs.add(fStylesheet);
 			}
 
-			for (String fHRef : fHRefs) {
+			for (String fHRef : fHRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				toolArgs.add("-link"); //$NON-NLS-1$
 				toolArgs.add(fHRef);
 			}
@@ -753,7 +753,7 @@ public class JavadocOptionsManager {
 			String[] vmArgsArray= tokens.getVMArgumentsArray();
 			vmArgs.addAll(Arrays.asList(vmArgsArray));
 			String[] argsArray= tokens.getProgramArgumentsArray();
-			for (int i= 0; i < argsArray.length; i++) {
+			for (int i= 0; i < argsArray.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String arg= argsArray[i];
 				if ("-locale".equals(arg) && i + 1 < argsArray.length) { //$NON-NLS-1$
 					locale= argsArray[++i];
@@ -768,7 +768,7 @@ public class JavadocOptionsManager {
 			toolArgs.add(fOverview);
 		}
 
-		for (IJavaElement curr : fSelectedElements) {
+		for (IJavaElement curr : fSelectedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof IPackageFragment) {
 				toolArgs.add(curr.getElementName());
 			} else if (curr instanceof ICompilationUnit) {
@@ -792,27 +792,27 @@ public class JavadocOptionsManager {
 		return status;
 	}
 
-	private void addProxyOptions(List<String> vmOptions) {
+	private void addProxyOptions(List<String> vmOptions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// bug 74132
 		String hostPrefix= "-J-Dhttp.proxyHost="; //$NON-NLS-1$
 		String portPrefix= "-J-Dhttp.proxyPort="; //$NON-NLS-1$
-		for (String curr : vmOptions) {
+		for (String curr : vmOptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.startsWith(hostPrefix) || curr.startsWith(portPrefix)) {
 				return;
 			}
 		}
 		String proxyHost= System.getProperty("http.proxyHost"); //$NON-NLS-1$
 		if (proxyHost != null) {
-			vmOptions.add(hostPrefix + proxyHost);
+			vmOptions.add(hostPrefix + proxyHost); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		String proxyPort= System.getProperty("http.proxyPort"); //$NON-NLS-1$
 		if (proxyPort != null) {
-			vmOptions.add(portPrefix + proxyPort);
+			vmOptions.add(portPrefix + proxyPort); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	public Element createXML(IJavaProject[] projects) throws CoreException {
+	public Element createXML(IJavaProject[] projects) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fAntpath.length() > 0) {
 			try {
 				IPath filePath= Path.fromOSString(fAntpath);
@@ -834,7 +834,7 @@ public class JavadocOptionsManager {
 	}
 
 
-	public File writeXML(Element javadocElement) throws CoreException {
+	public File writeXML(Element javadocElement) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		File file= new File(fAntpath);
 
 		String encoding= "UTF-8"; //$NON-NLS-1$
@@ -853,7 +853,7 @@ public class JavadocOptionsManager {
 		}
 	}
 
-	public void updateDialogSettings(IDialogSettings dialogSettings, IJavaProject[] checkedProjects) {
+	public void updateDialogSettings(IDialogSettings dialogSettings, IJavaProject[] checkedProjects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings settings= dialogSettings.addNewSection(SECTION_JAVADOC);
 
 		settings.put(JAVADOC_COMMAND_HISTORY, flatStringList(fJavadocCommandHistory));
@@ -969,7 +969,7 @@ public class JavadocOptionsManager {
 		fHRefs= hrefs;
 	}
 
-	public void setBoolean(String flag, boolean value) {
+	public void setBoolean(String flag, boolean value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		switch (flag) {
 		case AUTHOR:
@@ -1013,8 +1013,8 @@ public class JavadocOptionsManager {
 	}
 
 	private IJavaElement[] getInitialElementsFromSelection(List<?> candidates) {
-		ArrayList<IJavaElement> res= new ArrayList<>();
-		for (Object candidate : candidates) {
+		ArrayList<IJavaElement> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object candidate : candidates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				IJavaElement elem= getSelectableJavaElement(candidate);
 				if (elem != null) {
@@ -1027,7 +1027,7 @@ public class JavadocOptionsManager {
 		return res.toArray(new IJavaElement[res.size()]);
 	}
 
-	private IJavaElement getSelectableJavaElement(Object obj) throws JavaModelException {
+	private IJavaElement getSelectableJavaElement(Object obj) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement je= null;
 		if (obj instanceof IAdaptable) {
 			je= ((IAdaptable) obj).getAdapter(IJavaElement.class);
@@ -1075,7 +1075,7 @@ public class JavadocOptionsManager {
 			return false;
 		}
 
-		for (IJavaElement child : root.getChildren()) {
+		for (IJavaElement child : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IPackageFragment) {
 				IPackageFragment fragment= (IPackageFragment) child;
 				if (containsCompilationUnits(fragment)) {
@@ -1118,7 +1118,7 @@ public class JavadocOptionsManager {
 	}
 
 
-	private static File findJavaDocCommand() {
+	private static File findJavaDocCommand() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IVMInstall install= JavaRuntime.getDefaultVMInstall();
 		if (install != null) {
 			File res= getCommand(install);
@@ -1127,8 +1127,8 @@ public class JavadocOptionsManager {
 			}
 		}
 
-		for (IVMInstallType jreType : JavaRuntime.getVMInstallTypes()) {
-			for (IVMInstall i : jreType.getVMInstalls()) {
+		for (IVMInstallType jreType : JavaRuntime.getVMInstallTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IVMInstall i : jreType.getVMInstalls()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				File res= getCommand(i);
 				if (res != null) {
 					return res;

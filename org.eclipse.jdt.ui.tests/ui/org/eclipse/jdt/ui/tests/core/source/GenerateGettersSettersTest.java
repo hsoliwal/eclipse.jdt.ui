@@ -63,8 +63,8 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 		final String pkg= fQName.substring(0, fQName.lastIndexOf('.'));
 		final String typeName= fQName.substring(fQName.lastIndexOf('.') + 1);
 		final IPackageFragment fragment= fRoot.createPackageFragment(pkg, true, null);
-		final ICompilationUnit unit= fragment.getCompilationUnit(typeName + ".java");
-		return unit.createType("public class " + typeName + " {\n}\n", null, true, null);
+		final ICompilationUnit unit= fragment.getCompilationUnit(typeName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		return unit.createType("public class " + typeName + " {\n}\n", null, true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests normal getter/setter generation for one field.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test0() throws Exception {
 
 		IField field1= fClassA.createField("String field1;", null, false, new NullProgressMonitor());
@@ -143,7 +143,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests normal getter/setter generation for one field.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void doneWithSmartIs() throws Exception {
 
 		IField field1= fClassA.createField("boolean done;", null, false, new NullProgressMonitor());
@@ -175,7 +175,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests normal getter/setter generation for one field.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void isDoneWithSmartIs() throws Exception {
 
 		IField field1= fClassA.createField("boolean isDone;", null, false, new NullProgressMonitor());
@@ -207,7 +207,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests normal getter/setter generation for one field.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void doneWithoutSmartIs() throws Exception {
 		final IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		try {
@@ -244,7 +244,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests normal getter/setter generation for one field.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void isDoneWithoutSmartIs() throws Exception {
 		final IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		try {
@@ -281,7 +281,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * No setter for final fields (if skipped by user, as per parameter)
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception {
 
 		IField field1= fClassA.createField("final String field1 = null;", null, false, new NullProgressMonitor());
@@ -313,7 +313,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests if full-qualified field declaration type is also full-qualified in setter parameter.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test2() throws Exception {
 
 		createNewType("q.Other");
@@ -347,7 +347,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Test parameterized types in field declarations
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test3() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", """
@@ -393,7 +393,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests enum typed fields
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test4() throws Exception {
 
 		IType theEnum= fClassA.createType("private enum ENUM { C,D,E };", null, false, null);
@@ -428,7 +428,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Test generation for more than one field
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test5() throws Exception {
 
 		createNewType("q.Other");
@@ -515,7 +515,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Some more fields, this time sorted
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test6() throws Exception {
 
 		IField field1= fClassA.createField("private String a;", null, false, new NullProgressMonitor());
@@ -574,7 +574,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Test getter/setter generation in anonymous type
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test7() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", """
@@ -626,7 +626,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests other modifiers for the generated getters
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test8() throws Exception {
 
 		IField field1= fClassA.createField("private Object o;", null, false, new NullProgressMonitor());
@@ -651,7 +651,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Verify existing getters are not overwritten, and setters are created
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test9() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", """
@@ -700,7 +700,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	 * Test creation for combined field declarations; creating a pair of accessors for
 	 * one variable and only a setter for another.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test10() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -750,7 +750,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 	/**
 	 * Tests insertion of members before a certain method.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test11() throws Exception {
 
 		ICompilationUnit b= fPackageP.createCompilationUnit("B.java", """
@@ -879,7 +879,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 		assertInsertAt2(expectedSetter, false);
 	}
 
-	private void assertInsertAt(String expectedMethod, boolean isGetter) throws CoreException {
+	private void assertInsertAt(String expectedMethod, boolean isGetter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String originalContent= """
 			package p;
 			
@@ -906,7 +906,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 
 
 		// try to insert the new delegate after every member and at the end
-		for (int i= 0; i < NUM_MEMBERS + 1; i++) {
+		for (int i= 0; i < NUM_MEMBERS + 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			ICompilationUnit unit= null;
 			try {
@@ -926,7 +926,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 				IJavaElement[] newChildren= type.getChildren();
 				assertEquals(NUM_MEMBERS + 1, newChildren.length);
 				String source= ((IMember) newChildren[i]).getSource(); // new element expected at index i
-				assertEquals("Insert before " + insertBefore, expectedMethod, source);
+				assertEquals("Insert before " + insertBefore, expectedMethod, source); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} finally {
 				if (unit != null) {
 					JavaProjectHelper.delete(unit);
@@ -935,7 +935,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 		}
 	}
 
-	private void assertInsertAt2(String expectedMethod, boolean isGetter) throws CoreException {
+	private void assertInsertAt2(String expectedMethod, boolean isGetter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String originalContent= """
 			package p;
 			
@@ -970,7 +970,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 
 
 		// try to insert the new delegate after every member and at the end
-		for (int i= 0; i < NUM_MEMBERS + 1; i++) {
+		for (int i= 0; i < NUM_MEMBERS + 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			ICompilationUnit unit= null;
 			try {
@@ -990,7 +990,7 @@ public class GenerateGettersSettersTest extends SourceTestCase {
 				IJavaElement[] newChildren= type.getChildren();
 				assertEquals(NUM_MEMBERS + 1, newChildren.length);
 				String source= ((IMember) newChildren[i]).getSource(); // new element expected at index i
-				assertEquals("Insert before " + insertBefore, expectedMethod, source);
+				assertEquals("Insert before " + insertBefore, expectedMethod, source); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} finally {
 				if (unit != null) {
 					JavaProjectHelper.delete(unit);

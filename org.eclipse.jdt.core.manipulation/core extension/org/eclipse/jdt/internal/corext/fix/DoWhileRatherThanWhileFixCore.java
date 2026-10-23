@@ -82,7 +82,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 			return true;
 		}
 
-		private Object peremptoryValue(final ASTNode visited, final Expression condition) {
+		private Object peremptoryValue(final ASTNode visited, final Expression condition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object constantCondition= condition.resolveConstantExpressionValue();
 
 			if (constantCondition != null) {
@@ -104,7 +104,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 
 				Collections.reverse(precedingStatements);
 
-				for (ASTNode precedingStatement : precedingStatements) {
+				for (ASTNode precedingStatement : precedingStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isConditionalCode(precedingStatement)) {
 						return null;
 					}
@@ -115,10 +115,10 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 						return null;
 					}
 
-					for (SimpleName astNode : visitor.getReads()) {
+					for (SimpleName astNode : visitor.getReads()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ASTNode parent= astNode.getParent();
 
-						while (parent instanceof ParenthesizedExpression) {
+						while (parent instanceof ParenthesizedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							parent= astNode.getParent();
 						}
 
@@ -132,7 +132,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 						SimpleName write= visitor.getWrites().get(0);
 						ASTNode parent= write;
 
-						while (parent != precedingStatement) {
+						while (parent != precedingStatement) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (isConditionalCode(parent)) {
 								return null;
 							}
@@ -226,7 +226,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 
 				if (ASTNodes.hasOperator(infixExpression, InfixExpression.Operator.CONDITIONAL_AND,
 								InfixExpression.Operator.AND)) {
-					for (Expression operand : ASTNodes.allOperands(infixExpression)) {
+					for (Expression operand : ASTNodes.allOperands(infixExpression)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						final Object hasAlwaysValue= peremptoryValue(visited, operand);
 
 						if (!Boolean.TRUE.equals(hasAlwaysValue)) {
@@ -239,7 +239,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 
 				if (ASTNodes.hasOperator(infixExpression, InfixExpression.Operator.CONDITIONAL_OR,
 								InfixExpression.Operator.OR)) {
-					for (Expression operand : ASTNodes.allOperands(infixExpression)) {
+					for (Expression operand : ASTNodes.allOperands(infixExpression)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						final Object hasAlwaysValue= peremptoryValue(visited, operand);
 
 						if (!Boolean.FALSE.equals(hasAlwaysValue)) {
@@ -272,7 +272,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 					|| expression instanceof SuperMethodReference;
 		}
 
-		@SuppressWarnings({ "deprecation" })
+		@SuppressWarnings({ "deprecation" }) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		private List<ASTNode> getPrecedingCode(final ASTNode node) {
 			Statement statement= null;
 
@@ -283,10 +283,10 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 			}
 
 			if (statement == null) {
-				return new ArrayList<>();
+				return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 
-			List<ASTNode> precedingStatements= new ArrayList<>(ASTNodes.getPreviousSiblings(statement));
+			List<ASTNode> precedingStatements= new ArrayList<>(ASTNodes.getPreviousSiblings(statement)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			ASTNode parent= statement.getParent();
 
 			if (parent instanceof Block) {
@@ -333,7 +333,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 			this.visited= visited;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -357,7 +357,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		DoWhileRatherThanWhileFinder finder= new DoWhileRatherThanWhileFinder(operations);
 		compilationUnit.accept(finder);
 
@@ -370,7 +370,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit, final WhileStatement whileStatement) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		DoWhileRatherThanWhileFinder finder= new DoWhileRatherThanWhileFinder(operations);
 		whileStatement.accept(finder);
 
@@ -388,7 +388,7 @@ public class DoWhileRatherThanWhileFixCore extends CompilationUnitRewriteOperati
 
 	public static IProposableFix createDoWhileFix(WhileStatement switchStatement) {
 		CompilationUnit root= (CompilationUnit) switchStatement.getRoot();
-		List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		DoWhileRatherThanWhileFinder finder= new DoWhileRatherThanWhileFinder(operations);
 		switchStatement.accept(finder);
 		if (operations.isEmpty())

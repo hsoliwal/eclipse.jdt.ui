@@ -68,7 +68,7 @@ public class Java15ProjectTestSetup extends ProjectTestSetup {
 		File bundleFile= FileLocator.getBundleFileLocation(annotationsBundles[0]).get();
 		String path= bundleFile.getPath();
 		if (bundleFile.isDirectory()) {
-			path= bundleFile.getPath() + "/bin";
+			path= bundleFile.getPath() + "/bin"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return path;
 	}

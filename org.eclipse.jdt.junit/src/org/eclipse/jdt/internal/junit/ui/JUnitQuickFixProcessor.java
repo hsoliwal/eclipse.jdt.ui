@@ -74,7 +74,7 @@ import org.eclipse.jdt.ui.text.java.IQuickFixProcessor;
 
 public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 
-	private static final HashSet<String> ASSERT_METHOD_NAMES= new HashSet<>();
+	private static final HashSet<String> ASSERT_METHOD_NAMES= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	public JUnitQuickFixProcessor() {
 		ASSERT_METHOD_NAMES.add("fail"); //$NON-NLS-1$
@@ -95,10 +95,10 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 		return problemId == IProblem.UndefinedType || problemId ==  IProblem.UndefinedMethod;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IJavaCompletionProposal[] getCorrections(final IInvocationContext context, IProblemLocation[] locations)  {
 		ArrayList<IJavaCompletionProposal> res= null;
-		for (IProblemLocation problem : locations) {
+		for (IProblemLocation problem : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int id= problem.getProblemId();
 			if (IProblem.UndefinedType == id) {
 				res= getAddJUnitToBuildPathProposals(context, problem, res);
@@ -121,7 +121,7 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 			String methodName= args[1];
 			if (ASSERT_METHOD_NAMES.contains(methodName) && isInsideJUnit4Test(context)) {
 				if (proposals == null) {
-					proposals= new ArrayList<>();
+					proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				proposals.add(new AddAssertProposal(context.getASTRoot(), methodName, 9));
 				proposals.add(new AddAssertProposal(context.getASTRoot(), "*", 10)); //$NON-NLS-1$
@@ -130,7 +130,7 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 		return proposals;
 	}
 
-	private ArrayList<IJavaCompletionProposal> getAddJUnitToBuildPathProposals(IInvocationContext context, IProblemLocation location, ArrayList<IJavaCompletionProposal> proposals) {
+	private ArrayList<IJavaCompletionProposal> getAddJUnitToBuildPathProposals(IInvocationContext context, IProblemLocation location, ArrayList<IJavaCompletionProposal> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ICompilationUnit unit= context.getCompilationUnit();
 			String qualifiedName= null;
@@ -140,7 +140,7 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 			switch (s) {
 			case "TestCase": //$NON-NLS-1$
 			case "TestSuite": //$NON-NLS-1$
-				qualifiedName= "junit.framework." + s; //$NON-NLS-1$
+				qualifiedName= "junit.framework." + s; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				break;
 			case "RunWith": //$NON-NLS-1$
 				qualifiedName= "org.junit.runner.RunWith"; //$NON-NLS-1$
@@ -191,9 +191,9 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 
 	private ArrayList<IJavaCompletionProposal> addProposal(IInvocationContext context, ArrayList<IJavaCompletionProposal> proposals, String qualifiedName, IJavaProject javaProject) {
 		ClasspathFixProposal[] fixProposals= ClasspathFixProcessor.getContributedFixImportProposals(javaProject, qualifiedName, null);
-		for (ClasspathFixProposal fixProposal : fixProposals) {
+		for (ClasspathFixProposal fixProposal : fixProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (proposals == null)
-				proposals= new ArrayList<>();
+				proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			proposals.add(new JUnitClasspathFixCorrectionProposal(javaProject, fixProposal, getImportRewrite(context.getASTRoot(), qualifiedName)));
 		}
 		return proposals;
@@ -212,16 +212,16 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 		return null;
 	}
 
-	private boolean isInsideJUnit4Test(IInvocationContext context) {
+	private boolean isInsideJUnit4Test(IInvocationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= context.getCoveringNode();
-		while (node != null && !(node instanceof BodyDeclaration)) {
+		while (node != null && !(node instanceof BodyDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 		}
 		if (node instanceof MethodDeclaration) {
 			IMethodBinding binding= ((MethodDeclaration) node).resolveBinding();
 			if (binding != null) {
 				IAnnotationBinding[] annotations= binding.getAnnotations();
-				for (IAnnotationBinding annotation : annotations) {
+				for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final ITypeBinding annotationType= annotation.getAnnotationType();
 					if (annotationType != null && JUnitCorePlugin.JUNIT4_ANNOTATION_NAME.equals(annotationType.getQualifiedName()))
 						return true;
@@ -231,7 +231,7 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 		return false;
 	}
 
-	private static class JUnitClasspathFixCorrectionProposal implements IJavaCompletionProposal {
+	private static class JUnitClasspathFixCorrectionProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private final ClasspathFixProposal fClasspathFixProposal;
 		private final ImportRewrite fImportRewrite;
@@ -257,10 +257,10 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 			return change;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void apply(IDocument document) {
 			try {
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(false, true, monitor -> {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(false, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 					try {
 						Change change= createChange();
 						change.initializeValidationData(new NullProgressMonitor());
@@ -312,7 +312,7 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 		}
 	}
 
-	private static class AddAssertProposal implements IJavaCompletionProposal {
+	private static class AddAssertProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private final CompilationUnit fAstRoot;
 		private final String fMethodName;
@@ -342,7 +342,7 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 
 		@Override
 		public String getAdditionalProposalInfo() {
-			return Messages.format(JUnitMessages.JUnitQuickFixProcessor_add_assert_info, BasicElementLabels.getJavaElementName("org.junit.Assert." + fMethodName)); //$NON-NLS-1$
+			return Messages.format(JUnitMessages.JUnitQuickFixProcessor_add_assert_info, BasicElementLabels.getJavaElementName("org.junit.Assert." + fMethodName)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -352,7 +352,7 @@ public class JUnitQuickFixProcessor implements IQuickFixProcessor {
 
 		@Override
 		public String getDisplayString() {
-			return Messages.format(JUnitMessages.JUnitQuickFixProcessor_add_assert_description, BasicElementLabels.getJavaElementName("org.junit.Assert." + fMethodName)); //$NON-NLS-1$
+			return Messages.format(JUnitMessages.JUnitQuickFixProcessor_add_assert_description, BasicElementLabels.getJavaElementName("org.junit.Assert." + fMethodName)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override

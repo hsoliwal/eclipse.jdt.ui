@@ -168,7 +168,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 
 	private StatusInfo fStatus;
 
-	private Map<Button, String> fCheckBoxes= new HashMap<>();
+	private Map<Button, String> fCheckBoxes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private SelectionListener fCheckBoxListener= new SelectionListener() {
 		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -194,7 +194,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 
 	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() {
 
-		ArrayList<OverlayKey> overlayKeys= new ArrayList<>();
+		ArrayList<OverlayKey> overlayKeys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_ANNOTATION_ROLL_OVER));
 
@@ -212,7 +212,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 	 * @param parent the parent composite
 	 * @return the control for the preference page
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createControl(Composite parent) {
 
 		ScrolledPageContent scrolled= new ScrolledPageContent(parent, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -253,7 +253,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 		gd.widthHint= new PixelConverter(parent).convertWidthInCharsToPixels(30);
 		layouter.setLayoutData(gd);
 
-		fHoverTable.addSelectionListener(new SelectionListener() {
+		fHoverTable.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleHoverListSelection();
@@ -277,16 +277,16 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 		fHoverTableViewer= new CheckboxTableViewer(fHoverTable);
 		fHoverTableViewer.setUseHashlookup(true);
 		fHoverTableViewer.setContentProvider(new JavaEditorTextHoverDescriptorContentProvider());
-		fHoverTableViewer.setLabelProvider(new JavaEditorTextHoverDescriptorLabelProvider());
+		fHoverTableViewer.setLabelProvider(new JavaEditorTextHoverDescriptorLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
-		((CheckboxTableViewer)fHoverTableViewer).addCheckStateListener(event -> {
+		((CheckboxTableViewer)fHoverTableViewer).addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			String id= ((JavaEditorTextHoverDescriptor)event.getElement()).getId();
 			if (id == null)
 				return;
 			JavaEditorTextHoverDescriptor[] descriptors= getContributedHovers();
 			HoverConfig hoverConfig= null;
 			int i= 0, length= fHoverConfigs.length;
-			while (i < length) {
+			while (i < length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (id.equals(descriptors[i].getId())) {
 					hoverConfig= fHoverConfigs[i];
 					hoverConfig.fIsEnabled= event.getChecked();
@@ -306,26 +306,26 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 		gd= new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		fModifierEditor.setLayoutData(gd);
 
-		fModifierEditor.addKeyListener(new KeyListener() {
+		fModifierEditor.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			private boolean isModifierCandidate;
 			@Override
 			public void keyPressed(KeyEvent e) {
 				isModifierCandidate= e.keyCode > 0 && e.character == 0 && e.stateMask == 0;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyReleased(KeyEvent e) {
 				if (isModifierCandidate && e.stateMask > 0 && e.character == 0) {// && e.time -time < 1000) {
 					String text= fModifierEditor.getText();
 					Point selection= fModifierEditor.getSelection();
 					int i= selection.x - 1;
-					while (i > -1 && Character.isWhitespace(text.charAt(i))) {
+					while (i > -1 && Character.isWhitespace(text.charAt(i))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						i--;
 					}
 					boolean needsPrefixDelimiter= i > -1 && !String.valueOf(text.charAt(i)).equals(DELIMITER);
 
 					i= selection.y;
-					while (i < text.length() && Character.isWhitespace(text.charAt(i))) {
+					while (i < text.length() && Character.isWhitespace(text.charAt(i))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						i++;
 					}
 					boolean needsPostfixDelimiter= i < text.length() && !String.valueOf(text.charAt(i)).equals(DELIMITER);
@@ -347,7 +347,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 			}
 		});
 
-		fModifierEditor.addModifyListener(unused -> handleModifierModified());
+		fModifierEditor.addModifyListener(unused -> handleModifierModified()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		// Description
 		Label descriptionLabel= new Label(hoverComposite, SWT.LEFT);
@@ -386,10 +386,10 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 	public void initialize() {
 		JavaEditorTextHoverDescriptor[] hoverDescs= getContributedHovers();
 		fHoverConfigs= new HoverConfig[hoverDescs.length];
-		for (int i= 0; i < hoverDescs.length; i++)
+		for (int i= 0; i < hoverDescs.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fHoverConfigs[i]= new HoverConfig(hoverDescs[i].getModifierString(), hoverDescs[i].getStateMask(), hoverDescs[i].isEnabled());
 
-		fHoverTableViewer.setInput(hoverDescs);
+		fHoverTableViewer.setInput(hoverDescs); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		initializeFields();
 	}
@@ -397,35 +397,35 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 	void initializeFields() {
 		fModifierEditor.setEnabled(false);
 
-		for (Button b : fCheckBoxes.keySet()) {
+		for (Button b : fCheckBoxes.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= fCheckBoxes.get(b);
 			b.setSelection(fStore.getBoolean(key));
 		}
 
-		for (int i= 0; i < fHoverConfigs.length; i++)
+		for (int i= 0; i < fHoverConfigs.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fHoverTable.getItem(i).setChecked(fHoverConfigs[i].fIsEnabled);
-		fHoverTableViewer.refresh();
+		fHoverTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void performOk() {
-		StringBuilder buf= new StringBuilder();
-		StringBuilder maskBuf= new StringBuilder();
-		for (int i= 0; i < fHoverConfigs.length; i++) {
-			buf.append(getContributedHovers()[i].getId());
-			buf.append(JavaEditorTextHoverDescriptor.VALUE_SEPARATOR);
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		StringBuilder maskBuf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < fHoverConfigs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(getContributedHovers()[i].getId()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JavaEditorTextHoverDescriptor.VALUE_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (!fHoverConfigs[i].fIsEnabled)
-				buf.append(JavaEditorTextHoverDescriptor.DISABLED_TAG);
+				buf.append(JavaEditorTextHoverDescriptor.DISABLED_TAG); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String modifier= fHoverConfigs[i].fModifierString;
 			if (modifier == null || modifier.length() == 0)
 				modifier= JavaEditorTextHoverDescriptor.NO_MODIFIER;
-			buf.append(modifier);
-			buf.append(JavaEditorTextHoverDescriptor.VALUE_SEPARATOR);
+			buf.append(modifier); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JavaEditorTextHoverDescriptor.VALUE_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-			maskBuf.append(getContributedHovers()[i].getId());
-			maskBuf.append(JavaEditorTextHoverDescriptor.VALUE_SEPARATOR);
-			maskBuf.append(fHoverConfigs[i].fStateMask);
-			maskBuf.append(JavaEditorTextHoverDescriptor.VALUE_SEPARATOR);
+			maskBuf.append(getContributedHovers()[i].getId()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			maskBuf.append(JavaEditorTextHoverDescriptor.VALUE_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			maskBuf.append(fHoverConfigs[i].fStateMask); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			maskBuf.append(JavaEditorTextHoverDescriptor.VALUE_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		fStore.setValue(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIERS, buf.toString());
 		fStore.setValue(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIER_MASKS, maskBuf.toString());
@@ -440,13 +440,13 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 		updateStatus(null);
 	}
 
-	private void restoreFromPreferences() {
+	private void restoreFromPreferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String compiledTextHoverModifiers= fStore.getString(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIERS);
 
 		StringTokenizer tokenizer= new StringTokenizer(compiledTextHoverModifiers, JavaEditorTextHoverDescriptor.VALUE_SEPARATOR);
-		HashMap<String, String> idToModifier= new HashMap<>(tokenizer.countTokens() / 2);
+		HashMap<String, String> idToModifier= new HashMap<>(tokenizer.countTokens() / 2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= tokenizer.nextToken();
 			if (tokenizer.hasMoreTokens())
 				idToModifier.put(id, tokenizer.nextToken());
@@ -455,15 +455,15 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 		String compiledTextHoverModifierMasks= JavaPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIER_MASKS);
 
 		tokenizer= new StringTokenizer(compiledTextHoverModifierMasks, JavaEditorTextHoverDescriptor.VALUE_SEPARATOR);
-		HashMap<String, String> idToModifierMask= new HashMap<>(tokenizer.countTokens() / 2);
+		HashMap<String, String> idToModifierMask= new HashMap<>(tokenizer.countTokens() / 2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= tokenizer.nextToken();
 			if (tokenizer.hasMoreTokens())
 				idToModifierMask.put(id, tokenizer.nextToken());
 		}
 
-		for (int i= 0; i < fHoverConfigs.length; i++) {
+		for (int i= 0; i < fHoverConfigs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String modifierString= idToModifier.get(getContributedHovers()[i].getId());
 			boolean enabled= true;
 			if (modifierString == null)
@@ -501,7 +501,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 		fHoverConfigs[i].fStateMask= JavaEditorTextHoverDescriptor.computeStateMask(modifiers);
 
 		// update table
-		fHoverTableViewer.refresh(getContributedHovers()[i]);
+		fHoverTableViewer.refresh(getContributedHovers()[i]); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		updateStatus(fHoverConfigs[i]);
 	}
@@ -530,15 +530,15 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 		return fStatus;
 	}
 
-	private void updateStatus(HoverConfig hoverConfig) {
+	private void updateStatus(HoverConfig hoverConfig) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hoverConfig != null && hoverConfig.fIsEnabled && hoverConfig.fStateMask == -1)
 			fStatus= new StatusInfo(IStatus.ERROR, Messages.format(PreferencesMessages.JavaEditorHoverConfigurationBlock_modifierIsNotValid, hoverConfig.fModifierString));
 		else
 			fStatus= new StatusInfo();
 
 		int i= 0;
-		HashMap<Integer, String> stateMasks= new HashMap<>(fHoverConfigs.length);
-		while (fStatus.isOK() && i < fHoverConfigs.length) {
+		HashMap<Integer, String> stateMasks= new HashMap<>(fHoverConfigs.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		while (fStatus.isOK() && i < fHoverConfigs.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fHoverConfigs[i].fIsEnabled) {
 				String label= getContributedHovers()[i].getLabel();
 				Integer stateMask= fHoverConfigs[i].fStateMask;
@@ -564,7 +564,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 		gd.horizontalIndent= indentation;
 		gd.horizontalSpan= 2;
 		checkBox.setLayoutData(gd);
-		checkBox.addSelectionListener(fCheckBoxListener);
+		checkBox.addSelectionListener(fCheckBoxListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fCheckBoxes.put(checkBox, key);
 

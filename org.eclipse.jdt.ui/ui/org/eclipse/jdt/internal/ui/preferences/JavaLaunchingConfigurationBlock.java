@@ -56,7 +56,7 @@ public class JavaLaunchingConfigurationBlock extends OptionsConfigurationBlock {
 		super(context, null, getAllKeys(), container);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		Shell shell= parent.getShell();
 		setShell(shell);

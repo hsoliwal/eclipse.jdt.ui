@@ -86,7 +86,7 @@ public class ProfileStore {
 		private Map<String, String> fSettings;
 		private String fKind;
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 
 			switch (qName) {
@@ -100,10 +100,10 @@ public class ProfileStore {
 				fKind= attributes.getValue(XML_ATTRIBUTE_PROFILE_KIND);
 				if (fKind == null) //Can only be an CodeFormatterProfile created pre 3.3M2
 					fKind= ProfileVersioner.CODE_FORMATTER_PROFILE_KIND;
-				fSettings= new HashMap<>(200);
+				fSettings= new HashMap<>(200); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				break;
 			case XML_NODE_ROOT:
-				fProfiles= new ArrayList<>();
+				fProfiles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				try {
 					fVersion= Integer.parseInt(attributes.getValue(XML_ATTRIBUTE_VERSION));
 				} catch (NumberFormatException ex) {
@@ -152,7 +152,7 @@ public class ProfileStore {
 	public ProfileStore(String profilesKey, IProfileVersioner profileVersioner) {
 		fProfilesKey= profilesKey;
 		fProfileVersioner= profileVersioner;
-		fProfilesVersionKey= profilesKey + VERSION_KEY_SUFFIX;
+		fProfilesVersionKey= profilesKey + VERSION_KEY_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class ProfileStore {
 		uiPreferences.putInt(fProfilesVersionKey, fProfileVersioner.getCurrentVersion());
 	}
 
-	public List<Profile> readProfilesFromString(String profiles) throws CoreException {
+	public List<Profile> readProfilesFromString(String profiles) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    if (profiles != null && profiles.length() > 0) {
 			byte[] bytes;
 			try {
@@ -189,7 +189,7 @@ public class ProfileStore {
 			InputStream is= new ByteArrayInputStream(bytes);
 			List<Profile> res= readProfilesFromStream(new InputSource(is));
 			if (res != null) {
-				for (Profile re : res) {
+				for (Profile re : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fProfileVersioner.update((CustomProfile) re);
 				}
 			}
@@ -251,7 +251,7 @@ public class ProfileStore {
 	 * @param stream the stream to write to
 	 * @param encoding the encoding to use
 	 */
-	public static void writeProfilesToStream(Collection<Profile> profiles, OutputStream stream, String encoding, IProfileVersioner profileVersioner) throws CoreException {
+	public static void writeProfilesToStream(Collection<Profile> profiles, OutputStream stream, String encoding, IProfileVersioner profileVersioner) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
 			final DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
@@ -263,7 +263,7 @@ public class ProfileStore {
 
 			document.appendChild(rootElement);
 
-			for (Profile profile : profiles) {
+			for (Profile profile : profiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (profile.isProfileToSave()) {
 					final Element profileElement= createProfileElement(profile, document, profileVersioner);
 					rootElement.appendChild(profileElement);
@@ -285,7 +285,7 @@ public class ProfileStore {
 	 * Create a new profile element in the specified document. The profile is not added
 	 * to the document by this method.
 	 */
-	private static Element createProfileElement(Profile profile, Document document, IProfileVersioner profileVersioner) {
+	private static Element createProfileElement(Profile profile, Document document, IProfileVersioner profileVersioner) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Element element= document.createElement(XML_NODE_PROFILE);
 		element.setAttribute(XML_ATTRIBUTE_NAME, profile.getName());
 		element.setAttribute(XML_ATTRIBUTE_VERSION, Integer.toString(profile.getVersion()));
@@ -293,7 +293,7 @@ public class ProfileStore {
 
 		final Iterator<String> keyIter= profile.getSettings().keySet().iterator();
 
-		while (keyIter.hasNext()) {
+		while (keyIter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String key= keyIter.next();
 			final String value= profile.getSettings().get(key);
 			if (value != null) {
@@ -302,7 +302,7 @@ public class ProfileStore {
 				setting.setAttribute(XML_ATTRIBUTE_VALUE, value);
 				element.appendChild(setting);
 			} else {
-				JavaPlugin.logErrorMessage("ProfileStore: Profile does not contain value for key " + key); //$NON-NLS-1$
+				JavaPlugin.logErrorMessage("ProfileStore: Profile does not contain value for key " + key); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		return element;

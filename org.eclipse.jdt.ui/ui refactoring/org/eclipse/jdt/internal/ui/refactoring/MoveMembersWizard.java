@@ -92,7 +92,7 @@ public class MoveMembersWizard extends RefactoringWizard {
 		private Button fLeaveDelegateCheckBox;
 		private Button fDeprecateDelegateCheckBox;
 		private static final int MRU_COUNT= 10;
-		private static List<String> fgMruDestinations= new ArrayList<>(MRU_COUNT);
+		private static List<String> fgMruDestinations= new ArrayList<>(MRU_COUNT); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private final MoveStaticMembersProcessor fProcessor;
 
 		public MoveMembersInputPage(MoveStaticMembersProcessor processor) {
@@ -114,7 +114,7 @@ public class MoveMembersWizard extends RefactoringWizard {
 			super.setVisible(visible);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			Composite composite= new Composite(parent, SWT.NONE);
 			GridLayout layout= new GridLayout();
@@ -137,14 +137,14 @@ public class MoveMembersWizard extends RefactoringWizard {
 				fDeprecateDelegateCheckBox.setText(DelegateUIHelper.getDeprecateDelegateCheckBoxTitle());
 				fDeprecateDelegateCheckBox.setSelection(DelegateUIHelper.loadDeprecateDelegateSetting(getMoveProcessor()));
 				getMoveProcessor().setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
-				fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+				fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						getMoveProcessor().setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
 					}
 				});
 				fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
-				fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+				fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
@@ -180,18 +180,18 @@ public class MoveMembersWizard extends RefactoringWizard {
 			label.setLayoutData(gd);
 		}
 
-		private void addDestinationControls(Composite composite) {
+		private void addDestinationControls(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fDestinationField= new Combo(composite, SWT.SINGLE | SWT.BORDER);
 			SWTUtil.setDefaultVisibleItemCount(fDestinationField);
 			fDestinationField.setFocus();
 			fDestinationField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			fDestinationField.setItems(fgMruDestinations.toArray(new String[fgMruDestinations.size()]));
-			fDestinationField.addModifyListener(new ModifyListener(){
+			fDestinationField.addModifyListener(new ModifyListener(){ //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				@Override
 				public void modifyText(ModifyEvent e) {
 					handleDestinationChanged();
 				}
-				private void handleDestinationChanged() {
+				private void handleDestinationChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					IType declaring= getMoveProcessor().getDeclaringType();
 					IJavaProject javaProject= declaring.getJavaProject();
 					IStatus status= JavaConventionsUtil.validateJavaTypeName(fDestinationField.getText(), javaProject);
@@ -235,7 +235,7 @@ public class MoveMembersWizard extends RefactoringWizard {
 			button.setText(RefactoringMessages.MoveMembersInputPage_browse);
 			button.setLayoutData(new GridData());
 			SWTUtil.setButtonDimensionHint(button);
-			button.addSelectionListener(new SelectionAdapter(){
+			button.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					openTypeSelectionDialog();
@@ -273,7 +273,7 @@ public class MoveMembersWizard extends RefactoringWizard {
 			return SearchEngine.createJavaSearchScope(project, IJavaSearchScope.REFERENCED_PROJECTS | IJavaSearchScope.SOURCES);
 		}
 
-		private void openTypeSelectionDialog(){
+		private void openTypeSelectionDialog(){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int elementKinds= IJavaSearchConstants.TYPE;
 			final IJavaSearchScope scope= createWorkspaceSourceScope();
 			FilteredTypesSelectionDialog dialog= new FilteredTypesSelectionDialog(getShell(), false,

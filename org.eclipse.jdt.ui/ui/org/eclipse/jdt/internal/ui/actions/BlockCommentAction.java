@@ -89,7 +89,7 @@ public abstract class BlockCommentAction extends TextEditorAction {
 			 * @param document the document that is being edited.
 			 */
 			public EditFactory(IDocument document) {
-				fCategory= CATEGORY + fgCount++;
+				fCategory= CATEGORY + fgCount++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fDocument= document;
 			}
 
@@ -171,7 +171,7 @@ public abstract class BlockCommentAction extends TextEditorAction {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		if (!isEnabled())
 			return;
@@ -234,7 +234,7 @@ public abstract class BlockCommentAction extends TextEditorAction {
 	 * @throws BadLocationException if an <code>Edit</code> threw such an exception.
 	 */
 	protected void executeEdits(List<Edit> edits) throws BadLocationException {
-		for (Edit edit : edits) {
+		for (Edit edit : edits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			edit.perform();
 		}
 	}

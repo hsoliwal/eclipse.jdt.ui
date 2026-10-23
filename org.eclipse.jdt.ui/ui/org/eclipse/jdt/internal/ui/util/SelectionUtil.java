@@ -80,7 +80,7 @@ public class SelectionUtil {
 	 * @see org.eclipse.ui.wizards.newresource.BasicNewResourceWizard#selectAndReveal(IResource,
 	 *      IWorkbenchWindow)
 	 */
-	public static void selectAndReveal(IResource[] resources, IWorkbenchWindow window) {
+	public static void selectAndReveal(IResource[] resources, IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// validate the input
 		if (window == null || resources == null || Arrays.asList(resources).contains(null)) {
 			return;
@@ -91,14 +91,14 @@ public class SelectionUtil {
 		}
 
 		// get all the view and editor parts
-		List<IWorkbenchPart> parts= new ArrayList<>();
-		for (IWorkbenchPartReference ref : page.getViewReferences()) {
+		List<IWorkbenchPart> parts= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IWorkbenchPartReference ref : page.getViewReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part= ref.getPart(false);
 			if (part != null) {
 				parts.add(part);
 			}
 		}
-		for (IWorkbenchPartReference ref : page.getEditorReferences()) {
+		for (IWorkbenchPartReference ref : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ref.getPart(false) != null) {
 				parts.add(ref.getPart(false));
 			}
@@ -106,7 +106,7 @@ public class SelectionUtil {
 
 		final ISelection selection= new StructuredSelection(resources);
 		Iterator<IWorkbenchPart> itr= parts.iterator();
-		while (itr.hasNext()) {
+		while (itr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part= itr.next();
 
 			// get the part's ISetSelectionTarget implementation
@@ -120,7 +120,7 @@ public class SelectionUtil {
 			if (target != null) {
 				// select and reveal resource
 				final ISetSelectionTarget finalTarget= target;
-				window.getShell().getDisplay().asyncExec(() -> finalTarget.selectReveal(selection));
+				window.getShell().getDisplay().asyncExec(() -> finalTarget.selectReveal(selection)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 	}
@@ -130,7 +130,7 @@ public class SelectionUtil {
 
 	private static String lastErrorMsg;
 
-	public static void logException(String action, RuntimeException e, String title, IDocument document, int offset) {
+	public static void logException(String action, RuntimeException e, String title, IDocument document, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (e instanceof OperationCanceledException ) {
 			//  Be silent if operation is canceled see
 			//  https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/1827
@@ -138,18 +138,18 @@ public class SelectionUtil {
 		}
 
 		// log error and keep going
-		String errorMsg= e.getClass().getSimpleName() + " " + action; //$NON-NLS-1$
+		String errorMsg= e.getClass().getSimpleName() + " " + action; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (title != null) {
-			errorMsg+= " in " + title; //$NON-NLS-1$
+			errorMsg+= " in " + title; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		errorMsg+= " at offset " + offset; //$NON-NLS-1$
+		errorMsg+= " at offset " + offset; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try {
 			int lineOfOffset= document.getLineOfOffset(offset);
-			String source= "Source line " + (lineOfOffset + 1); //$NON-NLS-1$
+			String source= "Source line " + (lineOfOffset + 1); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			int CONTEXT_LINES= 10;
 			int startLineOffset= document.getLineOffset(Math.max(0, lineOfOffset - CONTEXT_LINES));
-			source+= " :"+System.lineSeparator(); //$NON-NLS-1$
-			source+= "-----" + System.lineSeparator(); //$NON-NLS-1$
+			source+= " :"+System.lineSeparator(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			source+= "-----" + System.lineSeparator(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			source+= document.get(startLineOffset, offset - startLineOffset); // source until offset
 			source+= '|'; // cursor
 			source+= document.get(offset, document.getLineOffset(lineOfOffset) + document.getLineLength(lineOfOffset) - offset); // rest of line

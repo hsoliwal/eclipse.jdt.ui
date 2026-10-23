@@ -36,7 +36,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
 
-public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChangedListener {
+public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 	/**
 	 * DO NOT REMOVE, used in a product, see https://bugs.eclipse.org/297529 .
@@ -54,7 +54,7 @@ public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChange
 		private boolean fChanged;
 		public WorkingSetDelta(IWorkingSet workingSet) {
 			fWorkingSet= workingSet;
-			fElements= new ArrayList<>(Arrays.asList(workingSet.getElements()));
+			fElements= new ArrayList<>(Arrays.asList(workingSet.getElements())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		public int indexOf(Object element) {
 			return fElements.indexOf(element);
@@ -76,8 +76,8 @@ public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChange
 	}
 
 	public JavaWorkingSetUpdater() {
-		fWorkingSets= new ArrayList<>();
-		JavaCore.addElementChangedListener(this);
+		fWorkingSets= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 	}
 
 	@Override
@@ -118,12 +118,12 @@ public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChange
 		synchronized(fWorkingSets) {
 			workingSets= fWorkingSets.toArray(new IWorkingSet[fWorkingSets.size()]);
 		}
-		for (IWorkingSet workingSet : workingSets) {
+		for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkingSetDelta workingSetDelta= new WorkingSetDelta(workingSet);
 			processJavaDelta(workingSetDelta, event.getDelta());
 			IResourceDelta[] resourceDeltas= event.getDelta().getResourceDeltas();
 			if (resourceDeltas != null) {
-				for (IResourceDelta resourceDelta : resourceDeltas) {
+				for (IResourceDelta resourceDelta : resourceDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					processResourceDelta(workingSetDelta, resourceDelta);
 				}
 			}
@@ -131,7 +131,7 @@ public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChange
 		}
 	}
 
-	private void processJavaDelta(WorkingSetDelta result, IJavaElementDelta delta) {
+	private void processJavaDelta(WorkingSetDelta result, IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement jElement= delta.getElement();
 		int index= result.indexOf(jElement);
 		int type= jElement.getElementType();
@@ -157,16 +157,16 @@ public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChange
 		}
 		IResourceDelta[] resourceDeltas= delta.getResourceDeltas();
 		if (resourceDeltas != null) {
-			for (IResourceDelta resourceDelta : resourceDeltas) {
+			for (IResourceDelta resourceDelta : resourceDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				processResourceDelta(result, resourceDelta);
 			}
 		}
-		for (IJavaElementDelta child : delta.getAffectedChildren()) {
+		for (IJavaElementDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processJavaDelta(result, child);
 		}
 	}
 
-	private void processResourceDelta(WorkingSetDelta result, IResourceDelta delta) {
+	private void processResourceDelta(WorkingSetDelta result, IResourceDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= delta.getResource();
 		int type= resource.getType();
 		int index= result.indexOf(resource);
@@ -190,7 +190,7 @@ public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChange
 		if (projectGotClosedOrOpened(resource, kind, flags))
 			return;
 
-		for (IResourceDelta child : delta.getAffectedChildren()) {
+		for (IResourceDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processResourceDelta(result, child);
 		}
 	}
@@ -201,10 +201,10 @@ public class JavaWorkingSetUpdater implements IWorkingSetUpdater, IElementChange
 			&& (flags & IResourceDelta.OPEN) != 0;
 	}
 
-	private void checkElementExistence(IWorkingSet workingSet) {
-		List<IAdaptable> elements= new ArrayList<>(Arrays.asList(workingSet.getElements()));
+	private void checkElementExistence(IWorkingSet workingSet) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IAdaptable> elements= new ArrayList<>(Arrays.asList(workingSet.getElements())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean changed= false;
-		for (Iterator<IAdaptable> iter= elements.iterator(); iter.hasNext();) {
+		for (Iterator<IAdaptable> iter= elements.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IAdaptable element= iter.next();
 			boolean remove= false;
 			if (element instanceof IJavaElement) {

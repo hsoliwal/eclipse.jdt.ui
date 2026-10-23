@@ -105,10 +105,10 @@ public class InlineMethodFixCore implements IProposableFix {
 		return fix;
 	}
 
-	public static InlineMethodFixCore create(String name, CompilationUnit compilationUnit, List<MethodInvocation> methodInvocations) {
+	public static InlineMethodFixCore create(String name, CompilationUnit compilationUnit, List<MethodInvocation> methodInvocations) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= (ICompilationUnit)compilationUnit.getJavaElement();
-		List<InlineMethodRefactoring> refactorings= new ArrayList<>();
-		for (MethodInvocation methodInvocation : methodInvocations) {
+		List<InlineMethodRefactoring> refactorings= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MethodInvocation methodInvocation : methodInvocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			InlineMethodRefactoring refactoring= InlineMethodRefactoring.create(cu, compilationUnit,
 					methodInvocation.getStartPosition(), methodInvocation.getLength());
 			try {
@@ -124,25 +124,25 @@ public class InlineMethodFixCore implements IProposableFix {
 		return new InlineMethodFixCore(name, compilationUnit, refactorings, methodInvocations);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public CompilationUnitChange createChange(IProgressMonitor progressMonitor) throws CoreException {
-		Map<MethodDeclaration, List<MethodInvocation>> callMap= new LinkedHashMap<>();
-		final Set<MethodInvocation> needsParentheses= new HashSet<>();
-		for (MethodInvocation methodInvocation : fMethodInvocations) {
+		Map<MethodDeclaration, List<MethodInvocation>> callMap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		final Set<MethodInvocation> needsParentheses= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (MethodInvocation methodInvocation : fMethodInvocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MethodDeclaration methodDeclaration= ASTNodes.getFirstAncestorOrNull(methodInvocation, MethodDeclaration.class);
 			if (!callMap.containsKey(methodDeclaration)) {
-				callMap.put(methodDeclaration, new ArrayList<>());
+				callMap.put(methodDeclaration, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			List<MethodInvocation> methodInvocationList= callMap.get(methodDeclaration);
 			methodInvocationList.add(methodInvocation);
 		}
 		// pare down the list of method invocations to be when multiple invocations exist in a single method declaration and
 		// those invocations will end up bringing in a local variable declaration when inlined
-		for (MethodDeclaration methodDeclaration : callMap.keySet()) {
+		for (MethodDeclaration methodDeclaration : callMap.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<MethodInvocation> methodInvocations= callMap.get(methodDeclaration);
 			if (methodInvocations.size() > 1) {
-				List<MethodInvocation> methodInvocationsCopy= new ArrayList<>(methodInvocations);
-				for (MethodInvocation methodInvocation : methodInvocationsCopy) {
+				List<MethodInvocation> methodInvocationsCopy= new ArrayList<>(methodInvocations); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (MethodInvocation methodInvocation : methodInvocationsCopy) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						if (!usesLocals(methodInvocation)) {
 							methodInvocations.remove(methodInvocation);
@@ -158,11 +158,11 @@ public class InlineMethodFixCore implements IProposableFix {
 		// now we have set of multiple invocations that will bring in local variable declarations in the same method declaration
 		// so we need to check if any calls exist in outer blocks of other calls in which case we need to
 		// add parentheses to the outer block call so that there won't be any local variable collisions
-		for (MethodDeclaration methodDeclaration : callMap.keySet()) {
+		for (MethodDeclaration methodDeclaration : callMap.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<MethodInvocation> methodInvocations= callMap.get(methodDeclaration);
-			Map<Block, MethodInvocation> blockMap= new LinkedHashMap<>();
+			Map<Block, MethodInvocation> blockMap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 			if (methodInvocations.size() > 1) {
-				for (int i= 0; i < methodInvocations.size(); ++i) {
+				for (int i= 0; i < methodInvocations.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Block block= ASTNodes.getFirstAncestorOrNull(methodInvocations.get(i), Block.class);
 					if (block == null) {
 						return null;
@@ -173,13 +173,13 @@ public class InlineMethodFixCore implements IProposableFix {
 					blockMap.put(block,  methodInvocations.get(i));
 				}
 				Block[] blockArray= blockMap.keySet().toArray(new Block[0]);
-				for (int i= blockArray.length - 1; i >= 0; --i) {
+				for (int i= blockArray.length - 1; i >= 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode node= blockArray[i];
-					while (node instanceof Block) {
+					while (node instanceof Block) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						node= ASTNodes.getFirstAncestorOrNull(node, Block.class, BodyDeclaration.class, LambdaExpression.class);
 						if (blockMap.containsKey(node)) {
 							// only need parentheses if outer block is registered by earlier call
-							for (int j= 0; j < i; ++j) {
+							for (int j= 0; j < i; ++j) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (blockArray[j] == node) {
 									needsParentheses.add(blockMap.get(node));
 									break;
@@ -215,7 +215,7 @@ public class InlineMethodFixCore implements IProposableFix {
 		} else {
 			return null;
 		}
-		for (int i= 1; i < fRefactoringList.size(); ++i) {
+		for (int i= 1; i < fRefactoringList.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			++index;
 			change= (CompositeChange)fRefactoringList.get(i).createChange(progressMonitor);
 			changes= change.getChildren();
@@ -260,56 +260,56 @@ public class InlineMethodFixCore implements IProposableFix {
 	 *
 	 * @return modified TextEdit to use
 	 */
-	private TextEdit modifyEdit(int index, TextEdit textEdit, MethodInvocation methodInvocation) {
+	private TextEdit modifyEdit(int index, TextEdit textEdit, MethodInvocation methodInvocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= (CompilationUnit)methodInvocation.getRoot();
 		MethodDeclaration toInline= getMethodDeclaration(methodInvocation);
 
 		Collection<String> usedVariableNames= new ScopeAnalyzer(root).getUsedVariableNames(methodInvocation.getStartPosition(), methodInvocation.getLength());
-		Set<String> localNames= new HashSet<>();
+		Set<String> localNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		try {
 			localNames= getLocalVarNames(toInline);
 		} catch (AbortSearchException e) {
 			return null;
 		}
-		Map<String, String> localVarMap= new HashMap<>();
-		for (String localName : localNames) {
+		Map<String, String> localVarMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (String localName : localNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String newName= localName;
 			int i= 1;
-			while (usedVariableNames.contains(newName)) {
-				newName= localName + i++;
+			while (usedVariableNames.contains(newName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				newName= localName + i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			// we now have the local variable name that refactoring will choose to rename to
 			String modifiedName= newName;
 			// now modify it since we have to ensure we don't have a collision with another inlining in
 			// the same method declaration
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Character.isDigit(newName.charAt(newName.length() - 1))) {
-					newName= newName + "_" + index; //$NON-NLS-1$
+					newName= newName + "_" + index; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
-					newName= newName + index;
+					newName= newName + index; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} while (usedVariableNames.contains(newName));
 			localVarMap.put(modifiedName, newName);
 		}
 		if (textEdit instanceof ReplaceEdit replaceEdit) {
 			String text=  replaceEdit.getText();
-			for (String name : localVarMap.keySet()) {
+			for (String name : localVarMap.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (text.contains(name)) {
-					text= text.replaceAll("([\\W]+)" + name + "([\\W]+)", //$NON-NLS-1$ //$NON-NLS-2$
-							"$1" + localVarMap.get(name) + "$2"); //$NON-NLS-1$ //$NON-NLS-2$
+					text= text.replaceAll("([\\W]+)" + name + "([\\W]+)", //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+							"$1" + localVarMap.get(name) + "$2"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			textEdit= new ReplaceEdit(replaceEdit.getOffset(), replaceEdit.getLength(), text);
 		} else if (textEdit instanceof MultiTextEdit) {
 			TextEdit[] childEdits= textEdit.getChildren();
 			textEdit= new MultiTextEdit();
-			for (TextEdit childEdit : childEdits) {
+			for (TextEdit childEdit : childEdits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (childEdit instanceof InsertEdit insertEdit) {
 					String text= insertEdit.getText();
-					for (String name : localVarMap.keySet()) {
+					for (String name : localVarMap.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (text.contains(name)) {
-							text= text.replaceAll("([\\W]+)" + name + "([\\W]+)", //$NON-NLS-1$ //$NON-NLS-2$
-									"$1" + localVarMap.get(name) + "$2"); //$NON-NLS-1$ //$NON-NLS-2$
+							text= text.replaceAll("([\\W]+)" + name + "([\\W]+)", //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+									"$1" + localVarMap.get(name) + "$2"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					}
 					TextEdit newChildEdit= new InsertEdit(insertEdit.getOffset(), text);
@@ -337,7 +337,7 @@ public class InlineMethodFixCore implements IProposableFix {
 	 * @param textEdit2 - second TextEdit with an overlap
 	 * @return new merged TextEdit
 	 */
-	private TextEdit fixAndMerge(TextEdit textEdit1, TextEdit textEdit2) {
+	private TextEdit fixAndMerge(TextEdit textEdit1, TextEdit textEdit2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MultiTextEdit edit1= (MultiTextEdit)textEdit1;
 		MultiTextEdit edit2= (MultiTextEdit)textEdit2;
 
@@ -349,10 +349,10 @@ public class InlineMethodFixCore implements IProposableFix {
 		TextEdit[] children2= edit2.copy().getChildren();
 
 		int removeCount= 0;
-		for (int i= 0; i < children1.length; ++i) {
+		for (int i= 0; i < children1.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TextEdit childEdit1= children1[i];
 			boolean foundOverLap= false;
-			for (int j= 0; j < children2.length; ++j) {
+			for (int j= 0; j < children2.length; ++j) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TextEdit childEdit2= children2[j];
 				if (TextEditUtil.overlaps(childEdit1, childEdit2)) {
 					foundOverLap= true;
@@ -360,7 +360,7 @@ public class InlineMethodFixCore implements IProposableFix {
 						String text1= insertEdit1.getText();
 						String text2= insertEdit2.getText();
 						if (text2.contains("import") && !text1.contains(text2)) { //$NON-NLS-1$
-							text1 += "\n" + text2; //$NON-NLS-1$
+							text1 += "\n" + text2; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 						childEdit1= new InsertEdit(insertEdit1.getOffset(), text1);
 						parentEdit2.removeChild(i - removeCount++);
@@ -398,7 +398,7 @@ public class InlineMethodFixCore implements IProposableFix {
 	 * @return true if declared method has local variables, false otherwise
 	 * @throws CoreException - if an error occurs
 	 */
-	private boolean usesLocals(MethodInvocation methodInvocation) throws CoreException {
+	private boolean usesLocals(MethodInvocation methodInvocation) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding methodBinding= methodInvocation.resolveMethodBinding();
 		if (methodBinding == null) {
 			throw new CoreException(Status.CANCEL_STATUS);
@@ -451,7 +451,7 @@ public class InlineMethodFixCore implements IProposableFix {
 	 * @param methodInvocation - MethodInvocation to find declaration for
 	 * @return - MethodDeclaration or null if error occurs
 	 */
-	private MethodDeclaration getMethodDeclaration(MethodInvocation methodInvocation) {
+	private MethodDeclaration getMethodDeclaration(MethodInvocation methodInvocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding methodBinding= methodInvocation.resolveMethodBinding();
 		if (methodBinding == null) {
 			return null;
@@ -481,8 +481,8 @@ public class InlineMethodFixCore implements IProposableFix {
 	 * @return Set of String containing all local variable names declared
 	 * @throws AbortSearchException - if error occurs
 	 */
-	private Set<String> getLocalVarNames(MethodDeclaration methodDeclaration) throws AbortSearchException {
-		final Set<String> localVarNames= new HashSet<>();
+	private Set<String> getLocalVarNames(MethodDeclaration methodDeclaration) throws AbortSearchException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Set<String> localVarNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ASTVisitor getLocalNames= new ASTVisitor() {
 			@Override
 			public boolean visit(SimpleName node) {

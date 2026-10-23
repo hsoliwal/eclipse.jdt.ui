@@ -90,7 +90,7 @@ import org.eclipse.jdt.internal.ui.JavaUIStatus;
  * imports is done (use ImportStructure for this). Duplicates are not added.
  * If the compilation unit is open in an editor, be sure to pass over its working copy.
  */
-public class AddImportsOperation implements IWorkspaceRunnable {
+public class AddImportsOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	public interface IChooseImportQuery {
 		/**
@@ -166,7 +166,7 @@ public class AddImportsOperation implements IWorkspaceRunnable {
 	 * @throws CoreException if accessing the CU or rewritting the imports fails
 	 * @throws OperationCanceledException Runtime error thrown when operation is canceled.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor monitor) throws CoreException, OperationCanceledException {
 		SubMonitor subMonitor= SubMonitor.convert(monitor, CodeGenerationMessages.AddImportsOperation_description, 4);
 
@@ -234,7 +234,7 @@ public class AddImportsOperation implements IWorkspaceRunnable {
 		private final IBinding fBinding;
 		private final ImportRemover fImportRemover;
 
-		private List<TextEdit> edits= new ArrayList<>();
+		private List<TextEdit> edits= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		public QualifiedNameVisitor(IBinding binding, ImportRemover importRemover) {
 			this.fBinding= binding;
 			this.fImportRemover= importRemover;
@@ -335,10 +335,10 @@ public class AddImportsOperation implements IWorkspaceRunnable {
 //		}
 	}
 
-	private TextEdit[] evaluateEdits(CompilationUnit root, ImportRewrite importRewrite, ImportRemover importRemover, int offset, int length, IProgressMonitor monitor) throws JavaModelException {
+	private TextEdit[] evaluateEdits(CompilationUnit root, ImportRewrite importRewrite, ImportRemover importRemover, int offset, int length, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, 1);
 		SimpleName nameNode= null;
-		List<TextEdit> edits= new ArrayList<>();
+		List<TextEdit> edits= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (root != null) { // got an AST
 			ASTNode node= NodeFinder.perform(root, offset, length);
 			if (node instanceof MarkerAnnotation) {
@@ -433,7 +433,7 @@ public class AddImportsOperation implements IWorkspaceRunnable {
 						if (containerName.length() > 0) {
 							ASTNode node= nameNode.getParent();
 							boolean isDirectlyAccessible= false;
-							while (node != null) {
+							while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (isTypeDeclarationSubTypeCompatible(node, declaringClass)) {
 									isDirectlyAccessible= true;
 									break;
@@ -536,7 +536,7 @@ public class AddImportsOperation implements IWorkspaceRunnable {
 	}
 
 	private int getNameStart(IBuffer buffer, int pos) {
-		while (pos > 0) {
+		while (pos > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= buffer.getChar(pos - 1);
 			if (!Character.isJavaIdentifierPart(ch) && ch != '.') {
 				return pos;
@@ -553,7 +553,7 @@ public class AddImportsOperation implements IWorkspaceRunnable {
 			}
 		}
 		int len= doc.getLength();
-		while (pos < len) {
+		while (pos < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= doc.getChar(pos);
 			if (!Character.isJavaIdentifierPart(ch)) {
 				return pos;
@@ -567,7 +567,7 @@ public class AddImportsOperation implements IWorkspaceRunnable {
 		int containerLen= containerName.length();
 		int docLen= buffer.getLength();
 		if (containerLen > 0 && nameStart + containerLen + 1 < docLen) {
-			for (int k= 0; k < containerLen; k++) {
+			for (int k= 0; k < containerLen; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (buffer.getChar(nameStart + k) != containerName.charAt(k)) {
 					return nameStart;
 				}
@@ -600,19 +600,19 @@ public class AddImportsOperation implements IWorkspaceRunnable {
 	/*
 	 * Finds a type by the simple name.
 	 */
-	private TypeNameMatch[] findAllTypes(String simpleTypeName, IJavaSearchScope searchScope, SimpleName nameNode, IProgressMonitor monitor) throws JavaModelException {
+	private TypeNameMatch[] findAllTypes(String simpleTypeName, IJavaSearchScope searchScope, SimpleName nameNode, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int typeKinds= TypeKinds.ALL_TYPES;
 		if (nameNode != null) {
 			typeKinds= ASTResolving.getPossibleTypeKinds(nameNode);
 		}
 
-		ArrayList<TypeNameMatch> typeInfos= new ArrayList<>();
+		ArrayList<TypeNameMatch> typeInfos= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		TypeNameMatchCollector requestor= new TypeNameMatchCollector(typeInfos);
 		int matchMode= SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE;
 		new SearchEngine().searchAllTypeNames(null, matchMode, simpleTypeName.toCharArray(), matchMode, getSearchForConstant(typeKinds), searchScope, requestor, IJavaSearchConstants.WAIT_UNTIL_READY_TO_SEARCH, monitor);
 
-		ArrayList<TypeNameMatch> typeRefsFound= new ArrayList<>(typeInfos.size());
-		for (int i= 0, len= typeInfos.size(); i < len; i++) {
+		ArrayList<TypeNameMatch> typeRefsFound= new ArrayList<>(typeInfos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0, len= typeInfos.size(); i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeNameMatch curr= typeInfos.get(i);
 			if (curr.getPackageName().length() > 0) { // do not suggest imports from the default package
 				if (isOfKind(curr, typeKinds) && isVisible(curr)) {

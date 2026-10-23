@@ -37,7 +37,7 @@ import org.eclipse.jdt.core.JavaCore;
  *
  * @since 3.0
  */
-public class OutputFolderFilter extends ViewerFilter {
+public class OutputFolderFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/**
 	 * Returns the result of this filter, when applied to the
@@ -49,7 +49,7 @@ public class OutputFolderFilter extends ViewerFilter {
 	 * @return <code>true</code> if element should be included
 	 * @since 3.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean select(Viewer viewer, Object parent, Object element) {
 		if (element instanceof IFolder) {
 			IFolder folder= (IFolder)element;
@@ -70,7 +70,7 @@ public class OutputFolderFilter extends ViewerFilter {
 
 				// Check output location for each class path entry
 				IClasspathEntry[] cpEntries= jProject.getRawClasspath();
-				for (IClasspathEntry cpEntrie : cpEntries) {
+				for (IClasspathEntry cpEntrie : cpEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPath outputLocation= cpEntrie.getOutputLocation();
 					if (outputLocation != null && outputLocation.equals(folderPath))
 						return false;

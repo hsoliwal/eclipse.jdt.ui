@@ -74,7 +74,7 @@ public class ConstantsForSystemPropertiesCleanUpCore extends AbstractCleanUp {
 		return isEnabled(CONSTANTS_FOR_SYSTEM_PROPERTY) && !computeFixSet().isEmpty();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICleanUpFix createFix(final CleanUpContext context) throws CoreException {
 		CompilationUnit compilationUnit= context.getAST();
 
@@ -90,7 +90,7 @@ public class ConstantsForSystemPropertiesCleanUpCore extends AbstractCleanUp {
 		}
 
 		Set<CompilationUnitRewriteOperation> operations= new LinkedHashSet<>();
-		Set<ASTNode> nodesprocessed= new HashSet<>();
+		Set<ASTNode> nodesprocessed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		computeFixSet.forEach(i->i.findOperations(compilationUnit,operations,nodesprocessed));
 		computeFixSet2.forEach(i -> i.findOperations(compilationUnit, operations, nodesprocessed));
 
@@ -101,7 +101,7 @@ public class ConstantsForSystemPropertiesCleanUpCore extends AbstractCleanUp {
 				compilationUnit, operations.toArray(new CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation[0]));
 	}
 
-	private EnumSet<UpdateProperty> computeFixSet() {
+	private EnumSet<UpdateProperty> computeFixSet() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		EnumSet<UpdateProperty> fixSet= EnumSet.noneOf(UpdateProperty.class);
 
 		if(isEnabled(CONSTANTS_FOR_SYSTEM_PROPERTY_FILE_SEPARATOR)) {
@@ -145,7 +145,7 @@ public class ConstantsForSystemPropertiesCleanUpCore extends AbstractCleanUp {
 		if (isEnabled(CONSTANTS_FOR_SYSTEM_PROPERTY)) {
 			result= computeFixSet().stream().map(e->(Messages.format(ConstantsCleanUp_description,e.toString()))).collect(Collectors.toList());
 		} else {
-			result= new ArrayList<>();
+			result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		result.addAll(computeFixSet2(null).stream().map(e->(Messages.format(ConstantsCleanUp_description,e.toString()))).collect(Collectors.toList()));
@@ -153,95 +153,95 @@ public class ConstantsForSystemPropertiesCleanUpCore extends AbstractCleanUp {
 		return result.toArray(new String[0]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean isEnabled= isEnabled(CONSTANTS_FOR_SYSTEM_PROPERTY);
 		EnumSet<UpdateProperty> computeFixSet= computeFixSet();
 		EnumSet<UpdateProperty> computeFixSet2= computeFixSet2(null);
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.FILE_SEPARATOR)) {
-			sb.append("String fs = FileSystems.getDefault().getSeparator(); /* on JVM 1.6 this will be File.separator; */ \n"); //$NON-NLS-1$
+			sb.append("String fs = FileSystems.getDefault().getSeparator(); /* on JVM 1.6 this will be File.separator; */ \n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("String fs = System.getProperty(\"file.separator\");\n"); //$NON-NLS-1$
+			sb.append("String fs = System.getProperty(\"file.separator\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.PATH_SEPARATOR)) {
-			sb.append("String ps = File.pathSeparator;\n"); //$NON-NLS-1$
+			sb.append("String ps = File.pathSeparator;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("String ps = System.getProperty(\"path.separator\");\n"); //$NON-NLS-1$
+			sb.append("String ps = System.getProperty(\"path.separator\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.LINE_SEPARATOR)) {
-			sb.append("String ls = System.lineSeparator();\n"); //$NON-NLS-1$
+			sb.append("String ls = System.lineSeparator();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("String ls = System.getProperty(\"line.separator\");\n"); //$NON-NLS-1$
+			sb.append("String ls = System.getProperty(\"line.separator\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.FILE_ENCODING)) {
-			sb.append("String fe = Charset.defaultCharset().displayName();\n"); //$NON-NLS-1$
+			sb.append("String fe = Charset.defaultCharset().displayName();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("String fe = System.getProperty(\"file.encoding\");\n"); //$NON-NLS-1$
+			sb.append("String fe = System.getProperty(\"file.encoding\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.BOOLEAN_PROPERTY)) {
-			sb.append("Boolean b = Boolean.getBoolean(\"arbitrarykey\");\n"); //$NON-NLS-1$
+			sb.append("Boolean b = Boolean.getBoolean(\"arbitrarykey\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("Boolean b = Boolean.parseBoolean(System.getProperty(\"arbitrarykey\"));\n"); //$NON-NLS-1$
+			sb.append("Boolean b = Boolean.parseBoolean(System.getProperty(\"arbitrarykey\"));\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.BOOLEAN_PROPERTY)) {
-			sb.append("Boolean b2 = Boolean.getBoolean(\"arbitrarykey\");\n"); //$NON-NLS-1$
+			sb.append("Boolean b2 = Boolean.getBoolean(\"arbitrarykey\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("Boolean b2 = Boolean.parseBoolean(System.getProperty(\"arbitrarykey\", \"false\"));\n"); //$NON-NLS-1$
+			sb.append("Boolean b2 = Boolean.parseBoolean(System.getProperty(\"arbitrarykey\", \"false\"));\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.INTEGER_PROPERTY)) {
-			sb.append("Integer i = Integer.getInteger(\"arbitrarykey\");\n"); //$NON-NLS-1$
+			sb.append("Integer i = Integer.getInteger(\"arbitrarykey\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("Integer i = Integer.parseInt(System.getProperty(\"arbitrarykey\"));\n"); //$NON-NLS-1$
+			sb.append("Integer i = Integer.parseInt(System.getProperty(\"arbitrarykey\"));\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.INTEGER_PROPERTY)) {
-			sb.append("Integer i2 = Integer.getInteger(\"arbitrarykey\");\n"); //$NON-NLS-1$
+			sb.append("Integer i2 = Integer.getInteger(\"arbitrarykey\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("Integer i2 = Integer.parseInt(System.getProperty(\"arbitrarykey\",\"0\"));\n"); //$NON-NLS-1$
+			sb.append("Integer i2 = Integer.parseInt(System.getProperty(\"arbitrarykey\",\"0\"));\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.INTEGER_PROPERTY)) {
-			sb.append("Integer i3 = Integer.getInteger(\"arbitrarykey\", 15);\n"); //$NON-NLS-1$
+			sb.append("Integer i3 = Integer.getInteger(\"arbitrarykey\", 15);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("Integer i3 = Integer.parseInt(System.getProperty(\"arbitrarykey\",\"15\"));\n"); //$NON-NLS-1$
+			sb.append("Integer i3 = Integer.parseInt(System.getProperty(\"arbitrarykey\",\"15\"));\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.LONG_PROPERTY)) {
-			sb.append("Long l = Long.getLong(\"arbitrarykey\");\n"); //$NON-NLS-1$
+			sb.append("Long l = Long.getLong(\"arbitrarykey\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("Long l = Long.parseLong(System.getProperty(\"arbitrarykey\"));\n"); //$NON-NLS-1$
+			sb.append("Long l = Long.parseLong(System.getProperty(\"arbitrarykey\"));\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.LONG_PROPERTY)) {
-			sb.append("Long l2 = Long.getLong(\"arbitrarykey\");\n"); //$NON-NLS-1$
+			sb.append("Long l2 = Long.getLong(\"arbitrarykey\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("Long l2 = Long.parseLong(System.getProperty(\"arbitrarykey\" ,\"0\"));\n"); //$NON-NLS-1$
+			sb.append("Long l2 = Long.parseLong(System.getProperty(\"arbitrarykey\" ,\"0\"));\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.LONG_PROPERTY)) {
-			sb.append("Long l3 = Long.getLong(\"arbitrarykey\", 15);\n"); //$NON-NLS-1$
+			sb.append("Long l3 = Long.getLong(\"arbitrarykey\", 15);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("Long l3 = Long.parseLong(System.getProperty(\"arbitrarykey\" ,\"15\"));\n"); //$NON-NLS-1$
+			sb.append("Long l3 = Long.parseLong(System.getProperty(\"arbitrarykey\" ,\"15\"));\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled && computeFixSet.contains(UpdateProperty.JAVA_RUNTIME_VERSION)) {
-			sb.append("String jv = Runtime.version().toString();\n"); //$NON-NLS-1$
+			sb.append("String jv = Runtime.version().toString();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("String jv = System.getProperty(\"java.runtime.version\");\n"); //$NON-NLS-1$
+			sb.append("String jv = System.getProperty(\"java.runtime.version\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (computeFixSet2.contains(UpdateProperty.JAVA_SPEC_VERSION)) {
-			sb.append("String jsv = String.valueOf(Runtime.version().feature());\n"); //$NON-NLS-1$
+			sb.append("String jsv = String.valueOf(Runtime.version().feature());\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append("String jsv = System.getProperty(\"java.specification.version\");\n"); //$NON-NLS-1$
+			sb.append("String jsv = System.getProperty(\"java.specification.version\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return sb.toString();
 	}

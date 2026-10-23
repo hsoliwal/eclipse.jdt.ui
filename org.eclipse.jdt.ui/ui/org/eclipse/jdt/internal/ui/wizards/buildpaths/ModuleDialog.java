@@ -141,7 +141,7 @@ public class ModuleDialog extends StatusDialog {
 			return null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof ModuleAddExport) {
 				ModuleAddExport export= (ModuleAddExport) element;
@@ -150,7 +150,7 @@ public class ModuleDialog extends StatusDialog {
 					case 1: return export.fPackage;
 					case 2: return export.fTargetModules;
 					default:
-						throw new IllegalArgumentException("Illegal column index "+columnIndex); //$NON-NLS-1$
+						throw new IllegalArgumentException("Illegal column index "+columnIndex); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} else if (element instanceof ModuleAddReads) {
 				ModuleAddReads reads= (ModuleAddReads) element;
@@ -158,7 +158,7 @@ public class ModuleDialog extends StatusDialog {
 					case 0: return reads.fSourceModule;
 					case 1: return reads.fTargetModule;
 					default:
-						throw new IllegalArgumentException("Illegal column index "+columnIndex); //$NON-NLS-1$
+						throw new IllegalArgumentException("Illegal column index "+columnIndex); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			return NO_NAME;
@@ -205,7 +205,7 @@ public class ModuleDialog extends StatusDialog {
 	private static final int IDX_REMOVE= 2;
 
 
-	public ModuleDialog(Shell parent, CPListElement entryToEdit, IJavaElement[] selectedElements, BuildPathBasePage basePage) {
+	public ModuleDialog(Shell parent, CPListElement entryToEdit, IJavaElement[] selectedElements, BuildPathBasePage basePage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 
 		fBasePage= basePage;
@@ -245,7 +245,7 @@ public class ModuleDialog extends StatusDialog {
 		return true;
 	}
 
-	private <T extends ModuleEncapsulationDetail> ListDialogField<T> createDetailListContents(CPListElement entryToEdit, String label, ListAdapter<T> adapter, Class<T> clazz) {
+	private <T extends ModuleEncapsulationDetail> ListDialogField<T> createDetailListContents(CPListElement entryToEdit, String label, ListAdapter<T> adapter, Class<T> clazz) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] buttonLabels= new String[] {
 				NewWizardMessages.ModuleDialog_detail_add,
 				NewWizardMessages.ModuleDialog_detail_edit,
@@ -265,7 +265,7 @@ public class ModuleDialog extends StatusDialog {
 		return detailsList;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 		GridLayout layout= new GridLayout(1, true);
@@ -297,7 +297,7 @@ public class ModuleDialog extends StatusDialog {
 		tabItemDetails.setImage(JavaPlugin.getImageDescriptorRegistry().get(JavaPluginImages.DESC_OBJS_MODULE_ATTRIB));
 		tabItemDetails.setControl(createDetailsTab(tabFolder));
 
-		tabFolder.addSelectionListener(widgetSelectedAdapter(e -> validateTab(e.widget, tabItemContents, tabItemDetails)));
+		tabFolder.addSelectionListener(widgetSelectedAdapter(e -> validateTab(e.widget, tabItemContents, tabItemDetails))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		applyDialogFont(composite);
 		updateStatus(new StatusInfo(IStatus.WARNING, NewWizardMessages.ModuleDialog_deprecated_warning));
@@ -308,7 +308,7 @@ public class ModuleDialog extends StatusDialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		if (fBasePage.fSWTControl != null) {
 			Button switchButton= createButton(parent, 2, NewWizardMessages.ModuleDialog_switchToTab_button, false);
-			switchButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> {
+			switchButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				fBasePage.switchToTab(ModuleDependenciesPage.class);
 				cancelPressed();
 			}));
@@ -316,7 +316,7 @@ public class ModuleDialog extends StatusDialog {
 		super.createButtonsForButtonBar(parent);
 	}
 
-	private String getDescriptionString() {
+	private String getDescriptionString() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String desc;
 		String name= BasicElementLabels.getResourceName(fCurrCPElement.getPath().lastSegment());
 		switch (fCurrCPElement.getEntryKind()) {
@@ -338,7 +338,7 @@ public class ModuleDialog extends StatusDialog {
 		return Messages.format(desc, name);
 	}
 
-	Composite createContentsTab(Composite parent) {
+	Composite createContentsTab(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite contentsPage= new Composite(parent, SWT.NONE);
 		contentsPage.setFont(parent.getFont());
 		applyDialogFont(contentsPage);
@@ -384,7 +384,7 @@ public class ModuleDialog extends StatusDialog {
 		return contentsPage;
 	}
 
-	Composite createDetailsTab(Composite parent) {
+	Composite createDetailsTab(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite detailPage= new Composite(parent, SWT.NONE);
 		detailPage.setFont(parent.getFont());
 		applyDialogFont(detailPage);
@@ -450,7 +450,7 @@ public class ModuleDialog extends StatusDialog {
 
 	// ======== widgets for the Contents tab: ========
 
-	private void createContentListContents(Composite parent, String title, String tooltip, int idx, int targetIdx) {
+	private void createContentListContents(Composite parent, String title, String tooltip, int idx, int targetIdx) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite box= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout(1, false);
 		layout.marginBottom= 0;
@@ -465,10 +465,10 @@ public class ModuleDialog extends StatusDialog {
 
 		TableViewer tableViewer= new TableViewer(box, SWT.MULTI | SWT.BORDER);
 		tableViewer.setContentProvider(new ListContentProvider());
-		tableViewer.setLabelProvider(new ModulesLabelProvider());
-		tableViewer.addDoubleClickListener(unused -> moveModuleEntry(idx, targetIdx));
-		tableViewer.setInput(fModuleLists[idx].fNames);
-		tableViewer.addSelectionChangedListener(unused -> validateContents());
+		tableViewer.setLabelProvider(new ModulesLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		tableViewer.addDoubleClickListener(unused -> moveModuleEntry(idx, targetIdx)); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
+		tableViewer.setInput(fModuleLists[idx].fNames); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		tableViewer.addSelectionChangedListener(unused -> validateContents()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		tableViewer.setComparator(new ViewerComparator() {
 			@Override
 			public int compare(Viewer viewer, Object e1, Object e2) {
@@ -494,19 +494,19 @@ public class ModuleDialog extends StatusDialog {
 		fAddIncludedButton= new Button(box, SWT.PUSH);
 		fAddIncludedButton.setImage(sharedImages.getImage(org.eclipse.ui.ISharedImages.IMG_TOOL_FORWARD));
 		fAddIncludedButton.setToolTipText(NewWizardMessages.ModuleDialog_addToIncluded_tooltip);
-		fAddIncludedButton.addSelectionListener(widgetSelectedAdapter(unused -> moveModuleEntry(IDX_AVAILABLE, IDX_INCLUDED)));
+		fAddIncludedButton.addSelectionListener(widgetSelectedAdapter(unused -> moveModuleEntry(IDX_AVAILABLE, IDX_INCLUDED))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fRemoveIncludedButton= new Button(box, SWT.PUSH);
 		fRemoveIncludedButton.setImage(sharedImages.getImage(org.eclipse.ui.ISharedImages.IMG_TOOL_BACK));
 		fRemoveIncludedButton.setToolTipText(NewWizardMessages.ModuleDialog_removeFromIncluded_tooltip);
-		fRemoveIncludedButton.addSelectionListener(widgetSelectedAdapter(unused -> moveModuleEntry(IDX_INCLUDED, IDX_AVAILABLE)));
+		fRemoveIncludedButton.addSelectionListener(widgetSelectedAdapter(unused -> moveModuleEntry(IDX_INCLUDED, IDX_AVAILABLE))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	private void createVerticalButton(Composite parent) {
 		fPromoteIncludedButton= new Button(parent, SWT.PUSH);
 		fPromoteIncludedButton.setImage(JavaPlugin.getImageDescriptorRegistry().get(JavaPluginImages.DESC_BUTTON_MOVE_UP));
 		fPromoteIncludedButton.setToolTipText(NewWizardMessages.ModuleDialog_addToExplicitlyIncluded_tooltip);
-		fPromoteIncludedButton.addSelectionListener(widgetSelectedAdapter(unused -> moveModuleEntry(IDX_IMPLICITLY_INCLUDED, IDX_INCLUDED)));
+		fPromoteIncludedButton.addSelectionListener(widgetSelectedAdapter(unused -> moveModuleEntry(IDX_IMPLICITLY_INCLUDED, IDX_INCLUDED))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		GridData gd= new GridData();
 		gd.horizontalAlignment= SWT.CENTER;
 		fPromoteIncludedButton.setLayoutData(gd);
@@ -518,7 +518,7 @@ public class ModuleDialog extends StatusDialog {
 		return fModuleLists[IDX_INCLUDED].fNames.size() + fModuleLists[IDX_AVAILABLE].fNames.size() > 1;
 	}
 
-	private void moveModuleEntry(int sourceIdx, int targetIdx) {
+	private void moveModuleEntry(int sourceIdx, int targetIdx) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection selection= fModuleLists[sourceIdx].fViewer.getSelection();
 		if (selection instanceof IStructuredSelection) {
 			if (sourceIdx == IDX_INCLUDED && !canRemoveIncludedModules()) {
@@ -526,16 +526,16 @@ public class ModuleDialog extends StatusDialog {
 			}
 			List<String> sourceList= fModuleLists[sourceIdx].fNames;
 			List<String> targetList= fModuleLists[targetIdx].fNames;
-			for (Object selected : ((IStructuredSelection) selection)) {
+			for (Object selected : ((IStructuredSelection) selection)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (selected instanceof String) {
 					sourceList.remove(selected);
 					targetList.add((String) selected);
 				}
 			}
 			updateImplicitlyIncluded();
-			fModuleLists[IDX_AVAILABLE].fViewer.refresh();
-			fModuleLists[IDX_INCLUDED].fViewer.refresh();
-			fModuleLists[IDX_IMPLICITLY_INCLUDED].fViewer.refresh();
+			fModuleLists[IDX_AVAILABLE].fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+			fModuleLists[IDX_INCLUDED].fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+			fModuleLists[IDX_IMPLICITLY_INCLUDED].fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			validateContents();
 		}
 	}
@@ -578,7 +578,7 @@ public class ModuleDialog extends StatusDialog {
 	private void validateTab(Widget widget, Widget contentItem, Widget detailsItem) {
 		if (widget instanceof TabFolder) {
 			TabItem[] selected= ((TabFolder) widget).getSelection();
-			for (TabItem selectedItem : selected) {
+			for (TabItem selectedItem : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (selectedItem == contentItem) {
 					validateContents();
 					return;
@@ -631,8 +631,8 @@ public class ModuleDialog extends StatusDialog {
 		}
 	}
 
-	private StatusInfo computeDetailsStatus(DialogField field) {
-		Set<String> packages= new HashSet<>();
+	private StatusInfo computeDetailsStatus(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<String> packages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		StatusInfo status= new StatusInfo();
 		if (fIsPatchCheckbox.isSelected()) {
 			String patchedModule= fPatchedModule.getText().trim();
@@ -653,7 +653,7 @@ public class ModuleDialog extends StatusDialog {
 			}
 		}
 		if (status.isOK()) {
-			for (ModuleAddExpose export : fAddExportsList.getElements()) {
+			for (ModuleAddExpose export : fAddExportsList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!packages.add(export.fPackage)) {
 					status.setError(Messages.format(NewWizardMessages.ModuleDialog_duplicatePackage_error, export.fPackage));
 					break;
@@ -665,8 +665,8 @@ public class ModuleDialog extends StatusDialog {
 			}
 		}
 		if (status.isOK()) {
-			Set<String> readModules= new HashSet<>();
-			for (ModuleAddReads reads : fAddReadsList.getElements()) {
+			Set<String> readModules= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (ModuleAddReads reads : fAddReadsList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!readModules.add(reads.toString())) {
 					status.setError(Messages.format(NewWizardMessages.ModuleDialog_duplicateReads_error, reads.toString()));
 					break;
@@ -689,15 +689,15 @@ public class ModuleDialog extends StatusDialog {
 
 	// ======== operations on values, i.e., classpath entries, modules and packages: ========
 
-	private void initializeValues() {
-		fModule2RequiredModules= new HashMap<>();
+	private void initializeValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fModule2RequiredModules= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		boolean isJava9JRE= isJava9JRE();
-		List<String> availableNames= new ArrayList<>(moduleNames());
-		List<String> includedNames= new ArrayList<>();
+		List<String> availableNames= new ArrayList<>(moduleNames()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> includedNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<LimitModules> limits= fCurrCPElement.getModuleEncapsulationDetails(LimitModules.class);
 		if (!limits.isEmpty()) {
-			for (LimitModules limitModules : limits) {
+			for (LimitModules limitModules : limits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				includedNames.addAll(limitModules.fExplicitlyIncludedModules);
 				availableNames.removeAll(limitModules.fExplicitlyIncludedModules);
 			}
@@ -706,11 +706,11 @@ public class ModuleDialog extends StatusDialog {
 			availableNames.removeAll(includedNames);
 		} else {
 			includedNames= availableNames;
-			availableNames= new ArrayList<>();
+			availableNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		fModuleLists[IDX_AVAILABLE]= new ModuleList(availableNames);
-		fModuleLists[IDX_INCLUDED]= new ModuleList(new ArrayList<>(includedNames));
-		fModuleLists[IDX_IMPLICITLY_INCLUDED]= new ModuleList(new ArrayList<>());
+		fModuleLists[IDX_INCLUDED]= new ModuleList(new ArrayList<>(includedNames)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fModuleLists[IDX_IMPLICITLY_INCLUDED]= new ModuleList(new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		updateImplicitlyIncluded();
 
 		// access to widgets may trigger validation, which needs all values to be initialized (non-null):
@@ -750,7 +750,7 @@ public class ModuleDialog extends StatusDialog {
 		IClasspathAttribute[] oldAttributes= entry.getExtraAttributes();
 		IClasspathAttribute[] newAttributes= new IClasspathAttribute[oldAttributes.length];
 		int count= 0;
-		for (IClasspathAttribute oldAttribute : oldAttributes) {
+		for (IClasspathAttribute oldAttribute : oldAttributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!IClasspathAttribute.MODULE.equals(oldAttribute.getName())) {
 				newAttributes[count++]= oldAttribute;
 			}
@@ -761,12 +761,12 @@ public class ModuleDialog extends StatusDialog {
 		return JavaCore.newContainerEntry(entry.getPath(), entry.getAccessRules(), newAttributes, entry.isExported());
 	}
 
-	private Set<String> moduleNames() {
+	private Set<String> moduleNames() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fModuleNames != null)
 			return fModuleNames;
-		Set<String> moduleNames= new HashSet<>();
+		Set<String> moduleNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (fJavaElements != null) {
-			for (IJavaElement element : fJavaElements) {
+			for (IJavaElement element : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IPackageFragmentRoot) {
 					IModuleDescription module= ((IPackageFragmentRoot) element).getModuleDescription();
 					if (module != null) {
@@ -797,8 +797,8 @@ public class ModuleDialog extends StatusDialog {
 
 	private List<String> defaultIncludedModuleNamesForUnnamedModule() {
 		if (fJavaElements != null) {
-			List<IPackageFragmentRoot> roots= new ArrayList<>();
-			for (IJavaElement element : fJavaElements) {
+			List<IPackageFragmentRoot> roots= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IJavaElement element : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IPackageFragmentRoot el) {
 					roots.add(el);
 				}
@@ -815,10 +815,10 @@ public class ModuleDialog extends StatusDialog {
 		String moduleName= module.getElementName();
 		if (moduleNames.add(moduleName)) {
 			try {
-				for (String required : module.getRequiredModuleNames()) {
+				for (String required : module.getRequiredModuleNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<String> requiredModules= fModule2RequiredModules.get(moduleName);
 					if (requiredModules == null) {
-						requiredModules= new ArrayList<>();
+						requiredModules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						fModule2RequiredModules.put(moduleName, requiredModules);
 					}
 					requiredModules.add(required);
@@ -833,7 +833,7 @@ public class ModuleDialog extends StatusDialog {
 		List<String> implicitNames= fModuleLists[IDX_IMPLICITLY_INCLUDED].fNames;
 		fModuleLists[IDX_AVAILABLE].fNames.addAll(implicitNames);
 		implicitNames.clear();
-		for (String explicitName : fModuleLists[IDX_INCLUDED].fNames) {
+		for (String explicitName : fModuleLists[IDX_INCLUDED].fNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!implicitNames.contains(explicitName)) {
 				collectRequired(explicitName);
 			}
@@ -846,7 +846,7 @@ public class ModuleDialog extends StatusDialog {
 			return;
 		}
 		List<String> implicitNames= fModuleLists[IDX_IMPLICITLY_INCLUDED].fNames;
-		for (String required : requireds) {
+		for (String required : requireds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!fModuleLists[IDX_INCLUDED].fNames.contains(required)) {
 				if (!implicitNames.contains(required)) {
 					if (fModuleLists[IDX_AVAILABLE].fNames.remove(required)) {
@@ -858,7 +858,7 @@ public class ModuleDialog extends StatusDialog {
 		}
 	}
 
-	private String getSourceModuleName() {
+	private String getSourceModuleName() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJavaElements == null || fJavaElements.length != 1) {
 			return NO_NAME;
 		}
@@ -1001,7 +1001,7 @@ public class ModuleDialog extends StatusDialog {
 		if (!fIsModuleCheckbox.isSelected())
 			return null;
 		CPListElementAttribute attribute= fCurrCPElement.findAttributeElement(CPListElement.MODULE);
-		List<ModuleEncapsulationDetail> allElements= new ArrayList<>();
+		List<ModuleEncapsulationDetail> allElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		allElements.addAll(fAddExportsList.getElements());
 		allElements.addAll(fAddReadsList.getElements());
 		if (fIsPatchCheckbox.isSelected()) {
@@ -1021,8 +1021,8 @@ public class ModuleDialog extends StatusDialog {
 		}
 		if (isUnnamedModule()) {
 			// for an unnamed module we need to compare current selection state against defaults per JEP 261:
-			Set<String> initialNames = new HashSet<>(defaultIncludedModuleNamesForUnnamedModule());
-			for (String name : fModuleLists[IDX_INCLUDED].fNames) {
+			Set<String> initialNames = new HashSet<>(defaultIncludedModuleNamesForUnnamedModule()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (String name : fModuleLists[IDX_INCLUDED].fNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!initialNames.remove(name))
 					return true;
 			}

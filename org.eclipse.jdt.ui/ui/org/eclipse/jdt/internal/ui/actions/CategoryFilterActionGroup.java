@@ -72,9 +72,9 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.ListDialogField;
 
 public class CategoryFilterActionGroup extends ActionGroup {
 
-	private class CategoryFilter extends ViewerFilter {
+	private class CategoryFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			if (element instanceof IMember) {
 				IMember member= (IMember)element;
@@ -83,7 +83,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 					if (categories.length == 0)
 						return !fFilterUncategorizedMembers;
 
-					for (String category : categories) {
+					for (String category : categories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!fFilteredCategories.contains(category)) {
 							return true;
 						}
@@ -105,7 +105,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 
 		private final CheckedListDialogField<String> fCategoryList;
 
-		public CategoryFilterSelectionDialog(Shell parent, List<String> categories, List<String> selectedCategories) {
+		public CategoryFilterSelectionDialog(Shell parent, List<String> categories, List<String> selectedCategories) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(parent);
 
 			setTitle(ActionMessages.CategoryFilterActionGroup_JavaCategoryFilter_title);
@@ -133,7 +133,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 			fCategoryList.setViewerComparator(new ViewerComparator());
 			fCategoryList.setLabelText(ActionMessages.CategoryFilterActionGroup_SelectCategoriesDescription);
 			fCategoryList.checkAll(true);
-			for (String selected : selectedCategories) {
+			for (String selected : selectedCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fCategoryList.setChecked(selected, false);
 			}
 			if (categories.isEmpty()) {
@@ -202,8 +202,8 @@ public class CategoryFilterActionGroup extends ActionGroup {
 
 		public CategoryFilterAction(String category, int count) {
 			fCategory= category;
-			StringBuilder buf = new StringBuilder();
-			buf.append('&').append(count).append(' ').append(fCategory);
+			StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append('&').append(count).append(' ').append(fCategory); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			setText(buf.toString());
 			setChecked(!fFilteredCategories.contains(fCategory));
 			setId(FILTER_CATEGORY_ACTION_ID);
@@ -247,7 +247,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 	private static int COUNTER= 0;//WORKAROUND for Bug 132669 https://bugs.eclipse.org/bugs/show_bug.cgi?id=132669
 
 	private static final String FILTER_CATEGORY_ACTION_ID= "FilterCategoryActionId"; //$NON-NLS-1$
-	private static final String CATEGORY_MENU_GROUP_NAME= "CategoryMenuGroup" + (COUNTER++); //$NON-NLS-1$
+	private static final String CATEGORY_MENU_GROUP_NAME= "CategoryMenuGroup" + (COUNTER++); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	private static final int MAX_NUMBER_OF_CATEGORIES_IN_MENU= 5;
 
 	private final StructuredViewer fViewer;
@@ -261,7 +261,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 	private final LinkedHashMap<String, String> fLRUList;
 	private boolean fFilterUncategorizedMembers;
 
-	public CategoryFilterActionGroup(final StructuredViewer viewer, final String viewerId, IJavaElement[] input) {
+	public CategoryFilterActionGroup(final StructuredViewer viewer, final String viewerId, IJavaElement[] input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(viewer != null);
 		Assert.isLegal(viewerId != null);
 		Assert.isLegal(input != null);
@@ -279,12 +279,12 @@ public class CategoryFilterActionGroup extends ActionGroup {
 
 		fFilter= new CategoryFilter();
 
-		fFilteredCategories= new HashSet<>();
+		fFilteredCategories= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		loadSettings();
 
 		fMenuAction= new CategoryFilterMenuAction();
 
-		fViewer.addFilter(fFilter);
+		fViewer.addFilter(fFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	public void setInput(IJavaElement[] input) {
@@ -300,42 +300,42 @@ public class CategoryFilterActionGroup extends ActionGroup {
 			String[] categories= string.split(";"); //$NON-NLS-1$
 			fFilteredCategories.addAll(Arrays.asList(categories));
 		}
-		string= store.getString(getPreferenceKey()+".LRU"); //$NON-NLS-1$
+		string= store.getString(getPreferenceKey()+".LRU"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (string != null && string.length() > 0) {
 			String[] categories= string.split(";"); //$NON-NLS-1$
-			for (int i= categories.length - 1; i >= 0; i--) {
+			for (int i= categories.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fLRUList.put(categories[i], categories[i]);
 			}
 		}
-		fFilterUncategorizedMembers= store.getBoolean(getPreferenceKey()+".FilterUncategorized"); //$NON-NLS-1$
+		fFilterUncategorizedMembers= store.getBoolean(getPreferenceKey()+".FilterUncategorized"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void storeSettings() {
+	private void storeSettings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		if (fFilteredCategories.isEmpty()) {
 			store.setValue(getPreferenceKey(), ""); //$NON-NLS-1$
 		} else {
-			StringBuilder buf= new StringBuilder();
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			Iterator<String> iter= fFilteredCategories.iterator();
 			String element= iter.next();
-			buf.append(element);
-			while (iter.hasNext()) {
+			buf.append(element); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				element= iter.next();
-				buf.append(';');
-				buf.append(element);
+				buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(element); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			store.setValue(getPreferenceKey(), buf.toString());
-			buf= new StringBuilder();
+			buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			iter= fLRUList.values().iterator();
 			element= iter.next();
-			buf.append(element);
-			while (iter.hasNext()) {
+			buf.append(element); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				element= iter.next();
-				buf.append(';');
-				buf.append(element);
+				buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(element); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			store.setValue(getPreferenceKey()+".LRU", buf.toString()); //$NON-NLS-1$
-			store.setValue(getPreferenceKey()+".FilterUncategorized", fFilterUncategorizedMembers); //$NON-NLS-1$
+			store.setValue(getPreferenceKey()+".LRU", buf.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			store.setValue(getPreferenceKey()+".FilterUncategorized", fFilterUncategorizedMembers); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -347,7 +347,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 				return;
 			updateMenu(manager);
 		};
-		menuManager.addMenuListener(fMenuListener);
+		menuManager.addMenuListener(fMenuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		fMenuManager= menuManager;
 	}
 
@@ -361,10 +361,10 @@ public class CategoryFilterActionGroup extends ActionGroup {
 		}
 	}
 
-	private void updateMenu(IMenuManager manager) {
+	private void updateMenu(IMenuManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContributionItem[] items= manager.getItems();
 		if (items != null) {
-			for (IContributionItem item : items) {
+			for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item != null && item.getId() != null && FILTER_CATEGORY_ACTION_ID.equals(item.getId())) {
 					IContributionItem removed= manager.remove(item);
 					if (removed != null) {
@@ -373,28 +373,28 @@ public class CategoryFilterActionGroup extends ActionGroup {
 				}
 			}
 		}
-		List<String> menuEntries= new ArrayList<>();
+		List<String> menuEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean hasUncategorizedMembers= getMenuCategories(menuEntries);
-		Collections.sort(menuEntries, Collator.getInstance());
+		Collections.sort(menuEntries, Collator.getInstance()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 		if (menuEntries.size() > 0 && hasUncategorizedMembers)
 			manager.appendToGroup(CATEGORY_MENU_GROUP_NAME, new FilterUncategorizedMembersAction());
 
 		int count= 0;
-		for (String category : menuEntries) {
+		for (String category : menuEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.appendToGroup(CATEGORY_MENU_GROUP_NAME, new CategoryFilterAction(category, count + 1));
 			count++;
 		}
 	}
 
-	private boolean getMenuCategories(List<String> result) {
-		final HashSet<String> categories= new HashSet<>();
-		final HashSet<String> foundLRUCategories= new HashSet<>();
+	private boolean getMenuCategories(List<String> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final HashSet<String> categories= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final HashSet<String> foundLRUCategories= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		final boolean hasUncategorizedMember[]= new boolean[] {false};
-		for (int i= 0; i < fInputElement.length && (!hasUncategorizedMember[0] || (foundLRUCategories.size() < MAX_NUMBER_OF_CATEGORIES_IN_MENU)); i++) {
+		for (int i= 0; i < fInputElement.length && (!hasUncategorizedMember[0] || (foundLRUCategories.size() < MAX_NUMBER_OF_CATEGORIES_IN_MENU)); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			collectCategories(fInputElement[i], cats -> {
 				if (cats.length > 0) {
-					for (String category : cats) {
+					for (String category : cats) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						categories.add(category);
 						if (fLRUList.containsKey(category)) {
 							foundLRUCategories.add(category);
@@ -407,14 +407,14 @@ public class CategoryFilterActionGroup extends ActionGroup {
 			});
 		}
 		int count= 0;
-		for (String element : foundLRUCategories) {
+		for (String element : foundLRUCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(element);
 			count++;
 		}
 		if (count < MAX_NUMBER_OF_CATEGORIES_IN_MENU) {
-			List<String> sortedCategories= new ArrayList<>(categories);
-			Collections.sort(sortedCategories, Collator.getInstance());
-			for (Iterator<String> iter= sortedCategories.iterator(); iter.hasNext() && count < MAX_NUMBER_OF_CATEGORIES_IN_MENU;) {
+			List<String> sortedCategories= new ArrayList<>(categories); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			Collections.sort(sortedCategories, Collator.getInstance()); //FLLDCIM: MARK — M16 SORT_LANE CALL
+			for (Iterator<String> iter= sortedCategories.iterator(); iter.hasNext() && count < MAX_NUMBER_OF_CATEGORIES_IN_MENU;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String element= iter.next();
 				if (!foundLRUCategories.contains(element)) {
 					result.add(element);
@@ -425,7 +425,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 		return hasUncategorizedMember[0];
 	}
 
-	private boolean collectCategories(IJavaElement element, IResultCollector collector) {//HashSet result, int max, LinkedHashMap lruList) {
+	private boolean collectCategories(IJavaElement element, IResultCollector collector) {//HashSet result, int max, LinkedHashMap lruList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (element instanceof IMember) {
 				IMember member= (IMember)element;
@@ -452,7 +452,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 	}
 
 	private boolean processChildren(IJavaElement[] children, IResultCollector collector) {
-		for (IJavaElement child : children) {
+		for (IJavaElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (collectCategories(child, collector)) {
 				return true;
 			}
@@ -462,26 +462,26 @@ public class CategoryFilterActionGroup extends ActionGroup {
 
 	private void fireSelectionChange() {
 		fViewer.getControl().setRedraw(false);
-		BusyIndicator.showWhile(fViewer.getControl().getDisplay(), () -> fViewer.refresh());
+		BusyIndicator.showWhile(fViewer.getControl().getDisplay(), () -> fViewer.refresh()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fViewer.getControl().setRedraw(true);
 	}
 
 	private String getPreferenceKey() {
-		return "CategoryFilterActionGroup." + fViewerId; //$NON-NLS-1$
+		return "CategoryFilterActionGroup." + fViewerId; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void showCategorySelectionDialog(IJavaElement[] input) {
-		final HashSet<String> categories= new HashSet<>();
-		for (IJavaElement i : input) {
+	private void showCategorySelectionDialog(IJavaElement[] input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final HashSet<String> categories= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement i : input) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			collectCategories(i, cats -> {
 				categories.addAll(Arrays.asList(cats));
 				return false;
 			});
 		}
-		CategoryFilterSelectionDialog dialog= new CategoryFilterSelectionDialog(fViewer.getControl().getShell(), new ArrayList<>(categories), new ArrayList<>(fFilteredCategories));
+		CategoryFilterSelectionDialog dialog= new CategoryFilterSelectionDialog(fViewer.getControl().getShell(), new ArrayList<>(categories), new ArrayList<>(fFilteredCategories)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (dialog.open() == Window.OK) {
 			Object[] selected= dialog.getResult();
-			for (String category : categories) {
+			for (String category : categories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (contains(selected, category)) {
 					if (fFilteredCategories.remove(category))
 						fLRUList.put(category, category);
@@ -496,7 +496,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 	}
 
 	private boolean contains(Object[] selected, String category) {
-		for (Object s : selected) {
+		for (Object s : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (s.equals(category)) {
 				return true;
 			}

@@ -33,7 +33,7 @@ import org.eclipse.jdt.internal.ui.util.CoreUtility;
 public class AbstractRefactoringTestSetup extends ExternalResource {
 	private boolean fWasAutobuild;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void before() throws Exception {
 		fWasAutobuild= CoreUtility.setAutoBuilding(false);
 		if (JavaPlugin.getActivePage() != null)
@@ -56,7 +56,7 @@ public class AbstractRefactoringTestSetup extends ExternalResource {
 		StubUtility.setCodeTemplate(CodeTemplateContextType.CONSTRUCTORCOMMENT_ID, str, null);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void after() {
 		try {
 			CoreUtility.setAutoBuilding(fWasAutobuild);

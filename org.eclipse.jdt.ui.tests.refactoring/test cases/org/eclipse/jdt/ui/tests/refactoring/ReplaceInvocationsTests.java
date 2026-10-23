@@ -53,17 +53,17 @@ public class ReplaceInvocationsTests extends AbstractJunit4SelectionTestCase {
 
 	@Override
 	protected String adaptName(String name) {
-		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java";
+		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void performTestRewriteInvocations(IPackageFragment packageFragment, String id, TestMode mode, String outputFolder) throws Exception {
+	private void performTestRewriteInvocations(IPackageFragment packageFragment, String id, TestMode mode, String outputFolder) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit unit= createCU(packageFragment, id);
 		int[] selection= getSelection();
 
 		CompilationUnit compilationUnit= new RefactoringASTParser(AST.getJLSLatest()).parse(unit, false);
 		Comment comment= (Comment) compilationUnit.getCommentList().get(0);
 		String commentString= unit.getBuffer().getText(comment.getStartPosition(), comment.getLength());
-		Matcher matcher= Pattern.compile("""
+		Matcher matcher= Pattern.compile(""" //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			(?s)/\\*\\s*params:[[^\\r\\n]&&\\s]*\
 			([^\\r\\n]*)\
 			(\\r\\n?|\\n)\

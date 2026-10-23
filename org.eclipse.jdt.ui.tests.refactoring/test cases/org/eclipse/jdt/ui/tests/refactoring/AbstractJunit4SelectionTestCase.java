@@ -102,7 +102,7 @@ public abstract class AbstractJunit4SelectionTestCase extends AbstractJunit4CUTe
 		return result;
 	}
 
-	protected void performTest(final ICompilationUnit unit, final Refactoring refactoring, TestMode mode, final String out, boolean doUndo) throws Exception {
+	protected void performTest(final ICompilationUnit unit, final Refactoring refactoring, TestMode mode, final String out, boolean doUndo) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProgressMonitor pm= new NullProgressMonitor();
 		switch (mode) {
 			case VALID_SELECTION:
@@ -123,7 +123,7 @@ public abstract class AbstractJunit4SelectionTestCase extends AbstractJunit4CUTe
 					refactoring, getCheckingStyle());
 				if (fIsPreDeltaTest) {
 					IWorkspace workspace= ResourcesPlugin.getWorkspace();
-					IResourceChangeListener listener= event -> TestModelProvider.assertTrue(event.getDelta());
+					IResourceChangeListener listener= event -> TestModelProvider.assertTrue(event.getDelta()); //FLLDCIM: MARK — T07  LAMBDA
 					try {
 						clearPreDelta();
 						workspace.checkpoint(false);
@@ -135,8 +135,8 @@ public abstract class AbstractJunit4SelectionTestCase extends AbstractJunit4CUTe
 				} else {
 					JavaCore.run(op, new NullProgressMonitor());
 				}
-				assertFalse("Precondition check failed: " + op.getConditionStatus().toString(), op.getConditionStatus().hasFatalError());
-				assertFalse("Validation check failed: " + op.getConditionStatus().toString(), op.getValidationStatus().hasFatalError());
+				assertFalse("Precondition check failed: " + op.getConditionStatus().toString(), op.getConditionStatus().hasFatalError()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				assertFalse("Validation check failed: " + op.getConditionStatus().toString(), op.getValidationStatus().hasFatalError()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				assertNotNull("No Undo", op.getUndoChange());
 				compareSource(unit.getSource(), out);
 				Change undo= op.getUndoChange();
@@ -169,7 +169,7 @@ public abstract class AbstractJunit4SelectionTestCase extends AbstractJunit4CUTe
 		TestModelProvider.clearDelta();
 	}
 
-	private void initializeSelection(String source) {
+	private void initializeSelection(String source) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int start= -1;
 		int end= -1;
 		int includingStart= source.indexOf(SQUARE_BRACKET_OPEN);

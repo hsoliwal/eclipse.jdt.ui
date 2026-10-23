@@ -43,7 +43,7 @@ public class SearchParticipantDescriptor {
 	 *
 	 * @return returns a status describing the result of the validation
 	 */
-	protected IStatus checkSyntax() {
+	protected IStatus checkSyntax() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fConfigurationElement.getAttribute(ID) == null) {
 			String format= SearchMessages.SearchParticipant_error_noID;
 			String message= Messages.format(format,  new String[] { fConfigurationElement.getDeclaringExtension().getUniqueIdentifier() });

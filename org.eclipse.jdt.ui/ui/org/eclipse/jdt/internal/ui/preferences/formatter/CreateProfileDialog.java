@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.util.SWTUtil;
 public class CreateProfileDialog extends StatusDialog {
 
 
-    private static final String PREF_OPEN_EDIT_DIALOG= JavaUI.ID_PLUGIN + ".codeformatter.create_profile_dialog.open_edit"; //$NON-NLS-1$
+    private static final String PREF_OPEN_EDIT_DIALOG= JavaUI.ID_PLUGIN + ".codeformatter.create_profile_dialog.open_edit"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	private Text fNameText;
@@ -85,7 +85,7 @@ public class CreateProfileDialog extends StatusDialog {
 		setTitle(FormatterMessages.CreateProfileDialog_dialog_title);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createDialogArea(Composite parent) {
 
 		final int numColumns= 2;
@@ -106,7 +106,7 @@ public class CreateProfileDialog extends StatusDialog {
 		gd.horizontalSpan= numColumns;
 		fNameText= new Text(composite, SWT.SINGLE | SWT.BORDER);
 		fNameText.setLayoutData(gd);
-		fNameText.addModifyListener( unused -> doValidation());
+		fNameText.addModifyListener( unused -> doValidation()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		// Create "Initialize settings ..." label
 		gd = new GridData();
@@ -127,7 +127,7 @@ public class CreateProfileDialog extends StatusDialog {
 		gd.horizontalSpan= numColumns;
 		fEditCheckbox= new Button(composite, SWT.CHECK);
 		fEditCheckbox.setText(FormatterMessages.CreateProfileDialog_open_edit_dialog_checkbox_text);
-		fEditCheckbox.addSelectionListener(new SelectionListener() {
+		fEditCheckbox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fOpenEditDialog= ((Button)e.widget).getSelection();
@@ -182,7 +182,7 @@ public class CreateProfileDialog extends StatusDialog {
 
 		JavaPlugin.getDefault().getDialogSettings().put(PREF_OPEN_EDIT_DIALOG, fOpenEditDialog);
 
-		final Map<String, String> baseSettings= new HashMap<>(fSortedProfiles.get(fProfileCombo.getSelectionIndex()).getSettings());
+		final Map<String, String> baseSettings= new HashMap<>(fSortedProfiles.get(fProfileCombo.getSelectionIndex()).getSettings()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final String profileName= fNameText.getText();
 
 		fCreatedProfile= new CustomProfile(profileName, baseSettings, fProfileVersioner.getCurrentVersion(), fProfileVersioner.getProfileKind());

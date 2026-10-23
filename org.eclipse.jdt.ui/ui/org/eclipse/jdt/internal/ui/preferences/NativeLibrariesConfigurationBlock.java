@@ -78,7 +78,7 @@ public class NativeLibrariesConfigurationBlock {
 	private final IStatusChangeListener fListener;
 	private final String fOrginalValue;
 
-	public NativeLibrariesConfigurationBlock(IStatusChangeListener listener, String nativeLibPath, IClasspathEntry parentEntry) {
+	public NativeLibrariesConfigurationBlock(IStatusChangeListener listener, String nativeLibPath, IClasspathEntry parentEntry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fListener= listener;
 		fEntry= parentEntry;
 
@@ -104,7 +104,7 @@ public class NativeLibrariesConfigurationBlock {
 		}
 	}
 
-	public Control createContents(Composite parent) {
+	public Control createContents(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fShell= parent.getShell();
 
 		Composite inner= new Composite(parent, SWT.NONE);
@@ -165,7 +165,7 @@ public class NativeLibrariesConfigurationBlock {
 		}
 	}
 
-	private IStatus validatePath() {
+	private IStatus validatePath() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		String val= fPathField.getText();
 		if (val.length() == 0) {
@@ -186,7 +186,7 @@ public class NativeLibrariesConfigurationBlock {
 		return status;
 	}
 
-	private String chooseExternal() {
+	private String chooseExternal() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath currPath= new Path(fPathField.getText());
 		if (currPath.isEmpty()) {
 			currPath= fEntry.getPath();
@@ -208,7 +208,7 @@ public class NativeLibrariesConfigurationBlock {
 	/*
 	 * Opens a dialog to choose an internal file.
 	 */
-	private String chooseInternal() {
+	private String chooseInternal() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String initSelection= fPathField.getText();
 
 		ILabelProvider lp= new WorkbenchLabelProvider();
@@ -229,7 +229,7 @@ public class NativeLibrariesConfigurationBlock {
 		ElementTreeSelectionDialog dialog= new ElementTreeSelectionDialog(fShell, lp, cp);
 		dialog.setAllowMultiple(false);
 		dialog.setValidator(validator);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setComparator(new ResourceComparator(ResourceComparator.NAME));
 		dialog.setTitle(NewWizardMessages.NativeLibrariesDialog_intfiledialog_title);
 		dialog.setMessage(NewWizardMessages.NativeLibrariesDialog_intfiledialog_message);

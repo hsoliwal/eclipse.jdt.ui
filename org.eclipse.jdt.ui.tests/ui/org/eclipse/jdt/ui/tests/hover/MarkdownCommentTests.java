@@ -84,13 +84,13 @@ public class MarkdownCommentTests extends CoreTests {
 	public void setUp() throws Exception {
 		fJProject1= pts.getProject();
 		JavaProjectHelper.addSourceContainer(fJProject1, "src");
-		workingCopies = new ArrayList<>();
+		workingCopies = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		try {
-			for (ICompilationUnit workingCopy : workingCopies) {
+			for (ICompilationUnit workingCopy : workingCopies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				workingCopy.discardWorkingCopy();
 			}
 		} finally {
@@ -117,13 +117,13 @@ public class MarkdownCommentTests extends CoreTests {
 
 	private String makeEncodedClassUri(String pack, String cuName, String clazz) {
 		try {
-			StringBuilder buf= new StringBuilder();
-			buf.append(LINK_SEPARATOR);
-			buf.append(JEM_JAVAPROJECT).append("TestSetupProject");
-			buf.append(JEM_PACKAGEFRAGMENTROOT).append("src");
-			buf.append(JEM_PACKAGEFRAGMENT).append(pack);
-			buf.append(JEM_COMPILATIONUNIT).append(cuName).append(".java");
-			buf.append(JEM_TYPE).append(clazz);
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_JAVAPROJECT).append("TestSetupProject"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_PACKAGEFRAGMENTROOT).append("src"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_PACKAGEFRAGMENT).append(pack); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_COMPILATIONUNIT).append(cuName).append(".java"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_TYPE).append(clazz); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			URI uri= new URI("eclipse-javadoc", buf.toString(), null);
 			return uri.toASCIIString();
 		} catch (URISyntaxException e) {
@@ -139,30 +139,30 @@ public class MarkdownCommentTests extends CoreTests {
 	/** Create a javadoc link for the specified method.
 	 * @param asScopeURI when {@code true} the link is intended as a scope prefix for {@link #makeEncodedRelativeUri(String, String...)}.
 	 */
-	private String makeEncodedMethodUri(boolean asScopeURI, String pack, String cuName, String clazz, String selector, String... parameters) {
+	private String makeEncodedMethodUri(boolean asScopeURI, String pack, String cuName, String clazz, String selector, String... parameters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
-			StringBuilder buf= new StringBuilder();
-			buf.append(LINK_SEPARATOR);
-			buf.append(JEM_JAVAPROJECT).append("TestSetupProject");
-			buf.append(JEM_PACKAGEFRAGMENTROOT).append("src");
-			buf.append(JEM_PACKAGEFRAGMENT).append(pack);
-			buf.append(JEM_COMPILATIONUNIT).append(cuName).append(".java");
-			buf.append(JEM_TYPE).append(clazz);
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_JAVAPROJECT).append("TestSetupProject"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_PACKAGEFRAGMENTROOT).append("src"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_PACKAGEFRAGMENT).append(pack); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_COMPILATIONUNIT).append(cuName).append(".java"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(JEM_TYPE).append(clazz); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			if (asScopeURI) {
-				buf.append(JEM_METHOD);
+				buf.append(JEM_METHOD); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buf.append(LINK_SEPARATOR);
-				buf.append(LINK_SEPARATOR);
+				buf.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(selector);
-			for (String parameter : parameters) {
+			buf.append(selector); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (String parameter : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (asScopeURI) {
-					buf.append(JEM_METHOD);
+					buf.append(JEM_METHOD); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					buf.append(LINK_SEPARATOR);
+					buf.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append(parameter);
+				buf.append(parameter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			URI uri= new URI("eclipse-javadoc", buf.toString(), null);
 			return uri.toASCIIString();
@@ -175,9 +175,9 @@ public class MarkdownCommentTests extends CoreTests {
 	/** Create a javadoc link to the element specified by moreWords as seen from the scope specified by scopeURI. */
 	private String makeEncodedRelativeUri(String scopeURI, String... moreWords) {
 		try {
-			StringBuilder buf= new StringBuilder(scopeURI);
-			for (String parameter : moreWords) {
-				buf.append(LINK_SEPARATOR).append(parameter);
+			StringBuilder buf= new StringBuilder(scopeURI); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (String parameter : moreWords) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(LINK_SEPARATOR).append(parameter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			URI uri= new URI(buf.toString());
 			return uri.toASCIIString();
@@ -206,7 +206,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertEquals(expectedContent, actualContent.substring(start+headerTail.length(), end));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBasicFormatting() throws Exception {
 		String source= """
 				package p;
@@ -258,7 +258,7 @@ public class MarkdownCommentTests extends CoreTests {
 				actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testItemAtEnd() throws Exception {
 		String source= """
 				package p;
@@ -281,7 +281,7 @@ public class MarkdownCommentTests extends CoreTests {
 				actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkdownLink1() throws Exception {
 		String source= """
 				package p;
@@ -307,7 +307,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedHtmlContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkdownLink2() throws Exception {
 		String source= """
 				package p;
@@ -333,7 +333,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedHtmlContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkdownLink3() throws Exception {
 		// reference mentions an array type: array-[] must be escaped
 		String source= """
@@ -362,7 +362,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedHtmlContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSpec01Links() throws CoreException {
 		String source= """
 				package p;
@@ -436,7 +436,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedHtmlContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSpec02Table() throws CoreException {
 		String source= """
 				package p;
@@ -481,7 +481,7 @@ public class MarkdownCommentTests extends CoreTests {
 				actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSpec03Tags() throws CoreException {
 		String source= """
 				package p;
@@ -520,7 +520,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSpec04Code() throws CoreException {
 		String source= """
 				/// The following code span contains literal text, and not a JavaDoc tag:
@@ -564,7 +564,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSpec05TextInTag() throws CoreException {
 		String source= """
 				import java.util.List;
@@ -586,7 +586,7 @@ public class MarkdownCommentTests extends CoreTests {
 				actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCodeAtEdge() throws CoreException {
 		String source= """
 				package p;
@@ -621,7 +621,7 @@ public class MarkdownCommentTests extends CoreTests {
 				""",
 				actualHtmlContent);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLineStarts() throws CoreException {
 		String source= """
 				package p;
@@ -705,7 +705,7 @@ public class MarkdownCommentTests extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSeeTag() throws CoreException {
 		String source= """
 				package p;
@@ -729,7 +729,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGH2808_codeAfterPara() throws CoreException {
 		String source= """
 				package p;
@@ -768,7 +768,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGH2808_terminatingAnIndentedCodeBlock() throws CoreException {
 		String source= """
 				package p;
@@ -822,7 +822,7 @@ public class MarkdownCommentTests extends CoreTests {
 				""";
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGH2980() throws CoreException {
 		String source= """
 				package p;
@@ -913,7 +913,7 @@ public class MarkdownCommentTests extends CoreTests {
 					""";
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGH1787() throws CoreException {
 		String source= """
 				package p;
@@ -937,7 +937,7 @@ public class MarkdownCommentTests extends CoreTests {
 				""",
 				actualHtmlContent);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFenceLenFour_1() throws CoreException {
 		String source= """
 				/// ````
@@ -961,7 +961,7 @@ public class MarkdownCommentTests extends CoreTests {
 		String actualHtmlContent= getHoverHtmlContent(cu, type);
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFenceLenFour_2() throws CoreException {
 		String source= """
 				public class FenceLenFour {
@@ -997,7 +997,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test2068() throws CoreException {
 		String source= """
 				package p;
@@ -1022,7 +1022,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertHtmlContent(expectedContent, actualHtmlContent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayReferenceInCode() throws CoreException {
 		String source= """
 				/// In the following indented code block, `[i]` is program text,
@@ -1133,7 +1133,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertEquals("sequence doesn't match", expectedContent, actualSnippet);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInheritedMethod() throws CoreException {
 		String source= """
 				public class Base {
@@ -1202,7 +1202,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertEquals("Code tag should parse properly", expectedContent, actualSnippet);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkdownCodeTagRenderingIssue_02() throws CoreException {
 		String source= """
 				/// Performs:
@@ -1223,7 +1223,7 @@ public class MarkdownCommentTests extends CoreTests {
 		assertEquals("The code tag should parse properly", expectedContent, actualSnippet);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkdownCodeTagRenderingIssue_03() throws CoreException {
 		String source= """
 				/// This is {@code code}.

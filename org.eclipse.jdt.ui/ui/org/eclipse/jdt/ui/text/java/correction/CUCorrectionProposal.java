@@ -60,7 +60,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @since 3.8
  */
-public class CUCorrectionProposal extends ChangeCorrectionProposal implements ICUCorrectionProposal {
+public class CUCorrectionProposal extends ChangeCorrectionProposal implements ICUCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private boolean fSwitchedEditor;
 	private CUCorrectionProposalCore fProposalCore;
@@ -211,7 +211,7 @@ public class CUCorrectionProposal extends ChangeCorrectionProposal implements IC
 		return this.cu;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document) {
 		try {
 			ICompilationUnit unit= getCompilationUnit();

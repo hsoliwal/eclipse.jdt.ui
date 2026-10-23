@@ -59,19 +59,19 @@ public final class JDTRefactoringDescriptorComment {
 	 *            the settings
 	 * @return the composite setting
 	 */
-	public static String createCompositeSetting(final String caption, final String[] settings) {
+	public static String createCompositeSetting(final String caption, final String[] settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(caption);
 		Assert.isNotNull(settings);
-		final StringBuilder buffer= new StringBuilder(128);
-		for (String setting : settings) {
+		final StringBuilder buffer= new StringBuilder(128); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String setting : settings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (setting != null && !"".equals(setting)) { //$NON-NLS-1$
-				buffer.append(LINE_DELIMITER);
-				buffer.append(ELEMENT_DELIMITER);
-				buffer.append(setting);
+				buffer.append(LINE_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(ELEMENT_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(setting); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buffer.append(LINE_DELIMITER);
-				buffer.append(ELEMENT_DELIMITER);
-				buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_not_available);
+				buffer.append(LINE_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(ELEMENT_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_not_available); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		if (buffer.length() > 0)
@@ -86,7 +86,7 @@ public final class JDTRefactoringDescriptorComment {
 	private final String fProject;
 
 	/** The settings list */
-	private final List<String> fSettings= new ArrayList<>(6);
+	private final List<String> fSettings= new ArrayList<>(6); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Creates a new JDT refactoring descriptor comment.
@@ -139,15 +139,15 @@ public final class JDTRefactoringDescriptorComment {
 	 * @return this comment in string representation
 	 */
 	public String asString() {
-		final StringBuilder buffer= new StringBuilder(256);
-		buffer.append(fHeader);
+		final StringBuilder buffer= new StringBuilder(256); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(fHeader); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (fProject != null && !"".equals(fProject)) { //$NON-NLS-1$
-			buffer.append(LINE_DELIMITER);
-			buffer.append(Messages.format(RefactoringCoreMessages.JavaRefactoringDescriptorComment_original_project, BasicElementLabels.getResourceName(fProject)));
+			buffer.append(LINE_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(Messages.format(RefactoringCoreMessages.JavaRefactoringDescriptorComment_original_project, BasicElementLabels.getResourceName(fProject))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		for (String setting : fSettings) {
-			buffer.append(LINE_DELIMITER);
-			buffer.append(Messages.format(RefactoringCoreMessages.JavaRefactoringDescriptor_inferred_setting_pattern, setting));
+		for (String setting : fSettings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buffer.append(LINE_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(Messages.format(RefactoringCoreMessages.JavaRefactoringDescriptor_inferred_setting_pattern, setting)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buffer.toString();
 	}
@@ -167,7 +167,7 @@ public final class JDTRefactoringDescriptorComment {
 	 * @param object
 	 *            the refactoring object
 	 */
-	private void initializeInferredSettings(final Object object) {
+	private void initializeInferredSettings(final Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (object instanceof INameUpdating) {
 			final INameUpdating updating= (INameUpdating) object;
 			fSettings.add(Messages.format(RefactoringCoreMessages.JavaRefactoringDescriptor_original_element_pattern, JavaElementLabelsCore.getTextLabel(updating.getElements()[0], JavaElementLabelsCore.ALL_FULLY_QUALIFIED)));
@@ -189,17 +189,17 @@ public final class JDTRefactoringDescriptorComment {
 				if (elements.length == 1 && elements[0] != null)
 					fSettings.add(Messages.format(RefactoringCoreMessages.JavaRefactoringDescriptor_original_element_pattern, JavaElementLabelsCore.getTextLabel(elements[0], JavaElementLabelsCore.ALL_FULLY_QUALIFIED)));
 				else if (elements.length > 1) {
-					final StringBuilder buffer= new StringBuilder(128);
-					buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_original_elements);
-					for (Object element : elements) {
+					final StringBuilder buffer= new StringBuilder(128); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_original_elements); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (element != null) {
-							buffer.append(LINE_DELIMITER);
-							buffer.append(ELEMENT_DELIMITER);
-							buffer.append(JavaElementLabelsCore.getTextLabel(element, JavaElementLabelsCore.ALL_FULLY_QUALIFIED));
+							buffer.append(LINE_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buffer.append(ELEMENT_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buffer.append(JavaElementLabelsCore.getTextLabel(element, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							buffer.append(LINE_DELIMITER);
-							buffer.append(ELEMENT_DELIMITER);
-							buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_not_available);
+							buffer.append(LINE_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buffer.append(ELEMENT_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_not_available); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 					fSettings.add(buffer.toString());
@@ -215,7 +215,7 @@ public final class JDTRefactoringDescriptorComment {
 				if (destination != null)
 					fSettings.add(Messages.format(RefactoringCoreMessages.JavaRefactoringDescriptorComment_destination_pattern, JavaElementLabelsCore.getTextLabel(destination, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)));
 			}
-			final List<IAdaptable> list= new ArrayList<>();
+			final List<IAdaptable> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			list.addAll(Arrays.asList(policy.getJavaElements()));
 			list.addAll(Arrays.asList(policy.getResources()));
 			final Object[] elements= list.toArray();
@@ -223,17 +223,17 @@ public final class JDTRefactoringDescriptorComment {
 				if (elements.length == 1 && elements[0] != null)
 					fSettings.add(Messages.format(RefactoringCoreMessages.JavaRefactoringDescriptor_original_element_pattern, JavaElementLabelsCore.getTextLabel(elements[0], JavaElementLabelsCore.ALL_FULLY_QUALIFIED)));
 				else if (elements.length > 1) {
-					final StringBuilder buffer= new StringBuilder(128);
-					buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_original_elements);
-					for (Object element : elements) {
+					final StringBuilder buffer= new StringBuilder(128); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_original_elements); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (element != null) {
-							buffer.append(LINE_DELIMITER);
-							buffer.append(ELEMENT_DELIMITER);
-							buffer.append(JavaElementLabelsCore.getTextLabel(element, JavaElementLabelsCore.ALL_FULLY_QUALIFIED));
+							buffer.append(LINE_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buffer.append(ELEMENT_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buffer.append(JavaElementLabelsCore.getTextLabel(element, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							buffer.append(LINE_DELIMITER);
-							buffer.append(ELEMENT_DELIMITER);
-							buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_not_available);
+							buffer.append(LINE_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buffer.append(ELEMENT_DELIMITER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buffer.append(RefactoringCoreMessages.JavaRefactoringDescriptor_not_available); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 					fSettings.add(buffer.toString());

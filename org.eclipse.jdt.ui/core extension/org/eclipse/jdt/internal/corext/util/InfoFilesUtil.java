@@ -45,32 +45,32 @@ public class InfoFilesUtil {
 	 * @param monitor the progress monitor
 	 * @throws CoreException when there is a problem while creating the compilation unit
 	 */
-	public static void createInfoJavaFile(String fileName, String fileContent, IPackageFragment pack, boolean addComments, IProgressMonitor monitor) throws CoreException {
+	public static void createInfoJavaFile(String fileName, String fileContent, IPackageFragment pack, boolean addComments, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String lineDelimiter= StubUtility.getLineDelimiterUsed(pack.getJavaProject());
-		StringBuilder content= new StringBuilder();
+		StringBuilder content= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String fileComment= addComments ? getFileComment(fileName, pack, lineDelimiter) : null;
 		String typeComment= addComments ?
 				(JavaModelUtil.MODULE_INFO_JAVA.equals(fileName) ? getModuleComment(fileName, pack, fileContent, lineDelimiter) : getTypeComment(fileName, pack, lineDelimiter))
 				: null;
 		if (fileComment != null) {
-			content.append(fileComment);
-			content.append(lineDelimiter);
+			content.append(fileComment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (typeComment != null) {
-			content.append(typeComment);
-			content.append(lineDelimiter);
+			content.append(typeComment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else if (fileComment != null) {
 			// insert an empty file comment to avoid that the file comment becomes the type comment
-			content.append("/**"); //$NON-NLS-1$
-			content.append(lineDelimiter);
-			content.append(" *"); //$NON-NLS-1$
-			content.append(lineDelimiter);
-			content.append(" */"); //$NON-NLS-1$
-			content.append(lineDelimiter);
+			content.append("/**"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(" *"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(" */"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		content.append(fileContent);
+		content.append(fileContent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		ICompilationUnit compilationUnit= pack.createCompilationUnit(fileName, content.toString(), true, monitor);
 
@@ -109,7 +109,7 @@ public class InfoFilesUtil {
 	public static String getModuleComment(String fileName, IPackageFragment pack, String fileContent, String lineDelimiterUsed) throws CoreException {
 		ICompilationUnit cu= pack.getCompilationUnit(fileName);
 		Pattern p= Pattern.compile("\\s*module\\s*(\\w*).*"); //$NON-NLS-1$
-		Matcher m= p.matcher(fileContent);
+		Matcher m= p.matcher(fileContent); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String moduleName= ""; //$NON-NLS-1$
 		if (m.matches()) {
 			moduleName= m.group(1);

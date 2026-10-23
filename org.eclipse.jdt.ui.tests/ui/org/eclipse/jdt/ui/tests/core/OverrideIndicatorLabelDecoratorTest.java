@@ -118,7 +118,7 @@ public class OverrideIndicatorLabelDecoratorTest extends CoreTests {
 		assertEquals(JavaElementImageDescriptor.IMPLEMENTS, fDecorator.computeAdornmentFlags(foo));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSynchronizedOverride() throws Exception {
 		createCU("Base.java", """
 			package test1;
@@ -170,15 +170,15 @@ public class OverrideIndicatorLabelDecoratorTest extends CoreTests {
 		assertEquals(JavaElementImageDescriptor.OVERRIDES, duringBuild[0]);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSkipsUncachedHierarchyDuringBuild() throws Exception {
 		IMethod foo= createOverridingFoo();
-		List<LabelProviderChangedEvent> events= Collections.synchronizedList(new ArrayList<>());
+		List<LabelProviderChangedEvent> events= Collections.synchronizedList(new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ILabelProviderListener listener= events::add;
 
 		// registered before the probe: resource change listeners are notified in registration order,
 		// and a wrong order would fail this test rather than let it pass without testing anything
-		fDecorator.addListener(listener);
+		fDecorator.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		int[] duringBuild= { -1 };
 		runBuildWithProbe(() -> duringBuild[0]= fDecorator.computeAdornmentFlags(foo));
@@ -200,8 +200,8 @@ public class OverrideIndicatorLabelDecoratorTest extends CoreTests {
 	@Test
 	public void testNoLabelUpdateWhenNothingWasSkipped() throws Exception {
 		createOverridingFoo();
-		List<LabelProviderChangedEvent> events= Collections.synchronizedList(new ArrayList<>());
-		fDecorator.addListener(events::add);
+		List<LabelProviderChangedEvent> events= Collections.synchronizedList(new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fDecorator.addListener(events::add); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		runBuildWithProbe(() -> {
 			// nothing decorated during this build
@@ -216,7 +216,7 @@ public class OverrideIndicatorLabelDecoratorTest extends CoreTests {
 	 * is running.
 	 */
 	private void runBuildWithProbe(Runnable probe) throws Exception {
-		IResourceChangeListener probeListener= unused -> probe.run();
+		IResourceChangeListener probeListener= unused -> probe.run(); //FLLDCIM: MARK — T07  LAMBDA
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(probeListener, IResourceChangeEvent.PRE_BUILD);
 		try {
 			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD, null);

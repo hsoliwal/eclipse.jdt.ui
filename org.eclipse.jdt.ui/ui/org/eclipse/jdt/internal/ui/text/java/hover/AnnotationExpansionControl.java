@@ -112,7 +112,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		Canvas canvas;
 		StyleRange[] oldStyles;
 
-		public void selected() {
+		public void selected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Display disp= fShell.getDisplay();
 			canvas.setCursor(getHandCursor(disp));
 			// TODO: shade - for now: set grey background
@@ -134,7 +134,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 
 		}
 
-		public void defaultSelected(MouseEvent e) {
+		public void defaultSelected(MouseEvent e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fInput.fAnnotationListener != null) {
 				Event swtEvent= new Event();
 				swtEvent.type= SWT.MouseDown;
@@ -176,7 +176,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 	/**
 	 * Disposes of an item
 	 */
-	private final static class MyDisposeListener implements DisposeListener {
+	private final static class MyDisposeListener implements DisposeListener { //FLLDCIM: MARK — T01  IMPLEMENTS
 		/*
 		 * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.DisposeEvent)
 		 */
@@ -199,7 +199,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		/*
 		 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void handleEvent(Event event) {
 			if (event.type == SWT.MenuDetect) {
 				// TODO: show per-item menu
@@ -210,7 +210,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 						Menu menu= ruler.getMenu();
 						if (menu != null && !menu.isDisposed()) {
 							menu.setLocation(event.x, event.y);
-							menu.addMenuListener(new MenuListener() {
+							menu.addMenuListener(new MenuListener() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 
 								@Override
 								public void menuHidden(MenuEvent e) {
@@ -291,7 +291,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		/*
 		 * @see org.eclipse.swt.events.MouseTrackListener#mouseExit(org.eclipse.swt.events.MouseEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void mouseExit(MouseEvent e) {
 
 			Item item= (Item) ((Widget) e.getSource()).getData();
@@ -381,7 +381,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 	/**
 	 * Listener on paint events on the items. Paints the annotation image on the given <code>GC</code>.
 	 */
-	private final class MyPaintListener implements PaintListener {
+	private final class MyPaintListener implements PaintListener { //FLLDCIM: MARK — T10  IMPLEMENTS
 		/*
 		 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
 		 */
@@ -462,13 +462,13 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 	 * @param shellStyle additional style flags
 	 * @param access the annotation access
 	 */
-	public AnnotationExpansionControl(Shell parent, int shellStyle, IAnnotationAccess access) {
+	public AnnotationExpansionControl(Shell parent, int shellStyle, IAnnotationAccess access) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fPaintListener= new MyPaintListener();
 		fMouseTrackListener= new MyMouseTrackListener();
 		fMouseListener= new MyMouseListener();
 		fMenuDetectListener= new MyMenuDetectListener();
 		fDisposeListener= new MyDisposeListener();
-		fViewportListener= unused -> dispose();
+		fViewportListener= unused -> dispose(); //FLLDCIM: MARK — T34  LAMBDA
 		fLayouter= new LinearLayouter();
 
 		if (access instanceof IAnnotationAccessExtension)
@@ -488,14 +488,14 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		GridData data= new GridData(GridData.FILL_BOTH);
 		data.heightHint= fLayouter.getAnnotationSize() + 2 * fLayouter.getBorderWidth() + 4;
 		fComposite.setLayoutData(data);
-		fComposite.addMouseTrackListener(new MouseTrackAdapter() {
+		fComposite.addMouseTrackListener(new MouseTrackAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 			@Override
 			public void mouseExit(MouseEvent e) {
 				if (fComposite == null)
 						return;
 				Rectangle bounds= null;
-				for (Control child : fComposite.getChildren()) {
+				for (Control child : fComposite.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (bounds == null) {
 						bounds= child.getBounds();
 					} else {
@@ -571,7 +571,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		refresh();
 	}
 
-	protected void refresh() {
+	protected void refresh() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		adjustItemNumber();
 
 		if (fInput == null)
@@ -589,7 +589,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		fComposite.setLayout(layout);
 
 		Control[] children= fComposite.getChildren();
-		for (int i= 0; i < fInput.fAnnotations.length; i++) {
+		for (int i= 0; i < fInput.fAnnotations.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Canvas canvas= (Canvas) children[i];
 			Item item= new Item();
 			item.canvas= canvas;
@@ -600,7 +600,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 
 	}
 
-	protected void adjustItemNumber() {
+	protected void adjustItemNumber() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fComposite == null)
 			return;
 
@@ -611,25 +611,25 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		Display display= fShell.getDisplay();
 
 		// add missing items
-		for (int i= oldSize; i < newSize; i++) {
+		for (int i= oldSize; i < newSize; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Canvas canvas= new Canvas(fComposite, SWT.NONE);
 			Object gridData= fLayouter.getLayoutData();
 			canvas.setLayoutData(gridData);
 			canvas.setBackground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 
-			canvas.addPaintListener(fPaintListener);
+			canvas.addPaintListener(fPaintListener); //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 
-			canvas.addMouseTrackListener(fMouseTrackListener);
+			canvas.addMouseTrackListener(fMouseTrackListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
-			canvas.addMouseListener(fMouseListener);
+			canvas.addMouseListener(fMouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
-			canvas.addListener(SWT.MenuDetect, fMenuDetectListener);
+			canvas.addListener(SWT.MenuDetect, fMenuDetectListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
-			canvas.addDisposeListener(fDisposeListener);
+			canvas.addDisposeListener(fDisposeListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 
 		// dispose of exceeding resources
-		for (int i= oldSize; i > newSize; i--) {
+		for (int i= oldSize; i > newSize; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Item item= (Item) children[i - 1].getData();
 			item.deselect();
 			children[i - 1].dispose();
@@ -708,7 +708,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 	 */
 	@Override
 	public void addDisposeListener(DisposeListener listener) {
-		fShell.addDisposeListener(listener);
+		fShell.addDisposeListener(listener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	/*
@@ -756,7 +756,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 	 */
 	@Override
 	public void addFocusListener(FocusListener listener) {
-		fShell.addFocusListener(listener);
+		fShell.addFocusListener(listener); //FLLDCIM: MARK — T15 FOCUS CALL
 	}
 
 	/*
@@ -767,7 +767,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		fShell.removeFocusListener(listener);
 	}
 
-	private StyleRange[] setViewerBackground(Annotation annotation) {
+	private StyleRange[] setViewerBackground(Annotation annotation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StyledText text= fInput.fViewer.getTextWidget();
 		if (text == null || text.isDisposed())
 			return null;
@@ -784,8 +784,8 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 
 		StyleRange[] ranges= text.getStyleRanges(region.getOffset(), region.getLength());
 
-		List<StyleRange> undoRanges= new ArrayList<>(ranges.length);
-		for (StyleRange range : ranges) {
+		List<StyleRange> undoRanges= new ArrayList<>(ranges.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (StyleRange range : ranges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			undoRanges.add((StyleRange) range.clone());
 		}
 
@@ -796,7 +796,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		int index= 0;
 
 		// fill no-style regions
-		while (curEnd < region.getOffset() + region.getLength()) {
+		while (curEnd < region.getOffset() + region.getLength()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// add empty range
 			if (curStart > offset) {
 				StyleRange undoRange= new StyleRange(offset, curStart - offset, null, null);
@@ -822,15 +822,15 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 		}
 
 		// create modified styles (with background)
-		List<StyleRange> shadedRanges= new ArrayList<>(undoRanges.size());
-		for (StyleRange styleRange : undoRanges) {
+		List<StyleRange> shadedRanges= new ArrayList<>(undoRanges.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (StyleRange styleRange : undoRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			StyleRange range= (StyleRange) styleRange.clone();
 			shadedRanges.add(range);
 			range.background= getHighlightColor(disp);
 		}
 
 		// set the ranges one by one
-		for (StyleRange styleRange : shadedRanges) {
+		for (StyleRange styleRange : shadedRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			text.setStyleRange(styleRange);
 
 		}
@@ -851,7 +851,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 			return;
 
 		// set the ranges one by one
-		for (StyleRange oldRange : oldRanges) {
+		for (StyleRange oldRange : oldRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			text.setStyleRange(oldRange);
 		}
 	}
@@ -883,7 +883,7 @@ public class AnnotationExpansionControl implements IInformationControl, IInforma
 	 */
 	@Override
 	public boolean containsControl(Control control) {
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (control == fShell)
 				return true;
 			if (control instanceof Shell)

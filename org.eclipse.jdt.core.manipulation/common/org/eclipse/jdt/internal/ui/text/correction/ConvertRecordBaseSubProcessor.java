@@ -47,7 +47,7 @@ public abstract class ConvertRecordBaseSubProcessor<T> {
 	 * @param proposals the proposal collection to extend
 	 * @return true if proposal is possible, false otherwise
 	 */
-	public boolean addConvertToRecordProposals(final IInvocationContext context, final ASTNode node, final Collection<T> proposals) {
+	public boolean addConvertToRecordProposals(final IInvocationContext context, final ASTNode node, final Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(context);
 

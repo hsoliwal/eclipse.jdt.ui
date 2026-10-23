@@ -47,7 +47,7 @@ import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
-public class CallHierarchyContentProvider implements ITreeContentProvider {
+public class CallHierarchyContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	/**
 	 * A named preference that holds the types whose methods are by default expanded with
@@ -67,7 +67,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
     private DeferredTreeContentManager fManager;
     private CallHierarchyViewPart fPart;
 
-    private static class MethodWrapperRunnable implements IRunnableWithProgress {
+    private static class MethodWrapperRunnable implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
         private MethodWrapper fMethodWrapper;
         private MethodWrapper[] fCalls= null;
 
@@ -96,7 +96,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
     /**
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
      */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof TreeRoot) {
 			TreeRoot dummyRoot= (TreeRoot)parentElement;
@@ -142,7 +142,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 									constructors= new IType[] { type }; // type stands for the default constructor
 								}
 								Object children[]= new Object[constructors.length + 1];
-								for (int j= 0; j < constructors.length; j++) {
+								for (int j= 0; j < constructors.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									MethodCall constructor= new MethodCall(constructors[j]);
 									CallerMethodWrapper constructorWrapper= (CallerMethodWrapper)caller.createMethodWrapper(constructor);
 									children[j]= constructorWrapper;
@@ -176,7 +176,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 	 * @param wrapper the caller method wrapper
 	 * @since 3.5
 	 */
-	static void ensureDefaultExpandWithConstructors(CallerMethodWrapper wrapper) {
+	static void ensureDefaultExpandWithConstructors(CallerMethodWrapper wrapper) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!wrapper.isExpandWithConstructorsSet()) {
 			if (CallHierarchyContentProvider.canExpandWithConstructors(wrapper)) {
@@ -231,7 +231,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 	 *
 	 * @since 3.5
 	 */
-	static boolean isInTheDefaultExpandWithConstructorList(IMethod method) {
+	static boolean isInTheDefaultExpandWithConstructorList(IMethod method) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String serializedMembers= PreferenceConstants.getPreferenceStore().getString(PreferenceConstants.PREF_DEFAULT_EXPAND_WITH_CONSTRUCTORS_MEMBERS);
 		if (serializedMembers.length() == 0)
 			return false;
@@ -249,14 +249,14 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 				superClassName= stripTypeArguments(superClassName);
 			}
 			superInterfaceNames= declaringType.getSuperInterfaceNames();
-			for (int i= 0; i < superInterfaceNames.length; i++) {
+			for (int i= 0; i < superInterfaceNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				superInterfaceNames[i]= stripTypeArguments(superInterfaceNames[i]);
 			}
 		} catch (JavaModelException e) {
 			return false;
 		}
 
-		for (String defaultMemberPattern : defaultMemberPatterns) {
+		for (String defaultMemberPattern : defaultMemberPatterns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int pos= defaultMemberPattern.lastIndexOf('.');
 			String defaultTypeName= defaultMemberPattern.substring(0, pos);
 			String defaultMethodName= defaultMemberPattern.substring(pos + 1);
@@ -275,7 +275,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 			if (superClassName != null && JavaModelUtil.isMatchingName(superClassName, defaultTypeName)) {
 				return true;
 			}
-			for (String superInterfaceName : superInterfaceNames) {
+			for (String superInterfaceName : superInterfaceNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (JavaModelUtil.isMatchingName(superInterfaceName, defaultTypeName)) {
 					return true;
 				}
@@ -310,7 +310,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
         } catch (InterruptedException e) {
         	final CallerMethodWrapper element= (CallerMethodWrapper)methodWrapper;
         	if (!isExpandWithConstructors(element)) {
-        		Display.getDefault().asyncExec(() -> collapseAndRefresh(element));
+        		Display.getDefault().asyncExec(() -> collapseAndRefresh(element)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
         	}
         }
 
@@ -335,7 +335,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
      * @param element the element on which search has been canceled and which has to be collapsed
      * @since 3.5
      */
-    protected void collapseAndRefresh(MethodWrapper element) {
+    protected void collapseAndRefresh(MethodWrapper element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	CallHierarchyViewer viewer= fPart.getViewer();
 
 		/* Problem case: The user expands the RealCallers node and then unchecks "Expand with Constructors"
@@ -357,7 +357,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
     		viewer.setExpandedState(element, false);
     	}
 
-    	viewer.refresh(element);
+    	viewer.refresh(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
     }
 
 	/**
@@ -405,7 +405,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
     /**
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean hasChildren(Object element) {
 		if (element == TreeRoot.EMPTY_ROOT || element == TreeTermination.SEARCH_CANCELED) {
 			return false;
@@ -453,7 +453,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
      */
     void cancelJobs(MethodWrapper[] wrappers) {
         if (fManager != null && wrappers != null) {
-        	for (MethodWrapper wrapper : wrappers) {
+        	for (MethodWrapper wrapper : wrappers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         		fManager.cancel(wrapper);
         	}
             if (fPart != null) {

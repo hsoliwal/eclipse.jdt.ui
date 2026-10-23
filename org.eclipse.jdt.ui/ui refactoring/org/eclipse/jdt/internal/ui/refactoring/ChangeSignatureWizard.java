@@ -82,7 +82,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			setMessage(RefactoringMessages.ChangeSignatureInputPage_change);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			Composite composite= new Composite(parent, SWT.NONE);
 			final GridLayout layout= new GridLayout();
@@ -105,14 +105,14 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 					final ChangeSignatureProcessor processor= getChangeMethodSignatureProcessor();
 					fDeprecateDelegateCheckBox.setSelection(DelegateUIHelper.loadDeprecateDelegateSetting(processor));
 					processor.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
-					fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+					fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							processor.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
 						}
 					});
 					fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
-					fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+					fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
@@ -146,7 +146,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			createNameControl(composite);
 		}
 
-		private void createAccessControl(Composite parent) throws JavaModelException {
+		private void createAccessControl(Composite parent) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite access= new Composite(parent, SWT.NONE);
 			GridLayout layout= new GridLayout();
 			layout.marginHeight= 0;
@@ -163,10 +163,10 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			if (availableVisibilities.length == 0) {
 				combo.setEnabled(false);
 			} else {
-				for (int availableVisibility : availableVisibilities) {
+				for (int availableVisibility : availableVisibilities) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					combo.add(getAccessModifierString(availableVisibility));
 				}
-				combo.addSelectionListener(new SelectionAdapter() {
+				combo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						int newVisibility= availableVisibilities[combo.getSelectionIndex()];
@@ -197,11 +197,11 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 				case Modifier.PRIVATE :
 					return JdtFlags.VISIBILITY_STRING_PRIVATE;
 				default :
-					throw new IllegalArgumentException("\"" + modifier + "\" is not a Modifier constant"); //$NON-NLS-1$ //$NON-NLS-2$
+					throw new IllegalArgumentException("\"" + modifier + "\" is not a Modifier constant"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
-		private void createReturnTypeControl(Composite parent) {
+		private void createReturnTypeControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite returnType= new Composite(parent, SWT.NONE);
 			returnType.setLayoutData(new GridData(GridData.FILL_BOTH));
 			GridLayout layout= new GridLayout(1, false);
@@ -218,7 +218,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			TextFieldNavigationHandler.install(text);
 
 			if (getChangeMethodSignatureProcessor().canChangeNameAndReturnType()) {
-				text.addModifyListener(unused -> {
+				text.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 					getChangeMethodSignatureProcessor().setNewReturnTypeName(text.getText());
 					update(true);
 				});
@@ -232,7 +232,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			ControlContentAssistHelper.createTextContentAssistant(text, processor);
 		}
 
-		private void createNameControl(Composite parent) {
+		private void createNameControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite name= new Composite(parent, SWT.NONE);
 			name.setLayoutData(new GridData(GridData.FILL_BOTH));
 			GridLayout layout= new GridLayout(1, false);
@@ -249,7 +249,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			TextFieldNavigationHandler.install(text);
 
 			if (getChangeMethodSignatureProcessor().canChangeNameAndReturnType()) {
-				text.addModifyListener(unused -> {
+				text.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 					getChangeMethodSignatureProcessor().setNewMethodName(text.getText());
 					update(true);
 				});
@@ -258,7 +258,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			}
 		}
 
-		private void createParameterExceptionsFolder(Composite composite) {
+		private void createParameterExceptionsFolder(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			TabFolder folder= new TabFolder(composite, SWT.TOP);
 			folder.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -270,7 +270,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			itemEx.setText(RefactoringMessages.ChangeSignatureInputPage_exceptions);
 			itemEx.setControl(createExceptionsTableControl(folder));
 
-			folder.addSelectionListener(new SelectionAdapter() {
+			folder.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					((TabItem) e.item).getControl().setFocus();
@@ -278,7 +278,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			});
 		}
 
-		private Control createParameterTableControl(Composite composite) {
+		private Control createParameterTableControl(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite border= new Composite(composite, SWT.NONE);
 			border.setLayout(new GridLayout());
 
@@ -335,7 +335,7 @@ public class ChangeSignatureWizard extends RefactoringWizard {
 			updateSignaturePreview();
 		}
 
-		private void updateStatus(boolean displayErrorMessage) {
+		private void updateStatus(boolean displayErrorMessage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try{
 				if (getChangeMethodSignatureProcessor().isSignatureSameAsInitial()) {
 					if (displayErrorMessage)

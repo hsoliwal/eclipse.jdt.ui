@@ -62,7 +62,7 @@ public class JavaModelUtilTest {
 
 	private static final IPath LIB= new Path("testresources/mylib.jar");
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		IWorkspace workspace= JavaTestPlugin.getWorkspace();
 		assertNotNull(workspace);
@@ -137,11 +137,11 @@ public class JavaModelUtilTest {
 
 	private void assertElementName(String name, IJavaElement elem, int type) {
 		assertNotNull(name, elem);
-		assertEquals(name + "-name", name, elem.getElementName());
-		assertEquals(name + "-type", type, elem.getElementType());
+		assertEquals(name + "-name", name, elem.getElementName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(name + "-type", type, elem.getElementType()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findType() throws Exception {
 		IType type= fJProject1.findType("junit.extensions.ExceptionTestCase");
 		assertElementName("ExceptionTestCase", type, IJavaElement.TYPE);
@@ -171,7 +171,7 @@ public class JavaModelUtilTest {
 		assertElementName("InnerInner", type, IJavaElement.TYPE);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findTypeContainer() throws Exception {
 		IJavaElement elem= JavaModelUtil.findTypeContainer(fJProject1, "junit.extensions");
 		assertElementName("junit.extensions", elem, IJavaElement.PACKAGE_FRAGMENT);
@@ -198,7 +198,7 @@ public class JavaModelUtilTest {
 		assertElementName("Inner", elem, IJavaElement.TYPE);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findTypeInCompilationUnit() throws Exception {
 		ICompilationUnit cu= (ICompilationUnit) fJProject1.findElement(new Path("junit/tests/framework/TestCaseTest.java"));
 		assertElementName("TestCaseTest.java", cu, IJavaElement.COMPILATION_UNIT);
@@ -224,14 +224,14 @@ public class JavaModelUtilTest {
 
 	private void assertClasspathEntry(String name, IJavaElement elem, IPath path, int type) throws Exception {
 		IPackageFragmentRoot root= JavaModelUtil.getPackageFragmentRoot(elem);
-		assertNotNull(name + "-noroot", root);
+		assertNotNull(name + "-noroot", root); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IClasspathEntry entry= root.getRawClasspathEntry();
-		assertNotNull(name + "-nocp", entry);
-		assertEquals(name + "-wrongpath", entry.getPath(), path);
-		assertEquals(name + "-wrongtype", type, entry.getEntryKind());
+		assertNotNull(name + "-nocp", entry); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(name + "-wrongpath", entry.getPath(), path); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(name + "-wrongtype", type, entry.getEntryKind()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getRawClasspathEntry() throws Exception {
 		IType type= fJProject1.findType("junit.extensions.ExceptionTestCase");
 		assertElementName("ExceptionTestCase", type, IJavaElement.TYPE);
@@ -254,29 +254,29 @@ public class JavaModelUtilTest {
 		assertClasspathEntry("ReqProjType", type, path, IClasspathEntry.CPE_SOURCE);
 	}
 
-	private void assertFindMethod(String methName, String[] paramTypeNames, boolean isConstructor, IType type) throws Exception {
+	private void assertFindMethod(String methName, String[] paramTypeNames, boolean isConstructor, IType type) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] sig= new String[paramTypeNames.length];
-		for (int i= 0; i < paramTypeNames.length; i++) {
+		for (int i= 0; i < paramTypeNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// create as unresolved
 			String name= Signature.getSimpleName(paramTypeNames[i]);
 			sig[i]= Signature.createTypeSignature(name, false);
-			assertNotNull(methName + "-ts1" + i, sig[i]);
+			assertNotNull(methName + "-ts1" + i, sig[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		IMethod meth= JavaModelUtil.findMethod(methName, sig, isConstructor, type);
 		assertElementName(methName, meth, IJavaElement.METHOD);
 		assertEquals("methName-nparam1", meth.getParameterTypes().length, paramTypeNames.length);
 
-		for (int i= 0; i < paramTypeNames.length; i++) {
+		for (int i= 0; i < paramTypeNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// create as resolved
 			sig[i]= Signature.createTypeSignature(paramTypeNames[i], true);
-			assertNotNull(methName + "-ts2" + i, sig[i]);
+			assertNotNull(methName + "-ts2" + i, sig[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		meth= JavaModelUtil.findMethod(methName, sig, isConstructor, type);
 		assertElementName(methName, meth, IJavaElement.METHOD);
 		assertEquals("methName-nparam2", meth.getParameterTypes().length, paramTypeNames.length);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findMethod() throws Exception {
 		IType type= fJProject1.findType("junit.framework.Assert");
 		assertElementName("Assert", type, IJavaElement.TYPE);
@@ -299,25 +299,25 @@ public class JavaModelUtilTest {
 		assertFindMethod("addMoneyBag", new String[] { "junit.samples.money.MoneyBag" }, false, type);
 	}
 
-	private void assertFindMethodInHierarchy(String methName, String[] paramTypeNames, boolean isConstructor, IType type, String declaringTypeName) throws Exception {
+	private void assertFindMethodInHierarchy(String methName, String[] paramTypeNames, boolean isConstructor, IType type, String declaringTypeName) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeHierarchy hierarchy= type.newSupertypeHierarchy(null);
 
 		String[] sig= new String[paramTypeNames.length];
-		for (int i= 0; i < paramTypeNames.length; i++) {
+		for (int i= 0; i < paramTypeNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// create as unresolved
 			String name= Signature.getSimpleName(paramTypeNames[i]);
 			sig[i]= Signature.createTypeSignature(name, false);
-			assertNotNull(methName + "-ts1" + i, sig[i]);
+			assertNotNull(methName + "-ts1" + i, sig[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		IMethod meth= JavaModelUtil.findMethodInHierarchy(hierarchy, type, methName, sig, isConstructor);
 		assertElementName(methName, meth, IJavaElement.METHOD);
 		assertEquals("methName-nparam1", meth.getParameterTypes().length, paramTypeNames.length);
 		assertEquals("methName-decltype", declaringTypeName, meth.getDeclaringType().getFullyQualifiedName('.'));
 
-		for (int i= 0; i < paramTypeNames.length; i++) {
+		for (int i= 0; i < paramTypeNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// create as resolved
 			sig[i]= Signature.createTypeSignature(paramTypeNames[i], true);
-			assertNotNull(methName + "-ts2" + i, sig[i]);
+			assertNotNull(methName + "-ts2" + i, sig[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		meth= JavaModelUtil.findMethodInHierarchy(hierarchy, type, methName, sig, isConstructor);
 		assertElementName(methName, meth, IJavaElement.METHOD);

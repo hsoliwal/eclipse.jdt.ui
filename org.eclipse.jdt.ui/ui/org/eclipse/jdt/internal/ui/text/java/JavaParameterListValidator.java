@@ -62,7 +62,7 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 	}
 
 	private int getCommentEnd(IDocument d, int pos, int end) throws BadLocationException {
-		while (pos < end) {
+		while (pos < end) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char curr= d.getChar(pos);
 			pos++;
 			if (curr == '*') {
@@ -75,7 +75,7 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 	}
 
 	private int getStringEnd(IDocument d, int pos, int end, char ch) throws BadLocationException {
-		while (pos < end) {
+		while (pos < end) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char curr= d.getChar(pos);
 			pos++;
 			if (curr == '\\') {
@@ -88,7 +88,7 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 		return end;
 	}
 
-	private int getCharCount(IDocument document, final int start, final int end, String increments, String decrements, boolean considerNesting) throws BadLocationException {
+	private int getCharCount(IDocument document, final int start, final int end, String increments, String decrements, boolean considerNesting) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isTrue((increments.length() != 0 || decrements.length() != 0) && !increments.equals(decrements));
 
@@ -103,7 +103,7 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 
 		int charCount= 0;
 		int offset= start;
-		while (offset < end) {
+		while (offset < end) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char curr= document.getChar(offset++);
 			switch (curr) {
 				case '/':
@@ -239,7 +239,7 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 	/**
 	 * @see IContextInformationValidator#isContextInformationValid(int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isContextInformationValid(int position) {
 
 		try {
@@ -262,7 +262,7 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 	/**
 	 * @see IContextInformationPresenter#updatePresentation(int, TextPresentation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean updatePresentation(int position, TextPresentation presentation) {
 
 		int currentParameter= -1;
@@ -303,13 +303,13 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 		return true;
 	}
 
-	private int[] computeCommaPositions(String code) {
+	private int[] computeCommaPositions(String code) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int length= code.length();
 	    int pos= 0;
 	    int angleLevel= 0;
-		List<Integer> positions= new ArrayList<>();
+		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		positions.add(-1);
-		while (pos < length && pos != -1) {
+		while (pos < length && pos != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);
 			switch (ch) {
 	            case ',':
@@ -334,7 +334,7 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 		positions.add(length);
 
 		int[] fields= new int[positions.size()];
-		for (int i= 0; i < fields.length; i++)
+		for (int i= 0; i < fields.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        fields[i]= positions.get(i);
 	    return fields;
     }

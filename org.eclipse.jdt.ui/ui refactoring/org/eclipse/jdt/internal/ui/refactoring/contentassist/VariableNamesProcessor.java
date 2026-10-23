@@ -124,10 +124,10 @@ public class VariableNamesProcessor implements ISubjectControlContentAssistProce
 			return null;
 		String input= contentAssistSubject.getDocument().get();
 
-		ArrayList<JavaCompletionProposal> proposals= new ArrayList<>();
+		ArrayList<JavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String prefix= input.substring(0, documentOffset);
 		Image image= fImageRegistry.get(fProposalImageDescriptor);
-		for (String tempName : fTempNameProposals) {
+		for (String tempName : fTempNameProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tempName.length() == 0 || ! tempName.startsWith(prefix))
 				continue;
 			JavaCompletionProposal proposal= new JavaCompletionProposal(tempName, 0, input.length(), image, tempName, 0);

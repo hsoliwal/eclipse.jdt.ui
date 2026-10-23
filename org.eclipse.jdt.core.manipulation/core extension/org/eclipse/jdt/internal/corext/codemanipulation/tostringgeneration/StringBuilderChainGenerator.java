@@ -93,13 +93,13 @@ public class StringBuilderChainGenerator extends StringBuilderGenerator {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addMemberCheckNull(Object member, boolean addSeparator) {
 		IfStatement ifStatement= fAst.newIfStatement();
 		ifStatement.setExpression(createInfixExpression(createMemberAccessExpression(member, true, true), Operator.NOT_EQUALS, fAst.newNullLiteral()));
 		Block thenBlock= fAst.newBlock();
 		flushTemporaryExpression();
-		for (String s : getContext().getTemplateParser().getBody()) {
+		for (String s : getContext().getTemplateParser().getBody()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addElement(processElement(s, member), thenBlock);
 		}
 		if (addSeparator)

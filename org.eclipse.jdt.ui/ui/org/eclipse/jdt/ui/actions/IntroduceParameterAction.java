@@ -39,7 +39,7 @@ import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
  * @since 3.0
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class IntroduceParameterAction extends SelectionDispatchAction {
+public class IntroduceParameterAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final JavaEditor fEditor;
 

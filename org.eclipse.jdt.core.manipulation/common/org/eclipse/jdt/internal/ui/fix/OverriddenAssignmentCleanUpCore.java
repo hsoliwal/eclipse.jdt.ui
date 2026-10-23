@@ -57,24 +57,24 @@ public class OverriddenAssignmentCleanUpCore extends AbstractCleanUp {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.OVERRIDDEN_ASSIGNMENT)) {
 			if (isEnabled(CleanUpConstants.OVERRIDDEN_ASSIGNMENT_MOVE_DECL)) {
-				bld.append("String separator = System.lineSeparator();\n"); //$NON-NLS-1$
-				bld.append("long time = System.currentTimeMillis();\n"); //$NON-NLS-1$
+				bld.append("String separator = System.lineSeparator();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				bld.append("long time = System.currentTimeMillis();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				bld.append("long time;\n"); //$NON-NLS-1$
-				bld.append("String separator = System.lineSeparator();\n"); //$NON-NLS-1$
-				bld.append("time = System.currentTimeMillis();\n"); //$NON-NLS-1$
+				bld.append("long time;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				bld.append("String separator = System.lineSeparator();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				bld.append("time = System.currentTimeMillis();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else {
-			bld.append("long time = 0;\n"); //$NON-NLS-1$
-			bld.append("String separator = \"\";\n"); //$NON-NLS-1$
-			bld.append("separator = System.lineSeparator();\n"); //$NON-NLS-1$
-			bld.append("time = System.currentTimeMillis();\n"); //$NON-NLS-1$
+			bld.append("long time = 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("String separator = \"\";\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("separator = System.lineSeparator();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("time = System.currentTimeMillis();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 

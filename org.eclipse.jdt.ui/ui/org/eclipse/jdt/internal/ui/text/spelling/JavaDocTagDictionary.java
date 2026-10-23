@@ -53,13 +53,13 @@ public class JavaDocTagDictionary extends AbstractSpellDictionary implements IJa
 
 		unload();
 
-		for (String t : JAVADOC_LINK_TAGS) {
+		for (String t : JAVADOC_LINK_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hashWord(t);
 		}
-		for (String t : JAVADOC_ROOT_TAGS) {
+		for (String t : JAVADOC_ROOT_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hashWord(t);
 		}
-		for (String t : JAVADOC_PARAM_TAGS) {
+		for (String t : JAVADOC_PARAM_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hashWord(t);
 		}
 

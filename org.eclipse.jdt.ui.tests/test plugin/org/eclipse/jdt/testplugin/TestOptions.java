@@ -60,7 +60,7 @@ public class TestOptions {
 	}
 
 	public static void initializeProjectOptions(IJavaProject project) {
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		JavaProjectHelper.set18CompilerOptions(options);
 		project.setOptions(options);
 	}
@@ -276,7 +276,7 @@ class TestFormatterOptions {
 		return Integer.toString(alignment);
 	}
 
-	private Hashtable<String, String> getMap() {
+	private Hashtable<String, String> getMap() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Hashtable<String, String> options = new Hashtable<>();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_ARGUMENTS_IN_ALLOCATION_EXPRESSION, getAlignment(this.alignment_for_arguments_in_allocation_expression));
 		options.put(DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_ARGUMENTS_IN_EXPLICIT_CONSTRUCTOR_CALL, getAlignment(this.alignment_for_arguments_in_explicit_constructor_call));
@@ -460,7 +460,7 @@ class TestFormatterOptions {
 		return options;
 	}
 
-	private void setDefaultSettings() {
+	private void setDefaultSettings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.alignment_for_arguments_in_allocation_expression = Alignment.M_COMPACT_SPLIT;
 		this.alignment_for_arguments_in_explicit_constructor_call = Alignment.M_COMPACT_SPLIT;
 		this.alignment_for_arguments_in_method_invocation = Alignment.M_COMPACT_SPLIT;

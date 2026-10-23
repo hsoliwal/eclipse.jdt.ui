@@ -108,7 +108,7 @@ public class JavaAnnotationImageProvider implements IAnnotationImageProvider {
 		return fgQuickFixInfoImage;
 	}
 
-	private int getImageType(IJavaAnnotation annotation) {
+	private int getImageType(IJavaAnnotation annotation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int imageType= NO_IMAGE;
 		if (annotation.hasOverlay())
 			imageType= OVERLAY_IMAGE;
@@ -136,7 +136,7 @@ public class JavaAnnotationImageProvider implements IAnnotationImageProvider {
 		return imageType;
 	}
 
-	private Image getImage(IJavaAnnotation annotation, int imageType) {
+	private Image getImage(IJavaAnnotation annotation, int imageType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((imageType == QUICKFIX_WARNING_IMAGE || imageType == QUICKFIX_ERROR_IMAGE || imageType == QUICKFIX_INFO_IMAGE) && fCachedImageType == imageType)
 			return fCachedImage;
 

@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.util.StringMatcher;
  */
 public class FilteredElementTreeSelectionDialog extends ElementTreeSelectionDialog {
 
-	private static class MultiplePatternFilter extends PatternFilter {
+	private static class MultiplePatternFilter extends PatternFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		private StringMatcher[] fMatchers;
 		private final boolean fIsDeepFiltering;
@@ -59,18 +59,18 @@ public class FilteredElementTreeSelectionDialog extends ElementTreeSelectionDial
 			fIsDeepFiltering= deepFiltering;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void setPattern(String patternString) {
 			super.setPattern(patternString);
 			fMatchers= null;
 			if (patternString != null && patternString.length() > 0) {
-				ArrayList<StringMatcher> res= new ArrayList<>();
+				ArrayList<StringMatcher> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				StringTokenizer tok= new StringTokenizer(patternString, ",;"); //$NON-NLS-1$
 				int tokenCount= tok.countTokens();
-				for (int i= 0; i < tokenCount; i++) {
+				for (int i= 0; i < tokenCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String token= tok.nextToken();
 					if (token.length() > 0) {
-						res.add(new StringMatcher(token + '*', true, false));
+						res.add(new StringMatcher(token + '*', true, false)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 				if (!res.isEmpty()) {
@@ -85,7 +85,7 @@ public class FilteredElementTreeSelectionDialog extends ElementTreeSelectionDial
 				if (fMatchers == null || fMatchers.length == 0) {
 					return true;
 				}
-				for (StringMatcher matcher : fMatchers) {
+				for (StringMatcher matcher : fMatchers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (matcher.match(text)) {
 						return true;
 					}
@@ -98,7 +98,7 @@ public class FilteredElementTreeSelectionDialog extends ElementTreeSelectionDial
 		 * @see org.eclipse.ui.dialogs.PatternFilter#isElementVisible(org.eclipse.jface.viewers.Viewer, java.lang.Object)
 		 * @since 3.5
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean isElementVisible(Viewer viewer, Object element) {
 			boolean hasChildren= ((ITreeContentProvider) ((AbstractTreeViewer) viewer).getContentProvider()).hasChildren(element);
 			if (fIsDeepFiltering) {
@@ -106,7 +106,7 @@ public class FilteredElementTreeSelectionDialog extends ElementTreeSelectionDial
 					return false;
 
 				// Also apply deep filtering to the other registered filters
-				for (ViewerFilter filter : ((TreeViewer)viewer).getFilters()) {
+				for (ViewerFilter filter : ((TreeViewer)viewer).getFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (filter == this) {
 						continue;
 					}
@@ -141,12 +141,12 @@ public class FilteredElementTreeSelectionDialog extends ElementTreeSelectionDial
 		}
 
 		// This is a copy of the super method, but without auto-expansion.
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected WorkbenchJob doCreateRefreshJob() {
-			return new WorkbenchJob("Refresh Filter") {//$NON-NLS-1$
+			return new WorkbenchJob("Refresh Filter") {//$NON-NLS-1$ //FLLDCIM: MARK — T09  ANONYMOUS
 
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public IStatus runInUIThread(IProgressMonitor monitor) {
 					if (treeViewer.getControl().isDisposed()) {
 						return Status.CANCEL_STATUS;
@@ -173,13 +173,13 @@ public class FilteredElementTreeSelectionDialog extends ElementTreeSelectionDial
 						redrawFalseControl.setRedraw(false);
 						if (!narrowingDown) {
 							// collapse all
-							for (TreeItem item : treeViewer.getTree().getItems()) {
+							for (TreeItem item : treeViewer.getTree().getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (item.getExpanded()) {
 									treeViewer.setExpandedState(item.getData(), false);
 								}
 							}
 						}
-						treeViewer.refresh(true);
+						treeViewer.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 						updateToolbar(text.length() > 0 && !initial);
 

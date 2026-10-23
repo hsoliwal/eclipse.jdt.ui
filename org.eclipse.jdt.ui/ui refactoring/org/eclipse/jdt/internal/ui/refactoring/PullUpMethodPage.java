@@ -91,10 +91,10 @@ import org.eclipse.jdt.internal.ui.util.SWTUtil;
  */
 public class PullUpMethodPage extends UserInputWizardPage {
 
-	private static class PullUpFilter extends ViewerFilter {
+	private static class PullUpFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		private static boolean anySubtypeCanBeShown(final IType type, final Map<IType, IMember[]> typeToMemberArray, final ITypeHierarchy hierarchy) {
-			for (IType subType : hierarchy.getSubtypes(type)) {
+			for (IType subType : hierarchy.getSubtypes(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (canBeShown(subType, typeToMemberArray, hierarchy)) {
 					return true;
 				}
@@ -109,8 +109,8 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		}
 
 		private static Set<IType> computeShowableSubtypesOfMainType(final ITypeHierarchy hierarchy, final Map<IType, IMember[]> typeToMemberArray) {
-			final Set<IType> result= new HashSet<>();
-			for (IType subtype : hierarchy.getAllSubtypes(hierarchy.getType())) {
+			final Set<IType> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IType subtype : hierarchy.getAllSubtypes(hierarchy.getType())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (canBeShown(subtype, typeToMemberArray, hierarchy))
 					result.add(subtype);
 			}
@@ -118,7 +118,7 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		}
 
 		private static Set<IType> computeTypesToShow(final ITypeHierarchy hierarchy, final Map<IType, IMember[]> typeToMemberArray) {
-			final Set<IType> typesToShow= new HashSet<>();
+			final Set<IType> typesToShow= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			typesToShow.add(hierarchy.getType());
 			typesToShow.addAll(computeShowableSubtypesOfMainType(hierarchy, typeToMemberArray));
 			return typesToShow;
@@ -140,7 +140,7 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		}
 	}
 
-	private static class PullUpHierarchyContentProvider implements ITreeContentProvider {
+	private static class PullUpHierarchyContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private IType fDeclaringType;
 
@@ -199,7 +199,7 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		}
 
 		private Object[] getSubclassesAndMembers(final IType type) {
-			final Set<IMember> set= new HashSet<>();
+			final Set<IMember> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			set.addAll(Arrays.asList(getSubclasses(type)));
 			set.addAll(Arrays.asList(getMembers(type)));
 			return set.toArray();
@@ -226,8 +226,8 @@ public class PullUpMethodPage extends UserInputWizardPage {
 	private static Map<IType, IMember[]> createTypeToMemberArrayMapping(final IMember[] members) {
 		final Map<IType, HashSet<IMember>> typeToMemberSet= createTypeToMemberSetMapping(members);
 
-		final Map<IType, IMember[]> typeToMemberArray= new HashMap<>();
-		for (Map.Entry<IType, HashSet<IMember>> entry : typeToMemberSet.entrySet()) {
+		final Map<IType, IMember[]> typeToMemberArray= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Map.Entry<IType, HashSet<IMember>> entry : typeToMemberSet.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType type = entry.getKey();
 			final Set<IMember> memberSet= entry.getValue();
 			final IMember[] memberArray= memberSet.toArray(new IMember[memberSet.size()]);
@@ -238,11 +238,11 @@ public class PullUpMethodPage extends UserInputWizardPage {
 
 	// IType -> Set of IMember
 	private static Map<IType, HashSet<IMember>> createTypeToMemberSetMapping(final IMember[] members) {
-		final Map<IType, HashSet<IMember>> typeToMemberSet= new HashMap<>();
-		for (IMember member : members) {
+		final Map<IType, HashSet<IMember>> typeToMemberSet= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IType type= member.getDeclaringType();
 			if (!typeToMemberSet.containsKey(type))
-				typeToMemberSet.put(type, new HashSet<>());
+				typeToMemberSet.put(type, new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			typeToMemberSet.get(type).add(member);
 		}
 		return typeToMemberSet;
@@ -274,7 +274,7 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		final ITypeHierarchy th= getTreeInput();
 		final IType root= getTreeInput().getType();
 		IType type= parent;
-		while (!root.equals(type)) {
+		while (!root.equals(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTreeViewer.setChecked(type, true);
 			type= th.getSuperclass(type);
 		}
@@ -289,7 +289,7 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		checkAllParents(parent);
 	}
 
-	private void createButtonComposite(final Composite superComposite) {
+	private void createButtonComposite(final Composite superComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Composite buttonComposite= new Composite(superComposite, SWT.NONE);
 		buttonComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
 		final GridLayout layout= new GridLayout(2, false);
@@ -305,7 +305,7 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		button.setText(RefactoringMessages.PullUpInputPage2_Select);
 		button.setLayoutData(new GridData());
 		SWTUtil.setButtonDimensionHint(button);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -372,8 +372,8 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		label.setLayoutData(gd);
 	}
 
-	private void createTreeAndSourceViewer(final Composite superComposite) {
-		final SashForm composite= new SashForm(superComposite, SWT.HORIZONTAL);
+	private void createTreeAndSourceViewer(final Composite superComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final SashForm composite= new SashForm(superComposite, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		initializeDialogUnits(superComposite);
 		final GridData gd= new GridData(GridData.FILL_BOTH);
 		gd.heightHint= convertHeightInCharsToPixels(20);
@@ -396,11 +396,11 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		final Tree tree= new Tree(composite, SWT.CHECK | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 		fTreeViewer= new ContainerCheckedTreeViewer(tree);
-		fTreeViewer.setLabelProvider(new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_DEFAULT | JavaElementLabelProvider.SHOW_SMALL_ICONS));
+		fTreeViewer.setLabelProvider(new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_DEFAULT | JavaElementLabelProvider.SHOW_SMALL_ICONS)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTreeViewer.setUseHashlookup(true);
 		fTreeViewer.setComparator(new JavaElementComparator());
-		fTreeViewer.addSelectionChangedListener(this::treeViewerSelectionChanged);
-		fTreeViewer.addCheckStateListener(unused -> updateSelectionLabel());
+		fTreeViewer.addSelectionChangedListener(this::treeViewerSelectionChanged); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fTreeViewer.addCheckStateListener(unused -> updateSelectionLabel()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 	}
 
 	private void createTypeHierarchyLabel(final Composite composite) {
@@ -415,8 +415,8 @@ public class PullUpMethodPage extends UserInputWizardPage {
 
 	private IMethod[] getCheckedMethods() {
 		final Object[] checked= fTreeViewer.getCheckedElements();
-		final List<IMethod> members= new ArrayList<>(checked.length);
-		for (Object c : checked) {
+		final List<IMethod> members= new ArrayList<>(checked.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object c : checked) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (c instanceof IMethod) {
 				members.add((IMethod) c);
 			}
@@ -457,7 +457,7 @@ public class PullUpMethodPage extends UserInputWizardPage {
 
 	private void initializeTreeViewer() {
 		try {
-			getContainer().run(false, false, pm -> {
+			getContainer().run(false, false, pm -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					initializeTreeViewer(pm);
 				} finally {
@@ -471,21 +471,21 @@ public class PullUpMethodPage extends UserInputWizardPage {
 		}
 	}
 
-	private void initializeTreeViewer(final IProgressMonitor pm) {
+	private void initializeTreeViewer(final IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			pm.beginTask(RefactoringCoreMessages.PullUpRefactoring_checking, 2);
 			final IMember[] matchingMethods= fProcessor.getMatchingElements(Progress.subMonitor(pm, 1), false);
 			final ITypeHierarchy hierarchy= fProcessor.getDestinationTypeHierarchy(Progress.subMonitor(pm, 1));
 			removeAllTreeViewFilters();
-			fTreeViewer.addFilter(new PullUpFilter(hierarchy, matchingMethods));
+			fTreeViewer.addFilter(new PullUpFilter(hierarchy, matchingMethods)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			fTreeViewer.setContentProvider(new PullUpHierarchyContentProvider(fProcessor.getDeclaringType(), matchingMethods));
-			fTreeViewer.setInput(hierarchy);
+			fTreeViewer.setInput(hierarchy); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			precheckElements(fTreeViewer);
 			fTreeViewer.expandAll();
 			updateSelectionLabel();
 		} catch (JavaModelException e) {
 			ExceptionHandler.handle(e, RefactoringMessages.PullUpInputPage_pull_up1, RefactoringMessages.PullUpInputPage_exception);
-			fTreeViewer.setInput(null);
+			fTreeViewer.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		} finally {
 			pm.done();
 		}
@@ -498,13 +498,13 @@ public class PullUpMethodPage extends UserInputWizardPage {
 	}
 
 	private void precheckElements(final ContainerCheckedTreeViewer treeViewer) {
-		for (IMember member : fProcessor.getMembersToMove()) {
+		for (IMember member : fProcessor.getMembersToMove()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			treeViewer.setChecked(member, true);
 		}
 	}
 
 	private void removeAllTreeViewFilters() {
-		for (ViewerFilter filter : fTreeViewer.getFilters()) {
+		for (ViewerFilter filter : fTreeViewer.getFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTreeViewer.removeFilter(filter);
 		}
 	}

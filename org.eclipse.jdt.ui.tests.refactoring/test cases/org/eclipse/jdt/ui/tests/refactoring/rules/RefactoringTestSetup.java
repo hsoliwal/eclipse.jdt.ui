@@ -38,31 +38,31 @@ public class RefactoringTestSetup extends AbstractRefactoringTestSetup {
 	public IPackageFragmentRoot getDefaultSourceFolder() throws Exception {
 		if (fgRoot != null)
 			return fgRoot;
-		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized");
+		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public IPackageFragmentRoot getJRELibrary() throws Exception {
 		if (fgJRELibrary != null)
 			return fgJRELibrary;
-		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized");
+		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public IJavaProject getProject()throws Exception {
 		if (fgJavaTestProject != null)
 			return fgJavaTestProject;
-		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized");
+		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public IPackageFragment getPackageP()throws Exception {
 		if (fgPackageP != null)
 			return fgPackageP;
-		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized");
+		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public IPackageFragment getPackageQ()throws Exception {
 		if (fgPackageQ != null)
 			return fgPackageQ;
-		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized");
+		throw new Exception(RefactoringTestSetup.class.getName() + " not initialized"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class RefactoringTestSetup extends AbstractRefactoringTestSetup {
 		if (JavaPlugin.getActivePage() != null)
 			JavaPlugin.getActivePage().close(); // Closed perspective is NOT restored in tearDown()!
 
-		fgJavaTestProject= JavaProjectHelper.createJavaProject("TestProject"+System.currentTimeMillis(), "bin");
+		fgJavaTestProject= JavaProjectHelper.createJavaProject("TestProject"+System.currentTimeMillis(), "bin"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fgJRELibrary= addRTJar(fgJavaTestProject);
 		fgRoot= JavaProjectHelper.addSourceContainer(fgJavaTestProject, CONTAINER);
 		fgPackageP= fgRoot.createPackageFragment("p", true, null);

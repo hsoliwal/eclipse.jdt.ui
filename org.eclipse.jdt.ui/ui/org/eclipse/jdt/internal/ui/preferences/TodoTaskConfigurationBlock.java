@@ -90,7 +90,7 @@ public class TodoTaskConfigurationBlock extends OptionsConfigurationBlock {
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getColumnText(Object element, int columnIndex) {
 			TodoTask task= (TodoTask) element;
 			if (columnIndex == 0) {
@@ -142,7 +142,7 @@ public class TodoTaskConfigurationBlock extends OptionsConfigurationBlock {
 	private SelectionButtonDialogField fCaseSensitiveCheckBox;
 
 
-	public TodoTaskConfigurationBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) {
+	public TodoTaskConfigurationBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(context, project, getKeys(), container);
 
 		TaskTagAdapter adapter=  new TaskTagAdapter();
@@ -251,7 +251,7 @@ public class TodoTaskConfigurationBlock extends OptionsConfigurationBlock {
 		return markersComposite;
 	}
 
-	private Composite createMarkersTabContent(Composite folder) {
+	private Composite createMarkersTabContent(Composite folder) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridLayout layout= new GridLayout();
 		layout.marginHeight= 0;
 		layout.marginWidth= 0;
@@ -299,19 +299,19 @@ public class TodoTaskConfigurationBlock extends OptionsConfigurationBlock {
 		return new StatusInfo();
 	}
 
-	protected final void updateModel(DialogField field) {
+	protected final void updateModel(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (field == fTodoTasksList) {
-			StringBuilder tags= new StringBuilder();
-			StringBuilder prios= new StringBuilder();
+			StringBuilder tags= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			StringBuilder prios= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			List<TodoTask> list= fTodoTasksList.getElements();
-			for (int i= 0; i < list.size(); i++) {
+			for (int i= 0; i < list.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
-					tags.append(',');
-					prios.append(',');
+					tags.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					prios.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				TodoTask elem= list.get(i);
-				tags.append(elem.name);
-				prios.append(elem.priority);
+				tags.append(elem.name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				prios.append(elem.priority); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			setValue(PREF_COMPILER_TASK_TAGS, tags.toString());
 			setValue(PREF_COMPILER_TASK_PRIORITIES, prios.toString());
@@ -344,8 +344,8 @@ public class TodoTaskConfigurationBlock extends OptionsConfigurationBlock {
 		String currPrios= getValue(PREF_COMPILER_TASK_PRIORITIES);
 		String[] tags= getTokens(currTags, ","); //$NON-NLS-1$
 		String[] prios= getTokens(currPrios, ","); //$NON-NLS-1$
-		ArrayList<TodoTask> elements= new ArrayList<>(tags.length);
-		for (int i= 0; i < tags.length; i++) {
+		ArrayList<TodoTask> elements= new ArrayList<>(tags.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < tags.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TodoTask task= new TodoTask();
 			task.name= tags[i].trim();
 			task.priority= (i < prios.length) ? prios[i] : PRIORITY_NORMAL;
@@ -357,7 +357,7 @@ public class TodoTaskConfigurationBlock extends OptionsConfigurationBlock {
 		fCaseSensitiveCheckBox.setSelection(isCaseSensitive);
 	}
 
-	private void doTodoButtonPressed(int index) {
+	private void doTodoButtonPressed(int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TodoTask edited= null;
 		if (index != IDX_ADD) {
 			edited= fTodoTasksList.getSelectedElements().get(0);

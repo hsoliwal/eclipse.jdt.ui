@@ -79,11 +79,11 @@ public class FileTransferDragAdapter extends DragSourceAdapter implements Transf
 		event.doit= isDragable(fProvider.getSelection());
 	}
 
-	private boolean isDragable(ISelection s) {
+	private boolean isDragable(ISelection s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(s instanceof IStructuredSelection))
 			return false;
 		IStructuredSelection selection= (IStructuredSelection)s;
-		for (Object element : selection) {
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJavaElement) {
 				IJavaElement jElement= (IJavaElement)element;
 				int type= jElement.getElementType();
@@ -131,19 +131,19 @@ public class FileTransferDragAdapter extends DragSourceAdapter implements Transf
 		}
 	}
 
-	/* package */ void handleDropMove() {
+	/* package */ void handleDropMove() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final List<IResource> elements= getResources();
 		if (elements == null || elements.isEmpty())
 			return;
 
-		WorkspaceModifyOperation op= new WorkspaceModifyOperation() {
-			@Override
+		WorkspaceModifyOperation op= new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void execute(IProgressMonitor monitor) throws CoreException {
 				try {
 					monitor.beginTask(PackagesMessages.DragAdapter_deleting, elements.size());
 					MultiStatus status= createMultiStatus();
 					Iterator<IResource> iter= elements.iterator();
-					while(iter.hasNext()) {
+					while(iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IResource resource= iter.next();
 						try {
 							monitor.subTask(BasicElementLabels.getPathLabel(resource.getFullPath(), true));
@@ -166,17 +166,17 @@ public class FileTransferDragAdapter extends DragSourceAdapter implements Transf
 		runOperation(op, true, false);
 	}
 
-	private void handleRefresh() {
+	private void handleRefresh() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Set<IResource> roots= collectRoots(getResources());
 
-		WorkspaceModifyOperation op= new WorkspaceModifyOperation() {
-			@Override
+		WorkspaceModifyOperation op= new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void execute(IProgressMonitor monitor) throws CoreException {
 				try {
 					monitor.beginTask(PackagesMessages.DragAdapter_refreshing, roots.size());
 					MultiStatus status= createMultiStatus();
 					Iterator<IResource> iter= roots.iterator();
-					while (iter.hasNext()) {
+					while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IResource r= iter.next();
 						try {
 							r.refreshLocal(IResource.DEPTH_ONE, Progress.subMonitor(monitor, 1));
@@ -197,10 +197,10 @@ public class FileTransferDragAdapter extends DragSourceAdapter implements Transf
 	}
 
 	protected Set<IResource> collectRoots(final List<IResource> elements) {
-		final Set<IResource> roots= new HashSet<>(10);
+		final Set<IResource> roots= new HashSet<>(10); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		Iterator<IResource> iter= elements.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= iter.next();
 			IResource parent= resource.getParent();
 			if (parent == null) {
@@ -221,8 +221,8 @@ public class FileTransferDragAdapter extends DragSourceAdapter implements Transf
 	}
 
 	private List<IResource> convertIntoResources(IStructuredSelection selection) {
-		List<IResource> result= new ArrayList<>(selection.size());
-		for (Object o : selection) {
+		List<IResource> result= new ArrayList<>(selection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object o : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource r= null;
 			if (o instanceof IResource) {
 				r= (IResource)o;

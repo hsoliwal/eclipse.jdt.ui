@@ -160,7 +160,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		/*
 		 * @see org.eclipse.jface.viewers.StructuredViewer#handleLabelProviderChanged(org.eclipse.jface.viewers.LabelProviderChangedEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void handleLabelProviderChanged(LabelProviderChangedEvent event) {
 			if (event instanceof ProblemsLabelChangedEvent) {
 				ProblemsLabelChangedEvent e= (ProblemsLabelChangedEvent) event;
@@ -171,8 +171,8 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 
 			Object[] changed= event.getElements();
 			if (changed != null && !fResourceToItemsMapper.isEmpty()) {
-				ArrayList<Object> others= new ArrayList<>(changed.length);
-				for (Object curr : changed) {
+				ArrayList<Object> others= new ArrayList<>(changed.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (Object curr : changed) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (curr instanceof IResource) {
 						fResourceToItemsMapper.resourceChanged((IResource) curr);
 					} else {
@@ -201,14 +201,14 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.breadcrumb.BreadcrumbViewer#configureDropDownViewer(org.eclipse.jface.viewers.TreeViewer, java.lang.Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void configureDropDownViewer(TreeViewer viewer, Object input) {
 			viewer.setContentProvider(createDropDownContentProvider());
-			viewer.setLabelProvider(createDropDownLabelProvider());
+			viewer.setLabelProvider(createDropDownLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			viewer.setComparator(new JavaElementComparator());
-			viewer.addFilter(new SyntheticMembersFilter());
+			viewer.addFilter(new SyntheticMembersFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			WorkbenchViewerSetup.setupViewer(viewer);
-			viewer.addFilter(new ViewerFilter() {
+			viewer.addFilter(new ViewerFilter() { //FLLDCIM: MARK — T23 FILTER_LANE CALL
 				@Override
 				public boolean select(Viewer viewer1, Object parentElement, Object element) {
 					if (element instanceof IMember) {
@@ -222,7 +222,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 				}
 			});
 			if (SHOW_LIBRARIES_NODE)
-				viewer.addFilter(new EmptyLibraryContainerFilter());
+				viewer.addFilter(new EmptyLibraryContainerFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			JavaUIHelp.setHelp(viewer, IJavaHelpContextIds.JAVA_EDITOR_BREADCRUMB);
 		}
 
@@ -234,7 +234,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		}
 	}
 
-	private static final class JavaEditorBreadcrumbContentProvider implements ITreeContentProvider {
+	private static final class JavaEditorBreadcrumbContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private final StandardJavaElementContentProvider fParent;
 		private Object[] fElements;
@@ -255,7 +255,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		/*
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object[] getChildren(Object inputElement) {
 			if (inputElement == fLastInputElement)
 				return fElements;
@@ -276,8 +276,8 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 				}
 			} else if (inputElement instanceof IPackageFragmentRoot) {
 
-				ArrayList<Object> packages= new ArrayList<>();
-				for (Object object : fParent.getChildren(inputElement)) {
+				ArrayList<Object> packages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (Object object : fParent.getChildren(inputElement)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (object instanceof IPackageFragment) {
 						try {
 							if (((IPackageFragment) object).hasChildren())
@@ -313,7 +313,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		 * @param model the Java model
 		 * @return the accessible projects of the given model
 		 */
-		private Object[] getAccessibleProjects(IJavaModel model) {
+		private Object[] getAccessibleProjects(IJavaModel model) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaProject[] javaProjects;
 			Object[] nonJavaResources;
 			try {
@@ -322,13 +322,13 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 			} catch (JavaModelException e) {
 				return fParent.getChildren(model);
 			}
-			ArrayList<IAdaptable> result= new ArrayList<>(javaProjects.length + nonJavaResources.length);
-			for (Object nonJavaResource : nonJavaResources) {
+			ArrayList<IAdaptable> result= new ArrayList<>(javaProjects.length + nonJavaResources.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object nonJavaResource : nonJavaResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IProject project= (IProject) nonJavaResource;
 				if (project.isAccessible())
 					result.add(project);
 			}
-			for (IJavaProject javaProject : javaProjects) {
+			for (IJavaProject javaProject : javaProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (javaProject.getProject().isAccessible())
 					result.add(javaProject);
 			}
@@ -338,7 +338,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		/*
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object getParent(Object element) {
 			if (element instanceof IType && ((IType) element).isBinary()) {
 				IType declaringType= ((IType) element).getDeclaringType();
@@ -387,21 +387,21 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 			}
 		}
 
-		private Object[] getPackageContent(IPackageFragment pack) {
-			ArrayList<Object> result= new ArrayList<>();
+		private Object[] getPackageContent(IPackageFragment pack) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			try {
-				for (ICompilationUnit unit : pack.getCompilationUnits()) {
+				for (ICompilationUnit unit : pack.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (JavaModelUtil.isPackageInfo(unit)) {
 						result.add(unit);
 					}
-					for (IType type : unit.getTypes()) {
+					for (IType type : unit.getTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (isValidType(type)) {
 							result.add(type);
 						}
 					}
 				}
 
-				for (IOrdinaryClassFile classFile : pack.getOrdinaryClassFiles()) {
+				for (IOrdinaryClassFile classFile : pack.getOrdinaryClassFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isValidType(classFile.getType())) {
 						result.add(classFile.getType());
 					}
@@ -447,7 +447,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		}
 	}
 
-	private class ElementChangeListener implements IElementChangedListener {
+	private class ElementChangeListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 		private Runnable fRunnable;
 
@@ -455,7 +455,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		 * @seeorg.eclipse.jdt.core.IElementChangedListener#elementChanged(org.eclipse.jdt.core.
 		 * ElementChangedEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void elementChanged(ElementChangedEvent event) {
 			if (fViewer == null)
 				return;
@@ -479,10 +479,10 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 				if (newInput instanceof IJavaElement)
 					newInput= getInput((IJavaElement) newInput);
 
-				fViewer.setInput(newInput);
+				fViewer.setInput(newInput); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fRunnable= null;
 			};
-			fViewer.getControl().getDisplay().asyncExec(fRunnable);
+			fViewer.getControl().getDisplay().asyncExec(fRunnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 
 		/**
@@ -493,7 +493,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		 * @param delta the delta describing the model change
 		 * @return the changed element or <code>null</code>
 		 */
-		private IJavaElement getChangedParentElement(IJavaElement input, IJavaElementDelta delta) {
+		private IJavaElement getChangedParentElement(IJavaElement input, IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement element= delta.getElement();
 
 			if (!isAncestor(element, input))
@@ -511,7 +511,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 					return element;
 			}
 
-			for (IJavaElementDelta affectedChild : delta.getAffectedChildren()) {
+			for (IJavaElementDelta affectedChild : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement res= getChangedParentElement(input, affectedChild);
 				if (res != null)
 					return res;
@@ -528,7 +528,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 		 * @return <code>true</code> if <code>element</code> is a parent of <code>input</code>
 		 */
 		private boolean isAncestor(IJavaElement element, IJavaElement input) {
-			while (input != null && !input.equals(element)) {
+			while (input != null && !input.equals(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				input= input.getParent();
 			}
 
@@ -591,20 +591,20 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.breadcrumb.EditorBreadcrumb#createViewer(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected BreadcrumbViewer createViewer(Composite composite) {
 		fViewer= new ProblemBreadcrumbViewer(composite, SWT.HORIZONTAL);
 
-		fViewer.setLabelProvider(createLabelProvider());
+		fViewer.setLabelProvider(createLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fViewer.setToolTipLabelProvider(createToolTipLabelProvider());
 
 		fViewer.setContentProvider(createContentProvider());
-		fViewer.addSelectionChangedListener(unused -> fBreadcrumbActionGroup.setContext(new ActionContext(fViewer.getSelection())));
+		fViewer.addSelectionChangedListener(unused -> fBreadcrumbActionGroup.setContext(new ActionContext(fViewer.getSelection()))); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		fBreadcrumbActionGroup= new JavaEditorBreadcrumbActionGroup(getJavaEditor(), fViewer);
 
 		fElementChangeListener= new ElementChangeListener();
-		JavaCore.addElementChangedListener(fElementChangeListener);
+		JavaCore.addElementChangedListener(fElementChangeListener); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 
 		JavaUIHelp.setHelp(fViewer, IJavaHelpContextIds.JAVA_EDITOR_BREADCRUMB);
 
@@ -627,8 +627,8 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 	 * @return a new content provider
 	 * @since 3.5
 	 */
-	private static JavaEditorBreadcrumbContentProvider createDropDownContentProvider() {
-		StandardJavaElementContentProvider parentContentProvider= new StandardJavaElementContentProvider(true) {
+	private static JavaEditorBreadcrumbContentProvider createDropDownContentProvider() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StandardJavaElementContentProvider parentContentProvider= new StandardJavaElementContentProvider(true) { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public Object[] getChildren(Object element) {
 				if (element instanceof PackageFragmentRootContainer)
@@ -636,14 +636,14 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 				return super.getChildren(element);
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected Object[] getPackageFragmentRoots(IJavaProject project) throws JavaModelException {
 				if (!project.getProject().isOpen())
 					return NO_CHILDREN;
 
-				List<Object> result= new ArrayList<>();
+				List<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-				for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+				for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IClasspathEntry classpathEntry= JavaModelUtil.getClasspathEntry(root);
 					int entryKind= classpathEntry.getEntryKind();
 					if (entryKind != IClasspathEntry.CPE_CONTAINER // all ClassPathContainers are added later
@@ -664,7 +664,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 				}
 
 				// separate loop to make sure all containers are on the classpath
-				for (IClasspathEntry classpathEntry : project.getRawClasspath()) {
+				for (IClasspathEntry classpathEntry : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 						result.add(new ClassPathContainer(project, classpathEntry));
 					}
@@ -678,7 +678,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 				return container.getChildren();
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected Object internalGetParent(Object element) {
 				if (element instanceof IPackageFragmentRoot) {
 					// since we insert logical package containers we have to fix
@@ -713,7 +713,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 	 *
 	 * @return a new label provider
 	 */
-	private static ILabelProvider createLabelProvider() {
+	private static ILabelProvider createLabelProvider() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final AppearanceAwareLabelProvider result= new AppearanceAwareLabelProvider(JavaElementLabels.ROOT_VARIABLE | JavaElementLabels.T_TYPE_PARAMETERS | JavaElementLabels.M_PARAMETER_TYPES
 				| JavaElementLabels.M_APP_TYPE_PARAMETERS | JavaElementLabels.M_APP_RETURNTYPE | JavaElementLabels.F_APP_TYPE_SIGNATURE
 				| JavaElementLabels.ALL_CATEGORY2 | JavaElementLabels.P_COMPRESSED, JavaElementImageProvider.SMALL_ICONS | AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS);
@@ -835,7 +835,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 	 * @param element the potential input element
 	 * @return the element to use as input
 	 */
-	private IJavaElement getInput(IJavaElement element) {
+	private IJavaElement getInput(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (element instanceof IImportDeclaration)
 				element= element.getParent();
@@ -867,7 +867,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.breadcrumb.EditorBreadcrumb#open(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean open(Object element) {
 		if (element instanceof IFile)
 			return openInNewEditor(element);
@@ -897,7 +897,7 @@ public class JavaEditorBreadcrumb extends EditorBreadcrumb {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.breadcrumb.EditorBreadcrumb#reveal(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean reveal(Object element) {
 		if (!(element instanceof IJavaElement))
 			return false;

@@ -128,7 +128,7 @@ public abstract class GenericRefactoringTest {
 
 		if (fIsVerbose){
 			System.out.println("\n---------------------------------------------");
-			System.out.println("\nTest:" + getClass() + "." + getName());
+			System.out.println("\nTest:" + getClass() + "." + getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		RefactoringCore.getUndoManager().flush();
 	}
@@ -151,7 +151,7 @@ public abstract class GenericRefactoringTest {
 	 *
 	 * @throws Exception in case of errors
 	 */
-	@After
+	@After //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void genericafter() throws Exception {
 		refreshFromLocal();
 		performDummySearch();
@@ -169,7 +169,7 @@ public abstract class GenericRefactoringTest {
 		}
 
 		if (getRoot().exists()){
-			for (IJavaElement p : getRoot().getChildren()) {
+			for (IJavaElement p : getRoot().getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPackageFragment pack= (IPackageFragment) p;
 				if (!pack.equals(getPackageP()) && !pack.equals(getPackageQ()) && pack.exists() && !pack.isReadOnly())
 					if (pack.isDefaultPackage())
@@ -190,14 +190,14 @@ public abstract class GenericRefactoringTest {
 		restoreTestProject();
 	}
 
-	private void restoreTestProject() throws Exception {
+	private void restoreTestProject() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= getRoot().getJavaProject();
 		if (javaProject.exists()) {
 			IClasspathEntry srcEntry= getRoot().getRawClasspathEntry();
 			IClasspathEntry jreEntry= rts.getJRELibrary().getRawClasspathEntry();
-			ArrayList<IClasspathEntry> newCPEs= new ArrayList<>();
+			ArrayList<IClasspathEntry> newCPEs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			boolean cpChanged= false;
-			for (IClasspathEntry cpe : javaProject.getRawClasspath()) {
+			for (IClasspathEntry cpe : javaProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (cpe.equals(srcEntry) || cpe.equals(jreEntry)) {
 					newCPEs.add(cpe);
 				} else {
@@ -209,7 +209,7 @@ public abstract class GenericRefactoringTest {
 				javaProject.setRawClasspath(newCPEsArray, null);
 			}
 
-			for (Object kid : javaProject.getNonJavaResources()) {
+			for (Object kid : javaProject.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (kid instanceof IResource) {
 					IResource resource= (IResource) kid;
 					if (! PROJECT_RESOURCE_CHILDREN.contains(resource.getName())) {
@@ -228,7 +228,7 @@ public abstract class GenericRefactoringTest {
 	}
 
 	private static void tryDeletingAllNonJavaChildResources(IPackageFragment pack) throws CoreException {
-		for (Object nonJavaKid : pack.getNonJavaResources()) {
+		for (Object nonJavaKid : pack.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (nonJavaKid instanceof IResource) {
 				IResource resource= (IResource) nonJavaKid;
 				JavaProjectHelper.delete(resource);
@@ -237,7 +237,7 @@ public abstract class GenericRefactoringTest {
 	}
 
 	private static void tryDeletingAllNonJavaChildResources(IPackageFragmentRoot root) throws CoreException {
-		for (Object nonJavaKid : root.getNonJavaResources()) {
+		for (Object nonJavaKid : root.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (nonJavaKid instanceof IResource) {
 				IResource resource= (IResource) nonJavaKid;
 				JavaProjectHelper.delete(resource);
@@ -246,7 +246,7 @@ public abstract class GenericRefactoringTest {
 	}
 
 	private static void tryDeletingAllJavaChildren(IPackageFragment pack) throws CoreException {
-		for (IJavaElement kid : pack.getChildren()) {
+		for (IJavaElement kid : pack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (kid instanceof ISourceManipulation) {
 				if (kid.exists() && !kid.isReadOnly()) {
 					JavaProjectHelper.delete(kid);
@@ -288,7 +288,7 @@ public abstract class GenericRefactoringTest {
 		return performRefactoring(ref, true);
 	}
 
-	protected final RefactoringStatus performRefactoring(Refactoring ref, boolean providesUndo) throws Exception {
+	protected final RefactoringStatus performRefactoring(Refactoring ref, boolean providesUndo) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		performDummySearch();
 		IUndoManager undoManager= getUndoManager();
 		if (DESCRIPTOR_TEST){
@@ -331,7 +331,7 @@ public abstract class GenericRefactoringTest {
 		perform.setUndoManager(undoManager, ref.getName());
 		IWorkspace workspace= ResourcesPlugin.getWorkspace();
 		if (fIsPreDeltaTest) {
-			IResourceChangeListener listener= event -> {
+			IResourceChangeListener listener= event -> { //FLLDCIM: MARK — T07  LAMBDA
 				if (create.getConditionCheckingStatus().isOK() &&  perform.changeExecuted()) {
 					TestModelProvider.assertTrue(event.getDelta());
 				}
@@ -398,7 +398,7 @@ public abstract class GenericRefactoringTest {
 
 	/* ===================  helpers  ================= */
 	protected IType getType(ICompilationUnit cu, String name) throws JavaModelException {
-		for (IType type : cu.getAllTypes()) {
+		for (IType type : cu.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.getTypeQualifiedName('.').equals(name) || type.getElementName().equals(name)) {
 				return type;
 			}
@@ -417,11 +417,11 @@ public abstract class GenericRefactoringTest {
 	 *  example "RenameType/"
 	 */
 	protected String getTestPath() {
-		return TEST_PATH_PREFIX + getRefactoringPath();
+		return TEST_PATH_PREFIX + getRefactoringPath(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String createTestFileName(String cuName, String infix) {
-		return getTestPath() + getName() + infix + cuName + ".java";
+		return getTestPath() + getName() + infix + cuName + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String getInputTestFileName(String cuName) {
@@ -432,7 +432,7 @@ public abstract class GenericRefactoringTest {
 	 * @param subDirName example "p/" or "org/eclipse/jdt/"
 	 */
 	protected String getInputTestFileName(String cuName, String subDirName) {
-		return createTestFileName(cuName, TEST_INPUT_INFIX + subDirName);
+		return createTestFileName(cuName, TEST_INPUT_INFIX + subDirName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String getOutputTestFileName(String cuName) {
@@ -443,7 +443,7 @@ public abstract class GenericRefactoringTest {
 	 * @param subDirName example "p/" or "org/eclipse/jdt/"
 	 */
 	protected String getOutputTestFileName(String cuName, String subDirName) {
-		return createTestFileName(cuName, TEST_OUTPUT_INFIX + subDirName);
+		return createTestFileName(cuName, TEST_OUTPUT_INFIX + subDirName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected ICompilationUnit createCUfromTestFile(IPackageFragment pack, String cuName) throws Exception {
@@ -458,7 +458,7 @@ public abstract class GenericRefactoringTest {
 		String contents= input
 					? getFileContents(getInputTestFileName(cuName))
 					: getFileContents(getOutputTestFileName(cuName));
-		return createCU(pack, cuName + ".java", contents);
+		return createCU(pack, cuName + ".java", contents); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected ICompilationUnit createCUfromTestFile(IPackageFragment pack, String cuName, String subDirName, boolean input) throws Exception {
@@ -466,11 +466,11 @@ public abstract class GenericRefactoringTest {
 			? getFileContents(getInputTestFileName(cuName, subDirName))
 			: getFileContents(getOutputTestFileName(cuName, subDirName));
 
-		return createCU(pack, cuName + ".java", contents);
+		return createCU(pack, cuName + ".java", contents); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void printTestDisabledMessage(String explanation){
-		System.out.println("\n" +getClass().getName() + "::"+ getName() + " disabled (" + explanation + ")");
+		System.out.println("\n" +getClass().getName() + "::"+ getName() + " disabled (" + explanation + ")"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	//-----------------------
@@ -480,7 +480,7 @@ public abstract class GenericRefactoringTest {
 	}
 
 	public static IPackageFragmentRoot getSourceFolder(IJavaProject javaProject, String name) throws JavaModelException{
-		for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!root.isArchive() && root.getElementName().equals(name)) {
 				return root;
 			}
@@ -530,31 +530,31 @@ public abstract class GenericRefactoringTest {
 	public static IField[] getFields(IType type, String[] names) {
 		if (names == null )
 			return new IField[0];
-		Set<IField> fields= new HashSet<>();
-		for (String name : names) {
+		Set<IField> fields= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IField field= type.getField(name);
-			assertTrue("field " + field.getElementName() + " does not exist", field.exists());
+			assertTrue("field " + field.getElementName() + " does not exist", field.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fields.add(field);
 		}
 		return fields.toArray(new IField[fields.size()]);
 	}
 
-	public static IType[] getMemberTypes(IType type, String[] names) {
+	public static IType[] getMemberTypes(IType type, String[] names) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (names == null )
 			return new IType[0];
-		Set<IType> memberTypes= new HashSet<>();
-		for (String name : names) {
+		Set<IType> memberTypes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType memberType;
 			if (name.indexOf('.') != -1) {
 				String[] path= name.split("\\.");
 				memberType= type.getType(path[0]);
-				for (int j= 1; j < path.length; j++) {
+				for (int j= 1; j < path.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					memberType= memberType.getType(path[j]);
 				}
 			} else {
 				memberType= type.getType(name);
 			}
-			assertTrue("member type " + memberType.getElementName() + " does not exist", memberType.exists());
+			assertTrue("member type " + memberType.getElementName() + " does not exist", memberType.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			memberTypes.add(memberType);
 		}
 		return memberTypes.toArray(new IType[memberTypes.size()]);
@@ -563,10 +563,10 @@ public abstract class GenericRefactoringTest {
 	public static IMethod[] getMethods(IType type, String[] names, String[][] signatures) {
 		if (names == null || signatures == null)
 			return new IMethod[0];
-		List<IMethod> methods= new ArrayList<>(names.length);
-		for (int i = 0; i < names.length; i++) {
+		List<IMethod> methods= new ArrayList<>(names.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < names.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod method= type.getMethod(names[i], signatures[i]);
-			assertTrue("method " + method.getElementName() + " does not exist", method.exists());
+			assertTrue("method " + method.getElementName() + " does not exist", method.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (!methods.contains(method))
 				methods.add(method);
 		}
@@ -574,9 +574,9 @@ public abstract class GenericRefactoringTest {
 	}
 
 	public static IType[] findTypes(IType[] types, String[] namesOfTypesToPullUp) {
-		List<IType> found= new ArrayList<>(types.length);
-		for (IType type : types) {
-			for (String name : namesOfTypesToPullUp) {
+		List<IType> found= new ArrayList<>(types.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String name : namesOfTypesToPullUp) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (type.getElementName().equals(name))
 					found.add(type);
 			}
@@ -585,9 +585,9 @@ public abstract class GenericRefactoringTest {
 	}
 
 	public static IField[] findFields(IField[] fields, String[] namesOfFieldsToPullUp) {
-		List<IField> found= new ArrayList<>(fields.length);
-		for (IField field : fields) {
-			for (String name : namesOfFieldsToPullUp) {
+		List<IField> found= new ArrayList<>(fields.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String name : namesOfFieldsToPullUp) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (field.getElementName().equals(name))
 					found.add(field);
 			}
@@ -596,10 +596,10 @@ public abstract class GenericRefactoringTest {
 	}
 
 	public static IMethod[] findMethods(IMethod[] selectedMethods, String[] namesOfMethods, String[][] signaturesOfMethods){
-		List<IMethod> found= new ArrayList<>(selectedMethods.length);
-		for (IMethod method : selectedMethods) {
+		List<IMethod> found= new ArrayList<>(selectedMethods.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMethod method : selectedMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] paramTypes= method.getParameterTypes();
-			for (int j= 0; j < namesOfMethods.length; j++) {
+			for (int j= 0; j < namesOfMethods.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String methodName= namesOfMethods[j];
 				if (! methodName.equals(method.getElementName()))
 					continue;
@@ -615,7 +615,7 @@ public abstract class GenericRefactoringTest {
 	private static boolean areSameSignatures(String[] s1, String[] s2){
 		if (s1.length != s2.length)
 			return false;
-		for (int i= 0; i < s1.length; i++) {
+		for (int i= 0; i < s1.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! s1[i].equals(s2[i]))
 				return false;
 		}

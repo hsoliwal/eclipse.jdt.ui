@@ -120,11 +120,11 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 			case ENUM_CONST:
 				return doAddEnumConst(cu);
 			default:
-				throw new IllegalArgumentException("Unsupported variable kind: " + fVariableKind); //$NON-NLS-1$
+				throw new IllegalArgumentException("Unsupported variable kind: " + fVariableKind); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	private ASTRewrite doAddParam(CompilationUnit cu) {
+	private ASTRewrite doAddParam(CompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= cu.getAST();
 		SimpleName node= fOriginalNode;
 
@@ -166,8 +166,8 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 			// add javadoc tag
 			Javadoc javadoc= methodDeclaration.getJavadoc();
 			if (javadoc != null) {
-				HashSet<String> leadingNames= new HashSet<>();
-				for (Iterator<SingleVariableDeclaration> iter= methodDeclaration.parameters().iterator(); iter.hasNext();) {
+				HashSet<String> leadingNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (Iterator<SingleVariableDeclaration> iter= methodDeclaration.parameters().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SingleVariableDeclaration curr= iter.next();
 					leadingNames.add(curr.getName().getIdentifier());
 				}
@@ -228,7 +228,7 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 	}
 
 
-	private ASTRewrite doAddLocal(CompilationUnit cu) {
+	private ASTRewrite doAddLocal(CompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= cu.getAST();
 
 		Block body;
@@ -371,7 +371,7 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 
 		Statement statement= dominantStatement;
 		List<? extends ASTNode> list= ASTNodes.getContainingList(statement);
-		while (list == null && statement.getParent() instanceof Statement) { // parent must be if, for or while
+		while (list == null && statement.getParent() instanceof Statement) { // parent must be if, for or while //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			statement= (Statement) statement.getParent();
 			list= ASTNodes.getContainingList(statement);
 		}
@@ -400,9 +400,9 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 	}
 
 
-	private ASTNode getDominantNode(SimpleName[] names) {
+	private ASTNode getDominantNode(SimpleName[] names) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode dominator= names[0]; //ASTResolvingUtil.findParentStatement(names[0]);
-		for (int i= 1; i < names.length; i++) {
+		for (int i= 1; i < names.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode curr= names[i];// ASTResolvingUtil.findParentStatement(names[i]);
 			if (curr != dominator) {
 				ASTNode parent= getCommonParent(curr, dominator);
@@ -410,7 +410,7 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 				if (curr.getStartPosition() < dominator.getStartPosition()) {
 					dominator= curr;
 				}
-				while (dominator.getParent() != parent) {
+				while (dominator.getParent() != parent) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					dominator= dominator.getParent();
 				}
 			}
@@ -424,13 +424,13 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 
 	private ASTNode getCommonParent(ASTNode node1, ASTNode node2) {
 		ASTNode parent= node1.getParent();
-		while (parent != null && !ASTNodes.isParent(node2, parent)) {
+		while (parent != null && !ASTNodes.isParent(node2, parent)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		return parent;
 	}
 
-	private ASTRewrite doAddField(CompilationUnit astRoot) {
+	private ASTRewrite doAddField(CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SimpleName node= fOriginalNode;
 		boolean isInDifferentCU= false;
 
@@ -489,7 +489,7 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 
 	private int findFieldInsertIndex(List<BodyDeclaration> decls, FieldDeclaration newDecl, int maxOffset) {
 		if (maxOffset != -1) {
-			for (int i= decls.size() - 1; i >= 0; i--) {
+			for (int i= decls.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				BodyDeclaration curr= decls.get(i);
 				if (maxOffset > curr.getStartPosition() + curr.getLength()) {
 					return BodyDeclarationRewrite.getInsertionIndex(newDecl, decls.subList(0, i + 1));
@@ -500,14 +500,14 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 		return BodyDeclarationRewrite.getInsertionIndex(newDecl, decls);
 	}
 
-	private Type evaluateVariableType(AST ast, ImportRewrite imports, ImportRewriteContext importRewriteContext, IBinding targetContext, TypeLocation location) {
+	private Type evaluateVariableType(AST ast, ImportRewrite imports, ImportRewriteContext importRewriteContext, IBinding targetContext, TypeLocation location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fOriginalNode.getParent() instanceof MethodInvocation) {
 			MethodInvocation parent= (MethodInvocation) fOriginalNode.getParent();
 			if (parent.getExpression() == fOriginalNode) {
 				// _x_.foo() -> guess qualifier type by looking for a type with method 'foo'
 				ITypeBinding[] bindings= ASTResolving.getQualifierGuess(fOriginalNode.getRoot(), parent.getName().getIdentifier(), parent.arguments(), targetContext);
 				if (bindings.length > 0) {
-					for (ITypeBinding binding : bindings) {
+					for (ITypeBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						addLinkedPositionProposal(KEY_TYPE, binding);
 					}
 					return imports.addImport(bindings[0], ast, importRewriteContext, location);
@@ -526,7 +526,7 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 			}
 
 			if (isVariableAssigned()) {
-				for (ITypeBinding typeProposal : ASTResolving.getRelaxingTypes(ast, binding)) {
+				for (ITypeBinding typeProposal : ASTResolving.getRelaxingTypes(ast, binding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addLinkedPositionProposal(KEY_TYPE, typeProposal);
 				}
 			}
@@ -549,7 +549,7 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 	}
 
 
-	private int evaluateFieldModifiers(ASTNode newTypeDecl) {
+	private int evaluateFieldModifiers(ASTNode newTypeDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSenderBinding.isAnnotation()) {
 			return 0;
 		}
@@ -591,7 +591,7 @@ public class NewVariableCorrectionProposalCore extends LinkedCorrectionProposalC
 		return modifiers;
 	}
 
-	private ASTRewrite doAddEnumConst(CompilationUnit astRoot) {
+	private ASTRewrite doAddEnumConst(CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SimpleName node= fOriginalNode;
 
 		ASTNode newTypeDecl= astRoot.findDeclaringNode(fSenderBinding);

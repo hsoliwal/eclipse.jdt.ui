@@ -43,7 +43,7 @@ public class SuppressWarningsSubProcessor extends SuppressWarningsBaseSubProcess
 	}
 
 
-	private static class SuppressWarningsProposal extends FixCorrectionProposal {
+	private static class SuppressWarningsProposal extends FixCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private final IProposableFix fix;
 
@@ -104,7 +104,7 @@ public class SuppressWarningsSubProcessor extends SuppressWarningsBaseSubProcess
 
 	@Override
 	protected boolean alreadyHasProposal(Collection<ICommandAccess> proposals, String warningToken) {
-		for (ICommandAccess element : proposals) {
+		for (ICommandAccess element : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof SuppressWarningsProposal swp && warningToken.equals(swp.getCoreDelegate().getWarningToken())) {
 				return true; // only one at a time
 			}

@@ -77,11 +77,11 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 	private static final String WARNING_TEXT= "warningText"; //$NON-NLS-1$
 	private SelfEncapsulateFieldCompositeRefactoring fRefactorings;
 	private IDialogSettings fSettings;
-	private List<Control> fEnablements = new ArrayList<>();
+	private List<Control> fEnablements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private HashMap<SelfEncapsulateFieldRefactoring, TreeItem> refactoringButtonMap = new HashMap<>();
+	private HashMap<SelfEncapsulateFieldRefactoring, TreeItem> refactoringButtonMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private HashMap<String, Label> warningLabelMap = new HashMap<>();
+	private HashMap<String, Label> warningLabelMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private SelfEncapsulateFieldRefactoring selectedField;
 
 	private static final String GENERATE_JAVADOC= "GenerateJavadoc";  //$NON-NLS-1$
@@ -101,12 +101,12 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 				.filter(SelfEncapsulateFieldRefactoring::isSelected).toList();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		SelfEncapsulateFieldWizard wizard = (SelfEncapsulateFieldWizard) getRefactoringWizard();
 		fRefactorings = (SelfEncapsulateFieldCompositeRefactoring) wizard.getRefactoring();
 
-		fEnablements= new ArrayList<>();
+		fEnablements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		loadSettings();
 
 		Composite result= new Composite(parent, SWT.NONE);
@@ -149,12 +149,12 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 
 		Text getterText = new Text(editorGroup, SWT.LEFT | SWT.BORDER);
 		getterText.setLayoutData(textLayoutData);
-		getterText.addKeyListener(new KeyListener() {
+		getterText.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				selectedField.setGetterName(getterText.getText());
-                for (TreeItem treeItem : refactoringButtonMap.get(selectedField).getItems()) {
+                for (TreeItem treeItem : refactoringButtonMap.get(selectedField).getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 	if (treeItem.getData(REFACTORING_TYPE) == RefactoringType.GETTER)
                 		treeItem.setText(getterText.getText());
                 }
@@ -175,12 +175,12 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 
 		Text setterText = new Text(editorGroup, SWT.LEFT | SWT.BORDER);
 		setterText.setLayoutData(textLayoutData);
-		setterText.addKeyListener(new KeyListener() {
+		setterText.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				selectedField.setSetterName(setterText.getText());
-                for (TreeItem treeItem : refactoringButtonMap.get(selectedField).getItems()) {
+                for (TreeItem treeItem : refactoringButtonMap.get(selectedField).getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 	if (treeItem.getData(REFACTORING_TYPE) == RefactoringType.SETTER)
                 		treeItem.setText(setterText.getText());
                 }
@@ -194,9 +194,9 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		});
 		fEnablements.add(setterText);
 
-		tree.addListener(SWT.Selection, new Listener() {
+		tree.addListener(SWT.Selection, new Listener() { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void handleEvent(Event event) {
 				 TreeItem selectedItem = (TreeItem) event.item;
             	 TreeItem parentItem = selectedItem.getParentItem();
@@ -211,13 +211,13 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 	            			 refactoring.setSetterName(methodName);
 	            		 }
 	            		 boolean isChecked = false;
-	            		 for(TreeItem item: parentItem.getItems()) {
+	            		 for(TreeItem item: parentItem.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	            			 isChecked |= item.getChecked();
 	            		 }
 	            		 parentItem.setChecked(isChecked);
 	            		 refactoring.setSelected(isChecked);
 	            	 } else {					// Field
-		            	 for (TreeItem item: selectedItem.getItems()) {
+		            	 for (TreeItem item: selectedItem.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		            		 item.setChecked(selectedItem.getChecked());
 		            		 ((SelfEncapsulateFieldRefactoring) item.getData(REFACTORING)).setSelected(selectedItem.getChecked());
 		            	 }
@@ -250,7 +250,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
                 generateSetter.setData(REFACTORING_TYPE, RefactoringType.SETTER);
                 generateSetter.setData(REFACTORING, refactoring);
             } else {
-            	fieldName += String.format(" %s", RefactoringMessages.SelfEncapsulateFieldInputPage_final_field) ; //$NON-NLS-1$
+            	fieldName += String.format(" %s", RefactoringMessages.SelfEncapsulateFieldInputPage_final_field) ; //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
             }
         	item.setText(fieldName);
             refactoring.setSelected(isChecked);
@@ -267,7 +267,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 
 		Link link= new Link(result, SWT.NONE);
 		link.setText(RefactoringMessages.SelfEncapsulateFieldInputPage_configure_link);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doOpenPreference();
@@ -288,10 +288,10 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		final Combo combo= new Combo(result, SWT.READ_ONLY);
 		SWTUtil.setDefaultVisibleItemCount(combo);
 		fillWithPossibleInsertPositions(combo);
-		combo.addSelectionListener(new SelectionAdapter() {
+		combo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				for(SelfEncapsulateFieldRefactoring refactoring: fRefactorings.getRefactorings()) {
+				for(SelfEncapsulateFieldRefactoring refactoring: fRefactorings.getRefactorings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					refactoring.setInsertionIndex(combo.getSelectionIndex() - 1);
 				}
 			}
@@ -303,7 +303,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		Button checkBox= new Button(result, SWT.CHECK);
 		checkBox.setText(RefactoringMessages.SelfEncapsulateFieldInputPage_generateJavadocComment);
 		checkBox.setSelection(fRefactorings.getRefactorings().get(0).getGenerateJavadoc());
-		checkBox.addSelectionListener(new SelectionAdapter() {
+		checkBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setGenerateJavadoc(((Button)e.widget).getSelection());
@@ -324,12 +324,12 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 	/*
 	 * Selects the field in the tree and fills its getter and setter in the text boxes
 	 */
-	private void selectField(Composite group, Label header, Text getter, Text setter, TreeItem parentItem) {
+	private void selectField(Composite group, Label header, Text getter, Text setter, TreeItem parentItem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SelfEncapsulateFieldRefactoring refactoring = (SelfEncapsulateFieldRefactoring) parentItem.getData(REFACTORING);
 		this.selectedField = refactoring;
 		group.setEnabled(true);
-		header.setText(String.format("%s %s", RefactoringMessages.SelfEncapsulateFieldInputPage_selected_field_name, refactoring.getField().getElementName())); //$NON-NLS-1$
-		for (TreeItem child : parentItem.getItems()) {
+		header.setText(String.format("%s %s", RefactoringMessages.SelfEncapsulateFieldInputPage_selected_field_name, refactoring.getField().getElementName())); //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
+		for (TreeItem child : parentItem.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child.getData(REFACTORING_TYPE) == RefactoringType.GETTER) {
 				getter.setText(child.getText());
 			}
@@ -344,7 +344,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		}
 	}
 
-	private void doOpenPreference() {
+	private void doOpenPreference() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id= CodeStylePreferencePage.PROP_ID;
 		IJavaProject project= fRefactorings.getRefactorings().get(0).getField().getJavaProject();
 
@@ -354,7 +354,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		if (open == Window.OK && !Arrays.equals(relevantOptions, getRelevantOptions(project))) { // relevant options changes
 			fRefactorings.getRefactorings().forEach(SelfEncapsulateFieldRefactoring::reinitialize);
 			refactoringButtonMap.values().forEach(treeItem -> {
-				for (TreeItem childItem : treeItem.getItems()) {
+				for (TreeItem childItem : treeItem.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SelfEncapsulateFieldRefactoring refactoring = (SelfEncapsulateFieldRefactoring) childItem.getData(REFACTORING);
 					if ((RefactoringType)childItem.getData(REFACTORING_TYPE) == RefactoringType.GETTER) {
 						childItem.setText(refactoring.getGetterName());
@@ -377,14 +377,14 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 
 	private void updateEnablements() {
 		boolean enable= !fRefactorings.getRefactorings().get(0).isUsingLocalSetter() || !fRefactorings.getRefactorings().get(0).isUsingLocalGetter();
-		for (Control control : fEnablements) {
+		for (Control control : fEnablements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			control.setEnabled(enable);
 		}
 	}
 
 	private void updateRefactorings() {
 		refactoringButtonMap.values().forEach(treeItem -> {
-			for (TreeItem childItem : treeItem.getItems()) {
+			for (TreeItem childItem : treeItem.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SelfEncapsulateFieldRefactoring refactoring = (SelfEncapsulateFieldRefactoring) childItem.getData(REFACTORING);
 				String text = childItem.getChecked() ? childItem.getText() : ""; //$NON-NLS-1$
 				if ((RefactoringType)childItem.getData(REFACTORING_TYPE) == RefactoringType.GETTER) {
@@ -406,7 +406,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		refactoring.setGenerateJavadoc(fSettings.getBoolean(GENERATE_JAVADOC)));
 	}
 
-	private void createAccessModifier(Composite result) {
+	private void createAccessModifier(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Label label= new Label(result, SWT.NONE);
 		label.setText(RefactoringMessages.SelfEncapsulateFieldInputPage_access_Modifiers);
@@ -443,14 +443,14 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		Object[] info= createData();
 		String[] labels= (String[])info[0];
 		Integer[] data= (Integer[])info[1];
-		for (int i= 0; i < labels.length; i++) {
+		for (int i= 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button radio= new Button(group, SWT.RADIO);
 			radio.setText(labels[i]);
 			radio.setData(data[i]);
 			int iData= data[i];
 			if (iData == -1)
 				radio.setSelection(true);
-			radio.addSelectionListener(new SelectionAdapter() {
+			radio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent event) {
 					if((Integer) event.widget.getData() == -1) {
@@ -471,7 +471,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		}
 	}
 
-	private void createFieldAccessBlock(Composite result) {
+	private void createFieldAccessBlock(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label label= new Label(result, SWT.LEFT);
 		label.setText(RefactoringMessages.SelfEncapsulateFieldInputPage_field_access);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
@@ -487,7 +487,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		Button radio= new Button(group, SWT.RADIO);
 		radio.setText(RefactoringMessages.SelfEncapsulateFieldInputPage_use_setter_getter);
 		radio.setSelection(true);
-		radio.addSelectionListener(new SelectionAdapter() {
+		radio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fRefactorings.getRefactorings().forEach(refactoring -> refactoring.setEncapsulateDeclaringClass(true));
@@ -497,7 +497,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 
 		radio= new Button(group, SWT.RADIO);
 		radio.setText(RefactoringMessages.SelfEncapsulateFieldInputPage_keep_references);
-		radio.addSelectionListener(new SelectionAdapter() {
+		radio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fRefactorings.getRefactorings().forEach(refactoring -> refactoring.setEncapsulateDeclaringClass(true));
@@ -518,12 +518,12 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		return new Object[] {labels, data};
 	}
 
-	private void fillWithPossibleInsertPositions(Combo combo) {
+	private void fillWithPossibleInsertPositions(Combo combo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int select= 0;
 		combo.add(RefactoringMessages.SelfEncapsulateFieldInputPage_first_method);
 		try {
 			IMethod[] methods = fRefactorings.getRefactorings().get(0).getField().getDeclaringType().getMethods();
-			for (IMethod method : methods) {
+			for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				combo.add(JavaElementLabels.getElementLabel(method, JavaElementLabels.M_PARAMETER_TYPES));
 			}
 			if (methods.length > 0)
@@ -532,7 +532,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 			// Fall through
 		}
 		combo.select(select);
-		for(SelfEncapsulateFieldRefactoring refactoring: fRefactorings.getRefactorings()) {
+		for(SelfEncapsulateFieldRefactoring refactoring: fRefactorings.getRefactorings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			refactoring.setInsertionIndex(select - 1);
 		}
 	}
@@ -542,7 +542,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		fRefactorings.getRefactorings().forEach(refactoring -> refactoring.setGenerateJavadoc(value));
 	}
 
-	private void processValidation() {
+	private void processValidation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus status = new RefactoringStatus();
 		fRefactorings.getRefactorings().forEach(refactoring -> status.merge(refactoring.checkMethodNames()));
 		String message= null;
@@ -577,7 +577,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		}
 	}
 
-	private void checkForWarning() {
+	private void checkForWarning() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label warningIcon = warningLabelMap.get(WARNING_ICON);
 		Label warningText = warningLabelMap.get(WARNING_TEXT);
 		if(warningIcon == null || warningText == null) {

@@ -75,7 +75,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringDialogField;
 			return true;
 		}
 
-		private void createHistoryList() {
+		private void createHistoryList() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IListAdapter<E> adapter= new IListAdapter<>() {
 				@Override
 				public void customButtonPressed(ListDialogField<E> field, int index) {
@@ -109,7 +109,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringDialogField;
 			fHistoryList.selectElements(sel);
 		}
 
-		private void createMaxEntriesField() {
+		private void createMaxEntriesField() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fMaxEntriesField= new StringDialogField();
 			fMaxEntriesField.setLabelText(fHistory.getMaxEntriesMessage());
 			fMaxEntriesField.setDialogFieldListener(unused -> {
@@ -132,7 +132,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringDialogField;
 		/*
 		 * @see Dialog#createDialogArea(Composite)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			initializeDialogUnits(parent);
 
@@ -208,7 +208,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringDialogField;
 	}
 
 	private final class TestRunLabelProvider extends LabelProvider {
-		private final HashMap<ImageDescriptor, Image> fImages= new HashMap<>();
+		private final HashMap<ImageDescriptor, Image> fImages= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		@SuppressWarnings("unchecked")
 		@Override
@@ -233,7 +233,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringDialogField;
 
 		@Override
 		public void dispose() {
-			for (Image image : fImages.values()) {
+			for (Image image : fImages.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			fImages.clear();

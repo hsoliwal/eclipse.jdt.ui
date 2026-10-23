@@ -61,7 +61,7 @@ public class NLSRefactoring extends Refactoring {
 	public static final String DEFAULT_ACCESSOR_CLASSNAME= "Messages"; //$NON-NLS-1$
 
 	public static final String KEY= "${key}"; //$NON-NLS-1$
-	public static final String DEFAULT_SUBST_PATTERN= "getString(" + KEY + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String DEFAULT_SUBST_PATTERN= "getString(" + KEY + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static final String DEFAULT_PROPERTY_FILENAME= "messages"; //$NON-NLS-1$
 
@@ -84,7 +84,7 @@ public class NLSRefactoring extends Refactoring {
 	 */
 	private boolean fIsEclipseNLS;
 
-	private NLSRefactoring(ICompilationUnit cu) {
+	private NLSRefactoring(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(cu);
 		fCu= cu;
 
@@ -102,7 +102,7 @@ public class NLSRefactoring extends Refactoring {
 
 		String cuName= fCu.getElementName();
 		if (fIsEclipseNLS)
-			setPrefix(cuName.substring(0, cuName.length() - 5) + "_"); // A.java -> A_ //$NON-NLS-1$
+			setPrefix(cuName.substring(0, cuName.length() - 5) + "_"); // A.java -> A_ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
 			setPrefix(cuName.substring(0, cuName.length() - 4)); // A.java -> A.
 	}
@@ -173,7 +173,7 @@ public class NLSRefactoring extends Refactoring {
 		return new RefactoringStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		checkParameters();
 		try {
@@ -220,7 +220,7 @@ public class NLSRefactoring extends Refactoring {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		try {
 			checkParameters();
@@ -268,9 +268,9 @@ public class NLSRefactoring extends Refactoring {
 		Assert.isNotNull(getSubstitutionPattern());
 	}
 
-	private IFile[] getAllFilesToModify() {
+	private IFile[] getAllFilesToModify() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		List<IResource> files= new ArrayList<>(2);
+		List<IResource> files= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (willModifySource()) {
 			IResource resource= fCu.getResource();
 			if (resource.exists()) {
@@ -335,7 +335,7 @@ public class NLSRefactoring extends Refactoring {
 		return getPropertyFileHandle().exists();
 	}
 
-	private RefactoringStatus checkSubstitutionPattern() {
+	private RefactoringStatus checkSubstitutionPattern() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String pattern= getSubstitutionPattern();
 
 		RefactoringStatus result= new RefactoringStatus();
@@ -358,7 +358,7 @@ public class NLSRefactoring extends Refactoring {
 
 	private RefactoringStatus checkKeys() {
 		RefactoringStatus result= new RefactoringStatus();
-		for (NLSSubstitution substitution : fSubstitutions) {
+		for (NLSSubstitution substitution : fSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((substitution.getState() == NLSSubstitution.EXTERNALIZED) && substitution.hasStateChanged()) {
 				result.merge(checkKey(substitution.getKey()));
 			}
@@ -366,7 +366,7 @@ public class NLSRefactoring extends Refactoring {
 		return result;
 	}
 
-	private static RefactoringStatus checkKey(String key) {
+	private static RefactoringStatus checkKey(String key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 
 		Objects.requireNonNull(key, NLSMessages.NLSRefactoring_null);
@@ -381,7 +381,7 @@ public class NLSRefactoring extends Refactoring {
 
 		final String[] UNWANTED_STRINGS= {" ", ":", "\"", "\\", "'", "?", "="}; //$NON-NLS-7$ //$NON-NLS-6$ //$NON-NLS-5$ //$NON-NLS-4$ //$NON-NLS-3$ //$NON-NLS-2$ //$NON-NLS-1$
 		//feature in resource bundle - does not work properly if keys have ":"
-		for (String s : UNWANTED_STRINGS) {
+		for (String s : UNWANTED_STRINGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (key.contains(s)) {
 				String[] args= {key, s};
 				String msg= Messages.format(NLSMessages.NLSRefactoring_should_not_contain, args);
@@ -411,7 +411,7 @@ public class NLSRefactoring extends Refactoring {
 
 	private boolean willModifySource() {
 		NLSSubstitution[] subs= fSubstitutions;
-		for (NLSSubstitution sub : subs) {
+		for (NLSSubstitution sub : subs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (sub.hasSourceChange()) {
 				return true;
 			}
@@ -420,7 +420,7 @@ public class NLSRefactoring extends Refactoring {
 	}
 
 	private boolean willModifyPropertyFile() {
-		for (NLSSubstitution substitution : fSubstitutions) {
+		for (NLSSubstitution substitution : fSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (substitution.hasPropertyFileChange()) {
 				return true;
 			}
@@ -432,7 +432,7 @@ public class NLSRefactoring extends Refactoring {
 		if (!isEclipseNLS())
 			return false;
 
-		for (NLSSubstitution substitution : fSubstitutions) {
+		for (NLSSubstitution substitution : fSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (substitution.hasAccessorClassChange()) {
 				return true;
 			}
@@ -445,7 +445,7 @@ public class NLSRefactoring extends Refactoring {
 	}
 
 	private String getAccessorCUName() {
-		return getAccessorClassName() + JavaModelUtil.DEFAULT_CU_SUFFIX;
+		return getAccessorClassName() + JavaModelUtil.DEFAULT_CU_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IPath getAccessorCUPath() {
@@ -463,7 +463,7 @@ public class NLSRefactoring extends Refactoring {
 	public void setPrefix(String prefix) {
 		fPrefix= prefix;
 		if (fSubstitutions != null) {
-			for (NLSSubstitution fSubstitution : fSubstitutions) {
+			for (NLSSubstitution fSubstitution : fSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fSubstitution.setPrefix(prefix);
 			}
 		}

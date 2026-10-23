@@ -56,7 +56,7 @@ public final class StandardType extends HierarchyType {
 		return getJavaElementType().hashCode();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		switch (lhs.getKind()) {
 			case NULL_TYPE: return false;

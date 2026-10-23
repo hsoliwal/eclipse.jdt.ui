@@ -62,7 +62,7 @@ public class MainMethodSearchEngine{
 				return (fStyle & IJavaElementSearchConstants.CONSIDER_BINARIES) != 0;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void acceptSearchMatch(SearchMatch match) throws CoreException {
 				Object enclosingElement= match.getElement();
 				if (enclosingElement instanceof IMethod) { // defensive code
@@ -97,7 +97,7 @@ public class MainMethodSearchEngine{
 	 * @return the types found
 	 */
 	public IType[] searchMainMethods(IProgressMonitor pm, IJavaSearchScope scope, int style) throws CoreException {
-		List<IType> typesFound= new ArrayList<>(200);
+		List<IType> typesFound= new ArrayList<>(200); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		SearchPattern pattern= SearchPattern.createPattern("main(String[]) void", //$NON-NLS-1$
 				IJavaSearchConstants.METHOD, IJavaSearchConstants.DECLARATIONS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
@@ -124,7 +124,7 @@ public class MainMethodSearchEngine{
 
 		final IType[][] res= new IType[1][];
 
-		IRunnableWithProgress runnable= pm -> {
+		IRunnableWithProgress runnable= pm -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				res[0]= searchMainMethods(pm, scope, style);
 			} catch (CoreException e) {

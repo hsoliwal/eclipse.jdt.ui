@@ -90,35 +90,35 @@ public class UnboxingCleanUp extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("Integer integerObject = Integer.MAX_VALUE;\n"); //$NON-NLS-1$
-		bld.append("Character cObject = Character.MAX_VALUE;\n"); //$NON-NLS-1$
-		bld.append("\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("Integer integerObject = Integer.MAX_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("Character cObject = Character.MAX_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.USE_UNBOXING)) {
-			bld.append("int i = integerObject;\n"); //$NON-NLS-1$
-			bld.append("char c = cObject;\n"); //$NON-NLS-1$
+			bld.append("int i = integerObject;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("char c = cObject;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("int i = integerObject.intValue();\n"); //$NON-NLS-1$
-			bld.append("char c = cObject.charValue();\n"); //$NON-NLS-1$
+			bld.append("int i = integerObject.intValue();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("char c = cObject.charValue();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.USE_UNBOXING)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(MethodInvocation visited) {
 				ASTNode parent= visited.getParent();
-				while (parent != null && parent instanceof ParenthesizedExpression) {
+				while (parent != null && parent instanceof ParenthesizedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					parent= parent.getParent();
 				}
 				if (parent instanceof CastExpression) {

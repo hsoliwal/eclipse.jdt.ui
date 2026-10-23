@@ -102,7 +102,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignParamToField1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -123,7 +123,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignParamToField2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -144,7 +144,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -195,7 +195,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -246,7 +246,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -281,7 +281,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.LambdaExpressionsFix_convert_to_lambda_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -314,7 +314,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.LambdaExpressionsFix_convert_to_lambda_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -345,7 +345,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.LambdaExpressionsFix_convert_to_lambda_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda7() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -376,7 +376,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.LambdaExpressionsFix_convert_to_lambda_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda8() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -423,7 +423,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda9() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -470,7 +470,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda10() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -532,7 +532,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda11() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -596,7 +596,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda12() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -660,7 +660,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda13() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -689,7 +689,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.LambdaExpressionsFix_convert_to_lambda_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda14() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -741,7 +741,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda15() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -795,7 +795,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda16() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -847,7 +847,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda17() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -897,7 +897,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda18() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -957,7 +957,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda19() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -1027,7 +1027,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda20() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -1069,7 +1069,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda21() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -1121,7 +1121,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda22() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -1279,7 +1279,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda23() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -1367,7 +1367,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda24() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -1415,7 +1415,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda25() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -1438,7 +1438,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda26() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -1461,7 +1461,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda27() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1523,7 +1523,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda28() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String buf=
@@ -1554,7 +1554,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda29() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String buf= """
@@ -1594,7 +1594,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 			""";
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda30() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String buf= """
@@ -1655,7 +1655,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 	}
 
 	// Bug 421479
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda31() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1742,7 +1742,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaAmbiguousOverridden() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1785,7 +1785,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreation1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1837,7 +1837,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreation2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1889,7 +1889,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreation3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1937,7 +1937,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreation4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1985,7 +1985,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreation5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2047,7 +2047,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreation6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2088,7 +2088,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 	}
 
 	// Bug 427694: [1.8][compiler] Functional interface not identified correctly
-	public void _testConvertToAnonymousClassCreation7() throws Exception {
+	public void _testConvertToAnonymousClassCreation7() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
 			package test1;
@@ -2131,7 +2131,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreation8() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2199,7 +2199,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreation9() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2285,7 +2285,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousClassCreationWithParameterName() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2321,7 +2321,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToBlock1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2362,7 +2362,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToBlock2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2405,7 +2405,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToBlock3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2448,7 +2448,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToBlock4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2489,7 +2489,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToExpression1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2530,7 +2530,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToExpression2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2577,7 +2577,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToExpression3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2618,7 +2618,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToExpression4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2658,7 +2658,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToExpression5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2698,7 +2698,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToExpression6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2723,7 +2723,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_change_lambda_body_to_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToExpression7() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2750,7 +2750,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_change_lambda_body_to_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeLambdaBodyToExpression8() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2777,7 +2777,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_change_lambda_body_to_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractLambdaBodyToMethod1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2834,7 +2834,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractLambdaBodyToMethod2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2914,7 +2914,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractLambdaBodyToMethod3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2972,7 +2972,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug433754() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3010,7 +3010,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddInferredLambdaParamTypes1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3028,14 +3028,14 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		AssistContext context= getCorrectionContext(cu, offset, 0);
 		assertNoErrors(context);
 		List<IJavaCompletionProposal> proposals= collectAssists(context, false);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    FI fi= (Integer i, String[][] s) -> {};\n"); // no varargs
-		buf.append("}\n");
-		buf.append("interface FI {\n");
-		buf.append("    void foo(Integer i, String[]... s);\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    FI fi= (Integer i, String[][] s) -> {};\n"); // no varargs //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("interface FI {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    void foo(Integer i, String[]... s);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		assertNumberOfProposals(proposals, 2);
 		assertCorrectLabels(proposals);
 
@@ -3044,7 +3044,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddInferredLambdaParamTypes2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3074,7 +3074,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddInferredLambdaParamTypes3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3107,7 +3107,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_add_inferred_lambda_parameter_types);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddInferredLambdaParamTypes4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3156,7 +3156,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3196,7 +3196,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3222,7 +3222,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_convert_to_lambda_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3352,7 +3352,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3388,7 +3388,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3495,7 +3495,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3688,7 +3688,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda7() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3775,7 +3775,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda8() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3809,7 +3809,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda9() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3849,7 +3849,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda10() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3893,7 +3893,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertMethodReferenceToLambda11() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test01", false, null);
 		String str= """
@@ -4312,7 +4312,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertLambdaToMethodReference1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4437,7 +4437,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_convert_to_method_reference);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertLambdaToMethodReference2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4519,7 +4519,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertLambdaToMethodReference3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4881,7 +4881,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertLambdaToMethodReference4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5015,7 +5015,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertLambdaToMethodReference5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5083,7 +5083,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertLambdaToMethodReference6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5126,7 +5126,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertLambdaToMethodReference7() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5155,7 +5155,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_convert_to_method_reference);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1520() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5204,7 +5204,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1498() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5253,7 +5253,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5305,7 +5305,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5360,7 +5360,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5413,7 +5413,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5466,7 +5466,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5519,7 +5519,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFixParenthesesInLambdaExpressionAdd() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5551,7 +5551,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFixParenthesesInLambdaExpressionRemove() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5583,7 +5583,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFixParenthesesInLambdaExpressionCannotRemove1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5605,7 +5605,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_removeParenthesesInLambda);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFixParenthesesInLambdaExpressionCannotRemove2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5628,7 +5628,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_removeParenthesesInLambda);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFixParenthesesInLambdaExpressionCannotRemove3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5651,7 +5651,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.QuickAssistProcessor_removeParenthesesInLambda);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug514203_wildCard() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -5702,7 +5702,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug514203_capture1() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
@@ -5806,7 +5806,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug514203_capture2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
@@ -5918,7 +5918,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug514203_capture3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
@@ -6034,7 +6034,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug514203_lambdaNN() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
@@ -6262,7 +6262,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 			""";
 		assertProposalPreviewEquals(str14, "Convert to anonymous class creation", proposals2);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug514203_annotatedParametrizedType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -6309,7 +6309,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertProposalPreviewEquals(str1, "Convert to anonymous class creation", proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoRedundantNonNullInConvertArrayForLoop() throws Exception {
 		NullTestUtils.prepareNullTypeAnnotations(fSourceFolder);
 		try {
@@ -6349,7 +6349,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 			NullTestUtils.disableAnnotationBasedNullAnalysis(fSourceFolder);
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoRedundantNonNullInConvertIterableForLoop() throws Exception {
 		NullTestUtils.prepareNullTypeAnnotations(fSourceFolder);
 		try {
@@ -6393,7 +6393,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithTryWithResource_01() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -6489,7 +6489,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 3);
 		assertCorrectLabels(proposals);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithTryWithResource_02() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -6603,7 +6603,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 3);
 		assertCorrectLabels(proposals);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithTryWithResource_03() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -6672,7 +6672,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1 }, new String[] { expected1 });
 		assertCorrectLabels(proposals);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithTryWithResource_04() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -6742,7 +6742,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithTryWithResource_05() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -6797,7 +6797,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrapInOptional_01() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -6834,7 +6834,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 			""";
 		assertExpectedExistInProposals(proposals, new String[] { str2 });
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrapInOptional_02() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -6900,7 +6900,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 			""";
 		assertExpectedExistInProposals(proposals, new String[] { str3 });
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrapInOptional_03() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -6929,7 +6929,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { str1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignInTryWithResources_01() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String src=
@@ -6971,7 +6971,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignInTryWithResources_02() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String src=
@@ -7019,7 +7019,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignInTryWithResources_03() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String src=
@@ -7070,7 +7070,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignInTryWithResources_04() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String src=
@@ -7128,7 +7128,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitTryWithResources1() throws Exception { // https://bugs.eclipse.org/bugs/show_bug.cgi?id=530208
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String src=
@@ -7190,7 +7190,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitTryWithResources2() throws Exception { // https://bugs.eclipse.org/bugs/show_bug.cgi?id=530208
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String src=
@@ -7252,7 +7252,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInlineDeprecated_1() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEPRECATION_WHEN_OVERRIDING_DEPRECATED_METHOD, JavaCore.ENABLED);
@@ -7326,7 +7326,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInlineDeprecated_2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEPRECATION_WHEN_OVERRIDING_DEPRECATED_METHOD, JavaCore.ENABLED);
@@ -7367,7 +7367,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInlineDeprecated_3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEPRECATION_WHEN_OVERRIDING_DEPRECATED_METHOD, JavaCore.ENABLED);
@@ -7442,7 +7442,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInlineDeprecated_4() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEPRECATION_WHEN_OVERRIDING_DEPRECATED_METHOD, JavaCore.ENABLED);
@@ -7490,7 +7490,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInlineDeprecated_5() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEPRECATION_WHEN_OVERRIDING_DEPRECATED_METHOD, JavaCore.ENABLED);
@@ -7551,7 +7551,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInlineDeprecated_6() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEPRECATION_WHEN_OVERRIDING_DEPRECATED_METHOD, JavaCore.ENABLED);
@@ -7592,7 +7592,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_refactorQualifiedName_1() throws Exception {
 		// If the classes share the same package the import will not be added
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -7639,7 +7639,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_refactorQualifiedName_2() throws Exception {
 		// The class to refactor is in another package, we expect the import to be added
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -7688,7 +7688,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_refactorQualifiedName_3() throws Exception {
 		// There is a class being used with the same name on a different package, no proposal expected
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -7739,7 +7739,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_refactorQualifiedName_4() throws Exception {
 		// We have an import test.test1.*, we expect the change without the class being imported
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -7790,7 +7790,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_refactorQualifiedName_5() throws Exception {
 		// We have a superclass that contains another TestClass as package private. No proposal expected.
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -7843,7 +7843,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_refactorQualifiedName_6() throws Exception {
 		// There is a private class with the same name inside the class with the fully qualified name. No proposal expected
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -7884,7 +7884,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue3061() throws Exception {
 		// We have a superclass that contains another TestClass as package private. No proposal expected.
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -7931,7 +7931,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_refactorQualifiedName_bug_3060() throws Exception {
 		// If the classes share the same package the import will not be added
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test3", false, null);
@@ -7985,7 +7985,7 @@ public class AssistQuickFixTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test_refactorQualifiedName_bug_3060_2() throws Exception {
 		// If the classes share the same package the import will not be added
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test3", false, null);

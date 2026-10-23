@@ -56,7 +56,7 @@ public class InlineTempWizard extends RefactoringWizard {
 			PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.INLINE_TEMP_WIZARD_PAGE);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected String getMessageString() {
 			InlineTempRefactoring refactoring= (InlineTempRefactoring) getRefactoring();
 			int occurrences= refactoring.getReferences().length;

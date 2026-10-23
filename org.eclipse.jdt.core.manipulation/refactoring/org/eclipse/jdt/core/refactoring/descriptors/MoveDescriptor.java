@@ -161,7 +161,7 @@ public final class MoveDescriptor extends JavaRefactoringDescriptor {
 	 *
 	 * @since 1.2
 	 */
-	public MoveDescriptor(String project, String description, String comment, Map<String, String> arguments, int flags) {
+	public MoveDescriptor(String project, String description, String comment, Map<String, String> arguments, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(IJavaRefactorings.MOVE, project, description, comment, arguments, flags);
 		fMovePolicy= JavaRefactoringDescriptorUtil.getString(fArguments, ATTRIBUTE_POLICY);
 
@@ -195,7 +195,7 @@ public final class MoveDescriptor extends JavaRefactoringDescriptor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void populateArgumentMap() {
 		super.populateArgumentMap();
 		JavaRefactoringDescriptorUtil.setString(fArguments, ATTRIBUTE_POLICY, fMovePolicy);
@@ -356,11 +356,11 @@ public final class MoveDescriptor extends JavaRefactoringDescriptor {
 		Assert.isNotNull(units);
 		Assert.isTrue(fMovePolicy == null, "Clients must only call one of the 'setMoveXXX' methods."); //$NON-NLS-1$
 		fFiles= new IPath[files.length];
-		for (int i= 0; i < files.length; i++) {
+		for (int i= 0; i < files.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fFiles[i]= files[i].getFullPath();
 		}
 		fFolders= new IPath[folders.length];
-		for (int i= 0; i < folders.length; i++) {
+		for (int i= 0; i < folders.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fFolders[i]= folders[i].getFullPath();
 		}
 		fUnits= units;

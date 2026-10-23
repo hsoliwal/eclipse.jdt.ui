@@ -77,7 +77,7 @@ public class BreakContinueTargetFinder extends ASTVisitor implements IOccurrence
 	/*
 	 * Initializes the finder. Returns error message or <code>null</code> if everything is OK.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String initialize(CompilationUnit root, ASTNode node) {
 		ASTNode controlNode= getBreakOrContinueNode(node);
 		if (controlNode != null) {
@@ -129,13 +129,13 @@ public class BreakContinueTargetFinder extends ASTVisitor implements IOccurrence
 	 *
 	 * @return the locations of all occurrences or <code>null</code> if no matches are found
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public OccurrenceLocation[] getOccurrences() {
 		ASTNode targetNode= findTargetNode(fSelected);
 		if (!isEnclosingStatement(targetNode))
 			return null;
 
-		List<OccurrenceLocation> list= new ArrayList<>();
+		List<OccurrenceLocation> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		OccurrenceLocation location= getLocationForFirstToken(targetNode);
 		if (location != null) {
 			list.add(location);
@@ -157,7 +157,7 @@ public class BreakContinueTargetFinder extends ASTVisitor implements IOccurrence
 	}
 
 	private ASTNode findTargetNode(ASTNode node) {
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 		} while (keepWalkingUp(node));
 		return node;
@@ -203,7 +203,7 @@ public class BreakContinueTargetFinder extends ASTVisitor implements IOccurrence
 	}
 
 	private static boolean isAnyInstanceOf(Class<?>[] continueTargets, ASTNode node) {
-		for (Class<?> continueTarget : continueTargets) {
+		for (Class<?> continueTarget : continueTargets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (continueTarget.isInstance(node)) {
 				return true;
 			}

@@ -104,7 +104,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 	 *            the path
 	 */
 	private static void addExclusionPatterns(final List<IClasspathEntry> entries, final IPath path) {
-		for (int index= 0; index < entries.size(); index++) {
+		for (int index= 0; index < entries.size(); index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IClasspathEntry entry= entries.get(index);
 			if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE && entry.getPath().isPrefixOf(path)) {
 				final IPath[] patterns= entry.getExclusionPatterns();
@@ -128,7 +128,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 	 *            the progress monitor to use
 	 * @return the status of the operation
 	 */
-	private static RefactoringStatus checkPackageFragmentRoots(final IPackageFragmentRoot root, final IProgressMonitor monitor) {
+	private static RefactoringStatus checkPackageFragmentRoots(final IPackageFragmentRoot root, final IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final RefactoringStatus status= new RefactoringStatus();
 		try {
 			monitor.beginTask(JarImportMessages.JarImportWizard_prepare_import, 100);
@@ -143,12 +143,12 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 							final IProgressMonitor subMonitor= Progress.subMonitorSupressed(monitor, 100);
 							try {
 								subMonitor.beginTask(JarImportMessages.JarImportWizard_prepare_import, projects.length * 100);
-								for (IJavaProject project : projects) {
+								for (IJavaProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									final IPackageFragmentRoot[] roots= project.getPackageFragmentRoots();
 									final IProgressMonitor subsubMonitor= Progress.subMonitorSupressed(subMonitor, 100);
 									try {
 										subsubMonitor.beginTask(JarImportMessages.JarImportWizard_prepare_import, roots.length);
-										for (IPackageFragmentRoot current : roots) {
+										for (IPackageFragmentRoot current : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 											if (!current.equals(root) && current.getKind() == IPackageFragmentRoot.K_BINARY) {
 												final IClasspathEntry entry= current.getRawClasspathEntry();
 												if (entry.getEntryKind() == IClasspathEntry.CPE_LIBRARY) {
@@ -194,12 +194,12 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 	 * @throws CoreException
 	 *             if an error occurs while configuring the class path
 	 */
-	private static void configureClasspath(final IJavaProject project, final IPackageFragmentRoot root, final IFolder folder, final IProgressMonitor monitor) throws IllegalStateException, CoreException {
+	private static void configureClasspath(final IJavaProject project, final IPackageFragmentRoot root, final IFolder folder, final IProgressMonitor monitor) throws IllegalStateException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(JarImportMessages.JarImportWizard_prepare_import, 200);
 			final IClasspathEntry entry= root.getRawClasspathEntry();
 			final IClasspathEntry[] entries= project.getRawClasspath();
-			final List<IClasspathEntry> list= new ArrayList<>(Arrays.asList(entries));
+			final List<IClasspathEntry> list= new ArrayList<>(Arrays.asList(entries)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			final IFileStore store= EFS.getLocalFileSystem().getStore(JavaPlugin.getDefault().getStateLocation().append(STUB_FOLDER).append(project.getElementName()));
 			Progress.subMonitorSupressed(monitor, 25); // for existence check
 			if (store.exists())
@@ -207,7 +207,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 			store.mkdir(EFS.NONE, Progress.subMonitorSupressed(monitor, 25));
 			folder.createLink(store.toURI(), IResource.NONE, Progress.subMonitorSupressed(monitor, 25));
 			addExclusionPatterns(list, folder.getFullPath());
-			for (int index= 0; index < entries.length; index++) {
+			for (int index= 0; index < entries.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entries[index].equals(entry))
 					list.add(index, JavaCore.newSourceEntry(folder.getFullPath()));
 			}
@@ -252,7 +252,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 	 * The packages which already have been processed (element type:
 	 * &lt;IPackageFragment&gt;)
 	 */
-	private final Collection<IJavaElement> fProcessedFragments= new HashSet<>();
+	private final Collection<IJavaElement> fProcessedFragments= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/** The temporary source folder, or <code>null</code> */
 	private IFolder fSourceFolder= null;
@@ -288,7 +288,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 		super(caption, title, description);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus aboutToPerformHistory(final IProgressMonitor monitor) {
 		final RefactoringStatus status= new RefactoringStatus();
 		try {
@@ -306,7 +306,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 						if (!status.hasFatalError()) {
 							final IJavaProject project= root.getJavaProject();
 							if (project != null) {
-								final IFolder folder= project.getProject().getFolder(SOURCE_FOLDER + String.valueOf(System.currentTimeMillis()));
+								final IFolder folder= project.getProject().getFolder(SOURCE_FOLDER + String.valueOf(System.currentTimeMillis())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								try {
 									fAutoBuild= CoreUtility.setAutoBuilding(false);
 									final RefactoringHistory history= getRefactoringHistory();
@@ -374,13 +374,13 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 	 *            the progress monitor
 	 * @return a status describing the outcome of the check
 	 */
-	protected RefactoringStatus checkSourceAttachmentRefactorings(final IProgressMonitor monitor) {
+	protected RefactoringStatus checkSourceAttachmentRefactorings(final IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final RefactoringStatus status= new RefactoringStatus();
 		try {
 			if (!canUseSourceAttachment()) {
 				final RefactoringDescriptorProxy[] proxies= getRefactoringHistory().getDescriptors();
 				monitor.beginTask(JarImportMessages.JarImportWizard_prepare_import, proxies.length * 100);
-				for (RefactoringDescriptorProxy proxy : proxies) {
+				for (RefactoringDescriptorProxy proxy : proxies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final RefactoringDescriptor descriptor= proxy.requestDescriptor(Progress.subMonitorSupressed(monitor, 100));
 					if (descriptor != null) {
 						final int flags= descriptor.getFlags();
@@ -404,7 +404,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 	 * @return
 	 *            the resulting status
 	 */
-	private RefactoringStatus createNecessarySourceCode(final IProgressMonitor monitor) {
+	private RefactoringStatus createNecessarySourceCode(final IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final RefactoringStatus status= new RefactoringStatus();
 		try {
 			monitor.beginTask(JarImportMessages.JarImportWizard_prepare_import, 240);
@@ -413,10 +413,10 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 				try {
 					final IProgressMonitor subMonitor= Progress.subMonitorSupressed(monitor, 40);
 					final IJavaElement[] elements= root.getChildren();
-					final List<IPackageFragment> list= new ArrayList<>(elements.length);
+					final List<IPackageFragment> list= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					try {
 						subMonitor.beginTask(JarImportMessages.JarImportWizard_prepare_import, elements.length);
-						for (IJavaElement element : elements) {
+						for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!fProcessedFragments.contains(element) && !element.getElementName().equals(META_INF_FRAGMENT))
 								list.add((IPackageFragment) element);
 							subMonitor.worked(1);
@@ -431,7 +431,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 							final IPackageFragmentRoot sourceFolder= fJavaProject.getPackageFragmentRoot(fSourceFolder);
 							IWorkspaceRunnable runnable= null;
 							if (canUseSourceAttachment()) {
-								runnable= new SourceCreationOperation(uri, list) {
+								runnable= new SourceCreationOperation(uri, list) { //FLLDCIM: MARK — T09  ANONYMOUS
 
 									private IPackageFragment fFragment= null;
 
@@ -446,7 +446,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 									}
 								};
 							} else {
-								runnable= new StubCreationOperation(uri, list, true) {
+								runnable= new StubCreationOperation(uri, list, true) { //FLLDCIM: MARK — T09  ANONYMOUS
 
 									private IPackageFragment fFragment= null;
 
@@ -478,7 +478,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 		return status;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringContext createRefactoringContext(RefactoringDescriptor descriptor, RefactoringStatus status, IProgressMonitor monitor) throws CoreException {
 		Assert.isNotNull(descriptor);
 
@@ -501,12 +501,12 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 				map.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, getTransformedHandle(name, handle));
 
 			int count= 1;
-			String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count;
-			while ((handle= map.get(attribute)) != null) {
+			String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			while ((handle= map.get(attribute)) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (handle.length() > 0)
 					map.put(attribute, getTransformedHandle(name, handle));
 				count++;
-				attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count;
+				attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			// create adapted descriptor
@@ -544,7 +544,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 	 * @throws CoreException
 	 *             if an error occurs while deconfiguring the classpath
 	 */
-	private void deconfigureClasspath(final IProgressMonitor monitor) throws CoreException {
+	private void deconfigureClasspath(final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(JarImportMessages.JarImportWizard_cleanup_import, 300);
 			if (fJavaProject != null) {
@@ -604,7 +604,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 	 * @return the transformed handle, or the original one if nothing needed to
 	 *         be transformed
 	 */
-	private String getTransformedHandle(final String project, final String handle) {
+	private String getTransformedHandle(final String project, final String handle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSourceFolder != null) {
 			final IJavaElement target= JavaCore.create(fSourceFolder);
 			if (target instanceof IPackageFragmentRoot) {
@@ -621,7 +621,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 							sourceIdentifier= javaProject.getHandleIdentifier();
 					}
 					if (sourceIdentifier != null) {
-						final IJavaElement result= JavaCore.create(extended.getHandleIdentifier() + element.getHandleIdentifier().substring(sourceIdentifier.length()));
+						final IJavaElement result= JavaCore.create(extended.getHandleIdentifier() + element.getHandleIdentifier().substring(sourceIdentifier.length())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						if (result != null)
 							return JavaRefactoringDescriptorUtil.elementToHandle(project, result);
 					}
@@ -631,7 +631,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 		return handle;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus historyPerformed(final IProgressMonitor monitor) {
 		try {
 			monitor.beginTask(JarImportMessages.JarImportWizard_cleanup_import, 100);
@@ -661,7 +661,7 @@ public abstract class BinaryRefactoringHistoryWizard extends RefactoringHistoryW
 		return super.performCancel();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus refactoringPerformed(final Refactoring refactoring, final IProgressMonitor monitor) {
 		try {
 			monitor.beginTask("", 120); //$NON-NLS-1$

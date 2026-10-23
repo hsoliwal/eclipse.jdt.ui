@@ -73,7 +73,7 @@ public class QuickFixTest9 extends QuickFixTest {
 
 	private List<ICompilationUnit> fCus;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws CoreException {
 		fJProject2= projectSetup2.getProject();
 		JavaProjectHelper.set9CompilerOptions(fJProject2);
@@ -103,12 +103,12 @@ public class QuickFixTest9 extends QuickFixTest {
 
 		fSourceFolder3= JavaProjectHelper.addSourceContainer(fJProject3, "src");
 
-		fCus= new ArrayList<>();
+		fCus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		for (ICompilationUnit cu : fCus) {
+		for (ICompilationUnit cu : fCus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorPart part= EditorUtility.isOpenInEditor(cu);
 			if (part instanceof ITextEditor) {
 				((ITextEditor)part).close(false);
@@ -119,7 +119,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleRequiresAndImportProposal() throws Exception {
 		String str= """
 			module test {
@@ -142,7 +142,7 @@ public class QuickFixTest9 extends QuickFixTest {
 
 		String[] args= { "java.defaultProject" };
 		String requiresStr= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_add_requires_module_info, args);
-		requiresStr= requiresStr.substring(0, 1).toLowerCase() + requiresStr.substring(1);
+		requiresStr= requiresStr.substring(0, 1).toLowerCase() + requiresStr.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String[] args2= { "One", "java.defaultProject" };
 		final String importStr= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_importtype_description, args2);
@@ -150,7 +150,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertProposalExists(proposals, proposalStr);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleRequiresProposal() throws Exception {
 		String str= """
 			module test {
@@ -182,7 +182,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertProposalExists(proposals, proposalStr);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddModuleRequiresProposalForFullyQualifiedType() throws Exception {
 		String str= """
 			module test {
@@ -209,7 +209,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertProposalExists(proposals, proposalStr);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddNewTypeProposals() throws Exception {
 		String str= """
 			module test {
@@ -233,7 +233,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertProposalExists(proposals, proposalStr);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBasicNewServiceProvider() throws Exception {
 		String str= """
 			import java.sql.Driver;
@@ -280,7 +280,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertEquals(expected, actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultipleNewServiceProvider() throws Exception {
 		IJavaProject jProject1= JavaProjectHelper.createJavaProject("TestProject_1", "bin");
 		JavaProjectHelper.set9CompilerOptions(jProject1);
@@ -341,7 +341,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertLinkedChoices(proposal, "return_type", choices);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testServiceProviderVisibility() throws Exception {
 		// Project 1 (The Libraries)
 		IJavaProject jProject1= JavaProjectHelper.createJavaProject("TestProject_1", "bin");
@@ -438,7 +438,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertLinkedChoices(proposal, "return_type", choices);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testServiceProviderLocalTypeVisibility() throws Exception {
 		IJavaProject jProject1= JavaProjectHelper.createJavaProject("TestProject_1", "bin");
 		JavaProjectHelper.set9CompilerOptions(jProject1);
@@ -485,7 +485,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertLinkedChoices(proposal, "return_type", choices);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testServiceProviderConstructorProposal () throws Exception {
 		IJavaProject jProject1= JavaProjectHelper.createJavaProject("TestProject_1", "bin");
 		JavaProjectHelper.set9CompilerOptions(jProject1);
@@ -545,7 +545,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertEquals(expected, actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testServiceProviderVisibilityProposal () throws Exception {
 		IJavaProject jProject1= JavaProjectHelper.createJavaProject("TestProject_1", "bin");
 		JavaProjectHelper.set9CompilerOptions(jProject1);
@@ -598,7 +598,7 @@ public class QuickFixTest9 extends QuickFixTest {
 		assertEquals(expected, actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue2763() throws Exception {
 		String str0= """
 				module test {

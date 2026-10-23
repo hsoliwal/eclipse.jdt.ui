@@ -78,7 +78,7 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 		fLabelProvider= labelProvider;
 		fContentProvider= contentProvider;
 
-		setResult(new ArrayList<>(0));
+		setResult(new ArrayList<>(0)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		setStatusLineAboveButtons(true);
 	}
 
@@ -105,7 +105,7 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 	 */
 	public void addFilter(ViewerFilter filter) {
 		if (fFilters == null)
-			fFilters= new ArrayList<>(4);
+			fFilters= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fFilters.add(filter);
 	}
@@ -200,7 +200,7 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 
@@ -226,15 +226,15 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 		fViewer= CheckboxTableViewer.newCheckList(parent, SWT.BORDER);
 
 		fViewer.setContentProvider(fContentProvider);
-		fViewer.setLabelProvider(fLabelProvider);
-		fViewer.addCheckStateListener(unused -> updateOKStatus());
+		fViewer.setLabelProvider(fLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fViewer.addCheckStateListener(unused -> updateOKStatus()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 
 		if (fFilters != null) {
-			for (ViewerFilter filter : fFilters)
-				fViewer.addFilter(filter);
+			for (ViewerFilter filter : fFilters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				fViewer.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		}
 
-		fViewer.setInput(fInput);
+		fViewer.setInput(fInput); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		return fViewer.getTable();
 	}
 
@@ -243,7 +243,7 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 	 * @param composite org.eclipse.swt.widgets.Composite
 	 * @return the created composite
 	 */
-	private Composite createSelectionButtons(Composite composite) {
+	private Composite createSelectionButtons(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttonComposite= new Composite(composite, SWT.RIGHT);
 		GridLayout layout= new GridLayout();
 		layout.numColumns= 2;
@@ -261,7 +261,7 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 				updateOKStatus();
 			}
 		};
-		selectButton.addSelectionListener(listener);
+		selectButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		Button deselectButton= createButton(buttonComposite, IDialogConstants.DESELECT_ALL_ID, WizardMessages.CheckedTableSelectionDialog_deselectAll, false);
 
@@ -272,7 +272,7 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 				updateOKStatus();
 			}
 		};
-		deselectButton.addSelectionListener(listener);
+		deselectButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return buttonComposite;
 	}
 
@@ -280,7 +280,7 @@ public class CheckedTableSelectionDialog extends SelectionStatusDialog {
 		Object[] elements= fContentProvider.getElements(input);
 		if (elements.length > 0) {
 			if (fFilters != null) {
-				for (ViewerFilter curr : fFilters) {
+				for (ViewerFilter curr : fFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					elements= curr.filter(fViewer, input, elements);
 				}
 			}

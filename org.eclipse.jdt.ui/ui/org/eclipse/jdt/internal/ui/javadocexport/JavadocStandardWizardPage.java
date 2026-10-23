@@ -110,14 +110,14 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 		setDescription(JavadocExportMessages.JavadocStandardWizardPage_description);
 
 		fStore= store;
-		fButtonsList= new ArrayList<>();
+		fButtonsList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fStyleSheetStatus= new StatusInfo();
 		fLinkRefStatus= new StatusInfo();
 	}
 	/*
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -139,7 +139,7 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 		Dialog.applyDialogFont(fUpperComposite);
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(fUpperComposite, IJavaHelpContextIds.JAVADOC_STANDARD_PAGE);
 	}
-	private void createBasicOptionsGroup(Composite composite) {
+	private void createBasicOptionsGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fTitleButton= createButton(composite, SWT.CHECK, JavadocExportMessages.JavadocStandardWizardPage_titlebutton_label, createGridData(1));
 		fTitleText= createText(composite, SWT.SINGLE | SWT.BORDER, null, createGridData(GridData.FILL_HORIZONTAL, 3, 0));
@@ -167,8 +167,8 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 				LayoutUtil.getIndent()), JavadocOptionsManager.SPLITINDEX, true);
 		fSeperatedIndexCheck.getButton().setEnabled(fIndexCheck.getButton().getSelection());
 
-		fIndexCheck.getButton().addSelectionListener(new ToggleSelectionAdapter(new Control[] { fSeperatedIndexCheck.getButton()}));
-		fTitleButton.addSelectionListener(new ToggleSelectionAdapter(new Control[] { fTitleText }));
+		fIndexCheck.getButton().addSelectionListener(new ToggleSelectionAdapter(new Control[] { fSeperatedIndexCheck.getButton()})); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		fTitleButton.addSelectionListener(new ToggleSelectionAdapter(new Control[] { fTitleText })); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 	}
 
@@ -185,10 +185,10 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 				LayoutUtil.getIndent()), JavadocOptionsManager.NODEPRECATEDLIST, false);
 		fDeprecatedList.getButton().setEnabled(fDeprecatedCheck.getButton().getSelection());
 
-		fDeprecatedCheck.getButton().addSelectionListener(new ToggleSelectionAdapter(new Control[] { fDeprecatedList.getButton()}));
+		fDeprecatedCheck.getButton().addSelectionListener(new ToggleSelectionAdapter(new Control[] { fDeprecatedList.getButton()})); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	} //end createTagOptionsGroup
 
-	private void createStyleSheetGroup(Composite composite) {
+	private void createStyleSheetGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite c= new Composite(composite, SWT.NONE);
 		c.setLayout(createGridLayout(3));
 		c.setLayoutData(createGridData(GridData.FILL_HORIZONTAL, 4, 0));
@@ -213,16 +213,16 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 		}
 
 		//Listeners
-		fStyleSheetButton.addSelectionListener(new ToggleSelectionAdapter(new Control[] { fStyleSheetText, fStyleSheetBrowseButton }) {
+		fStyleSheetButton.addSelectionListener(new ToggleSelectionAdapter(new Control[] { fStyleSheetText, fStyleSheetBrowseButton }) { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void validate() {
 				doValidation(STYLESHEETSTATUS);
 			}
 		});
 
-		fStyleSheetText.addModifyListener(unused -> doValidation(STYLESHEETSTATUS));
+		fStyleSheetText.addModifyListener(unused -> doValidation(STYLESHEETSTATUS)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
-		fStyleSheetBrowseButton.addSelectionListener(new SelectionAdapter() {
+		fStyleSheetBrowseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				handleFileBrowseButtonPressed(fStyleSheetText, new String[] { "*.css" }, JavadocExportMessages.JavadocSpecificsWizardPage_stylesheetbrowsedialog_title);  //$NON-NLS-1$
@@ -231,7 +231,7 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 
 	}
 
-	private void createListDialogField(Composite composite) {
+	private void createListDialogField(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite c= new Composite(composite, SWT.NONE);
 		c.setFont(composite.getFont());
 		c.setLayout(createGridLayout(3));
@@ -259,12 +259,12 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 	}
 
 	private List<JavadocLinkRef> getCheckedReferences(JavadocLinkRef[] referencesClasses) {
-		List<JavadocLinkRef> checkedElements= new ArrayList<>();
+		List<JavadocLinkRef> checkedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		String hrefs[]= fStore.getHRefs();
 		if (hrefs.length > 0) {
-			HashSet<String> set= new HashSet<>(Arrays.asList(hrefs));
-			for (JavadocLinkRef curr : referencesClasses) {
+			HashSet<String> set= new HashSet<>(Arrays.asList(hrefs)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (JavadocLinkRef curr : referencesClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				URL url= curr.getURL();
 				if (url != null && set.contains(url.toExternalForm())) {
 					checkedElements.add(curr);
@@ -282,8 +282,8 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 	 * @return all IJavaProjects and IPaths that will be on the classpath
 	 */
 	private JavadocLinkRef[] getReferencedElements(IJavaProject[] checkedProjects) {
-		HashSet<JavadocLinkRef> result= new HashSet<>();
-		for (IJavaProject project : checkedProjects) {
+		HashSet<JavadocLinkRef> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaProject project : checkedProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				collectReferencedElements(project, result);
 			} catch (CoreException e) {
@@ -294,12 +294,12 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 		return result.toArray(new JavadocLinkRef[result.size()]);
 	}
 
-	private void collectReferencedElements(IJavaProject project, HashSet<JavadocLinkRef> result) throws CoreException {
-		for (IRuntimeClasspathEntry curr : JavaRuntime.computeUnresolvedRuntimeClasspath(project)) {
+	private void collectReferencedElements(IJavaProject project, HashSet<JavadocLinkRef> result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IRuntimeClasspathEntry curr : JavaRuntime.computeUnresolvedRuntimeClasspath(project)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getType() == IRuntimeClasspathEntry.PROJECT) {
 				result.add(new JavadocLinkRef(JavaCore.create((IProject) curr.getResource())));
 			} else {
-				for (IRuntimeClasspathEntry entry : JavaRuntime.resolveRuntimeClasspathEntry(curr, project)) {
+				for (IRuntimeClasspathEntry entry : JavaRuntime.resolveRuntimeClasspathEntry(curr, project)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (entry.getType() == IRuntimeClasspathEntry.PROJECT) {
 						result.add(new JavadocLinkRef(JavaCore.create((IProject) entry.getResource())));
 					} else if (entry.getType() == IRuntimeClasspathEntry.ARCHIVE) {
@@ -317,7 +317,7 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 		}
 	}
 
-	final void doValidation(JavadocStandard VALIDATE) {
+	final void doValidation(JavadocStandard VALIDATE) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (VALIDATE) {
 			case STYLESHEETSTATUS :
 				fStyleSheetStatus= new StatusInfo();
@@ -339,7 +339,7 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 			case LINK_REFERENCES:
 				fLinkRefStatus= new StatusInfo();
 				List<JavadocLinkRef> list= fListDialogField.getCheckedElements();
-				for (JavadocLinkRef curr : list) {
+				for (JavadocLinkRef curr : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					URL url= curr.getURL();
 					if (url == null) {
 						fLinkRefStatus.setWarning(JavadocExportMessages.JavadocStandardWizardPage_nolinkref_error);
@@ -360,14 +360,14 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 		return StatusUtil.getMostSevere(new IStatus[] { fStyleSheetStatus, fLinkRefStatus });
 	}
 
-	public void updateStore() {
+	public void updateStore() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (fTitleButton.getSelection())
 			fStore.setTitle(fTitleText.getText());
 		else
 			fStore.setTitle(""); //$NON-NLS-1$
 
-		for (FlaggedButton button : fButtonsList) {
+		for (FlaggedButton button : fButtonsList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (button.getButton().getEnabled())
 				fStore.setBoolean(button.getFlag(), !(button.getButton().getSelection() ^ button.show()));
 			else
@@ -383,8 +383,8 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 	}
 
 	private String[] getHRefs() {
-		HashSet<String> res= new HashSet<>();
-		for (JavadocLinkRef element : fListDialogField.getCheckedElements()) {
+		HashSet<String> res= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (JavadocLinkRef element : fListDialogField.getCheckedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			URL url= element.getURL();
 			if (url != null) {
 				res.add(url.toExternalForm());
@@ -543,10 +543,10 @@ public class JavadocStandardWizardPage extends JavadocWizardPage {
 		/**
 		 * @see Dialog#okPressed()
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void okPressed() {
 			try {
-				IWorkspaceRunnable runnable= monitor -> {
+				IWorkspaceRunnable runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 					URL javadocLocation= fJavadocConfigurationBlock.getJavadocLocation();
 					fElement.setURL(javadocLocation, monitor);
 				};

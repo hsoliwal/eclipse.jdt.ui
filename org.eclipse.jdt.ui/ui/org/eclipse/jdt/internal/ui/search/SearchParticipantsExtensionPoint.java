@@ -45,8 +45,8 @@ public class SearchParticipantsExtensionPoint {
 		if (fActiveParticipants != null)
 			return fActiveParticipants;
 		IConfigurationElement[] allParticipants= Platform.getExtensionRegistry().getConfigurationElementsFor(JavaSearchPage.PARTICIPANT_EXTENSION_POINT);
-		fActiveParticipants= new HashSet<>(allParticipants.length);
-		for (IConfigurationElement participant : allParticipants) {
+		fActiveParticipants= new HashSet<>(allParticipants.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IConfigurationElement participant : allParticipants) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SearchParticipantDescriptor descriptor= new SearchParticipantDescriptor(participant);
 			IStatus status= descriptor.checkSyntax();
 			if (status.isOK()) {
@@ -58,14 +58,14 @@ public class SearchParticipantsExtensionPoint {
 		return fActiveParticipants;
 	}
 
-	private void collectParticipants(Set<SearchParticipantRecord> participants, IProject[] projects) {
+	private void collectParticipants(Set<SearchParticipantRecord> participants, IProject[] projects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<SearchParticipantDescriptor> activeParticipants= getAllParticipants().iterator();
-		Set<String> seenParticipants= new HashSet<>();
-		while (activeParticipants.hasNext()) {
+		Set<String> seenParticipants= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		while (activeParticipants.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SearchParticipantDescriptor participant= activeParticipants.next();
 			String id= participant.getID();
 			if (participant.isEnabled() && !seenParticipants.contains(id)) {
-				for (IProject project : projects) {
+				for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						if (project.hasNature(participant.getNature())) {
 							participants.add(new SearchParticipantRecord(participant, participant.create()));
@@ -84,7 +84,7 @@ public class SearchParticipantsExtensionPoint {
 
 
 	public SearchParticipantRecord[] getSearchParticipants(IProject[] concernedProjects) {
-		Set<SearchParticipantRecord> participantSet= new HashSet<>();
+		Set<SearchParticipantRecord> participantSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		collectParticipants(participantSet, concernedProjects);
 		SearchParticipantRecord[] participants= new SearchParticipantRecord[participantSet.size()];
 		return participantSet.toArray(participants);

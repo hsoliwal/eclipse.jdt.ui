@@ -136,7 +136,7 @@ public class MarkerResolutionTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testQuickFix() throws Exception {
 		if (BUG_46227)
 			return;
@@ -187,7 +187,7 @@ public class MarkerResolutionTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testQuickFixAfterModification() throws Exception {
 		if (BUG_46227)
 			return;

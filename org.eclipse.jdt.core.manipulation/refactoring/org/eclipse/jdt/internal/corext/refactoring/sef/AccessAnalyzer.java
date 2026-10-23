@@ -89,7 +89,7 @@ public class AccessAnalyzer extends ASTVisitor {
 	private static final String PREFIX_ACCESS= RefactoringCoreMessages.SelfEncapsulateField_AccessAnalyzer_encapsulate_prefix_access;
 	private static final String POSTFIX_ACCESS= RefactoringCoreMessages.SelfEncapsulateField_AccessAnalyzer_encapsulate_postfix_access;
 
-	public AccessAnalyzer(SelfEncapsulateFieldRefactoring refactoring, ICompilationUnit unit, IVariableBinding field, ITypeBinding declaringClass, ASTRewrite rewriter, ImportRewrite importRewrite) {
+	public AccessAnalyzer(SelfEncapsulateFieldRefactoring refactoring, ICompilationUnit unit, IVariableBinding field, ITypeBinding declaringClass, ASTRewrite rewriter, ImportRewrite importRewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(refactoring);
 		Assert.isNotNull(unit);
 		Assert.isNotNull(field);
@@ -101,7 +101,7 @@ public class AccessAnalyzer extends ASTVisitor {
 		fDeclaringClassBinding= declaringClass;
 		fRewriter= rewriter;
 		fImportRewriter= importRewrite;
-		fGroupDescriptions= new ArrayList<>();
+		fGroupDescriptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fGetter= refactoring.getGetterName();
 		fSetter= refactoring.getSetterName();
 		fEncapsulateDeclaringClass= refactoring.getEncapsulateDeclaringClass();
@@ -125,7 +125,7 @@ public class AccessAnalyzer extends ASTVisitor {
 		return fGroupDescriptions;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(Assignment node) {
 		Expression leftHandSide= node.getLeftHandSide();
 		if (!considerBinding(resolveBinding(leftHandSide), leftHandSide))
@@ -134,7 +134,7 @@ public class AccessAnalyzer extends ASTVisitor {
 		checkParent(node);
 		Expression rightHandSide= node.getRightHandSide();
 		if (!fIsFieldFinal) {
-			List<Expression> arguments= new ArrayList<>();
+			List<Expression> arguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			AST ast= node.getAST();
 			Expression receiver= getReceiver(leftHandSide);
 
@@ -225,7 +225,7 @@ public class AccessAnalyzer extends ASTVisitor {
 				fReferencingGetter= true;
 				fRewriter.replace(
 						node,
-						fRewriter.createStringPlaceholder(fGetter + "()", ASTNode.METHOD_INVOCATION), //$NON-NLS-1$
+						fRewriter.createStringPlaceholder(fGetter + "()", ASTNode.METHOD_INVOCATION), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						createGroupDescription(READ_ACCESS));
 			}
 		}
@@ -284,7 +284,7 @@ public class AccessAnalyzer extends ASTVisitor {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(CompilationUnit node) {
 		// If we don't had a static import to the field we don't
 		// have to add any, even if we generated a setter or
@@ -296,7 +296,7 @@ public class AccessAnalyzer extends ASTVisitor {
 		String fieldName= fFieldBinding.getName();
 		String typeName= type.getQualifiedName();
 		if (fRemoveStaticImport) {
-			fImportRewriter.removeStaticImport(typeName + "." + fieldName); //$NON-NLS-1$
+			fImportRewriter.removeStaticImport(typeName + "." + fieldName); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (fReferencingGetter) {
 			fImportRewriter.addStaticImport(typeName, fGetter, false);
@@ -356,7 +356,7 @@ public class AccessAnalyzer extends ASTVisitor {
 		return null;
 	}
 
-	private ASTNode createInvocation(AST ast, Expression operand, String operator) {
+	private ASTNode createInvocation(AST ast, Expression operand, String operator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// set & get: f++ --> setF(getF() + 1)
 		if (!fSetter.isEmpty() && !fGetter.isEmpty()) {
 			Expression receiver= getReceiver(operand);

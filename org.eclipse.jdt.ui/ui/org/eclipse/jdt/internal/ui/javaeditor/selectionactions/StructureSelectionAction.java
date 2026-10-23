@@ -69,7 +69,7 @@ public abstract class StructureSelectionAction extends Action {
 	/*
 	 * Method declared in IAction.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final  void run() {
 		ITypeRoot typeRoot= EditorUtility.getEditorInputJavaElement(fEditor, false);
 		if (typeRoot == null || !typeRoot.exists())
@@ -175,7 +175,7 @@ public abstract class StructureSelectionAction extends Action {
 	}
 
 	static int findIndex(Object[] array, Object o){
-		for (int i= 0; i < array.length; i++) {
+		for (int i= 0; i < array.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object object= array[i];
 			if (object == o)
 				return i;

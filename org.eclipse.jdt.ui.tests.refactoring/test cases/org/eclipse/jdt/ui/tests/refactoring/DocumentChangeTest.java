@@ -87,14 +87,14 @@ public class DocumentChangeTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDocumentChange() throws Exception {
 		IProject project= rts.getProject().getProject();
 		IFile file= project.getFile("file.txt");
 		final String prolog= "This is a ";
 		final String insertion= "modified ";
 		final String epilog= "text";
-		file.create(getStream(prolog + epilog), IResource.NONE, null);
+		file.create(getStream(prolog + epilog), IResource.NONE, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IEditorPart editor= IDE.openEditor(JavaPlugin.getActivePage(), file);
 		ITextFileBuffer textFileBuffer= FileBuffers.getTextFileBufferManager().getTextFileBuffer(file.getFullPath(), LocationKind.IFILE);
@@ -116,7 +116,7 @@ public class DocumentChangeTest extends GenericRefactoringTest {
 				return new RefactoringStatus();
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 				DocumentChange change= new DocumentChange("DocumentChangeTest change", document);
 				change.setEdit(new InsertEdit(prolog.length(), insertion));
@@ -143,7 +143,7 @@ public class DocumentChangeTest extends GenericRefactoringTest {
 		ILogListener logListener= (status, unused) -> statusCollector.add(status);
 		Platform.addLogListener(logListener);
 		try {
-			IRunnableWithProgress runnable= unused -> {
+			IRunnableWithProgress runnable= unused -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					performRefactoring(ref);
 				} catch (Exception e) {
@@ -155,11 +155,11 @@ public class DocumentChangeTest extends GenericRefactoringTest {
 			editor.doSave(new NullProgressMonitor());
 
 			String contents= getContents(file);
-			assertEquals(prolog + insertion + epilog, contents);
+			assertEquals(prolog + insertion + epilog, contents); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			// undo:
 
-			runnable= unused -> {
+			runnable= unused -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					RefactoringCore.getUndoManager().performUndo(null, new NullProgressMonitor());
 				} catch (Exception e) {
@@ -171,14 +171,14 @@ public class DocumentChangeTest extends GenericRefactoringTest {
 			editor.doSave(new NullProgressMonitor());
 
 			contents= getContents(file);
-			assertEquals(prolog + epilog, contents);
+			assertEquals(prolog + epilog, contents); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 			// redo after closing file:
 
 			JavaPlugin.getActivePage().closeEditor(editor, true);
 
-			runnable= unused -> {
+			runnable= unused -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					RefactoringCore.getUndoManager().performRedo(null, new NullProgressMonitor());
 				} catch (Exception e) {
@@ -190,12 +190,12 @@ public class DocumentChangeTest extends GenericRefactoringTest {
 			editor.doSave(new NullProgressMonitor());
 
 			contents= document.get();
-			assertEquals(prolog + insertion + epilog, contents);
+			assertEquals(prolog + insertion + epilog, contents); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			// Only document content has changed, but file content hasn't
 			// (since closing the editor has disconnected the file buffer):
 			contents= getContents(file);
-			assertEquals(prolog + epilog, contents);
+			assertEquals(prolog + epilog, contents); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 		} finally {

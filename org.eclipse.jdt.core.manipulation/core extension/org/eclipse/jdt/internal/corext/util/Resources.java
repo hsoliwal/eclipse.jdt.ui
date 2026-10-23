@@ -69,7 +69,7 @@ public class Resources {
 	 */
 	public static IStatus checkInSync(IResource[] resources) {
 		IStatus result= null;
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!resource.isSynchronized(IResource.DEPTH_INFINITE)) {
 				result= addOutOfSync(result, resource);
 			}
@@ -108,9 +108,9 @@ public class Resources {
 	 *
 	 * @see org.eclipse.core.resources.IWorkspace#validateEdit(org.eclipse.core.resources.IFile[], java.lang.Object)
 	 */
-	public static IStatus makeCommittable(IResource[] resources, Object context) {
-		List<IResource> readOnlyFiles= new ArrayList<>();
-		for (IResource resource : resources) {
+	public static IStatus makeCommittable(IResource[] resources, Object context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IResource> readOnlyFiles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.getType() == IResource.FILE && isReadOnly(resource))
 				readOnlyFiles.add(resource);
 		}
@@ -125,7 +125,7 @@ public class Resources {
 
 		IStatus modified= null;
 		Map<IFile, Long> newTimeStamps= createModificationStampMap(readOnlyFiles);
-		for (Map.Entry<IFile, Long> entry : oldTimeStamps.entrySet()) {
+		for (Map.Entry<IFile, Long> entry : oldTimeStamps.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IFile file = entry.getKey();
 			if (!entry.getValue().equals(newTimeStamps.get(file)))
 				modified= addModified(modified, file);
@@ -136,15 +136,15 @@ public class Resources {
 	}
 
 	private static Map<IFile, Long> createModificationStampMap(List<IResource> files){
-		Map<IFile, Long> map= new HashMap<>();
-		for (IResource iResource : files) {
+		Map<IFile, Long> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IResource iResource : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IFile file= (IFile)iResource;
 			map.put(file, file.getModificationStamp());
 		}
 		return map;
 	}
 
-	private static IStatus addModified(IStatus status, IFile file) {
+	private static IStatus addModified(IStatus status, IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus entry= JavaUIStatus.createError(
 			IJavaStatusConstants.VALIDATE_EDIT_CHANGED_CONTENT,
 			Messages.format(CorextMessages.Resources_fileModified, BasicElementLabels.getPathLabel(file.getFullPath(), false)),
@@ -164,7 +164,7 @@ public class Resources {
 		}
 	}
 
-	private static IStatus addOutOfSync(IStatus status, IResource resource) {
+	private static IStatus addOutOfSync(IStatus status, IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus entry= new Status(
 			IStatus.ERROR,
 			ResourcesPlugin.PI_RESOURCES,
@@ -196,8 +196,8 @@ public class Resources {
 	 * @return the local locations
 	 */
 	public static String[] getLocationOSStrings(IResource[] resources) {
-		List<String> result= new ArrayList<>(resources.length);
-		for (IResource resource : resources) {
+		List<String> result= new ArrayList<>(resources.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath location= resource.getLocation();
 			if (location != null)
 				result.add(location.toOSString());

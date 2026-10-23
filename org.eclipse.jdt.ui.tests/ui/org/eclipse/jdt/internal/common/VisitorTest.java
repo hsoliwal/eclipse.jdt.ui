@@ -66,7 +66,7 @@ public class VisitorTest {
 		}
 	}
 
-	@BeforeAll
+	@BeforeAll //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static void init() {
 		VisitorProjectTestSetup projectSetup= new VisitorProjectTestSetup();
 		try {
@@ -129,13 +129,13 @@ public class VisitorTest {
 	}
 
 	private void astnodeprocessorend(ASTNode node, @SuppressWarnings("unused") ReferenceHolder<String,NodeFound> holder) {
-		String x = "End   "+node.getNodeType() + " :" + node;
+		String x = "End   "+node.getNodeType() + " :" + node; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		System.out.printf("%-40s %s%n",x,ASTNode.nodeClassForType(node.getNodeType()));
 	}
 
 	private Boolean astnodeprocesser(ASTNode node, @SuppressWarnings("unused") ReferenceHolder<String,NodeFound> holder) {
 //		NodeFound nodeFound = holder.get(VisitorEnum.fromNodetype(node.getNodeType()));
-		String x = "Start "+node.getNodeType() + " :" + node;
+		String x = "Start "+node.getNodeType() + " :" + node; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		System.out.printf("%-40s %s%n",x,ASTNode.nodeClassForType(node.getNodeType()));
 		return true;
 	}
@@ -237,20 +237,20 @@ public class VisitorTest {
 		hv.build(result2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void simpleTest3d() {
 		Set<ASTNode> nodesprocessed = null;
 		HelperVisitor<ReferenceHolder<String,NodeFound>,String,NodeFound> hv = new HelperVisitor<>(nodesprocessed, new ReferenceHolder<String, NodeFound>());
 		VisitorEnum.stream().forEach(ve -> {
 			hv.add(ve, (node, unused) -> {
-				String x = "Start "+node.getNodeType() + " :" + node;
+				String x = "Start "+node.getNodeType() + " :" + node; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				System.out.printf("%-40s %s%n",x,ASTNode.nodeClassForType(node.getNodeType()));
 				return true;
 			});
 		});
 		VisitorEnum.stream().forEach(ve -> {
 			hv.addEnd(ve, (node, unused) -> {
-				String x = "End   "+node.getNodeType() + " :" + node;
+				String x = "End   "+node.getNodeType() + " :" + node; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				System.out.printf("%-40s %s%n",x,ASTNode.nodeClassForType(node.getNodeType()));
 			});
 		});
@@ -303,11 +303,11 @@ public class VisitorTest {
 				VisitorEnum.VariableDeclarationFragment);
 		ReferenceHolder<ASTNode, String> dataholder = new ReferenceHolder<>();
 		BiPredicate<ASTNode, ReferenceHolder<ASTNode, String>> bs =(node,unused)->{
-			System.out.printf("%-40s %s%n","Start "+node.getNodeType() + " :" + node,ASTNode.nodeClassForType(node.getNodeType()));
+			System.out.printf("%-40s %s%n","Start "+node.getNodeType() + " :" + node,ASTNode.nodeClassForType(node.getNodeType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return false;
 		};
 		BiConsumer<ASTNode, ReferenceHolder<ASTNode, String>> bc = (node,unused)->{
-			System.out.printf("%-40s %s%n","End   "+node.getNodeType() + " :" + node,ASTNode.nodeClassForType(node.getNodeType()));
+			System.out.printf("%-40s %s%n","End   "+node.getNodeType() + " :" + node,ASTNode.nodeClassForType(node.getNodeType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		};
 		HelperVisitor.callVisitor(result, myset, dataholder,null, bs, bc);
 	}
@@ -318,7 +318,7 @@ public class VisitorTest {
 	 * Show how to use the ReferenceHolder to access data while visiting the AST.
 	 * Here: count nodes and list result
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void simpleTest5() {
 		Set<ASTNode> nodesprocessed = null;
 		ReferenceHolder<VisitorEnum, Integer> dataholder = new ReferenceHolder<>();
@@ -335,8 +335,8 @@ public class VisitorTest {
 			});
 		});
 		hv.build(result);
-		for(VisitorEnum ve: dataholder.keySet()) {
-			System.out.println(dataholder.get(ve)+"\t"+ve.name());
+		for(VisitorEnum ve: dataholder.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			System.out.println(dataholder.get(ve)+"\t"+ve.name()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -355,7 +355,7 @@ public class VisitorTest {
 		 * Presenting result
 		 */
 		dataholder.entrySet().stream().forEach(entry->{
-			System.out.println(entry.getValue()+"\t"+entry.getKey().name());
+			System.out.println(entry.getValue()+"\t"+entry.getKey().name()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		});
 	}
 
@@ -378,11 +378,11 @@ public class VisitorTest {
 		 * Presenting result
 		 */
 		dataholder.entrySet().stream().forEach(entry->{
-			System.out.println(entry.getKey()+"\t"+entry.getValue()+"\t"+ASTNode.nodeClassForType(entry.getKey().getNodeType()));
+			System.out.println(entry.getKey()+"\t"+entry.getValue()+"\t"+ASTNode.nodeClassForType(entry.getKey().getNodeType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void simpleTest5d() {
 		ReferenceHolder<ASTNode, Map<String,Object>> dataholder = new ReferenceHolder<>();
 		HelperVisitor.callVisitor(result,EnumSet.of(
@@ -390,7 +390,7 @@ public class VisitorTest {
 				VisitorEnum.VariableDeclarationExpression,
 				VisitorEnum.VariableDeclarationStatement,
 				VisitorEnum.VariableDeclarationFragment), dataholder,null, (node,holder)->{
-			Map<String, Object> pernodemap = holder.computeIfAbsent(node, unused -> new HashMap<>());
+			Map<String, Object> pernodemap = holder.computeIfAbsent(node, unused -> new HashMap<>()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			switch(VisitorEnum.fromNode(node)) {
 			case SingleVariableDeclaration:
 				SingleVariableDeclaration svd=(SingleVariableDeclaration) node;
@@ -420,13 +420,13 @@ public class VisitorTest {
 		 * Presenting result
 		 */
 		dataholder.entrySet().stream().forEach(entry->{
-			System.out.println(entry.getKey()+"\t"+ASTNode.nodeClassForType(entry.getKey().getNodeType()));
-			System.out.println("===>"+entry.getValue().get("init"));
+			System.out.println(entry.getKey()+"\t"+ASTNode.nodeClassForType(entry.getKey().getNodeType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("===>"+entry.getValue().get("init")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			System.out.println();
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void simpleTest5e() {
 		ReferenceHolder<ASTNode, Map<String,Object>> dataholder = new ReferenceHolder<>();
 		HelperVisitor.callVariableDeclarationStatementVisitor(Iterator.class, result2, dataholder,null, (init_iterator,unused)->{
@@ -435,7 +435,7 @@ public class VisitorTest {
 				String name = computeNextVarname(whilestatement);
 				if(computeVarName.get(0).equals(name)) {
 					HelperVisitor.callMethodInvocationVisitor("next", whilestatement.getBody() ,dataholder,null, (mi,holder2)->{
-						Map<String, Object> pernodemap2 = holder2.computeIfAbsent(whilestatement, unused3 -> new HashMap<>());
+						Map<String, Object> pernodemap2 = holder2.computeIfAbsent(whilestatement, unused3 -> new HashMap<>()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 						Expression element2 = mi.getExpression();
 						SimpleName sn= ASTNodes.as(element2, SimpleName.class);
 						if (sn !=null) {
@@ -467,15 +467,15 @@ public class VisitorTest {
 		dataholder.entrySet().stream().forEach(entry->{
 			System.out.println("=============");
 			System.out.println(entry.getKey());
-			System.out.println("init ===>"+entry.getValue().get("init"));
-			System.out.println("while ===>"+entry.getValue().get("while"));
-			System.out.println("next ===>"+entry.getValue().get("next"));
-			System.out.println("name ===>"+entry.getValue().get("name"));
+			System.out.println("init ===>"+entry.getValue().get("init")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("while ===>"+entry.getValue().get("while")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("next ===>"+entry.getValue().get("next")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("name ===>"+entry.getValue().get("name")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			System.out.println();
 		});
 	}
 
-	private static String computeNextVarname(WhileStatement whilestatement) {
+	private static String computeNextVarname(WhileStatement whilestatement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name = null;
 		Expression exp = whilestatement.getExpression();
 //		Collection<String> usedVarNames= getUsedVariableNames(whilestatement.getBody());
@@ -494,8 +494,8 @@ public class VisitorTest {
 		return name;
 	}
 
-	private static List<String> computeVarName(VariableDeclarationStatement node_a) {
-		List<String> name = new ArrayList<>();
+	private static List<String> computeVarName(VariableDeclarationStatement node_a) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<String> name = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		VariableDeclarationFragment bli = (VariableDeclarationFragment) node_a.fragments().get(0);
 		name.add(bli.getName().getIdentifier());
 		Expression exp = bli.getInitializer();
@@ -532,7 +532,7 @@ public class VisitorTest {
 	 * A similar trick is used in the next call to find all related MethodInvocations. As we are only interested in ".next()" calls in the
 	 * while loop body we use the lambda expression "s -> ((WhileStatement)s).getBody()" to go on searching for ".next()".
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void simpleTest5f() {
 		ReferenceHolder<String, Object> dataholder = new ReferenceHolder<>();
 		ASTProcessor<ReferenceHolder<String, Object>, String, Object> astp=new ASTProcessor<>(dataholder, null);
@@ -565,9 +565,9 @@ public class VisitorTest {
 					return true;
 				if(name.equals(holder.get("whilevarname"))) {
 					System.out.println("=====================");
-					System.out.println("iterator: "+holder.get("init").toString().trim());
-					System.out.println("while: "+holder.get("while").toString().trim());
-					System.out.println("next: "+node.toString().trim());
+					System.out.println("iterator: "+holder.get("init").toString().trim()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					System.out.println("while: "+holder.get("while").toString().trim()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					System.out.println("next: "+node.toString().trim()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			return true;
@@ -582,7 +582,7 @@ public class VisitorTest {
 			holder.put("init", node);
 			List<String> computeVarName = computeVarName((VariableDeclarationStatement)node);
 			holder.put("initvarname", computeVarName.get(0));
-			System.out.println("init "+node.getNodeType() + " :" + node);
+			System.out.println("init "+node.getNodeType() + " :" + node); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return true;
 		}).build(result2);
 	}
@@ -595,24 +595,24 @@ public class VisitorTest {
 		Set<ASTNode> nodesprocessed = null;
 		HelperVisitor<ReferenceHolder<String,NodeFound>,String,NodeFound> hv = new HelperVisitor<>(nodesprocessed, new ReferenceHolder<>());
 		hv.addMethodInvocation("println",(node, unused) -> {
-			System.out.println("Start "+node.getNodeType() + " :" + node);
+			System.out.println("Start "+node.getNodeType() + " :" + node); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return true;
 		});
 		hv.addMethodInvocation((node, holder) -> {
-			System.out.println("End "+node.getNodeType() + " :" + node);
+			System.out.println("End "+node.getNodeType() + " :" + node); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			holder.getHelperVisitor().removeVisitor(VisitorEnum.MethodInvocation);
 		});
 		hv.build(result);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void modifyTest2() {
 		Set<ASTNode> nodesprocessed = null;
 		ExpectationTracer dataholder = new ExpectationTracer();
 		dataholder.stack.push(null);
 		HelperVisitor<ExpectationTracer,ASTNode, SimpleName> hv = new HelperVisitor<>(nodesprocessed, dataholder);
-		Set<SimpleName> names = new HashSet<>();
-		Set<ASTNode> nodes = new HashSet<>();
+		Set<SimpleName> names = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<ASTNode> nodes = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		hv.addSingleVariableDeclaration((node, unused) -> {
 			names.add(node.getName());
 			return true;
@@ -631,7 +631,7 @@ public class VisitorTest {
 			System.out.println(usedVarNames);
 		});
 		hv.addMethodInvocation("next",(methodinvocationnode, unused) -> {
-			String x = "Start "+methodinvocationnode.getNodeType() + " :" + methodinvocationnode;
+			String x = "Start "+methodinvocationnode.getNodeType() + " :" + methodinvocationnode; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			System.out.printf("%-40s %s%n",x,ASTNode.nodeClassForType(methodinvocationnode.getNodeType()));
 			return true;
 		});

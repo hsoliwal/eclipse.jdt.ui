@@ -192,7 +192,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	protected RenameModifications computeRenameModifications() throws CoreException {
 		RenameModifications result= new RenameModifications();
 		RenameArguments args= new RenameArguments(getNewElementName(), getUpdateReferences());
-		for (IMethod method : fMethodsToRename) {
+		for (IMethod method : fMethodsToRename) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.rename(method, args);
 		}
 		return result;
@@ -217,7 +217,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		return fMethod.getElementName();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final RefactoringStatus checkNewElementName(String newName) {
 		Assert.isNotNull(newName, "new name"); //$NON-NLS-1$
 
@@ -257,8 +257,8 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	private void initializeMethodsToRename(IProgressMonitor pm, ReferencesInBinaryContext binaryRefs) throws CoreException {
 		if (fMethodsToRename == null) {
 			IMethod[] rippleMethods= RippleMethodFinder2.getRelatedMethods(getMethod(), binaryRefs, pm, null);
-			fMethodsToRename= new HashSet<>();
-			for (IMethod method : rippleMethods) {
+			fMethodsToRename= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IMethod method : rippleMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!method.isLambdaMethod()) {
 					fMethodsToRename.add(method);
 				}
@@ -267,7 +267,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	}
 
 	protected void setMethodsToRename(IMethod[] methods) {
-		fMethodsToRename= new HashSet<>(Arrays.asList(methods));
+		fMethodsToRename= new HashSet<>(Arrays.asList(methods)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	protected Set<IMethod> getMethodsToRename() {
@@ -336,7 +336,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException {
 		try{
 			RefactoringStatus result= new RefactoringStatus();
@@ -426,8 +426,8 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		}
 	}
 
-	private IType[] searchForOuterTypesOfReferences(IMethod[] newNameMethods, IProgressMonitor pm) throws CoreException {
-		final Set<IType> outerTypesOfReferences= new HashSet<>();
+	private IType[] searchForOuterTypesOfReferences(IMethod[] newNameMethods, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Set<IType> outerTypesOfReferences= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		SearchPattern pattern= RefactoringSearchEngine.createOrPattern(newNameMethods, IJavaSearchConstants.REFERENCES);
 		IJavaSearchScope scope= createRefactoringScope(getMethod());
 		SearchRequestor requestor= new SearchRequestor() {
@@ -450,8 +450,8 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		return outerTypesOfReferences.toArray(new IType[outerTypesOfReferences.size()]);
 	}
 
-	private IMethod[] searchForDeclarationsOfClashingMethods(IProgressMonitor pm) throws CoreException {
-		final List<IMethod> results= new ArrayList<>();
+	private IMethod[] searchForDeclarationsOfClashingMethods(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<IMethod> results= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SearchPattern pattern= createNewMethodPattern();
 		if (pattern == null) {
 			return new IMethod[0];
@@ -464,7 +464,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 				if (method instanceof IMethod) // check for bug 90138: [refactoring] [rename] Renaming method throws internal exception
 					results.add((IMethod) method);
 				else
-					JavaManipulationPlugin.logErrorMessage("Unexpected element in search match: " + match.toString()); //$NON-NLS-1$
+					JavaManipulationPlugin.logErrorMessage("Unexpected element in search match: " + match.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		};
 		new SearchEngine().search(pattern, SearchUtils.getDefaultSearchParticipants(), scope, requestor, pm);
@@ -472,14 +472,14 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	}
 
 	private SearchPattern createNewMethodPattern() {
-		StringBuilder stringPattern= new StringBuilder(getNewElementName()).append('(');
+		StringBuilder stringPattern= new StringBuilder(getNewElementName()).append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		int paramCount= getMethod().getNumberOfParameters();
-		for (int i= 0; i < paramCount; i++) {
+		for (int i= 0; i < paramCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0)
-				stringPattern.append(',');
-			stringPattern.append('*');
+				stringPattern.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			stringPattern.append('*'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		stringPattern.append(')');
+		stringPattern.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return SearchPattern.createPattern(stringPattern.toString(), IJavaSearchConstants.METHOD,
 				IJavaSearchConstants.DECLARATIONS, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
@@ -494,7 +494,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	}
 
 	protected SearchPattern createOccurrenceSearchPattern() {
-		HashSet<IMethod> methods= new HashSet<>(fMethodsToRename);
+		HashSet<IMethod> methods= new HashSet<>(fMethodsToRename); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		methods.add(fMethod);
 		IMethod[] ms= methods.toArray(new IMethod[methods.size()]);
 		return RefactoringSearchEngine.createOrPattern(ms, IJavaSearchConstants.ALL_OCCURRENCES);
@@ -510,9 +510,9 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 			new MethodOccurenceCollector(getMethod().getElementName(), binaryRefs), pm, status);
 	}
 
-	private RefactoringStatus checkRelatedMethods() throws CoreException {
+	private RefactoringStatus checkRelatedMethods() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
-		for (IMethod method : fMethodsToRename) {
+		for (IMethod method : fMethodsToRename) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.merge(Checks.checkIfConstructorName(method, getNewElementName(), method.getDeclaringType().getElementName()));
 
 			String[] msgData= new String[]{BasicElementLabels.getJavaElementName(method.getElementName()), BasicElementLabels.getJavaElementName(method.getDeclaringType().getFullyQualifiedName('.'))};
@@ -546,7 +546,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 
 	//-------
 
-	private RefactoringStatus analyzeRenameChanges(IProgressMonitor pm) throws CoreException {
+	private RefactoringStatus analyzeRenameChanges(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit[] newDeclarationWCs= null;
 		try {
 			pm.beginTask("", 4); //$NON-NLS-1$
@@ -558,7 +558,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 			IMethod[] wcOldMethods= new IMethod[fMethodsToRename.size()];
 			IMethod[] wcNewMethods= new IMethod[fMethodsToRename.size()];
 			int i= 0;
-			for (Iterator<IMethod> iter= fMethodsToRename.iterator(); iter.hasNext(); i++) {
+			for (Iterator<IMethod> iter= fMethodsToRename.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethod method= iter.next();
 				ICompilationUnit newCu= RenameAnalyzeUtil.findWorkingCopyForCu(newDeclarationWCs, method.getCompilationUnit());
 				IType typeWc= (IType) JavaModelUtil.findInCompilationUnit(newCu, method.getDeclaringType());
@@ -581,7 +581,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		} finally{
 			pm.done();
 			if (newDeclarationWCs != null){
-				for (ICompilationUnit newDeclarationWC : newDeclarationWCs) {
+				for (ICompilationUnit newDeclarationWC : newDeclarationWCs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newDeclarationWC.discardWorkingCopy();
 				}
 			}
@@ -621,7 +621,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 //		return newResults;
 //	}
 
-	private SearchResultGroup[] batchFindNewOccurrences(IMethod[] wcNewMethods, final IMethod[] wcOldMethods, ICompilationUnit[] newDeclarationWCs, IProgressMonitor pm, RefactoringStatus status) throws CoreException {
+	private SearchResultGroup[] batchFindNewOccurrences(IMethod[] wcNewMethods, final IMethod[] wcOldMethods, ICompilationUnit[] newDeclarationWCs, IProgressMonitor pm, RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask("", 2); //$NON-NLS-1$
 
 		SearchPattern refsPattern= RefactoringSearchEngine.createOrPattern(wcNewMethods, IJavaSearchConstants.REFERENCES);
@@ -637,7 +637,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 			requestor= new MethodOccurenceCollector(getNewElementName()) {
 				@Override
 				public void acceptSearchMatch(ICompilationUnit unit, SearchMatch match) throws CoreException {
-					for (IMethod occurrence : wcOldMethods) {
+					for (IMethod occurrence : wcOldMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (occurrence.equals(match.getElement())) {
 							return;
 						}
@@ -650,12 +650,12 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 
 		SearchEngine searchEngine= new SearchEngine(fWorkingCopyOwner);
 
-		ArrayList<ICompilationUnit> needWCs= new ArrayList<>();
-		HashSet<ICompilationUnit> declaringCUs= new HashSet<>(newDeclarationWCs.length);
-		for (ICompilationUnit newDeclarationWC : newDeclarationWCs) {
+		ArrayList<ICompilationUnit> needWCs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		HashSet<ICompilationUnit> declaringCUs= new HashSet<>(newDeclarationWCs.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ICompilationUnit newDeclarationWC : newDeclarationWCs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			declaringCUs.add(newDeclarationWC.getPrimary());
 		}
-		for (SearchResultGroup occurrence : fOccurrences) {
+		for (SearchResultGroup occurrence : fOccurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= occurrence.getCompilationUnit();
 			if (! declaringCUs.contains(cu))
 				needWCs.add(cu);
@@ -669,7 +669,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		} finally {
 			pm.done();
 			if (otherWCs != null) {
-				for (ICompilationUnit otherWC : otherWCs) {
+				for (ICompilationUnit otherWC : otherWCs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					otherWC.discardWorkingCopy();
 				}
 			}
@@ -679,8 +679,8 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	}
 
 	private ICompilationUnit[] getDeclarationCUs() {
-		Set<ICompilationUnit> cus= new HashSet<>();
-		for (IMethod method : fMethodsToRename) {
+		Set<ICompilationUnit> cus= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMethod method : fMethodsToRename) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cus.add(method.getCompilationUnit());
 		}
 		return cus.toArray(new ICompilationUnit[cus.size()]);
@@ -692,8 +692,8 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	}
 
 	//-------
-	private static IMethod[] classesDeclareMethodName(ITypeHierarchy hier, List<IType> classes, IMethod method, String newName)  throws CoreException {
-		Set<IMethod> result= new HashSet<>();
+	private static IMethod[] classesDeclareMethodName(ITypeHierarchy hier, List<IType> classes, IMethod method, String newName)  throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<IMethod> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IType type= method.getDeclaringType();
 		List<IType> subtypes= Arrays.asList(hier.getAllSubtypes(type));
 		List<IType> supertypes= Arrays.asList(hier.getAllSupertypes(type));
@@ -701,14 +701,14 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		int parameterCount= method.getParameterTypes().length;
 		boolean isMethodPrivate= JdtFlags.isPrivate(method);
 
-		for (IType clazz : classes) {
+		for (IType clazz : classes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// try and find the method declaration -.don't look at anonymous types as
 			// we will find the method in the real type and there is a current bug scenario where accessing
 			// may cause a model exception when the class is created in a lambda expression and the file is unopen
 			if (!clazz.isAnonymous()) {
 				boolean isSubclass= subtypes.contains(clazz);
 				boolean isSuperclass= supertypes.contains(clazz);
-				for (IMethod m : clazz.getMethods()) {
+				for (IMethod m : clazz.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IMethod foundMethod= Checks.findMethod(newName, parameterCount, false, new IMethod[]{m});
 					if (foundMethod == null)
 						continue;
@@ -732,9 +732,9 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		return result.toArray(new IMethod[result.size()]);
 	}
 
-	final static IMethod[] hierarchyDeclaresMethodName(IProgressMonitor pm, ITypeHierarchy hierarchy, IMethod method, String newName) throws CoreException {
+	final static IMethod[] hierarchyDeclaresMethodName(IProgressMonitor pm, ITypeHierarchy hierarchy, IMethod method, String newName) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
-			Set<IMethod> result= new HashSet<>();
+			Set<IMethod> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			IType type= method.getDeclaringType();
 			IMethod foundMethod= Checks.findMethod(newName, method.getParameterTypes().length, false, type);
 			if (foundMethod != null)
@@ -754,11 +754,11 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor monitor) throws CoreException {
 		try {
 			final TextChange[] changes= fChangeManager.getAllChanges();
-			final List<TextChange> list= new ArrayList<>(changes.length);
+			final List<TextChange> list= new ArrayList<>(changes.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			list.addAll(Arrays.asList(changes));
 			String project= null;
 			IJavaProject javaProject= fMethod.getJavaProject();
@@ -812,17 +812,17 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	 * @param status the status
 	 * @throws CoreException if change creation failed
 	 */
-	protected void addOccurrences(TextChangeManager manager, IProgressMonitor pm, RefactoringStatus status) throws CoreException/*thrown in subtype*/{
+	protected void addOccurrences(TextChangeManager manager, IProgressMonitor pm, RefactoringStatus status) throws CoreException/*thrown in subtype*/{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask("", fOccurrences.length);				 //$NON-NLS-1$
-		for (SearchResultGroup occurrence : fOccurrences) {
+		for (SearchResultGroup occurrence : fOccurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= occurrence.getCompilationUnit();
 			if (cu == null)
 				continue;
 			// Split matches into declaration and non-declaration matches
 
-			List<SearchMatch> declarationsInThisCu= new ArrayList<>();
-			List<SearchMatch> referencesInThisCu= new ArrayList<>();
-			for (SearchMatch result : occurrence.getSearchResults()) {
+			List<SearchMatch> declarationsInThisCu= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<SearchMatch> referencesInThisCu= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (SearchMatch result : occurrence.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result instanceof MethodDeclarationMatch) {
 					declarationsInThisCu.add(result);
 				} else {
@@ -837,7 +837,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 					CompilationUnitRewrite rewrite= new CompilationUnitRewrite(cu);
 					rewrite.setResolveBindings(true);
 
-					for (SearchMatch element : declarationsInThisCu) {
+					for (SearchMatch element : declarationsInThisCu) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						MethodDeclaration method= ASTNodeSearchUtil.getMethodDeclarationNode((IMethod) element.getElement(), rewrite.getRoot());
 						DelegateCreator creator= new DelegateMethodCreator();
 						creator.setDeclareDeprecated(fDelegateDeprecation);
@@ -855,14 +855,14 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 				}
 
 				// Update the normal methods
-				for (SearchMatch element : declarationsInThisCu) {
+				for (SearchMatch element : declarationsInThisCu) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					simpleUpdate(element, cu, manager.get(cu));
 				}
 			}
 
 			// Second, handle references
 			if (fUpdateReferences) {
-				for (SearchMatch element : referencesInThisCu) {
+				for (SearchMatch element : referencesInThisCu) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					simpleUpdate(element, cu, manager.get(cu));
 				}
 			}
@@ -882,12 +882,12 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 
 	protected final ReplaceEdit createReplaceEdit(SearchMatch searchResult, ICompilationUnit cu) {
 		if (searchResult.isImplicit()) { // handle Annotation Element references, see bug 94062
-			StringBuilder sb= new StringBuilder(getNewElementName());
+			StringBuilder sb= new StringBuilder(getNewElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (JavaCore.INSERT.equals(cu.getJavaProject().getOption(DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_BEFORE_ASSIGNMENT_OPERATOR, true)))
-				sb.append(' ');
-			sb.append('=');
+				sb.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append('='); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (JavaCore.INSERT.equals(cu.getJavaProject().getOption(DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_AFTER_ASSIGNMENT_OPERATOR, true)))
-				sb.append(' ');
+				sb.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return new ReplaceEdit(searchResult.getOffset(), 0, sb.toString());
 		} else {
 			return new ReplaceEdit(searchResult.getOffset(), searchResult.getLength(), getNewElementName());
@@ -901,7 +901,7 @@ public abstract class RenameMethodProcessor extends JavaRenameProcessor implemen
 	 * @param extended the arguments
 	 * @return the resulting status
 	 */
-	protected final RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	protected final RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fInitialized= true;
 		final String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {

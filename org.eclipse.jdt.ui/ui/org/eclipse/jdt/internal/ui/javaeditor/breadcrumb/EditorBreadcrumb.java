@@ -165,7 +165,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 		if (fBreadcrumbViewer.isDropDownOpen())
 			return;
 
-		fBreadcrumbViewer.setInput(element);
+		fBreadcrumbViewer.setInput(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/*
@@ -189,7 +189,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.IBreadcrumb#createContent(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createContent(Composite parent) {
 		Assert.isTrue(fComposite == null, "Content must only be created once."); //$NON-NLS-1$
 
@@ -228,12 +228,12 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 				focusLost();
 			}
 		};
-		Display.getCurrent().addFilter(SWT.FocusIn, fDisplayFocusListener);
+		Display.getCurrent().addFilter(SWT.FocusIn, fDisplayFocusListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		fBreadcrumbViewer= createViewer(fComposite);
 		fBreadcrumbViewer.getControl().setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 
-		fBreadcrumbViewer.addDoubleClickListener(event -> {
+		fBreadcrumbViewer.addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			Object element= ((IStructuredSelection) event.getSelection()).getFirstElement();
 			if (element == null)
 				return;
@@ -247,7 +247,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 			parentItem.openDropDownMenu();
 		});
 
-		fBreadcrumbViewer.addOpenListener(event -> doRevealOrOpen(event.getSelection()));
+		fBreadcrumbViewer.addOpenListener(event -> doRevealOrOpen(event.getSelection())); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 
 		fBreadcrumbViewer.addMenuDetectListener(event -> {
 			ISelectionProvider selectionProvider;
@@ -274,7 +274,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 				menu= manager.createContextMenu(fBreadcrumbViewer.getControl());
 				menu.setLocation(event.x + 10, event.y + 10);
 				menu.setVisible(true);
-				while (!menu.isDisposed() && menu.isVisible()) {
+				while (!menu.isDisposed() && menu.isVisible()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!menu.getDisplay().readAndDispatch())
 						menu.getDisplay().sleep();
 				}
@@ -289,14 +289,14 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 			}
 		});
 
-		fPropertyChangeListener= event -> {
+		fPropertyChangeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (ACTIVE_TAB_BG_END.equals(event.getProperty())) {
 				if (fComposite.isFocusControl()) {
 					fComposite.setBackground(JFaceResources.getColorRegistry().get(ACTIVE_TAB_BG_END));
 				}
 			}
 		};
-		JFaceResources.getColorRegistry().addListener(fPropertyChangeListener);
+		JFaceResources.getColorRegistry().addListener(fPropertyChangeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		return fComposite;
 	}
@@ -332,7 +332,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 		} else if (doOpen(selection)) {
 			fIsActive= false;
 			focusLost();
-			fBreadcrumbViewer.setInput(getCurrentInput());
+			fBreadcrumbViewer.setInput(getCurrentInput()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -347,7 +347,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 		return open(structuredSelection.getFirstElement());
 	}
 
-	private boolean doReveal(ISelection selection) {
+	private boolean doReveal(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(selection instanceof StructuredSelection))
 			return false;
 
@@ -425,7 +425,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 
 			fTextViewer.getTextWidget().setFocus();
 		};
-		Display.getDefault().addFilter(SWT.KeyDown, fDisplayKeyListener);
+		Display.getDefault().addFilter(SWT.KeyDown, fDisplayKeyListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	/**
@@ -475,13 +475,13 @@ public abstract class EditorBreadcrumb implements IBreadcrumb {
 	 *
 	 * @param textEditor the text editor to be used
 	 */
-	protected void setTextEditor(ITextEditor textEditor) {
+	protected void setTextEditor(ITextEditor textEditor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTextEditor= textEditor;
 
 		if (fTextEditor == null)
 			return;
 
-		fPartListener= new IPartListener() {
+		fPartListener= new IPartListener() { //FLLDCIM: MARK — T20  ANONYMOUS
 
 			@Override
 			public void partActivated(IWorkbenchPart part) {

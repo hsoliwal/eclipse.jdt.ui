@@ -46,7 +46,7 @@ public class OptionalCorrectionProposalCore extends ASTRewriteCorrectionProposal
 		setCommandId(OptionalCorrectionProposalCore.ADD_OPTIONAL_ID);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		AST ast= fNodeToWrap.getAST();
 		ASTRewrite rewrite= ASTRewrite.create(ast);

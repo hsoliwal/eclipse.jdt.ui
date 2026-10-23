@@ -59,7 +59,7 @@ public class SefTests extends AbstractJunit4SelectionTestCase {
 
 	@Override
 	protected String adaptName(String name) {
-		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java";
+		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void performTest(IPackageFragment packageFragment, String id, String outputFolder, String fieldName) throws Exception {
@@ -98,7 +98,7 @@ public class SefTests extends AbstractJunit4SelectionTestCase {
 
 	private static IField getField(ICompilationUnit unit, String fieldName) throws Exception {
 		IField result= null;
-		for (IType type : unit.getAllTypes()) {
+		for (IType type : unit.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result= type.getField(fieldName);
 			if (result != null && result.exists())
 				break;

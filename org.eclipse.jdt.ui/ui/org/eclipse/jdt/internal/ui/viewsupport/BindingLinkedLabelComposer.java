@@ -93,7 +93,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 	 * @param binding a binding to be rendered
 	 * @param flags rendering flags, see above for supported values.
 	 */
-	public void appendBindingLabel(IBinding binding, long flags) {
+	public void appendBindingLabel(IBinding binding, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (binding.getKind()) {
 			case IBinding.METHOD:
 				appendMethodBindingLabel((IMethodBinding) binding, flags);
@@ -116,7 +116,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		}
 	}
 
-	private void appendMethodBindingLabel(IMethodBinding method, long flags) {
+	private void appendMethodBindingLabel(IMethodBinding method, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long qualificationFlags = flags & (QUALIFIER_FLAGS | JavaElementLabels.ALL_FULLY_QUALIFIED | JavaElementLabels.T_CONTAINER_QUALIFIED);
 		qualificationFlags |= TP_BOUNDS;
 		if (getFlag(flags, JavaElementLabels.T_POST_QUALIFIED))
@@ -228,12 +228,12 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 				IAnnotationBinding[][] parameterAnnotations= null;
 				if (nParams > 0 && getFlag(flags, JavaElementLabels.M_PARAMETER_ANNOTATIONS)) {
 					parameterAnnotations= new IAnnotationBinding[nParams][];
-					for (int i= 0; i < nParams; i++) {
+					for (int i= 0; i < nParams; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						parameterAnnotations[i]= method.getParameterAnnotations(i);
 					}
 				}
 
-				for (int i= 0; i < nParams; i++) {
+				for (int i= 0; i < nParams; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (i > 0)
 						fBuffer.append(JavaElementLabels.COMMA_STRING);
 					if (parameterAnnotations != null && i < parameterAnnotations.length) {
@@ -245,7 +245,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 						if (renderVarargs && (i == nParams - 1)) {
 							int newDim= paramSig.getDimensions() - 1;
 							appendTypeBindingLabel(paramSig.getElementType(), flags);
-							for (int k= 0; k < newDim; k++) {
+							for (int k= 0; k < newDim; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								fBuffer.append('[').append(']');
 							}
 							fBuffer.append(JavaElementLabels.ELLIPSIS_STRING);
@@ -258,7 +258,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 							fBuffer.append(' ');
 						}
 						if (isPolymorphic) {
-							fBuffer.append(names[0] + i);
+							fBuffer.append(names[0] + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						} else {
 							fBuffer.append(names[i]);
 						}
@@ -276,7 +276,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 				ITypeBinding[] types= method.getExceptionTypes();
 				if (types.length > 0) {
 					fBuffer.append(" throws "); //$NON-NLS-1$
-					for (int i= 0; i < types.length; i++) {
+					for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (i > 0)
 							fBuffer.append(JavaElementLabels.COMMA_STRING);
 						appendTypeBindingLabel(types[i], flags);
@@ -312,7 +312,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		}
 	}
 
-	private void appendVariableLabel(IVariableBinding variable, long flags) {
+	private void appendVariableLabel(IVariableBinding variable, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long qualificationFlags = flags & (QUALIFIER_FLAGS | JavaElementLabels.ALL_FULLY_QUALIFIED | JavaElementLabels.T_CONTAINER_QUALIFIED);
 		qualificationFlags |= TP_BOUNDS;
 		if (fIsFromSource) {
@@ -344,7 +344,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		}
 	}
 
-	private void appendVariableQualification(IVariableBinding variable, long flags) {
+	private void appendVariableQualification(IVariableBinding variable, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (variable.isField()) {
 			appendTypeBindingLabel(variable.getDeclaringClass(), flags);
 		} else {
@@ -369,7 +369,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		}
 	}
 
-	private void appendLambdaLabel(IMethodBinding lambdaBinding, long flags) {
+	private void appendLambdaLabel(IMethodBinding lambdaBinding, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long qualificationFlags = flags & (QUALIFIER_FLAGS | JavaElementLabels.ALL_FULLY_QUALIFIED);
 		if (fIsFromSource) {
 			flags &= ~JavaElementLabels.T_FULLY_QUALIFIED;
@@ -393,7 +393,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		}
 	}
 
-	private void appendTypeBindingLabel(ITypeBinding typeBinding, long flags) {
+	private void appendTypeBindingLabel(ITypeBinding typeBinding, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long typeRefFlags= flags & ~JavaElementLabels.ALL_POST_QUALIFIED;
 		if (fIsFromSource) {
 			typeRefFlags &= ~(JavaElementLabels.ALL_FULLY_QUALIFIED | TP_BOUNDS);
@@ -420,7 +420,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		} else if (typeBinding.isArray()) {
 			appendTypeBindingLabel(typeBinding.getElementType(), flags);
 			ITypeBinding typeAtDimension = typeBinding;
-			while (typeAtDimension.isArray()) {
+			while (typeAtDimension.isArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IAnnotationBinding[] typeAnnotations= typeAtDimension.getTypeAnnotations();
 				if (typeAnnotations.length > 0) {
 					appendAnnotationLabels(typeAnnotations, typeRefFlags, true, false);
@@ -443,7 +443,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 			fBuffer.append(getTypeLink(typeBinding.getTypeDeclaration(), flags));
 			appendLT();
 			ITypeBinding[] typeArguments= typeBinding.getTypeArguments();
-			for (int i= 0; i < typeArguments.length; i++) {
+			for (int i= 0; i < typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0)
 					fBuffer.append(JavaElementLabels.COMMA_STRING);
 				appendTypeBindingLabel(typeArguments[i], typeRefFlags);
@@ -455,7 +455,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 				ITypeBinding[] bounds= typeBinding.getTypeBounds();
 				if (hasRelevantBound(bounds)) {
 					fBuffer.append(" extends "); //$NON-NLS-1$
-					for (int i= 0; i < bounds.length; i++) {
+					for (int i= 0; i < bounds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (i > 0)
 							fBuffer.append(" &amp; "); //$NON-NLS-1$
 						appendTypeBindingLabel(bounds[i], (typeRefFlags | JavaElementLabels.T_TYPE_PARAMETERS) & ~TP_BOUNDS);
@@ -511,7 +511,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 			if (separator != null)
 				fBuffer.append(separator);
 			appendLT();
-			for (int i = 0; i < parameters.length; i++) {
+			for (int i = 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0)
 					fBuffer.append(JavaElementLabels.COMMA_STRING);
 				appendTypeBindingLabel(parameters[i], flags);
@@ -525,14 +525,14 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 			return;
 		if (prependBlank)
 			fBuffer.append(' ');
-		for (int i= 0; i < annotationBindings.length; i++) {
+		for (int i= 0; i < annotationBindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			appendAnnotationLabel(annotationBindings[i], flags);
 			if (appendBlank || i < annotationBindings.length-1)
 				fBuffer.append(' ');
 		}
 	}
 
-	private void appendAnnotationLabel(IAnnotationBinding annotation, long flags) {
+	private void appendAnnotationLabel(IAnnotationBinding annotation, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fBuffer.append('@');
 		appendTypeBindingLabel(annotation.getAnnotationType(), flags);
 		IMemberValuePairBinding[] memberValuePairs= annotation.getDeclaredMemberValuePairs();
@@ -542,7 +542,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 			flags &= ~JavaElementLabels.T_FULLY_QUALIFIED;
 		}
 		fBuffer.append('(');
-		for (int i= 0; i < memberValuePairs.length; i++) {
+		for (int i= 0; i < memberValuePairs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0)
 				fBuffer.append(JavaElementLabels.COMMA_STRING);
 			IMemberValuePairBinding memberValuePair= memberValuePairs[i];
@@ -554,12 +554,12 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		fBuffer.append(')');
 	}
 
-	private void appendAnnotationValue(IAnnotationBinding annotation, Object value, long flags) {
+	private void appendAnnotationValue(IAnnotationBinding annotation, Object value, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Note: To be bug-compatible with Javadoc from Java 5/6/7, we currently don't escape HTML tags in String-valued annotations.
 		if (value instanceof Object[]) {
 			fBuffer.append('{');
 			Object[] values= (Object[]) value;
-			for (int j= 0; j < values.length; j++) {
+			for (int j= 0; j < values.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (j > 0)
 					fBuffer.append(JavaElementLabels.COMMA_STRING);
 				value= values[j];
@@ -584,7 +584,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		}
 	}
 
-	private void appendPackageLabel(IPackageBinding binding, long flags) {
+	private void appendPackageLabel(IPackageBinding binding, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		appendAnnotationLabels(binding.getAnnotations(), flags, false, true);
 		String qualifiedName= binding.getName();
 		if (qualifiedName.length() > 0) {
@@ -613,7 +613,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 	// consider only relevant bounds / ignore j.l.Object
 	private boolean hasRelevantBound(ITypeBinding[] bounds) {
 		if (bounds != null) {
-			for (ITypeBinding bound : bounds) {
+			for (ITypeBinding bound : bounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (bound.isInterface() || bound.getSuperclass() != null) {
 					return true;
 				}
@@ -631,7 +631,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 	}
 
 	// applicable for types, methods & fields
-	private void appendNameLink(IBinding binding, IBinding origBinding) {
+	private void appendNameLink(IBinding binding, IBinding origBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IJavaElement javaElement= origBinding.getJavaElement();
 			if (!isEnclosingElement(javaElement)) {
@@ -654,20 +654,20 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		fBuffer.append(binding.getName());
 	}
 
-	private String getLinkTitle(IBinding binding) {
+	private String getLinkTitle(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding instanceof ITypeBinding) {
 			IMethodBinding declaringMethod= ((ITypeBinding) binding).getDeclaringMethod();
 			String title= null;
 			ITypeBinding declaringClass= null;
 			if (declaringMethod != null) {
-				title= '.'+declaringMethod.getName()+PARAMETER_ELLIPSIS_LABEL;
+				title= '.'+declaringMethod.getName()+PARAMETER_ELLIPSIS_LABEL; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				declaringClass= declaringMethod.getDeclaringClass();
 			} else {
 				declaringClass= ((ITypeBinding) binding).getDeclaringClass();
 			}
 			if (declaringClass != null) {
 				String typeName= getTypeName(declaringClass, JavaElementLabels.ALL_FULLY_QUALIFIED);
-				return title != null ? typeName+title : typeName;
+				return title != null ? typeName+title : typeName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else if (binding instanceof IMethodBinding) {
 			return getTypeName(((IMethodBinding) binding).getDeclaringClass(), JavaElementLabels.ALL_FULLY_QUALIFIED);
@@ -677,7 +677,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		return null;
 	}
 
-	private String getTypeLink(ITypeBinding typeBinding, long flags) {
+	private String getTypeLink(ITypeBinding typeBinding, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isEnclosingElement(typeBinding.getJavaElement())) {
 			return getTypeName(typeBinding, flags);
 		}
@@ -704,51 +704,51 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		}
 	}
 
-	private String getTypeName(ITypeBinding typeBinding, long flags) {
+	private String getTypeName(ITypeBinding typeBinding, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (typeBinding.isLocal()) {
-			StringBuilder buf= new StringBuilder();
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			IMethodBinding declaringMethod= typeBinding.getDeclaringMethod();
 			if (getFlag(flags, JavaElementLabels.T_FULLY_QUALIFIED|JavaElementLabels.T_CONTAINER_QUALIFIED)) {
 				if (declaringMethod != null) {
-					buf.append(getTypeName(declaringMethod.getDeclaringClass(), flags));
-					buf.append('.');
-					buf.append(declaringMethod.getName());
+					buf.append(getTypeName(declaringMethod.getDeclaringClass(), flags)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(declaringMethod.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (declaringMethod.getParameterTypes().length > 0) {
-						buf.append(PARAMETER_ELLIPSIS_LABEL);
+						buf.append(PARAMETER_ELLIPSIS_LABEL); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					} else {
-						buf.append("()"); //$NON-NLS-1$
+						buf.append("()"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				} else {
-					buf.append(getTypeName(typeBinding.getDeclaringClass(), flags));
+					buf.append(getTypeName(typeBinding.getDeclaringClass(), flags)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					IBinding declaringMember= typeBinding.getDeclaringMember();
 					if (declaringMember != null) {
-						buf.append('.');
+						buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						if (declaringMember instanceof ITypeBinding) {
-							buf.append(getTypeName((ITypeBinding) declaringMember, flags));
+							buf.append(getTypeName((ITypeBinding) declaringMember, flags)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else { // field or method
 							String name= declaringMember.getName();
 							if (INIT_NAME.equals(name))
-								buf.append(JavaUIMessages.JavaElementLabels_initializer);
+								buf.append(JavaUIMessages.JavaElementLabels_initializer); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							else
-								buf.append(name);
+								buf.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 				}
-				buf.append('.');
+				buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			if (typeBinding.isAnonymous()) {
-				buf.append("new "); //$NON-NLS-1$
+				buf.append("new "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				ITypeBinding[] interfaces= typeBinding.getInterfaces();
 				if (interfaces.length > 0) {
-					buf.append(interfaces[0].getName());
+					buf.append(interfaces[0].getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else if (typeBinding.getSuperclass() != null){
-					buf.append(typeBinding.getSuperclass().getName());
+					buf.append(typeBinding.getSuperclass().getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					buf.append(MISSING_LABEL);
+					buf.append(MISSING_LABEL); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append(ANON_TYPE_TAIL);
+				buf.append(ANON_TYPE_TAIL); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buf.append(typeBinding.getName());
+				buf.append(typeBinding.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			return buf.toString();
 		}
@@ -757,9 +757,9 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		} else if (getFlag(flags, JavaElementLabels.T_CONTAINER_QUALIFIED)) {
 			ITypeBinding declaringClass= typeBinding.getDeclaringClass();
 			if (declaringClass != null) {
-				StringBuilder buf= new StringBuilder(getTypeName(declaringClass, flags));
-				buf.append('.');
-				buf.append(typeBinding.getName());
+				StringBuilder buf= new StringBuilder(getTypeName(declaringClass, flags)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(typeBinding.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return buf.toString();
 			}
 		}
@@ -777,7 +777,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		return iMethod;
 	}
 
-	private boolean isEnclosingElement(IJavaElement element) {
+	private boolean isEnclosingElement(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == null)
 			return false;
 		if (element.equals(fEnclosingElement))

@@ -161,9 +161,9 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 			 * The element change listener of the java outline viewer.
 			 * @see IElementChangedListener
 			 */
-			protected class ElementChangedListener implements IElementChangedListener {
+			protected class ElementChangedListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void elementChanged(final ElementChangedEvent e) {
 
 					// IElementChangedListener can run on a Java-model worker thread.
@@ -171,14 +171,14 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 					if (d != null && !d.isDisposed()) {
 						d.asyncExec(() -> {
 							if (fM3OutlineDisplay != d || fOutlineViewer == null)
-								return;
+								return; //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							Control control= fOutlineViewer.getControl();
 							if (control == null || control.isDisposed())
 								return;
 							ICompilationUnit cu= (ICompilationUnit) fInput;
 							IJavaElement base= cu;
 							if (fTopLevelTypeOnly) {
-								base= cu.findPrimaryType();
+								base= cu.findPrimaryType(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 								if (base == null) {
 									if (fOutlineViewer != null)
 										fOutlineViewer.refresh(true);
@@ -201,7 +201,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 					if ((flags & IJavaElementDelta.F_CHILDREN) != 0) {
 						return true;
 					}
-					return (flags & (IJavaElementDelta.F_CONTENT | IJavaElementDelta.F_FINE_GRAINED)) == IJavaElementDelta.F_CONTENT;
+					return (flags & (IJavaElementDelta.F_CONTENT | IJavaElementDelta.F_FINE_GRAINED)) == IJavaElementDelta.F_CONTENT; //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				}
 
 				protected IJavaElementDelta findElement(IJavaElement unit, IJavaElementDelta delta) {
@@ -223,7 +223,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 						return null;
 
 					IJavaElementDelta[] children= delta.getAffectedChildren();
-					if (children == null || children.length == 0)
+					if (children == null || children.length == 0) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						return null;
 
 					for (IJavaElementDelta child : children) {
@@ -256,7 +256,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 
 			/**
 			 * Content provider for the children of an ICompilationUnit or
-			 * an IClassFile
+			 * an IClassFile //FLLDCIM: MARK — M22  IMPLEMENTS
 			 * @see ITreeContentProvider
 			 */
 			protected class ChildrenProvider implements ITreeContentProvider {
@@ -269,9 +269,9 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 						String name= element.getElementName();
 						return (name != null && name.indexOf('<') >= 0);
 					}
-					return false;
+					return false; //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				}
-
+ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				protected IJavaElement[] filter(IJavaElement[] children) {
 					boolean initializers= false;
 					for (IJavaElement child : children) {
@@ -281,8 +281,8 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 						}
 					}
 
-					if (!initializers)
-						return children;
+					if (!initializers) //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+						return children; //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					ArrayList<IJavaElement> v= new ArrayList<>();
 					for (IJavaElement child : children) {
@@ -370,7 +370,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 				@Override
 				public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 					boolean isCU= (newInput instanceof ICompilationUnit);
-
+ //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 					if (isCU && fListener == null) {
 						fListener= new ElementChangedListener();
 						JavaCore.addElementChangedListener(fListener);
@@ -398,7 +398,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 				 * Investigates the given element change event and if affected
 				 * incrementally updates the Java outline.
 				 *
-				 * @param delta the Java element delta used to reconcile the Java outline
+				 * @param delta the Java element delta used to reconcile the Java outline //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				 */
 				public void reconcile(IJavaElementDelta delta) {
 					refresh(true);
@@ -433,7 +433,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 					return super.isExpandable(element);
 				}
 
-				/*
+				/* //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				 * @see ContentViewer#handleLabelProviderChanged(LabelProviderChangedEvent)
 				 */
 				@Override
@@ -447,7 +447,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 					}
 					// look if the underlying resource changed
 					Object[] changed= event.getElements();
-					if (changed != null) {
+					if (changed != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IResource resource= getUnderlyingResource();
 						if (resource != null) {
 							for (Object c : changed) {
@@ -539,7 +539,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 				setTopLevelTypeOnly(!fTopLevelTypeOnly);
 			}
 
-			private void setTopLevelTypeOnly(boolean show) {
+			private void setTopLevelTypeOnly(boolean show) { //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fTopLevelTypeOnly= show;
 				setChecked(show);
 				fOutlineViewer.refresh(false);
@@ -607,7 +607,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	 * Formats the code associated with the elements selected in the Outline view. The action
 	 * requires that the selection provided by the site's selection provider is of type
 	 * {@link IStructuredSelection}
-	 *
+	 * //FLLDCIM: MARK — T04  IMPLEMENTS
 	 * @since 3.7
 	 */
 	private class FormatElementAction extends SelectionDispatchAction {
@@ -624,7 +624,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 		/**
 		 * Executes the action based on the Structured Selection. This formats the non-overlapping
 		 * element(s) that have been selected in the view.
-		 *
+		 * //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		 * @param selection the current selection
 		 */
 		@Override
@@ -659,11 +659,11 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 		 * ordered by their offsets.
 		 *
 		 * @param selection the selected elements
-		 * @param document the document containing the selected elements
+		 * @param document the document containing the selected elements //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		 * @return the array of ordered source regions
 		 */
-		private IRegion[] getOrderedRegionsForNonOverlappingElements(IStructuredSelection selection, IDocument document) {
-			List<?> allElements= selection.toList();
+		private IRegion[] getOrderedRegionsForNonOverlappingElements(IStructuredSelection selection, IDocument document) { //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<?> allElements= selection.toList(); //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Iterator<?> iterator= selection.iterator();
 			ArrayList<IRegion> regions= new ArrayList<>(selection.size());
 			while (iterator.hasNext()) {
@@ -679,7 +679,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 					return 1;
 				else if (region1Offset == region2Offset)
 					return 0;
-				else
+				else //FLLDCIM: MARK — M16 SORT_LANE CALL
 					return -1;
 			};
 			Collections.sort(regions, comparator);
@@ -694,13 +694,13 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 		 * the source start to the beginning of the line is all whitespace.
 		 *
 		 * @param element the element whose regions is to be calculated
-		 * @param document the document containing the element whose region is to be calculated
+		 * @param document the document containing the element whose region is to be calculated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		 * @return the region for the element
 		 */
 		private Region getElementRegion(Object element, IDocument document) {
 			try {
 				ISourceRange sourceRange= ((ISourceReference)element).getSourceRange();
-				int sourceOffset= sourceRange.getOffset();
+				int sourceOffset= sourceRange.getOffset(); //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int beginningOfWSOffset= sourceOffset - 1;
 				int lineAtSourceOffset= document.getLineOfOffset(sourceOffset);
 				while (beginningOfWSOffset >= 0 && Character.isWhitespace(document.getChar(beginningOfWSOffset)) && lineAtSourceOffset == document.getLineOfOffset(beginningOfWSOffset)) {
@@ -724,7 +724,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 		 * @param element the element to be checked for overlap against all elements
 		 * @param allElements the list of all elements
 		 * @return <code>true</code> if the element has a parent in the list of all elements
-		 */
+		 */ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		private boolean isElementOverlapping(IJavaElement element, List<?> allElements) {
 			element= element.getParent();
 			while (element != null) {
@@ -831,7 +831,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	@Override
 	public void init(IPageSite pageSite) {
 		super.init(pageSite);
-	}
+	} //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 	private void doPropertyChange(PropertyChangeEvent event) {
 		if (fOutlineViewer != null) {
@@ -842,7 +842,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	}
 
 	/*
-	 * @see ISelectionProvider#addSelectionChangedListener(ISelectionChangedListener)
+	 * @see ISelectionProvider#addSelectionChangedListener(ISelectionChangedListener) //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	 */
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
@@ -883,7 +883,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	}
 
 	/*
-	 * @see org.eclipse.jface.text.IPostSelectionProvider#addPostSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
+	 * @see org.eclipse.jface.text.IPostSelectionProvider#addPostSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener) //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	 */
 	@Override
 	public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
@@ -899,7 +899,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	@Override
 	public void removePostSelectionChangedListener(ISelectionChangedListener listener) {
 		if (fOutlineViewer != null)
-			fOutlineViewer.removePostSelectionChangedListener(listener);
+			fOutlineViewer.removePostSelectionChangedListener(listener); //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		else
 			fPostSelectionChangedListeners.remove(listener);
 	}
@@ -933,7 +933,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	/*
 	 * @see IPage#createControl
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		JavaCore.runReadOnly(() -> createControlCached(parent));
 	}
@@ -946,26 +946,26 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 		AppearanceAwareLabelProvider lprovider= new AppearanceAwareLabelProvider(
 			AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS |  JavaElementLabels.F_APP_TYPE_SIGNATURE | JavaElementLabels.ALL_CATEGORY2,
 			AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS
-		);
+		); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
-		fOutlineViewer= new JavaOutlineViewer(tree);
+		fOutlineViewer= new JavaOutlineViewer(tree); //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		WorkbenchViewerSetup.setupViewer(fOutlineViewer);
-		initDragAndDrop();
+		initDragAndDrop(); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		fOutlineViewer.setContentProvider(new ChildrenProvider());
 		fOutlineViewer.setLabelProvider(new DecoratingJavaLabelProvider(lprovider));
-
+ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		for (ISelectionChangedListener listener : fSelectionChangedListeners) {
-			fSelectionChangedListeners.remove(listener);
+			fSelectionChangedListeners.remove(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			fOutlineViewer.addSelectionChangedListener(listener);
 		}
 
 		for (ISelectionChangedListener listener : fPostSelectionChangedListeners) {
-			fPostSelectionChangedListeners.remove(listener);
+			fPostSelectionChangedListeners.remove(listener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			fOutlineViewer.addPostSelectionChangedListener(listener);
 		}
 
 		MenuManager manager= new MenuManager(fContextMenuID, fContextMenuID);
-		manager.setRemoveAllWhenShown(true);
+		manager.setRemoveAllWhenShown(true); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		manager.addMenuListener(this::contextMenuAboutToShow);
 		fMenu= manager.createContextMenu(tree);
 		tree.setMenu(fMenu);
@@ -995,13 +995,13 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 		actionBars.setGlobalActionHandler(ITextEditorActionDefinitionIds.GOTO_PREVIOUS_ANNOTATION, action);
 		actionBars.setGlobalActionHandler(ITextEditorActionConstants.PREVIOUS, action);
 
-		actionBars.setGlobalActionHandler(ITextEditorActionDefinitionIds.TOGGLE_SHOW_SELECTED_ELEMENT_ONLY, fTogglePresentation);
+		actionBars.setGlobalActionHandler(ITextEditorActionDefinitionIds.TOGGLE_SHOW_SELECTED_ELEMENT_ONLY, fTogglePresentation); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		fActionGroups.fillActionBars(actionBars);
 
 		fFormatElement= new FormatElementAction(site);
 		fFormatElement.setActionDefinitionId(IJavaEditorActionDefinitionIds.QUICK_FORMAT);
-		site.getSelectionProvider().addSelectionChangedListener(fFormatElement);
+		site.getSelectionProvider().addSelectionChangedListener(fFormatElement); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		actionBars.setGlobalActionHandler(JdtActionConstants.FORMAT_ELEMENT, fFormatElement);
 
 		IStatusLineManager statusLineManager= actionBars.getStatusLineManager();
@@ -1036,7 +1036,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 		};
 
 		registerToolbarActions(actionBars);
-
+ //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		IHandlerService handlerService= site.getService(IHandlerService.class);
 		handlerService.activateHandler(IWorkbenchCommandConstants.NAVIGATE_TOGGLE_LINK_WITH_EDITOR, new ActionHandler(fToggleLinkingAction));
 		handlerService.activateHandler(CollapseAllHandler.COMMAND_ID, new ActionHandler(fCollapseAllAction));
@@ -1052,7 +1052,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 		ISelectionProvider provider= fOutlineViewer;
 		if (fInput != null) {
 			ICompilationUnit cu= (ICompilationUnit)fInput.getAncestor(IJavaElement.COMPILATION_UNIT);
-			if (cu != null && !JavaModelUtil.isPrimary(cu))
+			if (cu != null && !JavaModelUtil.isPrimary(cu)) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				provider= new EmptySelectionProvider();
 		}
 		site.setSelectionProvider(provider);
@@ -1114,7 +1114,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 
 	@Override
 	public Control getControl() {
-		if (fOutlineViewer != null)
+		if (fOutlineViewer != null) //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			return fOutlineViewer.getControl();
 		return null;
 	}
@@ -1247,7 +1247,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	protected IShowInSource getShowInSource() {
 		return () -> new ShowInContext(
 			null,
-			getSite().getSelectionProvider().getSelection());
+			getSite().getSelectionProvider().getSelection()); //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	}
 
 	/**

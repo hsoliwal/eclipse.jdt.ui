@@ -59,9 +59,9 @@ public class TestExecutionTiming extends AbstractTestRunListenerTest {
 		JavaProjectHelper.addRTJar18(fProject);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRunnerSendsTimingBeforeTestEnd() throws Exception {
-		List<String> messages= new ArrayList<>();
+		List<String> messages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		MessageSender sender= new MessageSender() {
 			@Override
 			public void sendMessage(String msg) {
@@ -123,9 +123,9 @@ public class TestExecutionTiming extends AbstractTestRunListenerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRerunListenerSendsFreshTimingWithOriginalTestId() {
-		List<String> messages= new ArrayList<>();
+		List<String> messages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int[] flushCount= new int[1];
 		MessageSender sender= new MessageSender() {
 			@Override
@@ -184,7 +184,7 @@ public class TestExecutionTiming extends AbstractTestRunListenerTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRerunTimingDoesNotChangeOriginalSuiteInterval() throws Exception {
 		TestRunSession session= new TestRunSession("timing", null); //$NON-NLS-1$
 		ITestRunListener2 listener= newTestSessionNotifier(session);
@@ -217,7 +217,7 @@ public class TestExecutionTiming extends AbstractTestRunListenerTest {
 
 	private static ITestRunListener2 newTestSessionNotifier(TestRunSession session) throws Exception {
 		Class<?> notifierClass= null;
-		for (Class<?> nestedClass : TestRunSession.class.getDeclaredClasses()) {
+		for (Class<?> nestedClass : TestRunSession.class.getDeclaredClasses()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (nestedClass.getSimpleName().equals("TestSessionNotifier")) { //$NON-NLS-1$
 				notifierClass= nestedClass;
 				break;
@@ -229,7 +229,7 @@ public class TestExecutionTiming extends AbstractTestRunListenerTest {
 		return (ITestRunListener2) constructor.newInstance(session);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExecutionTimingReachesTestModel() throws Exception {
 		String source=
 				"""
@@ -284,7 +284,7 @@ public class TestExecutionTiming extends AbstractTestRunListenerTest {
 		assertTimingLabels(element);
 	}
 
-	private static void assertTimingLabels(TestElement element) {
+	private static void assertTimingLabels(TestElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TestSessionLabelProvider labelProvider= new TestSessionLabelProvider(null, TestRunnerViewPart.LAYOUT_FLAT);
 
 		labelProvider.setShowTime(false);

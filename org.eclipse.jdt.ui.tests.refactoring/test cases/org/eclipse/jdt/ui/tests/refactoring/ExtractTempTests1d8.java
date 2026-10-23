@@ -35,9 +35,9 @@ public class ExtractTempTests1d8 extends ExtractTempTests {
 
 	@Override
 	protected String getTestFileName(boolean canExtract, boolean input) {
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canExtract ? "canExtract18/" : "cannotExtract18/");
-		return fileName.append(getSimpleTestFileName(canExtract, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canExtract ? "canExtract18/" : "cannotExtract18/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canExtract, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	//--- TESTS

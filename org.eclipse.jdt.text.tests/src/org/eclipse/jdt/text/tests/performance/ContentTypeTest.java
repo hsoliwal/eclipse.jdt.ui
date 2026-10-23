@@ -46,7 +46,7 @@ public class ContentTypeTest extends TextPerformanceTestCase {
 
 	private static final IContentType TEXT_CONTENT_TYPE= Platform.getContentTypeManager().getContentType("org.eclipse.core.runtime.text"); //$NON-NLS-1$
 
-	private static final String TEXT_FILE= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/common/version.txt";
+	private static final String TEXT_FILE= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/common/version.txt"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	private static final IContentType JAVA_CONTENT_TYPE= Platform.getContentTypeManager().getContentType("org.eclipse.jdt.core.javaSource"); //$NON-NLS-1$
@@ -56,17 +56,17 @@ public class ContentTypeTest extends TextPerformanceTestCase {
 
 	private static final IContentType PROPERTIES_CONTENT_TYPE= Platform.getContentTypeManager().getContentType("org.eclipse.jdt.core.javaProperties"); //$NON-NLS-1$
 
-	private static final String PROPERTIES_FILE= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/common_j2se/org/eclipse/swt/internal/SWTMessages.properties";
+	private static final String PROPERTIES_FILE= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/common_j2se/org/eclipse/swt/internal/SWTMessages.properties"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	private static final IContentType PLUGIN_XML_CONTENT_TYPE= Platform.getContentTypeManager().getContentType("org.eclipse.pde.pluginManifest"); //$NON-NLS-1$
 
-	private static final String PLUGIN_XML_FILE= "/" + PerformanceTestSetup.PROJECT + "/plugin.xml";
+	private static final String PLUGIN_XML_FILE= "/" + PerformanceTestSetup.PROJECT + "/plugin.xml"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	private static final IContentType PLUGIN_PROPERTIES_CONTENT_TYPE= Platform.getContentTypeManager().getContentType("org.eclipse.pde.pluginProperties"); //$NON-NLS-1$
 
-	private static final String PLUGIN_PROPERTIES_FILE= "/" + PerformanceTestSetup.PROJECT + "/plugin.properties";
+	private static final String PLUGIN_PROPERTIES_FILE= "/" + PerformanceTestSetup.PROJECT + "/plugin.properties"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	private static final int WARM_UP_RUNS= 5;
@@ -154,7 +154,7 @@ public class ContentTypeTest extends TextPerformanceTestCase {
 		measure(filename, expectedContentType, dirty, performanceMeter, runs, ITERATIONS);
 	}
 
-	private void measure(String filename, IContentType expectedContentType, boolean dirty, PerformanceMeter performanceMeter, int runs, int iterations) throws CoreException, BadLocationException {
+	private void measure(String filename, IContentType expectedContentType, boolean dirty, PerformanceMeter performanceMeter, int runs, int iterations) throws CoreException, BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFile file= ResourceTestHelper.findFile(filename);
 		IPath path= file.getFullPath();
 		ITextFileBufferManager fileBufferManager= FileBuffers.getTextFileBufferManager();
@@ -165,10 +165,10 @@ public class ContentTypeTest extends TextPerformanceTestCase {
 				IDocument document= fileBuffer.getDocument();
 				document.replace(document.getLength(), 0, " ");
 			}
-			for (int i= 0; i < runs; i++) {
+			for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IContentType contentType= null;
 				performanceMeter.start();
-				for (int j= 0; j < iterations; j++) {
+				for (int j= 0; j < iterations; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					contentType= fileBuffer.getContentType();
 					assertNotNull(contentType);
 				}

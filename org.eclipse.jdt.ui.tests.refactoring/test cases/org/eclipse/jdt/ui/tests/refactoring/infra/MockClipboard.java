@@ -34,7 +34,7 @@ public class MockClipboard extends Clipboard{
 
 	public MockClipboard(Display display) {
 		super(display);
-		fContents= new HashMap<>();
+		fContents= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	@Override
@@ -44,8 +44,8 @@ public class MockClipboard extends Clipboard{
 
 	@Override
 	public TransferData[] getAvailableTypes() {
-		Set<TransferData> result= new HashSet<>();
-		for (Transfer transfer : fContents.keySet()) {
+		Set<TransferData> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Transfer transfer : fContents.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(transfer.getSupportedTypes()));
 		}
 		return result.toArray(new TransferData[result.size()]);
@@ -62,7 +62,7 @@ public class MockClipboard extends Clipboard{
 			DND.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
 		fContents.clear();
-		for (int i= 0; i < dataTypes.length; i++) {
+		for (int i= 0; i < dataTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fContents.put(dataTypes[i], data[i]);
 		}
 	}

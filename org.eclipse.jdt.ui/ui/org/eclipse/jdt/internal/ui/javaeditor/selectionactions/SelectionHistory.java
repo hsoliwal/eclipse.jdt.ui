@@ -35,12 +35,12 @@ public class SelectionHistory {
 	public SelectionHistory(JavaEditor editor) {
 		Assert.isNotNull(editor);
 		fEditor= editor;
-		fHistory= new ArrayList<>(3);
-		fSelectionListener= unused -> {
+		fHistory= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fSelectionListener= unused -> { //FLLDCIM: MARK — T04  LAMBDA
 			if (fSelectionChangeListenerCounter == 0)
 				flush();
 		};
-		fEditor.getSelectionProvider().addSelectionChangedListener(fSelectionListener);
+		fEditor.getSelectionProvider().addSelectionChangedListener(fSelectionListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	public void setHistoryAction(StructureSelectHistoryAction action) {

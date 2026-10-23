@@ -58,7 +58,7 @@ public class CompilationUnitChange extends org.eclipse.jdt.core.refactoring.Comp
 		setKeepPreviewEdits(change.getKeepPreviewEdits());
 		setSaveMode(change.getSaveMode());
 		setTextType(change.getTextType());
-		for (TextEditBasedChangeGroup group : change.getChangeGroups()) {
+		for (TextEditBasedChangeGroup group : change.getChangeGroups()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addChangeGroup(group);
 		}
 	}

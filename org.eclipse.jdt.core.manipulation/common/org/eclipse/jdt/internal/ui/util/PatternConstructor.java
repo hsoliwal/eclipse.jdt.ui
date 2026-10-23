@@ -52,7 +52,7 @@ public class PatternConstructor {
 	 */
 	public static Pattern createPattern(String[] patterns, boolean isCaseSensitive, boolean isRegexSearch) throws PatternSyntaxException {
 		StringBuffer pattern= new StringBuffer();
-		for (int i= 0; i < patterns.length; i++) {
+		for (int i= 0; i < patterns.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
 				pattern.append('|');
 			}
@@ -72,12 +72,12 @@ public class PatternConstructor {
 	 * @param out string buffer
 	 * @return string buffer
 	 */
-	private static StringBuffer asRegEx(String stringMatcherPattern, StringBuffer out) {
+	private static StringBuffer asRegEx(String stringMatcherPattern, StringBuffer out) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean escaped= false;
 		boolean quoting= false;
 
 		int i= 0;
-		while (i < stringMatcherPattern.length()) {
+		while (i < stringMatcherPattern.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= stringMatcherPattern.charAt(i++);
 
 			if (ch == '*' && !escaped) {

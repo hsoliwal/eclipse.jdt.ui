@@ -31,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ImageDescriptorRegistry {
 
-	private Map<ImageDescriptor, Image> fRegistry= Collections.synchronizedMap(new HashMap<ImageDescriptor, Image>(10));
+	private Map<ImageDescriptor, Image> fRegistry= Collections.synchronizedMap(new HashMap<ImageDescriptor, Image>(10)); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private Display fDisplay;
 
 	/**
@@ -70,13 +70,13 @@ public class ImageDescriptorRegistry {
 	 * Disposes all images managed by this registry.
 	 */
 	public void dispose() {
-		for (Image image : fRegistry.values()) {
+		for (Image image : fRegistry.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			image.dispose();
 		}
 		fRegistry.clear();
 	}
 
 	private void hookDisplay() {
-		fDisplay.asyncExec(() -> fDisplay.disposeExec(this::dispose));
+		fDisplay.asyncExec(() -> fDisplay.disposeExec(this::dispose)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 }

@@ -67,16 +67,16 @@ public class CopyFailureListAction extends Action {
 	}
 
 	public String getAllFailureTraces() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		TestElement[] failures= fRunner.getAllFailures();
 
 		String lineDelim= System.lineSeparator();
-		for (TestElement failure : failures) {
-			buf.append(failure.getTestName()).append(lineDelim);
+		for (TestElement failure : failures) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(failure.getTestName()).append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String failureTrace= failure.getTrace();
 			if (failureTrace != null) {
 				failureTrace = failureTrace.replaceAll("\\r\\n|\\r|\\n", lineDelim); //$NON-NLS-1$
-				buf.append(failureTrace);
+				buf.append(failureTrace); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return buf.toString();

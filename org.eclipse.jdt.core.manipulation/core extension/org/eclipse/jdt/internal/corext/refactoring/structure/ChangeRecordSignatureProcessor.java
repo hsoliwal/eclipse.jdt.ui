@@ -120,7 +120,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 			//String msg= "Cannot update found node: nodeType=" + fNode.getNodeType() + "; "  //$NON-NLS-1$//$NON-NLS-2$
 			//					+ fNode.toString() + "[" + start + ", " + length + "] in " + fCuRewrite.getCu();  //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 			String msg= Messages.format(RefactoringCoreMessages.ChangeSignatureRefactoring_update_error_exception, keys);
-			JavaManipulationPlugin.log(new Exception(msg + ":\n" + fCuRewrite.getCu().getSource().substring(start, start + length))); //$NON-NLS-1$
+			JavaManipulationPlugin.log(new Exception(msg + ":\n" + fCuRewrite.getCu().getSource().substring(start, start + length))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fResult.addError(msg, JavaStatusContext.create(fCuRewrite.getCu(), fNullNode));
 		}
 		@Override
@@ -209,7 +209,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 			TempOccurrenceAnalyzer analyzer= new TempOccurrenceAnalyzer(param, false);
 			analyzer.perform();
 			// @param tags are updated in changeJavaDocTags()
-			for (SimpleName occurrence : analyzer.getReferenceAndDeclarationNodes()) {
+			for (SimpleName occurrence : analyzer.getReferenceAndDeclarationNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getASTRewrite().set(occurrence, SimpleName.IDENTIFIER_PROPERTY, info.getNewName(), description);
 			}
 		}
@@ -229,17 +229,17 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 	    	  super(cuRewrite, description, result);
 	      }
 
-	      protected final void reshuffleElements() {
+	      protected final void reshuffleElements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    	  ListRewrite listRewrite= getParamgumentsRewrite();
-	    	  Map<N, N> newOldMap= new LinkedHashMap<>();
+	    	  Map<N, N> newOldMap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 	    	  List<N> nodes= listRewrite.getRewrittenList();
 	    	  Iterator<N> rewriteIter= nodes.iterator();
 	    	  List<N> original= listRewrite.getOriginalList();
-	    	  for (N n : original) {
+	    	  for (N n : original) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    		  newOldMap.put(rewriteIter.next(),n);
 	    		 }
-	    	  List<N> newNodes= new ArrayList<>();
-	    	  for (ParameterInfo info : fParameterInfos) {
+	    	  List<N> newNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	    	  for (ParameterInfo info : fParameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    		  int oldIndex= info.getOldIndex();
 	    		  if (info.isDeleted()) {
 	    			  registerImportRemoveNode(nodes.get(oldIndex));
@@ -257,7 +257,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 	    	  Iterator<N> nodesIter= nodes.iterator();
 				Iterator<N> newIter= newNodes.iterator();
 				//replace existing nodes with new ones:
-				while (nodesIter.hasNext() && newIter.hasNext()) {
+				while (nodesIter.hasNext() && newIter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode node= nodesIter.next();
 					ASTNode newNode= newIter.next();
 					if (!ASTNodes.isExistingNode(node)) //XXX:should better be addressed in ListRewriteEvent.replaceEntry(ASTNode, ASTNode)
@@ -266,7 +266,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 						listRewrite.replace(node, newNode, fDescription);
 				}
 				//remove remaining existing nodes:
-				while (nodesIter.hasNext()) {
+				while (nodesIter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode node= nodesIter.next();
 					if (!ASTNodes.isExistingNode(node))
 						listRewrite.remove(newOldMap.get(node), fDescription);
@@ -274,7 +274,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 						listRewrite.remove(node, fDescription);
 				}
 				//add additional new nodes:
-				while (newIter.hasNext()) {
+				while (newIter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode node= newIter.next();
 					listRewrite.insertLast(node, fDescription);
 				}
@@ -282,7 +282,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 	      }
 
 	      protected final void changeParamguments() {
-				for (ParameterInfo info : getParameterInfos()) {
+				for (ParameterInfo info : getParameterInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (info.isAdded() || info.isDeleted())
 						continue;
 
@@ -319,8 +319,8 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 	private List<ParameterInfo> getTypeParameters() {
 		try {
 			IField[] recordTypes = fType.getRecordComponents();
-			List<ParameterInfo> result= new ArrayList<>(recordTypes.length);
-			for (int i=0; i < recordTypes.length; i++) {
+			List<ParameterInfo> result= new ArrayList<>(recordTypes.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i=0; i < recordTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IField fieldType = recordTypes[i];
 				ParameterInfo parameterInfo = new ParameterInfo(Signature.toString(fieldType.getTypeSignature()), fieldType.getElementName(), i);
 				result.add(parameterInfo);
@@ -328,7 +328,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 			return result;
 		} catch (JavaModelException e) {
 			JavaManipulationPlugin.log(e);
-			return new ArrayList<>(0);
+			return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 	}
 
@@ -352,7 +352,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 		return RefactoringAvailabilityTesterCore.isChangeRecordSignatureAvailable(fType);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		try {
 			pm.beginTask("", 2); //$NON-NLS-1$
@@ -370,7 +370,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 				fBaseCuRewrite.getASTRewrite().setTargetSourceRangeComputer(new TightSourceRangeComputer());
 			}
 
-			for (RefactoringStatus status : TypeContextChecker.checkRecordTypesSyntax(fType, getParameterInfos())) {
+			for (RefactoringStatus status : TypeContextChecker.checkRecordTypesSyntax(fType, getParameterInfos())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.merge(status);
 			}
 			pm.worked(1);
@@ -380,7 +380,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException, OperationCanceledException {
 		pm.beginTask(RefactoringCoreMessages.ChangeSignatureRefactoring_checking_preconditions, 8);
 		RefactoringStatus result= new RefactoringStatus();
@@ -397,7 +397,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 		ReferencesInBinaryContext binaryRefs= new ReferencesInBinaryContext(binaryRefsDescription);
 		fOccurrences= findOccurrences(Progress.subMonitor(pm, 1), binaryRefs, result);
 		binaryRefs.addErrorIfNecessary(result);
-		for (RefactoringStatus status : TypeContextChecker.checkAndResolveRecordTypes(fType, getStubTypeContext(), getParameterInfos())) {
+		for (RefactoringStatus status : TypeContextChecker.checkAndResolveRecordTypes(fType, getStubTypeContext(), getParameterInfos())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (status != null)
 				result.merge(status);
 		}
@@ -408,10 +408,10 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 		return result;
 	}
 
-	private TextChangeManager createChangeManager(IProgressMonitor pm, RefactoringStatus result) throws CoreException {
+	private TextChangeManager createChangeManager(IProgressMonitor pm, RefactoringStatus result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask(RefactoringCoreMessages.ChangeSignatureRefactoring_preview, 2);
 		fChangeManager= new TextChangeManager();
-		for (SearchResultGroup occurrence : fOccurrences) {
+		for (SearchResultGroup occurrence : fOccurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
 			SearchResultGroup group= occurrence;
@@ -426,8 +426,8 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 				cuRewrite.getASTRewrite().setTargetSourceRangeComputer(new TightSourceRangeComputer());
 			}
 			//IntroduceParameterObjectRefactoring needs to update declarations first:
-			List<OccurrenceUpdate<? extends ASTNode>> deferredUpdates= new ArrayList<>();
-			for (ASTNode node : ASTNodeSearchUtil.findNodes(group.getSearchResults(), cuRewrite.getRoot())) {
+			List<OccurrenceUpdate<? extends ASTNode>> deferredUpdates= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ASTNode node : ASTNodeSearchUtil.findNodes(group.getSearchResults(), cuRewrite.getRoot())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				OccurrenceUpdate<? extends ASTNode> update= createOccurrenceUpdate(node, cuRewrite, result);
 				if (update instanceof RecordDeclarationUpdate) {
 					update.updateNode();
@@ -436,7 +436,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 				}
 			}
 
-			for (OccurrenceUpdate<? extends ASTNode> occurrenceUpdate : deferredUpdates) {
+			for (OccurrenceUpdate<? extends ASTNode> occurrenceUpdate : deferredUpdates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				occurrenceUpdate.updateNode();
 			}
 
@@ -457,7 +457,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 	    return new NullOccurrenceUpdate(node, cuRewrite, result);
 	}
 
-	private SearchResultGroup[] findOccurrences(IProgressMonitor pm, ReferencesInBinaryContext binaryRefs, RefactoringStatus status) throws JavaModelException{
+	private SearchResultGroup[] findOccurrences(IProgressMonitor pm, ReferencesInBinaryContext binaryRefs, RefactoringStatus status) throws JavaModelException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CuCollectingSearchRequestor requestor= new CuCollectingSearchRequestor(binaryRefs) {
 			@Override
 			protected void acceptSearchMatch(ICompilationUnit unit, SearchMatch match) throws CoreException {
@@ -497,9 +497,9 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 	}
 
 	private void checkForDuplicateParameterNames(RefactoringStatus result){
-		Set<String> found= new HashSet<>();
-		Set<String> doubled= new HashSet<>();
-		for (ParameterInfo info : fParameterInfos) {
+		Set<String> found= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<String> doubled= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ParameterInfo info : fParameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String newName= info.getNewName();
 			if (found.contains(newName) && !doubled.contains(newName)){
 				result.addFatalError(Messages.format(RefactoringCoreMessages.ChangeSignatureRefactoring_duplicate_name, BasicElementLabels.getJavaElementName(newName)));
@@ -535,16 +535,16 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 
 	}
 
-	public static boolean isValidExpression(String string){
+	public static boolean isValidExpression(String string){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String trimmed= string.trim();
 		if ("".equals(trimmed)) //speed up for a common case //$NON-NLS-1$
 			return false;
-		StringBuilder cuBuff= new StringBuilder();
-		cuBuff.append(CONST_CLASS_DECL)
+		StringBuilder cuBuff= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		cuBuff.append(CONST_CLASS_DECL) //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			  .append("Object") //$NON-NLS-1$
 			  .append(CONST_ASSIGN);
 		int offset= cuBuff.length();
-		cuBuff.append(trimmed)
+		cuBuff.append(trimmed) //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			  .append(CONST_CLOSE);
 		ASTParser p= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 		p.setSource(cuBuff.toString().toCharArray());
@@ -571,7 +571,7 @@ public class ChangeRecordSignatureProcessor extends AbstractSignatureProcessor {
 	@Override
 	boolean isOrderSameAsInitial(){
 		int i= 0;
-		for (Iterator<ParameterInfo> iter= fParameterInfos.iterator(); iter.hasNext(); i++) {
+		for (Iterator<ParameterInfo> iter= fParameterInfos.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ParameterInfo info= iter.next();
 			if (info.getOldIndex() != i) // includes info.isAdded()
 				return false;

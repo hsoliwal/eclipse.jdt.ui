@@ -44,7 +44,7 @@ class FiltersDialog extends StatusDialog {
 	private static final String VALID_JAVA_NAME_REST= "A-Za-z0-9_"; //$NON-NLS-1$
 	private static final String VALID_JAVA_NAME_BEGINNING= "A-Za-z_"; //$NON-NLS-1$
 
-	static final String METHOD_NAME_GLOB_PATTERN= "^([" + VALID_JAVA_NAME_BEGINNING + GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*)(" + DOT + "([" + VALID_JAVA_NAME_BEGINNING //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
+	static final String METHOD_NAME_GLOB_PATTERN= "^([" + VALID_JAVA_NAME_BEGINNING + GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*)(" + DOT + "([" + VALID_JAVA_NAME_BEGINNING //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*))*$";//$NON-NLS-1$ //$NON-NLS-2$
 
     private Label fNamesHelpText;
@@ -85,7 +85,7 @@ class FiltersDialog extends StatusDialog {
         return composite;
     }
 
-    private void createMaxCallDepthArea(Composite parent) {
+    private void createMaxCallDepthArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         Composite composite= new Composite(parent, SWT.NONE);
         composite.setFont(parent.getFont());
         GridLayout layout = new GridLayout();
@@ -99,22 +99,22 @@ class FiltersDialog extends StatusDialog {
         fMaxCallDepth = new Text(composite, SWT.SINGLE | SWT.BORDER);
         fMaxCallDepth.setFont(composite.getFont());
         fMaxCallDepth.setTextLimit(6);
-        fMaxCallDepth.addModifyListener(unused -> validateInput());
+        fMaxCallDepth.addModifyListener(unused -> validateInput()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
         GridData gridData = new GridData();
         gridData.widthHint = convertWidthInCharsToPixels(12);
         fMaxCallDepth.setLayoutData(gridData);
     }
 
-    private void createNamesArea(Composite parent) {
+    private void createNamesArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         fFilterOnNames = createCheckbox(parent,
                 CallHierarchyMessages.FiltersDialog_filterOnNames, true);
 
-        fFilterOnNames.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> validateInput()));
+        fFilterOnNames.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> validateInput())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
         fNames= new Text(parent, SWT.SINGLE | SWT.BORDER);
         fNames.setFont(parent.getFont());
-        fNames.addModifyListener(unused -> validateInput());
+        fNames.addModifyListener(unused -> validateInput()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
         GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
         gridData.widthHint = convertWidthInCharsToPixels(80);
@@ -125,7 +125,7 @@ class FiltersDialog extends StatusDialog {
         fNamesHelpText.setText(CallHierarchyMessages.FiltersDialog_filterOnNamesSubCaption);
     }
 
-    private void createTestCodeArea(Composite parent) {
+    private void createTestCodeArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite radioGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
 		layout.numColumns= 1;
@@ -167,7 +167,7 @@ class FiltersDialog extends StatusDialog {
      *
      * @return the check box button
      */
-    private Button createCheckbox(Composite parent, String text, boolean grabRow) {
+    private Button createCheckbox(Composite parent, String text, boolean grabRow) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         Button button = new Button(parent, SWT.CHECK);
         button.setFont(parent.getFont());
 
@@ -177,7 +177,7 @@ class FiltersDialog extends StatusDialog {
         }
 
         button.setText(text);
-        button.addSelectionListener(new SelectionAdapter() {
+        button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validateInput();

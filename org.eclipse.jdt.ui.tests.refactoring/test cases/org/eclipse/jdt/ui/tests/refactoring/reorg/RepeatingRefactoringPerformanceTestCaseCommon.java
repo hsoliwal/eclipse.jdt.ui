@@ -27,7 +27,7 @@ public abstract class RepeatingRefactoringPerformanceTestCaseCommon extends Refa
 	}
 
 	protected void executeRefactoring(int numberOfCus, int numberOfRefs, boolean measure, int sampleCount) throws Exception {
-		for (int i= 0; i < sampleCount; i++) {
+		for (int i= 0; i < sampleCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				fTestProject= new TestProject();
 				doExecuteRefactoring(numberOfCus, numberOfRefs, measure);

@@ -190,7 +190,7 @@ public class ContextCalculator {
 	 * {@link #fSelectionEditorText} Selection.
 	 *
 	 */
-	private void calculateSelectionASTNode() {
+	private void calculateSelectionASTNode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit selectionICompilationUnit = getSelectionICompilationUnit();
 		Selection selectionEditorText= getSelectionEditorText();
 

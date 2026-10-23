@@ -18,17 +18,17 @@ import org.eclipse.jdt.ui.JavaUI;
 
 public interface IUIConstants {
 
-	String KEY_OK= JavaUI.ID_PLUGIN + ".ok.label"; //$NON-NLS-1$
-	String KEY_CANCEL= JavaUI.ID_PLUGIN + ".cancel.label"; //$NON-NLS-1$
+	String KEY_OK= JavaUI.ID_PLUGIN + ".ok.label"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	String KEY_CANCEL= JavaUI.ID_PLUGIN + ".cancel.label"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	String P_ICON_NAME= JavaUI.ID_PLUGIN + ".icon_name"; //$NON-NLS-1$
+	String P_ICON_NAME= JavaUI.ID_PLUGIN + ".icon_name"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	String DIALOGSTORE_LASTEXTJAR= JavaUI.ID_PLUGIN + ".lastextjar"; //$NON-NLS-1$
-	String DIALOGSTORE_LASTEXTJARFOLDER= JavaUI.ID_PLUGIN + ".lastextjarfolder"; //$NON-NLS-1$
-	String DIALOGSTORE_LASTJARATTACH= JavaUI.ID_PLUGIN + ".lastjarattach"; //$NON-NLS-1$
-	String DIALOGSTORE_LASTVARIABLE= JavaUI.ID_PLUGIN + ".lastvariable";	 //$NON-NLS-1$
+	String DIALOGSTORE_LASTEXTJAR= JavaUI.ID_PLUGIN + ".lastextjar"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	String DIALOGSTORE_LASTEXTJARFOLDER= JavaUI.ID_PLUGIN + ".lastextjarfolder"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	String DIALOGSTORE_LASTJARATTACH= JavaUI.ID_PLUGIN + ".lastjarattach"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	String DIALOGSTORE_LASTVARIABLE= JavaUI.ID_PLUGIN + ".lastvariable";	 //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	String DIALOGSTORE_TYPECOMMENT_DEPRECATED= JavaUI.ID_PLUGIN + ".typecomment.deprecated";	 //$NON-NLS-1$
+	String DIALOGSTORE_TYPECOMMENT_DEPRECATED= JavaUI.ID_PLUGIN + ".typecomment.deprecated";	 //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// The preference is defined in the org.eclipse.debug.ui plugin.xml file
 	String INSTRUCTION_POINTER_COLOR_PREFERENCE_KEY= "currentIPColor"; //$NON-NLS-1$

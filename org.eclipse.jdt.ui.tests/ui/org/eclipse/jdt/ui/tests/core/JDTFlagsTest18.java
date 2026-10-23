@@ -93,7 +93,7 @@ public class JDTFlagsTest18 {
 		return cuNode;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIsStaticInSrcFile() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -125,7 +125,7 @@ public class JDTFlagsTest18 {
 		assertTrue(JdtFlags.isStatic(methodNode));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNestedEnumInEnum() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -145,7 +145,7 @@ public class JDTFlagsTest18 {
 		assertTrue(JdtFlags.isStatic((IType)elem));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNestedEnumInInterface() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -188,7 +188,7 @@ public class JDTFlagsTest18 {
 		assertTrue(JdtFlags.isFinal(type));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNestedEnumInClass() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -255,7 +255,7 @@ public class JDTFlagsTest18 {
 		assertFalse(JdtFlags.isFinal(element));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIsStaticInBinaryFile() throws Exception {
 		File clsJarPath= JavaTestPlugin.getDefault().getFileInPlugin(new Path("/testresources/JDTFlagsTest18.zip"));
 		assertNotNull("lib not found", clsJarPath);//$NON-NLS-1$
@@ -275,7 +275,7 @@ public class JDTFlagsTest18 {
 		assertFalse(JdtFlags.isDefaultMethod(method));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIsDefaultInInterface() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -324,7 +324,7 @@ public class JDTFlagsTest18 {
 		assertFalse(JdtFlags.isAbstract(method));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIsDefaultInClass() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -374,7 +374,7 @@ public class JDTFlagsTest18 {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImplicitAbstractInSrcFile() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -406,7 +406,7 @@ public class JDTFlagsTest18 {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExplicitAbstractInSrcFile() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -473,7 +473,7 @@ public class JDTFlagsTest18 {
 		assertTrue(JdtFlags.isAbstract(method));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIsStaticAnnotationType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """

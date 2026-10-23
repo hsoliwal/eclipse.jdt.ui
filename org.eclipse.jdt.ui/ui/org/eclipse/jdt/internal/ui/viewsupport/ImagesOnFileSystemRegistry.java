@@ -44,13 +44,13 @@ public class ImagesOnFileSystemRegistry {
 	private int fImageCount;
 
 	public ImagesOnFileSystemRegistry() {
-		fURLMap= new HashMap<>();
+		fURLMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		fTempDir= getTempDir();
 		fImageProvider= new JavaElementImageProvider();
 		fImageCount= 0;
 	}
 
-	private File getTempDir() {
+	private File getTempDir() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			File imageDir= JavaPlugin.getDefault().getStateLocation().append(IMAGE_DIR).toFile();
 			if (imageDir.exists()) {
@@ -61,7 +61,7 @@ public class ImagesOnFileSystemRegistry {
 				imageDir.mkdir();
 			}
 			if (!imageDir.isDirectory()) {
-				JavaPlugin.logErrorMessage("Failed to create image directory " + imageDir.toString()); //$NON-NLS-1$
+				JavaPlugin.logErrorMessage("Failed to create image directory " + imageDir.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return null;
 			}
 			return imageDir;
@@ -73,7 +73,7 @@ public class ImagesOnFileSystemRegistry {
 
 	private void delete(File file) {
 		if (file.isDirectory()) {
-			for (File f : file.listFiles()) {
+			for (File f : file.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				delete(f);
 			}
 		}
@@ -96,7 +96,7 @@ public class ImagesOnFileSystemRegistry {
 		return getImageURL(descriptor,100);
 	}
 
-	public URL getImageURL(ImageDescriptor descriptor, int zoom) {
+	public URL getImageURL(ImageDescriptor descriptor, int zoom) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTempDir == null)
 			return null;
 
@@ -126,8 +126,8 @@ public class ImagesOnFileSystemRegistry {
 
 	private File getNewFile() {
 		File file;
-		do {
-			file= new File(fTempDir, String.valueOf(getImageCount()) + ".png"); //$NON-NLS-1$
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			file= new File(fTempDir, String.valueOf(getImageCount()) + ".png"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} while (file.exists());
 		return file;
 	}

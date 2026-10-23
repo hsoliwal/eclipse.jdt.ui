@@ -145,7 +145,7 @@ public class PropertyKeyHyperlink implements IHyperlink {
 		/*
 		 * @see org.eclipse.ui.model.IWorkbenchAdapter#getLabel(java.lang.Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getLabel(Object o) {
 
 			ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
@@ -299,11 +299,11 @@ public class PropertyKeyHyperlink implements IHyperlink {
 	 * @param keyReferences the array of key references
 	 * @return the selected key reference or <code>null</code> if canceled by the user
 	 */
-	private KeyReference select(final KeyReference[] keyReferences) {
+	private KeyReference select(final KeyReference[] keyReferences) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Arrays.sort(keyReferences);
 		final int length= keyReferences.length;
 		ILabelProvider labelProvider= new WorkbenchLabelProvider() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public String decorateText(String input, Object element) {
 				KeyReference keyRef= (KeyReference)element;
 				IJavaElement javaElement= keyRef.element;
@@ -316,7 +316,7 @@ public class PropertyKeyHyperlink implements IHyperlink {
 					return input;
 
 				int count= 0;
-				for (int i= 0; i < length; i++) {
+				for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (javaElement != null) {
 						if (keyReferences[i].element.equals(javaElement))
 							count++;
@@ -357,7 +357,7 @@ public class PropertyKeyHyperlink implements IHyperlink {
 		return null;
 	}
 
-	private void open(KeyReference keyReference) {
+	private void open(KeyReference keyReference) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (keyReference == null)
 			return;
 
@@ -395,7 +395,7 @@ public class PropertyKeyHyperlink implements IHyperlink {
 		fShell.getDisplay().beep();
 		final IEditorStatusLine statusLine= fEditor.getAdapter(IEditorStatusLine.class);
 		if (statusLine != null) {
-			fShell.getDisplay().asyncExec(() -> statusLine.setMessage(true, message, null));
+			fShell.getDisplay().asyncExec(() -> statusLine.setMessage(true, message, null)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
@@ -422,14 +422,14 @@ public class PropertyKeyHyperlink implements IHyperlink {
 	 * @param key the properties key
 	 * @return the references or <code>null</code> if the search has been canceled by the user
 	 */
-	private KeyReference[] search(final String key) {
+	private KeyReference[] search(final String key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (key == null)
 			return new KeyReference[0];
 
-		final List<KeyReference> result= new ArrayList<>(5);
+		final List<KeyReference> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
 			fEditor.getEditorSite().getWorkbenchWindow().getWorkbench().getProgressService().busyCursorWhile(
-				monitor -> {
+				monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 					if (monitor == null)
 						monitor= new NullProgressMonitor();
 
@@ -459,9 +459,9 @@ public class PropertyKeyHyperlink implements IHyperlink {
 							//maybe not an eclipse style NLS string
 							String searchString;
 							if (useDoubleQuotedKey) {
-								StringBuilder buf= new StringBuilder("\""); //$NON-NLS-1$
-								buf.append(key);
-								buf.append('"');
+								StringBuilder buf= new StringBuilder("\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+								buf.append(key); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+								buf.append('"'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								searchString= buf.toString();
 							} else
 								searchString= key;
@@ -496,11 +496,11 @@ public class PropertyKeyHyperlink implements IHyperlink {
 	}
 
 	private static TextSearchScope createScope(IResource scope) {
-		ArrayList<String> fileNamePatternStrings= new ArrayList<>();
+		ArrayList<String> fileNamePatternStrings= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// XXX: Should be configurable via preference, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=81117
-		for (String javaExtension : JavaCore.getJavaLikeExtensions()) {
-			fileNamePatternStrings.add("*." + javaExtension); //$NON-NLS-1$
+		for (String javaExtension : JavaCore.getJavaLikeExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			fileNamePatternStrings.add("*." + javaExtension); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fileNamePatternStrings.add("*.xml"); //$NON-NLS-1$
 		fileNamePatternStrings.add("*.ini"); //$NON-NLS-1$

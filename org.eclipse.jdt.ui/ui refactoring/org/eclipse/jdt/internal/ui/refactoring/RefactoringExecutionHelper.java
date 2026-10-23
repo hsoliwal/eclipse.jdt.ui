@@ -64,7 +64,7 @@ public class RefactoringExecutionHelper {
 	private final int fStopSeverity;
 	private final int fSaveMode;
 
-	private class Operation implements IWorkspaceRunnable {
+	private class Operation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 		public Change fChange;
 		public PerformChangeOperation fPerformChangeOperation;
 		private final boolean fForked;
@@ -75,7 +75,7 @@ public class RefactoringExecutionHelper {
 			fForkChangeExecution= forkChangeExecution;
         }
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run(IProgressMonitor pm) throws CoreException {
 			try {
 				pm.beginTask("", fForked && !fForkChangeExecution ? 7 : 11); //$NON-NLS-1$
@@ -85,7 +85,7 @@ public class RefactoringExecutionHelper {
 				if (status.getSeverity() >= fStopSeverity) {
 					final boolean[] canceled= { false };
 					if (fForked) {
-						fParent.getDisplay().syncExec(() -> canceled[0]= showStatusDialog(status));
+						fParent.getDisplay().syncExec(() -> canceled[0]= showStatusDialog(status)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					} else {
 						canceled[0]= showStatusDialog(status);
 					}
@@ -161,7 +161,7 @@ public class RefactoringExecutionHelper {
 	 * @throws InterruptedException thrown when the operation is cancelled
 	 * @throws InvocationTargetException thrown when the operation failed to execute
 	 */
-	public void perform(boolean fork, boolean forkChangeExecution, boolean cancelable) throws InterruptedException, InvocationTargetException {
+	public void perform(boolean fork, boolean forkChangeExecution, boolean cancelable) throws InterruptedException, InvocationTargetException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(Display.getCurrent() != null);
 		final IJobManager manager=  Job.getJobManager();
 		final ISchedulingRule rule;

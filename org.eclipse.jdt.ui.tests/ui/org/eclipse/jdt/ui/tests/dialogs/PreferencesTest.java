@@ -40,7 +40,7 @@ import junit.framework.TestSuite;
 
 public class PreferencesTest extends TestCase {
 
-	public static Test suite() {
+	public static Test suite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TestSuite suite= new TestSuite(PreferencesTest.class.getName());
 		suite.addTest(new PreferencesTest("testJavaBasePrefPage"));
 		suite.addTest(new PreferencesTest("testClasspathVarPrefPage"));

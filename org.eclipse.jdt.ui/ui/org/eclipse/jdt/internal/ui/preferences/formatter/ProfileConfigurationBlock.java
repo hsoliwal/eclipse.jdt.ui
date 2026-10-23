@@ -76,7 +76,7 @@ public abstract class ProfileConfigurationBlock {
 			fProfileManager.addObserver(this);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void update(Observable o, Object arg) {
 			try {
 				fPreferenceListenerEnabled= false;
@@ -109,7 +109,7 @@ public abstract class ProfileConfigurationBlock {
 
 		public ProfileComboController() {
 			fSortedProfiles= fProfileManager.getSortedProfiles();
-			fProfileCombo.addSelectionListener(this);
+			fProfileCombo.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			fProfileManager.addObserver(this);
 			updateProfiles();
 			updateSelection();
@@ -154,11 +154,11 @@ public abstract class ProfileConfigurationBlock {
 
 		public ButtonController() {
 			fProfileManager.addObserver(this);
-			fNewButton.addSelectionListener(this);
-			fEditButton.addSelectionListener(this);
-			fDeleteButton.addSelectionListener(this);
-			fLoadButton.addSelectionListener(this);
-			fExportAllButton.addSelectionListener(this);
+			fNewButton.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			fEditButton.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			fDeleteButton.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			fLoadButton.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			fExportAllButton.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			update(fProfileManager, null);
 		}
 
@@ -189,11 +189,11 @@ public abstract class ProfileConfigurationBlock {
 		 *
 		 * @since 3.6
 		 */
-		private void exportAllButtonPressed() {
+		private void exportAllButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final FileDialog dialog= new FileDialog(fComposite.getShell(), SWT.SAVE | SWT.SHEET);
 			dialog.setText(FormatterMessages.CodingStyleConfigurationBlock_export_profiles_dialog_title);
 			dialog.setFilterExtensions(new String [] {"*.xml"}); //$NON-NLS-1$
-			final String lastPath= JavaPlugin.getDefault().getDialogSettings().get(fLastSaveLoadPathKey + ".loadpath"); //$NON-NLS-1$
+			final String lastPath= JavaPlugin.getDefault().getDialogSettings().get(fLastSaveLoadPathKey + ".loadpath"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (lastPath != null) {
 				dialog.setFilterPath(lastPath);
 			}
@@ -201,7 +201,7 @@ public abstract class ProfileConfigurationBlock {
 			if (path == null)
 				return;
 
-			JavaPlugin.getDefault().getDialogSettings().put(fLastSaveLoadPathKey + ".savepath", dialog.getFilterPath()); //$NON-NLS-1$
+			JavaPlugin.getDefault().getDialogSettings().put(fLastSaveLoadPathKey + ".savepath", dialog.getFilterPath()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			final File file= new File(path);
 			if (file.exists() && !MessageDialog.openQuestion(fComposite.getShell(), FormatterMessages.CodingStyleConfigurationBlock_export_profiles_overwrite_title, Messages.format(FormatterMessages.CodingStyleConfigurationBlock_export_profiles_overwrite_message, BasicElementLabels.getPathLabel(file)))) {
@@ -211,7 +211,7 @@ public abstract class ProfileConfigurationBlock {
 			final IContentType type= Platform.getContentTypeManager().getContentType("org.eclipse.core.runtime.xml"); //$NON-NLS-1$
 			if (type != null)
 				encoding= type.getDefaultCharset();
-			final Collection<Profile> profiles= new ArrayList<>(fProfileManager.getSortedProfiles());
+			final Collection<Profile> profiles= new ArrayList<>(fProfileManager.getSortedProfiles()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			try {
 				fProfileStore.writeProfilesToFile(profiles, file, encoding);
 			} catch (CoreException e) {
@@ -250,18 +250,18 @@ public abstract class ProfileConfigurationBlock {
 			modifyDialog.open();
 		}
 
-		private void loadButtonPressed() {
+		private void loadButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final FileDialog dialog= new FileDialog(fComposite.getShell(), SWT.OPEN | SWT.SHEET);
 			dialog.setText(FormatterMessages.CodingStyleConfigurationBlock_load_profile_dialog_title);
 			dialog.setFilterExtensions(new String [] {"*.xml"}); //$NON-NLS-1$
-			final String lastPath= JavaPlugin.getDefault().getDialogSettings().get(fLastSaveLoadPathKey + ".loadpath"); //$NON-NLS-1$
+			final String lastPath= JavaPlugin.getDefault().getDialogSettings().get(fLastSaveLoadPathKey + ".loadpath"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (lastPath != null) {
 				dialog.setFilterPath(lastPath);
 			}
 			final String path= dialog.open();
 			if (path == null)
 				return;
-			JavaPlugin.getDefault().getDialogSettings().put(fLastSaveLoadPathKey + ".loadpath", dialog.getFilterPath()); //$NON-NLS-1$
+			JavaPlugin.getDefault().getDialogSettings().put(fLastSaveLoadPathKey + ".loadpath", dialog.getFilterPath()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			final File file= new File(path);
 			Collection<Profile> profiles= null;
@@ -275,7 +275,7 @@ public abstract class ProfileConfigurationBlock {
 			if (profiles == null || profiles.isEmpty())
 				return;
 			Iterator<Profile> iter=profiles.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final CustomProfile profile= (CustomProfile)iter.next();
 
 				if (!fProfileVersioner.getProfileKind().equals(profile.getKind())) {
@@ -328,7 +328,7 @@ public abstract class ProfileConfigurationBlock {
 	private final PreferencesAccess fPreferenceAccess;
 	private boolean fPreferenceListenerEnabled;
 
-	public ProfileConfigurationBlock(IProject project, final PreferencesAccess access, String lastSaveLoadPathKey) {
+	public ProfileConfigurationBlock(IProject project, final PreferencesAccess access, String lastSaveLoadPathKey) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fPreferenceAccess= access;
 		fLastSaveLoadPathKey= lastSaveLoadPathKey;
@@ -358,7 +358,7 @@ public abstract class ProfileConfigurationBlock {
         }
 
         if (profiles == null)
-            profiles= new ArrayList<>();
+            profiles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fProfileManager= createProfileManager(profiles, fCurrContext, access, fProfileVersioner);
 
@@ -409,7 +409,7 @@ public abstract class ProfileConfigurationBlock {
 	 * @param parent Parent composite
 	 * @return Created control
 	 */
-	public Composite createContents(Composite parent) {
+	public Composite createContents(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final int numColumns = 5;
 

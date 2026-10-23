@@ -104,7 +104,7 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 		if (isValidJUnitContainerPath(containerPath)) {
 			IClasspathAttribute[] attributes= null;
 			IClasspathEntry[] entries= project.getRawClasspath();
-			for (IClasspathEntry curr : entries) {
+			for (IClasspathEntry curr : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER && containerPath.equals(curr.getPath())) {
 					attributes= curr.getExtraAttributes();
 				}
@@ -114,8 +114,8 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 		}
 	}
 
-	private static JUnitContainer getNewContainer(IPath containerPath, IClasspathAttribute[] attributes) {
-		List<IClasspathEntry> entriesList= new ArrayList<>();
+	private static JUnitContainer getNewContainer(IPath containerPath, IClasspathAttribute[] attributes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IClasspathEntry> entriesList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String version= containerPath.segment(1);
 		if (null != version) switch (version) {
 		case JUNIT3_8_1:
@@ -177,7 +177,7 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 
 	private static boolean isVintage(IClasspathAttribute[] attributes) {
 		if (attributes != null) {
-			for (IClasspathAttribute attribute : attributes) {
+			for (IClasspathAttribute attribute : attributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (JUnitCore.VINTAGE_ATTRIBUTE.equals(attribute.getName())) {
 					return Boolean.parseBoolean(attribute.getValue());
 				}
@@ -215,7 +215,7 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void requestClasspathContainerUpdate(IPath containerPath, IJavaProject project, IClasspathContainer containerSuggestion) throws CoreException {
 		IEclipsePreferences preferences= InstanceScope.INSTANCE.getNode(JUnitCorePlugin.CORE_PLUGIN_ID);
 
@@ -224,7 +224,7 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 			String version= containerPath.segment(1);
 
 			// only modifiable entry is Javadoc location
-			for (IClasspathEntry entry : entries) {
+			for (IClasspathEntry entry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String preferenceKey= getPreferenceKey(entry, version);
 				IClasspathAttribute[] extraAttributes= entry.getExtraAttributes();
 				if (extraAttributes.length == 0) {
@@ -241,7 +241,7 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 					*/
 					// preferenceStore.setValue(preferenceKey, "");
 				} else {
-					for (IClasspathAttribute attrib : extraAttributes) {
+					for (IClasspathAttribute attrib : extraAttributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (IClasspathAttribute.JAVADOC_LOCATION_ATTRIBUTE_NAME.equals(attrib.getName())) {
 							if (preferenceKey != null) {
 								preferences.put(preferenceKey, attrib.getValue());
@@ -255,7 +255,7 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 		}
 	}
 
-	private String getPreferenceKey(IClasspathEntry entry, String version) {
+	private String getPreferenceKey(IClasspathEntry entry, String version) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (JUNIT3.equals(version)) {
 			return JUnitPreferencesConstants.JUNIT3_JAVADOC;
 		} else {
@@ -337,14 +337,14 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 		return null;
 	}
 
-	private static void rebindClasspathEntries(IJavaModel model, IPath containerPath) throws JavaModelException {
-		ArrayList<IJavaProject> affectedProjects= new ArrayList<>();
-		ArrayList<IClasspathAttribute[]> attributesProjects= new ArrayList<>();
+	private static void rebindClasspathEntries(IJavaModel model, IPath containerPath) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IJavaProject> affectedProjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<IClasspathAttribute[]> attributesProjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IJavaProject[] projects= model.getJavaProjects();
-		for (IJavaProject project : projects) {
+		for (IJavaProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry[] entries= project.getRawClasspath();
-			for (IClasspathEntry curr : entries) {
+			for (IClasspathEntry curr : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER && containerPath.equals(curr.getPath())) {
 					affectedProjects.add(project);
 					attributesProjects.add(curr.getExtraAttributes());
@@ -354,7 +354,7 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 		if (!affectedProjects.isEmpty()) {
 			IJavaProject[] affected= affectedProjects.toArray(new IJavaProject[affectedProjects.size()]);
 			IClasspathContainer[] containers= new IClasspathContainer[affected.length];
-			for (int i= 0; i < containers.length; i++) {
+			for (int i= 0; i < containers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				containers[i]= getNewContainer(containerPath, attributesProjects.get(i));
 			}
 			JavaCore.setClasspathContainer(containerPath, affected, containers, null);
@@ -364,7 +364,7 @@ public class JUnitContainerInitializer extends ClasspathContainerInitializer {
 	/**
 	 * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getDescription(org.eclipse.core.runtime.IPath, org.eclipse.jdt.core.IJavaProject)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getDescription(IPath containerPath, IJavaProject project) {
 		if (isValidJUnitContainerPath(containerPath)) {
 			String version= containerPath.segment(1);

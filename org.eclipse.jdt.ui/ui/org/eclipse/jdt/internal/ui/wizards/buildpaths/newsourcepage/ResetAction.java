@@ -48,7 +48,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementAttribute;
 
 //Warning: This is unused and untested code. Images and descriptions are missing too.
 //SelectedElements iff enabled: IJavaProject || IPackageFragmentRoot || CPListElementAttribute
-public class ResetAction extends BuildpathModifierAction {
+public class ResetAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 
@@ -69,14 +69,14 @@ public class ResetAction extends BuildpathModifierAction {
 		setToolTipText(NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_Reset_tooltip);
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getDetailedDescription() {
 		if (!isEnabled())
 			return null;
 
 		Iterator<?> iterator= getSelectedElements().iterator();
 		Object p= iterator.next();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object q= iterator.next();
 			if (
 					(p instanceof CPListElementAttribute && !(q instanceof CPListElementAttribute)) ||
@@ -93,9 +93,9 @@ public class ResetAction extends BuildpathModifierAction {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
-		final IRunnableWithProgress runnable= monitor -> {
+		final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				Object firstElement= getSelectedElements().get(0);
 				IJavaProject project= null;
@@ -125,14 +125,14 @@ public class ResetAction extends BuildpathModifierAction {
         }
 	}
 
-	private List<Object> reset(List<?> selection, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	private List<Object> reset(List<?> selection, IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    if (monitor == null)
         	monitor= new NullProgressMonitor();
         try {
         	monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_Resetting, selection.size());
         	List<CPListElement> entries= ClasspathModifier.getExistingEntries(project);
-        	List<Object> result= new ArrayList<>();
-        	for (int i= 0; i < selection.size(); i++) {
+        	List<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+        	for (int i= 0; i < selection.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         		Object element= selection.get(i);
         		if (element instanceof IJavaElement) {
         			IJavaElement javaElement= (IJavaElement) element;
@@ -164,10 +164,10 @@ public class ResetAction extends BuildpathModifierAction {
         }
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(IStructuredSelection elements) {
 		try {
-	        for (Object element : elements) {
+	        for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	            if (element instanceof IJavaProject) {
 	            	IJavaProject project= (IJavaProject)element;
 	            	if (!project.isOnClasspath(project))

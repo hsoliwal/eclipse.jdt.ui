@@ -141,7 +141,7 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 		return (ITextSelection)fEditor.getSelectionProvider().getSelection();
 	}
 
-	public ISourceRange getNewSelectionRange(ISourceRange oldSourceRange, IType[] types) {
+	public ISourceRange getNewSelectionRange(ISourceRange oldSourceRange, IType[] types) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try{
 			if (types == null)
 				types= getTypes();
@@ -175,7 +175,7 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 		return offsetArray[absIndex - 2];
 	}
 
-	private static Integer getNextOffset(int index, Integer[] offsetArray, int oldOffset) {
+	private static Integer getNextOffset(int index, Integer[] offsetArray, int oldOffset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (index == -1)
 			return offsetArray[0];
 
@@ -203,8 +203,8 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 	}
 
 	private static Integer[] createOffsetArray(IType[] types) throws JavaModelException {
-		List<Integer> result= new ArrayList<>();
-		for (IType iType : types) {
+		List<Integer> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IType iType : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addOffset(result, iType.getNameRange().getOffset());
 			addOffset(result, iType.getSourceRange().getOffset() + iType.getSourceRange().getLength());
 			addMemberOffsetList(result, iType.getMethods());
@@ -215,7 +215,7 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 	}
 
 	private static void addMemberOffsetList(List<Integer> result, IMember[] members) throws JavaModelException {
-		for (IMember member : members) {
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addOffset(result, getOffset(member));
 		}
 	}
@@ -230,7 +230,7 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 		return iMember.getSourceRange().getOffset();
 	}
 
-	private static int firstOpeningBraceOffset(IInitializer iInitializer) throws JavaModelException {
+	private static int firstOpeningBraceOffset(IInitializer iInitializer) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IScanner scanner;
 			IJavaProject project = iInitializer.getJavaProject();
@@ -243,7 +243,7 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 	        }
 			scanner.setSource(iInitializer.getSource().toCharArray());
 			int token= scanner.getNextToken();
-			while (token != ITerminalSymbols.TokenNameEOF && token != ITerminalSymbols.TokenNameLBRACE)
+			while (token != ITerminalSymbols.TokenNameEOF && token != ITerminalSymbols.TokenNameLBRACE) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				token= scanner.getNextToken();
 			if (token == ITerminalSymbols.TokenNameLBRACE)
 				return iInitializer.getSourceRange().getOffset() + scanner.getCurrentTokenStartPosition() + scanner.getRawTokenSource().length;

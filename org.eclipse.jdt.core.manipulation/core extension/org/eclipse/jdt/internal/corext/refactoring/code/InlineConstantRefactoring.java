@@ -139,7 +139,7 @@ public class InlineConstantRefactoring extends Refactoring {
 
 		private static class InitializerTraversal extends HierarchicalASTVisitor {
 
-			private static boolean areInSameType(ASTNode one, ASTNode other) {
+			private static boolean areInSameType(ASTNode one, ASTNode other) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				ASTNode onesContainer= getContainingTypeDeclaration(one);
 				ASTNode othersContainer= getContainingTypeDeclaration(other);
 
@@ -193,7 +193,7 @@ public class InlineConstantRefactoring extends Refactoring {
 			}
 
 			private static ASTNode getContainingTypeDeclaration(ASTNode node) {
-				while (node != null && !(node instanceof AbstractTypeDeclaration) && !(node instanceof AnonymousClassDeclaration)) {
+				while (node != null && !(node instanceof AbstractTypeDeclaration) && !(node instanceof AnonymousClassDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					node= node.getParent();
 				}
 				return node;
@@ -239,10 +239,10 @@ public class InlineConstantRefactoring extends Refactoring {
 			 * @param scope not a TypeDeclaration
 			 * @return Set containing Strings representing simple names
 			 */
-			private Set<String> getLocallyDeclaredNames(BodyDeclaration scope) {
+			private Set<String> getLocallyDeclaredNames(BodyDeclaration scope) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Assert.isTrue(!(scope instanceof AbstractTypeDeclaration));
 
-				final Set<String> result= new HashSet<>();
+				final Set<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 				if (scope instanceof FieldDeclaration)
 					return result;
@@ -280,7 +280,7 @@ public class InlineConstantRefactoring extends Refactoring {
 				addExplicitTypeArgumentsIfNecessary(initializer);
 			}
 
-			private void addExplicitTypeArgumentsIfNecessary(@SuppressWarnings("unused") Expression invocation) {
+			private void addExplicitTypeArgumentsIfNecessary(@SuppressWarnings("unused") Expression invocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 // TODO: this requires additional logic, for example, mark these locations and recompile new source
 //				if (Invocations.isResolvedTypeInferredFromExpectedType(invocation)) {
 //					ASTNode referenceContext= fNewLocation.getParent();
@@ -322,13 +322,13 @@ public class InlineConstantRefactoring extends Refactoring {
 				else
 					invocation.getExpression().accept(this);
 
-				for (Iterator<Expression> it= invocation.arguments().iterator(); it.hasNext();)
+				for (Iterator<Expression> it= invocation.arguments().iterator(); it.hasNext();) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					it.next().accept(this);
 
 				return false;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(Name name) {
 				StructuralPropertyDescriptor locationInParent= name.getLocationInParent();
 				if (locationInParent == ExpressionMethodReference.NAME_PROPERTY
@@ -459,7 +459,7 @@ public class InlineConstantRefactoring extends Refactoring {
 		private final TightSourceRangeComputer fSourceRangeComputer;
 		private final HashSet<SimpleName> fStaticImportsInInitializer;
 
-		private InlineTargetCompilationUnit(CompilationUnitRewrite cuRewrite, Name[] references, InlineConstantRefactoring refactoring, HashSet<SimpleName> staticImportsInInitializer) {
+		private InlineTargetCompilationUnit(CompilationUnitRewrite cuRewrite, Name[] references, InlineConstantRefactoring refactoring, HashSet<SimpleName> staticImportsInInitializer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fInitializer= refactoring.getInitializer();
 			fInitializerUnit= refactoring.getDeclaringCompilationUnit();
 
@@ -474,7 +474,7 @@ public class InlineConstantRefactoring extends Refactoring {
 			fOriginalDeclaration= refactoring.getDeclaration();
 
 			fReferences= new Expression[references.length];
-			for (int i= 0; i < references.length; i++)
+			for (int i= 0; i < references.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fReferences[i]= getQualifiedReference(references[i]);
 
 			fStaticImportsInInitializer= staticImportsInInitializer;
@@ -504,7 +504,7 @@ public class InlineConstantRefactoring extends Refactoring {
 		}
 
 		public CompilationUnitChange getChange() throws CoreException {
-			for (Expression fReference : fReferences)
+			for (Expression fReference : fReferences) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				inlineReference(fReference);
 
 			removeConstantDeclarationIfNecessary();
@@ -512,7 +512,7 @@ public class InlineConstantRefactoring extends Refactoring {
 			return fCuRewrite.createChange(true);
 		}
 
-		private void inlineReference(Expression reference) throws CoreException {
+		private void inlineReference(Expression reference) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ImportDeclaration importDecl= ASTNodes.getParent(reference, ImportDeclaration.class);
 			if (importDecl != null) {
 				fCuRewrite.getImportRemover().registerInlinedStaticImport(importDecl);
@@ -573,10 +573,10 @@ public class InlineConstantRefactoring extends Refactoring {
 			fCuRewrite.getImportRemover().registerRemovedNode(reference);
 		}
 
-		private String prepareInitializerForLocation(Expression location) throws CoreException {
-			HashSet<SimpleName> staticImportsInReference= new HashSet<>();
+		private String prepareInitializerForLocation(Expression location) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			HashSet<SimpleName> staticImportsInReference= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			final IJavaProject project= fCuRewrite.getCu().getJavaProject();
-			ImportReferencesCollector.collect(location, project, null, new ArrayList<>(), staticImportsInReference);
+			ImportReferencesCollector.collect(location, project, null, new ArrayList<>(), staticImportsInReference); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			InitializerTraversal traversal= new InitializerTraversal(fInitializer, fStaticImportsInInitializer, location, staticImportsInReference, fCuRewrite);
 			ASTRewrite initializerRewrite= traversal.getInitializerRewrite();
@@ -687,7 +687,7 @@ public class InlineConstantRefactoring extends Refactoring {
 		fSelectedConstantName= findConstantNameNode();
 	}
 
-	private Name findConstantNameNode() {
+	private Name findConstantNameNode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= NodeFinder.perform(fSelectionCuRewrite.getRoot(), fSelectionStart, fSelectionLength);
 		if (node == null)
 			return null;
@@ -731,7 +731,7 @@ public class InlineConstantRefactoring extends Refactoring {
 		return fField;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask("", 3); //$NON-NLS-1$
@@ -772,7 +772,7 @@ public class InlineConstantRefactoring extends Refactoring {
 
 		return null;
 	}
-	private RefactoringStatus findDeclaration() throws JavaModelException {
+	private RefactoringStatus findDeclaration() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fDeclarationSelectedChecked= true;
 		fDeclarationSelected= false;
 		ASTNode parent= fSelectedConstantName.getParent();
@@ -823,7 +823,7 @@ public class InlineConstantRefactoring extends Refactoring {
 		return fField.getCompilationUnit();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		RefactoringStatus result= new RefactoringStatus();
 		pm.beginTask("", 3); //$NON-NLS-1$
@@ -831,12 +831,12 @@ public class InlineConstantRefactoring extends Refactoring {
 		try {
 			fSelectionCuRewrite.clearASTAndImportRewrites();
 			fDeclarationCuRewrite.clearASTAndImportRewrites();
-			List<CompilationUnitChange>changes= new ArrayList<>();
-			HashSet<SimpleName> staticImportsInInitializer= new HashSet<>();
-			ImportReferencesCollector.collect(getInitializer(), fField.getJavaProject(), null, new ArrayList<>(), staticImportsInInitializer);
+			List<CompilationUnitChange>changes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			HashSet<SimpleName> staticImportsInInitializer= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			ImportReferencesCollector.collect(getInitializer(), fField.getJavaProject(), null, new ArrayList<>(), staticImportsInInitializer); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			if (getReplaceAllReferences()) {
-				for (SearchResultGroup group : getReferences(pm, result)) {
+				for (SearchResultGroup group : getReferences(pm, result)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (pm.isCanceled())
 						throw new OperationCanceledException();
 					ICompilationUnit cu= group.getCompilationUnit();
@@ -864,7 +864,7 @@ public class InlineConstantRefactoring extends Refactoring {
 
 			if (getRemoveDeclaration() && getReplaceAllReferences()) {
 				boolean declarationRemoved= false;
-				for (CompilationUnitChange change : changes) {
+				for (CompilationUnitChange change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (change.getCompilationUnit().equals(fDeclarationCuRewrite.getCu())) {
 						declarationRemoved= true;
 						break;
@@ -879,7 +879,7 @@ public class InlineConstantRefactoring extends Refactoring {
 			}
 
 			ICompilationUnit[] cus= new ICompilationUnit[changes.size()];
-			for (int i= 0; i < changes.size(); i++) {
+			for (int i= 0; i < changes.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CompilationUnitChange change= changes.get(i);
 				cus[i]= change.getCompilationUnit();
 			}
@@ -898,7 +898,7 @@ public class InlineConstantRefactoring extends Refactoring {
 
 	private Name[] extractReferenceNodes(SearchMatch[] searchResults, CompilationUnit cuNode) {
 		Name[] references= new Name[searchResults.length];
-		for (int i= 0; i < searchResults.length; i++)
+		for (int i= 0; i < searchResults.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			references[i]= (Name) NodeFinder.perform(cuNode, searchResults[i].getOffset(), searchResults[i].getLength());
 		return references;
 	}
@@ -929,11 +929,11 @@ public class InlineConstantRefactoring extends Refactoring {
 		return (SearchResultGroup[]) engine.getResults();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask(RefactoringCoreMessages.InlineConstantRefactoring_preview, 2);
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			String project= null;
 			IJavaProject javaProject= fSelectionCu.getJavaProject();
 			if (javaProject != null)
@@ -955,7 +955,7 @@ public class InlineConstantRefactoring extends Refactoring {
 				comment.addSetting(RefactoringCoreMessages.InlineConstantRefactoring_replace_references);
 			final InlineConstantDescriptor descriptor= RefactoringSignatureDescriptorFactory.createInlineConstantDescriptor(project, description, comment.asString(), arguments, flags);
 			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fSelectionCu));
-			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.put(ATTRIBUTE_REMOVE, Boolean.toString(fRemoveDeclaration));
 			arguments.put(ATTRIBUTE_REPLACE, Boolean.toString(fReplaceAllReferences));
 			return new DynamicValidationRefactoringChange(descriptor, RefactoringCoreMessages.InlineConstantRefactoring_inline, fChanges);
@@ -1016,7 +1016,7 @@ public class InlineConstantRefactoring extends Refactoring {
 		return this.fReferences;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String selection= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION);
 		if (selection != null) {
 			int offset= -1;

@@ -78,12 +78,12 @@ public class FinalConditionsChecker {
 	 *
 	 * @throws JavaModelException if an exception occurs while accessing the Java model
 	 */
-	public void checkMethodIsNotDuplicate(MethodDeclaration methodDeclaration, IMethod imethod) throws JavaModelException {
+	public void checkMethodIsNotDuplicate(MethodDeclaration methodDeclaration, IMethod imethod) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int parameterAmount= methodDeclaration.parameters().size() + 1;
 		String methodName= methodDeclaration.getName().getIdentifier();
 		IMethodBinding methodBinding= methodDeclaration.resolveBinding();
 		if (methodBinding == null) {
-			throw new NullPointerException(RefactoringCoreMessages.MakeStaticRefactoring_unexpected_binding_error + ':' + methodDeclaration.toString());
+			throw new NullPointerException(RefactoringCoreMessages.MakeStaticRefactoring_unexpected_binding_error + ':' + methodDeclaration.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		ITypeBinding typeBinding= methodBinding.getDeclaringClass();
 		IType type= (IType) typeBinding.getJavaElement();
@@ -96,18 +96,18 @@ public class FinalConditionsChecker {
 
 		//check if parameter types match (also compare new parameter that is added by refactoring)
 		String className= ((TypeDeclaration) methodDeclaration.getParent()).getName().toString();
-		String extendedClassName= "Q" + className + ";"; //$NON-NLS-1$ //$NON-NLS-2$
+		String extendedClassName= "Q" + className + ";"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		boolean contains;
 		String[] paramTypesOfFoundMethod= method.getParameterTypes();
 		String[] paramTypesOfSelectedMethodExtended= new String[parameterAmount];
 		paramTypesOfSelectedMethodExtended[0]= extendedClassName;
 		String[] paramTypesOfSelectedMethod= imethod.getParameterTypes();
 
-		for (int parameterNumber= 0; parameterNumber < paramTypesOfSelectedMethod.length; parameterNumber++) {
+		for (int parameterNumber= 0; parameterNumber < paramTypesOfSelectedMethod.length; parameterNumber++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paramTypesOfSelectedMethodExtended[parameterNumber + 1]= paramTypesOfSelectedMethod[parameterNumber];
 		}
 
-		for (int parameterNumber= 0; parameterNumber < paramTypesOfFoundMethod.length; parameterNumber++) {
+		for (int parameterNumber= 0; parameterNumber < paramTypesOfFoundMethod.length; parameterNumber++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			contains= paramTypesOfSelectedMethodExtended[parameterNumber].equals(paramTypesOfFoundMethod[parameterNumber]);
 			if (!contains) {
 				return;
@@ -190,7 +190,7 @@ public class FinalConditionsChecker {
 		IMethodBinding nodeMethodBinding= (IMethodBinding) node.resolveBinding();
 		IMethodBinding outerMethodBinding= methodDeclaration.resolveBinding();
 		if (nodeMethodBinding == null || outerMethodBinding == null) {
-			throw new NullPointerException(RefactoringCoreMessages.MakeStaticRefactoring_unexpected_binding_error + ' ' + methodDeclaration);
+			throw new NullPointerException(RefactoringCoreMessages.MakeStaticRefactoring_unexpected_binding_error + ' ' + methodDeclaration); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		if (nodeMethodBinding.isEqualTo(outerMethodBinding)) {
@@ -201,9 +201,9 @@ public class FinalConditionsChecker {
 	private boolean isOverriding(IType type, IMethod iMethod) throws JavaModelException {
 		ITypeHierarchy hierarchy= type.newTypeHierarchy(null);
 		IType[] supertypes= hierarchy.getAllSupertypes(type);
-		for (IType supertype : supertypes) {
+		for (IType supertype : supertypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod[] methods= supertype.getMethods();
-			for (IMethod method : methods) {
+			for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (method.isSimilar(iMethod)) {
 					return true;
 				}

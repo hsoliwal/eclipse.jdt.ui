@@ -29,13 +29,13 @@ import org.eclipse.jdt.ui.text.IColorManagerExtension;
  */
 public class JavaColorManager implements IColorManager, IColorManagerExtension {
 
-	protected Map<String, RGB> fKeyTable= new HashMap<>(10);
-	protected Map<Display, Map<RGB, Color>> fDisplayTable= new HashMap<>(2);
+	protected Map<String, RGB> fKeyTable= new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	protected Map<Display, Map<RGB, Color>> fDisplayTable= new HashMap<>(2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/*
 	 * @see IColorManager#getColor(RGB)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Color getColor(RGB rgb) {
 
 		if (rgb == null)
@@ -44,7 +44,7 @@ public class JavaColorManager implements IColorManager, IColorManagerExtension {
 		final Display display= Display.getCurrent();
 		Map<RGB, Color> colorTable= fDisplayTable.get(display);
 		if (colorTable == null) {
-			colorTable= new HashMap<>(10);
+			colorTable= new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			fDisplayTable.put(display, colorTable);
 		}
 

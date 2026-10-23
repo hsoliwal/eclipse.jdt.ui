@@ -37,17 +37,17 @@ public class JavaIgnoreWhitespaceContributor implements IIgnoreWhitespaceContrib
 		this.document= document;
 	}
 
-	private void createStringsByOffsetIfAbsent() {
+	private void createStringsByOffsetIfAbsent() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (stringsByOffset != null) {
 			return;
 		}
-		stringsByOffset= new TreeMap<>();
+		stringsByOffset= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 		String source= document.get();
 		IScanner scanner= ToolFactory.createScanner(false, false, false, false);
 		scanner.setSource(source.toCharArray());
 		try {
 			int tokenType;
-			while ((tokenType= scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) {
+			while ((tokenType= scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ITerminalSymbols.TokenNameStringLiteral == tokenType || ITerminalSymbols.TokenNameTextBlock == tokenType) {
 					int start= scanner.getCurrentTokenStartPosition();
 					int end= scanner.getCurrentTokenEndPosition();

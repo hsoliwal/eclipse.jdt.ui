@@ -82,14 +82,14 @@ public class BuildpathProblemMarkerResolutionGenerator implements IMarkerResolut
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		final Shell shell= JavaPlugin.getActiveWorkbenchShell();
 		if (!hasResolutions(marker) || shell == null) {
 			return NO_RESOLUTION;
 		}
 
-		ArrayList<IMarkerResolution2> resolutions= new ArrayList<>();
+		ArrayList<IMarkerResolution2> resolutions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		final IJavaProject project= getJavaProject(marker);
 
@@ -139,14 +139,14 @@ public class BuildpathProblemMarkerResolutionGenerator implements IMarkerResolut
 			try {
 				// add proposal only if there are at least one required closed project
 				IProject[] referencedProjects= marker.getResource().getProject().getReferencedProjects();
-				for (IProject iProject : referencedProjects) {
+				for (IProject iProject : referencedProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!iProject.isOpen()) {
 						resolutions.add(new OpenRequiredProjectMarkerResolution(marker));
 						break;
 					}
 				}
 			} catch (CoreException e) {
-				ExceptionHandler.handle(e, "Open project", "Failed to open project " + project.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$
+				ExceptionHandler.handle(e, "Open project", "Failed to open project " + project.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			resolutions.add(new OpenBuildPathMarkerResolution(project));
 		}
@@ -154,7 +154,7 @@ public class BuildpathProblemMarkerResolutionGenerator implements IMarkerResolut
 		return resolutions.toArray(new IMarkerResolution[resolutions.size()]);
 	}
 
-	protected void changeToExistingLibrary(Shell shell, IPath path, boolean isNew, final IJavaProject project) {
+	protected void changeToExistingLibrary(Shell shell, IPath path, boolean isNew, final IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IClasspathEntry[] entries= project.getRawClasspath();
 			int idx= indexOfClasspath(entries, path);
@@ -183,7 +183,7 @@ public class BuildpathProblemMarkerResolutionGenerator implements IMarkerResolut
 			if (context == null) {
 				context= PlatformUI.getWorkbench().getProgressService();
 			}
-			context.run(true, true, monitor -> {
+			context.run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					project.setRawClasspath(newEntries, project.getOutputLocation(), monitor);
 				} catch (CoreException e) {
@@ -204,7 +204,7 @@ public class BuildpathProblemMarkerResolutionGenerator implements IMarkerResolut
 	}
 
 	private int indexOfClasspath(IClasspathEntry[] entries, IPath path) {
-		for (int i= 0; i < entries.length; i++) {
+		for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= entries[i];
 			if (curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER && curr.getPath().equals(path)) {
 				return i;
@@ -216,7 +216,7 @@ public class BuildpathProblemMarkerResolutionGenerator implements IMarkerResolut
 	protected void createUserLibrary(final Shell shell, IPath unboundPath) {
 		String name= unboundPath.segment(1);
 		String id= UserLibraryPreferencePage.ID;
-		HashMap<String, Object> data= new HashMap<>(3);
+		HashMap<String, Object> data= new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		data.put(UserLibraryPreferencePage.DATA_LIBRARY_TO_SELECT, name);
 		data.put(UserLibraryPreferencePage.DATA_DO_CREATE, Boolean.TRUE);
 		PreferencesUtil.createPreferenceDialogOn(shell, id, new String[] { id }, data).open();
@@ -323,13 +323,13 @@ public class BuildpathProblemMarkerResolutionGenerator implements IMarkerResolut
 
 	private static class OpenRequiredProjectMarkerResolution implements IMarkerResolution2, IMarkerResolutionRelevance {
 
-		private final ArrayList<IProject> closedProjects= new ArrayList<>();
+		private final ArrayList<IProject> closedProjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		public OpenRequiredProjectMarkerResolution(IMarker marker) {
 			try {
 				// collect required closed projects
 				IProject[] referencedProjects= marker.getResource().getProject().getReferencedProjects();
-				for (IProject iProject : referencedProjects) {
+				for (IProject iProject : referencedProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!iProject.isOpen()) {
 						closedProjects.add(iProject);
 					}
@@ -365,13 +365,13 @@ public class BuildpathProblemMarkerResolutionGenerator implements IMarkerResolut
 		@Override
 		public void run(IMarker marker) {
 			try {
-				for (IProject iProject : closedProjects) {
+				for (IProject iProject : closedProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!iProject.isOpen()) {
 						iProject.open(null);
 					}
 				}
 			} catch (CoreException e) {
-				ExceptionHandler.handle(e, "Open project", "Failed to open project " + closedProjects.get(0).getName()); //$NON-NLS-1$ //$NON-NLS-2$
+				ExceptionHandler.handle(e, "Open project", "Failed to open project " + closedProjects.get(0).getName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}

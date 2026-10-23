@@ -90,7 +90,7 @@ abstract class JarPackageActionDelegate implements IObjectActionDelegate {
 		IFile[] files= new IFile[selection.size()];
 		Iterator<?> iter= selection.iterator();
 		int i= 0;
-		while (iter.hasNext())
+		while (iter.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			files[i++]= (IFile)iter.next();
 		return files;
 	}

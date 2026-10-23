@@ -93,7 +93,7 @@ public class TrayLabelProvider extends LabelProvider implements IColorProvider {
 		fViewerElement= null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Color getForeground(Object element) {
 		if (element instanceof Binding) {
 			return fBlue;

@@ -57,10 +57,10 @@ public abstract class AbstractCleanUpTabPage extends CleanUpTabPage {
 			fPreviewCleanUps= createPreviewCleanUps(fValues);
 		}
 
-		StringBuilder buf= new StringBuilder();
-		for (AbstractCleanUp fPreviewCleanUp : fPreviewCleanUps) {
-			buf.append(fPreviewCleanUp.getPreview());
-			buf.append("\n"); //$NON-NLS-1$ One free line between each code sample,
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (AbstractCleanUp fPreviewCleanUp : fPreviewCleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(fPreviewCleanUp.getPreview()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n"); //$NON-NLS-1$ One free line between each code sample, //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			// in most cases the preview variants should always have the same number of lines
 		}
 		return buf.toString();

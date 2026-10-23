@@ -45,11 +45,11 @@ public class TemplateContributionTest {
 		ContextTypeRegistry registry= JavaPlugin.getDefault().getTemplateContextRegistry();
 		TemplateContextType context= registry.getContextType(resolverContextTypeId);
 
-		for (Template template : JavaPlugin.getDefault().getTemplateStore().getTemplates(contextTypeId)) {
+		for (Template template : JavaPlugin.getDefault().getTemplateStore().getTemplates(contextTypeId)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TemplateTranslator translator= new TemplateTranslator();
-			for (TemplateVariable variable : translator.translate(template).getVariables()) {
+			for (TemplateVariable variable : translator.translate(template).getVariables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!variable.getType().equals(variable.getName())) {
-					assertTrue(canHandle(context, variable),"No resolver found for variable '" + variable.getType() + "' in template '" + template.getName() + "'\n\n" + template.getPattern());
+					assertTrue(canHandle(context, variable),"No resolver found for variable '" + variable.getType() + "' in template '" + template.getName() + "'\n\n" + template.getPattern()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -79,7 +79,7 @@ public class TemplateContributionTest {
 	}
 
 	private boolean canHandle(TemplateContextType context, TemplateVariable variable) {
-		for (Iterator<TemplateVariableResolver> iterator= context.resolvers(); iterator.hasNext();) {
+		for (Iterator<TemplateVariableResolver> iterator= context.resolvers(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TemplateVariableResolver resolver= iterator.next();
 			if (variable.getType().equals(resolver.getType()))
 				return true;

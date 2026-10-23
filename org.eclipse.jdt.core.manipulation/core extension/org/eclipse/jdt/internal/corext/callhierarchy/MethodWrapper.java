@@ -66,7 +66,7 @@ public abstract class MethodWrapper extends PlatformObject {
         Assert.isNotNull(methodCall);
 
         if (parent == null) {
-            setMethodCache(new HashMap<>());
+            setMethodCache(new HashMap<>()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
             fLevel = 1;
         } else {
             setMethodCache(parent.getMethodCache());
@@ -90,7 +90,7 @@ public abstract class MethodWrapper extends PlatformObject {
         MethodWrapper[] result = new MethodWrapper[fElements.size()];
         int i = 0;
 
-        for (String string : fElements.keySet()) {
+        for (String string : fElements.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             MethodCall methodCall = getMethodCallFromMap(fElements, string);
             result[i++] = createMethodWrapper(methodCall);
         }
@@ -126,7 +126,7 @@ public abstract class MethodWrapper extends PlatformObject {
     	if (fFieldSearchMode != 0)
     		return fFieldSearchMode;
     	MethodWrapper parent= getParent();
-    	while (parent != null) {
+    	while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent.fFieldSearchMode != 0)
 				return parent.fFieldSearchMode;
 			else
@@ -179,11 +179,11 @@ public abstract class MethodWrapper extends PlatformObject {
 	 */
     protected abstract MethodWrapper createMethodWrapper(MethodCall methodCall);
 
-    private void doFindChildren(IProgressMonitor progressMonitor) {
+    private void doFindChildren(IProgressMonitor progressMonitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         Map<String, MethodCall> existingResults = lookupMethod(getMethodCall());
 
         if (existingResults != null && !existingResults.isEmpty()) {
-            fElements = new HashMap<>();
+            fElements = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
             fElements.putAll(existingResults);
         } else {
             initCalls();
@@ -216,7 +216,7 @@ public abstract class MethodWrapper extends PlatformObject {
 			return false;
         MethodWrapper current = getParent();
 
-        while (current != null) {
+        while (current != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (getMember().getHandleIdentifier().equals(current.getMember()
                                                                         .getHandleIdentifier())) {
                 return true;
@@ -247,7 +247,7 @@ public abstract class MethodWrapper extends PlatformObject {
     }
 
     private void initCalls() {
-        this.fElements = new HashMap<>();
+        this.fElements = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
         initCacheForMethod();
     }
@@ -264,7 +264,7 @@ public abstract class MethodWrapper extends PlatformObject {
     private void performSearch(IProgressMonitor progressMonitor) {
         fElements = findChildren(progressMonitor);
 
-        for (String string : fElements.keySet()) {
+        for (String string : fElements.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             checkCanceled(progressMonitor);
 
             MethodCall methodCall = getMethodCallFromMap(fElements, string);
@@ -277,7 +277,7 @@ public abstract class MethodWrapper extends PlatformObject {
     }
 
     private void initCacheForMethod() {
-        Map<String, MethodCall> cachedCalls = new HashMap<>();
+        Map<String, MethodCall> cachedCalls = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
         getMethodCache().put(this.getMethodCall().getKey(), cachedCalls);
     }
 
@@ -308,17 +308,17 @@ public abstract class MethodWrapper extends PlatformObject {
 
 	@Override
 	public String toString() {
-		StringBuilder builder= new StringBuilder();
-		builder.append("MethodWrapper ["); //$NON-NLS-1$
+		StringBuilder builder= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		builder.append("MethodWrapper ["); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (fMethodCall != null) {
-			builder.append(fMethodCall);
+			builder.append(fMethodCall); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (fParent != null) {
-			builder.append(", "); //$NON-NLS-1$
-			builder.append("parent="); //$NON-NLS-1$
-			builder.append(fParent);
+			builder.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			builder.append("parent="); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			builder.append(fParent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		builder.append("]"); //$NON-NLS-1$
+		builder.append("]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return builder.toString();
 	}
 }

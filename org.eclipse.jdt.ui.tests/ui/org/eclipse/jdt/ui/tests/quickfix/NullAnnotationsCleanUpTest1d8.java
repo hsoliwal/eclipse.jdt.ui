@@ -54,7 +54,7 @@ public class NullAnnotationsCleanUpTest1d8 extends CleanUpTestCase {
 
 	private String ANNOTATION_JAR_PATH;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		super.setUp();
 		Hashtable<String, String> options= JavaCore.getOptions();
@@ -80,7 +80,7 @@ public class NullAnnotationsCleanUpTest1d8 extends CleanUpTestCase {
 			Bundle[] bundles= Platform.getBundles("org.eclipse.jdt.annotation", version);
 			File bundleFile= FileLocator.getBundleFileLocation(bundles[0]).get();
 			if (bundleFile.isDirectory())
-				this.ANNOTATION_JAR_PATH= bundleFile.getPath() + "/bin";
+				this.ANNOTATION_JAR_PATH= bundleFile.getPath() + "/bin"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
 				this.ANNOTATION_JAR_PATH= bundleFile.getPath();
 		}
@@ -97,7 +97,7 @@ public class NullAnnotationsCleanUpTest1d8 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMoveTypeAnnotation() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=468457
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -124,13 +124,13 @@ public class NullAnnotationsCleanUpTest1d8 extends CleanUpTestCase {
 			}
 			""";
 
-		ICleanUp[] cleanUps= { new NullAnnotationsCleanUpCore(new HashMap<>(), IProblem.TypeAnnotationAtQualifiedName) };
+		ICleanUp[] cleanUps= { new NullAnnotationsCleanUpCore(new HashMap<>(), IProblem.TypeAnnotationAtQualifiedName) }; //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		performRefactoring(new CleanUpRefactoring(), new ICompilationUnit[] { cu1 }, cleanUps, null);
 
 		assertEqualStringsIgnoreOrder(new String[] { cu1.getBuffer().getContents() }, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug528222() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String original= """
@@ -174,7 +174,7 @@ public class NullAnnotationsCleanUpTest1d8 extends CleanUpTestCase {
 			}
 			""";
 
-		ICleanUp[] cleanUps= { new NullAnnotationsCleanUpCore(new HashMap<>(), IProblem.RequiredNonNullButProvidedNull) };
+		ICleanUp[] cleanUps= { new NullAnnotationsCleanUpCore(new HashMap<>(), IProblem.RequiredNonNullButProvidedNull) }; //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		performRefactoring(new CleanUpRefactoring(), new ICompilationUnit[] { cu1 }, cleanUps, null);
 
 		assertEqualStringsIgnoreOrder(new String[] { cu1.getBuffer().getContents() }, new String[] { expected1 });

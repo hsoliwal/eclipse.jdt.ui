@@ -59,7 +59,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.newsourcepage.ClasspathModifierQueries.IRemoveLinkedFolderQuery;
 
 //SelectedElements iff enabled: IPackageFramgentRoot || IJavaProject || ClassPathContainer
-public class RemoveFromBuildpathAction extends BuildpathModifierAction {
+public class RemoveFromBuildpathAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 
@@ -84,7 +84,7 @@ public class RemoveFromBuildpathAction extends BuildpathModifierAction {
 		setToolTipText(NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_RemoveFromCP_tooltip);
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getDetailedDescription() {
 		if (!isEnabled())
 			return null;
@@ -107,7 +107,7 @@ public class RemoveFromBuildpathAction extends BuildpathModifierAction {
         return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		try {
 
@@ -123,18 +123,18 @@ public class RemoveFromBuildpathAction extends BuildpathModifierAction {
 				project= container.getJavaProject();
 			}
 
-			final List<Object> elementsToRemove= new ArrayList<>();
-			final List<IFolder> foldersToDelete= new ArrayList<>();
+			final List<Object> elementsToRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			final List<IFolder> foldersToDelete= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			queryToRemoveLinkedFolders(elementsToRemove, foldersToDelete);
 
-			final IRunnableWithProgress runnable= monitor -> {
+			final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_RemoveFromBuildpath, foldersToDelete.size() + 10);
 
 					CPJavaProject cpProject= CPJavaProject.createFromExisting(project);
 					CPListElement[] toRemove= new CPListElement[elementsToRemove.size()];
 					int i= 0;
-					for (Object element : elementsToRemove) {
+					for (Object element : elementsToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (element instanceof IJavaProject) {
 							toRemove[i]= ClasspathModifier.getListElement(((IJavaProject)element).getPath(), cpProject.getCPListElements());
 						} else if (element instanceof IPackageFragmentRoot) {
@@ -155,7 +155,7 @@ public class RemoveFromBuildpathAction extends BuildpathModifierAction {
 					if (delta.getDeletedResources().length == foldersToDelete.size()) {
 						selectAndReveal(new StructuredSelection(project));
 					} else {
-						List<IResource> result= new ArrayList<>(Arrays.asList(delta.getDeletedResources()));
+						List<IResource> result= new ArrayList<>(Arrays.asList(delta.getDeletedResources())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						result.removeAll(foldersToDelete);
 						selectAndReveal(new StructuredSelection(result));
 					}
@@ -183,7 +183,7 @@ public class RemoveFromBuildpathAction extends BuildpathModifierAction {
 		try {
 			monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_RemoveFromBuildpath, folders.size());
 
-			for (IFolder folder : folders) {
+			for (IFolder folder : folders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				folder.delete(true, true, Progress.subMonitor(monitor, 1));
 			}
 		} finally {
@@ -191,9 +191,9 @@ public class RemoveFromBuildpathAction extends BuildpathModifierAction {
 		}
 	}
 
-	private void queryToRemoveLinkedFolders(final List<Object> elementsToRemove, final List<IFolder> foldersToDelete) throws JavaModelException {
+	private void queryToRemoveLinkedFolders(final List<Object> elementsToRemove, final List<IFolder> foldersToDelete) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Shell shell= getShell();
-		for (Object element : getSelectedElements()) {
+		for (Object element : getSelectedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IPackageFragmentRoot) {
 				IFolder folder= getLinkedSourceFolder((IPackageFragmentRoot)element);
 				if (folder != null) {
@@ -233,13 +233,13 @@ public class RemoveFromBuildpathAction extends BuildpathModifierAction {
 		return folder;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(IStructuredSelection elements) {
 		if (elements.size() == 0)
 			return false;
 
 		try {
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IJavaProject) {
 					IJavaProject project= (IJavaProject)element;
 					if (!ClasspathModifier.isSourceFolder(project))

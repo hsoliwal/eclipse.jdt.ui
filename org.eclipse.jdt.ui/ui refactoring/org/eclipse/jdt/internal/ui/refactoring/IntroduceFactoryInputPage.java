@@ -71,7 +71,7 @@ public class IntroduceFactoryInputPage extends UserInputWizardPage {
 		return textField;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Composite result = new Composite(parent, SWT.NONE);
 
@@ -115,7 +115,7 @@ public class IntroduceFactoryInputPage extends UserInputWizardPage {
 		gd.horizontalSpan= 2;
 		protectCtorCB.setLayoutData(gd);
 
-		fMethodName.addModifyListener(unused -> {
+		fMethodName.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			fMethodNameStatus = getUseFactoryRefactoring().setNewMethodName(fMethodName.getText());
 			validateInput(true);
 			/*
@@ -131,7 +131,7 @@ public class IntroduceFactoryInputPage extends UserInputWizardPage {
 				status.getMessageMatchingSeverity(RefactoringStatus.ERROR));
 				*/
 		});
-		protectCtorCB.addSelectionListener(new SelectionAdapter() {
+		protectCtorCB.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean	isChecked = protectCtorCB.getSelection();
@@ -140,7 +140,7 @@ public class IntroduceFactoryInputPage extends UserInputWizardPage {
 			}
 		});
 
-		factoryTypeName.addModifyListener(unused -> {
+		factoryTypeName.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			fDestinationStatus= getUseFactoryRefactoring().setFactoryClass(factoryTypeName.getText());
 			validateInput(false);
 			/*
@@ -151,7 +151,7 @@ public class IntroduceFactoryInputPage extends UserInputWizardPage {
 														   status.getMessageMatchingSeverity(RefactoringStatus.ERROR));
 														   */
 		});
-		browseTypes.addSelectionListener(new SelectionAdapter() {
+		browseTypes.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IType factoryType= chooseFactoryClass();
@@ -185,7 +185,7 @@ public class IntroduceFactoryInputPage extends UserInputWizardPage {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.INTRODUCE_FACTORY_WIZARD_PAGE);
 	}
 
-	private IType chooseFactoryClass() {
+	private IType chooseFactoryClass() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject	proj= getUseFactoryRefactoring().getProject();
 
 		if (proj == null)

@@ -91,8 +91,8 @@ public class ModuleSelectionDialog extends TrayDialog {
 	private Set<String> fAllIncluded; 		// transitive closure over modules already shown
 	private List<String> fAvailableModules;	// additional modules outside fAllIncluded
 	private Function<List<String>, Set<String>> fClosureComputation;
-	private Map<String,IModuleDescription> fModulesByName= new HashMap<>();
-	private Map<String,ModuleKind> fKinds= new HashMap<>();
+	private Map<String,IModuleDescription> fModulesByName= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<String,ModuleKind> fKinds= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	// result:
 	private List<String> fSelectedModules;
@@ -122,7 +122,7 @@ public class ModuleSelectionDialog extends TrayDialog {
 		return new ModuleSelectionDialog(shell, javaProject, jreEntry, true, irrelevantModules, HashSet::new,
 				NewWizardMessages.ModuleSelectionDialog_selectModule_title, NewWizardMessages.ModuleSelectionDialog_selectReadModule_message);
 	}
-	private ModuleSelectionDialog(Shell shell, IJavaProject javaProject, IClasspathEntry jreEntry, boolean searchWorkspace,
+	private ModuleSelectionDialog(Shell shell, IJavaProject javaProject, IClasspathEntry jreEntry, boolean searchWorkspace, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<String> shownModules, Function<List<String>, Set<String>> closureComputation, String title, String message) {
 		super(shell);
 		fTitle= title;
@@ -130,18 +130,18 @@ public class ModuleSelectionDialog extends TrayDialog {
 		fAllIncluded= closureComputation.apply(shownModules);
 		fClosureComputation= closureComputation;
 		if (jreEntry != null) {  // find system modules from this JRE entry (quick)
-			Set<String> result= new HashSet<>();
-			for (IPackageFragmentRoot root : javaProject.findUnfilteredPackageFragmentRoots(jreEntry)) {
+			Set<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IPackageFragmentRoot root : javaProject.findUnfilteredPackageFragmentRoots(jreEntry)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkAddModule(result, root.getModuleDescription());
 			}
-			List<String> list= new ArrayList<>(result);
+			List<String> list= new ArrayList<>(result); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			list.sort(String::compareTo);
 			fAvailableModules= list;
 		}
 		if (searchWorkspace) {  // searching all modules in the workspace (slow)
 			fWaitingForSearch= true;
 			new Job(NewWizardMessages.ModuleSelectionDialog_searchModules_job) {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public IStatus run(IProgressMonitor monitor) {
 					try {
 						fAvailableModules.addAll(searchAvailableModules(monitor));
@@ -149,12 +149,12 @@ public class ModuleSelectionDialog extends TrayDialog {
 						if (getReturnCode() == Window.CANCEL) {
 							return Status.CANCEL_STATUS;
 						}
-						shell.getDisplay().asyncExec(() -> {
+						shell.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							if (fFlipMessage != null) {
 								fFlipMessage.run();
 							}
-							fViewer.setInput(fAvailableModules);
-							fViewer.refresh();
+							fViewer.setInput(fAvailableModules); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+							fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 						});
 					} catch (CoreException e) {
 						return e.getStatus();
@@ -165,8 +165,8 @@ public class ModuleSelectionDialog extends TrayDialog {
 		}
 	}
 
-	private List<String> searchAvailableModules(IProgressMonitor monitor) throws CoreException {
-		Set<String> result= new HashSet<>();
+	private List<String> searchAvailableModules(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		SearchPattern pattern= SearchPattern.createPattern("*", IJavaSearchConstants.MODULE, IJavaSearchConstants.DECLARATIONS, SearchPattern.R_PATTERN_MATCH|SearchPattern.R_CASE_SENSITIVE); //$NON-NLS-1$
 		SearchRequestor requestor= new SearchRequestor() {
 			@Override
@@ -186,13 +186,13 @@ public class ModuleSelectionDialog extends TrayDialog {
 			return Collections.emptyList();
 		}
 		// also search for automatic modules:
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.isOpen() || !project.hasNature(JavaCore.NATURE_ID)) continue;
 			IJavaProject jPrj= JavaCore.create(project);
 			if (jPrj.getModuleDescription() == null) {
 				checkAddModule(result, JavaCore.getAutomaticModuleDescription(jPrj));
 			}
-			for (IPackageFragmentRoot root : jPrj.getAllPackageFragmentRoots()) {
+			for (IPackageFragmentRoot root : jPrj.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root.isArchive() && root.getModuleDescription() == null) {
 					if (!isJREChild(jPrj, root)) { // don't show jars of non-modular JRE as auto modules
 						checkAddModule(result, JavaCore.getAutomaticModuleDescription(root));
@@ -200,17 +200,17 @@ public class ModuleSelectionDialog extends TrayDialog {
 				}
 			}
 		}
-		return new ArrayList<>(result);
+		return new ArrayList<>(result); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
-	boolean isJREChild(IJavaProject jPrj, IPackageFragmentRoot root) {
+	boolean isJREChild(IJavaProject jPrj, IPackageFragmentRoot root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IClasspathEntry cpEntry= jPrj.getClasspathEntryFor(root.getPath());
-			for (IClasspathEntry rawEntry : jPrj.getRawClasspath()) {
+			for (IClasspathEntry rawEntry : jPrj.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (LibrariesWorkbookPage.isJREContainer(rawEntry.getPath())) {
 					IClasspathContainer container= JavaCore.getClasspathContainer(rawEntry.getPath(), jPrj);
 					if (container != null) {
-						for (IClasspathEntry containerEntry : container.getClasspathEntries()) {
+						for (IClasspathEntry containerEntry : container.getClasspathEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (containerEntry.equals(cpEntry))
 								return true;
 						}
@@ -262,15 +262,15 @@ public class ModuleSelectionDialog extends TrayDialog {
 		return super.getShellStyle() | SWT.RESIZE;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 		Label message= new Label(composite, SWT.NONE);
 
 		TableViewer tableViewer= new TableViewer(composite, SWT.MULTI | SWT.BORDER);
 		tableViewer.setContentProvider(new ListContentProvider());
-		tableViewer.setLabelProvider(new ModulesLabelProvider(fKinds::get, unused -> false));
-		tableViewer.addSelectionChangedListener(this::selectionChanged);
+		tableViewer.setLabelProvider(new ModulesLabelProvider(fKinds::get, unused -> false)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		tableViewer.addSelectionChangedListener(this::selectionChanged); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		PixelConverter converter= new PixelConverter(parent);
 		GridData gd= new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -287,7 +287,7 @@ public class ModuleSelectionDialog extends TrayDialog {
 			message.setText(fMessage);
 		}
 		if (fAvailableModules != null) {
-			tableViewer.setInput(fAvailableModules);
+			tableViewer.setInput(fAvailableModules); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 		fViewer= tableViewer;
 
@@ -317,7 +317,7 @@ public class ModuleSelectionDialog extends TrayDialog {
 		}
 	}
 
-	private void selectionChanged(SelectionChangedEvent e) {
+	private void selectionChanged(SelectionChangedEvent e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInSetSelection) return;
 		fInSetSelection= true;
 		try {
@@ -331,10 +331,10 @@ public class ModuleSelectionDialog extends TrayDialog {
 			Set<String> closure= fClosureComputation.apply(selectedNames);
 			if (closure.size() > selectedNames.size()) {
 				// select all members of the closure:
-				fViewer.setSelection(new StructuredSelection(new ArrayList<>(closure)));
+				fViewer.setSelection(new StructuredSelection(new ArrayList<>(closure))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			fOkButton.setEnabled(true);
-			fSelectedModules= new ArrayList<>(closure); // remember result
+			fSelectedModules= new ArrayList<>(closure); // remember result //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fSelectAllCheckbox.setSelection(closure.containsAll(fAvailableModules));
 		} finally {
 			fInSetSelection= false;

@@ -41,7 +41,7 @@ import org.eclipse.compare.CompareViewerPane;
 import org.eclipse.compare.CompareViewerSwitchingPane;
 import org.eclipse.compare.structuremergeviewer.Differencer;
 
-public class BytecodeCompare extends CompareEditorInput {
+public class BytecodeCompare extends CompareEditorInput { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/** Stores reference to the element displayed on the left side of the viewer. */
 	protected TypedElement left;
@@ -64,39 +64,39 @@ public class BytecodeCompare extends CompareEditorInput {
 
 	protected IReusableEditor myEditor;
 
-	public BytecodeCompare(final TypedElement left, final TypedElement right) {
+	public BytecodeCompare(final TypedElement left, final TypedElement right) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(new CompareConfiguration());
 		this.left = left;
 		this.right = right;
-		toggleAsmifierModeAction = new DefaultToggleAction(BCOConstants.DIFF_SHOW_ASMIFIER_CODE, false) {
+		toggleAsmifierModeAction = new DefaultToggleAction(BCOConstants.DIFF_SHOW_ASMIFIER_CODE, false) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(final boolean newState) {
 				toggleMode(BCOConstants.F_SHOW_ASMIFIER_CODE, newState, newState);
 			}
 		};
 
-		hideLineInfoAction = new DefaultToggleAction(BCOConstants.DIFF_SHOW_LINE_INFO, false) {
+		hideLineInfoAction = new DefaultToggleAction(BCOConstants.DIFF_SHOW_LINE_INFO, false) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(final boolean newState) {
 				toggleMode(BCOConstants.F_SHOW_LINE_INFO, newState, toggleAsmifierModeAction.isChecked());
 			}
 		};
 
-		hideLocalsAction = new DefaultToggleAction(BCOConstants.DIFF_SHOW_VARIABLES, false) {
+		hideLocalsAction = new DefaultToggleAction(BCOConstants.DIFF_SHOW_VARIABLES, false) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(final boolean newState) {
 				toggleMode(BCOConstants.F_SHOW_VARIABLES, newState, toggleAsmifierModeAction.isChecked());
 			}
 		};
 
-		hideStackMapAction = new DefaultToggleAction(BCOConstants.DIFF_SHOW_STACKMAP, false) {
+		hideStackMapAction = new DefaultToggleAction(BCOConstants.DIFF_SHOW_STACKMAP, false) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(final boolean newState) {
 				toggleMode(BCOConstants.F_SHOW_STACKMAP, newState, toggleAsmifierModeAction.isChecked());
 			}
 		};
 
-		expandStackMapAction = new DefaultToggleAction(BCOConstants.DIFF_EXPAND_STACKMAP, false) {
+		expandStackMapAction = new DefaultToggleAction(BCOConstants.DIFF_EXPAND_STACKMAP, false) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(final boolean newState) {
 				toggleMode(BCOConstants.F_EXPAND_STACKMAP, newState, toggleAsmifierModeAction.isChecked());
@@ -104,7 +104,7 @@ public class BytecodeCompare extends CompareEditorInput {
 		};
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object prepareInput(IProgressMonitor monitor) throws InterruptedException {
 		if (right == null || left == null) {
 			return null;
@@ -140,10 +140,10 @@ public class BytecodeCompare extends CompareEditorInput {
 		cc.setRightLabel(right.getName());
 		cc.setRightImage(right.getImage());
 
-		setTitle("Bytecode compare: " + left.getElementName() + " - " + right.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$
+		setTitle("Bytecode compare: " + left.getElementName() + " - " + right.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	public CompareViewerSwitchingPane getInputPane() {
+	public CompareViewerSwitchingPane getInputPane() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			Field field = CompareEditorInput.class.getDeclaredField("fContentInputPane"); //$NON-NLS-1$
 			field.setAccessible(true);
@@ -181,7 +181,7 @@ public class BytecodeCompare extends CompareEditorInput {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createContents(final Composite parent) {
 		Object obj = parent.getData();
 		if (obj == null) {

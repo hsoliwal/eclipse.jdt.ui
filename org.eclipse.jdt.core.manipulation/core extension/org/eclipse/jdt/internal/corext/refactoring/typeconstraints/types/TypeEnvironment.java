@@ -106,15 +106,15 @@ public class TypeEnvironment {
 
 	private TType OBJECT_TYPE= null;
 
-	private List<Map<TType, ArrayType>>      fArrayTypes= new ArrayList<>();
-	private Map<IJavaElement, StandardType>  fStandardTypes= new HashMap<>();
-	private Map<IJavaElement, GenericType>   fGenericTypes= new HashMap<>();
-	private Map<ProjectKeyPair, ParameterizedType> fParameterizedTypes= new HashMap<>();
-	private Map<IJavaElement, RawType>       fRawTypes= new HashMap<>();
-	private Map<IJavaElement, TypeVariable>  fTypeVariables= new HashMap<>();
-	private Map<ProjectKeyPair, CaptureType> fCaptureTypes= new HashMap<>();
-	private Map<TType, ExtendsWildcardType>  fExtendsWildcardTypes= new HashMap<>();
-	private Map<TType, SuperWildcardType>    fSuperWildcardTypes= new HashMap<>();
+	private List<Map<TType, ArrayType>>      fArrayTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private Map<IJavaElement, StandardType>  fStandardTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<IJavaElement, GenericType>   fGenericTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<ProjectKeyPair, ParameterizedType> fParameterizedTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<IJavaElement, RawType>       fRawTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<IJavaElement, TypeVariable>  fTypeVariables= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<ProjectKeyPair, CaptureType> fCaptureTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<TType, ExtendsWildcardType>  fExtendsWildcardTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<TType, SuperWildcardType>    fSuperWildcardTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private UnboundWildcardType fUnboundWildcardType= null;
 
 	private static final int MAX_ENTRIES= 1024;
@@ -137,10 +137,10 @@ public class TypeEnvironment {
 	 */
 	private final boolean fRemoveCapures;
 
-	public static ITypeBinding[] createTypeBindings(TType[] types, IJavaProject project) {
-		final Map<String, Object> mapping= new HashMap<>();
-		List<String> keys= new ArrayList<>();
-		for (TType type : types) {
+	public static ITypeBinding[] createTypeBindings(TType[] types, IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, Object> mapping= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		List<String> keys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String bindingKey= type.getBindingKey();
 			mapping.put(bindingKey, type);
 			keys.add(bindingKey);
@@ -156,7 +156,7 @@ public class TypeEnvironment {
 				}
 			}, null);
 		ITypeBinding[] result= new ITypeBinding[types.length];
-		for (int i= 0; i < types.length; i++) {
+		for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType type= types[i];
 			String bindingKey= type.getBindingKey();
 			Object value= mapping.get(bindingKey);
@@ -177,7 +177,7 @@ public class TypeEnvironment {
 
 	public TypeEnvironment(boolean rememberSubtypes, boolean removeCapures) {
 		if (rememberSubtypes) {
-			fSubTypes= new HashMap<>();
+			fSubTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		fRemoveCapures= removeCapures;
 	}
@@ -186,7 +186,7 @@ public class TypeEnvironment {
 		return fSubTypeCache;
 	}
 
-	public TType create(ITypeBinding binding) {
+	public TType create(ITypeBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding.isPrimitive()) {
 			return createPrimitiveType(binding);
 		} else if (binding.isArray()) {
@@ -221,7 +221,7 @@ public class TypeEnvironment {
 
 	public TType[] create(ITypeBinding[] bindings) {
 		TType[] result= new TType[bindings.length];
-		for (int i= 0; i < bindings.length; i++) {
+		for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= create(bindings[i]);
 		}
 		return result;
@@ -259,7 +259,7 @@ public class TypeEnvironment {
 
 	PrimitiveType createUnBoxed(StandardType type) {
 		String name= type.getPlainPrettySignature();
-		for (int i= 0; i < BOXED_PRIMITIVE_NAMES.length; i++) {
+		for (int i= 0; i < BOXED_PRIMITIVE_NAMES.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (BOXED_PRIMITIVE_NAMES[i].equals(name))
 				return PRIMITIVE_TYPES[i];
 		}
@@ -299,7 +299,7 @@ public class TypeEnvironment {
 
 		ArrayList<TType> subtypes= fSubTypes.get(supertype);
 		if (subtypes == null) {
-			subtypes= new ArrayList<>(5);
+			subtypes= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fSubTypes.put(supertype, subtypes);
 		} else {
 			Assert.isTrue(! subtypes.contains(result));
@@ -308,7 +308,7 @@ public class TypeEnvironment {
 	}
 
 	private void cacheSubTypes(TType[] interfaces, TType result) {
-		for (TType intf : interfaces) {
+		for (TType intf : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cacheSubType(intf, result);
 		}
 	}
@@ -316,12 +316,12 @@ public class TypeEnvironment {
 	private TType createPrimitiveType(ITypeBinding binding) {
 		String name= binding.getName();
 		String[] names= PrimitiveType.NAMES;
-		for (int i= 0; i < names.length; i++) {
+		for (int i= 0; i < names.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(names[i])) {
 				return PRIMITIVE_TYPES[i];
 			}
 		}
-		Assert.isTrue(false, "Primitive type " + name + "unkown");  //$NON-NLS-1$//$NON-NLS-2$
+		Assert.isTrue(false, "Primitive type " + name + "unkown");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return null;
 	}
 
@@ -361,7 +361,7 @@ public class TypeEnvironment {
 		}
 		Map<TType, ArrayType> arrayTypes= fArrayTypes.get(index);
 		if (arrayTypes == null) {
-			arrayTypes= new HashMap<>();
+			arrayTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			fArrayTypes.set(index, arrayTypes);
 		}
 		return arrayTypes;

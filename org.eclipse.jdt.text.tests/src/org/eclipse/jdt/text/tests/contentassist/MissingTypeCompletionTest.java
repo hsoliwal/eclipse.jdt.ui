@@ -40,7 +40,7 @@ public class MissingTypeCompletionTest extends AbstractCompletionTest {
 		IPackageFragmentRoot root= (IPackageFragmentRoot) getAnonymousTestPackage().getParent();
 		IPackageFragment missingFragment= root.createPackageFragment("missing", true, null);
 
-		missingType= missingFragment.createCompilationUnit("MissingType.java", "package missing;\n\n" + contents, true, null);
+		missingType= missingFragment.createCompilationUnit("MissingType.java", "package missing;\n\n" + contents, true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		expectImport("missing.MissingType");
 	}
 

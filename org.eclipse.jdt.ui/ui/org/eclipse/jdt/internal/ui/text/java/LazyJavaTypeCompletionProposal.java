@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 /**
  * If passed compilation unit is not null, the replacement string will be seen as a qualified type name.
   */
-public class LazyJavaTypeCompletionProposal extends LazyJavaCompletionProposal {
+public class LazyJavaTypeCompletionProposal extends LazyJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	/** Triggers for types. Do not modify. */
 	protected static final char[] TYPE_TRIGGERS= new char[] { '.', '\t', '[', '(', ' ' };
 	/** Triggers for types in javadoc. Do not modify. */
@@ -88,7 +88,7 @@ public class LazyJavaTypeCompletionProposal extends LazyJavaCompletionProposal {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal#computeReplacementString()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String computeReplacementString() {
 		String replacement= super.computeReplacementString();
 
@@ -168,7 +168,7 @@ public class LazyJavaTypeCompletionProposal extends LazyJavaCompletionProposal {
 		return last == ';' || last == '.';
 	}
 
-	private ImportRewrite createImportRewrite() {
+	private ImportRewrite createImportRewrite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCompilationUnit != null && allowAddingImports() && !JavaModelUtil.isPackageInfo(fCompilationUnit)) {
 			try {
 				CompilationUnit cu= getASTRoot(fCompilationUnit);
@@ -195,7 +195,7 @@ public class LazyJavaTypeCompletionProposal extends LazyJavaCompletionProposal {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal#apply(org.eclipse.jface.text.IDocument, char, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document, char trigger, int offset) {
 		try {
 			boolean insertClosingParenthesis= trigger == '(' && autocloseBrackets();
@@ -223,7 +223,7 @@ public class LazyJavaTypeCompletionProposal extends LazyJavaCompletionProposal {
 		}
 	}
 
-	protected void updateReplacementWithParentheses(StringBuffer replacement) {
+	protected void updateReplacementWithParentheses(StringBuffer replacement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FormatterPrefs prefs= getFormatterPrefs();
 
 		if (prefs.beforeOpeningParen)
@@ -380,13 +380,13 @@ public class LazyJavaTypeCompletionProposal extends LazyJavaCompletionProposal {
 	@Override
 	protected String computeSortString() {
 		// try fast sort string to avoid display string creation
-		return getSimpleTypeName() + Character.MIN_VALUE + getQualifiedTypeName();
+		return getSimpleTypeName() + Character.MIN_VALUE + getQualifiedTypeName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal#computeRelevance()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected int computeRelevance() {
 		/*
 		 * There are two histories: the RHS history remembers types used for the current expected

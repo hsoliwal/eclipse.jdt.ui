@@ -106,8 +106,8 @@ public class ChangeParametersControl extends Composite {
 			return removeMarkedAsDeleted((List<ParameterInfo>) inputElement);
 		}
 		private ParameterInfo[] removeMarkedAsDeleted(List<ParameterInfo> paramInfos){
-			List<ParameterInfo> result= new ArrayList<>(paramInfos.size());
-			for (ParameterInfo info : paramInfos) {
+			List<ParameterInfo> result= new ArrayList<>(paramInfos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ParameterInfo info : paramInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! info.isDeleted())
 					result.add(info);
 			}
@@ -142,7 +142,7 @@ public class ChangeParametersControl extends Composite {
 				    else
 				        return "-"; //$NON-NLS-1$
 				default:
-					throw new IllegalArgumentException(columnIndex + ": " + element); //$NON-NLS-1$
+					throw new IllegalArgumentException(columnIndex + ": " + element); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		@Override
@@ -180,7 +180,7 @@ public class ChangeParametersControl extends Composite {
 			Assert.isTrue(false);
 			return null;
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void modify(Object element, String property, Object value) {
 			if (element instanceof TableItem)
 				element= ((TableItem) element).getData();
@@ -244,7 +244,7 @@ public class ChangeParametersControl extends Composite {
 	 * @param label the label before the table or <code>null</code>
 	 * @param typeContext the package in which to complete types
 	 */
-	private ChangeParametersControl(Composite parent, int style, String label, IParameterListChangeListener listener, Mode mode, StubTypeContext typeContext, String[] paramNameProposals) {
+	private ChangeParametersControl(Composite parent, int style, String label, IParameterListChangeListener listener, Mode mode, StubTypeContext typeContext, String[] paramNameProposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent, style);
 		Assert.isNotNull(listener);
 		fListener= listener;
@@ -274,7 +274,7 @@ public class ChangeParametersControl extends Composite {
 	public void setInput(List<ParameterInfo> parameterInfos) {
 		Assert.isNotNull(parameterInfos);
 		fParameterInfos= parameterInfos;
-		fTableViewer.setInput(fParameterInfos);
+		fTableViewer.setInput(fParameterInfos); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		if (fParameterInfos.size() > 0)
 			fTableViewer.setSelection(new StructuredSelection(fParameterInfos.get(0)));
 	}
@@ -291,7 +291,7 @@ public class ChangeParametersControl extends Composite {
 
 	// ---- Parameter table -----------------------------------------------------------------------------------
 
-	private void createParameterList(Composite parent) {
+	private void createParameterList(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TableLayoutComposite layouter= new TableLayoutComposite(parent, SWT.NONE);
 		addColumnLayoutData(layouter);
 
@@ -321,16 +321,16 @@ public class ChangeParametersControl extends Composite {
 		fTableViewer= new TableViewer(table);
 		fTableViewer.setUseHashlookup(true);
 		fTableViewer.setContentProvider(new ParameterInfoContentProvider());
-		fTableViewer.setLabelProvider(new ParameterInfoLabelProvider());
-		fTableViewer.addSelectionChangedListener(unused -> updateButtonsEnabledState());
+		fTableViewer.setLabelProvider(new ParameterInfoLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fTableViewer.addSelectionChangedListener(unused -> updateButtonsEnabledState()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		table.addTraverseListener(e -> {
+		table.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_RETURN && e.stateMask == SWT.NONE) {
 				editColumnOrNextPossible(0);
 				e.detail= SWT.TRAVERSE_NONE;
 			}
 		});
-		table.addKeyListener(new KeyAdapter() {
+		table.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.F2 && e.stateMask == SWT.NONE) {
@@ -348,7 +348,7 @@ public class ChangeParametersControl extends Composite {
 		if (selected.length != 1)
 			return;
 		int nextColumn= column;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTableViewer.editElement(selected[0], nextColumn);
 			if (fTableViewer.isCellEditorActive())
 				return;
@@ -361,7 +361,7 @@ public class ChangeParametersControl extends Composite {
 		if (selected.length != 1)
 			return;
 		int prevColumn= column;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTableViewer.editElement(selected[0], prevColumn);
 			if (fTableViewer.isCellEditorActive())
 			    return;
@@ -402,7 +402,7 @@ public class ChangeParametersControl extends Composite {
 
 	// ---- Button bar --------------------------------------------------------------------------------------
 
-	private void createButtonComposite(Composite parent) {
+	private void createButtonComposite(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttonComposite= new Composite(parent, SWT.NONE);
 		buttonComposite.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		GridLayout gl= new GridLayout();
@@ -461,12 +461,12 @@ public class ChangeParametersControl extends Composite {
 		return fTableViewer.getTable();
 	}
 
-	private Button createEditButton(Composite buttonComposite) {
+	private Button createEditButton(Composite buttonComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Button button= new Button(buttonComposite, SWT.PUSH);
 		button.setText(RefactoringMessages.ChangeParametersControl_buttons_edit);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(button);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
@@ -485,16 +485,16 @@ public class ChangeParametersControl extends Composite {
 		return button;
 	}
 
-	private Button createAddButton(Composite buttonComposite) {
+	private Button createAddButton(Composite buttonComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Button button= new Button(buttonComposite, SWT.PUSH);
 		button.setText(RefactoringMessages.ChangeParametersControl_buttons_add);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(button);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				String[] excludedParamNames= new String[fParameterInfos.size()];
-				for (int i= 0; i < fParameterInfos.size(); i++) {
+				for (int i= 0; i < fParameterInfos.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ParameterInfo info= fParameterInfos.get(i);
 					excludedParamNames[i]= info.getNewName();
 				}
@@ -502,7 +502,7 @@ public class ChangeParametersControl extends Composite {
 				String newParamName= StubUtility.suggestArgumentName(javaProject, RefactoringMessages.ChangeParametersControl_new_parameter_default_name, excludedParamNames);
 				ParameterInfo newInfo= ParameterInfo.createInfoForAddedParameter("Object", newParamName, "null"); //$NON-NLS-1$ //$NON-NLS-2$
 				int insertIndex= fParameterInfos.size();
-				for (int i= fParameterInfos.size() - 1;  i >= 0; i--) {
+				for (int i= fParameterInfos.size() - 1;  i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ParameterInfo info= fParameterInfos.get(i);
 					if (info.isNewVarargs()) {
 						insertIndex= i;
@@ -511,7 +511,7 @@ public class ChangeParametersControl extends Composite {
 				}
 				fParameterInfos.add(insertIndex, newInfo);
 				fListener.parameterAdded(newInfo);
-				fTableViewer.refresh();
+				fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fTableViewer.getControl().setFocus();
 				fTableViewer.setSelection(new StructuredSelection(newInfo), true);
 				updateButtonsEnabledState();
@@ -521,16 +521,16 @@ public class ChangeParametersControl extends Composite {
 		return button;
 	}
 
-	private Button createRemoveButton(Composite buttonComposite) {
+	private Button createRemoveButton(Composite buttonComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Button button= new Button(buttonComposite, SWT.PUSH);
 		button.setText(RefactoringMessages.ChangeParametersControl_buttons_remove);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(button);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int index= getTable().getSelectionIndices()[0];
-				for (ParameterInfo s : getSelectedElements()) {
+				for (ParameterInfo s : getSelectedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (s.isAdded()) {
 						fParameterInfos.remove(s);
 					} else {
@@ -540,7 +540,7 @@ public class ChangeParametersControl extends Composite {
 				restoreSelection(index);
 			}
 			private void restoreSelection(int index) {
-				fTableViewer.refresh();
+				fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fTableViewer.getControl().setFocus();
 				int itemCount= getTableItemCount();
 				if (itemCount != 0) {
@@ -555,13 +555,13 @@ public class ChangeParametersControl extends Composite {
 		return button;
 	}
 
-	private Button createButton(Composite buttonComposite, String text, final boolean up) {
+	private Button createButton(Composite buttonComposite, String text, final boolean up) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Button button= new Button(buttonComposite, SWT.PUSH);
 		button.setText(text);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(button);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				ISelection savedSelection= fTableViewer.getSelection();
 				if (savedSelection == null)
@@ -575,7 +575,7 @@ public class ChangeParametersControl extends Composite {
 				} else {
 					moveDown(selection);
 				}
-				fTableViewer.refresh();
+				fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fTableViewer.setSelection(savedSelection);
 				fListener.parameterListChanged();
 				fTableViewer.getControl().setFocus();
@@ -586,7 +586,7 @@ public class ChangeParametersControl extends Composite {
 
 	//---- editing -----------------------------------------------------------------------------------------------
 
-	private void addCellEditors() {
+	private void addCellEditors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTableViewer.setColumnProperties(PROPERTIES);
 
 		final TableTextCellEditor editors[]= new TableTextCellEditor[PROPERTIES.length];
@@ -604,11 +604,11 @@ public class ChangeParametersControl extends Composite {
 			editors[NEWNAME_PROP].setContentAssistant(assistant);
 		}
 
-		for (int i = 0; i < editors.length; i++) {
+		for (int i = 0; i < editors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final int editorColumn= i;
 			final TableTextCellEditor editor = editors[i];
 			// support tabbing between columns while editing:
-			editor.getText().addTraverseListener(e -> {
+			editor.getText().addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 				switch (e.detail) {
 					case SWT.TRAVERSE_TAB_NEXT :
 						editColumnOrNextPossible(nextColumn(editorColumn));
@@ -668,11 +668,11 @@ public class ChangeParametersControl extends Composite {
 		Collections.reverse(fParameterInfos);
 	}
 
-	private static void moveUp(List<ParameterInfo> elements, List<ParameterInfo> move) {
-		List<ParameterInfo> res= new ArrayList<>(elements.size());
-		List<ParameterInfo> deleted= new ArrayList<>();
+	private static void moveUp(List<ParameterInfo> elements, List<ParameterInfo> move) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ParameterInfo> res= new ArrayList<>(elements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<ParameterInfo> deleted= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ParameterInfo floating= null;
-		for (ParameterInfo curr : elements) {
+		for (ParameterInfo curr : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (move.contains(curr)) {
 				res.add(curr);
 			} else if (curr.isDeleted()) {
@@ -699,7 +699,7 @@ public class ChangeParametersControl extends Composite {
 		if (indc.length == 0)
 			return false;
 		int invalid= up ? 0 : notDeletedInfosCount - 1;
-		for (int element : indc) {
+		for (int element : indc) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element == invalid)
 				return false;
 		}
@@ -710,7 +710,7 @@ public class ChangeParametersControl extends Composite {
 		if (fParameterInfos == null) // during initialization
 			return 0;
 		int result= 0;
-		for (ParameterInfo info : fParameterInfos) {
+		for (ParameterInfo info : fParameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! info.isDeleted())
 				result++;
 		}

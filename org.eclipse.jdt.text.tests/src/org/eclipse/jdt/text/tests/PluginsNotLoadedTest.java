@@ -196,7 +196,7 @@ public class PluginsNotLoadedTest {
 	 */
 	public static void addLoadedPlugIns(String... loadedPlugins) {
 		Assert.isLegal(loadedPlugins != null);
-		List<String> l= new ArrayList<>(NOT_LOADED_BUNDLES);
+		List<String> l= new ArrayList<>(NOT_LOADED_BUNDLES); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		l.removeAll(Arrays.asList(loadedPlugins));
 		NOT_LOADED_BUNDLES= l;
 	}
@@ -205,7 +205,7 @@ public class PluginsNotLoadedTest {
 	public void setUp() throws Exception {
 		EditorTestHelper.showView(EditorTestHelper.INTRO_VIEW_ID, false);
 		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.EDITOR_MARK_OCCURRENCES, true);
-		fEditor= openJavaEditor(new Path("/" + JUnitProjectTestSetup.getProject().getElementName() + "/src/junit/framework/TestCase.java"));
+		fEditor= openJavaEditor(new Path("/" + JUnitProjectTestSetup.getProject().getElementName() + "/src/junit/framework/TestCase.java")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull(fEditor);
 	}
 
@@ -230,16 +230,16 @@ public class PluginsNotLoadedTest {
 	@Test
 	public void printNotLoaded() {
 		Bundle bundle= Platform.getBundle("org.eclipse.jdt.text.tests");
-		for (Bundle bundle2 : bundle.getBundleContext().getBundles()) {
+		for (Bundle bundle2 : bundle.getBundleContext().getBundles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (bundle2.getState() != Bundle.ACTIVE)
 				System.out.println(bundle2.getSymbolicName());
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void pluginsNotLoaded() {
-		StringBuilder buf= new StringBuilder();
-		for (String element : NOT_LOADED_BUNDLES) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String element : NOT_LOADED_BUNDLES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Bundle bundle= Platform.getBundle(element);
 			if (element.contains("org.junit") || element.startsWith("junit-"))
 				System.out.println();
@@ -249,11 +249,11 @@ public class PluginsNotLoadedTest {
 //				buf.append(NOT_LOADED_BUNDLES[i]);
 //				buf.append('\n');
 			} else if (bundle.getState() == Bundle.ACTIVE) {
-				buf.append("- ");
-				buf.append(element);
-				buf.append('\n');
+				buf.append("- "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(element); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
-		assertEquals(0, buf.length(), "Wrong bundles loaded:\n" + buf);
+		assertEquals(0, buf.length(), "Wrong bundles loaded:\n" + buf); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

@@ -125,7 +125,7 @@ public class ExternalAnnotationsAttachmentBlock {
 	 * @param entry The entry to edit
 	 * @param javaProject The enclosing java project
 	 */
-	public ExternalAnnotationsAttachmentBlock(IStatusChangeListener context, IPath entry, IJavaProject javaProject) {
+	public ExternalAnnotationsAttachmentBlock(IStatusChangeListener context, IPath entry, IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fContext= context;
 		fEntry= entry == null ? Path.EMPTY : entry;
 
@@ -176,12 +176,12 @@ public class ExternalAnnotationsAttachmentBlock {
 		setDefaults();
 	}
 
-	private void createContainerMaps(IJavaProject javaProject) {
-		fContainerDesc2ID= new HashMap<>();
-		fID2Container= new HashMap<>();
+	private void createContainerMaps(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fContainerDesc2ID= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fID2Container= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		if (javaProject != null) {
 			try {
-				for (IClasspathEntry entry : javaProject.getRawClasspath()) {
+				for (IClasspathEntry entry : javaProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (entry.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 						IPath path= entry.getPath();
 						IClasspathContainer container= JavaCore.getClasspathContainer(path, javaProject);
@@ -195,13 +195,13 @@ public class ExternalAnnotationsAttachmentBlock {
 		} else {
 			// workaround for missing java project:
 			// fetch all registered containers and use ID also instead of readable description
-			for (String containerId : IClasspathContainer.getRegisteredContainerIds()) {
+			for (String containerId : IClasspathContainer.getRegisteredContainerIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fContainerDesc2ID.put(containerId, containerId);
 			}
 		}
 	}
 
-	public void setDefaults() {
+	public void setDefaults() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath annotationsAttachmentPath= fEntry;
 		String path= annotationsAttachmentPath == null ? null : annotationsAttachmentPath.toPortableString();
 
@@ -226,8 +226,8 @@ public class ExternalAnnotationsAttachmentBlock {
 
 	/* Answer description and ID of a container that is the prefix of path. */
 	private Entry<String,String> getContainerPrefix(String path) {
-		for (Entry<String, String> entry : fContainerDesc2ID.entrySet()) {
-			if (path.startsWith(entry.getValue()+'/')) {
+		for (Entry<String, String> entry : fContainerDesc2ID.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			if (path.startsWith(entry.getValue()+'/')) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return entry;
 			}
 		}
@@ -256,7 +256,7 @@ public class ExternalAnnotationsAttachmentBlock {
 	 * @param parent the parent
 	 * @return the created control
 	 */
-	public Control createControl(Composite parent) {
+	public Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PixelConverter converter= new PixelConverter(parent);
 
 		fSWTWidget= parent;
@@ -364,7 +364,7 @@ public class ExternalAnnotationsAttachmentBlock {
 
 	// ---------- IDialogFieldListener --------
 
-	private void attachmentDialogFieldChanged(DialogField field) {
+	private void attachmentDialogFieldChanged(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (field == fWorkspaceFileNameField) {
 			fWorkspaceNameStatus= updateFileNameStatus(fWorkspaceFileNameField);
 		} else if (field == fExternalFileNameField) {
@@ -390,7 +390,7 @@ public class ExternalAnnotationsAttachmentBlock {
 					IClasspathContainer container= fID2Container.get(containerID);
 					boolean found= false;
 					String relative= fContainerRelative.getText();
-					for (IClasspathEntry classpathEntry : container.getClasspathEntries()) {
+					for (IClasspathEntry classpathEntry : container.getClasspathEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String entryPath= classpathEntry.getPath().lastSegment().toString();
 						// relative must be equal to entryPath (a) entirely, or (b) up-to a boundary char
 						if (entryPath.equals(relative) ||
@@ -430,8 +430,8 @@ public class ExternalAnnotationsAttachmentBlock {
 		if (id == null) return;
 		IClasspathContainer container= fID2Container.get(id);
 		if (container == null) return;
-		List<String> names= new ArrayList<>();
-		for (IClasspathEntry entry : container.getClasspathEntries()) {
+		List<String> names= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IClasspathEntry entry : container.getClasspathEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String path= guessArtifactName(entry.getPath().toString());
 			names.add(path);
 		}
@@ -453,7 +453,7 @@ public class ExternalAnnotationsAttachmentBlock {
 
 	private String guessArtifactName(String path) {
 		int s= path.lastIndexOf('/')+1;
-		for (int i=s; i<path.length(); i++) {
+		for (int i=s; i<path.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Character.isLetterOrDigit(path.charAt(i))) {
 				if (i+1 < path.length()) {
 					char next= path.charAt(i+1);
@@ -470,7 +470,7 @@ public class ExternalAnnotationsAttachmentBlock {
 		return true;
 	}
 
-	private IStatus updateFileNameStatus(StringButtonDialogField field) {
+	private IStatus updateFileNameStatus(StringButtonDialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 
 		String fileName= field.getText();
@@ -527,7 +527,7 @@ public class ExternalAnnotationsAttachmentBlock {
 	/*
 	 * Opens a dialog to choose a jar from the file system.
 	 */
-	private IPath chooseExtJarFile() {
+	private IPath chooseExtJarFile() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath currPath= getFilePath();
 		if (currPath.segmentCount() == 0) {
 			currPath= fEntry;
@@ -548,7 +548,7 @@ public class ExternalAnnotationsAttachmentBlock {
 		return null;
 	}
 
-	private IPath chooseExtFolder() {
+	private IPath chooseExtFolder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath currPath= getFilePath();
 		if (currPath.segmentCount() == 0) {
 			currPath= fEntry;
@@ -571,7 +571,7 @@ public class ExternalAnnotationsAttachmentBlock {
 	/*
 	 * Opens a dialog to choose an internal jar.
 	 */
-	private IPath chooseInternal() {
+	private IPath chooseInternal() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String initSelection= fWorkspaceFileNameField.getText();
 
 		ViewerFilter filter= new ArchiveFileFilter((List<IResource>) null, false, false);
@@ -589,7 +589,7 @@ public class ExternalAnnotationsAttachmentBlock {
 
 		FolderSelectionDialog dialog= new FolderSelectionDialog(getShell(), lp, cp);
 		dialog.setAllowMultiple(false);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setTitle(NewWizardMessages.AnnotationsAttachmentBlock_intjardialog_title);
 		dialog.setMessage(NewWizardMessages.AnnotationsAttachmentBlock_intjardialog_message);
 		dialog.setInput(fWorkspaceRoot);
@@ -626,7 +626,7 @@ public class ExternalAnnotationsAttachmentBlock {
 	 * @return return the runnable
 	 */
 	public static IRunnableWithProgress getRunnable(final Shell shell, final IClasspathEntry newEntry, final IJavaProject jproject, final IPath containerPath, final boolean isReferencedEntry) {
-		return monitor -> {
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				String[] changedAttributes= { IClasspathAttribute.EXTERNAL_ANNOTATION_PATH };
 				BuildPathSupport.modifyClasspathEntry(shell, newEntry, changedAttributes, jproject, containerPath, isReferencedEntry, monitor);

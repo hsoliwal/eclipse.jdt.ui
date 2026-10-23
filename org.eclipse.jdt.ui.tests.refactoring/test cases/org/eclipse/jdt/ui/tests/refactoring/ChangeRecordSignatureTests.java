@@ -39,18 +39,18 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 	}
 
 	private String getSimpleTestFileName(boolean input){
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
-		fileName.append(input ? "_in": "_out");
-		return fileName.append(".java").toString();
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(input ? "_in": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private String getTestFileName(boolean input){
 		String fileName= getTestFolderPath();
-		return fileName + getSimpleTestFileName(input);
+		return fileName + getSimpleTestFileName(input); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getTestFolderPath() {
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return fileName.toString();
 	}
 
@@ -62,7 +62,7 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		if (newTypes == null)
 			return new ParameterInfo[0];
 		ParameterInfo[] result= new ParameterInfo[newTypes.length];
-		for (int i= 0; i < newDefaultValues.length; i++) {
+		for (int i= 0; i < newDefaultValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= ParameterInfo.createInfoForAddedParameter(newTypes[i], newNames[i], newDefaultValues[i]);
 		}
 		return result;
@@ -71,12 +71,12 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 	static void addInfos(List<ParameterInfo> list, ParameterInfo[] newParamInfos, int[] newIndices) {
 		if (newParamInfos == null || newIndices == null)
 			return;
-		for (int i= newIndices.length - 1; i >= 0; i--) {
+		for (int i= newIndices.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.add(newIndices[i], newParamInfos[i]);
 		}
 	}
 
-	private void helperDelete(int[] indicesToDelete) throws Exception {
+	private void helperDelete(int[] indicesToDelete) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true);
 		IType classA= getType(cu, "A");
 		assertTrue("refactoring not available", RefactoringAvailabilityTesterCore.isChangeRecordSignatureAvailable(classA));
@@ -85,13 +85,13 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		Refactoring ref= new ProcessorBasedRefactoring(processor);
 
 		List<ParameterInfo> infos= processor.getParameterInfos();
-		for (int index : indicesToDelete) {
+		for (int index : indicesToDelete) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			infos.get(index).markAsDeleted();
 		}
 		FussyProgressMonitor testMonitor= new FussyProgressMonitor();
 		RefactoringStatus initialConditions= ref.checkInitialConditions(testMonitor);
 		testMonitor.assertUsedUp();
-		assertTrue("precondition was supposed to pass: " + initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK());
+		assertTrue("precondition was supposed to pass: " + initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		RefactoringStatus result= performRefactoring(ref);
 		assertNull("refactoring was supposed to succeed", result);
@@ -100,7 +100,7 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		assertEqualLines("unexpected result", expectedFileContents, cu.getSource());
 	}
 
-	private void helperAdd(ParameterInfo[] newParamInfos, int[] newIndices) throws Exception {
+	private void helperAdd(ParameterInfo[] newParamInfos, int[] newIndices) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true);
 		IType classA= getType(cu, "A");
 		assertTrue("refactoring not available", RefactoringAvailabilityTesterCore.isChangeRecordSignatureAvailable(classA));
@@ -112,7 +112,7 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		FussyProgressMonitor testMonitor= new FussyProgressMonitor();
 		RefactoringStatus initialConditions= ref.checkInitialConditions(testMonitor);
 		testMonitor.assertUsedUp();
-		assertTrue("precondition was supposed to pass: " + initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK());
+		assertTrue("precondition was supposed to pass: " + initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		RefactoringStatus result= performRefactoring(ref);
 		assertNull("refactoring was supposed to succeed", result);
@@ -121,7 +121,7 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		assertEqualLines("unexpected result", expectedFileContents, cu.getSource());
 	}
 
-	private void helperAddFail(ParameterInfo[] newParamInfos, int[] newIndices, int expectedSeverity) throws Exception {
+	private void helperAddFail(ParameterInfo[] newParamInfos, int[] newIndices, int expectedSeverity) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true);
 		IType classA= getType(cu, "A");
 		assertTrue("refactoring not available", RefactoringAvailabilityTesterCore.isChangeRecordSignatureAvailable(classA));
@@ -138,7 +138,7 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 			result= performRefactoring(ref);
 		}
 		assertNotNull("precondition was supposed to fail", result);
-		assertEquals("Severity: " + result.getMessageMatchingSeverity(result.getSeverity()), expectedSeverity, result.getSeverity());
+		assertEquals("Severity: " + result.getMessageMatchingSeverity(result.getSeverity()), expectedSeverity, result.getSeverity()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
@@ -182,7 +182,7 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		helperDelete(new int[]{1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNullOccurrenceUpdate() throws Exception {
 		// A::new is a CreationReference — not handled by createOccurrenceUpdate,
 		// so NullOccurrenceUpdate fires and the refactoring produces an error status
@@ -202,14 +202,14 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		FussyProgressMonitor testMonitor= new FussyProgressMonitor();
 		RefactoringStatus initialConditions= ref.checkInitialConditions(testMonitor);
 		testMonitor.assertUsedUp();
-		assertTrue("precondition was supposed to pass: " + initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK());
+		assertTrue("precondition was supposed to pass: " + initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		RefactoringStatus result= performRefactoring(ref);
 		assertNotNull("refactoring was supposed to produce an error due to unhandled CreationReference", result);
 		assertEquals("Severity", RefactoringStatus.ERROR, result.getSeverity());
 	}
 
-	private void helperReorder(int[] newOrder) throws Exception {
+	private void helperReorder(int[] newOrder) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true);
 		IType classA= getType(cu, "A");
 		assertTrue("refactoring not available", RefactoringAvailabilityTesterCore.isChangeRecordSignatureAvailable(classA));
@@ -218,8 +218,8 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		Refactoring ref= new ProcessorBasedRefactoring(processor);
 
 		List<ParameterInfo> infos= processor.getParameterInfos();
-		List<ParameterInfo> reordered= new ArrayList<>();
-		for (int index : newOrder) {
+		List<ParameterInfo> reordered= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int index : newOrder) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reordered.add(infos.get(index));
 		}
 		infos.clear();
@@ -228,7 +228,7 @@ public class ChangeRecordSignatureTests extends GenericRefactoringTest {
 		FussyProgressMonitor testMonitor= new FussyProgressMonitor();
 		RefactoringStatus initialConditions= ref.checkInitialConditions(testMonitor);
 		testMonitor.assertUsedUp();
-		assertTrue("precondition was supposed to pass: " + initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK());
+		assertTrue("precondition was supposed to pass: " + initialConditions.getEntryWithHighestSeverity(), initialConditions.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		RefactoringStatus result= performRefactoring(ref);
 		assertNull("refactoring was supposed to succeed", result);

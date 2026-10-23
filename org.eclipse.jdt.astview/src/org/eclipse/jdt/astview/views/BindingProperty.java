@@ -31,14 +31,14 @@ public class BindingProperty extends ASTAttribute {
 		fParent= parent;
 		if (value instanceof String) {
 			if (((String) value).length() == 0) {
-				fName= name + ": (empty string)"; //$NON-NLS-1$
+				fName= name + ": (empty string)"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				fName= name + ": " + Binding.getEscapedStringLiteral((String) value); //$NON-NLS-1$
+				fName= name + ": " + Binding.getEscapedStringLiteral((String) value); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else if (value instanceof Character) {
-			fName= name + ": " + Binding.getEscapedCharLiteral(((Character) value).charValue()); //$NON-NLS-1$
+			fName= name + ": " + Binding.getEscapedCharLiteral(((Character) value).charValue()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
-			fName= name + ": " + String.valueOf(value); //$NON-NLS-1$
+			fName= name + ": " + String.valueOf(value); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fValues= null;
 		fIsRelevant= isRelevant;
@@ -46,14 +46,14 @@ public class BindingProperty extends ASTAttribute {
 
 	public BindingProperty(Binding parent, String name, boolean value, boolean isRelevant) {
 		fParent= parent;
-		fName= name + ": " + String.valueOf(value); //$NON-NLS-1$
+		fName= name + ": " + String.valueOf(value); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fValues= null;
 		fIsRelevant= isRelevant;
 	}
 
 	public BindingProperty(Binding parent, String name, int value, boolean isRelevant) {
 		fParent= parent;
-		fName= name + ": " + String.valueOf(value); //$NON-NLS-1$
+		fName= name + ": " + String.valueOf(value); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fValues= null;
 		fIsRelevant= isRelevant;
 	}
@@ -61,11 +61,11 @@ public class BindingProperty extends ASTAttribute {
 	public BindingProperty(Binding parent, String name, IBinding[] bindings, boolean isRelevant) {
 		fParent= parent;
 		if (bindings == null) {
-			fName= name + " (null)"; //$NON-NLS-1$
+			fName= name + " (null)"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fValues= null;
 		} else {
 			fValues= createBindings(bindings, isRelevant);
-			fName= name + " (" + fValues.length + ')'; //$NON-NLS-1$
+			fName= name + " (" + fValues.length + ')'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fIsRelevant= isRelevant;
 	}
@@ -76,7 +76,7 @@ public class BindingProperty extends ASTAttribute {
 			children= new ASTAttribute[0];
 		}
 		fValues= children;
-		fName= name + " (" + fValues.length + ')'; //$NON-NLS-1$
+		fName= name + " (" + fValues.length + ')'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fIsRelevant= isRelevant;
 	}
 
@@ -98,7 +98,7 @@ public class BindingProperty extends ASTAttribute {
 
 	private Binding[] createBindings(IBinding[] bindings, boolean isRelevant) {
 		Binding[] res= new Binding[bindings.length];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res[i]= new Binding(this, String.valueOf(i), bindings[i], isRelevant);
 		}
 		return res;
@@ -139,7 +139,7 @@ public class BindingProperty extends ASTAttribute {
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

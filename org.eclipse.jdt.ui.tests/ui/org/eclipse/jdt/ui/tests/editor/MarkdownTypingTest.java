@@ -73,7 +73,7 @@ public class MarkdownTypingTest extends TestCase {
 		return cu;
 	}
 
-	private ICompilationUnit createCompilationUnit(String customContent) throws Exception {
+	private ICompilationUnit createCompilationUnit(String customContent) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragment fragment= javaProject.findPackageFragment(
 				javaProject.getProject().getFullPath().append("src"));
 		String content = null;
@@ -186,7 +186,7 @@ public class MarkdownTypingTest extends TestCase {
 		assertEquals(expected, doc.get());
 	}
 
-	public void testEnableFencedCodeBlockTypingInMarkdown_supported_java_version() throws Exception {
+	public void testEnableFencedCodeBlockTypingInMarkdown_supported_java_version() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String customContent = """
 							 ///
 							 public class Test {}
@@ -223,7 +223,7 @@ public class MarkdownTypingTest extends TestCase {
 		assertEquals(expected, doc.get());
 	}
 
-	public void testEnableFencedCodeBlockTypingInMarkdown_unsupported_java_version() throws Exception {
+	public void testEnableFencedCodeBlockTypingInMarkdown_unsupported_java_version() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String customContent = """
 					///
 					public class Test {}
@@ -258,7 +258,7 @@ public class MarkdownTypingTest extends TestCase {
 		assertEquals(expected, doc.get());
 	}
 
-	public void testDisableFencedCodeBlockTypingInMarkdown() throws Exception {
+	public void testDisableFencedCodeBlockTypingInMarkdown() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String customContent = """
 				///
 				public class Test {}
@@ -294,7 +294,7 @@ public class MarkdownTypingTest extends TestCase {
 		assertEquals(expected, doc.get());
 	}
 
-	public void testEnableFencedCodeBlockInsideMethod_supported_java_version() throws Exception {
+	public void testEnableFencedCodeBlockInsideMethod_supported_java_version() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String customContent = """
 					/// foo();
 					public class Test {}
@@ -327,7 +327,7 @@ public class MarkdownTypingTest extends TestCase {
 		assertEquals(expected, doc.get());
 	}
 
-	public void testNoFenceAutoCloseAfterTextInMarkdown() throws Exception {
+	public void testNoFenceAutoCloseAfterTextInMarkdown() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String customContent = """
 				/// s
 				public class Test {}

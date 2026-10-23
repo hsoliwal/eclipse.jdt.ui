@@ -48,7 +48,7 @@ public class DecompiledClass {
 		this.text = text;
 		this.classInfo = classInfo;
 		this.classNode = classNode;
-		methodToJavaElt = new HashMap<>();
+		methodToJavaElt = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class DecompiledClass {
 	public String getText() {
 		if (value == null) {
 			StringBuffer buf = new StringBuffer();
-			for (Object o : text) {
+			for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (o instanceof DecompiledMethod) {
 					buf.append(((DecompiledMethod) o).getText());
 				} else {
@@ -79,12 +79,12 @@ public class DecompiledClass {
 	}
 
 	public String[][] getTextTable() {
-		List<String[]> lines = new ArrayList<>();
-		for (int i = 0; i < text.size(); ++i) {
+		List<String[]> lines = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < text.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = text.get(i);
 			if (o instanceof DecompiledMethod) {
 				String[][] mlines = ((DecompiledMethod) o).getTextTable();
-				for (String[] mline : mlines) {
+				for (String[] mline : mlines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					lines.add(mline);
 				}
 			} else {
@@ -96,7 +96,7 @@ public class DecompiledClass {
 
 	public int getBytecodeOffset(final int decompiledLine) {
 		int currentDecompiledLine = 0;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				Integer offset = m.getBytecodeOffset(decompiledLine - currentDecompiledLine);
@@ -113,7 +113,7 @@ public class DecompiledClass {
 
 	public int getBytecodeInsn(final int decompiledLine) {
 		int currentDecompiledLine = 0;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				Integer opcode = m.getBytecodeInsn(decompiledLine - currentDecompiledLine);
@@ -130,7 +130,7 @@ public class DecompiledClass {
 
 	public int getSourceLine(final int decompiledLine) {
 		int currentDecompiledLine = 0;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				int l = m.getSourceLine(decompiledLine - currentDecompiledLine);
@@ -147,7 +147,7 @@ public class DecompiledClass {
 
 	public DecompiledMethod getMethod(final int decompiledLine) {
 		int currentDecompiledLine = 0;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				int l = m.getSourceLine(decompiledLine - currentDecompiledLine);
@@ -181,7 +181,7 @@ public class DecompiledClass {
 
 	public int getDecompiledLine(String methSignature) {
 		int currentDecompiledLine = 0;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				if (methSignature.equals(m.getSignature())) {
@@ -196,7 +196,7 @@ public class DecompiledClass {
 	}
 
 	public String[][][] getFrameTablesForInsn(final int insn, boolean useQualifiedNames) {
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				String[][][] frame = m.getFrameTablesForInsn(insn, useQualifiedNames);
@@ -210,7 +210,7 @@ public class DecompiledClass {
 
 	public String[][][] getFrameTables(final int decompiledLine, boolean useQualifiedNames) {
 		int currentDecompiledLine = 0;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				String[][][] frame = m.getFrameTables(decompiledLine - currentDecompiledLine, useQualifiedNames);
@@ -227,7 +227,7 @@ public class DecompiledClass {
 
 	public int getDecompiledLine(final int sourceLine) {
 		int currentDecompiledLine = 0;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				int l = m.getDecompiledLine(sourceLine);
@@ -251,7 +251,7 @@ public class DecompiledClass {
 	 */
 	public int getDecompiledLine(final DecompiledMethod m1, final int decompiledLine) {
 		int currentDecompiledLine = 0;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				if (o == m1) {
 					return currentDecompiledLine + decompiledLine;
@@ -265,10 +265,10 @@ public class DecompiledClass {
 		return -1;
 	}
 
-	public List<Integer> getErrorLines() {
-		List<Integer> errors = new ArrayList<>();
+	public List<Integer> getErrorLines() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Integer> errors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int currentDecompiledLine = 0;
-		for (int i = 0; i < text.size(); ++i) {
+		for (int i = 0; i < text.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = text.get(i);
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
@@ -284,10 +284,10 @@ public class DecompiledClass {
 		return errors;
 	}
 
-	public DecompiledMethod getBestDecompiledMatch(int sourceLine) {
+	public DecompiledMethod getBestDecompiledMatch(int sourceLine) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DecompiledMethod bestM = null;
 
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof DecompiledMethod) {
 				DecompiledMethod m = (DecompiledMethod) o;
 				int line = m.getBestDecompiledLine(sourceLine);
@@ -321,7 +321,7 @@ public class DecompiledClass {
 		return bestM;
 	}
 
-	public LineRange getDecompiledRange(ITextSelection sourceRange) {
+	public LineRange getDecompiledRange(ITextSelection sourceRange) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int startLine = sourceRange.getStartLine() + 1;
 		int endLine = sourceRange.getEndLine() + 1;
 		int startDecompiledLine = getDecompiledLine(startLine);

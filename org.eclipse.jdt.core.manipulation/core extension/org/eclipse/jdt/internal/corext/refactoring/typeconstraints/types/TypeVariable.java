@@ -50,7 +50,7 @@ public final class TypeVariable extends AbstractTypeVariable {
 		return fJavaTypeParameter.hashCode();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		switch (lhs.getKind()) {
 			case NULL_TYPE:
@@ -80,7 +80,7 @@ public final class TypeVariable extends AbstractTypeVariable {
 	}
 
 	private boolean doExtends(TypeVariable other) {
-		for (TType bound : fBounds) {
+		for (TType bound : fBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (other.equals(bound) || (bound.getKind() == TYPE_VARIABLE && ((TypeVariable)bound).doExtends(other)))
 				return true;
 		}
@@ -97,13 +97,13 @@ public final class TypeVariable extends AbstractTypeVariable {
 		if (fBounds.length == 1 && fBounds[0].isJavaLangObject())
 			return fJavaTypeParameter.getElementName(); // don't print the trivial bound
 
-		StringBuilder result= new StringBuilder(fJavaTypeParameter.getElementName());
+		StringBuilder result= new StringBuilder(fJavaTypeParameter.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (fBounds.length > 0) {
-			result.append(" extends "); //$NON-NLS-1$
-			result.append(fBounds[0].getPlainPrettySignature());
-			for (int i= 1; i < fBounds.length; i++) {
-				result.append(" & "); //$NON-NLS-1$
-				result.append(fBounds[i].getPlainPrettySignature());
+			result.append(" extends "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(fBounds[0].getPlainPrettySignature()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i= 1; i < fBounds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				result.append(" & "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(fBounds[i].getPlainPrettySignature()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return result.toString();

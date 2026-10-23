@@ -32,7 +32,7 @@ import org.eclipse.jdt.internal.ui.preferences.formatter.ProfileVersionerCore;
 public class CodeFormatterMigrationTest {
 	@Test
 	public void test13to14_javaFormatter() {
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put("org.eclipse.jdt.core.javaFormatter", "foo");
 		int profileVersion= 13; // ProfileVersioner.VERSION_13
 		String kind= null; // kind
@@ -48,7 +48,7 @@ public class CodeFormatterMigrationTest {
 
 	@Test
 	public void testUpdateFrom13_javaFormatter() {
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put("org.eclipse.jdt.core.formatter.insert_new_line_in_empty_anonymous_type_declaration", "do not insert");
 		int profileVersion= 13; // ProfileVersioner.VERSION_13
 

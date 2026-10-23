@@ -78,7 +78,7 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 	 * @param node the selected node
 	 * @return returns a message if there is a problem
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String initialize(CompilationUnit root, ASTNode node) {
 		fASTRoot= root;
 
@@ -102,7 +102,7 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 	}
 
 	private void performSearch() {
-		fResult= new ArrayList<>();
+		fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		markReferences();
 		if (!fResult.isEmpty()) {
 			Type returnType= fMethodDeclaration.getReturnType2();
@@ -123,8 +123,8 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 	}
 
 
-	private void markReferences() {
-		fCaughtExceptions= new ArrayList<>();
+	private void markReferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fCaughtExceptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean isVoid= true;
 		Type returnType= fMethodDeclaration.getReturnType2();
 		if (returnType != null) {
@@ -189,15 +189,15 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 		return super.visit(node);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(TryStatement node) {
 		int currentSize= fCaughtExceptions.size();
 		List<CatchClause> catchClauses= node.catchClauses();
-		for (CatchClause catchClause : catchClauses) {
+		for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type type= catchClause.getException().getType();
 			if (type instanceof UnionType) {
 				List<Type> types= ((UnionType) type).types();
-				for (Type type2 : types) {
+				for (Type type2 : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addCaughtException(type2);
 				}
 			} else {
@@ -207,13 +207,13 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 		node.getBody().accept(this);
 
 		List<Expression> resources= node.resources();
-		for (Expression expression : resources) {
+		for (Expression expression : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expression.accept(this);
 		}
 
 		//check if the method could exit as a result of resource#close()
 		boolean exitMarked= false;
-		for (Expression variable : resources) {
+		for (Expression variable : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding typeBinding= null;
 			if (variable instanceof VariableDeclarationExpression) {
 				typeBinding= ((VariableDeclarationExpression) variable).getType().resolveBinding();
@@ -223,13 +223,13 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 			if (typeBinding != null) {
 				IMethodBinding methodBinding= Bindings.findMethodInHierarchy(typeBinding, "close", new ITypeBinding[0]); //$NON-NLS-1$
 				if (methodBinding != null) {
-					for (ITypeBinding exceptionType : methodBinding.getExceptionTypes()) {
+					for (ITypeBinding exceptionType : methodBinding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (isExitPoint(exceptionType)) {
 							// a close() throws an uncaught exception
 							// mark name of resource
 							if (variable instanceof VariableDeclarationExpression) {
 								VariableDeclarationExpression varDeclExpr= (VariableDeclarationExpression) variable;
-								for (VariableDeclarationFragment fragment : (List<VariableDeclarationFragment>) varDeclExpr.fragments()) {
+								for (VariableDeclarationFragment fragment : (List<VariableDeclarationFragment>) varDeclExpr.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									SimpleName name= fragment.getName();
 									fResult.add(new OccurrenceLocation(name.getStartPosition(), name.getLength(), 0, fExitDescription));
 								}
@@ -252,12 +252,12 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 		}
 
 		int toRemove= fCaughtExceptions.size() - currentSize;
-		for (int i= toRemove; i > 0; i--) {
+		for (int i= toRemove; i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fCaughtExceptions.remove(currentSize);
 		}
 
 		// visit catch and finally
-		for (CatchClause catchClause : catchClauses) {
+		for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			catchClause.accept(this);
 		}
 		if (node.getFinally() != null)
@@ -338,7 +338,7 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 	private boolean isExitPoint(IMethodBinding binding) {
 		if (binding == null)
 			return false;
-		for (ITypeBinding exception : binding.getExceptionTypes()) {
+		for (ITypeBinding exception : binding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isCaught(exception)) {
 				return true;
 			}
@@ -347,7 +347,7 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 	}
 
 	private boolean isCaught(ITypeBinding binding) {
-		for (ITypeBinding catchException : fCaughtExceptions) {
+		for (ITypeBinding catchException : fCaughtExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (catches(catchException, binding))
 				return true;
 		}
@@ -355,7 +355,7 @@ public class MethodExitsFinder extends ASTVisitor implements IOccurrencesFinder 
 	}
 
 	private boolean catches(ITypeBinding catchTypeBinding, ITypeBinding throwTypeBinding) {
-		while(throwTypeBinding != null) {
+		while(throwTypeBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (throwTypeBinding == catchTypeBinding)
 				return true;
 			throwTypeBinding= throwTypeBinding.getSuperclass();

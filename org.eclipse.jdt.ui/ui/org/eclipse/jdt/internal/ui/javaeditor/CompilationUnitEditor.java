@@ -164,7 +164,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		void customizeDocumentCommand(IDocument document, DocumentCommand command);
 	}
 
-	protected class AdaptedSourceViewer extends JavaSourceViewer {
+	protected class AdaptedSourceViewer extends JavaSourceViewer { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 		public AdaptedSourceViewer(Composite parent, IVerticalRuler verticalRuler, IOverviewRuler overviewRuler, boolean showAnnotationsOverview, int styles, IPreferenceStore store) {
 			super(parent, verticalRuler, overviewRuler, showAnnotationsOverview, styles, store);
@@ -177,7 +177,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		/*
 		 * @see ITextOperationTarget#doOperation(int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void doOperation(int operation) {
 
 			if (getTextWidget() == null)
@@ -189,7 +189,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 					String msg= fContentAssistant.showPossibleCompletions();
 					if (JavaPlugin.DEBUG_RESULT_COLLECTOR) {
 						long delta= System.currentTimeMillis() - time;
-						System.err.println("Code Assist (total): " + delta); //$NON-NLS-1$
+						System.err.println("Code Assist (total): " + delta); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					setStatusLineErrorMessage(msg);
 					return;
@@ -239,7 +239,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 			IJavaElement inputJavaElement= getInputJavaElement();
 			IJavaProject javaProject= inputJavaElement != null ? inputJavaElement.getJavaProject() : null;
 			if (javaProject == null)
-				preferences= new HashMap<>(JavaCore.getOptions());
+				preferences= new HashMap<>(JavaCore.getOptions()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			else
 				preferences= FormatterProfileManager.getProjectSettings(javaProject);
 
@@ -268,7 +268,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		/*
 		 * @see org.eclipse.jdt.internal.ui.text.link.LinkedPositionUI.ExitPolicy#doExit(org.eclipse.jdt.internal.ui.text.link.LinkedPositionManager, org.eclipse.swt.events.VerifyEvent, int, int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ExitFlags doExit(LinkedModeModel model, VerifyEvent event, int offset, int length) {
 
 			if (fSize == fStack.size() && !isMasked(offset)) {
@@ -346,7 +346,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		/*
 		 * @see org.eclipse.jface.text.IPositionUpdater#update(org.eclipse.jface.text.DocumentEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void update(DocumentEvent event) {
 
 			int eventOffset= event.getOffset();
@@ -357,7 +357,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 			try {
 				Position[] positions= event.getDocument().getPositions(fCategory);
 
-				for (Position position : positions) {
+				for (Position position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					if (position.isDeleted())
 						continue;
@@ -441,7 +441,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		/*
 		 * @see org.eclipse.swt.custom.VerifyKeyListener#verifyKey(org.eclipse.swt.events.VerifyEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void verifyKey(VerifyEvent event) {
 
 			// early pruning to slow down normal typing as little as possible
@@ -536,9 +536,9 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 
 				final char character= event.character;
 				final char closingCharacter= getPeerCharacter(character);
-				final StringBuilder buffer= new StringBuilder();
-				buffer.append(character);
-				buffer.append(closingCharacter);
+				final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buffer.append(character); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(closingCharacter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 				document.replace(offset, length, buffer.toString());
 
@@ -585,7 +585,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		/*
 		 * @see org.eclipse.jface.text.link.ILinkedModeListener#left(org.eclipse.jface.text.link.LinkedModeModel, int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void left(LinkedModeModel environment, int flags) {
 
 			final BracketLevel level= fBracketLevelStack.pop();
@@ -676,7 +676,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		/**
 		 * Restore remembered selection.
 		 */
-		public void restore() {
+		public void restore() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			/* https://bugs.eclipse.org/bugs/show_bug.cgi?id=52257
 			 * This method may be called inside an asynchronous call posted
 			 * to the UI thread, so protect against intermediate disposal
@@ -836,7 +836,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		 * @param newElement Enclosing element
 		 * @return Offset in the document
 		 */
-		public int getRememberedOffset(IJavaElement newElement) {
+		public int getRememberedOffset(IJavaElement newElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				IDocument document= getSourceViewer().getDocument();
 				int newElementLine= getElementLine(document, newElement);
@@ -968,7 +968,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		 * @param element Old Java element
 		 * @return Updated Java element
 		 */
-		private IJavaElement findElement(IJavaElement element) {
+		private IJavaElement findElement(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			if (element == null)
 				return null;
@@ -1060,7 +1060,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	/*
 	 * @see AbstractTextEditor#createActions()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createActions() {
 
 		super.createActions();
@@ -1204,7 +1204,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	 * @param reconcile <code>true</code> if working copy should be reconciled
 	 * @return the most narrow element which includes the given offset
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IJavaElement getElementAt(int offset, boolean reconcile) {
 		ICompilationUnit unit= (ICompilationUnit)getInputJavaElement();
 
@@ -1273,7 +1273,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	/*
 	 * @see AbstractTextEditor#doSave(IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void doSave(IProgressMonitor progressMonitor) {
 
 		IDocumentProvider p= getDocumentProvider();
@@ -1346,7 +1346,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	 * @param exception the exception to handle
 	 * @since 3.4
 	 */
-	private void openSaveListenerWarningDialog(String title, String message, CoreException exception) {
+	private void openSaveListenerWarningDialog(String title, String message, CoreException exception) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String linkText;
 		final IJavaProject javaProject= getInputJavaElement().getJavaProject();
 		IProject project= javaProject != null ? javaProject.getProject() : null;
@@ -1368,7 +1368,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		IStatus status= exception.getStatus();
 		int mask= IStatus.WARNING | IStatus.ERROR;
 		ErrorDialog dialog= new ErrorDialog(getSite().getShell(), title, message, status, mask) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected Control createMessageArea(Composite parent) {
 				Control result= super.createMessageArea(parent);
 
@@ -1377,7 +1377,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 				Link link= new Link(parent, SWT.NONE);
 				link.setText(linkText);
 				link.setFont(parent.getFont());
-				link.addSelectionListener(new SelectionAdapter() {
+				link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						if (hasProjectSettings)
@@ -1458,7 +1458,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#installTabsToSpacesConverter()
 	 * @since 3.3
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void installTabsToSpacesConverter() {
 		ISourceViewer sourceViewer= getSourceViewer();
 		SourceViewerConfiguration config= getSourceViewerConfiguration();
@@ -1494,7 +1494,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		return JavaCore.SPACE.equals(option);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 
 		ISourceViewer sourceViewer= getSourceViewer();
@@ -1517,7 +1517,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	/*
 	 * @see AbstractTextEditor#createPartControl(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 
 		super.createPartControl(parent);
@@ -1547,7 +1547,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		}
 	}
 
-	private static char getPeerCharacter(char character) {
+	private static char getPeerCharacter(char character) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (character) {
 			case '(':
 				return ')';
@@ -1579,7 +1579,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	/*
 	 * @see AbstractTextEditor#handlePreferenceStoreChanged(PropertyChangeEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handlePreferenceStoreChanged(PropertyChangeEvent event) {
 
 		try {
@@ -1645,7 +1645,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	@Override
 	public void aboutToBeReconciled() {
 		// Notify listeners
-		for (IJavaReconcilingListener listener : fReconcilingListeners) {
+		for (IJavaReconcilingListener listener : fReconcilingListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.aboutToBeReconciled();
 		}
 	}
@@ -1660,7 +1660,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	 * @see org.eclipse.jdt.internal.ui.text.java.IJavaReconcilingListener#reconciled(CompilationUnit, boolean, IProgressMonitor)
 	 * @since 3.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void reconciled(CompilationUnit ast, boolean forced, IProgressMonitor progressMonitor) {
 
 		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=58245
@@ -1672,7 +1672,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		CoreASTProvider.getInstance().reconciled(ast, getInputJavaElement(), progressMonitor);
 
 		// Notify listeners
-		for (IJavaReconcilingListener listener : fReconcilingListeners) {
+		for (IJavaReconcilingListener listener : fReconcilingListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.reconciled(ast, forced, progressMonitor);
 		}
 
@@ -1680,7 +1680,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 		if (!forced && !progressMonitor.isCanceled()) {
 			Shell shell= getSite().getShell();
 			if (shell != null && !shell.isDisposed()) {
-				shell.getDisplay().asyncExec(this::selectionChanged);
+				shell.getDisplay().asyncExec(this::selectionChanged); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 	}
@@ -1745,7 +1745,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 	/*
 	 * @see AbstractTextEditor#canHandleMove(IEditorInput, IEditorInput)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandleMove(IEditorInput originalElement, IEditorInput movedElement) {
 
 		String oldExtension= ""; //$NON-NLS-1$

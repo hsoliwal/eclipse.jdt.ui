@@ -76,10 +76,10 @@ public class UnsafeCheckTester extends AbstractChecker{
 		this.fExpression= expression;
 		this.fStartOffset= startOffset;
 		this.fEndOffset= endOffset;
-		this.fMatchNodePosSet= new HashSet<>();
-		this.fInvocationSet= new HashSet<>();
-		this.fInvocationHashMap= new HashMap<>();
-		this.fMatchNodePosHashMap= new HashMap<>();
+		this.fMatchNodePosSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		this.fInvocationSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		this.fInvocationHashMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		this.fMatchNodePosHashMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		InvocationVisitor iv= new InvocationVisitor();
 		this.fExpression.accept(iv);
 	}
@@ -99,7 +99,7 @@ public class UnsafeCheckTester extends AbstractChecker{
 
 	private ASTNode getEnclosingBodyNode(ASTNode node) {
 		StructuralPropertyDescriptor location= null;
-		while (node != null && !(node instanceof BodyDeclaration)) {
+		while (node != null && !(node instanceof BodyDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			location= node.getLocationInParent();
 			node= node.getParent();
 			if (node instanceof LambdaExpression) {
@@ -116,7 +116,7 @@ public class UnsafeCheckTester extends AbstractChecker{
 	}
 
 	private Expression getOriginalExpression(Expression expr) {
-		while (expr instanceof ParenthesizedExpression || expr instanceof CastExpression) {
+		while (expr instanceof ParenthesizedExpression || expr instanceof CastExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (expr instanceof ParenthesizedExpression) {
 				ParenthesizedExpression pe= (ParenthesizedExpression) expr;
 				expr= pe.getExpression();
@@ -131,7 +131,7 @@ public class UnsafeCheckTester extends AbstractChecker{
 
 	private class InvocationVisitor extends ASTVisitor {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void preVisit(ASTNode node) {
 			Expression temp= null;
 			if (node instanceof CastExpression) {
@@ -163,7 +163,7 @@ public class UnsafeCheckTester extends AbstractChecker{
 				try {
 					temp= getOriginalExpression(temp);
 					IASTFragment[] allMatches= ASTFragmentFactory.createFragmentForFullSubtree(getEnclosingBodyNode(temp)).getSubFragmentsMatching(getIASTFragment(temp));
-					for (IASTFragment match : allMatches) {
+					for (IASTFragment match : allMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ASTNode associatedNode= match.getAssociatedNode();
 						if (associatedNode != null) {
 							fMatchNodePosSet.add(new Position(associatedNode.getStartPosition(), associatedNode.getLength()));
@@ -206,7 +206,7 @@ public class UnsafeCheckTester extends AbstractChecker{
 			return castFlag;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean preVisit2(ASTNode node) {
 			int sl= node.getStartPosition();
 			int el= node.getStartPosition() + node.getLength();
@@ -263,7 +263,7 @@ public class UnsafeCheckTester extends AbstractChecker{
 			return super.preVisit2(node);
 		}
 
-		private boolean hasInheritanceRelationship(ITypeBinding itb1, ITypeBinding itb2) {
+		private boolean hasInheritanceRelationship(ITypeBinding itb1, ITypeBinding itb2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (itb2 == null || itb1 == null) {
 				return false;
 			} else if (itb1 == itb2) {
@@ -271,7 +271,7 @@ public class UnsafeCheckTester extends AbstractChecker{
 			}
 			ITypeBinding superclass= itb2.getSuperclass();
 			ITypeBinding[] interfaces= itb2.getInterfaces();
-			for (int i= 0; i < interfaces.length; ++i) {
+			for (int i= 0; i < interfaces.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (hasInheritanceRelationship(itb1, interfaces[i]))
 					return true;
 			}

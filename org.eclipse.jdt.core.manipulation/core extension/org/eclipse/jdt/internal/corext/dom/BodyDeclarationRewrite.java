@@ -64,7 +64,7 @@ public class BodyDeclarationRewrite {
 	 * @param container a list containing objects of type <code>BodyDeclaration</code>
 	 * @return the insertion index to be used
 	 */
-	public static int getInsertionIndex(BodyDeclaration member, List<? extends BodyDeclaration> container) {
+	public static int getInsertionIndex(BodyDeclaration member, List<? extends BodyDeclaration> container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int containerSize= container.size();
 
 		// use MembersOrderPreferenceCacheCommon which has no UI dependencies and
@@ -76,7 +76,7 @@ public class BodyDeclarationRewrite {
 		int insertPos= containerSize;
 		int insertPosOrderIndex= -1;
 
-		for (int i= containerSize - 1; i >= 0; i--) {
+		for (int i= containerSize - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int currOrderIndex= getOrderPreference(container.get(i), orderStore);
 			if (orderIndex == currOrderIndex) {
 				if (insertPosOrderIndex != orderIndex) { // no perfect match yet
@@ -98,7 +98,7 @@ public class BodyDeclarationRewrite {
 		return insertPos;
 	}
 
-	private static int getOrderPreference(BodyDeclaration member, MembersOrderPreferenceCacheCommon store) {
+	private static int getOrderPreference(BodyDeclaration member, MembersOrderPreferenceCacheCommon store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int memberType= member.getNodeType();
 		int modifiers= member.getModifiers();
 

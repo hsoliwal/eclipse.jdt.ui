@@ -144,15 +144,15 @@ public class CommentedASMifierClassVisitor extends ASMifier implements ICommente
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ASMifier visitMethod(int access, String name1, String desc, String signature, String[] exceptions) {
-		if (options.fieldFilter != null || options.methodFilter != null && !(name1 + desc).equals(options.methodFilter)) {
+		if (options.fieldFilter != null || options.methodFilter != null && !(name1 + desc).equals(options.methodFilter)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return getDummyVisitor();
 		}
 
 		MethodNode meth = null;
 		List<String> exList = Arrays.asList(exceptions);
-		for (MethodNode mn : classNode.methods) {
+		for (MethodNode mn : classNode.methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (mn.name.equals(name1) && mn.desc.equals(desc) && mn.exceptions.equals(exList)) {
 				meth = mn;
 				break;
@@ -160,7 +160,7 @@ public class CommentedASMifierClassVisitor extends ASMifier implements ICommente
 		}
 		Objects.requireNonNull(meth);
 
-		currMethod = new DecompiledMethod(className, new HashMap<>(), meth, options, access);
+		currMethod = new DecompiledMethod(className, new HashMap<>(), meth, options, access); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		ASMifier textifier = super.visitMethod(access, name1, desc, signature, exceptions);
 		TraceMethodVisitor tm = new TraceMethodVisitor(textifier);
 		meth.accept(tm);
@@ -225,7 +225,7 @@ public class CommentedASMifierClassVisitor extends ASMifier implements ICommente
 
 		InsnList instructions = currMethod.meth.instructions;
 		LabelNode currLabel = null;
-		for (int i = 0; i < instructions.size(); i++) {
+		for (int i = 0; i < instructions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			AbstractInsnNode insnNode = instructions.get(i);
 			if (insnNode instanceof LabelNode) {
 				LabelNode labelNode = (LabelNode) insnNode;
@@ -317,7 +317,7 @@ public class CommentedASMifierClassVisitor extends ASMifier implements ICommente
 		return new DecompiledClassInfo(javaVersion, accessFlags);
 	}
 
-	private ASMifier getDummyVisitor() {
+	private ASMifier getDummyVisitor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (dummyAnnVisitor == null) {
 			dummyAnnVisitor = new ASMifier(DecompilerOptions.LATEST_ASM_VERSION, "", -1) { //$NON-NLS-1$
 				@Override

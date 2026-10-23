@@ -139,7 +139,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		 * @return <code>true</code> if the receiver's type implements the
 		 *         type named <code>interfaceName</code>
 		 */
-		private boolean isSubtypeOf(String supertype) {
+		private boolean isSubtypeOf(String supertype) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String implementorName= SignatureUtil.stripSignatureToFQN(signature);
 			if (implementorName.length() == 0)
 				return false;
@@ -184,7 +184,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 				} else {
 					ITypeHierarchy hierarchy= sub.newSupertypeHierarchy(null);
 					IType[] allTypes= hierarchy.getAllTypes();
-					for (IType type : allTypes) {
+					for (IType type : allTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (type.getElementName().equals(supertype))
 							return true;
 					}
@@ -197,7 +197,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 			return false;
 		}
 
-		private IType[] getSupertypes(String supertype) {
+		private IType[] getSupertypes(String supertype) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IType[] empty= new IType[0];
 			String implementorName= SignatureUtil.stripSignatureToFQN(signature);
 			if (implementorName.length() == 0)
@@ -223,8 +223,8 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 				} else {
 					ITypeHierarchy hierarchy= sub.newSupertypeHierarchy(null);
 					IType[] allTypes= hierarchy.getAllTypes();
-					List<IType> matches= new ArrayList<>();
-					for (IType type : allTypes) {
+					List<IType> matches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (IType type : allTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (type.getElementName().equals(supertype))
 							matches.add(type);
 					}
@@ -252,7 +252,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		 *
 		 * @return the signatures of all member type bounds
 		 */
-		public String[] getMemberTypeSignatures() {
+		public String[] getMemberTypeSignatures() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (isArray()) {
 				return new String[] {Signature.createArraySignature(Signature.getElementType(signature), Signature.getArrayCount(signature) - 1)};
 			} else if (fUnit != null && (isIterable() || isCollection())) {
@@ -285,18 +285,18 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		 *
 		 * @return type names of all member type bounds
 		 */
-		public String[] getMemberTypeNames() {
+		public String[] getMemberTypeNames() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] signatures= getMemberTypeSignatures();
 			String[] names= new String[signatures.length];
 
-			for (int i= 0; i < signatures.length; i++) {
+			for (int i= 0; i < signatures.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String sig= signatures[i];
 				String local= fLocalTypes.get(Signature.getElementType(sig));
 				int dim= Signature.getArrayCount(sig);
 				if (local != null && dim > 0) {
-					StringBuilder array= new StringBuilder(local);
-					for (int j= 0; j < dim; j++)
-						array.append("[]"); //$NON-NLS-1$
+					StringBuilder array= new StringBuilder(local); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					for (int j= 0; j < dim; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						array.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					local= array.toString();
 				}
 				if (local != null)
@@ -317,10 +317,10 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		 * @since 3.3
 		 */
 		public String[] getTypeArgumentBoundSignatures(String type, int index) {
-			List<String> all= new ArrayList<>();
+			List<String> all= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IType[] supertypes= getSupertypes(type);
 			if (fUnit != null) {
-				for (IType supertype : supertypes) {
+				for (IType supertype : supertypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						TypeParameterResolver util= new TypeParameterResolver(this);
 						String[] result= util.computeBinding(supertype.getFullyQualifiedName(), index);
@@ -337,7 +337,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		/*
 		 * @see java.lang.Object#toString()
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String toString() {
 			String type;
 			switch (fType) {
@@ -354,7 +354,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 					type= "UNKNOWN"; //$NON-NLS-1$
 					break;
 			}
-			return "LocalVariable [name=\"" + name + "\" signature=\"" + signature + "\" type=\"" + type + "\" member=\"" + getMemberTypeSignature() + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			return "LocalVariable [name=\"" + name + "\" signature=\"" + signature + "\" type=\"" + type + "\" member=\"" + getMemberTypeSignature() + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -369,7 +369,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		private final ITypeHierarchy fHierarchy;
 		private final Variable fVariable;
 		private final IType fType;
-		private final List<String> fBounds= new ArrayList<>();
+		private final List<String> fBounds= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		/**
 		 * Creates a new type parameter resolver to compute the bindings of type
@@ -461,7 +461,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		 * @throws JavaModelException if any java model operation fails
 		 * @throws IndexOutOfBoundsException if the index is not valid
 		 */
-		private void computeTypeParameterBinding(final IType superType, final int index) throws JavaModelException, IndexOutOfBoundsException {
+		private void computeTypeParameterBinding(final IType superType, final int index) throws JavaModelException, IndexOutOfBoundsException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int nParameters= superType.getTypeParameters().length;
 			if (nParameters <= index)
 				throw new IndexOutOfBoundsException();
@@ -494,11 +494,11 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 
 			ITypeParameter[] typeParameters= subType.getTypeParameters();
 
-			for (int k= 0; k < typeParameters.length; k++) {
+			for (int k= 0; k < typeParameters.length; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeParameter formalParameter= typeParameters[k];
 				if (formalParameter.getElementName().equals(SignatureUtil.stripSignatureToFQN(match))) {
 					String[] bounds= formalParameter.getBounds();
-					for (String bound : bounds) {
+					for (String bound : bounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String boundSignature= Signature.createTypeSignature(bound, true);
 						addBound(SignatureUtil.qualifySignature(boundSignature, subType));
 					}
@@ -564,9 +564,9 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		 *         fails, or if <code>subType</code> contains no super type
 		 *         signature to <code>superType</code>
 		 */
-		private String findMatchingSuperTypeSignature(IType subType, IType superType) throws JavaModelException {
+		private String findMatchingSuperTypeSignature(IType subType, IType superType) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] signatures= getSuperTypeSignatures(subType, superType);
-			for (String signature : signatures) {
+			for (String signature : signatures) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String qualified= SignatureUtil.qualifySignature(signature, subType);
 				String subFQN= SignatureUtil.stripSignatureToFQN(qualified);
 
@@ -617,12 +617,12 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		 * @param boundSignature the additional bound to add to the list of
 		 *        collected bounds
 		 */
-		private void addBound(String boundSignature) {
+		private void addBound(String boundSignature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (SignatureUtil.isJavaLangObject(boundSignature))
 				return;
 
 			boolean found= false;
-			for (ListIterator<String> it= fBounds.listIterator(); it.hasNext();) {
+			for (ListIterator<String> it= fBounds.listIterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String old= it.next();
 				if (isTrueSubtypeOf(boundSignature, old)) {
 					if (!found) {
@@ -646,7 +646,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		 * @param superTypeSignature the potential supertype's signature
 		 * @return <code>true</code> if the inheritance relationship holds
 		 */
-		private boolean isTrueSubtypeOf(String subTypeSignature, String superTypeSignature) {
+		private boolean isTrueSubtypeOf(String subTypeSignature, String superTypeSignature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// try cheap test first
 			if (subTypeSignature.equals(superTypeSignature))
 				return true;
@@ -676,7 +676,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 				ITypeHierarchy hierarchy= subType.newSupertypeHierarchy(null);
 				IType[] types= hierarchy.getAllSupertypes(subType);
 
-				for (IType type : types)
+				for (IType type : types) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (type.equals(superType))
 						return true;
 			} catch (JavaModelException e) {
@@ -711,9 +711,9 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 
 	private ICompilationUnit fUnit;
 
-	private List<Variable> fLocalVariables= new ArrayList<>();
-	private List<Variable> fFields= new ArrayList<>();
-	private Map<String, String> fLocalTypes= new HashMap<>();
+	private List<Variable> fLocalVariables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private List<Variable> fFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private Map<String, String> fLocalTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private boolean fError;
 
@@ -722,7 +722,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	 *
 	 * @param unit the compilation unit, may be <code>null</code>.
 	 */
-	CompilationUnitCompletion(ICompilationUnit unit) {
+	CompilationUnitCompletion(ICompilationUnit unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		reset(unit);
 		setIgnored(CompletionProposal.ANONYMOUS_CLASS_DECLARATION, true);
 		setIgnored(CompletionProposal.ANONYMOUS_CLASS_CONSTRUCTOR_INVOCATION, true);
@@ -746,7 +746,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	 *
 	 * @param unit the compilation unit, may be <code>null</code>.
 	 */
-	private void reset(ICompilationUnit unit) {
+	private void reset(ICompilationUnit unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fUnit= unit;
 		fLocalVariables.clear();
 		fFields.clear();
@@ -755,7 +755,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		if (fUnit != null) {
 			try {
 				IType[] cuTypes= fUnit.getAllTypes();
-				for (IType cuType : cuTypes) {
+				for (IType cuType : cuTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String fqn= cuType.getFullyQualifiedName();
 					String sig= Signature.createTypeSignature(fqn, true);
 					fLocalTypes.put(sig, cuType.getElementName());
@@ -770,7 +770,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	/*
 	 * @see org.eclipse.jdt.core.CompletionRequestor#accept(org.eclipse.jdt.core.CompletionProposal)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void accept(CompletionProposal proposal) {
 
 		String name= String.valueOf(proposal.getCompletion());
@@ -818,7 +818,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	public String[] getLocalVariableNames() {
 		String[] names= new String[fLocalVariables.size()];
 		int i= 0;
-		for (ListIterator<Variable> iterator= fLocalVariables.listIterator(fLocalVariables.size()); iterator.hasPrevious();) {
+		for (ListIterator<Variable> iterator= fLocalVariables.listIterator(fLocalVariables.size()); iterator.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable localVariable= iterator.previous();
 			names[i++]= localVariable.getName();
 		}
@@ -834,7 +834,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	public String[] getFieldNames() {
 		String[] names= new String[fFields.size()];
 		int i= 0;
-		for (ListIterator<Variable> iterator= fFields.listIterator(fFields.size()); iterator.hasPrevious();) {
+		for (ListIterator<Variable> iterator= fFields.listIterator(fFields.size()); iterator.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable field= iterator.previous();
 			names[i++]= field.getName();
 		}
@@ -846,11 +846,11 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	 *
 	 * @return all visible arrays
 	 */
-	public Variable[] findArraysInCurrentScope() {
-		List<Variable> arrays= new ArrayList<>();
+	public Variable[] findArraysInCurrentScope() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Variable> arrays= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// local variables
-		for (ListIterator<Variable> iterator= fLocalVariables.listIterator(fLocalVariables.size()); iterator.hasPrevious();) {
+		for (ListIterator<Variable> iterator= fLocalVariables.listIterator(fLocalVariables.size()); iterator.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable localVariable= iterator.previous();
 
 			if (localVariable.isArray())
@@ -858,7 +858,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		}
 
 		// fields
-		for (ListIterator<Variable> iterator= fFields.listIterator(fFields.size()); iterator.hasPrevious();) {
+		for (ListIterator<Variable> iterator= fFields.listIterator(fFields.size()); iterator.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable field= iterator.previous();
 
 			if (field.isArray())
@@ -876,9 +876,9 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	 * @return all local variables matching <code>clazz</code>
 	 */
 	public Variable[] findLocalVariables(String clazz) {
-		List<Variable> matches= new ArrayList<>();
+		List<Variable> matches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (ListIterator<Variable> iterator= fLocalVariables.listIterator(fLocalVariables.size()); iterator.hasPrevious();) {
+		for (ListIterator<Variable> iterator= fLocalVariables.listIterator(fLocalVariables.size()); iterator.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable localVariable= iterator.previous();
 
 			if (localVariable.isSubtypeOf(clazz))
@@ -896,9 +896,9 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	 * @return all local variables matching <code>clazz</code>
 	 */
 	public Variable[] findFieldVariables(String clazz) {
-		List<Variable> matches= new ArrayList<>();
+		List<Variable> matches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (ListIterator<Variable> iterator= fFields.listIterator(fFields.size()); iterator.hasPrevious();) {
+		for (ListIterator<Variable> iterator= fFields.listIterator(fFields.size()); iterator.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable localVariable= iterator.previous();
 
 			if (localVariable.isSubtypeOf(clazz))
@@ -915,11 +915,11 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 	 *
 	 * @return all visible <code>Iterable</code>s and arrays
 	 */
-	public Variable[] findIterablesInCurrentScope() {
-		List<Variable> iterables= new ArrayList<>();
+	public Variable[] findIterablesInCurrentScope() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Variable> iterables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// local variables
-		for (ListIterator<Variable> iterator= fLocalVariables.listIterator(fLocalVariables.size()); iterator.hasPrevious();) {
+		for (ListIterator<Variable> iterator= fLocalVariables.listIterator(fLocalVariables.size()); iterator.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable localVariable= iterator.previous();
 
 			if (localVariable.isArray() || localVariable.isIterable())
@@ -927,7 +927,7 @@ final class CompilationUnitCompletion extends CompletionRequestor {
 		}
 
 		// fields
-		for (ListIterator<Variable> iterator= fFields.listIterator(fFields.size()); iterator.hasPrevious();) {
+		for (ListIterator<Variable> iterator= fFields.listIterator(fFields.size()); iterator.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable field= iterator.previous();
 
 			if (field.isArray() || field.isIterable())

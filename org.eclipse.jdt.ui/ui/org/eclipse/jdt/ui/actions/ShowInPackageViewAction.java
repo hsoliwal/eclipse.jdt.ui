@@ -45,7 +45,7 @@ import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
  * @noextend This class is not intended to be subclassed by clients.
  * @deprecated As of 3.5, got replaced by generic Navigate &gt; Show In &gt;
  */
-@Deprecated
+@Deprecated //FLLDCIM: MARK — T04  IMPLEMENTS
 public class ShowInPackageViewAction extends SelectionDispatchAction {
 
 	private JavaEditor fEditor;

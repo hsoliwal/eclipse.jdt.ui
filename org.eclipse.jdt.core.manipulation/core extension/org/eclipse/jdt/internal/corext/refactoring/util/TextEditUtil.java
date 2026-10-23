@@ -53,7 +53,7 @@ public class TextEditUtil {
 	 * @return true if edit is minimal
 	 * @since 3.4
 	 */
-	public static boolean isPacked(TextEdit edit) {
+	public static boolean isPacked(TextEdit edit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(edit instanceof MultiTextEdit))
 			return true;
 
@@ -67,7 +67,7 @@ public class TextEditUtil {
 		if (edit.getExclusiveEnd() != children[children.length - 1].getExclusiveEnd())
 			return false;
 
-		for (TextEdit child : children) {
+		for (TextEdit child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isPacked(child)) {
 				return false;
 			}
@@ -95,7 +95,7 @@ public class TextEditUtil {
 		if (!edit.hasChildren()) {
 			result.addChild(edit);
 		} else {
-			for (TextEdit child : edit.getChildren()) {
+			for (TextEdit child : edit.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				child.getParent().removeChild(0);
 				flatten(child, result);
 			}
@@ -112,7 +112,7 @@ public class TextEditUtil {
 	 * @return true of no node overlaps with any other node
 	 * @since 3.4
 	 */
-	public static boolean overlaps(TextEdit edit1, TextEdit edit2) {
+	public static boolean overlaps(TextEdit edit1, TextEdit edit2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (edit1 instanceof MultiTextEdit && edit2 instanceof MultiTextEdit) {
 			MultiTextEdit multiTextEdit1= (MultiTextEdit)edit1;
 			if (!multiTextEdit1.hasChildren())
@@ -127,13 +127,13 @@ public class TextEditUtil {
 
 			int i1= 0;
 			int i2= 0;
-			while (i1 < children1.length && i2 < children2.length) {
-				while (children1[i1].getExclusiveEnd() < children2[i2].getOffset()) {
+			while (i1 < children1.length && i2 < children2.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				while (children1[i1].getExclusiveEnd() < children2[i2].getOffset()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					i1++;
 					if (i1 >= children1.length)
 						return false;
 				}
-				while (children2[i2].getExclusiveEnd() < children1[i1].getOffset()) {
+				while (children2[i2].getExclusiveEnd() < children1[i1].getOffset()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					i2++;
 					if (i2 >= children2.length)
 						return false;
@@ -167,7 +167,7 @@ public class TextEditUtil {
 			TextEdit[] children= multiTextEdit1.getChildren();
 
 			int i= 0;
-			while (children[i].getExclusiveEnd() < edit2.getOffset()) {
+			while (children[i].getExclusiveEnd() < edit2.getOffset()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i++;
 				if (i >= children.length)
 					return false;
@@ -187,7 +187,7 @@ public class TextEditUtil {
 			TextEdit[] children= multiTextEdit2.getChildren();
 
 			int i= 0;
-			while (children[i].getExclusiveEnd() < edit1.getOffset()) {
+			while (children[i].getExclusiveEnd() < edit1.getOffset()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i++;
 				if (i >= children.length)
 					return false;
@@ -239,7 +239,7 @@ public class TextEditUtil {
 		return result;
 	}
 
-	private static void merge(TextEdit edit1, TextEdit edit2, MultiTextEdit result) {
+	private static void merge(TextEdit edit1, TextEdit edit2, MultiTextEdit result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (edit1 instanceof MultiTextEdit && edit2 instanceof MultiTextEdit) {
 			MultiTextEdit multiTextEdit1= (MultiTextEdit)edit1;
 			if (!multiTextEdit1.hasChildren()) {
@@ -258,9 +258,9 @@ public class TextEditUtil {
 
 			int i1= 0;
 			int i2= 0;
-			while (i1 < children1.length && i2 < children2.length) {
+			while (i1 < children1.length && i2 < children2.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
-				while (i1 < children1.length && children1[i1].getExclusiveEnd() < children2[i2].getOffset()) {
+				while (i1 < children1.length && children1[i1].getExclusiveEnd() < children2[i2].getOffset()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					edit1.removeChild(0);
 					result.addChild(children1[i1]);
 					i1++;
@@ -268,7 +268,7 @@ public class TextEditUtil {
 				if (i1 >= children1.length)
 					break;
 
-				while (i2 < children2.length && children2[i2].getExclusiveEnd() < children1[i1].getOffset()) {
+				while (i2 < children2.length && children2[i2].getExclusiveEnd() < children1[i1].getOffset()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					edit2.removeChild(0);
 					result.addChild(children2[i2]);
 					i2++;
@@ -287,13 +287,13 @@ public class TextEditUtil {
 				i2++;
 			}
 
-			while (i1 < children1.length) {
+			while (i1 < children1.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				edit1.removeChild(0);
 				result.addChild(children1[i1]);
 				i1++;
 			}
 
-			while (i2 < children2.length) {
+			while (i2 < children2.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				edit2.removeChild(0);
 				result.addChild(children2[i2]);
 				i2++;
@@ -302,7 +302,7 @@ public class TextEditUtil {
 			TextEdit[] children= edit1.getChildren();
 
 			int i= 0;
-			while (children[i].getExclusiveEnd() < edit2.getOffset()) {
+			while (children[i].getExclusiveEnd() < edit2.getOffset()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				edit1.removeChild(0);
 				result.addChild(children[i]);
 				i++;
@@ -314,7 +314,7 @@ public class TextEditUtil {
 			edit1.removeChild(0);
 			merge(children[i], edit2, result);
 			i++;
-			while (i < children.length) {
+			while (i < children.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				edit1.removeChild(0);
 				result.addChild(children[i]);
 				i++;
@@ -323,7 +323,7 @@ public class TextEditUtil {
 			TextEdit[] children= edit2.getChildren();
 
 			int i= 0;
-			while (children[i].getExclusiveEnd() < edit1.getOffset()) {
+			while (children[i].getExclusiveEnd() < edit1.getOffset()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				edit2.removeChild(0);
 				result.addChild(children[i]);
 				i++;
@@ -335,7 +335,7 @@ public class TextEditUtil {
 			edit2.removeChild(0);
 			merge(edit1, children[i], result);
 			i++;
-			while (i < children.length) {
+			while (i < children.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				edit2.removeChild(0);
 				result.addChild(children[i]);
 				i++;

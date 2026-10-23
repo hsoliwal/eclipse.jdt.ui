@@ -67,7 +67,7 @@ public class JavaSearchQuery implements ISearchQuery {
 		if (data == null) {
 			throw new IllegalArgumentException("data must not be null"); //$NON-NLS-1$
 		}
-		fPatternDataList= new ArrayList<>();
+		fPatternDataList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fPatternDataList.add(data);
 	}
 
@@ -98,7 +98,7 @@ public class JavaSearchQuery implements ISearchQuery {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus run(IProgressMonitor monitor) {
 		final JavaSearchResult textResult= (JavaSearchResult) getSearchResult();
 		textResult.removeAll();
@@ -110,7 +110,7 @@ public class JavaSearchQuery implements ISearchQuery {
 			IProject[] projects= JavaSearchScopeFactory.getInstance().getProjects(getFirstSpecification().getScope());
 			final SearchParticipantRecord[] participantDescriptors= SearchParticipantsExtensionPoint.getInstance().getSearchParticipants(projects);
 			final int[] ticks= new int[participantDescriptors.length];
-			for (int i= 0; i < participantDescriptors.length; i++) {
+			for (int i= 0; i < participantDescriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final int iPrime= i;
 				ISafeRunnable runnable= new ISafeRunnable() {
 					@Override
@@ -122,7 +122,7 @@ public class JavaSearchQuery implements ISearchQuery {
 
 					@Override
 					public void run() throws Exception {
-						for (QuerySpecification querySpecification : fPatternDataList) {
+						for (QuerySpecification querySpecification : fPatternDataList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ticks[iPrime]+= participantDescriptors[iPrime].getParticipant().estimateTicks(querySpecification);
 						}
 					}
@@ -152,7 +152,7 @@ public class JavaSearchQuery implements ISearchQuery {
 					pattern= SearchPattern.createPattern(patternSpec.getPattern(), patternSpec.getSearchFor(), patternSpec.getLimitTo(), matchMode);
 				}
 			} else {
-				for (QuerySpecification querySpecification : fPatternDataList) {
+				for (QuerySpecification querySpecification : fPatternDataList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!(querySpecification instanceof ElementQuerySpecification)) {
 						break;
 					}
@@ -176,7 +176,7 @@ public class JavaSearchQuery implements ISearchQuery {
 
 
 			engine.search(pattern, new SearchParticipant[] { SearchEngine.getDefaultSearchParticipant() }, getFirstSpecification().getScope(), collector, subMonitor.split(1000));
-			for (int i= 0; i < participantDescriptors.length; i++) {
+			for (int i= 0; i < participantDescriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final ISearchRequestor requestor= new SearchRequestor(participantDescriptors[i].getParticipant(), textResult);
 				final IProgressMonitor participantPM= subMonitor.split(ticks[i]);
 
@@ -197,7 +197,7 @@ public class JavaSearchQuery implements ISearchQuery {
 						final PerformanceStats stats= PerformanceStats.getStats(PERF_SEARCH_PARTICIPANT, participant);
 						stats.startRun();
 
-						for (QuerySpecification querySpecification : fPatternDataList) {
+						for (QuerySpecification querySpecification : fPatternDataList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							participant.search(requestor, querySpecification, participantPM);
 						}
 
@@ -229,7 +229,7 @@ public class JavaSearchQuery implements ISearchQuery {
 		return SearchMessages.JavaSearchQuery_label;
 	}
 
-	public String getResultLabel(int nMatches) {
+	public String getResultLabel(int nMatches) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int limitTo= getMaskedLimitTo();
 		if (nMatches == 1) {
 			String[] args= { getSearchPatternDescription(), getFirstSpecification().getScopeDescription() };

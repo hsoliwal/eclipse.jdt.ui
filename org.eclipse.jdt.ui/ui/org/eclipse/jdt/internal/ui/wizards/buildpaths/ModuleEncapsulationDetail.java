@@ -59,7 +59,7 @@ public abstract class ModuleEncapsulationDetail {
 	 * @return either an array of {@link IPackageFragmentRoot} or a singleton array of {@link IJavaProject}
 	 * 	targeted by the given classpath entry, or {@code null} if no not found
 	 */
-	public static IJavaElement[] getTargetJavaElements(IJavaProject currentProject, IPath path) {
+	public static IJavaElement[] getTargetJavaElements(IJavaProject currentProject, IPath path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource member= ResourcesPlugin.getWorkspace().getRoot().findMember(path);
 		if (member != null) {
 			IJavaElement element= JavaCore.create(member);
@@ -67,7 +67,7 @@ public abstract class ModuleEncapsulationDetail {
 				return new IJavaElement[] {element};
 		} else if (path != null && path.isAbsolute()) {
 			try {
-				for (IClasspathEntry classpathEntry : currentProject.getRawClasspath()) {
+				for (IClasspathEntry classpathEntry : currentProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (classpathEntry.getPath().equals(path)) {
 						switch (classpathEntry.getEntryKind()) {
 							case IClasspathEntry.CPE_LIBRARY:
@@ -82,7 +82,7 @@ public abstract class ModuleEncapsulationDetail {
 			}
 		} else {
 			try {
-				for (IClasspathEntry classpathEntry : currentProject.getRawClasspath()) {
+				for (IClasspathEntry classpathEntry : currentProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (classpathEntry.getPath().equals(path)) {
 						return currentProject.findUnfilteredPackageFragmentRoots(classpathEntry);
 					}
@@ -109,8 +109,8 @@ public abstract class ModuleEncapsulationDetail {
 	static class ModulePatch extends ModuleEncapsulationDetail {
 
 		public static Collection<ModulePatch> fromMultiString(CPListElementAttribute attribElem, String values) {
-			List<ModulePatch> patches= new ArrayList<>();
-			for (String value : values.split("::")) { // see comment in #encodeFiltered(..) //$NON-NLS-1$
+			List<ModulePatch> patches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (String value : values.split("::")) { // see comment in #encodeFiltered(..) //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ModulePatch patch= fromString(attribElem, value);
 				if (patch != null)
 					patches.add(patch);
@@ -144,13 +144,13 @@ public abstract class ModuleEncapsulationDetail {
 		}
 
 		public ModulePatch addLocations(String newLocations) {
-			String mergedPaths= fPaths + File.pathSeparatorChar + newLocations;
+			String mergedPaths= fPaths + File.pathSeparatorChar + newLocations; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return new ModulePatch(fModule, mergedPaths, fAttribElem);
 		}
 
 		public ModulePatch removeLocations(String locations) {
-			Set<String> toRemove= new HashSet<>(Arrays.asList(locations.split(File.pathSeparator)));
-			List<String> current= new ArrayList<>(Arrays.asList(fPaths.split(File.pathSeparator)));
+			Set<String> toRemove= new HashSet<>(Arrays.asList(locations.split(File.pathSeparator))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			List<String> current= new ArrayList<>(Arrays.asList(fPaths.split(File.pathSeparator))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			current.removeAll(toRemove);
 			String newPaths= String.join(File.pathSeparator, current);
 			if (newPaths.isEmpty()) {
@@ -194,7 +194,7 @@ public abstract class ModuleEncapsulationDetail {
 		@Override
 		public String toString() {
 			if (fPaths != null) {
-				return fModule + '=' + fPaths;
+				return fModule + '=' + fPaths; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return fModule;
 		}
@@ -204,11 +204,11 @@ public abstract class ModuleEncapsulationDetail {
 			return IClasspathAttribute.PATCH_MODULE;
 		}
 
-		public String toAbsolutePathsString(IJavaProject focusProject) {
+		public String toAbsolutePathsString(IJavaProject focusProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] paths= fPaths.split(File.pathSeparator);
 			String[] absPaths= new String[paths.length];
 			IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-			for (int i= 0; i < paths.length; i++) {
+			for (int i= 0; i < paths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource resource= root.findMember(new Path(paths[i]));
 				try {
 					absPaths[i]= toAbsolutePath(resource, focusProject, root);
@@ -220,20 +220,20 @@ public abstract class ModuleEncapsulationDetail {
 				}
 			}
 			String allPaths= String.join(File.pathSeparator, absPaths);
-			return fModule + '=' + allPaths;
+			return fModule + '=' + allPaths; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
-		private String toAbsolutePath(IResource resource, IJavaProject focusProject, IWorkspaceRoot root) throws JavaModelException {
+		private String toAbsolutePath(IResource resource, IJavaProject focusProject, IWorkspaceRoot root) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (resource instanceof IProject) {
 				if (resource.equals(focusProject.getProject())) {
 					// focus project: collect all source locations (pre-joined into one string):
-					StringBuilder allSources= new StringBuilder();
-					for (IClasspathEntry classpathEntry : focusProject.getRawClasspath()) {
+					StringBuilder allSources= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					for (IClasspathEntry classpathEntry : focusProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 							if (allSources.length() > 0) {
-								allSources.append(File.pathSeparator);
+								allSources.append(File.pathSeparator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							}
-							allSources.append(absPath(root, classpathEntry.getPath()));
+							allSources.append(absPath(root, classpathEntry.getPath())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 					return allSources.toString();
@@ -300,8 +300,8 @@ public abstract class ModuleEncapsulationDetail {
 		}
 
 		public static Collection<ModuleAddExpose> fromMultiString(CPListElementAttribute attribElem, String values, boolean isExports) {
-			List<ModuleAddExpose> exports= new ArrayList<>();
-			for (String value : values.split(":")) { //$NON-NLS-1$
+			List<ModuleAddExpose> exports= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (String value : values.split(":")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ModuleAddExpose export= fromString(attribElem, value, isExports);
 				if (export != null)
 					exports.add(export);
@@ -330,7 +330,7 @@ public abstract class ModuleEncapsulationDetail {
 			return Objects.hash(fPackage, fSourceModule, fTargetModules);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
@@ -353,7 +353,7 @@ public abstract class ModuleEncapsulationDetail {
 
 		@Override
 		public String toString() {
-			return fSourceModule+'/'+fPackage+'='+fTargetModules;
+			return fSourceModule+'/'+fPackage+'='+fTargetModules; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -400,8 +400,8 @@ public abstract class ModuleEncapsulationDetail {
 		}
 
 		public static Collection<ModuleAddReads> fromMultiString(CPListElementAttribute attribElem, String values) {
-			List<ModuleAddReads> readss= new ArrayList<>();
-			for (String value : values.split(":")) { //$NON-NLS-1$
+			List<ModuleAddReads> readss= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (String value : values.split(":")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ModuleAddReads reads= fromString(attribElem, value);
 				if (reads != null)
 					readss.add(reads);
@@ -448,7 +448,7 @@ public abstract class ModuleEncapsulationDetail {
 
 		@Override
 		public String toString() {
-			return fSourceModule+'='+fTargetModule;
+			return fSourceModule+'='+fTargetModule; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -464,7 +464,7 @@ public abstract class ModuleEncapsulationDetail {
 
 		public static LimitModules fromString(CPListElementAttribute attribElem, String value) {
 			String[] modules= value.split(","); //$NON-NLS-1$
-			for (int i= 0; i < modules.length; i++) {
+			for (int i= 0; i < modules.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				modules[i]= modules[i].trim();
 			}
 			return new LimitModules(Arrays.asList(modules), attribElem);
@@ -505,7 +505,7 @@ public abstract class ModuleEncapsulationDetail {
 	 * @param attribElem parent attribute, to hold the resulting details (not updated during this operation)
 	 */
 	public static void addPatchLocations(List<ModuleEncapsulationDetail> details, String module, String newLocations, CPListElementAttribute attribElem) {
-		for (int i= 0; i < details.size(); i++) {
+		for (int i= 0; i < details.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ModuleEncapsulationDetail detail= details.get(i);
 			if (detail instanceof ModulePatch) {
 				ModulePatch oldPatch= (ModulePatch) detail;
@@ -527,7 +527,7 @@ public abstract class ModuleEncapsulationDetail {
 	 * @param paths paths (separated by {@link File#pathSeparator}) to be removed from the {@link ModulePatch}.
 	 */
 	public static void removePatchLocation(List<ModuleEncapsulationDetail> details, String module, String paths) {
-		for (int i= 0; i < details.size(); i++) {
+		for (int i= 0; i < details.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ModuleEncapsulationDetail detail= details.get(i);
 			if (detail instanceof ModulePatch) {
 				ModulePatch oldPatch= (ModulePatch) detail;

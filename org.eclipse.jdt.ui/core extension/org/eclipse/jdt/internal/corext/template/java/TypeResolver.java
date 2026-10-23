@@ -42,7 +42,7 @@ public class TypeResolver extends TemplateVariableResolver {
 		fDefaultType= defaultType;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 		List<String> params= variable.getVariableType().getParams();
 		String param= fDefaultType;

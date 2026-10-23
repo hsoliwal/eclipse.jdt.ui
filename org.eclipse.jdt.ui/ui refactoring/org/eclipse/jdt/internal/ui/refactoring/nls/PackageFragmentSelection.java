@@ -52,7 +52,7 @@ class PackageFragmentSelection extends StringButtonStatusDialogField implements 
 		Control[] res= super.doFillIntoGrid(parent, nColumns);
 
 		final Text text= getTextControl(null);
-		text.addModifyListener(unused -> updateListener());
+		text.addModifyListener(unused -> updateListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		LayoutUtil.setWidthHint(text, textWidth);
 		LayoutUtil.setHorizontalGrabbing(text);
 		ControlContentAssistHelper.createTextContentAssistant(text, fCurrPackageCompletionProcessor);

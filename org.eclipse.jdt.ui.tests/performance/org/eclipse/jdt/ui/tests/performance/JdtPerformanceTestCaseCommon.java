@@ -33,10 +33,10 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 
 public class JdtPerformanceTestCaseCommon extends PerformanceTestCaseJunit4 {
 
-	protected void joinBackgroudActivities() throws CoreException {
+	protected void joinBackgroudActivities() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Join Building
 		boolean interrupted= true;
-		while (interrupted) {
+		while (interrupted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
 				interrupted= false;
@@ -55,12 +55,12 @@ public class JdtPerformanceTestCaseCommon extends PerformanceTestCaseJunit4 {
 	private static boolean joinJobs(long minTime, long maxTime, long intervalTime) {
 		long startTime= System.currentTimeMillis() + minTime;
 		runEventQueue();
-		while (System.currentTimeMillis() < startTime)
+		while (System.currentTimeMillis() < startTime) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			runEventQueue(intervalTime);
 
 		long endTime= maxTime > 0  && maxTime < Long.MAX_VALUE ? System.currentTimeMillis() + maxTime : Long.MAX_VALUE;
 		boolean calm= allJobsQuiet();
-		while (!calm && System.currentTimeMillis() < endTime) {
+		while (!calm && System.currentTimeMillis() < endTime) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			runEventQueue(intervalTime);
 			calm= allJobsQuiet();
 		}
@@ -76,7 +76,7 @@ public class JdtPerformanceTestCaseCommon extends PerformanceTestCaseJunit4 {
 
 	private static boolean allJobsQuiet() {
 		IJobManager jobManager= Job.getJobManager();
-		for (Job job : jobManager.find(null)) {
+		for (Job job : jobManager.find(null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int state= job.getState();
 			if (state == Job.RUNNING || state == Job.WAITING)
 				return false;
@@ -91,14 +91,14 @@ public class JdtPerformanceTestCaseCommon extends PerformanceTestCaseJunit4 {
 	}
 
 	private static void runEventQueue(Shell shell) {
-		while (shell.getDisplay().readAndDispatch()) {
+		while (shell.getDisplay().readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// do nothing
 		}
 	}
 
 	private static void runEventQueue(long minTime) {
 		long nextCheck= System.currentTimeMillis() + minTime;
-		while (System.currentTimeMillis() < nextCheck) {
+		while (System.currentTimeMillis() < nextCheck) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			runEventQueue();
 			sleep(1);
 		}

@@ -174,12 +174,12 @@ public class ElementValidator {
 		return checkValidateEdit(resources, parent, title);
 	}
 
-	private static boolean checkInSync(IResource[] resources, Shell parent, String title) {
+	private static boolean checkInSync(IResource[] resources, Shell parent, String title) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus status= Resources.checkInSync(resources);
 		if (!status.isOK()) {
 			boolean autoRefresh= Platform.getPreferencesService().getBoolean(ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PREF_LIGHTWEIGHT_AUTO_REFRESH, false, null);
 			if (autoRefresh) {
-				for (IResource resource : resources) {
+				for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						resource.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					} catch (CoreException e) {
@@ -208,9 +208,9 @@ public class ElementValidator {
 		return true;
 	}
 
-	private static IResource[] getResources(IAdaptable[] elements) {
-		Set<IResource> result= new HashSet<>();
-		for (IAdaptable element : elements) {
+	private static IResource[] getResources(IAdaptable[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<IResource> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IAdaptable element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= null;
 			if (element instanceof IJavaElement) {
 				IJavaElement je= (IJavaElement)element;

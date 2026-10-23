@@ -70,7 +70,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
  * All text inserted into the buffer is converted to this line delimiter.
  * This class is <code>public</code> for test purposes only.
  */
-public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCapability {
+public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCapability { //FLLDCIM: MARK — T28  IMPLEMENTS
 
 	/**
 	 * Internal implementation of a NULL instanceof IBuffer.
@@ -134,7 +134,7 @@ public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCap
 		if (currentDisplay != null)
 			runnable.run();
 		else
-			Display.getDefault().syncExec(runnable);
+			Display.getDefault().syncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 
@@ -230,7 +230,7 @@ public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCap
 
 	private Set<String> fLegalLineDelimiters;
 
-	private List<IBufferChangedListener> fBufferListeners= new ArrayList<>(3);
+	private List<IBufferChangedListener> fBufferListeners= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/** @since 3.2 */
 	private IPath fPath;
@@ -292,7 +292,7 @@ public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCap
 		initialize();
 	}
 
-	private void initialize() {
+	private void initialize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
 		try {
 			if (fFileStore != null) {
@@ -365,7 +365,7 @@ public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCap
 	/*
 	 * @see IBuffer#close()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void close() {
 
 		if (isClosed())
@@ -533,7 +533,7 @@ public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCap
 	/*
 	 * @see IBuffer#setContents(String)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setContents(String contents) {
 		int oldLength= fDocument.getLength();
 
@@ -555,13 +555,13 @@ public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCap
 	}
 
 
-	private void validateLineDelimiters(String contents) {
+	private void validateLineDelimiters(String contents) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (fLegalLineDelimiters == null) {
 			// collect all line delimiters in the document
-			HashSet<String> existingDelimiters= new HashSet<>();
+			HashSet<String> existingDelimiters= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-			for (int i= fDocument.getNumberOfLines() - 1; i >= 0; i-- ) {
+			for (int i= fDocument.getNumberOfLines() - 1; i >= 0; i-- ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					String curr= fDocument.getLineDelimiter(i);
 					if (curr != null) {
@@ -585,15 +585,15 @@ public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCap
 		if (lines <= 1)
 			return;
 
-		for (int i= 0; i < lines; i++) {
+		for (int i= 0; i < lines; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				String curr= tracker.getLineDelimiter(i);
 				if (curr != null && !fLegalLineDelimiters.contains(curr)) {
-					StringBuilder buf= new StringBuilder("WARNING: javaeditor.DocumentAdapter added new line delimiter to code: "); //$NON-NLS-1$
-					for (int k= 0; k < curr.length(); k++) {
+					StringBuilder buf= new StringBuilder("WARNING: javaeditor.DocumentAdapter added new line delimiter to code: "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					for (int k= 0; k < curr.length(); k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (k > 0)
-							buf.append(' ');
-						buf.append((int)curr.charAt(k));
+							buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						buf.append((int)curr.charAt(k)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					IStatus status= new Status(IStatus.WARNING, JavaUI.ID_PLUGIN, IStatus.OK, buf.toString(), new Throwable());
 					JavaPlugin.log(status);
@@ -622,8 +622,8 @@ public class DocumentAdapter implements IBuffer, IDocumentListener, ITextEditCap
 
 	private void fireBufferChanged(BufferChangedEvent event) {
 		if (fBufferListeners != null && fBufferListeners.size() > 0) {
-			Iterator<IBufferChangedListener> e= new ArrayList<>(fBufferListeners).iterator();
-			while (e.hasNext())
+			Iterator<IBufferChangedListener> e= new ArrayList<>(fBufferListeners).iterator(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			while (e.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				e.next().bufferChanged(event);
 		}
 	}

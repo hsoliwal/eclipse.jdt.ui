@@ -119,7 +119,7 @@ public class ContentAssistPreference {
 		jcp.restrictProposalsToMatchingCases(enabled);
 	}
 
-	private static void configureJavaDocProcessor(ContentAssistant assistant, IPreferenceStore store) {
+	private static void configureJavaDocProcessor(ContentAssistant assistant, IPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavadocCompletionProcessor jdcp= getJavaDocProcessor(assistant);
 		if (jdcp == null)
 			return;
@@ -147,7 +147,7 @@ public class ContentAssistPreference {
 	 * @param assistant the content assistant
 	 * @param store the preference store
 	 */
-	public static void configure(ContentAssistant assistant, IPreferenceStore store) {
+	public static void configure(ContentAssistant assistant, IPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		JavaTextTools textTools= JavaPlugin.getDefault().getJavaTextTools();
 		IColorManager manager= textTools.getColorManager();
@@ -184,7 +184,7 @@ public class ContentAssistPreference {
 	}
 
 
-	private static void changeJavaProcessor(ContentAssistant assistant, IPreferenceStore store, String key) {
+	private static void changeJavaProcessor(ContentAssistant assistant, IPreferenceStore store, String key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavaCompletionProcessor jcp= getJavaProcessor(assistant);
 		if (jcp == null)
 			return;
@@ -210,7 +210,7 @@ public class ContentAssistPreference {
 		}
 	}
 
-	private static void changeJavaDocProcessor(ContentAssistant assistant, IPreferenceStore store, String key) {
+	private static void changeJavaDocProcessor(ContentAssistant assistant, IPreferenceStore store, String key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavadocCompletionProcessor jdcp= getJavaDocProcessor(assistant);
 		if (jdcp == null)
 			return;
@@ -245,7 +245,7 @@ public class ContentAssistPreference {
 	 * @param store the preference store
 	 * @param event the property change event
 	 */
-	public static void changeConfiguration(ContentAssistant assistant, IPreferenceStore store, PropertyChangeEvent event) {
+	public static void changeConfiguration(ContentAssistant assistant, IPreferenceStore store, PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String p= event.getProperty();
 

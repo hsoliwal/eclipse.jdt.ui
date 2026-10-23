@@ -55,7 +55,7 @@ public class ClasspathContainerDefaultPage extends NewElementWizardPage implemen
 		setDescription(NewWizardMessages.ClasspathContainerDefaultPage_description);
 		setImageDescriptor(JavaPluginImages.DESC_WIZBAN_ADD_LIBRARY);
 
-		fUsedPaths= new ArrayList<>();
+		fUsedPaths= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fEntryField= new StringDialogField();
 		fEntryField.setLabelText(NewWizardMessages.ClasspathContainerDefaultPage_path_label);
@@ -110,7 +110,7 @@ public class ClasspathContainerDefaultPage extends NewElementWizardPage implemen
 
 	@Override
 	public void initialize(IJavaProject project, IClasspathEntry[] currentEntries) {
-		for (IClasspathEntry curr : currentEntries) {
+		for (IClasspathEntry curr : currentEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 				fUsedPaths.add(curr.getPath());
 			}

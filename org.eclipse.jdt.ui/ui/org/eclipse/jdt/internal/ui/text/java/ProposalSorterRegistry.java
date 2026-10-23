@@ -73,15 +73,15 @@ public final class ProposalSorterRegistry {
 		return sorter != null ? sorter : fDefaultSorter;
 	}
 
-	private synchronized void ensureSortersRead() {
+	private synchronized void ensureSortersRead() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSorters != null)
 			return;
 
-		Map<String, ProposalSorterHandle> sorters= new LinkedHashMap<>();
+		Map<String, ProposalSorterHandle> sorters= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		IExtensionRegistry registry= Platform.getExtensionRegistry();
-		List<IConfigurationElement> elements= new ArrayList<>(Arrays.asList(registry.getConfigurationElementsFor(JavaPlugin.getPluginId(), EXTENSION_POINT)));
+		List<IConfigurationElement> elements= new ArrayList<>(Arrays.asList(registry.getConfigurationElementsFor(JavaPlugin.getPluginId(), EXTENSION_POINT))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 
 				ProposalSorterHandle handle= new ProposalSorterHandle(element);

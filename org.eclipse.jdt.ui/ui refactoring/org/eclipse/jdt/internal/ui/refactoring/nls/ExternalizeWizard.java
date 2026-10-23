@@ -70,7 +70,7 @@ public class ExternalizeWizard extends RefactoringWizard {
 		return super.canFinish() && !(page instanceof ExternalizeWizardPage);
 	}
 
-	public static void open(final ICompilationUnit unit, final Shell shell) {
+	public static void open(final ICompilationUnit unit, final Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (unit == null || !unit.exists()) {
 			return;
 		}

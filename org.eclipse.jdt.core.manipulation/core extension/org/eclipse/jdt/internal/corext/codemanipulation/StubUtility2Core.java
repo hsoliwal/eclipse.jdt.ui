@@ -102,7 +102,7 @@ public final class StubUtility2Core {
 		return createImplementationStub(unit, rewrite, imports, context, binding, null, targetType, settings, inInterface, astNode);
 	}
 
-	public static MethodDeclaration createImplementationStub(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context,
+	public static MethodDeclaration createImplementationStub(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IMethodBinding binding, String[] parameterNames, ITypeBinding targetType, CodeGenerationSettings settings, boolean inInterface, ASTNode astNode) throws CoreException {
 		Assert.isNotNull(imports);
 		Assert.isNotNull(rewrite);
@@ -167,7 +167,7 @@ public final class StubUtility2Core {
 				}
 				invocation.setName(ast.newSimpleName(binding.getName()));
 				SingleVariableDeclaration varDecl= null;
-				for (Iterator<SingleVariableDeclaration> iterator= parameters.iterator(); iterator.hasNext();) {
+				for (Iterator<SingleVariableDeclaration> iterator= parameters.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					varDecl= iterator.next();
 					invocation.arguments().add(ast.newSimpleName(varDecl.getName().getIdentifier()));
 				}
@@ -215,7 +215,7 @@ public final class StubUtility2Core {
 
 
 	/* This method should work with all AST levels. */
-	public static MethodDeclaration createConstructorStub(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context, IMethodBinding binding, String type,
+	public static MethodDeclaration createConstructorStub(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context, IMethodBinding binding, String type, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int modifiers, boolean omitSuperForDefConst, boolean todo, CodeGenerationSettings settings, Map<String, String> formatSettings) throws CoreException {
 		AST ast= rewrite.getAST();
 		MethodDeclaration decl= ast.newMethodDeclaration();
@@ -237,7 +237,7 @@ public final class StubUtility2Core {
 		if (!omitSuperForDefConst || !parameters.isEmpty()) {
 			SuperConstructorInvocation invocation= ast.newSuperConstructorInvocation();
 			SingleVariableDeclaration varDecl= null;
-			for (Iterator<SingleVariableDeclaration> iterator= parameters.iterator(); iterator.hasNext();) {
+			for (Iterator<SingleVariableDeclaration> iterator= parameters.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				varDecl= iterator.next();
 				invocation.arguments().add(ast.newSimpleName(varDecl.getName().getIdentifier()));
 			}
@@ -265,7 +265,7 @@ public final class StubUtility2Core {
 		return decl;
 	}
 
-	public static MethodDeclaration createConstructorStub(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context, ITypeBinding typeBinding, IMethodBinding superConstructor, IVariableBinding[] variableBindings, int modifiers, CodeGenerationSettings settings) throws CoreException {
+	public static MethodDeclaration createConstructorStub(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context, ITypeBinding typeBinding, IMethodBinding superConstructor, IVariableBinding[] variableBindings, int modifiers, CodeGenerationSettings settings) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 
 		MethodDeclaration decl= ast.newMethodDeclaration();
@@ -294,20 +294,20 @@ public final class StubUtility2Core {
 		if (superConstructor != null) {
 			SuperConstructorInvocation invocation= ast.newSuperConstructorInvocation();
 			SingleVariableDeclaration varDecl= null;
-			for (Iterator<SingleVariableDeclaration> iterator= parameters.iterator(); iterator.hasNext();) {
+			for (Iterator<SingleVariableDeclaration> iterator= parameters.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				varDecl= iterator.next();
 				invocation.arguments().add(ast.newSimpleName(varDecl.getName().getIdentifier()));
 			}
 			body.statements().add(invocation);
 		}
 
-		List<String> prohibited= new ArrayList<>();
-		for (SingleVariableDeclaration singleVariableDeclaration : parameters)
+		List<String> prohibited= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SingleVariableDeclaration singleVariableDeclaration : parameters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			prohibited.add(singleVariableDeclaration.getName().getIdentifier());
 		String param= null;
-		List<String> list= new ArrayList<>(prohibited);
+		List<String> list= new ArrayList<>(prohibited); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String[] excluded= null;
-		for (IVariableBinding variableBinding : variableBindings) {
+		for (IVariableBinding variableBinding : variableBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration var= ast.newSingleVariableDeclaration();
 			var.setType(imports.addImport(variableBinding.getType(), ast, context, TypeLocation.PARAMETER));
 			excluded= new String[list.size()];
@@ -318,8 +318,8 @@ public final class StubUtility2Core {
 			parameters.add(var);
 		}
 
-		list= new ArrayList<>(prohibited);
-		for (IVariableBinding variableBinding : variableBindings) {
+		list= new ArrayList<>(prohibited); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IVariableBinding variableBinding : variableBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			excluded= new String[list.size()];
 			list.toArray(excluded);
 			final String paramName= suggestParameterName(unit, variableBinding, excluded);
@@ -350,7 +350,7 @@ public final class StubUtility2Core {
 		return decl;
 	}
 
-	public static MethodDeclaration createDelegationStub(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context, IMethodBinding delegate, IVariableBinding delegatingField, CodeGenerationSettings settings) throws CoreException {
+	public static MethodDeclaration createDelegationStub(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context, IMethodBinding delegate, IVariableBinding delegatingField, CodeGenerationSettings settings) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(delegate);
 		Assert.isNotNull(delegatingField);
 		Assert.isNotNull(settings);
@@ -380,7 +380,7 @@ public final class StubUtility2Core {
 		MethodInvocation invocation= ast.newMethodInvocation();
 		invocation.setName(ast.newSimpleName(delegate.getName()));
 		List<Expression> arguments= invocation.arguments();
-		for (SingleVariableDeclaration param : params)
+		for (SingleVariableDeclaration param : params) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			arguments.add(ast.newSimpleName(param.getName().getIdentifier()));
 		if (settings.useKeywordThis) {
 			FieldAccess access= ast.newFieldAccess();
@@ -442,7 +442,7 @@ public final class StubUtility2Core {
 				inInterface, false, astNode, snippetStringSupport);
 	}
 
-	public static MethodDeclaration createImplementationStubCore(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context,
+	public static MethodDeclaration createImplementationStubCore(ICompilationUnit unit, ASTRewrite rewrite, ImportRewrite imports, ImportRewriteContext context, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IMethodBinding binding, String[] parameterNames, ITypeBinding targetType, CodeGenerationSettings settings, boolean inInterface, boolean useAlternativeMethodBody, ASTNode astNode, boolean snippetStringSupport) throws CoreException {
 		Assert.isNotNull(imports);
 		Assert.isNotNull(rewrite);
@@ -508,7 +508,7 @@ public final class StubUtility2Core {
 				}
 				invocation.setName(ast.newSimpleName(binding.getName()));
 
-				for (SingleVariableDeclaration varDecl : parameters) {
+				for (SingleVariableDeclaration varDecl : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					invocation.arguments().add(ast.newSimpleName(varDecl.getName().getIdentifier()));
 				}
 				Expression expression= invocation;
@@ -523,7 +523,7 @@ public final class StubUtility2Core {
 			}
 
 			if (bodyStatement != null) {
-				StringBuilder placeHolder= new StringBuilder();
+				StringBuilder placeHolder= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (snippetStringSupport) {
 					final String ESCAPE_DOLLAR= "\\\\\\$"; //$NON-NLS-1$
 					final String DOLLAR= "\\$"; //$NON-NLS-1$
@@ -532,15 +532,15 @@ public final class StubUtility2Core {
 				String bodyContent= CodeGeneration.getMethodBodyContent(unit, type, binding.getName(), false, useAlternativeMethodBody, bodyStatement, delimiter);
 
 				if (snippetStringSupport) {
-					placeHolder.append("${0"); //$NON-NLS-1$
+					placeHolder.append("${0"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (bodyContent != null) {
-						placeHolder.append(":"); //$NON-NLS-1$
-						placeHolder.append(bodyContent);
+						placeHolder.append(":"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						placeHolder.append(bodyContent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					placeHolder.append("}"); //$NON-NLS-1$
+					placeHolder.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
 					if (bodyContent != null) {
-						placeHolder.append(bodyContent);
+						placeHolder.append(bodyContent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 
@@ -571,13 +571,13 @@ public final class StubUtility2Core {
 
 	public static void createTypeParameters(ImportRewrite imports, ImportRewriteContext context, AST ast, IMethodBinding binding, MethodDeclaration decl) {
 		List<TypeParameter> typeParameters= decl.typeParameters();
-		for (ITypeBinding curr : binding.getTypeParameters()) {
+		for (ITypeBinding curr : binding.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter newTypeParam= ast.newTypeParameter();
 			newTypeParam.setName(ast.newSimpleName(curr.getName()));
 			ITypeBinding[] typeBounds= curr.getTypeBounds();
 			if (typeBounds.length != 1 || !"java.lang.Object".equals(typeBounds[0].getQualifiedName())) { //$NON-NLS-1$
 				List<Type> newTypeBounds= newTypeParam.typeBounds();
-				for (ITypeBinding typeBound : typeBounds) {
+				for (ITypeBinding typeBound : typeBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newTypeBounds.add(imports.addImport(typeBound, ast, context, TypeLocation.TYPE_BOUND));
 				}
 			}
@@ -588,14 +588,14 @@ public final class StubUtility2Core {
 	public static List<SingleVariableDeclaration> createParameters(IJavaProject project, ImportRewrite imports, ImportRewriteContext context, AST ast, IMethodBinding binding, String[] paramNames, MethodDeclaration decl) {
 		return createParameters(project, imports, context, ast, binding, paramNames, decl, null);
 	}
-	public static List<SingleVariableDeclaration> createParameters(IJavaProject project, ImportRewrite imports, ImportRewriteContext context, AST ast,
+	public static List<SingleVariableDeclaration> createParameters(IJavaProject project, ImportRewrite imports, ImportRewriteContext context, AST ast, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IMethodBinding binding, String[] paramNames, MethodDeclaration decl, EnumSet<TypeLocation> nullnessDefault) {
 		List<SingleVariableDeclaration> parameters= decl.parameters();
 		ITypeBinding[] params= binding.getParameterTypes();
 		if (paramNames == null || paramNames.length < params.length) {
 			paramNames= StubUtility.suggestArgumentNames(project, binding);
 		}
-		for (int i= 0; i < params.length; i++) {
+		for (int i= 0; i < params.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration var= ast.newSingleVariableDeclaration();
 			ITypeBinding type= params[i];
 			type=replaceWildcardsAndCaptures(type);
@@ -611,9 +611,9 @@ public final class StubUtility2Core {
 				int dimensions= type.getDimensions();
 				@SuppressWarnings("unchecked")
 				List<Annotation>[] dimensionAnnotations= (List<Annotation>[]) new List<?>[dimensions];
-				for (int dim= 0; dim < dimensions; dim++) {
-					dimensionAnnotations[dim]= new ArrayList<>();
-					for (IAnnotationBinding annotation : type.getTypeAnnotations()) {
+				for (int dim= 0; dim < dimensions; dim++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					dimensionAnnotations[dim]= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (IAnnotationBinding annotation : type.getTypeAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						dimensionAnnotations[dim].add(imports.addAnnotation(annotation, ast, context));
 					}
 					type= type.getComponentType();
@@ -625,7 +625,7 @@ public final class StubUtility2Core {
 				} else {
 					ArrayType arrayType= ast.newArrayType(elementType, dimensions - 1);
 					List<Dimension> dimensionNodes= arrayType.dimensions();
-					for (int dim= 0; dim < dimensions - 1; dim++) { // all except the innermost dimension
+					for (int dim= 0; dim < dimensions - 1; dim++) { // all except the innermost dimension //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Dimension dimension= dimensionNodes.get(dim);
 						dimension.annotations().addAll(dimensionAnnotations[dim]);
 					}
@@ -638,7 +638,7 @@ public final class StubUtility2Core {
 			}
 			var.setName(ast.newSimpleName(paramNames[i]));
 			IAnnotationBinding[] annotations= binding.getParameterAnnotations(i);
-			for (IAnnotationBinding annotation : annotations) {
+			for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (StubUtility2Core.isCopyOnInheritAnnotation(annotation.getAnnotationType(), project, nullnessDefault, TypeLocation.PARAMETER))
 					var.modifiers().add(imports.addAnnotation(annotation, ast, context));
 			}
@@ -651,13 +651,13 @@ public final class StubUtility2Core {
 		ITypeBinding[] excTypes= method.getExceptionTypes();
 		if (ast.apiLevel() >= ASTHelper.JLS8) {
 			List<Type> thrownExceptions= decl.thrownExceptionTypes();
-			for (ITypeBinding t : excTypes) {
+			for (ITypeBinding t : excTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type excType= imports.addImport(t, ast, context, TypeLocation.EXCEPTION);
 				thrownExceptions.add(excType);
 			}
 		} else {
 			List<Name> thrownExceptions= getThrownExceptions(decl);
-			for (ITypeBinding excType : excTypes) {
+			for (ITypeBinding excType : excTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String excTypeName= imports.addImport(excType, context);
 				thrownExceptions.add(ASTNodeFactory.newName(ast, excTypeName));
 			}
@@ -676,14 +676,14 @@ public final class StubUtility2Core {
 
 
 	private static IMethodBinding findOverridingMethod(IMethodBinding method, List<IMethodBinding> allMethods) {
-		for (IMethodBinding curr : allMethods) {
+		for (IMethodBinding curr : allMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Bindings.areOverriddenMethods(curr, method) || Bindings.isSubsignature(curr, method))
 				return curr;
 		}
 		return null;
 	}
 
-	public static List<IExtendedModifier> getImplementationModifiers(AST ast, IMethodBinding method, boolean inInterface, ImportRewrite importRewrite, ImportRewriteContext context, EnumSet<TypeLocation> nullnessDefault) throws JavaModelException {
+	public static List<IExtendedModifier> getImplementationModifiers(AST ast, IMethodBinding method, boolean inInterface, ImportRewrite importRewrite, ImportRewriteContext context, EnumSet<TypeLocation> nullnessDefault) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= importRewrite.getCompilationUnit().getJavaProject();
 		int modifiers= method.getModifiers();
 		if (inInterface) {
@@ -708,9 +708,9 @@ public final class StubUtility2Core {
 				ASTNode otherMethod= NodeFinder.perform(otherCU, iMethod.getSourceRange());
 				if (otherMethod instanceof MethodDeclaration) {
 					MethodDeclaration otherMD= (MethodDeclaration) otherMethod;
-					ArrayList<IExtendedModifier> result= new ArrayList<>();
+					ArrayList<IExtendedModifier> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					List<IExtendedModifier> otherModifiers= otherMD.modifiers();
-					for (IExtendedModifier otherModifier : otherModifiers) {
+					for (IExtendedModifier otherModifier : otherModifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (otherModifier instanceof Modifier) {
 							int otherFlag= ((Modifier) otherModifier).getKeyword().toFlagValue();
 							if ((otherFlag & modifiers) != 0) {
@@ -720,7 +720,7 @@ public final class StubUtility2Core {
 						} else {
 							Annotation otherAnnotation= (Annotation) otherModifier;
 							String n= otherAnnotation.getTypeName().getFullyQualifiedName();
-							for (IAnnotationBinding annotation : annotations) {
+							for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								ITypeBinding otherAnnotationType= annotation.getAnnotationType();
 								String qn= otherAnnotationType.getQualifiedName();
 								if (qn.endsWith(n) && (qn.length() == n.length() || qn.charAt(qn.length() - n.length() - 1) == '.')) {
@@ -737,9 +737,9 @@ public final class StubUtility2Core {
 			}
 		}
 
-		ArrayList<IExtendedModifier> result= new ArrayList<>();
+		ArrayList<IExtendedModifier> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IAnnotationBinding annotation : annotations) {
+		for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (StubUtility2Core.isCopyOnInheritAnnotation(annotation.getAnnotationType(), javaProject, nullnessDefault, TypeLocation.RETURN_TYPE))
 				result.add(importRewrite.addAnnotation(annotation, ast, context));
 		}
@@ -750,28 +750,28 @@ public final class StubUtility2Core {
 	}
 
 	public static DelegateEntry[] getDelegatableMethods(ITypeBinding binding) {
-		final List<DelegateEntry> tuples= new ArrayList<>();
-		final List<IMethodBinding> declared= new ArrayList<>();
+		final List<DelegateEntry> tuples= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		final List<IMethodBinding> declared= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding[] typeMethods= binding.getDeclaredMethods();
-		for (IMethodBinding typeMethod : typeMethods) {
+		for (IMethodBinding typeMethod : typeMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!typeMethod.isSyntheticRecordMethod()) {
 				declared.add(typeMethod);
 			}
 		}
-		for (IVariableBinding fieldBinding : binding.getDeclaredFields()) {
+		for (IVariableBinding fieldBinding : binding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fieldBinding.isField() && !fieldBinding.isEnumConstant() && !fieldBinding.isSynthetic())
-				getDelegatableMethods(new ArrayList<>(declared), fieldBinding, fieldBinding.getType(), binding, tuples);
+				getDelegatableMethods(new ArrayList<>(declared), fieldBinding, fieldBinding.getType(), binding, tuples); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		// list of tuple<IVariableBinding, IMethodBinding>
 		return tuples.toArray(new DelegateEntry[tuples.size()]);
 	}
 
-	private static void getDelegatableMethods(List<IMethodBinding> methods, IVariableBinding fieldBinding, ITypeBinding typeBinding, ITypeBinding binding, List<DelegateEntry> result) {
+	private static void getDelegatableMethods(List<IMethodBinding> methods, IVariableBinding fieldBinding, ITypeBinding typeBinding, ITypeBinding binding, List<DelegateEntry> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean match= false;
 		if (typeBinding.isTypeVariable()) {
 			ITypeBinding[] typeBounds= typeBinding.getTypeBounds();
 			if (typeBounds.length > 0) {
-				for (ITypeBinding typeBound : typeBounds) {
+				for (ITypeBinding typeBound : typeBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					getDelegatableMethods(methods, fieldBinding, typeBound, binding, result);
 				}
 			} else {
@@ -781,10 +781,10 @@ public final class StubUtility2Core {
 				}
 			}
 		} else {
-			for (IMethodBinding candidate : getDelegateCandidates(typeBinding, binding)) {
+			for (IMethodBinding candidate : getDelegateCandidates(typeBinding, binding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				match= false;
 				final IMethodBinding methodBinding= candidate;
-				for (int offset= 0; offset < methods.size() && !match; offset++) {
+				for (int offset= 0; offset < methods.size() && !match; offset++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (Bindings.areOverriddenMethods(methods.get(offset), methodBinding))
 						match= true;
 				}
@@ -796,16 +796,16 @@ public final class StubUtility2Core {
 			final ITypeBinding superclass= typeBinding.getSuperclass();
 			if (superclass != null)
 				getDelegatableMethods(methods, fieldBinding, superclass, binding, result);
-			for (ITypeBinding superInterface : typeBinding.getInterfaces()) {
+			for (ITypeBinding superInterface : typeBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getDelegatableMethods(methods, fieldBinding, superInterface, binding, result);
 			}
 		}
 	}
 
-	private static IMethodBinding[] getDelegateCandidates(ITypeBinding binding, ITypeBinding hierarchy) {
-		List<IMethodBinding> allMethods= new ArrayList<>();
+	private static IMethodBinding[] getDelegateCandidates(ITypeBinding binding, ITypeBinding hierarchy) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IMethodBinding> allMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean isInterface= binding.isInterface();
-		for (IMethodBinding typeMethod : binding.getDeclaredMethods()) {
+		for (IMethodBinding typeMethod : binding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final int modifiers= typeMethod.getModifiers();
 			if (!typeMethod.isConstructor() && !Modifier.isStatic(modifiers) && (isInterface || Modifier.isPublic(modifiers))) {
 				IMethodBinding result= Bindings.findOverriddenMethodInHierarchy(hierarchy, typeMethod);
@@ -815,7 +815,7 @@ public final class StubUtility2Core {
 					continue;
 				ITypeBinding[] parameterBindings= typeMethod.getParameterTypes();
 				boolean upper= false;
-				for (ITypeBinding parameterBinding : parameterBindings) {
+				for (ITypeBinding parameterBinding : parameterBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parameterBinding.isWildcardType() && parameterBinding.isUpperbound()) {
 						upper= true;
 					}
@@ -828,18 +828,18 @@ public final class StubUtility2Core {
 		return allMethods.toArray(new IMethodBinding[allMethods.size()]);
 	}
 
-	public static IMethodBinding[] getOverridableMethods(AST ast, ITypeBinding typeBinding, boolean isSubType) {
-		List<IMethodBinding> allMethods= new ArrayList<>();
+	public static IMethodBinding[] getOverridableMethods(AST ast, ITypeBinding typeBinding, boolean isSubType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IMethodBinding> allMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding[] typeMethods= typeBinding.getDeclaredMethods();
-		for (IMethodBinding typeMethod : typeMethods) {
+		for (IMethodBinding typeMethod : typeMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final int modifiers= typeMethod.getModifiers();
 			if (!typeMethod.isConstructor() && !Modifier.isStatic(modifiers) && !Modifier.isPrivate(modifiers) && !typeMethod.isSyntheticRecordMethod()) {
 				allMethods.add(typeMethod);
 			}
 		}
 		ITypeBinding clazz= typeBinding.getSuperclass();
-		while (clazz != null) {
-			for (IMethodBinding method : clazz.getDeclaredMethods()) {
+		while (clazz != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IMethodBinding method : clazz.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final int modifiers= method.getModifiers();
 				if (!method.isConstructor() && !Modifier.isStatic(modifiers) && !Modifier.isPrivate(modifiers)) {
 					if (findOverridingMethod(method, allMethods) == null) {
@@ -850,8 +850,8 @@ public final class StubUtility2Core {
 			clazz= clazz.getSuperclass();
 		}
 		clazz= typeBinding;
-		while (clazz != null) {
-			for (ITypeBinding superInterface : clazz.getInterfaces()) {
+		while (clazz != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (ITypeBinding superInterface : clazz.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getOverridableMethods(ast, superInterface, allMethods);
 			}
 			clazz= clazz.getSuperclass();
@@ -860,7 +860,7 @@ public final class StubUtility2Core {
 			getOverridableMethods(ast, ast.resolveWellKnownType("java.lang.Object"), allMethods); //$NON-NLS-1$
 		if (!isSubType)
 			allMethods.removeAll(Arrays.asList(typeMethods));
-		for (int index= allMethods.size() - 1; index >= 0; index--) {
+		for (int index= allMethods.size() - 1; index >= 0; index--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding method= allMethods.get(index);
 			if (Modifier.isFinal(method.getModifiers()))
 				allMethods.remove(index);
@@ -869,7 +869,7 @@ public final class StubUtility2Core {
 	}
 
 	private static void getOverridableMethods(AST ast, ITypeBinding superBinding, List<IMethodBinding> allMethods) {
-		for (IMethodBinding method : superBinding.getDeclaredMethods()) {
+		for (IMethodBinding method : superBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final int modifiers= method.getModifiers();
 			if (!method.isConstructor() && !Modifier.isStatic(modifiers) && !Modifier.isPrivate(modifiers)) {
 				if (findOverridingMethod(method, allMethods) == null) {
@@ -877,7 +877,7 @@ public final class StubUtility2Core {
 				}
 			}
 		}
-		for (ITypeBinding superInterface : superBinding.getInterfaces()) {
+		for (ITypeBinding superInterface : superBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			getOverridableMethods(ast, superInterface, allMethods);
 		}
 	}
@@ -887,7 +887,7 @@ public final class StubUtility2Core {
 		return StubUtility.suggestArgumentName(unit.getJavaProject(), name, excluded);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static Collection<IMethodBinding> getMethodsIn(ITypeBinding type, Predicate<IMethodBinding> ignoreTheseMethods) {
 		if (type == null) {
 			return Collections.EMPTY_LIST;
@@ -896,9 +896,9 @@ public final class StubUtility2Core {
 		if (ignoreTheseMethods == null) {
 			ignoreTheseMethods= unused->false;
 		}
-		List<IMethodBinding> allMethods= new ArrayList<>();
+		List<IMethodBinding> allMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding[] declaredMethods= type.getDeclaredMethods();
-		for (IMethodBinding method : declaredMethods) {
+		for (IMethodBinding method : declaredMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isStatic(method) && !method.isConstructor() && !isPrivate(method) && !ignoreTheseMethods.test(method)) {
 				allMethods.add(method);
 			}
@@ -911,7 +911,7 @@ public final class StubUtility2Core {
 			Collection<IMethodBinding> superMethods= getMethodsIn(type.getSuperclass(), ignoreTheseMethods);
 			interfaceMethods= new Collection[interfaces.length + 1];
 			interfaceMethods[interfaceMethods.length - 1]= superMethods;
-			for (IMethodBinding method : superMethods) {
+			for (IMethodBinding method : superMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isConcrete(method) && Bindings.isVisibleInHierarchy(method, type.getPackage()) && findSubSignatureMethod(method, allMethods) == null) {
 					allMethods.add(method);
 				}
@@ -920,14 +920,14 @@ public final class StubUtility2Core {
 			interfaceMethods= new Collection[interfaces.length];
 		}
 
-		for (int i= 0; i < interfaces.length; i++) {
+		for (int i= 0; i < interfaces.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			interfaceMethods[i]= getMethodsIn(interfaces[i], ignoreTheseMethods);
 		}
 
-		List<IMethodBinding> allInterfaceMethods= new ArrayList<>();
+		List<IMethodBinding> allInterfaceMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i= 0; i < interfaceMethods.length; i++) {
-			for (IMethodBinding method : interfaceMethods[i]) {
+		for (int i= 0; i < interfaceMethods.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IMethodBinding method : interfaceMethods[i]) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isDefault(method) || isAbstract(method)) {
 					IMethodBinding previouslyFound= findSubSignatureMethod(method, allMethods);
 					IMethodBinding overridingFound= findOverridingMethod(method, allMethods);
@@ -963,7 +963,7 @@ public final class StubUtility2Core {
 	}
 
 	private static IMethodBinding findSubSignatureMethod(IMethodBinding method, Collection<IMethodBinding> methods) {
-		for (IMethodBinding candidate : methods) {
+		for (IMethodBinding candidate : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (candidate.getName().equals(method.getName()) && candidate.isSubsignature(method)) {
 				return candidate;
 			}
@@ -972,7 +972,7 @@ public final class StubUtility2Core {
 	}
 
 	private static IMethodBinding findSuperSignatureMethod(IMethodBinding method, Collection<IMethodBinding> methods) {
-		for (IMethodBinding candidate : methods) {
+		for (IMethodBinding candidate : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (candidate.getName().equals(method.getName()) && method.isSubsignature(candidate)) {
 				return candidate;
 			}
@@ -1008,8 +1008,8 @@ public final class StubUtility2Core {
 	public static Predicate<IMethodBinding> IMPLEMENT_RECORD_SYNTHETICS= (IMethodBinding m) -> m.isSyntheticRecordMethod();
 
 	public static IMethodBinding[] getUnimplementedMethods(ITypeBinding typeBinding, Predicate<IMethodBinding> ignoreTheseMethods) {
-		List<IMethodBinding> abstractMethods= new ArrayList<>();
-		for (IMethodBinding method : getMethodsIn(typeBinding, ignoreTheseMethods)) {
+		List<IMethodBinding> abstractMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMethodBinding method : getMethodsIn(typeBinding, ignoreTheseMethods)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isAbstract(method)) {
 				abstractMethods.add(method);
 			}
@@ -1017,16 +1017,16 @@ public final class StubUtility2Core {
 		return abstractMethods.toArray(new IMethodBinding[abstractMethods.size()]);
 	}
 
-	public static IMethodBinding[] getVisibleConstructors(ITypeBinding binding, boolean accountExisting, boolean proposeDefault) {
-		List<IMethodBinding> constructorMethods= new ArrayList<>();
+	public static IMethodBinding[] getVisibleConstructors(ITypeBinding binding, boolean accountExisting, boolean proposeDefault) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IMethodBinding> constructorMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<IMethodBinding> existingConstructors= null;
 		ITypeBinding superType= binding.getSuperclass();
 		if (superType == null)
 			return new IMethodBinding[0];
 		if (accountExisting) {
 			IMethodBinding[] methods= binding.getDeclaredMethods();
-			existingConstructors= new ArrayList<>(methods.length);
-			for (IMethodBinding method : methods) {
+			existingConstructors= new ArrayList<>(methods.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IMethodBinding method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (method.isConstructor() && !method.isDefaultConstructor())
 					existingConstructors.add(method);
 			}
@@ -1034,7 +1034,7 @@ public final class StubUtility2Core {
 		if (existingConstructors != null)
 			constructorMethods.addAll(existingConstructors);
 		IMethodBinding[] methods= binding.getDeclaredMethods();
-		for (IMethodBinding method : superType.getDeclaredMethods()) {
+		for (IMethodBinding method : superType.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.isConstructor()) {
 				if (Bindings.isVisibleInHierarchy(method, binding.getPackage()) && (!accountExisting || !Bindings.containsSignatureEquivalentConstructor(methods, method)))
 					constructorMethods.add(method);
@@ -1044,7 +1044,7 @@ public final class StubUtility2Core {
 			constructorMethods.removeAll(existingConstructors);
 		if (constructorMethods.isEmpty()) {
 			superType= binding;
-			while (superType.getSuperclass() != null)
+			while (superType.getSuperclass() != null) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				superType= superType.getSuperclass();
 			IMethodBinding method= Bindings.findMethodInType(superType, "Object", new ITypeBinding[0]); //$NON-NLS-1$
 			if (method != null) {
@@ -1073,7 +1073,7 @@ public final class StubUtility2Core {
 			}
 			int insertPos= sourceRange.getOffset();
 
-			for (ASTNode curr : (List<? extends ASTNode>)listRewrite.getOriginalList()) {
+			for (ASTNode curr : (List<? extends ASTNode>)listRewrite.getOriginalList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.getStartPosition() >= insertPos) {
 					return curr;
 				}
@@ -1134,7 +1134,7 @@ public final class StubUtility2Core {
 	}
 
 	public static Annotation findAnnotation(String qualifiedTypeName, List<IExtendedModifier> modifiers) {
-		for (IExtendedModifier curr : modifiers) {
+		for (IExtendedModifier curr : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof Annotation) {
 				Annotation annot= (Annotation) curr;
 				ITypeBinding binding= annot.getTypeName().resolveTypeBinding();
@@ -1147,7 +1147,7 @@ public final class StubUtility2Core {
 	}
 
 	public static ITypeBinding replaceWildcardsAndCaptures(ITypeBinding type) {
-		while (type.isWildcardType() || type.isCapture() || (type.isArray() && type.getElementType().isCapture())) {
+		while (type.isWildcardType() || type.isCapture() || (type.isArray() && type.getElementType().isCapture())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding bound = type.getBound();
 			type = (bound != null) ? bound : type.getErasure();
 		}

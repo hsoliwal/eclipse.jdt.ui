@@ -60,7 +60,7 @@ public class RefactoringCorrectionProposalCore extends LinkedCorrectionProposalC
 		// empty default implementation
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public TextChange createTextChange() throws CoreException {
 		init(fRefactoring);
 		fRefactoringStatus= fRefactoring.checkFinalConditions(new NullProgressMonitor());

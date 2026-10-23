@@ -56,8 +56,8 @@ class LocationViewer extends TableViewer {
         super(createTable(parent));
 
         setContentProvider(ArrayContentProvider.getInstance());
-        setLabelProvider(new LocationLabelProvider());
-        setInput(new ArrayList<>());
+        setLabelProvider(new LocationLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+        setInput(new ArrayList<>()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
         createColumns();
     }
@@ -76,7 +76,7 @@ class LocationViewer extends TableViewer {
         TableLayout layout = new TableLayout();
         getTable().setLayout(layout);
         getTable().setHeaderVisible(true);
-        for (int i = 0; i < columnHeaders.length; i++) {
+        for (int i = 0; i < columnHeaders.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             layout.addColumnData(columnLayouts[i]);
             TableColumn tc = new TableColumn(getTable(), SWT.NONE,i);
             tc.setResizable(columnLayouts[i].resizable);
@@ -94,7 +94,7 @@ class LocationViewer extends TableViewer {
     void initContextMenu(IMenuListener menuListener, String popupId, IWorkbenchPartSite viewSite) {
         MenuManager menuMgr= new MenuManager();
         menuMgr.setRemoveAllWhenShown(true);
-        menuMgr.addMenuListener(menuListener);
+        menuMgr.addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
         Menu menu= menuMgr.createContextMenu(getControl());
         getControl().setMenu(menu);
         viewSite.registerContextMenu(popupId, menuMgr, this);
@@ -107,10 +107,10 @@ class LocationViewer extends TableViewer {
 	 * @param clipboard the clipboard
 	 * @return the copy action
 	 */
-    LocationCopyAction initCopyAction(final IViewSite viewSite, final Clipboard clipboard) {
+    LocationCopyAction initCopyAction(final IViewSite viewSite, final Clipboard clipboard) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	final LocationCopyAction copyAction= new LocationCopyAction(viewSite, clipboard, this);
 
-        getTable().addFocusListener(new FocusListener() {
+        getTable().addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
         	IAction fViewCopyHandler;
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -135,6 +135,6 @@ class LocationViewer extends TableViewer {
     }
 
     void clearViewer() {
-        setInput(""); //$NON-NLS-1$
+        setInput(""); //$NON-NLS-1$ //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
     }
 }

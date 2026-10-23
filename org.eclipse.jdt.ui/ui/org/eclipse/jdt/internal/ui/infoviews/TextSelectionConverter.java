@@ -95,7 +95,7 @@ class TextSelectionConverter {
 			return EMPTY_RESULT;
 	}
 
-	private static IJavaElement getElementAtOffset(IJavaElement input, ITextSelection selection) throws JavaModelException {
+	private static IJavaElement getElementAtOffset(IJavaElement input, ITextSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (input instanceof ICompilationUnit) {
 			ICompilationUnit cunit= (ICompilationUnit)input;
 			if (cunit.isWorkingCopy())

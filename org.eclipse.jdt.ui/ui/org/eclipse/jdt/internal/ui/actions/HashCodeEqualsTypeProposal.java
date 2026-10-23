@@ -37,7 +37,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.text.correction.CorrectionMessages;
 
 
-public class HashCodeEqualsTypeProposal extends ChangeCorrectionProposal { // public for tests
+public class HashCodeEqualsTypeProposal extends ChangeCorrectionProposal { // public for tests //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private IType fType;
 
@@ -65,7 +65,7 @@ public class HashCodeEqualsTypeProposal extends ChangeCorrectionProposal { // pu
 
 	@Override
 	public void apply(IDocument document) {
-		Display.getDefault().syncExec(() -> {
+		Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			try {
 				IStructuredSelection selection= new StructuredSelection(fType);
 				IWorkbenchSite site= JavaPlugin.getActivePage().getActiveEditor().getSite();

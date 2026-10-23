@@ -52,8 +52,8 @@ public class ResourceTestHelper {
 	private static final long DELETE_RETRY_DELAY= 1000;
 
 	public static void replicate(String src, String destPrefix, String destSuffix, int n, int ifExists) throws CoreException {
-		for (int i= 0; i < n; i++)
-			copy(src, destPrefix + i + destSuffix, ifExists);
+		for (int i= 0; i < n; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			copy(src, destPrefix + i + destSuffix, ifExists); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static void copy(String src, String dest) throws CoreException {
@@ -65,12 +65,12 @@ public class ResourceTestHelper {
 			getFile(src).copy(new Path(dest), true, null);
 	}
 
-	private static boolean handleExisting(String dest, int ifExists) throws CoreException {
+	private static boolean handleExisting(String dest, int ifExists) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFile destFile= getFile(dest);
 		switch (ifExists) {
 			case FAIL_IF_EXISTS:
 				if (destFile.exists())
-					throw new IllegalArgumentException("Destination file exists: " + dest);
+					throw new IllegalArgumentException("Destination file exists: " + dest); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return true;
 			case OVERWRITE_IF_EXISTS:
 				if (destFile.exists())
@@ -94,7 +94,7 @@ public class ResourceTestHelper {
 	}
 
 	private static void delete(IFile file) throws CoreException {
-		for (int i= 0; ; i++) {
+		for (int i= 0; ; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				file.delete(true, null);
 				return;
@@ -112,8 +112,8 @@ public class ResourceTestHelper {
 	}
 
 	public static void delete(String prefix, String suffix, int n) throws CoreException {
-		for (int i= 0; i < n; i++)
-			delete(prefix + i + suffix);
+		for (int i= 0; i < n; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			delete(prefix + i + suffix); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static IFile findFile(String pathStr) {
@@ -123,9 +123,9 @@ public class ResourceTestHelper {
 	}
 
 	public static IFile[] findFiles(String prefix, String suffix, int i, int n) {
-		List<IFile> files= new ArrayList<>(n);
-		for (int j= i; j < i + n; j++) {
-			String path= prefix + j + suffix;
+		List<IFile> files= new ArrayList<>(n); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int j= i; j < i + n; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String path= prefix + j + suffix; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			files.add(findFile(path));
 		}
 		return files.toArray(new IFile[files.size()]);
@@ -146,11 +146,11 @@ public class ResourceTestHelper {
 	public static void replicate(String src, String destPrefix, String destSuffix, int n, String srcName, String destNamePrefix, int ifExists) throws IOException, CoreException {
 		StringBuffer s= read(src);
 		List<Integer> positions= identifierPositions(s, srcName);
-		for (int j= 0; j < n; j++) {
-			String dest= destPrefix + j + destSuffix;
+		for (int j= 0; j < n; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String dest= destPrefix + j + destSuffix; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (handleExisting(dest, ifExists)) {
 				StringBuffer c= new StringBuffer(s.toString());
-				replacePositions(c, srcName.length(), destNamePrefix + j, positions);
+				replacePositions(c, srcName.length(), destNamePrefix + j, positions); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				write(dest, c.toString());
 			}
 		}
@@ -167,7 +167,7 @@ public class ResourceTestHelper {
 
 	private static void replacePositions(StringBuffer c, int origLength, String string, List<Integer> positions) {
 		int offset= 0;
-		for (Integer integer : positions) {
+		for (Integer integer : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int position= integer;
 			c.replace(offset + position, offset + position + origLength, string);
 			offset += string.length() - origLength;
@@ -175,9 +175,9 @@ public class ResourceTestHelper {
 	}
 
 	private static List<Integer> identifierPositions(StringBuffer buffer, String identifier) {
-		List<Integer> positions= new ArrayList<>();
+		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int i= -1;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i= buffer.indexOf(identifier, i + 1);
 			if (i == -1)
 				break;
@@ -214,7 +214,7 @@ public class ResourceTestHelper {
 	}
 
 	public static IProject createProjectFromZip(Plugin installationPlugin, String projectZip, String projectName) throws IOException, ZipException, CoreException {
-		String workspacePath= ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/";
+		String workspacePath= ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		FileTool.unzip(FileTool.getFileInPlugin(installationPlugin, new Path(projectZip)), new File(workspacePath));
 		return createExistingProject(projectName);
 	}

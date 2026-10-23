@@ -49,8 +49,8 @@ public class UndoManagerTests extends GenericRefactoringTest {
 	}
 
 	private void checkState(int iterationCount, boolean undo, boolean redo, int undoCount, int redoCount){
-		assertEquals(iterationCount + " undo", undo, RefactoringCore.getUndoManager().anythingToUndo());
-		assertEquals(iterationCount + " redo", redo, RefactoringCore.getUndoManager().anythingToRedo());
+		assertEquals(iterationCount + " undo", undo, RefactoringCore.getUndoManager().anythingToUndo()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals(iterationCount + " redo", redo, RefactoringCore.getUndoManager().anythingToRedo()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		testCounts(iterationCount, undoCount, redoCount);
 	}
 
@@ -58,8 +58,8 @@ public class UndoManagerTests extends GenericRefactoringTest {
 		IUndoManager undoManager= RefactoringCore.getUndoManager();
 		if (undoManager instanceof UndoManager2) {
 			UndoManager2 manager= (UndoManager2)undoManager;
-			assertTrue(iterationCount + "undo stack", manager.testHasNumberOfUndos(undoCount));
-			assertTrue(iterationCount + "redo stack", manager.testHasNumberOfRedos(redoCount));
+			assertTrue(iterationCount + "undo stack", manager.testHasNumberOfUndos(undoCount)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertTrue(iterationCount + "redo stack", manager.testHasNumberOfRedos(redoCount)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -140,16 +140,16 @@ public class UndoManagerTests extends GenericRefactoringTest {
 	public void test8() throws Exception{
 		// limit is 5 since the stack is limited to 5 entries
 		int limit= 5;
-		for (int i= 0; i < limit; i++){
+		for (int i= 0; i < limit; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			checkState(i, i != 0, false, i, 0);
 			performRefactoring(new NullRefactoring());
 		}
-		for (int i= 0; i < limit; i++){
+		for (int i= 0; i < limit; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			checkState(i, i != limit, i != 0, limit - i, i);
 			performUndo();
 		}
 
-		for (int i= 0; i < limit; i++){
+		for (int i= 0; i < limit; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			checkState(i, i != 0, i != limit, i, limit - i);
 			performRedo();
 		}

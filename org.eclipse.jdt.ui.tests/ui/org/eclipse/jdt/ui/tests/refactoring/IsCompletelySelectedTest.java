@@ -153,7 +153,7 @@ public class IsCompletelySelectedTest  {
 		List<IPackageFragment> allPackages= Arrays.asList(allPackages());
 
 		Set<IPackageFragment> actualCompletelySelectedPackages= new LinkedHashSet<>();
-		for (IPackageFragment packageFragment : allPackages) {
+		for (IPackageFragment packageFragment : allPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (predicate.test(packageFragment)) {
 				actualCompletelySelectedPackages.add(packageFragment);
 			}

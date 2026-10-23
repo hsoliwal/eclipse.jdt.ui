@@ -98,25 +98,25 @@ public final class CompletionProposalComputerRegistry {
 	 * {@link String}, value type:
 	 * {@linkplain List List&lt;CompletionProposalComputerDescriptor&gt;}).
 	 */
-	private final Map<String, List<CompletionProposalComputerDescriptor>> fDescriptorsByPartition= new HashMap<>();
+	private final Map<String, List<CompletionProposalComputerDescriptor>> fDescriptorsByPartition= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	/**
 	 * Unmodifiable versions of the sets stored in
 	 * <code>fDescriptorsByPartition</code> (key type: {@link String},
 	 * value type:
 	 * {@linkplain List List&lt;CompletionProposalComputerDescriptor&gt;}).
 	 */
-	private final Map<String, List<CompletionProposalComputerDescriptor>> fPublicDescriptorsByPartition= new HashMap<>();
+	private final Map<String, List<CompletionProposalComputerDescriptor>> fPublicDescriptorsByPartition= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	/**
 	 * All descriptors (element type:
 	 * {@link CompletionProposalComputerDescriptor}).
 	 */
-	private final List<CompletionProposalComputerDescriptor> fDescriptors= new ArrayList<>();
+	private final List<CompletionProposalComputerDescriptor> fDescriptors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	/**
 	 * Unmodifiable view of <code>fDescriptors</code>
 	 */
 	private final List<CompletionProposalComputerDescriptor> fPublicDescriptors= Collections.unmodifiableList(fDescriptors);
 
-	private final List<CompletionProposalCategory> fCategories= new ArrayList<>();
+	private final List<CompletionProposalCategory> fCategories= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private final List<CompletionProposalCategory> fPublicCategories= Collections.unmodifiableList(fCategories);
 	/**
 	 * <code>true</code> if this registry has been loaded.
@@ -271,21 +271,21 @@ public final class CompletionProposalComputerRegistry {
 	 * a changed extension registry.
 	 * </p>
 	 */
-	public void reload() {
+	public void reload() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExtensionRegistry registry= Platform.getExtensionRegistry();
-		List<IConfigurationElement> elements= new ArrayList<>(Arrays.asList(registry.getConfigurationElementsFor(JavaPlugin.getPluginId(), EXTENSION_POINT)));
+		List<IConfigurationElement> elements= new ArrayList<>(Arrays.asList(registry.getConfigurationElementsFor(JavaPlugin.getPluginId(), EXTENSION_POINT))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		Map<String, List<CompletionProposalComputerDescriptor>> map= new HashMap<>();
-		List<CompletionProposalComputerDescriptor> all= new ArrayList<>();
+		Map<String, List<CompletionProposalComputerDescriptor>> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		List<CompletionProposalComputerDescriptor> all= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		List<CompletionProposalCategory> categories= getCategories(elements);
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				CompletionProposalComputerDescriptor desc= new CompletionProposalComputerDescriptor(element, this, categories);
-				for (String partition : desc.getPartitions()) {
+				for (String partition : desc.getPartitions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<CompletionProposalComputerDescriptor> list= map.get(partition);
 					if (list == null) {
-						list= new ArrayList<>();
+						list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						map.put(partition, list);
 					}
 					list.add(desc);
@@ -314,7 +314,7 @@ public final class CompletionProposalComputerRegistry {
 			Set<String> partitions= map.keySet();
 			fDescriptorsByPartition.keySet().retainAll(partitions);
 			fPublicDescriptorsByPartition.keySet().retainAll(partitions);
-			for (String partition : partitions) {
+			for (String partition : partitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<CompletionProposalComputerDescriptor> old= fDescriptorsByPartition.get(partition);
 				List<CompletionProposalComputerDescriptor> current= map.get(partition);
 				if (old != null) {
@@ -331,18 +331,18 @@ public final class CompletionProposalComputerRegistry {
 		}
 	}
 
-	private List<CompletionProposalCategory> getCategories(List<IConfigurationElement> elements) {
+	private List<CompletionProposalCategory> getCategories(List<IConfigurationElement> elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		String preference= store.getString(PreferenceConstants.CODEASSIST_EXCLUDED_CATEGORIES);
-		Set<String> disabled= new HashSet<>();
+		Set<String> disabled= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		StringTokenizer tok= new StringTokenizer(preference, "\0");  //$NON-NLS-1$
-		while (tok.hasMoreTokens()) {
+		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			disabled.add(tok.nextToken());
 		}
-		Map<String, Integer> ordered= new HashMap<>();
+		Map<String, Integer> ordered= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		preference= store.getString(PreferenceConstants.CODEASSIST_CATEGORY_ORDER);
 		tok= new StringTokenizer(preference, "\0"); //$NON-NLS-1$
-		while (tok.hasMoreTokens()) {
+		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			StringTokenizer inner= new StringTokenizer(tok.nextToken(), ":"); //$NON-NLS-1$
 			String id= inner.nextToken();
 			int rank= Integer.parseInt(inner.nextToken());
@@ -353,8 +353,8 @@ public final class CompletionProposalComputerRegistry {
 		CompletionProposalCategory typeProposals= null;
 		CompletionProposalCategory allButTypeProposals= null;
 
-		List<CompletionProposalCategory> categories= new ArrayList<>();
-		for (Iterator<IConfigurationElement> iter= elements.iterator(); iter.hasNext();) {
+		List<CompletionProposalCategory> categories= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<IConfigurationElement> iter= elements.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement element= iter.next();
 			try {
 				if ("proposalCategory".equals(element.getName())) { //$NON-NLS-1$
@@ -409,7 +409,7 @@ public final class CompletionProposalComputerRegistry {
 		return categories;
 	}
 
-	private void preventDuplicateCategories(IPreferenceStore store, Set<String> disabled, CompletionProposalCategory allProposals, CompletionProposalCategory typeProposals,
+	private void preventDuplicateCategories(IPreferenceStore store, Set<String> disabled, CompletionProposalCategory allProposals, CompletionProposalCategory typeProposals, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CompletionProposalCategory allButTypeProposals) {
 		boolean adjusted= false;
 		if (allProposals == null || !allProposals.isIncluded()) {
@@ -428,11 +428,11 @@ public final class CompletionProposalComputerRegistry {
 		}
 
 		if (adjusted) {
-			StringBuilder buf= new StringBuilder(50 * disabled.size());
+			StringBuilder buf= new StringBuilder(50 * disabled.size()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			Iterator<String> iter= disabled.iterator();
-			while (iter.hasNext()) {
-				buf.append(iter.next());
-				buf.append('\0');
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(iter.next()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('\0'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			store.putValue(PreferenceConstants.CODEASSIST_EXCLUDED_CATEGORIES, buf.toString());
 		}
@@ -444,7 +444,7 @@ public final class CompletionProposalComputerRegistry {
 	 * @param descriptor the descriptor of the misbehaving extension
 	 * @param status a status object that will be logged
 	 */
-	void informUser(CompletionProposalComputerDescriptor descriptor, IStatus status) {
+	void informUser(CompletionProposalComputerDescriptor descriptor, IStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavaPlugin.log(status);
         String title= JavaTextMessages.CompletionProposalComputerRegistry_error_dialog_title;
         CompletionProposalCategory category= descriptor.getCategory();
@@ -466,13 +466,13 @@ public final class CompletionProposalComputerRegistry {
 		if (shell != null) {
 			display = shell.getDisplay();
 		}
-		display.asyncExec(() ->
+		display.asyncExec(() -> //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	        new MessageDialog(JavaPlugin.getActiveWorkbenchShell(), title, null /* default image */, message, MessageDialog.ERROR, new String[] { IDialogConstants.OK_LABEL }, 0) {
 	        	@Override
 				protected Control createCustomArea(Composite parent) {
 	        		Link link= new Link(parent, SWT.NONE);
 	        		link.setText(avoidHint);
-	        		link.addSelectionListener(new SelectionAdapter() {
+	        		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	        			@Override
 						public void widgetSelected(SelectionEvent e) {
 	        				PreferencesUtil.createPreferenceDialogOn(getShell(), "org.eclipse.jdt.ui.preferences.CodeAssistPreferenceAdvanced", null, null).open(); //$NON-NLS-1$
@@ -494,8 +494,8 @@ public final class CompletionProposalComputerRegistry {
 	 * @return the names of the contributors other than <code>culprit</code> that contribute to <code>category</code> (element type: {@link String})
 	 */
 	private Set<String> getAffectedContributors(CompletionProposalCategory category, IContributor culprit) {
-	    Set<String> affectedPlugins= new HashSet<>();
-		for (CompletionProposalComputerDescriptor desc : getProposalComputerDescriptors()) {
+	    Set<String> affectedPlugins= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (CompletionProposalComputerDescriptor desc : getProposalComputerDescriptors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CompletionProposalCategory cat= desc.getCategory();
 			if (cat.equals(category)) {
 				IContributor contributor= desc.getContributor();

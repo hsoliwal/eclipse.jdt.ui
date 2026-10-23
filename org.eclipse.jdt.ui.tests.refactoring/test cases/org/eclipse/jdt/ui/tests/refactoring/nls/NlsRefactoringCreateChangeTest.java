@@ -66,7 +66,7 @@ public class NlsRefactoringCreateChangeTest {
 		JavaProjectHelper.clear(fJavaProject, pts.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void withoutPreviousNlsing() throws Exception {
 
 		fHelper.createPackageFragment("p2", "/TestSetupProject/src2"); //$NON-NLS-1$//$NON-NLS-2$
@@ -102,7 +102,7 @@ public class NlsRefactoringCreateChangeTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createChangeWithCollidingImport() throws Exception {
 		//class to NLS
 		String str= """
@@ -133,7 +133,7 @@ public class NlsRefactoringCreateChangeTest {
 
 
 	// BUG 59156
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createChangeWithExistingAccessorclassInDifferentPackage() throws Exception {
 		//Accessor class
 		String str= """
@@ -190,7 +190,7 @@ public class NlsRefactoringCreateChangeTest {
 	}
 
 	// BUG 202566
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createChangeWithExistingAccessorclassInDifferentPackage_1() throws Exception {
 		//Accessor class
 		String str= """
@@ -236,7 +236,7 @@ public class NlsRefactoringCreateChangeTest {
 			""";
 		checkContentOfCu("manipulated class", testClass, str2);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createChangeWithNonDefaultSubstitution() throws Exception {
 		//class to NLS
 		String str= """
@@ -249,7 +249,7 @@ public class NlsRefactoringCreateChangeTest {
 				str);
 		NLSRefactoring nls= createDefaultNls(cu);
 
-		String string= "nonDefault(" + NLSRefactoring.KEY + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		String string= "nonDefault(" + NLSRefactoring.KEY + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		nls.setSubstitutionPattern(string);
 
 		performChange(nls);
@@ -281,7 +281,7 @@ public class NlsRefactoringCreateChangeTest {
 		pack1.createCompilationUnit("Accessor.java", str, false, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void externalizedToIgnore() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -333,7 +333,7 @@ public class NlsRefactoringCreateChangeTest {
 		checkContentOfCu("nls file", cu, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void insertToDuplicate() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -387,7 +387,7 @@ public class NlsRefactoringCreateChangeTest {
 		checkContentOfCu("nls file", cu, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void renameToDuplicate() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -441,7 +441,7 @@ public class NlsRefactoringCreateChangeTest {
 		checkContentOfCu("nls file", cu, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void renameDuplicate() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -495,7 +495,7 @@ public class NlsRefactoringCreateChangeTest {
 		checkContentOfCu("nls file", cu, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void internalizeDuplicate() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -547,7 +547,7 @@ public class NlsRefactoringCreateChangeTest {
 		checkContentOfCu("nls file", cu, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void internalizeAndInsert() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -604,7 +604,7 @@ public class NlsRefactoringCreateChangeTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addMissing1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -657,7 +657,7 @@ public class NlsRefactoringCreateChangeTest {
 		checkContentOfCu("nls file", cu, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addMissing2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -713,7 +713,7 @@ public class NlsRefactoringCreateChangeTest {
 		checkContentOfCu("nls file", cu, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void noNewLineAtEnd() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 
@@ -762,7 +762,7 @@ public class NlsRefactoringCreateChangeTest {
 		checkContentOfCu("nls file", cu, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void twoInsertsNoNewLineAtEnd() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 

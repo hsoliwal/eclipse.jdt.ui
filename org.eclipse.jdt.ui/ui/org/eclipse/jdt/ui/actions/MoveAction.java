@@ -62,7 +62,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class MoveAction extends SelectionDispatchAction{
+public class MoveAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T04  IMPLEMENTS
 //TODO: remove duplicate availability checks. Look at
 //- f...Action.selectionChanged
 //- f...Action.isEnabled
@@ -153,7 +153,7 @@ public class MoveAction extends SelectionDispatchAction{
 	/*
 	 * @see org.eclipse.jdt.ui.actions.SelectionDispatchAction#run(org.eclipse.jface.text.ITextSelection)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		try {
 			if (!ActionUtil.isEditable(fEditor))
@@ -188,7 +188,7 @@ public class MoveAction extends SelectionDispatchAction{
 		if (selection.isEmpty())
 			return null;
 
-		for (Object name : selection) {
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! (name instanceof IMember))
 				return null;
 		}
@@ -198,7 +198,7 @@ public class MoveAction extends SelectionDispatchAction{
 	private static IMember[] convertToMemberArray(Object[] obj) {
 		if (obj == null)
 			return null;
-		Set<Object> memberSet= new HashSet<>(Arrays.asList(obj));
+		Set<Object> memberSet= new HashSet<>(Arrays.asList(obj)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		return memberSet.toArray(new IMember[memberSet.size()]);
 	}
 

@@ -43,7 +43,7 @@ public class MemberCheckUtil {
 
 	public static RefactoringStatus checkMembersInDestinationType(IMember[] members, IType destinationType) throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
-		for (IMember member : members) {
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member.getElementType() == IJavaElement.METHOD)
 				checkMethodInType(destinationType, result, (IMethod)member);
 			else if (member.getElementType() == IJavaElement.FIELD)
@@ -54,7 +54,7 @@ public class MemberCheckUtil {
 		return result;
 	}
 
-	private static void checkMethodInType(IType destinationType, RefactoringStatus result, IMethod method) throws JavaModelException {
+	private static void checkMethodInType(IType destinationType, RefactoringStatus result, IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethod[] destinationTypeMethods= destinationType.getMethods();
 		IMethod found= findMethod(method, destinationTypeMethods);
 		if (found != null){
@@ -83,7 +83,7 @@ public class MemberCheckUtil {
 		result.addError(message, context);
 	}
 
-	private static void checkTypeInType(IType destinationType, RefactoringStatus result, IType type) throws JavaModelException {
+	private static void checkTypeInType(IType destinationType, RefactoringStatus result, IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String typeName= type.getElementName();
 		IType destinationTypeType= destinationType.getType(typeName);
 		if (destinationTypeType.exists()){
@@ -108,7 +108,7 @@ public class MemberCheckUtil {
 	}
 
 	private static void checkHierarchyOfEnclosedTypes(IType destinationType, RefactoringStatus result, IType type) throws JavaModelException {
-		for (IType enclosedType : getAllEnclosedTypes(type)) {
+		for (IType enclosedType : getAllEnclosedTypes(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (destinationType.getElementName().equals(enclosedType.getElementName())){
 				String message= Messages.format(RefactoringCoreMessages.MemberCheckUtil_type_name_conflict3,
 						new String[] { getQualifiedLabel(enclosedType), getQualifiedLabel(type)});
@@ -129,10 +129,10 @@ public class MemberCheckUtil {
 	}
 
 	private static IType[] getAllEnclosedTypes(IType type) throws JavaModelException {
-		List<IType> result= new ArrayList<>(2);
+		List<IType> result= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IType[] directlyEnclosed= type.getTypes();
 		result.addAll(Arrays.asList(directlyEnclosed));
-		for (IType enclosedType : directlyEnclosed) {
+		for (IType enclosedType : directlyEnclosed) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(getAllEnclosedTypes(enclosedType)));
 		}
 		return result.toArray(new IType[result.size()]);
@@ -140,7 +140,7 @@ public class MemberCheckUtil {
 
 	private static boolean typeNameExistsInEnclosingTypeChain(IType type, String typeName){
 		IType enclosing= type.getDeclaringType();
-		while (enclosing != null){
+		while (enclosing != null){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (enclosing.getElementName().equals(typeName))
 				return true;
 			enclosing= enclosing.getDeclaringType();
@@ -160,7 +160,7 @@ public class MemberCheckUtil {
 		String[] paramTypes= method.getParameterTypes();
 		boolean isConstructor= method.isConstructor();
 
-		for (IMethod m : allMethods) {
+		for (IMethod m : allMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (JavaModelUtil.isSameMethodSignature(name, paramTypes, isConstructor, m))
 				return m;
 		}

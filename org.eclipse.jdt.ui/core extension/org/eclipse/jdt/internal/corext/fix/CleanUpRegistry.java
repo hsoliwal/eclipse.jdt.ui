@@ -269,8 +269,8 @@ public class CleanUpRegistry {
 	 */
 	public synchronized ICleanUp[] createCleanUps(Set<String> ids) {
 		ensureCleanUpsRegistered();
-		ArrayList<ICleanUp> result= new ArrayList<>(fCleanUpDescriptors.length);
-		for (CleanUpDescriptor descriptor : fCleanUpDescriptors) {
+		ArrayList<ICleanUp> result= new ArrayList<>(fCleanUpDescriptors.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CleanUpDescriptor descriptor : fCleanUpDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ids == null || ids.contains(descriptor.getId())) {
 				ICleanUp cleanUp= descriptor.createCleanUp();
 				if (cleanUp != null)
@@ -291,8 +291,8 @@ public class CleanUpRegistry {
 	public synchronized CleanUpTabPageDescriptor[] getCleanUpTabPageDescriptors(int kind) {
 		ensurePagesRegistered();
 
-		ArrayList<CleanUpTabPageDescriptor> result= new ArrayList<>();
-		for (CleanUpTabPageDescriptor descriptor : fPageDescriptors) {
+		ArrayList<CleanUpTabPageDescriptor> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CleanUpTabPageDescriptor descriptor : fPageDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getKind() == kind) {
 				result.add(descriptor);
 			}
@@ -313,7 +313,7 @@ public class CleanUpRegistry {
 		ensureCleanUpInitializersRegistered();
 
 		CleanUpOptions options= new CleanUpOptions();
-		for (CleanUpInitializerDescriptor descriptor : fCleanUpInitializerDescriptors) {
+		for (CleanUpInitializerDescriptor descriptor : fCleanUpInitializerDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getKind() == kind) {
 				descriptor.getOptionsInitializer().setDefaultOptions(options);
 			}
@@ -323,15 +323,15 @@ public class CleanUpRegistry {
 		return mapCleanUpOptions;
 	}
 
-	private synchronized void ensureCleanUpsRegistered() {
+	private synchronized void ensureCleanUpsRegistered() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCleanUpDescriptors != null)
 			return;
 
 
-		final ArrayList<CleanUpDescriptor> descriptors= new ArrayList<>();
+		final ArrayList<CleanUpDescriptor> descriptors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IExtensionPoint point= Platform.getExtensionRegistry().getExtensionPoint(JavaPlugin.getPluginId(), EXTENSION_POINT_NAME);
-		for (IConfigurationElement element : point.getConfigurationElements()) {
+		for (IConfigurationElement element : point.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (CLEAN_UP_CONFIGURATION_ELEMENT_NAME.equals(element.getName())) {
 				descriptors.add(new CleanUpDescriptor(element));
 			}
@@ -339,7 +339,7 @@ public class CleanUpRegistry {
 
 
 		// Make sure we filter those who fail or misbehave
-		for (int i= 0; i < descriptors.size(); i++) {
+		for (int i= 0; i < descriptors.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final CleanUpDescriptor cleanUpDescriptor= descriptors.get(i);
 			final boolean disable[]= new boolean[1];
 			ISafeRunnable runnable= new SafeRunnable() {
@@ -380,19 +380,19 @@ public class CleanUpRegistry {
 
 	}
 
-	private static void sort(CleanUpDescriptor[] data) {
+	private static void sort(CleanUpDescriptor[] data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int lastSwapI= -1;
 		int lastSwapJ= -1;
-		mainLoop: for (int i= 0; i < data.length; i++) {
+		mainLoop: for (int i= 0; i < data.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String runAfter= data[i].getRunAfter();
 			if (runAfter == null)
 				continue;
 			int jStart= i + 1;
-			for (int j= jStart; j < data.length; j++) {
+			for (int j= jStart; j < data.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String jID= data[j].getId();
 				if (runAfter.equals(jID)) {
 					if (lastSwapI == i && j >= lastSwapJ) {
-						JavaPlugin.logErrorMessage("Problem reading cleanUps extensions: cannot satisfy rule for '" + data[i].getId() + "' to runAfter '" + runAfter + "'");   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+						JavaPlugin.logErrorMessage("Problem reading cleanUps extensions: cannot satisfy rule for '" + data[i].getId() + "' to runAfter '" + runAfter + "'");   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						continue mainLoop;
 					}
 					lastSwapI= i;
@@ -402,12 +402,12 @@ public class CleanUpRegistry {
 					continue mainLoop;
 				}
 			}
-			for (int j= 0; j < jStart; j++) {
+			for (int j= 0; j < jStart; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String jID= data[j].getId();
 				if (runAfter.equals(jID))
 					continue mainLoop;
 			}
-			JavaPlugin.logErrorMessage("Problem reading cleanUps extensions: cannot satisfy rule for '" + data[i].getId() + "' to runAfter '" + runAfter + "' because the runAfter clean up does not exist."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			JavaPlugin.logErrorMessage("Problem reading cleanUps extensions: cannot satisfy rule for '" + data[i].getId() + "' to runAfter '" + runAfter + "' because the runAfter clean up does not exist."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -417,14 +417,14 @@ public class CleanUpRegistry {
 		data[j]= o;
 	}
 
-	private synchronized void ensurePagesRegistered() {
+	private synchronized void ensurePagesRegistered() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPageDescriptors != null)
 			return;
 
-		ArrayList<CleanUpTabPageDescriptor> result= new ArrayList<>();
+		ArrayList<CleanUpTabPageDescriptor> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IExtensionPoint point= Platform.getExtensionRegistry().getExtensionPoint(JavaPlugin.getPluginId(), EXTENSION_POINT_NAME);
-		for (IConfigurationElement element : point.getConfigurationElements()) {
+		for (IConfigurationElement element : point.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (TABPAGE_CONFIGURATION_ELEMENT_NAME.equals(element.getName())) {
 				result.add(new CleanUpTabPageDescriptor(element));
 			}
@@ -442,10 +442,10 @@ public class CleanUpRegistry {
 		if (fCleanUpInitializerDescriptors != null)
 			return;
 
-		ArrayList<CleanUpInitializerDescriptor> result= new ArrayList<>();
+		ArrayList<CleanUpInitializerDescriptor> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IExtensionPoint point= Platform.getExtensionRegistry().getExtensionPoint(JavaPlugin.getPluginId(), EXTENSION_POINT_NAME);
-		for (IConfigurationElement element : point.getConfigurationElements()) {
+		for (IConfigurationElement element : point.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (CLEAN_UP_INITIALIZER_CONFIGURATION_ELEMENT_NAME.equals(element.getName())) {
 				result.add(new CleanUpInitializerDescriptor(element));
 			}

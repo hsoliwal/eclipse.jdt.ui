@@ -76,7 +76,7 @@ public class OccurrencesSearchResultPage extends AbstractTextSearchViewPage {
 	private AbstractToggleLinkingAction fToggleLinkingAction;
 	private LinkWithEditorListener fLinkWithEditorListener;
 
-	private class LinkWithEditorListener implements IPartListener2, ISelectionListenerWithAST {
+	private class LinkWithEditorListener implements IPartListener2, ISelectionListenerWithAST { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 		private ITextEditor fActiveEditor;
 		private boolean fIsVisible;
@@ -290,7 +290,7 @@ public class OccurrencesSearchResultPage extends AbstractTextSearchViewPage {
 				return jel1.getLineNumber() - jel2.getLineNumber();
 			}
 		});
-		viewer.setLabelProvider(new ColoringLabelProvider(new OccurrencesSearchLabelProvider(this)));
+		viewer.setLabelProvider(new ColoringLabelProvider(new OccurrencesSearchLabelProvider(this))); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fContentProvider= new TextSearchTableContentProvider();
 		viewer.setContentProvider(fContentProvider);
 	}
@@ -318,7 +318,7 @@ public class OccurrencesSearchResultPage extends AbstractTextSearchViewPage {
 	}
 
 
-	private void preformEditorSelectionChanged(ITextSelection selection, CompilationUnit astRoot) {
+	private void preformEditorSelectionChanged(ITextSelection selection, CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isLinkingEnabled()) {
 			return;
 		}
@@ -346,14 +346,14 @@ public class OccurrencesSearchResultPage extends AbstractTextSearchViewPage {
 			OccurrencesSearchResult result= (OccurrencesSearchResult) query.getSearchResult();
 			final JavaElementLine line= getMatchingLine(result, offset, length);
 
-			getSite().getShell().getDisplay().asyncExec(() -> setInput(query.getSearchResult(), line == null ? null : new StructuredSelection(line)));
+			getSite().getShell().getDisplay().asyncExec(() -> setInput(query.getSearchResult(), line == null ? null : new StructuredSelection(line))); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
 	private static JavaElementLine getMatchingLine(OccurrencesSearchResult result, int offset, int length) {
-		for (Object element : result.getElements()) {
+		for (Object element : result.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaElementLine line = (JavaElementLine) element;
-			for (Match matche : result.getMatches(line)) {
+			for (Match matche : result.getMatches(line)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				OccurrenceMatch match= (OccurrenceMatch) matche;
 				if (match.getOriginalOffset() <= offset && offset + length <= match.getOriginalOffset() + match.getOriginalLength()) {
 					return line;

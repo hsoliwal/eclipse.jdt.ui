@@ -41,7 +41,7 @@ import org.eclipse.jdt.internal.ui.search.SearchMessages;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class FindDeclarationsInWorkingSetAction extends FindDeclarationsAction {
+public class FindDeclarationsInWorkingSetAction extends FindDeclarationsAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private IWorkingSet[] fWorkingSets;
 

@@ -66,7 +66,7 @@ public class FormatterProfileStore extends ProfileStore {
 	 * as collection.
 	 * @return returns a list of <code>CustomProfile</code> or <code>null</code>
 	 */
-	private List<Profile> readOldForCompatibility(IScopeContext instanceScope) {
+	private List<Profile> readOldForCompatibility(IScopeContext instanceScope) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// in 3.0 M9 and less the profiles were stored in a file in the plugin's meta data
 		final String STORE_FILE= "code_formatter_profiles.xml"; //$NON-NLS-1$
@@ -80,7 +80,7 @@ public class FormatterProfileStore extends ProfileStore {
 				FileReader reader= new FileReader(file)) {
 				List<Profile> res= readProfilesFromStream(new InputSource(reader));
 				if (res != null) {
-					for (Profile re : res) {
+					for (Profile re : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fProfileVersioner.update((CustomProfile) re);
 					}
 					writeProfiles(res, instanceScope);
@@ -95,26 +95,26 @@ public class FormatterProfileStore extends ProfileStore {
 	}
 
 
-	public static void checkCurrentOptionsVersion() {
+	public static void checkCurrentOptionsVersion() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PreferencesAccess access= PreferencesAccess.getOriginalPreferences();
 		ProfileVersioner profileVersioner= new ProfileVersioner();
 
 		IScopeContext instanceScope= access.getInstanceScope();
 		IEclipsePreferences uiPreferences= instanceScope.getNode(JavaUI.ID_PLUGIN);
-		int version= uiPreferences.getInt(PREF_FORMATTER_PROFILES + VERSION_KEY_SUFFIX, 0);
+		int version= uiPreferences.getInt(PREF_FORMATTER_PROFILES + VERSION_KEY_SUFFIX, 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (version >= profileVersioner.getCurrentVersion()) {
 			return; // is up to date
 		}
 		try {
 			List<Profile> profiles= (new FormatterProfileStore(profileVersioner)).readProfiles(instanceScope);
 			if (profiles == null) {
-				profiles= new ArrayList<>();
+				profiles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			ProfileManager manager= new FormatterProfileManager(profiles, instanceScope, access, profileVersioner);
 			if (manager.getSelected() instanceof CustomProfile) {
 				manager.commitChanges(instanceScope); // updates JavaCore options
 			}
-			uiPreferences.putInt(PREF_FORMATTER_PROFILES + VERSION_KEY_SUFFIX, profileVersioner.getCurrentVersion());
+			uiPreferences.putInt(PREF_FORMATTER_PROFILES + VERSION_KEY_SUFFIX, profileVersioner.getCurrentVersion()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			savePreferences(instanceScope);
 		} catch (CoreException | BackingStoreException e) {
 			JavaPlugin.log(e);

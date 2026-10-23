@@ -75,7 +75,7 @@ public class JavaElement extends JEAttribute {
 		return fJavaElement;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -113,28 +113,28 @@ public class JavaElement extends JEAttribute {
 
 	@Override
 	public String getLabel() {
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (fName != null)
-			sb.append(fName).append(": ");
+			sb.append(fName).append(": "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (fJavaElement == null) {
-			sb.append("java element: null");
+			sb.append("java element: null"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
 			String classname= fJavaElement.getClass().getName();
-			sb.append(classname.substring(classname.lastIndexOf('.') + 1)).append(": ");
-			sb.append(JavaElementLabels.getElementLabel(fJavaElement, LABEL_OPTIONS));
+			sb.append(classname.substring(classname.lastIndexOf('.') + 1)).append(": "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(JavaElementLabels.getElementLabel(fJavaElement, LABEL_OPTIONS)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (! fJavaElement.exists())
-				sb.append(" (does not exist)");
+				sb.append(" (does not exist)"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return sb.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public JEAttribute[] getChildren() {
 		if (fJavaElement == null)
 			return EMPTY;
 
-		ArrayList<JEAttribute> result= new ArrayList<>();
+		ArrayList<JEAttribute> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (fJavaElement instanceof IParent) {
 			addParentChildren(result, (IParent) fJavaElement);
@@ -215,7 +215,7 @@ public class JavaElement extends JEAttribute {
 		});
 	}
 
-	private void addJavaProjectChildren(ArrayList<JEAttribute> result, final IJavaProject project) {
+	private void addJavaProjectChildren(ArrayList<JEAttribute> result, final IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		result.add(new JavaElementChildrenProperty(this, "ALL PACKAGE FRAGMENT ROOTS") {
 			@Override
 			protected JEAttribute[] computeChildren() throws JavaModelException {
@@ -290,7 +290,7 @@ public class JavaElement extends JEAttribute {
 		result.add(JEClasspathEntry.compute(this, "RESOLVED CLASSPATH ENTRY", () -> packageFragmentRoot.getResolvedClasspathEntry()));
 	}
 
-	private void addPackageFragmentChildren(ArrayList<JEAttribute> result, final IPackageFragment packageFragment) {
+	private void addPackageFragmentChildren(ArrayList<JEAttribute> result, final IPackageFragment packageFragment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		result.add(new JavaElementChildrenProperty(this, "COMPILATION UNITS") {
 			@Override
 			protected JEAttribute[] computeChildren() throws JavaModelException {
@@ -323,7 +323,7 @@ public class JavaElement extends JEAttribute {
 		result.add(JavaElement.compute(this, "MODULE", () -> classFile.getModule()));
 	}
 
-	private void addCompilationUnitChildren(ArrayList<JEAttribute> result, final ICompilationUnit compilationUnit) {
+	private void addCompilationUnitChildren(ArrayList<JEAttribute> result, final ICompilationUnit compilationUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//TODO: WorkingCopyOwner
 		result.add(new JavaElement(this, "PRIMARY", compilationUnit.getPrimary()));
 		result.add(new JavaElementChildrenProperty(this, "TYPES") {
@@ -386,7 +386,7 @@ public class JavaElement extends JEAttribute {
 		});
 	}
 
-	private void addTypeChildren(ArrayList<JEAttribute> result, final IType type) {
+	private void addTypeChildren(ArrayList<JEAttribute> result, final IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		result.add(new JavaElementProperty(this, "IS RESOLVED", type.isResolved()));
 		result.add(new JavaElementProperty(this, "KEY", type.getKey()));
 		result.add(new JavaElement(this, "PACKAGE FRAGMENT", type.getPackageFragment()));
@@ -455,7 +455,7 @@ public class JavaElement extends JEAttribute {
 		});
 	}
 
-	private void addMethodChildren(ArrayList<JEAttribute> result, final IMethod method) {
+	private void addMethodChildren(ArrayList<JEAttribute> result, final IMethod method) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		result.add(new JavaElementChildrenProperty(this, "EXCEPTION TYPES") {
 			@Override
 			protected JEAttribute[] computeChildren() throws JavaModelException {
@@ -523,7 +523,7 @@ public class JavaElement extends JEAttribute {
 
 	static JavaElement[] createJavaElements(JEAttribute parent, Object[] javaElements) {
 		JavaElement[] jeChildren= new JavaElement[javaElements.length];
-		for (int i= 0; i < javaElements.length; i++) {
+		for (int i= 0; i < javaElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			jeChildren[i]= new JavaElement(parent, (IJavaElement) javaElements[i]);
 		}
 		return jeChildren;
@@ -531,7 +531,7 @@ public class JavaElement extends JEAttribute {
 
 	static JavaElement[] createJavaElements(JEAttribute parent, IJavaElement[] javaElements) {
 		JavaElement[] jeChildren= new JavaElement[javaElements.length];
-		for (int i= 0; i < javaElements.length; i++) {
+		for (int i= 0; i < javaElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			jeChildren[i]= new JavaElement(parent, javaElements[i]);
 		}
 		return jeChildren;
@@ -539,7 +539,7 @@ public class JavaElement extends JEAttribute {
 
 	static JEAttribute[] createResources(JEAttribute parent, Object[] resources) {
 		JEAttribute[] resourceChildren= new JEAttribute[resources.length];
-		for (int i= 0; i < resources.length; i++) {
+		for (int i= 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object resource= resources[i];
 			if (resource instanceof IResource)
 				resourceChildren[i]= new JEResource(parent, null, (IResource) resource);
@@ -553,7 +553,7 @@ public class JavaElement extends JEAttribute {
 
 	static JEAttribute[] createMemberValuePairs(JEAttribute parent, IMemberValuePair[] mvPairs) {
 		JEAttribute[] mvPairChildren= new JEAttribute[mvPairs.length];
-		for (int i= 0; i < mvPairs.length; i++) {
+		for (int i= 0; i < mvPairs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemberValuePair mvPair= mvPairs[i];
 			mvPairChildren[i]= new JEMemberValuePair(parent, mvPair);
 		}
@@ -562,7 +562,7 @@ public class JavaElement extends JEAttribute {
 
 	static JEAttribute[] createCPEntries(JEAttribute parent, IClasspathEntry[] entries) {
 		JEAttribute[] entryChildren= new JEAttribute[entries.length];
-		for (int i= 0; i < entries.length; i++) {
+		for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry entry= entries[i];
 			entryChildren[i]= new JEClasspathEntry(parent, null, entry);
 		}
@@ -570,11 +570,11 @@ public class JavaElement extends JEAttribute {
 	}
 
 	static JEAttribute[] createOptions(JEAttribute parent, Map<String, String> options) {
-		ArrayList<Entry<String, String>> entries= new ArrayList<>(options.entrySet());
-		Collections.sort(entries, Comparator.comparing(Entry<String, String>::getKey));
+		ArrayList<Entry<String, String>> entries= new ArrayList<>(options.entrySet()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Collections.sort(entries, Comparator.comparing(Entry<String, String>::getKey)); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 		JEAttribute[] children= new JEAttribute[entries.size()];
-		for (int i= 0; i < entries.size(); i++) {
+		for (int i= 0; i < entries.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<String, String> entry= entries.get(i);
 			children[i]= new JavaElementProperty(parent, entry.getKey(), entry.getValue());
 		}
@@ -583,7 +583,7 @@ public class JavaElement extends JEAttribute {
 
 	static JEAttribute[] createStrings(JEAttribute parent, String[] strings) {
 		JEAttribute[] children= new JEAttribute[strings.length];
-		for (int i= 0; i < strings.length; i++) {
+		for (int i= 0; i < strings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			children[i]= new JavaElementProperty(parent, null, strings[i]);
 		}
 		return children;

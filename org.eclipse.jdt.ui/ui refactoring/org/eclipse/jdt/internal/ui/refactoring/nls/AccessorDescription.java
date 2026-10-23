@@ -48,15 +48,15 @@ public class AccessorDescription {
 	}
 
 	public String getLabel() {
-		StringBuilder buf= new StringBuilder();
-		buf.append(getAccessorClassPackage().getElementName());
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(getAccessorClassPackage().getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (buf.length() > 0) {
-			buf.append('.');
+			buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(BasicElementLabels.getResourceName(getAccessorClassName()));
-		buf.append(JavaElementLabels.CONCAT_STRING);
+		buf.append(BasicElementLabels.getResourceName(getAccessorClassName())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		IPath propertyFilePath= getResourceBundlePackage().getPath().append(getResourceBundleName());
-		buf.append(BasicElementLabels.getPathLabel(propertyFilePath, false));
+		buf.append(BasicElementLabels.getPathLabel(propertyFilePath, false)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -110,7 +110,7 @@ public class AccessorDescription {
 		return fAccessorClassName.hashCode() + fAccessorClassPackage.hashCode() + fResourceBundleName.hashCode() + fResourceBundlePackage.hashCode();
 	}
 
-	public static AccessorDescription deserialize(IDialogSettings settings) {
+	public static AccessorDescription deserialize(IDialogSettings settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String accessorName= settings.get(KEY_ACCESSOR_NAME);
 		if (accessorName == null) {
 			return null;

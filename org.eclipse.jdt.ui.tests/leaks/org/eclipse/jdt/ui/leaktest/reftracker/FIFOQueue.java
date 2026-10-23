@@ -45,7 +45,7 @@ public class FIFOQueue {
 		int oldLen= oldStore.length;
 		Object[] newStore= new Object[oldLen * 2];
 		int k= 0;
-		for (int i= fReadIndex, end= fWriteIndex; i != end; i= nextIndex(i, oldLen), k++) {
+		for (int i= fReadIndex, end= fWriteIndex; i != end; i= nextIndex(i, oldLen), k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newStore[k]= oldStore[i];
 			oldStore[i]= null;
 		}

@@ -228,9 +228,9 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 
 	private int nbWorkflow;
 
-	private List<List<NodeMatcher<Expression>>> conditionsByWorkflow= new ArrayList<>();
-	private List<List<NodeMatcher<Statement>>> statementsByWorkflow= new ArrayList<>();
-	private List<NodeMatcher<Expression>> returnedValuesByWorkflow= new ArrayList<>();
+	private List<List<NodeMatcher<Expression>>> conditionsByWorkflow= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private List<List<NodeMatcher<Statement>>> statementsByWorkflow= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private List<NodeMatcher<Expression>> returnedValuesByWorkflow= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private ControlWorkflowMatcher() {
 		// Forbidden
@@ -249,10 +249,10 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 	public ControlWorkflowMatcherCompletable addWorkflow(final NodeMatcher<Expression> condition) {
 		nbWorkflow++;
 
-		List<NodeMatcher<Expression>> conditions= new ArrayList<>();
+		List<NodeMatcher<Expression>> conditions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		conditions.add(condition);
 		conditionsByWorkflow.add(conditions);
-		statementsByWorkflow.add(new ArrayList<>());
+		statementsByWorkflow.add(new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		returnedValuesByWorkflow.add(null);
 
 		return this;
@@ -281,14 +281,14 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 		return isMatching(Arrays.asList(statement));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isMatching(final List<Statement> actualStatements) {
 		try {
 			ControlWorkflowNode actualNode= buildActualNodes(actualStatements);
 
 			expandActualNode(actualNode);
 
-			Set<Integer> actualLastNodes= new HashSet<>();
+			Set<Integer> actualLastNodes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			collectActualLastNodes(actualNode, actualLastNodes);
 
 			if (actualLastNodes.size() != nbWorkflow) {
@@ -297,7 +297,7 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 
 			boolean isPassive= isPassive(actualNode);
 
-			for (int i= 0; i < nbWorkflow; i++) {
+			for (int i= 0; i < nbWorkflow; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!doMatching(actualNode, i, actualLastNodes, isPassive)) {
 					return false;
 				}
@@ -309,18 +309,18 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 		}
 	}
 
-	private boolean doMatching(final ControlWorkflowNode actualNode, final int i, final Set<Integer> actualLastNodes, final boolean isPassive) {
+	private boolean doMatching(final ControlWorkflowNode actualNode, final int i, final Set<Integer> actualLastNodes, final boolean isPassive) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ControlWorkflowNode currentActualNode= actualNode;
-		List<NodeMatcher<Expression>> remainingConditions= new ArrayList<>(conditionsByWorkflow.get(i));
+		List<NodeMatcher<Expression>> remainingConditions= new ArrayList<>(conditionsByWorkflow.get(i)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		while (!remainingConditions.isEmpty()) {
+		while (!remainingConditions.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (currentActualNode == null || currentActualNode.getCondition() == null) {
 				return false;
 			}
 
 			Boolean matching= null;
 
-			for (Iterator<NodeMatcher<Expression>> iterator= remainingConditions.iterator(); iterator.hasNext();) {
+			for (Iterator<NodeMatcher<Expression>> iterator= remainingConditions.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				NodeMatcher<Expression> nodeMatcher= iterator.next();
 				matching= nodeMatcher.isMatching(currentActualNode.getCondition());
 
@@ -388,7 +388,7 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 		return actualNode.getCondition() == null || (ASTNodes.isPassive(actualNode.getCondition()) && isPassive(actualNode.getThenNode()) && isPassive(actualNode.getElseNode()));
 	}
 
-	private void expandActualNode(final ControlWorkflowNode actualNode) {
+	private void expandActualNode(final ControlWorkflowNode actualNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (actualNode.getCondition() == null) {
 			return;
 		}
@@ -429,7 +429,7 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 			Expression firstOperand= allOperands.remove(0);
 			ControlWorkflowNode currentNode= actualNode;
 
-			for (Expression operand : allOperands) {
+			for (Expression operand : allOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ControlWorkflowNode subNode= new ControlWorkflowNode();
 				subNode.setCondition(operand);
 				subNode.setThenNode(cloneNode(currentNode.getThenNode()));
@@ -493,7 +493,7 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 		return buildActualNodes(ASTNodes.asList(actualStatement));
 	}
 
-	private ControlWorkflowNode buildActualNodes(final List<Statement> actualStatements) {
+	private ControlWorkflowNode buildActualNodes(final List<Statement> actualStatements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isEmpty(actualStatements)) {
 			throw new AbortSearchException();
 		}
@@ -515,7 +515,7 @@ public final class ControlWorkflowMatcher implements ControlWorkflowMatcherCompl
 				throw new AbortSearchException();
 			}
 
-			List<Statement> elseStmts= new ArrayList<>(actualStatements);
+			List<Statement> elseStmts= new ArrayList<>(actualStatements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			elseStmts.remove(0);
 			node.setElseNode(buildActualNodes(elseStmts));
 			return node;

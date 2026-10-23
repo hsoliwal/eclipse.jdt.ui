@@ -61,7 +61,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  * Add javadoc stubs to members. All members must belong to the same compilation unit.
  * If the parent type is open in an editor, be sure to pass over its working copy.
  */
-public class AddJavaDocStubOperation implements IWorkspaceRunnable {
+public class AddJavaDocStubOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	private IMember[] fMembers;
 
@@ -121,7 +121,7 @@ public class AddJavaDocStubOperation implements IWorkspaceRunnable {
 		}
 	}
 
-	private void addJavadocComments(IProgressMonitor monitor) throws CoreException {
+	private void addJavadocComments(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= fMembers[0].getCompilationUnit();
 
 		ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
@@ -134,7 +134,7 @@ public class AddJavaDocStubOperation implements IWorkspaceRunnable {
 			String lineDelim= TextUtilities.getDefaultLineDelimiter(document);
 			MultiTextEdit edit= new MultiTextEdit();
 
-			for (IMember curr : fMembers) {
+			for (IMember curr : fMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int memberStartOffset= getMemberStartOffset(curr, document);
 
 				String comment= null;
@@ -150,14 +150,14 @@ public class AddJavaDocStubOperation implements IWorkspaceRunnable {
 						break;
 				}
 				if (comment == null) {
-					StringBuilder buf= new StringBuilder();
-					buf.append("/**").append(lineDelim); //$NON-NLS-1$
-					buf.append(" *").append(lineDelim); //$NON-NLS-1$
-					buf.append(" */").append(lineDelim); //$NON-NLS-1$
+					StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					buf.append("/**").append(lineDelim); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(" *").append(lineDelim); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(" */").append(lineDelim); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					comment= buf.toString();
 				} else {
 					if (!comment.endsWith(lineDelim)) {
-						comment= comment + lineDelim;
+						comment= comment + lineDelim; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 

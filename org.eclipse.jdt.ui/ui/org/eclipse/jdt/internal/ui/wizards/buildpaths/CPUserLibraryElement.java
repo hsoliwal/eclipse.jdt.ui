@@ -33,7 +33,7 @@ public class CPUserLibraryElement {
 		public IClasspathEntry[] getClasspathEntries() {
 			CPListElement[] children= getChildren();
 			IClasspathEntry[] entries= new IClasspathEntry[children.length];
-			for (int i= 0; i < entries.length; i++) {
+			for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				entries[i]= children[i].getClasspathEntry();
 			}
 			return entries;
@@ -62,10 +62,10 @@ public class CPUserLibraryElement {
 
 	public CPUserLibraryElement(String name, IClasspathContainer container, IJavaProject project) {
 		fName= name;
-		fChildren= new ArrayList<>();
+		fChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (container != null) {
 			IClasspathEntry[] entries= container.getClasspathEntries();
-			for (IClasspathEntry curr : entries) {
+			for (IClasspathEntry curr : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPListElement elem= CPListElement.createFromExisting(this, curr, project);
 				//elem.setAttribute(CPListElement.SOURCEATTACHMENT, curr.getSourceAttachmentPath());
 				//elem.setAttribute(CPListElement.JAVADOC, JavaUI.getLibraryJavadocLocation(curr.getPath()));
@@ -88,9 +88,9 @@ public class CPUserLibraryElement {
 	 */
 	public CPUserLibraryElement(String name, boolean isSystemLibrary, CPListElement[] children) {
 		fName= name;
-		fChildren= new ArrayList<>();
+		fChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (children != null) {
-			for (CPListElement child : children) {
+			for (CPListElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				child.setParentContainer(this);
 				fChildren.add(child);
 			}
@@ -120,11 +120,11 @@ public class CPUserLibraryElement {
 		}
 	}
 
-	private List<CPListElement> moveUp(List<CPListElement> elements, List<CPListElement> move) {
+	private List<CPListElement> moveUp(List<CPListElement> elements, List<CPListElement> move) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nElements= elements.size();
-		List<CPListElement> res= new ArrayList<>(nElements);
+		List<CPListElement> res= new ArrayList<>(nElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CPListElement floating= null;
-		for (CPListElement curr : elements) {
+		for (CPListElement curr : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (move.contains(curr)) {
 				res.add(curr);
 			} else {
@@ -187,7 +187,7 @@ public class CPUserLibraryElement {
 		if (fChildren.size() != oldEntries.length) {
 			return true;
 		}
-		for (int i= 0; i < oldEntries.length; i++) {
+		for (int i= 0; i < oldEntries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement child= fChildren.get(i);
 			if (!child.getClasspathEntry().equals(oldEntries[i])) {
 				return true;
@@ -201,7 +201,7 @@ public class CPUserLibraryElement {
 	 * @return Returns a boolean
 	 */
 	public boolean hasMissingChildren() {
-		for (CPListElement curr : fChildren) {
+		for (CPListElement curr : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr != null && curr.isMissing()) {
 				return true;
 			}

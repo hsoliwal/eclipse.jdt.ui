@@ -60,7 +60,7 @@ public class CleanUpActionTest extends CleanUpTestCase {
 	}
 
 	//205600 [clean up] 'Sort members' action uses workspace/project clean up options
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSortMembersAction() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("testSortMembersAction", false, null);
 		String str= """
@@ -75,7 +75,7 @@ public class CleanUpActionTest extends CleanUpTestCase {
 		ICompilationUnit cu1= pack1.createCompilationUnit("E1.java", str, false, null);
 
 		IWorkbenchPartSite site= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart().getSite();
-		MultiSortMembersAction action= new MultiSortMembersAction(site) {
+		MultiSortMembersAction action= new MultiSortMembersAction(site) { //FLLDCIM: MARK — T04  ANONYMOUS
 			@Override
 			protected Map<String, String> getSettings() {
 				Hashtable<String, String> result= new Hashtable<>();

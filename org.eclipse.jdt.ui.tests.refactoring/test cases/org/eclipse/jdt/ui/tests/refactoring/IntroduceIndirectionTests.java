@@ -73,10 +73,10 @@ public class IntroduceIndirectionTests extends GenericRefactoringTest {
 	 * @param shouldError if true, errors will be expected in the result
 	 * @param shouldFail if true, fatal errors will be expected in the result
 	 */
-	private void helper(String[] topLevelName, String newName, String qTypeName, int startLine, int startColumn, int endLine, int endColumn, boolean updateReferences, boolean shouldWarn,
+	private void helper(String[] topLevelName, String newName, String qTypeName, int startLine, int startColumn, int endLine, int endColumn, boolean updateReferences, boolean shouldWarn, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean shouldError, boolean shouldFail) throws Exception, JavaModelException, CoreException, IOException {
 		ICompilationUnit[] cu= new ICompilationUnit[topLevelName.length];
-		for (int i= 0; i < topLevelName.length; i++) {
+		for (int i= 0; i < topLevelName.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String packName= topLevelName[i].substring(0, topLevelName[i].indexOf('.'));
 			String className= topLevelName[i].substring(topLevelName[i].indexOf('.') + 1);
 			IPackageFragment cPackage= getRoot().createPackageFragment(packName, true, null);
@@ -95,7 +95,7 @@ public class IntroduceIndirectionTests extends GenericRefactoringTest {
 			boolean failed= false;
 			RefactoringStatus status= performRefactoringWithStatus(ref);
 			if (status.hasFatalError()) {
-				assertTrue("Failed but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.FATAL), shouldFail);
+				assertTrue("Failed but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.FATAL), shouldFail); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				failed= true;
 			} else
 				assertFalse("Didn't fail although expected", shouldFail);
@@ -103,22 +103,22 @@ public class IntroduceIndirectionTests extends GenericRefactoringTest {
 			if (!failed) {
 
 				if (status.hasError())
-					assertTrue("Had errors but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.ERROR), shouldError);
+					assertTrue("Had errors but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.ERROR), shouldError); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				else
 					assertFalse("No error although expected", shouldError);
 
 				if (status.hasWarning())
-					assertTrue("Had warnings but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.WARNING), shouldWarn);
+					assertTrue("Had warnings but shouldn't: " + status.getMessageMatchingSeverity(RefactoringStatus.WARNING), shouldWarn); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				else
 					assertFalse("No warning although expected", shouldWarn);
 
-				for (int i= 0; i < topLevelName.length; i++) {
+				for (int i= 0; i < topLevelName.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String className= topLevelName[i].substring(topLevelName[i].indexOf('.') + 1);
 					assertEqualLines("invalid output.", getFileContents(getOutputTestFileName(className)), cu[i].getSource());
 				}
 			}
 		} finally {
-			for (int i= 0; i < topLevelName.length; i++)
+			for (int i= 0; i < topLevelName.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				JavaProjectHelper.delete(cu[i]);
 		}
 	}

@@ -171,7 +171,7 @@ public class JavaBreakIterator extends BreakIterator {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.text.JavaBreakIterator.Run#consumes(char)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected boolean consume(char ch) {
 			int kind= getKind(ch);
 			fState= MATRIX[fState][kind];
@@ -297,7 +297,7 @@ public class JavaBreakIterator extends BreakIterator {
 		char ch= fText.charAt(offset);
 		int length= fText.length();
 		Run run= getRun(ch);
-		while (run.consume(ch) && offset < length - 1) {
+		while (run.consume(ch) && offset < length - 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			offset++;
 			ch= fText.charAt(offset);
 		}
@@ -311,7 +311,7 @@ public class JavaBreakIterator extends BreakIterator {
 	 * @param ch the character to test
 	 * @return the correct character given <code>ch</code>
 	 */
-	private Run getRun(char ch) {
+	private Run getRun(char ch) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Run run;
 		if (WHITESPACE.isValid(ch))
 			run= WHITESPACE;
@@ -378,7 +378,7 @@ public class JavaBreakIterator extends BreakIterator {
 	/*
 	 * @see java.text.BreakIterator#preceding(int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int preceding(int offset) {
 		if (offset == getText().getBeginIndex())
 			return DONE;
@@ -387,12 +387,12 @@ public class JavaBreakIterator extends BreakIterator {
 			return offset - 1;
 
 		int previous= offset - 1;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			previous= fIterator.preceding(previous);
 		} while (!isBoundary(previous));
 
 		int last= DONE;
-		while (previous < offset) {
+		while (previous < offset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			last= previous;
 			previous= following(previous);
 		}

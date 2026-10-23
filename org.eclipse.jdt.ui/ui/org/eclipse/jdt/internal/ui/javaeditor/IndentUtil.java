@@ -84,7 +84,7 @@ public final class IndentUtil {
 	 * @throws BadLocationException if <code>lines</code> is not a valid line
 	 *         range on <code>document</code>
 	 */
-	public static IndentResult indentLines(IDocument document, ILineRange lines, IJavaProject project, IndentResult result) throws BadLocationException {
+	public static IndentResult indentLines(IDocument document, ILineRange lines, IJavaProject project, IndentResult result) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int numberOfLines= lines.getNumberOfLines();
 
 		if (numberOfLines < 1)
@@ -95,7 +95,7 @@ public final class IndentUtil {
 		JavaHeuristicScanner scanner= new JavaHeuristicScanner(document);
 		JavaIndenter indenter= new JavaIndenter(document, scanner, project);
 		boolean changed= false;
-		for (int line= lines.getStartLine(), last= line + numberOfLines, i= 0; line < last; line++) {
+		for (int line= lines.getStartLine(), last= line + numberOfLines, i= 0; line < last; line++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			changed |= indentLine(document, line, indenter, scanner, result.commentLinesAtColumnZero, i++);
 		}
 		result.hasChanged= changed;
@@ -125,7 +125,7 @@ public final class IndentUtil {
 	 * @throws BadLocationException if <code>lines</code> is not a
 	 *         valid line range on <code>document</code>
 	 */
-	public static IndentResult shiftLines(IDocument document, ILineRange lines, IJavaProject project, IndentResult result) throws BadLocationException {
+	public static IndentResult shiftLines(IDocument document, ILineRange lines, IJavaProject project, IndentResult result) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int numberOfLines= lines.getNumberOfLines();
 
 		if (numberOfLines < 1)
@@ -143,7 +143,7 @@ public final class IndentUtil {
 			return result; // bail out
 
 		int tabSize= CodeFormatterUtil.getTabWidth(project);
-		StringBuilder addition= new StringBuilder();
+		StringBuilder addition= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int difference= subtractIndent(correct, current, addition, tabSize);
 
 		if (difference == 0)
@@ -155,11 +155,11 @@ public final class IndentUtil {
 		int maxReduction= computeVisualLength(getCurrentIndent(document, result.leftmostLine + lines.getStartLine()), tabSize);
 
 		if (difference > 0) {
-			for (int line= lines.getStartLine(), last= line + numberOfLines, i= 0; line < last; line++)
+			for (int line= lines.getStartLine(), last= line + numberOfLines, i= 0; line < last; line++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addIndent(document, line, addition, result.commentLinesAtColumnZero, i++);
 		} else {
 			int reduction= Math.min(-difference, maxReduction);
-			for (int line= lines.getStartLine(), last= line + numberOfLines, i= 0; line < last; line++)
+			for (int line= lines.getStartLine(), last= line + numberOfLines, i= 0; line < last; line++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				cutIndent(document, line, reduction, tabSize, result.commentLinesAtColumnZero, i++);
 		}
 
@@ -185,7 +185,7 @@ public final class IndentUtil {
 
 		// go behind line comments
 		if (!commentlines[relative]) {
-			while (insert < endOffset - 2 && SLASHES.equals(document.get(insert, 2)))
+			while (insert < endOffset - 2 && SLASHES.equals(document.get(insert, 2))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				insert += 2;
 		}
 
@@ -203,17 +203,17 @@ public final class IndentUtil {
 	 * @param toDelete the number of space equivalents to delete.
 	 * @throws BadLocationException on concurrent document modification
 	 */
-	private static void cutIndent(IDocument document, int line, int toDelete, int tabSize, boolean[] commentLines, int relative) throws BadLocationException {
+	private static void cutIndent(IDocument document, int line, int toDelete, int tabSize, boolean[] commentLines, int relative) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion region= document.getLineInformation(line);
 		int from= region.getOffset();
 		int endOffset= region.getOffset() + region.getLength();
 
 		// go behind line comments
-		while (from < endOffset - 2 && SLASHES.equals(document.get(from, 2)))
+		while (from < endOffset - 2 && SLASHES.equals(document.get(from, 2))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			from += 2;
 
 		int to= from;
-		while (toDelete > 0 && to < endOffset) {
+		while (toDelete > 0 && to < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= document.getChar(to);
 			if (!Character.isWhitespace(ch))
 				break;
@@ -240,7 +240,7 @@ public final class IndentUtil {
 	 * @param difference a string buffer - if the return value is positive, it will be cleared and set to the substring of <code>current</code> of that length
 	 * @return the difference in lenght of <code>correct</code> and <code>current</code>
 	 */
-	private static int subtractIndent(CharSequence correct, CharSequence current, StringBuilder difference, int tabSize) {
+	private static int subtractIndent(CharSequence correct, CharSequence current, StringBuilder difference, int tabSize) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int c1= computeVisualLength(correct, tabSize);
 		int c2= computeVisualLength(current, tabSize);
 		int diff= c1 - c2;
@@ -249,9 +249,9 @@ public final class IndentUtil {
 
 		difference.setLength(0);
 		int len= 0, i= 0;
-		while (len < diff) {
+		while (len < diff) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= correct.charAt(i++);
-			difference.append(c);
+			difference.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			len += computeVisualLength(c, tabSize);
 		}
 
@@ -276,7 +276,7 @@ public final class IndentUtil {
 	private static int computeVisualLength(CharSequence seq, int tablen) {
 		int size= 0;
 
-		for (int i= 0; i < seq.length(); i++) {
+		for (int i= 0; i < seq.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= seq.charAt(i);
 			if (ch == '\t') {
 				if (tablen != 0)
@@ -300,17 +300,17 @@ public final class IndentUtil {
 	 * @return the indentation of <code>line</code> in <code>document</code>
 	 * @throws BadLocationException if the document is changed concurrently
 	 */
-	private static String getCurrentIndent(IDocument document, int line) throws BadLocationException {
+	private static String getCurrentIndent(IDocument document, int line) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion region= document.getLineInformation(line);
 		int from= region.getOffset();
 		int endOffset= region.getOffset() + region.getLength();
 
 		// go behind line comments
 		int to= from;
-		while (to < endOffset - 2 && SLASHES.equals(document.get(to, 2)))
+		while (to < endOffset - 2 && SLASHES.equals(document.get(to, 2))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			to += 2;
 
-		while (to < endOffset) {
+		while (to < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= document.getChar(to);
 			if (!Character.isWhitespace(ch))
 				break;
@@ -334,7 +334,7 @@ public final class IndentUtil {
 		int first= lines.getStartLine();
 		int minLine= -1;
 		int minIndent= Integer.MAX_VALUE;
-		for (int line= 0; line < numberOfLines; line++) {
+		for (int line= 0; line < numberOfLines; line++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int length= computeVisualLength(getCurrentIndent(document, line + first), tabSize);
 			if (length < minIndent) {
 				minIndent= length;
@@ -372,7 +372,7 @@ public final class IndentUtil {
 	 *         <code>false</code> if not
 	 * @throws BadLocationException if the document got changed concurrently
 	 */
-	private static boolean indentLine(IDocument document, int line, JavaIndenter indenter, JavaHeuristicScanner scanner, boolean[] commentLines, int lineIndex) throws BadLocationException {
+	private static boolean indentLine(IDocument document, int line, JavaIndenter indenter, JavaHeuristicScanner scanner, boolean[] commentLines, int lineIndex) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion currentLine= document.getLineInformation(line);
 		final int offset= currentLine.getOffset();
 		int wsStart= offset; // where we start searching for non-WS; after the "//" in single line comments
@@ -441,7 +441,7 @@ public final class IndentUtil {
 	 * @param partition the comment partition
 	 * @return the indent, or <code>null</code> if not computable
 	 */
-	private static String computeJavadocIndent(IDocument document, int line, JavaHeuristicScanner scanner, ITypedRegion partition) throws BadLocationException {
+	private static String computeJavadocIndent(IDocument document, int line, JavaHeuristicScanner scanner, ITypedRegion partition) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (line == 0) // impossible - the first line is never inside a javadoc comment
 			return null;
 
@@ -464,7 +464,7 @@ public final class IndentUtil {
 		int previousLineLength= previousLine.getLength();
 		int previousLineEnd= previousLineStart + previousLineLength;
 
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int previousLineNonWS= scanner.findNonWhitespaceForwardInAnyPartition(previousLineStart, previousLineEnd);
 		if (previousLineNonWS == JavaHeuristicScanner.NOT_FOUND || document.getChar(previousLineNonWS) != '*') {
 			// align with the comment start if the previous line is not an asterix line
@@ -478,7 +478,7 @@ public final class IndentUtil {
 
 			// add the initial space
 			// TODO this may be controlled by a formatter preference in the future
-			buf.append(' ');
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		String indentation= document.get(previousLineStart, previousLineNonWS - previousLineStart);

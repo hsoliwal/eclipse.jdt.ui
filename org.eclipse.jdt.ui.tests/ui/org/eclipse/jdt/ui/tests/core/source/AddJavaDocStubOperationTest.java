@@ -44,7 +44,7 @@ public class AddJavaDocStubOperationTest extends SourceTestCase {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddJavaDocToSimpleRecord() throws Exception {
 
 		ICompilationUnit cu= fPackageP.createCompilationUnit(
@@ -76,7 +76,7 @@ public class AddJavaDocStubOperationTest extends SourceTestCase {
 				""", cu.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddJavaDocToSimpleRecord2() throws Exception {
 
 		ICompilationUnit cu= fPackageP.createCompilationUnit(

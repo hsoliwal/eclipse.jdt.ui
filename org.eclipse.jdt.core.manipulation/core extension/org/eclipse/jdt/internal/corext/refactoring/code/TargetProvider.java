@@ -229,7 +229,7 @@ public abstract class TargetProvider {
 		}
 		public void addInvocation(ASTNode node) {
 			if (fInvocations == null)
-				fInvocations= new ArrayList<>(2);
+				fInvocations= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fInvocations.add(node);
 		}
 		public ASTNode[] getInvocations() {
@@ -241,7 +241,7 @@ public abstract class TargetProvider {
 	}
 
 	private static class InvocationFinder extends ASTVisitor {
-		Map<BodyDeclaration, BodyData> result= new HashMap<>(2);
+		Map<BodyDeclaration, BodyData> result= new HashMap<>(2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Stack<BodyData> fBodies= new Stack<>();
 		BodyData fCurrent;
 		private IMethodBinding fBinding;
@@ -401,7 +401,7 @@ public abstract class TargetProvider {
 			fCUnit= unit;
 			fDeclaration= declaration;
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void initialize() {
 			IMethodBinding methodBinding= fDeclaration.resolveBinding();
 			InvocationFinder finder;
@@ -474,7 +474,7 @@ public abstract class TargetProvider {
 			// do nothing.
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ICompilationUnit[] getAffectedCompilationUnits(final RefactoringStatus status, ReferencesInBinaryContext binaryRefs, IProgressMonitor pm) throws CoreException {
 			IMethod method= (IMethod)fMethodBinding.getJavaElement();
 			Assert.isTrue(method != null);
@@ -482,10 +482,10 @@ public abstract class TargetProvider {
 			SearchPattern pattern= SearchPattern.createPattern(method, IJavaSearchConstants.REFERENCES, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 			Assert.isNotNull(pattern);
 			IJavaSearchScope scope= RefactoringScopeFactory.create(method, true, false);
-			final HashSet<ICompilationUnit> affectedCompilationUnits= new HashSet<>();
+			final HashSet<ICompilationUnit> affectedCompilationUnits= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			CollectingSearchRequestor requestor= new CollectingSearchRequestor(binaryRefs) {
 				private ICompilationUnit fLastCU;
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void acceptSearchMatch(SearchMatch match) throws CoreException {
 					if (filterMatch(match))
 						return;

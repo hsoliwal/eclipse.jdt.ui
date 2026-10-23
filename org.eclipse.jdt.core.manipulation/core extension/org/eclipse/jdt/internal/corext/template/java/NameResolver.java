@@ -49,7 +49,7 @@ public class NameResolver extends TemplateVariableResolver {
 	/*
 	 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#resolve(org.eclipse.jface.text.templates.TemplateVariable, org.eclipse.jface.text.templates.TemplateContext)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 		List<String> params= variable.getVariableType().getParams();
 		String param;
@@ -66,7 +66,7 @@ public class NameResolver extends TemplateVariableResolver {
 			jc.addDependency(refVar, mv);
 
 			Object[] types= flatten(refVar.getAllChoices());
-			for (Object type : types) {
+			for (Object type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String[] names= jc.suggestVariableNames(mv.toString(type));
 				mv.setChoices(type, names);
 			}
@@ -83,8 +83,8 @@ public class NameResolver extends TemplateVariableResolver {
 	}
 
 	private Object[] flatten(Object[][] allValues) {
-		List<Object> flattened= new ArrayList<>(allValues.length);
-		for (Object[] allValue : allValues) {
+		List<Object> flattened= new ArrayList<>(allValues.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object[] allValue : allValues) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			flattened.addAll(Arrays.asList(allValue));
 		}
 		return flattened.toArray(new Object[flattened.size()]);

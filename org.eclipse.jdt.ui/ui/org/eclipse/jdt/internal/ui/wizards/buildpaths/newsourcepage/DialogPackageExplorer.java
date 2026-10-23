@@ -85,7 +85,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
      * A extended content provider for the package explorer which can additionally display
      * an output folder item.
      */
-    private final class PackageContentProvider extends PackageExplorerContentProvider {
+    private final class PackageContentProvider extends PackageExplorerContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
         public PackageContentProvider() {
             super(false);
         }
@@ -113,7 +113,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
          * @param element the current element to get the children from
          * @return an array of children
          */
-        @Override
+        @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object[] getChildren(Object element) {
             Object[] children= super.getChildren(element);
             if (((element instanceof IPackageFragmentRoot && !ClasspathModifier.isInExternalOrArchive((IPackageFragmentRoot) element)) ||
@@ -145,7 +145,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
      * A extended label provider for the package explorer which can additionally display
      * an output folder item.
      */
-    private final class PackageLabelProvider extends AppearanceAwareLabelProvider {
+    private final class PackageLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
         private CPListLabelProvider outputFolderLabel;
 
         public PackageLabelProvider(long textFlags, int imageFlags) {
@@ -153,7 +153,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
             outputFolderLabel= new CPListLabelProvider();
         }
 
-        @Override
+        @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getText(Object element) {
             if (element instanceof CPListElementAttribute)
                 return outputFolderLabel.getText(element);
@@ -195,7 +195,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
             return text;
         }
 
-        @Override
+        @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Color getForeground(Object element) {
             try {
                 if (element instanceof IPackageFragmentRoot) {
@@ -267,9 +267,9 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
      * the default package, and
      * hidden folders.
      */
-    private final static class PackageFilter extends LibraryFilter {
+    private final static class PackageFilter extends LibraryFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
         private OutputFolderFilter fOutputFolderFilter= new OutputFolderFilter();
-        @Override
+        @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
             try {
                 if (element instanceof IFile) {
@@ -337,12 +337,12 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
         fCurrentSelection= new StructuredSelection();
     }
 
-    public Control createControl(Composite parent) {
+    public Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         fPackageViewer= new TreeViewer(parent, SWT.MULTI);
         fPackageViewer.setComparer(WorkingSetModel.COMPARER);
-        fPackageViewer.addFilter(new PackageFilter());
+        fPackageViewer.addFilter(new PackageFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
         fPackageViewer.setComparator(new ExtendedJavaElementSorter());
-        fPackageViewer.addDoubleClickListener(event -> {
+        fPackageViewer.addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		    Object element= ((IStructuredSelection)event.getSelection()).getFirstElement();
 		    if (fPackageViewer.isExpandable(element)) {
 		        fPackageViewer.setExpandedState(element, !fPackageViewer.getExpandedState(element));
@@ -358,10 +358,10 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
 
         MenuManager menuMgr= new MenuManager("#PopupMenu"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
-        menuMgr.addMenuListener(this);
+        menuMgr.addMenuListener(this); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
         fContextMenu= menuMgr.createContextMenu(fPackageViewer.getTree());
         fPackageViewer.getTree().setMenu(fContextMenu);
-        parent.addDisposeListener(unused -> fContextMenu.dispose());
+        parent.addDisposeListener(unused -> fContextMenu.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
         return fPackageViewer.getControl();
     }
@@ -408,7 +408,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
 		PackageLabelProvider labelProvider= new PackageLabelProvider(AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS | JavaElementLabels.P_COMPRESSED,
 				AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS | JavaElementImageProvider.SMALL_ICONS);
 		fPackageViewer.setContentProvider(fContentProvider);
-		fPackageViewer.setLabelProvider(new DecoratingJavaLabelProvider(labelProvider, false));
+		fPackageViewer.setLabelProvider(new DecoratingJavaLabelProvider(labelProvider, false)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
     }
 
     /**
@@ -421,9 +421,9 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
         fCurrJProject= project;
     	if (fContentProvider != null)
         	fContentProvider.inputChanged(fPackageViewer, oldProject, fCurrJProject);
-		fPackageViewer.setInput(new Object[0]);
+		fPackageViewer.setInput(new Object[0]); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
-        List<IJavaProject> selectedElements= new ArrayList<>();
+        List<IJavaProject> selectedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         selectedElements.add(fCurrJProject);
         setSelection(selectedElements);
     }
@@ -448,8 +448,8 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
         if (elements == null || elements.isEmpty())
             return;
 		try {
-	        ResourcesPlugin.getWorkspace().run((IWorkspaceRunnable) unused -> {
-				fPackageViewer.refresh();
+	        ResourcesPlugin.getWorkspace().run((IWorkspaceRunnable) unused -> { //FLLDCIM: MARK — T09  LAMBDA
+				fPackageViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			    IStructuredSelection selection= new StructuredSelection(elements);
 			    fPackageViewer.setSelection(selection, true);
 			    fPackageViewer.getTree().setFocus();
@@ -493,12 +493,12 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
     public void showOutputFolders(boolean showOutputFolders) {
         fShowOutputFolders= showOutputFolders;
         fActionGroup.getEditOutputFolderAction().showOutputFolders(showOutputFolders);
-        fPackageViewer.refresh();
+        fPackageViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
     }
 
     @Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-    	fPackageViewer.addSelectionChangedListener(listener);
+    	fPackageViewer.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
     }
 
     @Override
@@ -513,7 +513,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
 
     @Override
 	public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
-    	fPackageViewer.addPostSelectionChangedListener(listener);
+    	fPackageViewer.addPostSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
     }
 
     @Override

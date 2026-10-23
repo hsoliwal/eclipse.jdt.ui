@@ -65,7 +65,7 @@ public class MockupPreferenceStore implements IPreferenceStore {
 	 */
 	public void firePropertyChangeEvent(Object source, String name, Object oldValue, Object newValue) {
 		PropertyChangeEvent event= new PropertyChangeEvent(source, name, oldValue, newValue);
-		for (IPropertyChangeListener listener : fListeners) {
+		for (IPropertyChangeListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.propertyChange(event);
 		}
 	}

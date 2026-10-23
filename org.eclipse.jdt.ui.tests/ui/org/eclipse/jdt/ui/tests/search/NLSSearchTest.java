@@ -104,7 +104,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test02() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -137,7 +137,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test03() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -172,7 +172,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertHasUndefinedKey(accessor, propertiesFile, "Client_s1", (IFile)client.getCorrespondingResource(), false);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test04() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -207,7 +207,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertHasUnusedKey(accessor, propertiesFile, "Client_s1", propertiesFile, false);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test05() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -241,7 +241,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertHasUndefinedKey(accessor, propertiesFile, "Client_s1", (IFile)accessor.getCorrespondingResource(), true);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test06() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -277,7 +277,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertHasDuplicateKey(accessor, propertiesFile, "Client_s1", propertiesFile);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test07() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -312,7 +312,7 @@ public class NLSSearchTest {
 		String str3= """
 			Client_s1=foo
 			""";
-		write((IFolder)pack1.getCorrespondingResource(), str3, "Accessor" + NLSSearchQuery.NLS_USED_PROPERTIES_EXT);
+		write((IFolder)pack1.getCorrespondingResource(), str3, "Accessor" + NLSSearchQuery.NLS_USED_PROPERTIES_EXT); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 2);
 
@@ -320,7 +320,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertHasUnusedKey(accessor, propertiesFile, "Client_s2", propertiesFile, false);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug152604() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -353,7 +353,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug133810() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -395,7 +395,7 @@ public class NLSSearchTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug185178() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -434,7 +434,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug247012_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -477,7 +477,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug247012_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -520,7 +520,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug247012_3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -556,7 +556,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug247012_4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -596,7 +596,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertHasUndefinedKey(accessor, propertiesFile, "Main.undefined", (IFile)client.getCorrespondingResource(), false);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug295040() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -640,7 +640,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug306168_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -681,7 +681,7 @@ public class NLSSearchTest {
 		NLSSearchTestHelper.assertNumberOfProblems(accessor, propertiesFile, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug306168_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """

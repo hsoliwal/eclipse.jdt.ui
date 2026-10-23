@@ -88,7 +88,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 	private Composite fCleanUpOptionsComposite;
 	private ControlEnableState fControlEnableState;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createConfigControl(final Composite parent, IPreferencePageContainer container) {
 		fContainer= container;
 		fShell= parent.getShell();
@@ -105,7 +105,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		fFormatCodeButton= new Button(fCleanUpOptionsComposite, SWT.CHECK);
 		fFormatCodeButton.setText(SaveParticipantMessages.CleanUpSaveParticipantPreferenceConfiguration_SaveActionPreferencePage_FormatSource_Checkbox);
 		fFormatCodeButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-		fFormatCodeButton.addSelectionListener(new SelectionAdapter() {
+		fFormatCodeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				changeSettingsValue(CleanUpConstants.FORMAT_SOURCE_CODE, fFormatCodeButton.getSelection());
@@ -125,7 +125,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		fFormatAllButton.setText(SaveParticipantMessages.CleanUpSaveParticipantPreferenceConfiguration_SaveActionPreferencePAge_FormatAllLines_Radio);
 		gridData= new GridData(SWT.FILL, SWT.TOP, true, false);
 		fFormatAllButton.setLayoutData(gridData);
-		fFormatAllButton.addSelectionListener(new SelectionAdapter() {
+		fFormatAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				changeSettingsValue(CleanUpConstants.FORMAT_SOURCE_CODE_CHANGES_ONLY, !fFormatAllButton.getSelection());
@@ -136,7 +136,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		fFormatChangedOnlyButton.setText(SaveParticipantMessages.CleanUpSaveParticipantPreferenceConfiguration_SaveActionPreferencePage_FormatOnlyChangedRegions_Radio);
 		gridData= new GridData(SWT.FILL, SWT.TOP, true, false);
 		fFormatChangedOnlyButton.setLayoutData(gridData);
-		fFormatChangedOnlyButton.addSelectionListener(new SelectionAdapter() {
+		fFormatChangedOnlyButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				changeSettingsValue(CleanUpConstants.FORMAT_SOURCE_CODE_CHANGES_ONLY, fFormatChangedOnlyButton.getSelection());
@@ -156,7 +156,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		fOrganizeImportsButton= new Button(fCleanUpOptionsComposite, SWT.CHECK);
 		fOrganizeImportsButton.setText(SaveParticipantMessages.CleanUpSaveParticipantPreferenceConfiguration_SaveActionPreferencePage_OrganizeImports_Checkbox);
 		fOrganizeImportsButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-		fOrganizeImportsButton.addSelectionListener(new SelectionAdapter() {
+		fOrganizeImportsButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				changeSettingsValue(CleanUpConstants.ORGANIZE_IMPORTS, fOrganizeImportsButton.getSelection());
@@ -174,7 +174,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		fAdditionalActionButton.setText(SaveParticipantMessages.CleanUpSaveParticipantPreferenceConfiguration_AdditionalActions_Checkbox);
 
 		createAdvancedComposite(fCleanUpOptionsComposite);
-		fAdditionalActionButton.addSelectionListener(new SelectionAdapter() {
+		fAdditionalActionButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				changeSettingsValue(CleanUpConstants.CLEANUP_ON_SAVE_ADDITIONAL_OPTIONS, fAdditionalActionButton.getSelection());
@@ -182,7 +182,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		});
 	}
 
-	private Composite createAdvancedComposite(final Composite parent) {
+	private Composite createAdvancedComposite(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite= new Composite(parent, SWT.NONE);
 		GridData gridData= new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalIndent= INDENT;
@@ -200,7 +200,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		fConfigureButton= new Button(composite, SWT.NONE);
 		fConfigureButton.setText(SaveParticipantMessages.CleanUpSaveParticipantPreferenceConfiguration_Configure_Button);
 		fConfigureButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-		fConfigureButton.addSelectionListener(new SelectionAdapter() {
+		fConfigureButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Hashtable<String, String> workingValues= new Hashtable<>(fSettings);
@@ -216,7 +216,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		return composite;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void initialize(final IScopeContext context, IAdaptable element) {
 		fContext= context;
 		fSettings= CleanUpPreferenceUtil.loadSaveParticipantOptions(context);
@@ -278,8 +278,8 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 
 		IEclipsePreferences node= fContext.getNode(JavaUI.ID_PLUGIN);
 
-		for (String key : JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_SAVE_ACTION_OPTIONS).getKeys()) {
-			node.remove(CleanUpPreferenceUtil.SAVE_PARTICIPANT_KEY_PREFIX + key);
+		for (String key : JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_SAVE_ACTION_OPTIONS).getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			node.remove(CleanUpPreferenceUtil.SAVE_PARTICIPANT_KEY_PREFIX + key); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -309,7 +309,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		}
 	}
 
-	private void settingsChanged() {
+	private void settingsChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fFormatCodeButton.setSelection(CleanUpOptions.TRUE.equals(fSettings.get(CleanUpConstants.FORMAT_SOURCE_CODE)));
 		boolean isFormatting= fFormatCodeButton.getSelection();
 		fFormatChangedOnlyButton.setSelection(CleanUpOptions.TRUE.equals(fSettings.get(CleanUpConstants.FORMAT_SOURCE_CODE_CHANGES_ONLY)));
@@ -329,7 +329,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		fSelectedActionsText.setEnabled(additionalEnabled);
 		fConfigureButton.setEnabled(additionalEnabled);
 
-		Map<String, String> settings= new HashMap<>(fSettings);
+		Map<String, String> settings= new HashMap<>(fSettings); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		settings.put(CleanUpConstants.FORMAT_SOURCE_CODE, CleanUpOptions.FALSE);
 		settings.put(CleanUpConstants.ORGANIZE_IMPORTS, CleanUpOptions.FALSE);
 		CleanUpOptions options= new MapCleanUpOptions(settings);
@@ -337,18 +337,18 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 		fSelectedActionsText.setText(getSelectedCleanUpsText(options));
 	}
 
-	private String getSelectedCleanUpsText(CleanUpOptions options) {
-		StringBuilder buf= new StringBuilder();
+	private String getSelectedCleanUpsText(CleanUpOptions options) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		for (ICleanUp cleanUp : JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps()) {
+		for (ICleanUp cleanUp : JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cleanUp.setOptions(options);
 			String[] descriptions= cleanUp.getStepDescriptions();
 			if (descriptions != null) {
-				for (String description : descriptions) {
+				for (String description : descriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (buf.length() > 0) {
-						buf.append('\n');
+						buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					buf.append(description);
+					buf.append(description); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		}
@@ -357,7 +357,7 @@ public class CleanUpSaveParticipantPreferenceConfiguration extends AbstractSaveP
 	}
 
 	private void configurePreferenceLink(Link link, final IJavaProject javaProject, final String preferenceId, final String propertyId) {
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fContainer instanceof IWorkbenchPreferenceContainer) {

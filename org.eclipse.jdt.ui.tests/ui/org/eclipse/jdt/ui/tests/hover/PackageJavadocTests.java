@@ -63,7 +63,7 @@ public class PackageJavadocTests extends CoreTests {
 
 	private IJavaProject fJProject1;
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetDocFromPackageHtml_src() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
@@ -84,7 +84,7 @@ public class PackageJavadocTests extends CoreTests {
 		assertTrue(actualHtmlContent, actualHtmlContent.contains("Test package documentation in package.html"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetDocFromPackageInfoJava_src() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
@@ -104,7 +104,7 @@ public class PackageJavadocTests extends CoreTests {
 		assertTrue(actualHtmlContent, actualHtmlContent.contains("This is the test content"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetDocFromPackageHtml_archive() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
@@ -124,7 +124,7 @@ public class PackageJavadocTests extends CoreTests {
 		assertTrue(actualHtmlContent, actualHtmlContent.contains("Test package documentation in package.html"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetDocFromPackageInfoJava_archive() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 		assertNotNull("JUnit src should be found", junitSrcArchive);
@@ -160,7 +160,7 @@ public class PackageJavadocTests extends CoreTests {
 		assertTrue(actualHtmlContent, actualHtmlContent.contains("This is the package documentation for org.eclipse.jdt.ui.tests"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetDocFromSourceAttachmentRootPath() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 		assertNotNull("JUnit src should be found", junitSrcArchive);
@@ -201,7 +201,7 @@ public class PackageJavadocTests extends CoreTests {
 		assertTrue(actualHtmlContent, actualHtmlContent.contains("This is the package documentation for org.eclipse.jdt.ui.tests.html."));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetPackageAttacheddoc() throws Exception {
 		//  https://docs.oracle.com/javase/8/docs/api/
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
@@ -242,7 +242,7 @@ public class PackageJavadocTests extends CoreTests {
 			URI.create(connectionTestUrl).toURL().openConnection().connect();
 			assertTrue(actualHtmlContent, actualHtmlContent.contains("Provides classes for performing arbitrary-precision integer"));
 		} catch (Exception e) {
-			System.out.println("PackageJavadocTests.testGetPackageAttacheddoc(): no internet connection to access docs at " + connectionTestUrl);
+			System.out.println("PackageJavadocTests.testGetPackageAttacheddoc(): no internet connection to access docs at " + connectionTestUrl); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			e.printStackTrace(System.out);
 			// There is no internet connection, so the Javadoc cannot be retrieved.
 			assertTrue(actualHtmlContent, actualHtmlContent.contains(CorextMessages.JavaDocLocations_noAttachedSource) || actualHtmlContent.contains(CorextMessages.JavaDocLocations_error_gettingJavadoc)
@@ -256,7 +256,7 @@ public class PackageJavadocTests extends CoreTests {
 	 *
 	 * @throws Exception when the test case fails
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageInfoWithReferenceLinks() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 
@@ -276,7 +276,7 @@ public class PackageJavadocTests extends CoreTests {
 		assertTrue(actualHtmlContent, actualHtmlContent.contains("The pack is a test package. This doc contains references"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageWithNoJavadoc() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 		assertNotNull("JUnit src should be found", junitSrcArchive);
@@ -316,7 +316,7 @@ public class PackageJavadocTests extends CoreTests {
 		assertTrue(actualHtmlContent, actualHtmlContent.contains(CorextMessages.JavaDocLocations_noAttachedJavadoc));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFailToAccessAttachedJavadoc() throws Exception {
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/PackageJavadocTests/JavadocHover_src.zip"));
 

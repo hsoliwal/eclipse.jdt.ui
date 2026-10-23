@@ -22,7 +22,7 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * Filters interfaces.
  */
-public class InterfaceFilter extends ViewerFilter {
+public class InterfaceFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

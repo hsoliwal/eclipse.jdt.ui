@@ -210,7 +210,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			this.newName= newName;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			// find the corresponding name in the AST computed for rewrite
 			SingleVariableDeclaration declaration= (SingleVariableDeclaration) NodeFinder.perform(cuRewrite.getRoot(), parameter.getStartPosition(), parameter.getLength());
@@ -222,7 +222,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			int argumentIndex= method.parameters().indexOf(declaration);
 
 			SimpleName[] linkedNodes= LinkedNodeFinder.findByBinding(cuRewrite.getRoot(), method.resolveBinding());
-			for (SimpleName linkedName : linkedNodes) {
+			for (SimpleName linkedName : linkedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode parent= linkedName.getParent();
 				if (parent.getNodeType() == ASTNode.METHOD_INVOCATION) {
 					MethodInvocation invocation= (MethodInvocation) parent;
@@ -266,12 +266,12 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 		@Override
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore model) throws CoreException {
-			for (SimpleName unusedName : fUnusedNames) {
+			for (SimpleName unusedName : fUnusedNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				removeUnusedName(cuRewrite, unusedName);
 			}
 		}
 
-		private void removeUnusedName(CompilationUnitRewrite cuRewrite, SimpleName simpleName) {
+		private void removeUnusedName(CompilationUnitRewrite cuRewrite, SimpleName simpleName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			CompilationUnit completeRoot= cuRewrite.getRoot();
 
@@ -292,7 +292,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 				rewrite.remove(declaration, group);
 			} else if (binding.getKind() == IBinding.VARIABLE) {
 				SimpleName nameNode= (SimpleName) NodeFinder.perform(completeRoot, simpleName.getStartPosition(), simpleName.getLength());
-				for (SimpleName reference : LinkedNodeFinder.findByBinding(completeRoot, nameNode.resolveBinding())) {
+				for (SimpleName reference : LinkedNodeFinder.findByBinding(completeRoot, nameNode.resolveBinding())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					removeVariableReferences(rewrite, reference, group);
 				}
 
@@ -306,7 +306,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			}
 		}
 
-		private String getDisplayString(IBinding binding) {
+		private String getDisplayString(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			switch (binding.getKind()) {
 				case IBinding.TYPE:
 					return FixMessages.UnusedCodeFix_RemoveUnusedType_description;
@@ -334,9 +334,9 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 		 * @param reference a reference to the variable to remove
 		 * @param group the text edit group to use
 		 */
-		private void removeVariableReferences(ASTRewrite rewrite, SimpleName reference, TextEditGroup group) {
+		private void removeVariableReferences(ASTRewrite rewrite, SimpleName reference, TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode parent= reference.getParent();
-			while (parent instanceof QualifiedName) {
+			while (parent instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent= parent.getParent();
 			}
 			if (parent instanceof FieldAccess) {
@@ -371,7 +371,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 						fragments= ((VariableDeclarationStatement) varDecl).fragments();
 					}
 					Expression initializer= frag.getInitializer();
-					ArrayList<Expression> sideEffects= new ArrayList<>();
+					ArrayList<Expression> sideEffects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					if (initializer != null) {
 						initializer.accept(new SideEffectFinder(sideEffects));
 					}
@@ -426,7 +426,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 						if (sideEffectInitializer) {
 							if (varDecl.getLocationInParent() == ForStatement.INITIALIZERS_PROPERTY) {
 								Expression[] exps= new Expression[sideEffects.size()];
-								for (int i= 0; i < exps.length; i++) {
+								for (int i= 0; i < exps.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									Expression sideEffect= sideEffects.get(i);
 									Expression movedInit= (Expression) rewrite.createMoveTarget(sideEffect);
 									exps[i]= movedInit;
@@ -435,7 +435,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 								replaceRewrite.replace(exps, group);
 							} else {
 							Statement[] wrapped= new Statement[sideEffects.size()];
-							for (int i= 0; i < wrapped.length; i++) {
+							for (int i= 0; i < wrapped.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Expression sideEffect= sideEffects.get(i);
 								Expression movedInit= (Expression) rewrite.createMoveTarget(sideEffect);
 								wrapped[i]= rewrite.getAST().newExpressionStatement(movedInit);
@@ -508,7 +508,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			if (sideEffects.isEmpty()) {
 				return false;
 			}
-			for (Expression expression : sideEffects) {
+			for (Expression expression : sideEffects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (checkCondtionalExpression(expression)) {
 					return true;
 				}
@@ -516,12 +516,12 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			return false;
 		}
 
-		private void splitUpDeclarations(ASTRewrite rewrite, TextEditGroup group, VariableDeclarationFragment frag, VariableDeclarationStatement originalStatement, List<Expression> sideEffects) {
+		private void splitUpDeclarations(ASTRewrite rewrite, TextEditGroup group, VariableDeclarationFragment frag, VariableDeclarationStatement originalStatement, List<Expression> sideEffects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (sideEffects.size() > 0) {
 				ListRewrite statementRewrite= rewrite.getListRewrite(originalStatement.getParent(), (ChildListPropertyDescriptor) originalStatement.getLocationInParent());
 
 				Statement previousStatement= originalStatement;
-				for (Expression sideEffect : sideEffects) {
+				for (Expression sideEffect : sideEffects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Expression movedInit= (Expression) rewrite.createMoveTarget(sideEffect);
 					ExpressionStatement wrapped= rewrite.getAST().newExpressionStatement(movedInit);
 					statementRewrite.insertAfter(wrapped, previousStatement, group);
@@ -532,7 +532,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 				List<VariableDeclarationFragment> fragments= originalStatement.fragments();
 				int fragIndex= fragments.indexOf(frag);
 				ListIterator<VariableDeclarationFragment> fragmentIterator= fragments.listIterator(fragIndex + 1);
-				while (fragmentIterator.hasNext()) {
+				while (fragmentIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment currentFragment= fragmentIterator.next();
 					VariableDeclarationFragment movedFragment= (VariableDeclarationFragment) rewrite.createMoveTarget(currentFragment);
 					if (newDeclaration == null) {
@@ -552,10 +552,10 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			}
 		}
 
-		private void removeVariableWithInitializer(ASTRewrite rewrite, ASTNode initializerNode, ASTNode statementNode, TextEditGroup group) {
+		private void removeVariableWithInitializer(ASTRewrite rewrite, ASTNode initializerNode, ASTNode statementNode, TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean performRemove= fForceRemove;
 			if (!performRemove) {
-				ArrayList<Expression> sideEffectNodes= new ArrayList<>();
+				ArrayList<Expression> sideEffectNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				initializerNode.accept(new SideEffectFinder(sideEffectNodes));
 				performRemove= sideEffectNodes.isEmpty();
 			}
@@ -565,7 +565,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			} else {
 				// Can't create a field access expression statement so remove right-hand field accesses
 				ASTNode nodeToMove= initializerNode;
-				while (nodeToMove instanceof FieldAccess) {
+				while (nodeToMove instanceof FieldAccess) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					nodeToMove= ((FieldAccess) nodeToMove).getExpression();
 				}
 				ASTNode initNode= rewrite.createMoveTarget(nodeToMove);
@@ -585,16 +585,16 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 		@Override
 		public String getAdditionalInfo() {
-			StringBuilder sb= new StringBuilder();
+			StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (fRemovedAssignmentsCount == 1) {
-				sb.append(FixMessages.UnusedCodeFix_RemoveFieldOrLocal_RemovedAssignments_preview_singular);
+				sb.append(FixMessages.UnusedCodeFix_RemoveFieldOrLocal_RemovedAssignments_preview_singular); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else if (fRemovedAssignmentsCount > 1) {
-				sb.append(Messages.format(FixMessages.UnusedCodeFix_RemoveFieldOrLocal_RemovedAssignments_preview_plural, String.valueOf(fRemovedAssignmentsCount)));
+				sb.append(Messages.format(FixMessages.UnusedCodeFix_RemoveFieldOrLocal_RemovedAssignments_preview_plural, String.valueOf(fRemovedAssignmentsCount))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			if (fAlteredAssignmentsCount == 1) {
-				sb.append(FixMessages.UnusedCodeFix_RemoveFieldOrLocal_AlteredAssignments_preview_singular);
+				sb.append(FixMessages.UnusedCodeFix_RemoveFieldOrLocal_AlteredAssignments_preview_singular); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else if (fAlteredAssignmentsCount > 1) {
-				sb.append(Messages.format(FixMessages.UnusedCodeFix_RemoveFieldOrLocal_AlteredAssignments_preview_plural, String.valueOf(fAlteredAssignmentsCount)));
+				sb.append(Messages.format(FixMessages.UnusedCodeFix_RemoveFieldOrLocal_AlteredAssignments_preview_plural, String.valueOf(fAlteredAssignmentsCount))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			if (sb.length() > 0) {
 				return sb.toString();
@@ -611,7 +611,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			fCast= cast;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore model) throws CoreException {
 
 			TextEditGroup group= createTextEditGroup(FixMessages.UnusedCodeFix_RemoveCast_description, cuRewrite);
@@ -628,7 +628,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			}
 
 			Expression exp= cast;
-			while (exp.getParent() instanceof ParenthesizedExpression) {
+			while (exp.getParent() instanceof ParenthesizedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				exp= (Expression)exp.getParent();
 			}
 			if (exp.getLocationInParent() == Assignment.RIGHT_HAND_SIDE_PROPERTY) {
@@ -654,13 +654,13 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			fUnnecessaryCasts= unnecessaryCasts;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore model) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 
 			TextEditGroup group= createTextEditGroup(FixMessages.UnusedCodeFix_RemoveCast_description, cuRewrite);
 
-			while (fUnnecessaryCasts.size() > 0) {
+			while (fUnnecessaryCasts.size() > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CastExpression castExpression= fUnnecessaryCasts.iterator().next();
 				fUnnecessaryCasts.remove(castExpression);
 
@@ -673,7 +673,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 				 */
 				CastExpression down= castExpression;
 				Expression downChild= down.getExpression();
-				while (true) {
+				while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fUnnecessaryCasts.contains(downChild)) {
 						down= (CastExpression) downChild;
 						fUnnecessaryCasts.remove(down);
@@ -694,7 +694,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 				}
 
 				Expression exp= castExpression;
-				while (exp.getParent() instanceof ParenthesizedExpression) {
+				while (exp.getParent() instanceof ParenthesizedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					exp= (Expression)exp.getParent();
 				}
 				if (exp.getLocationInParent() == Assignment.RIGHT_HAND_SIDE_PROPERTY) {
@@ -754,7 +754,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return null;
 	}
 
-	public static UnusedCodeFixCore createUnusedParameterFix(CompilationUnit compilationUnit, IProblemLocation problem) {
+	public static UnusedCodeFixCore createUnusedParameterFix(CompilationUnit compilationUnit, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isUnusedParameter(problem)) {
 			SimpleName name= getUnusedName(compilationUnit, problem);
 			if (name != null) {
@@ -826,7 +826,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return new UnusedCodeFixCore(FixMessages.UnusedCodeFix_RemoveCast_description, compilationUnit, new CompilationUnitRewriteOperation[] { new RemoveCastOperation((CastExpression) curr) });
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean removeUnusedPrivateMethods,
 			boolean removeUnusedPrivateConstructors,
 			boolean removeUnusedPrivateFields,
@@ -838,7 +838,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 		IProblem[] problems= compilationUnit.getProblems();
 		IProblemLocation[] locations= new IProblemLocation[problems.length];
-		for (int i= 0; i < problems.length; i++) {
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			locations[i]= new ProblemLocation(problems[i]);
 		}
 
@@ -889,7 +889,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 		}
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean removeUnusedPrivateMethods,
 			boolean removeUnusedPrivateConstructors,
 			boolean removeUnusedPrivateFields,
@@ -899,12 +899,12 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			boolean removeUnusedCast,
 			boolean removeUnusedParameter) {
 
-		List<CompilationUnitRewriteOperation> result= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Hashtable<ASTNode, List<SimpleName>> variableDeclarations= new Hashtable<>();
 		LinkedHashSet<CastExpression> unnecessaryCasts= new LinkedHashSet<>();
-		Set<SimpleName> removedMembers= new HashSet<>();
-		Map<MethodDeclaration, Set<SimpleName>> parametersToRemove= new HashMap<>();
-		for (IProblemLocation problem : problems) {
+		Set<SimpleName> removedMembers= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Map<MethodDeclaration, Set<SimpleName>> parametersToRemove= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int id= problem.getProblemId();
 
 			if (removeUnusedImports && (id == IProblem.UnusedImport || id == IProblem.DuplicateImport || id == IProblem.ConflictingImport)) {
@@ -967,7 +967,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 						boolean foundJnaStructure= false;
 						if (((IVariableBinding)binding).isField()) {
 							ITypeBinding declaringClass= ((IVariableBinding)binding).getDeclaringClass();
-							while (declaringClass != null) {
+							while (declaringClass != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (declaringClass.getQualifiedName().equals("com.sun.jna.Structure")) { //$NON-NLS-1$
 									foundJnaStructure= true;
 									break;
@@ -980,7 +980,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 							if (parent != null) {
 								ASTNode varDecl= parent.getParent();
 								if (!variableDeclarations.containsKey(varDecl)) {
-									variableDeclarations.put(varDecl, new ArrayList<>());
+									variableDeclarations.put(varDecl, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 								}
 								variableDeclarations.get(varDecl).add(name);
 							} else {
@@ -1007,13 +1007,13 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 				parametersToRemove.computeIfAbsent(method, (MethodDeclaration unused) -> new LinkedHashSet<>()).add(parameter);
 			}
 		}
-		for (List<SimpleName> names : variableDeclarations.values()) {
+		for (List<SimpleName> names : variableDeclarations.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(new RemoveUnusedMemberOperation(names.toArray(new SimpleName[0]), false));
 		}
 		if (unnecessaryCasts.size() > 0)
 			result.add(new RemoveAllCastOperation(unnecessaryCasts));
 
-		for (Entry<MethodDeclaration, Set<SimpleName>> entry : parametersToRemove.entrySet()) {
+		for (Entry<MethodDeclaration, Set<SimpleName>> entry : parametersToRemove.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MethodDeclaration method= entry.getKey();
 			IMethodBinding methodBinding= method.resolveBinding();
 			if (methodBinding != null) {
@@ -1026,7 +1026,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 				if (!refFinder.hasReference()) {
 					String newName= findSafeRename(method, methodBinding, namesToRemove);
 
-					for (SimpleName parameterName : entry.getValue()) {
+					for (SimpleName parameterName : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SingleVariableDeclaration parameter= ASTNodes.getTypedAncestor(parameterName, SingleVariableDeclaration.class);
 						if (Modifier.isPrivate(methodBinding.getModifiers()) && !removedMembers.contains(method.getName())) {
 							result.add(new RemoveUnusedMemberOperation(new SimpleName[] { parameterName }, false));
@@ -1049,10 +1049,10 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 	 * a new name for the method that will not conflict.
 	 * Returns that original name if no conflict is found
 	 */
-	private static String findSafeRename(MethodDeclaration method, IMethodBinding methodBinding, Collection<SimpleName> namesToRemove) {
+	private static String findSafeRename(MethodDeclaration method, IMethodBinding methodBinding, Collection<SimpleName> namesToRemove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int newParameterCount= method.parameters().size() - namesToRemove.size();
 
-		Set<String> potentialConflicts= new HashSet<>();
+		Set<String> potentialConflicts= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		walkVisibleMethods(methodBinding.getDeclaringClass(), m -> {
 			if (Modifier.isPrivate(m.getModifiers()) && m.getDeclaringClass() != methodBinding.getDeclaringClass()) {
@@ -1067,13 +1067,13 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 		});
 		int i= 1;
 		String newMethodName = methodBinding.getName();
-		while (potentialConflicts.contains(newMethodName)) {
-			newMethodName= methodBinding.getName()+i++;
+		while (potentialConflicts.contains(newMethodName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			newMethodName= methodBinding.getName()+i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return newMethodName;
 	}
 
-	private static boolean walkVisibleMethods(ITypeBinding clazz, Predicate<IMethodBinding> handler) {
+	private static boolean walkVisibleMethods(ITypeBinding clazz, Predicate<IMethodBinding> handler) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (clazz == null) {
 			return true;
 		}
@@ -1085,7 +1085,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 			return false;
 		}
 
-		for (ITypeBinding itfc : clazz.getInterfaces()) {
+		for (ITypeBinding itfc : clazz.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!walkVisibleMethods(itfc, handler)) {
 				return false;
 			}
@@ -1094,7 +1094,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 	}
 
 	private static boolean walkMethodsInType(ITypeBinding clazz, Predicate<IMethodBinding> handler) {
-		for (IMethodBinding method : clazz.getDeclaredMethods()) {
+		for (IMethodBinding method : clazz.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!handler.test(method)) {
 				return false;
 			}
@@ -1109,16 +1109,16 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 	public static boolean isSideEffectFree(SimpleName simpleName, CompilationUnit completeRoot) {
 		SimpleName nameNode= (SimpleName) NodeFinder.perform(completeRoot, simpleName.getStartPosition(), simpleName.getLength());
 		SimpleName[] references= LinkedNodeFinder.findByBinding(completeRoot, nameNode.resolveBinding());
-		for (SimpleName reference : references) {
+		for (SimpleName reference : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasSideEffect(reference))
 				return false;
 		}
 		return true;
 	}
 
-	private static boolean hasSideEffect(SimpleName reference) {
+	private static boolean hasSideEffect(SimpleName reference) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= reference.getParent();
-		while (parent instanceof QualifiedName) {
+		while (parent instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		if (parent instanceof FieldAccess) {
@@ -1147,7 +1147,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 				return false;
 		}
 
-		ArrayList<Expression> sideEffects= new ArrayList<>();
+		ArrayList<Expression> sideEffects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		node.accept(new SideEffectFinder(sideEffects));
 		return sideEffects.size() > 0;
 	}
@@ -1164,7 +1164,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return null;
 	}
 
-	public static String getDisplayString(SimpleName simpleName, IBinding binding, boolean removeAllAssignements) {
+	public static String getDisplayString(SimpleName simpleName, IBinding binding, boolean removeAllAssignements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= BasicElementLabels.getJavaElementName(simpleName.getIdentifier());
 		switch (binding.getKind()) {
 			case IBinding.TYPE:
@@ -1186,7 +1186,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 		}
 	}
 
-	public static Map<String, String> getCleanUpOptions(IBinding binding, boolean removeAll) {
+	public static Map<String, String> getCleanUpOptions(IBinding binding, boolean removeAll) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, String> result= new Hashtable<>();
 
 		result.put(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_MEMBERS, CleanUpOptions.TRUE);
@@ -1227,7 +1227,7 @@ public class UnusedCodeFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return null;
 	}
 
-	private static void replaceCast(CastExpression castExpression, Expression replacement, ASTRewrite rewrite, TextEditGroup group) {
+	private static void replaceCast(CastExpression castExpression, Expression replacement, ASTRewrite rewrite, TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean castEnclosedInNecessaryParentheses= castExpression.getParent() instanceof ParenthesizedExpression
 				&& NecessaryParenthesesChecker.needsParentheses(castExpression, castExpression.getParent().getParent(), castExpression.getParent().getLocationInParent());
 

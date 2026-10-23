@@ -68,16 +68,16 @@ public class ExtractTempTests extends GenericRefactoringTest {
 	}
 
 	protected String getSimpleTestFileName(boolean canExtract, boolean input) {
-		StringBuilder fileName= new StringBuilder("A_").append(getName());
+		StringBuilder fileName= new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (canExtract)
-			fileName.append(input ? "_in" : "_out");
-		return fileName.append(".java").toString();
+			fileName.append(input ? "_in" : "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	protected String getTestFileName(boolean canExtract, boolean input) {
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canExtract ? "canExtract/" : "cannotExtract/");
-		return fileName.append(getSimpleTestFileName(canExtract, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canExtract ? "canExtract/" : "cannotExtract/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canExtract, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private ICompilationUnit createCUfromTestFile(IPackageFragment pack, boolean canExtract, boolean input) throws Exception {
@@ -101,7 +101,7 @@ public class ExtractTempTests extends GenericRefactoringTest {
 		JavaCore.setOptions(options);
 	}
 
-	protected void helper1(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean makeFinal, String tempName, String guessedTempName) throws Exception {
+	protected void helper1(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean makeFinal, String tempName, String guessedTempName) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		ISourceRange selection= TextRangeUtil.getSelection(cu, startLine, startColumn, endLine, endColumn);
 		ExtractTempRefactoring ref= new ExtractTempRefactoring(cu, selection.getOffset(), selection.getLength());
@@ -115,18 +115,18 @@ public class ExtractTempTests extends GenericRefactoringTest {
 		assertEquals("temp name incorrectly guessed", guessedTempName, ref.guessTempNameWithContext());
 
 		RefactoringStatus checkInputResult= ref.checkFinalConditions(new NullProgressMonitor());
-		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK());
+		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		performChange(ref, false);
 
 		IPackageFragment pack= (IPackageFragment) cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines(getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 
-	protected void helper2(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean replaceAllInThisFile,boolean makeFinal, String tempName, String guessedTempName) throws Exception {
+	protected void helper2(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean replaceAllInThisFile,boolean makeFinal, String tempName, String guessedTempName) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		ISourceRange selection= TextRangeUtil.getSelection(cu, startLine, startColumn, endLine, endColumn);
 		ExtractTempRefactoring ref= new ExtractTempRefactoring(cu, selection.getOffset(), selection.getLength());
@@ -141,18 +141,18 @@ public class ExtractTempTests extends GenericRefactoringTest {
 		assertEquals("temp name incorrectly guessed", guessedTempName, ref.guessTempNameWithContext());
 
 		RefactoringStatus checkInputResult= ref.checkFinalConditions(new NullProgressMonitor());
-		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK());
+		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		performChange(ref, false);
 
 		IPackageFragment pack= (IPackageFragment) cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines(getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 
-	private void warningHelper1(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean makeFinal, String tempName, String guessedTempName, int expectedStatus)
+	private void warningHelper1(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean makeFinal, String tempName, String guessedTempName, int expectedStatus) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws Exception {
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		ISourceRange selection= TextRangeUtil.getSelection(cu, startLine, startColumn, endLine, endColumn);
@@ -175,7 +175,7 @@ public class ExtractTempTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment) cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines(getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 

@@ -51,7 +51,7 @@ public class HandleEditorInput implements IEditorInput, IPersistableElement {
 	public IJavaElement getElement() throws CoreException {
 		IJavaElement element= JavaCore.create(handleIdentifier);
 		if (element == null) {
-			throw new CoreException(Status.error("Unable to restore Java element from: " + handleIdentifier)); //$NON-NLS-1$
+			throw new CoreException(Status.error("Unable to restore Java element from: " + handleIdentifier)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return element;
 	}

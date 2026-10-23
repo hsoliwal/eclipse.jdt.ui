@@ -36,24 +36,24 @@ public class PerfTestSuite extends TestSuite {
 		super();
 	}
 
-	public PerfTestSuite(Class<?> theClass, String name) {
+	public PerfTestSuite(Class<?> theClass, String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(name);
 		try {
 			getTestConstructor(theClass); // Avoid generating multiple error messages
 		} catch (NoSuchMethodException e) {
-			addTest(warning("Class "+theClass.getName()+" has no public constructor TestCase(String name) or TestCase()"));  //$NON-NLS-1$//$NON-NLS-2$
+			addTest(warning("Class "+theClass.getName()+" has no public constructor TestCase(String name) or TestCase()"));  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 
 		if (!Modifier.isPublic(theClass.getModifiers())) {
-			addTest(warning("Class "+theClass.getName()+" is not public"));  //$NON-NLS-1$//$NON-NLS-2$
+			addTest(warning("Class "+theClass.getName()+" is not public"));  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 
 		Class<?> superClass= theClass;
 		Vector<String> names= new Vector<>();
-		while (Test.class.isAssignableFrom(superClass)) {
-			for (Method method : superClass.getDeclaredMethods()) {
+		while (Test.class.isAssignableFrom(superClass)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Method method : superClass.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addPerformanceTestMethod(method, names, theClass);
 			}
 			superClass= superClass.getSuperclass();
@@ -66,7 +66,7 @@ public class PerfTestSuite extends TestSuite {
 			return;
 		if (!isPublicMeasureMethod(m)) {
 			if (isMeasureMethod(m))
-				addTest(warning("Test method isn't public: "+m.getName())); //$NON-NLS-1$
+				addTest(warning("Test method isn't public: "+m.getName())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 		names.addElement(name);
@@ -99,12 +99,12 @@ public class PerfTestSuite extends TestSuite {
 	 * @param name hte name of the test
 	 * @return a new performance test
 	 */
-	static public Test createPerformanceTest(Class<?> theClass, String name) {
+	static public Test createPerformanceTest(Class<?> theClass, String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Constructor<?> constructor;
 		try {
 			constructor= getTestConstructor(theClass);
 		} catch (NoSuchMethodException e) {
-			return warning("Class "+theClass.getName()+" has no public constructor TestCase(String name) or TestCase()"); //$NON-NLS-1$ //$NON-NLS-2$
+			return warning("Class "+theClass.getName()+" has no public constructor TestCase(String name) or TestCase()"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		Object test;
 		try {
@@ -116,11 +116,11 @@ public class PerfTestSuite extends TestSuite {
 				test= constructor.newInstance(name);
 			}
 		} catch (InstantiationException e) {
-			return(warning("Cannot instantiate test case: "+name+" ("+exceptionToString(e)+")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return(warning("Cannot instantiate test case: "+name+" ("+exceptionToString(e)+")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (InvocationTargetException e) {
-			return(warning("Exception in constructor: "+name+" ("+exceptionToString(e.getTargetException())+")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return(warning("Exception in constructor: "+name+" ("+exceptionToString(e.getTargetException())+")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (IllegalAccessException e) {
-			return(warning("Cannot access test case: "+name+" ("+exceptionToString(e)+")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return(warning("Cannot access test case: "+name+" ("+exceptionToString(e)+")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return (Test) test;
 	}

@@ -16,6 +16,6 @@ package org.eclipse.jdt.internal.ui.packageview;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreePath;
 
-public interface IMultiElementTreeContentProvider extends ITreeContentProvider {
+public interface IMultiElementTreeContentProvider extends ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 	TreePath[] getTreePaths(Object element);
 }

@@ -64,6 +64,6 @@ public final class JavaRefactoringArguments {
 
 	@Override
 	public String toString() {
-		return getClass().getName() + fAttributes.toString();
+		return getClass().getName() + fAttributes.toString(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

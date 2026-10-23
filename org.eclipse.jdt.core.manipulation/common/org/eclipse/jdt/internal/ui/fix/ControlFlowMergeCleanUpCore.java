@@ -86,7 +86,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.CONTROLFLOW_MERGE)) {
 			return """
@@ -109,23 +109,23 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.CONTROLFLOW_MERGE)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final IfStatement visited) {
 				if (visited.getElseStatement() == null) {
 					return true;
 				}
 
-				List<ASTNode> allCases= new ArrayList<>();
-				List<List<Statement>> allCasesStatements= new ArrayList<>();
+				List<ASTNode> allCases= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<List<Statement>> allCasesStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 				// Collect all the if / else if / else if / ... / else cases
 				if (collectAllCases(allCasesStatements, visited, allCases)) {
@@ -133,7 +133,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 					List<Statement>[] allCaseStmtsToRemove= new List[allCasesStatements.size()];
 
 					// Initialize removedCaseStatements list
-					for (int i= 0; i < allCasesStatements.size(); i++) {
+					for (int i= 0; i < allCasesStatements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						allCaseStmtsToRemove[i]= new LinkedList<>();
 					}
 
@@ -148,7 +148,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 					int smallestStatementNumber= smallestStatementNumber(allCasesStatements, casesToRefactor);
 
 					// Identify matching statements starting from the end of each case
-					for (int stmtIndex= 1; stmtIndex <= smallestStatementNumber; stmtIndex++) {
+					for (int stmtIndex= 1; stmtIndex <= smallestStatementNumber; stmtIndex++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!match(matcher, allCasesStatements, stmtIndex, casesToRefactor)) {
 							break;
 						}
@@ -165,15 +165,15 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 				return true;
 			}
 
-			private List<Integer> getMatchingCases(final List<List<Statement>> allCasesStatements,
+			private List<Integer> getMatchingCases(final List<List<Statement>> allCasesStatements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final ASTSemanticMatcher matcher) {
-				List<StatementAndBlockIndices> matchingCases= new ArrayList<>();
+				List<StatementAndBlockIndices> matchingCases= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-				for (int i= 0; i < allCasesStatements.size(); i++) {
+				for (int i= 0; i < allCasesStatements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					boolean isMatching= false;
 					Statement currentStatement= allCasesStatements.get(i).get(allCasesStatements.get(i).size() - 1);
 
-					for (StatementAndBlockIndices pair : matchingCases) {
+					for (StatementAndBlockIndices pair : matchingCases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (ASTNodes.match(matcher, pair.getStatement(), currentStatement)) {
 							pair.getBlockIndices().add(i);
 							isMatching= true;
@@ -182,16 +182,16 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 					}
 
 					if (!isMatching) {
-						StatementAndBlockIndices newPair= new StatementAndBlockIndices(currentStatement, new ArrayList<>());
+						StatementAndBlockIndices newPair= new StatementAndBlockIndices(currentStatement, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						newPair.getBlockIndices().add(i);
 						matchingCases.add(newPair);
 					}
 				}
 
-				Collections.sort(matchingCases, Comparator.<StatementAndBlockIndices, Integer>comparing(s -> s.getBlockIndices().size()));
+				Collections.sort(matchingCases, Comparator.<StatementAndBlockIndices, Integer>comparing(s -> s.getBlockIndices().size())); //FLLDCIM: MARK — M16 SORT_LANE CALL
 				StatementAndBlockIndices notFallingThroughCase= null;
 
-				for (StatementAndBlockIndices matchingCase : matchingCases) {
+				for (StatementAndBlockIndices matchingCase : matchingCases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!ASTNodes.fallsThrough(matchingCase.getStatement())) {
 						if (notFallingThroughCase != null) {
 							return null;
@@ -210,7 +210,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 
 			private void flagStmtsToRemove(final List<List<Statement>> allCasesStatements, final int stmtIndex,
 					final List<Statement>[] caseStmtsToRemove, final List<Integer> casesToRefactor) {
-				for (int i : casesToRefactor) {
+				for (int i : casesToRefactor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<Statement> caseStatements= allCasesStatements.get(i);
 					Statement stmtToRemove= caseStatements.get(caseStatements.size() - stmtIndex);
 					caseStmtsToRemove[i].add(stmtToRemove);
@@ -220,7 +220,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 			private boolean match(final ASTSemanticMatcher matcher, final List<List<Statement>> allCasesStatements, final int stmtIndex, final List<Integer> casesToRefactor) {
 				List<Statement> firstCaseToRefactor= allCasesStatements.get(casesToRefactor.get(0));
 
-				for (int i= 1; i < casesToRefactor.size(); i++) {
+				for (int i= 1; i < casesToRefactor.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<Statement> anotherCaseToRefactor= allCasesStatements.get(casesToRefactor.get(i));
 
 					if (!ASTNodes.match(matcher, firstCaseToRefactor.get(firstCaseToRefactor.size() - stmtIndex),
@@ -235,7 +235,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 			private int smallestStatementNumber(final List<List<Statement>> allCasesStatements, final List<Integer> casesToRefactor) {
 				int min= allCasesStatements.get(casesToRefactor.get(0)).size();
 
-				for (Integer caseToRefactor : casesToRefactor) {
+				for (Integer caseToRefactor : casesToRefactor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<Statement> statements= allCasesStatements.get(caseToRefactor);
 					min= Math.min(min, statements.size());
 				}
@@ -253,7 +253,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 			 * @return true if all cases (if/else, if/else if/else, etc.) are covered, false
 			 *         otherwise
 			 */
-			private boolean collectAllCases(final List<List<Statement>> allCasesStatements, final IfStatement visited, final List<ASTNode> allCases) {
+			private boolean collectAllCases(final List<List<Statement>> allCasesStatements, final IfStatement visited, final List<ASTNode> allCases) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				List<Statement> thenStatements= ASTNodes.asList(visited.getThenStatement());
 				List<Statement> elseStatements= ASTNodes.asList(visited.getElseStatement());
 
@@ -279,18 +279,18 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean hasVariableConflict(final IfStatement visited, final List<Statement>[] allCaseStatementsToRemove) {
-				Set<SimpleName> ifVariableNames= new HashSet<>();
+			private boolean hasVariableConflict(final IfStatement visited, final List<Statement>[] allCaseStatementsToRemove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+				Set<SimpleName> ifVariableNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-				for (List<Statement> caseStatementsToRemove : allCaseStatementsToRemove) {
-					for (Statement statementToRemove : caseStatementsToRemove) {
+				for (List<Statement> caseStatementsToRemove : allCaseStatementsToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					for (Statement statementToRemove : caseStatementsToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ifVariableNames.addAll(ASTNodes.getLocalVariableIdentifiers(statementToRemove, false));
 					}
 				}
 
 				VarConflictVisitor varOccurrenceVisitor= new VarConflictVisitor(ifVariableNames, true);
 
-				for (Statement furtherStatement : ASTNodes.getNextSiblings(visited)) {
+				for (Statement furtherStatement : ASTNodes.getNextSiblings(visited)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					varOccurrenceVisitor.traverseNodeInterruptibly(furtherStatement);
 
 					if (varOccurrenceVisitor.isVarConflicting()) {
@@ -339,7 +339,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 			this.casesToRefactor= casesToRefactor;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -348,7 +348,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 			// Remove the nodes common to all cases
 			boolean[] areCasesToRemove= new boolean[allCasesStatements.size()];
 			Arrays.fill(areCasesToRemove, false);
-			List<Statement> statementsToRemove= new ArrayList<>();
+			List<Statement> statementsToRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			flagCasesAndStatementsToRemove(areCasesToRemove, statementsToRemove);
 			List<Statement> oneCaseToPullDown= caseStatementsToPullDown[casesToRefactor.get(0)];
 
@@ -358,9 +358,9 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 
 					ASTNodes.removeButKeepComment(rewrite, visited, group);
 				} else {
-					List<Statement> orderedStatements= new ArrayList<>(oneCaseToPullDown.size());
+					List<Statement> orderedStatements= new ArrayList<>(oneCaseToPullDown.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-					for (Statement statementToPullDown : oneCaseToPullDown) {
+					for (Statement statementToPullDown : oneCaseToPullDown) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						orderedStatements.add(0, ASTNodes.createMoveTarget(rewrite, statementToPullDown));
 					}
 
@@ -370,7 +370,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 				}
 			} else {
 				// Remove empty cases
-				for (int i : casesToRefactor) {
+				for (int i : casesToRefactor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode parent= allCases.get(i);
 
 					if (areCasesToRemove[i]) {
@@ -396,9 +396,9 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 				if (ASTNodes.canHaveSiblings(visited)) {
 					insertIdenticalCode(rewrite, group, oneCaseToPullDown);
 				} else {
-					List<Statement> orderedStatements= new ArrayList<>(oneCaseToPullDown.size() + 1);
+					List<Statement> orderedStatements= new ArrayList<>(oneCaseToPullDown.size() + 1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-					for (Statement stmtToRemove : oneCaseToPullDown) {
+					for (Statement stmtToRemove : oneCaseToPullDown) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						orderedStatements.add(0, ASTNodes.createMoveTarget(rewrite, stmtToRemove));
 					}
 
@@ -409,7 +409,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 				}
 			}
 
-			for (Statement statementToRemove : statementsToRemove) {
+			for (Statement statementToRemove : statementsToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.remove(statementToRemove, group);
 			}
 		}
@@ -428,7 +428,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 		}
 
 		private boolean allRemovable(final boolean[] areCasesRemovable, final int start) {
-			for (int i= start; i < areCasesRemovable.length; i++) {
+			for (int i= start; i < areCasesRemovable.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!areCasesRemovable[i]) {
 					return false;
 				}
@@ -440,7 +440,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 		private void flagCasesAndStatementsToRemove(final boolean[] areCasesRemovable, final List<Statement> statementsToRemove) {
 			boolean isFirstCase= true;
 
-			for (int i : casesToRefactor) {
+			for (int i : casesToRefactor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<Statement> removedStatements= caseStatementsToPullDown[i];
 				ASTNode parent= allCases.get(i);
 

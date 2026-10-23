@@ -57,7 +57,7 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 	 * Accepted button styles are: SWT.RADIO, SWT.CHECK, SWT.TOGGLE
 	 * For border styles see <code>Group</code>
 	 */
-	public SelectionButtonDialogFieldGroup(int buttonsStyle, String[] buttonNames, int nColumns, int borderStyle) {
+	public SelectionButtonDialogFieldGroup(int buttonsStyle, String[] buttonNames, int nColumns, int borderStyle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 
 		Assert.isTrue(buttonsStyle == SWT.RADIO || buttonsStyle == SWT.CHECK || buttonsStyle == SWT.TOGGLE);
@@ -67,7 +67,7 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 		int nButtons= buttonNames.length;
 		fButtonsSelected= new boolean[nButtons];
 		fButtonsEnabled= new boolean[nButtons];
-		for (int i= 0; i < nButtons; i++) {
+		for (int i= 0; i < nButtons; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fButtonsSelected[i]= false;
 			fButtonsEnabled[i]= true;
 		}
@@ -87,7 +87,7 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 	/*
 	 * @see DialogField#doFillIntoGrid
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control[] doFillIntoGrid(Composite parent, int nColumns) {
 		assertEnoughColumns(nColumns);
 
@@ -127,7 +127,7 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 		button.setText(fButtonNames[index]);
 		button.setEnabled(isEnabled() && fButtonsEnabled[index]);
 		button.setSelection(fButtonsSelected[index]);
-		button.addSelectionListener(listener);
+		button.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		button.setLayoutData(new GridData());
 		return button;
 	}
@@ -137,7 +137,7 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 	 * @param parent The parent composite when called the first time, or <code>null</code>
 	 * after.
 	 */
-	public Composite getSelectionButtonsGroup(Composite parent) {
+	public Composite getSelectionButtonsGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fButtonComposite == null) {
 			assertCompositeNotNull(parent);
 
@@ -173,12 +173,12 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 			};
 			int nButtons= fButtonNames.length;
 			fButtons= new Button[nButtons];
-			for (int i= 0; i < nButtons; i++) {
+			for (int i= 0; i < nButtons; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fButtons[i]= createSelectionButton(i, fButtonComposite, listener);
 			}
 			int nRows= nButtons / fGroupNumberOfColumns;
 			int nFillElements= nRows * fGroupNumberOfColumns - nButtons;
-			for (int i= 0; i < nFillElements; i++) {
+			for (int i= 0; i < nFillElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				createEmptySpace(fButtonComposite);
 			}
 		}
@@ -197,7 +197,7 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 
 	private void doWidgetSelected(SelectionEvent e) {
 		Button button= (Button)e.widget;
-		for (int i= 0; i < fButtons.length; i++) {
+		for (int i= 0; i < fButtons.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fButtons[i] == button) {
 				fButtonsSelected[i]= button.getSelection();
 				dialogFieldChanged();
@@ -256,7 +256,7 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 		super.updateEnableState();
 		if (fButtons != null) {
 			boolean enabled= isEnabled();
-			for (int i= 0; i < fButtons.length; i++) {
+			for (int i= 0; i < fButtons.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Button button= fButtons[i];
 				if (isOkToUse(button)) {
 					button.setEnabled(enabled && fButtonsEnabled[i]);
@@ -284,7 +284,7 @@ public class SelectionButtonDialogFieldGroup extends DialogField {
 	@Override
 	public void refresh() {
 		super.refresh();
-		for (int i= 0; i < fButtons.length; i++) {
+		for (int i= 0; i < fButtons.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button button= fButtons[i];
 			if (isOkToUse(button)) {
 				button.setSelection(fButtonsSelected[i]);

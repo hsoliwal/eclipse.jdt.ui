@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 /**
  * filter with a live cycle
  */
-public abstract class JavaViewerFilter extends ViewerFilter {
+public abstract class JavaViewerFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	private int fCount= 0;
 

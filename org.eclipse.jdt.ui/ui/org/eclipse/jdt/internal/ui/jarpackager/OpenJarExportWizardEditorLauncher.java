@@ -48,14 +48,14 @@ public class OpenJarExportWizardEditorLauncher implements IEditorLauncher {
 	/*
 	 * @see org.eclipse.ui.IEditorLauncher#open(org.eclipse.core.runtime.IPath)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void open(IPath filePath) {
 
 		IJarDescriptionReader reader= null;
 		JarPackageData jarPackage= null;
 		try {
 			File file= filePath.toFile();
-			if (!file.isFile() || !file.getName().endsWith('.' + JarPackagerUtil.DESCRIPTION_EXTENSION)) {
+			if (!file.isFile() || !file.getName().endsWith('.' + JarPackagerUtil.DESCRIPTION_EXTENSION)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				openErrorDialog(Messages.format(JarPackagerMessages.OpenJarPackageWizardDelegate_onlyJardesc, JarPackagerUtil.DESCRIPTION_EXTENSION));
 				return;
 			}
@@ -85,6 +85,6 @@ public class OpenJarExportWizardEditorLauncher implements IEditorLauncher {
 
 	private void openErrorDialog(String errorDetail) {
 		MessageDialog.openError(JavaPlugin.getActiveWorkbenchShell(), JarPackagerMessages.OpenJarPackageWizardDelegate_error_openJarPackager_title,
-				JarPackagerMessages.OpenJarPackageWizardDelegate_error_openJarPackager_message + errorDetail);
+				JarPackagerMessages.OpenJarPackageWizardDelegate_error_openJarPackager_message + errorDetail); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

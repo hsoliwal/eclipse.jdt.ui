@@ -35,7 +35,7 @@ public class SerialVersionHashOperationDisplay extends SerialVersionHashOperatio
 	public void displayErrorMessage(final String message) {
 		final Display display= PlatformUI.getWorkbench().getDisplay();
 		if (display != null && !display.isDisposed()) {
-			display.asyncExec(() -> {
+			display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (!display.isDisposed()) {
 					final Shell shell= display.getActiveShell();
 					if (shell != null && !shell.isDisposed())
@@ -59,7 +59,7 @@ public class SerialVersionHashOperationDisplay extends SerialVersionHashOperatio
 		final boolean[] result= { true};
 		final Display display= PlatformUI.getWorkbench().getDisplay();
 		if (display != null && !display.isDisposed()) {
-			display.syncExec(() -> {
+			display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (!display.isDisposed()) {
 					final Shell shell= display.getActiveShell();
 					if (shell != null && !shell.isDisposed())

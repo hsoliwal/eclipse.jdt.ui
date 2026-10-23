@@ -102,7 +102,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ExternalizeStringsAction extends SelectionDispatchAction {
+public class ExternalizeStringsAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private CompilationUnitEditor fEditor;
 
@@ -156,7 +156,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 		run((ICompilationUnit)element);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		ICompilationUnit unit= getCompilationUnit(selection);
 		if (unit != null) {//run on cu
@@ -204,7 +204,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 	}
 
 	private IRunnableWithProgress createRunnable(final IStructuredSelection selection) {
-		return pm -> {
+		return pm -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				fElements= doRun(selection, pm);
 			} catch (CoreException e) {
@@ -221,8 +221,8 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 		pm.beginTask(ActionMessages.FindStringsToExternalizeAction_find_strings, elements.size());
 
 		try{
-			List<NonNLSElement> result= new ArrayList<>();
-			for (Object obj : elements) {
+			List<NonNLSElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object obj : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.addAll(analyze(obj, pm));
 			}
 			return result.toArray(new NonNLSElement[result.size()]);
@@ -231,7 +231,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 		}
 	}
 
-	private List<NonNLSElement> analyze(Object obj, IProgressMonitor pm) throws CoreException, JavaModelException {
+	private List<NonNLSElement> analyze(Object obj, IProgressMonitor pm) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (obj instanceof IJavaElement) {
 			IJavaElement element= (IJavaElement) obj;
 			int elementType= element.getElementType();
@@ -256,7 +256,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 						NonNLSElement nlsElement= analyze(cu);
 						if (nlsElement != null) {
 							pm.worked(1);
-							ArrayList<NonNLSElement> result= new ArrayList<>();
+							ArrayList<NonNLSElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							result.add(nlsElement);
 							return result;
 						}
@@ -271,7 +271,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 						NonNLSElement nlsElement= analyze(cu);
 						if (nlsElement != null) {
 							pm.worked(1);
-							ArrayList<NonNLSElement> result= new ArrayList<>();
+							ArrayList<NonNLSElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							result.add(nlsElement);
 							return result;
 						}
@@ -284,10 +284,10 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 					break;
 			}
 		} else if (obj instanceof IWorkingSet) {
-			List<NonNLSElement> result= new ArrayList<>();
+			List<NonNLSElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			IWorkingSet workingSet= (IWorkingSet) obj;
-			for (IAdaptable element : workingSet.getElements()) {
+			for (IAdaptable element : workingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.addAll(analyze(element, new NullProgressMonitor()));
 			}
 			pm.worked(1);
@@ -308,7 +308,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 
 	private boolean noStrings() {
 		if (fElements != null) {
-			for (NonNLSElement fElement : fElements) {
+			for (NonNLSElement fElement : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fElement.count != 0) {
 					return false;
 				}
@@ -320,18 +320,18 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 	/*
 	 * returns List of Strings
 	 */
-	private List<NonNLSElement> analyze(IPackageFragment pack, IProgressMonitor pm) throws CoreException {
+	private List<NonNLSElement> analyze(IPackageFragment pack, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try{
 			if (pack == null)
-				return new ArrayList<>(0);
+				return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			ICompilationUnit[] cus= pack.getCompilationUnits();
 
 			pm.beginTask("", cus.length); //$NON-NLS-1$
 			pm.setTaskName(pack.getElementName());
 
-			List<NonNLSElement> l= new ArrayList<>(cus.length);
-			for (ICompilationUnit cu : cus) {
+			List<NonNLSElement> l= new ArrayList<>(cus.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pm.subTask(BasicElementLabels.getFileName(cu));
 				NonNLSElement element= analyze(cu);
 				if (element != null)
@@ -349,13 +349,13 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 	/*
 	 * returns List of Strings
 	 */
-	private List<NonNLSElement> analyze(IPackageFragmentRoot sourceFolder, IProgressMonitor pm) throws CoreException {
+	private List<NonNLSElement> analyze(IPackageFragmentRoot sourceFolder, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try{
 			IJavaElement[] children= sourceFolder.getChildren();
 			pm.beginTask("", children.length); //$NON-NLS-1$
 			pm.setTaskName(JavaElementLabels.getElementLabel(sourceFolder, JavaElementLabels.ALL_DEFAULT));
-			List<NonNLSElement> result= new ArrayList<>();
-			for (IJavaElement iJavaElement : children) {
+			List<NonNLSElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IJavaElement iJavaElement : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (iJavaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT){
 					IPackageFragment pack= (IPackageFragment)iJavaElement;
 					if (! pack.isReadOnly())
@@ -378,8 +378,8 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 		try{
 			IPackageFragment[] packs= project.getPackageFragments();
 			pm.beginTask("", packs.length); //$NON-NLS-1$
-			List<NonNLSElement> result= new ArrayList<>();
-			for (IPackageFragment pack : packs) {
+			List<NonNLSElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPackageFragment pack : packs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!pack.isReadOnly()) {
 					result.addAll(analyze(pack, Progress.subMonitor(pm, 1)));
 				} else {
@@ -395,7 +395,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 	private int countStrings() {
 		int found= 0;
 		if (fElements != null) {
-			for (NonNLSElement fElement : fElements) {
+			for (NonNLSElement fElement : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				found+= fElement.count;
 			}
 		}
@@ -413,7 +413,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 	private int countNonExternalizedStrings(ICompilationUnit cu) throws CoreException {
 		try{
 			int result= 0;
-			for (NLSLine line : NLSScanner.scan(cu)) {
+			for (NLSLine line : NLSScanner.scan(cu)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result+= countNonExternalizedStrings(line);
 			}
 			return result;
@@ -425,7 +425,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 
 	private int countNonExternalizedStrings(NLSLine line){
 		int result= 0;
-		for (NLSElement element : line.getElements()) {
+		for (NLSElement element : line.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!element.hasTag()) {
 				result++;
 			}
@@ -463,7 +463,7 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 					ActionMessages.FindStringsToExternalizeAction_non_externalized_plural, new Object[] { Integer.valueOf(count) });
 			setMessage(message);
 			setContentProvider(ArrayContentProvider.getInstance());
-			setLabelProvider(createLabelProvider());
+			setLabelProvider(createLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		}
 
 		@Override
@@ -471,15 +471,15 @@ public class ExternalizeStringsAction extends SelectionDispatchAction {
 			return getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite result= (Composite)super.createDialogArea(parent);
-			getTableViewer().addSelectionChangedListener(unused -> {
+			getTableViewer().addSelectionChangedListener(unused -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				if (fOpenButton != null){
 					fOpenButton.setEnabled(! getTableViewer().getSelection().isEmpty());
 				}
 			});
-			getTableViewer().getTable().addSelectionListener(new SelectionAdapter(){
+			getTableViewer().getTable().addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					NonNLSElement element= (NonNLSElement)e.item.getData();

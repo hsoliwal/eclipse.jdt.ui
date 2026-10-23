@@ -67,7 +67,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		JavaProjectHelper.clear(fJProject1, j18p.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void typeUseAnnotationImport1() throws Exception { // PrimitiveType
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -107,7 +107,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void typeUseAnnotationImport2() throws Exception { // SimpleType
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -148,7 +148,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void typeUseAnnotationImport3() throws Exception { // QualifiedType
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -201,7 +201,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void typeUseAnnotationImport4() throws Exception { // PackageQualifiedType
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -242,7 +242,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void typeUseAnnotationImport5() throws Exception { // WildcardType
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -283,7 +283,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void typeUseAnnotationImport6() throws Exception { // ArrayType
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -323,7 +323,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void staticMethodReferenceImports_bug424172() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -365,7 +365,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void methodReferenceImports_bug424227() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -418,7 +418,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		assertEqualString(cu.getSource(), str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImportFavorite_Issue2893() throws Exception { //https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/2893
 		IPreferenceStore preferenceStore= PreferenceConstants.getPreferenceStore();
 		preferenceStore.setValue(PreferenceConstants.CODEASSIST_FAVORITE_STATIC_MEMBERS, "test.Assertions.*;test1.Assertions.*");
@@ -523,7 +523,7 @@ public class ImportOrganizeTest1d8 extends ImportOrganizeTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImportFavorite_Issue2893_2() throws Exception { //https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/2893
 		IPreferenceStore preferenceStore= PreferenceConstants.getPreferenceStore();
 		preferenceStore.setValue(PreferenceConstants.CODEASSIST_FAVORITE_STATIC_MEMBERS, "test.Assertions.*;test1.Assertions.*");

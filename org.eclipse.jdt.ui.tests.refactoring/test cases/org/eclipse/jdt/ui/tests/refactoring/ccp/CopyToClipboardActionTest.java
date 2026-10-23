@@ -78,13 +78,13 @@ public class CopyToClipboardActionTest extends GenericRefactoringTest {
 		rts= new RefactoringTestSetup();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void genericbefore() throws Exception {
 		super.genericbefore();
 		fClipboard= new MockClipboard(Display.getDefault());
 		fDefaultPackage= rts.getDefaultSourceFolder().createPackageFragment("", true, null);
 
-		fCuA= createCU(getPackageP(), CU_A_NAME + ".java",
+		fCuA= createCU(getPackageP(), CU_A_NAME + ".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			"""
 				package p;\
 				import java.util.List;\
@@ -96,7 +96,7 @@ public class CopyToClipboardActionTest extends GenericRefactoringTest {
 				}""");
 
 		fPackage_Q= rts.getDefaultSourceFolder().createPackageFragment("q", true, null);
-		fCuB= createCU(fPackage_Q, CU_B_NAME + ".java",
+		fCuB= createCU(fPackage_Q, CU_B_NAME + ".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"""
 					package q;\
 					import java.util.Set;\
@@ -158,7 +158,7 @@ public class CopyToClipboardActionTest extends GenericRefactoringTest {
 		checkClipboard(elements);
 	}
 
-	private void checkClipboard(Object[] elementsCopied) throws Exception {
+	private void checkClipboard(Object[] elementsCopied) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource[] resourcesCopied= getResources(elementsCopied);
 		IJavaElement[] javaElementsCopied= getJavaElements(elementsCopied);
 		IType[] mainTypesCopied= ReorgUtilsCore.getMainTypes(javaElementsCopied);
@@ -184,7 +184,7 @@ public class CopyToClipboardActionTest extends GenericRefactoringTest {
 		assertEquals("different number", typedSources.length, clipboardTypedSources.length);
 		TypedSource.sortByType(typedSources);
 		TypedSource.sortByType(clipboardTypedSources);
-		for (int i= 0; i < typedSources.length; i++) {
+		for (int i= 0; i < typedSources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertEquals("different typed sources", typedSources[i], clipboardTypedSources[i]);
 		}
 	}
@@ -209,10 +209,10 @@ public class CopyToClipboardActionTest extends GenericRefactoringTest {
 		assertEquals("different number of elements", copied.length, retreivedFromClipboard.length);
 		sortByName(copied);
 		sortByName(retreivedFromClipboard);
-		for (int i= 0; i < retreivedFromClipboard.length; i++) {
+		for (int i= 0; i < retreivedFromClipboard.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object retreived= retreivedFromClipboard[i];
 			assertTrue("element does not exist", exists(retreived));
-			assertEquals("different copied " + getName(copied[i]) + " retreived: " + getName(retreived), copied[i], retreivedFromClipboard[i]);
+			assertEquals("different copied " + getName(copied[i]) + " retreived: " + getName(retreived), copied[i], retreivedFromClipboard[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -240,14 +240,14 @@ public class CopyToClipboardActionTest extends GenericRefactoringTest {
 	private void checkNames(IResource[] resourcesCopied, IJavaElement[] javaElementsCopied, String clipboardText){
 		List<String> stringLines= Arrays.asList(Strings.convertIntoLines(clipboardText));
 		assertEquals("different number of names", resourcesCopied.length + javaElementsCopied.length, stringLines.size());
-		for (IResource resource : resourcesCopied) {
+		for (IResource resource : resourcesCopied) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= getName(resource);
-			assertTrue("name not in set:" + name, stringLines.contains(name));
+			assertTrue("name not in set:" + name, stringLines.contains(name)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		for (IJavaElement element : javaElementsCopied) {
+		for (IJavaElement element : javaElementsCopied) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! ReorgUtilsCore.isInsideCompilationUnit(element)){
 				String name= getName(element);
-				assertTrue("name not in set:" + name, stringLines.contains(name));
+				assertTrue("name not in set:" + name, stringLines.contains(name)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
@@ -264,7 +264,7 @@ public class CopyToClipboardActionTest extends GenericRefactoringTest {
 
 	private static int countResources(IJavaElement[] javaElementsCopied) {
 		int count= 0;
-		for (IJavaElement element : javaElementsCopied) {
+		for (IJavaElement element : javaElementsCopied) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (element.getElementType()) {
 				case IJavaElement.JAVA_PROJECT :
 				case IJavaElement.PACKAGE_FRAGMENT_ROOT :

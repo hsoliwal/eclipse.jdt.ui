@@ -53,7 +53,7 @@ public class ExpressionsFix extends CompilationUnitRewriteOperationsFix {
 			}
 		}
 
-		private boolean needsParentesis(ASTNode node) {
+		private boolean needsParentesis(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!(node.getParent() instanceof InfixExpression))
 				return false;
 
@@ -110,7 +110,7 @@ public class ExpressionsFix extends CompilationUnitRewriteOperationsFix {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
 
-			for (Expression expression : fExpressions) {
+			for (Expression expression : fExpressions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// add parenthesis around expression
 				ParenthesizedExpression parenthesizedExpression= ast.newParenthesizedExpression();
 				parenthesizedExpression.setExpression((Expression) rewrite.createCopyTarget(expression));
@@ -127,18 +127,18 @@ public class ExpressionsFix extends CompilationUnitRewriteOperationsFix {
 			fExpressions= expressions;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore model) throws CoreException {
 			TextEditGroup group= createTextEditGroup(FixMessages.ExpressionsFix_removeUnnecessaryParentheses_description, cuRewrite);
 
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			rewrite.setTargetSourceRangeComputer(new NoCommentSourceRangeComputer());
 
-			while (fExpressions.size() > 0) {
+			while (fExpressions.size() > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ParenthesizedExpression parenthesizedExpression= fExpressions.iterator().next();
 				fExpressions.remove(parenthesizedExpression);
 				ParenthesizedExpression down= parenthesizedExpression;
-				while (fExpressions.contains(down.getExpression())) {
+				while (fExpressions.contains(down.getExpression())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					down= (ParenthesizedExpression)down.getExpression();
 					fExpressions.remove(down);
 				}
@@ -146,7 +146,7 @@ public class ExpressionsFix extends CompilationUnitRewriteOperationsFix {
 				ASTNode move= rewrite.createMoveTarget(down.getExpression());
 
 				ParenthesizedExpression top= parenthesizedExpression;
-				while (fExpressions.contains(top.getParent())) {
+				while (fExpressions.contains(top.getParent())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					top= (ParenthesizedExpression)top.getParent();
 					fExpressions.remove(top);
 				}
@@ -156,15 +156,15 @@ public class ExpressionsFix extends CompilationUnitRewriteOperationsFix {
 		}
 	}
 
-	public static ExpressionsFix createAddParanoidalParenthesisFix(CompilationUnit compilationUnit, ASTNode[] coveredNodes) {
+	public static ExpressionsFix createAddParanoidalParenthesisFix(CompilationUnit compilationUnit, ASTNode[] coveredNodes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (coveredNodes == null)
 			return null;
 
 		if (coveredNodes.length == 0)
 			return null;
 		// check sub-expressions in fully covered nodes
-		final ArrayList<ASTNode> changedNodes = new ArrayList<>();
-		for (ASTNode covered : coveredNodes) {
+		final ArrayList<ASTNode> changedNodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ASTNode covered : coveredNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (covered instanceof InfixExpression)
 				covered.accept(new MissingParenthesisVisitor(changedNodes));
 		}
@@ -178,25 +178,25 @@ public class ExpressionsFix extends CompilationUnitRewriteOperationsFix {
 
 	public static ExpressionsFix createRemoveUnnecessaryParenthesisFix(CompilationUnit compilationUnit, ASTNode[] nodes) {
 		// check sub-expressions in fully covered nodes
-		final ArrayList<ParenthesizedExpression> changedNodes= new ArrayList<>();
-		for (ASTNode covered : nodes) {
+		final ArrayList<ParenthesizedExpression> changedNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ASTNode covered : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (covered instanceof ParenthesizedExpression || covered instanceof InfixExpression)
 				covered.accept(new UnnecessaryParenthesisVisitor(changedNodes));
 		}
 		if (changedNodes.isEmpty())
 			return null;
 
-		HashSet<ParenthesizedExpression> expressions= new HashSet<>(changedNodes);
+		HashSet<ParenthesizedExpression> expressions= new HashSet<>(changedNodes); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		RemoveParenthesisOperation op= new RemoveParenthesisOperation(expressions);
 		return new ExpressionsFix(FixMessages.ExpressionsFix_removeUnnecessaryParentheses_description, compilationUnit, new CompilationUnitRewriteOperationWithSourceRange[] {op});
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean addParanoicParentesis,
 			boolean removeUnnecessaryParenthesis) {
 
 		if (addParanoicParentesis) {
-			final ArrayList<ASTNode> changedNodes = new ArrayList<>();
+			final ArrayList<ASTNode> changedNodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			compilationUnit.accept(new MissingParenthesisVisitor(changedNodes));
 
 			if (changedNodes.isEmpty())
@@ -205,13 +205,13 @@ public class ExpressionsFix extends CompilationUnitRewriteOperationsFix {
 			CompilationUnitRewriteOperationWithSourceRange op= new AddParenthesisOperation(changedNodes.toArray(new Expression[changedNodes.size()]));
 			return new ExpressionsFix(FixMessages.ExpressionsFix_add_parentheses_change_name, compilationUnit, new CompilationUnitRewriteOperationWithSourceRange[] {op});
 		} else if (removeUnnecessaryParenthesis) {
-			final ArrayList<ParenthesizedExpression> changedNodes = new ArrayList<>();
+			final ArrayList<ParenthesizedExpression> changedNodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			compilationUnit.accept(new UnnecessaryParenthesisVisitor(changedNodes));
 
 			if (changedNodes.isEmpty())
 				return null;
 
-			HashSet<ParenthesizedExpression> expressions= new HashSet<>(changedNodes);
+			HashSet<ParenthesizedExpression> expressions= new HashSet<>(changedNodes); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			CompilationUnitRewriteOperationWithSourceRange op= new RemoveParenthesisOperation(expressions);
 			return new ExpressionsFix(FixMessages.ExpressionsFix_remove_parentheses_change_name, compilationUnit, new CompilationUnitRewriteOperationWithSourceRange[] {op});
 		}

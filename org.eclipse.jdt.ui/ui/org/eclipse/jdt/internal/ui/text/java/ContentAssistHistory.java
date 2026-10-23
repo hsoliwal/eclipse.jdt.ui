@@ -83,7 +83,7 @@ public final class ContentAssistHistory {
 		private static final String ATTRIBUTE_MAX_LHS= "maxLHS"; //$NON-NLS-1$
 		private static final String ATTRIBUTE_MAX_RHS= "maxRHS"; //$NON-NLS-1$
 
-		public void store(ContentAssistHistory history, StreamResult result) throws CoreException {
+		public void store(ContentAssistHistory history, StreamResult result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
 				DocumentBuilder builder= factory.newDocumentBuilder();
@@ -94,12 +94,12 @@ public final class ContentAssistHistory {
 				rootElement.setAttribute(ATTRIBUTE_MAX_RHS, Integer.toString(history.fMaxRHS));
 				document.appendChild(rootElement);
 
-				for (Entry<String, MRUSet<String>> entry : history.fLHSCache.entrySet()) {
+				for (Entry<String, MRUSet<String>> entry : history.fLHSCache.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String lhs = entry.getKey();
 					Element lhsElement= document.createElement(NODE_LHS);
 					lhsElement.setAttribute(ATTRIBUTE_NAME, lhs);
 					rootElement.appendChild(lhsElement);
-					for (String rhs : entry.getValue()) {
+					for (String rhs : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Element rhsElement= document.createElement(NODE_RHS);
 						rhsElement.setAttribute(ATTRIBUTE_NAME, rhs);
 						lhsElement.appendChild(rhsElement);
@@ -118,7 +118,7 @@ public final class ContentAssistHistory {
 			}
 		}
 
-		public ContentAssistHistory load(InputSource source) throws CoreException {
+		public ContentAssistHistory load(InputSource source) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Element root;
 			try {
 				DocumentBuilder parser = XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE().newDocumentBuilder();
@@ -138,7 +138,7 @@ public final class ContentAssistHistory {
 
 			NodeList list= root.getChildNodes();
 			int length= list.getLength();
-			for (int i= 0; i < length; ++i) {
+			for (int i= 0; i < length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Node lhsNode= list.item(i);
 				if (lhsNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element lhsElement= (Element) lhsNode;
@@ -148,7 +148,7 @@ public final class ContentAssistHistory {
 							Set<String> cache= history.getCache(lhs);
 							NodeList children= lhsElement.getChildNodes();
 							int nRHS= children.getLength();
-							for (int j= 0; j < nRHS; j++) {
+							for (int j= 0; j < nRHS; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Node rhsNode= children.item(j);
 								if (rhsNode.getNodeType() == Node.ELEMENT_NODE) {
 									Element rhsElement= (Element) rhsNode;
@@ -308,7 +308,7 @@ public final class ContentAssistHistory {
 			if (fHistory == null)
 				return Collections.emptyList();
 			if (fList == null) {
-				fList= Collections.unmodifiableList(new ArrayList<>(fHistory.keySet()));
+				fList= Collections.unmodifiableList(new ArrayList<>(fHistory.keySet())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			return fList;
 		}
@@ -320,7 +320,7 @@ public final class ContentAssistHistory {
 
 	private static final Set<String> UNCACHEABLE;
 	static {
-		Set<String> uncacheable= new HashSet<>();
+		Set<String> uncacheable= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		uncacheable.add("java.lang.Object"); //$NON-NLS-1$
 		uncacheable.add("java.lang.Comparable"); //$NON-NLS-1$
 		uncacheable.add("java.io.Serializable"); //$NON-NLS-1$
@@ -361,7 +361,7 @@ public final class ContentAssistHistory {
 	 * @param lhs the left hand side / expected type
 	 * @param rhs the selected right hand side
 	 */
-	public void remember(IType lhs, IType rhs) {
+	public void remember(IType lhs, IType rhs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(lhs != null);
 		Assert.isLegal(rhs != null);
 
@@ -372,7 +372,7 @@ public final class ContentAssistHistory {
 			if (hierarchy.contains(lhs)) {
 				// TODO remember for every member of the LHS hierarchy or not? Yes for now.
 				String rhsQualifiedName= rhs.getFullyQualifiedName();
-				for (IType lhSide : hierarchy.getAllSupertypes(lhs)) {
+				for (IType lhSide : hierarchy.getAllSupertypes(lhs)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					rememberInternal(lhSide, rhsQualifiedName);
 				}
 				rememberInternal(lhs, rhsQualifiedName);
@@ -394,9 +394,9 @@ public final class ContentAssistHistory {
 		MRUSet<String> rhsCache= fLHSCache.get(lhs);
 		if (rhsCache != null) {
 			int count= rhsCache.size();
-			LinkedHashMap<String, Integer> history= new LinkedHashMap<>((int) (count / 0.75));
+			LinkedHashMap<String, Integer> history= new LinkedHashMap<>((int) (count / 0.75)); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 			int rank= 1;
-			for (Iterator<String> it= rhsCache.iterator(); it.hasNext(); rank++) {
+			for (Iterator<String> it= rhsCache.iterator(); it.hasNext(); rank++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String type= it.next();
 				history.put(type, rank);
 			}
@@ -412,8 +412,8 @@ public final class ContentAssistHistory {
 	 * @return the set of remembered right hand sides ordered by least recent selection
 	 */
 	public Map<String, RHSHistory> getEntireHistory() {
-		HashMap<String, RHSHistory> map= new HashMap<>((int) (fLHSCache.size() / 0.75));
-		for (Entry<String, MRUSet<String>> entry : fLHSCache.entrySet()) {
+		HashMap<String, RHSHistory> map= new HashMap<>((int) (fLHSCache.size() / 0.75)); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Entry<String, MRUSet<String>> entry : fLHSCache.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String lhs= entry.getKey();
 			map.put(lhs, getHistory(lhs));
 		}

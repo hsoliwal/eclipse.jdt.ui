@@ -71,7 +71,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.BindingLabelProvider;
  *
  * @since 3.2
  */
-public final class GenerateHashCodeEqualsAction extends GenerateMethodAbstractAction {
+public final class GenerateHashCodeEqualsAction extends GenerateMethodAbstractAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private static final String METHODNAME_HASH_CODE= "hashCode"; //$NON-NLS-1$
 	private static final String METHODNAME_EQUALS= "equals"; //$NON-NLS-1$
@@ -139,14 +139,14 @@ public final class GenerateHashCodeEqualsAction extends GenerateMethodAbstractAc
 		return (info.foundEquals || info.foundHashCode);
 	}
 
-	private HashCodeEqualsInfo getTypeInfo(ITypeBinding someType, boolean checkSuperclasses) {
+	private HashCodeEqualsInfo getTypeInfo(ITypeBinding someType, boolean checkSuperclasses) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		HashCodeEqualsInfo info= new HashCodeEqualsInfo();
 		if (someType.isTypeVariable()) {
 			someType= someType.getErasure();
 		}
 
-		while (true) {
-			for (IMethodBinding declaredMethod : someType.getDeclaredMethods()) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IMethodBinding declaredMethod : someType.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (METHODNAME_EQUALS.equals(declaredMethod.getName())) {
 					ITypeBinding[] b= declaredMethod.getParameterTypes();
 					if ((b.length == 1) && ("java.lang.Object".equals(b[0].getQualifiedName()))) { //$NON-NLS-1$
@@ -178,7 +178,7 @@ public final class GenerateHashCodeEqualsAction extends GenerateMethodAbstractAc
 		return info;
 	}
 
-	private RefactoringStatus checkHashCodeEqualsExists(ITypeBinding someType, HashCodeEqualsInfo info, boolean checkFinalMethods, String concreteTypeWarning) {
+	private RefactoringStatus checkHashCodeEqualsExists(ITypeBinding someType, HashCodeEqualsInfo info, boolean checkFinalMethods, String concreteTypeWarning) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringStatus status= new RefactoringStatus();
 
@@ -223,7 +223,7 @@ public final class GenerateHashCodeEqualsAction extends GenerateMethodAbstractAc
 	@Override
 	void initialize(IType type) throws JavaModelException {
 		super.initialize(type);
-		alreadyCheckedMemberTypes= new ArrayList<>();
+		alreadyCheckedMemberTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
@@ -231,11 +231,11 @@ public final class GenerateHashCodeEqualsAction extends GenerateMethodAbstractAc
 		return ActionMessages.GenerateHashCodeEqualsAction_hashcode_or_equals;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	boolean generateCandidates() {
-		allFields= new ArrayList<>();
-		selectedFields= new ArrayList<>();
-		for (IVariableBinding candidateField : fTypeBinding.getDeclaredFields()) {
+		allFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		selectedFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IVariableBinding candidateField : fTypeBinding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Modifier.isStatic(candidateField.getModifiers())) {
 				allFields.add(candidateField);
 				if (!Modifier.isTransient(candidateField.getModifiers())) {

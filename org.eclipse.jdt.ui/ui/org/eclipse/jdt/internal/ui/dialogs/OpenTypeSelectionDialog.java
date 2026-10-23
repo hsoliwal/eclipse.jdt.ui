@@ -96,7 +96,7 @@ public class OpenTypeSelectionDialog extends FilteredTypesSelectionDialog {
 		applyFilter();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createButtonBar(Composite parent) {
 		IPreferenceStore preferenceStore= JavaPlugin.getDefault().getPreferenceStore();
 		IDialogFieldListener listener= this::doDialogFieldChanged;
@@ -118,7 +118,7 @@ public class OpenTypeSelectionDialog extends FilteredTypesSelectionDialog {
 		return super.createButtonBar(parent);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createButtonsForButtonBar(Composite parent) {
 		if (getClass() == OpenTypeSelectionDialog.class) {
 			addCommand(IWorkbenchCommandConstants.EDIT_PASTE, getPatternControl(), () -> {
@@ -145,12 +145,12 @@ public class OpenTypeSelectionDialog extends FilteredTypesSelectionDialog {
 			super.createButtonsForButtonBar(parent);
 	}
 
-	private static void addCommand(String commandId, Control control, Runnable runnable) {
+	private static void addCommand(String commandId, Control control, Runnable runnable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IHandlerService hs= PlatformUI.getWorkbench().getService(IHandlerService.class);
 		if (hs == null) {
 			return;
 		}
-		IAction action= new Action("any_" + commandId) { //$NON-NLS-1$
+		IAction action= new Action("any_" + commandId) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			@Override
 			public void run() {
 				if (control.isDisposed()) {
@@ -161,7 +161,7 @@ public class OpenTypeSelectionDialog extends FilteredTypesSelectionDialog {
 		};
 		IHandlerActivation handlerActivation= hs.activateHandler(commandId, new ActionHandler(action),
 				new ActiveShellExpression(control.getShell()));
-		control.addDisposeListener(unused -> hs.deactivateHandler(handlerActivation));
+		control.addDisposeListener(unused -> hs.deactivateHandler(handlerActivation)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 }

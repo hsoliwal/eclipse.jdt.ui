@@ -29,9 +29,9 @@ import org.eclipse.jdt.core.JavaCore;
 /**
  * Filters out all non-Java elements.
  */
-public class NonJavaElementFilter extends ViewerFilter {
+public class NonJavaElementFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean select(Viewer viewer, Object parent, Object element) {
 		if (element instanceof IJavaElement)
 			return true;

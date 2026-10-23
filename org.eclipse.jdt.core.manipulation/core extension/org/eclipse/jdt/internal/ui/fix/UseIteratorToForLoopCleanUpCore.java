@@ -55,7 +55,7 @@ public class UseIteratorToForLoopCleanUpCore extends AbstractCleanUp {
 		return isEnabled(CONTROL_STATEMENTS_CONVERT_FOR_LOOP_TO_ENHANCED);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICleanUpFix createFix(final CleanUpContext context) throws CoreException {
 		CompilationUnit compilationUnit= context.getAST();
 		if (compilationUnit == null) {
@@ -66,7 +66,7 @@ public class UseIteratorToForLoopCleanUpCore extends AbstractCleanUp {
 			return null;
 		}
 		Set<CompilationUnitRewriteOperation> operations= new LinkedHashSet<>();
-		Set<ASTNode> nodesprocessed= new HashSet<>();
+		Set<ASTNode> nodesprocessed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		computeFixSet.forEach(i -> i.findOperations(compilationUnit, operations, nodesprocessed, isEnabled(CONTROL_STATEMENTS_CONVERT_FOR_LOOP_ONLY_IF_LOOP_VAR_USED)));
 		if (operations.isEmpty()) {
 			return null;
@@ -77,7 +77,7 @@ public class UseIteratorToForLoopCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CONTROL_STATEMENTS_CONVERT_FOR_LOOP_TO_ENHANCED)) {
 			result.add(Java50CleanUp_ConvertToEnhancedForLoop_description);
 		}
@@ -86,9 +86,9 @@ public class UseIteratorToForLoopCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String getPreview() {
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		EnumSet<UseIteratorToForLoopFixCore> computeFixSet= computeFixSet();
-		EnumSet.allOf(UseIteratorToForLoopFixCore.class).forEach(e -> sb.append(e.getPreview(computeFixSet.contains(e))));
+		EnumSet.allOf(UseIteratorToForLoopFixCore.class).forEach(e -> sb.append(e.getPreview(computeFixSet.contains(e)))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return sb.toString();
 	}
 

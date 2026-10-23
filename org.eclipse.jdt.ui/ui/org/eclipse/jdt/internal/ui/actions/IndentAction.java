@@ -133,7 +133,7 @@ public class IndentAction extends TextEditorAction {
 	/*
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		// update has been called by the framework
 		if (!isEnabled() || !validateEditorInputState())
@@ -171,7 +171,7 @@ public class IndentAction extends TextEditorAction {
 					final boolean multiLine= nLines > 1;
 					boolean hasChanged= false;
 					TextBlockInfo textBlockInfo= new TextBlockInfo(-1, -1);
-					for (int i= 0; i < nLines; i++) {
+					for (int i= 0; i < nLines; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						hasChanged |= indentLine(document, firstLine + i, offset, indenter, scanner, multiLine, textBlockInfo);
 					}
 
@@ -275,14 +275,14 @@ public class IndentAction extends TextEditorAction {
 	 *
 	 * @since 3.4
 	 */
-	public static TextEdit indent(IDocument document, IJavaProject project) throws BadLocationException {
+	public static TextEdit indent(IDocument document, IJavaProject project) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int offset= 0;
 		int length= document.getLength();
 
 		JavaHeuristicScanner scanner= new JavaHeuristicScanner(document);
 		JavaIndenter indenter= new JavaIndenter(document, scanner, project);
 
-		ArrayList<ReplaceEdit> edits= new ArrayList<>();
+		ArrayList<ReplaceEdit> edits= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		int firstLine= document.getLineOfOffset(offset);
 		// check for marginal (zero-length) lines
@@ -292,7 +292,7 @@ public class IndentAction extends TextEditorAction {
 		TextBlockInfo textBlockInfo= new TextBlockInfo(-1, -1);
 
 		int shift= 0;
-		for (int i= 0; i < numberOfLines; i++) {
+		for (int i= 0; i < numberOfLines; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ReplaceData data= computeReplaceData(document, firstLine + i, indenter, scanner, numberOfLines > 1, false, textBlockInfo, project);
 
 			int replaceLength= data.end - data.offset;
@@ -314,7 +314,7 @@ public class IndentAction extends TextEditorAction {
 			return edits.get(0);
 
 		MultiTextEdit result= new MultiTextEdit();
-		for (ReplaceEdit replaceEdit : edits) {
+		for (ReplaceEdit replaceEdit : edits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addChild(replaceEdit);
 		}
 
@@ -336,7 +336,7 @@ public class IndentAction extends TextEditorAction {
 	 * @return <code>true</code> if <code>document</code> was modified, <code>false</code> otherwise
 	 * @throws BadLocationException if the document got changed concurrently
 	 */
-	private static ReplaceData computeReplaceData(IDocument document, int line, JavaIndenter indenter, JavaHeuristicScanner scanner, boolean multiLine, boolean isTabAction, TextBlockInfo textBlockInfo, IJavaProject project) throws BadLocationException {
+	private static ReplaceData computeReplaceData(IDocument document, int line, JavaIndenter indenter, JavaHeuristicScanner scanner, boolean multiLine, boolean isTabAction, TextBlockInfo textBlockInfo, IJavaProject project) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion currentLine= document.getLineInformation(line);
 		int offset= currentLine.getOffset();
 		int wsStart= offset; // where we start searching for non-WS; after the "//" in single line comments
@@ -367,7 +367,7 @@ public class IndentAction extends TextEditorAction {
 						computed= new StringBuffer(0);
 
 					removeIndentations(slashes, getTabSize(project), computed);
-					indent= document.get(offset, wsStart - offset) + computed;
+					indent= document.get(offset, wsStart - offset) + computed; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} else if (IJavaPartitions.JAVA_MULTI_LINE_STRING.equals(type)) {
 				if (textBlockInfo != null) {
@@ -427,7 +427,7 @@ public class IndentAction extends TextEditorAction {
 	}
 
 	private static int findEndOfWhiteSpace(IDocument document, int offset, int end) throws BadLocationException {
-		while (offset < end) {
+		while (offset < end) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= document.getChar(offset);
 			if (c != ' ' && c != '\t') {
 				return offset;
@@ -444,7 +444,7 @@ public class IndentAction extends TextEditorAction {
 
 		int length= 0;
 		int max= line.length();
-		for (int i= 0; i < max; i++) {
+		for (int i= 0; i < max; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= line.charAt(i);
 			if (ch == '\t') {
 				length= calculateSpaceEquivalents(tabWidth, length);
@@ -474,9 +474,9 @@ public class IndentAction extends TextEditorAction {
 	 * @param buffer the buffer to modify
 	 * @since 3.4
 	 */
-	private static void removeIndentations(int count, int tabSize, StringBuffer buffer) {
+	private static void removeIndentations(int count, int tabSize, StringBuffer buffer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		OUTER:
-		while (count > 0 && buffer.length() > 0) {
+		while (count > 0 && buffer.length() > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= buffer.charAt(0);
 			switch (c) {
 			case '\t':
@@ -510,7 +510,7 @@ public class IndentAction extends TextEditorAction {
 		int max= lineInfo.getOffset() + lineInfo.getLength() - 1;
 
 		int pairCount= 0;
-		while (offset < max && "//".equals(document.get(offset, 2))) { //$NON-NLS-1$
+		while (offset < max && "//".equals(document.get(offset, 2))) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pairCount++;
 			offset= offset + 2;
 		}
@@ -532,7 +532,7 @@ public class IndentAction extends TextEditorAction {
 	 * @return <code>true</code> if <code>document</code> was modified, <code>false</code> otherwise
 	 * @throws BadLocationException if the document got changed concurrently
 	 */
-	private boolean indentLine(IDocument document, int line, int caret, JavaIndenter indenter, JavaHeuristicScanner scanner, boolean multiLine, TextBlockInfo textBlockInfo) throws BadLocationException {
+	private boolean indentLine(IDocument document, int line, int caret, JavaIndenter indenter, JavaHeuristicScanner scanner, boolean multiLine, TextBlockInfo textBlockInfo) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project= getJavaProject();
 
 		ReplaceData data= computeReplaceData(document, line, indenter, scanner, multiLine, fIsTabAction, textBlockInfo, project);
@@ -578,7 +578,7 @@ public class IndentAction extends TextEditorAction {
 	 * @return the indent, or <code>null</code> if not computable
 	 * @since 3.1
 	 */
-	private static String computeJavadocIndent(IDocument document, int line, JavaHeuristicScanner scanner, ITypedRegion partition) throws BadLocationException {
+	private static String computeJavadocIndent(IDocument document, int line, JavaHeuristicScanner scanner, ITypedRegion partition) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (line == 0) // impossible - the first line is never inside a javadoc comment
 			return null;
 
@@ -601,7 +601,7 @@ public class IndentAction extends TextEditorAction {
 		int previousLineLength= previousLine.getLength();
 		int previousLineEnd= previousLineStart + previousLineLength;
 
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int previousLineNonWS= scanner.findNonWhitespaceForwardInAnyPartition(previousLineStart, previousLineEnd);
 		if (previousLineNonWS == JavaHeuristicScanner.NOT_FOUND || document.getChar(previousLineNonWS) != '*') {
 			// align with the comment start if the previous line is not an asterisked line
@@ -615,7 +615,7 @@ public class IndentAction extends TextEditorAction {
 
 			// add the initial space
 			// TODO this may be controlled by a formatter preference in the future
-			buf.append(' ');
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		String indentation= document.get(previousLineStart, previousLineNonWS - previousLineStart);
@@ -638,7 +638,7 @@ public class IndentAction extends TextEditorAction {
 			int size= 0;
 			int tabSize= getTabSize(project);
 
-			for (char c : indent.toCharArray()) {
+			for (char c : indent.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				size += c == '\t' ? tabSize : 1;
 			}
 			return size;
@@ -660,7 +660,7 @@ public class IndentAction extends TextEditorAction {
 			if (size < 1) {
 				tab= ""; //$NON-NLS-1$
 			} else {
-				tab= String.format("%" + size + "s", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				tab= String.format("%" + size + "s", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 			}
 		} else
 			tab= "\t"; //$NON-NLS-1$
@@ -798,7 +798,7 @@ public class IndentAction extends TextEditorAction {
 	 *
 	 * @return <code>true</code> if the selection is valid for an indent operation
 	 */
-	private boolean isValidSelection() {
+	private boolean isValidSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITextSelection selection= getSelection();
 		if (selection.isEmpty())
 			return false;
@@ -881,13 +881,13 @@ public class IndentAction extends TextEditorAction {
 		return TextSelection.emptySelection();
 	}
 
-	public static int getTextBlockMinIndent(IDocument document, int offset, int length) throws BadLocationException {
+	public static int getTextBlockMinIndent(IDocument document, int offset, int length) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int indent= Integer.MAX_VALUE;
 
 		int startLine= document.getLineOfOffset(offset);
 		int numLines= document.getNumberOfLines(offset, length);
 		boolean opened= false;
-		for (int i= startLine; i < startLine + numLines; ++i) {
+		for (int i= startLine; i < startLine + numLines; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IRegion line= document.getLineInformation(i);
 			String lineStr= document.get(line.getOffset(), line.getLength());
 			if (opened) {
@@ -905,7 +905,7 @@ public class IndentAction extends TextEditorAction {
 		return indent;
 	}
 
-	public static String getTextBlockIndentationString(IDocument document, int offset, int commandOffset, int minIndent, IJavaProject javaProject) throws BadLocationException {
+	public static String getTextBlockIndentationString(IDocument document, int offset, int commandOffset, int minIndent, IJavaProject javaProject) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion line= document.getLineInformationOfOffset(offset);
 		String fullStrNoTrim= document.get(line.getOffset(), commandOffset - line.getOffset());
 		if (!fullStrNoTrim.trim().endsWith(IndentAction.TEXT_BLOCK_STR)) {
@@ -930,7 +930,7 @@ public class IndentAction extends TextEditorAction {
 			if (fullStrNoTrim.trim().equals(IndentAction.TEXT_BLOCK_STR)) {
 				int lineno= document.getLineOfOffset(line.getOffset());
 				boolean done= false;
-				while (--lineno > 0 && !done) {
+				while (--lineno > 0 && !done) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IRegion prevLine= document.getLineInformation(lineno);
 					String prevLineString= document.get(prevLine.getOffset(), prevLine.getLength());
 					if (!prevLineString.trim().isEmpty()) {
@@ -952,24 +952,24 @@ public class IndentAction extends TextEditorAction {
 					case DefaultCodeFormatterConstants.INDENT_ON_COLUMN: {
 						String newStr= indentation;
 						int length= IndentAction.measureLengthInSpaces(stringTocalculate, CodeFormatterUtil.getTabWidth(javaProject));
-						StringBuilder str= new StringBuilder();
+						StringBuilder str= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 						if (getUseTabsOnlyForLeadingIndentations(javaProject)) {
 							int existing= IndentAction.measureLengthInSpaces(indentation, CodeFormatterUtil.getTabWidth(javaProject));
 							if (length - existing > 0) {
-								for (int i= 0; i < length - existing; i++) {
+								for (int i= 0; i < length - existing; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									newStr+= IndentAction.SPACE_STR;
 								}
 							}
 						} else {
-							for (int i= 0; i < length; i++) {
-								str.append(IndentAction.SPACE_STR);
+							for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+								str.append(IndentAction.SPACE_STR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							}
 							int units= Strings.computeIndentUnits(str.toString(), javaProject);
 							newStr= CodeFormatterUtil.createIndentString(units, javaProject);
 							int newLength= IndentManipulation.measureIndentInSpaces(newStr, CodeFormatterUtil.getTabWidth(javaProject));
 							if (newLength < length) {
 								if (DefaultCodeFormatterConstants.MIXED.equals(formatterTabValue) || JavaCore.SPACE.equals(formatterTabValue)) {
-									for (int i= newLength; i < length; i++) {
+									for (int i= newLength; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										newStr+= IndentAction.SPACE_STR;
 									}
 								} else if (JavaCore.TAB.equals(formatterTabValue)) {
@@ -1000,7 +1000,7 @@ public class IndentAction extends TextEditorAction {
 							indentString= tabSpaceString;
 						}
 						int count= getFormatterContinuationIndentation(javaProject);
-						for (int i= 0; i < count; i++) {
+						for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							indentation+= indentString;
 						}
 						break;
@@ -1022,10 +1022,10 @@ public class IndentAction extends TextEditorAction {
 				}
 			}
 		}
-		return indentation + commandIndent;
+		return indentation + commandIndent; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	public static String getIndentationAsPerTextBlockSettings(IDocument document, int offset, IJavaProject javaProject) throws BadLocationException {
+	public static String getIndentationAsPerTextBlockSettings(IDocument document, int offset, IJavaProject javaProject) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion line= document.getLineInformationOfOffset(offset);
 		int startLength= document.getLineOffset(document.getLineOfOffset(offset));
 		String fullStrNoTrim= document.get(line.getOffset(), offset - startLength);
@@ -1039,24 +1039,24 @@ public class IndentAction extends TextEditorAction {
 			case DefaultCodeFormatterConstants.INDENT_ON_COLUMN: {
 				String newStr= indentation;
 				int length= IndentAction.measureLengthInSpaces(stringTocalculate, CodeFormatterUtil.getTabWidth(javaProject));
-				StringBuilder str= new StringBuilder();
+				StringBuilder str= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (getUseTabsOnlyForLeadingIndentations(javaProject)) {
 					int existing= IndentAction.measureLengthInSpaces(indentation, CodeFormatterUtil.getTabWidth(javaProject));
 					if (length - existing > 0) {
-						for (int i= 0; i < length - existing; i++) {
+						for (int i= 0; i < length - existing; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							newStr+= IndentAction.SPACE_STR;
 						}
 					}
 				} else {
-					for (int i= 0; i < length; i++) {
-						str.append(IndentAction.SPACE_STR);
+					for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						str.append(IndentAction.SPACE_STR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					int units= Strings.computeIndentUnits(str.toString(), javaProject);
 					newStr= CodeFormatterUtil.createIndentString(units, javaProject);
 					int newLength= IndentManipulation.measureIndentInSpaces(newStr, CodeFormatterUtil.getTabWidth(javaProject));
 					if (newLength < length) {
 						if (DefaultCodeFormatterConstants.MIXED.equals(formatterTabValue) || JavaCore.SPACE.equals(formatterTabValue)) {
-							for (int i= newLength; i < length; i++) {
+							for (int i= newLength; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								newStr+= IndentAction.SPACE_STR;
 							}
 						} else if (JavaCore.TAB.equals(formatterTabValue)) {
@@ -1087,7 +1087,7 @@ public class IndentAction extends TextEditorAction {
 					indentString= tabSpaceString;
 				}
 				int count= getFormatterContinuationIndentation(javaProject);
-				for (int i= 0; i < count; i++) {
+				for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					indentation+= indentString;
 				}
 				break;
@@ -1124,7 +1124,7 @@ public class IndentAction extends TextEditorAction {
 		if (getUseTabsOnlyForLeadingIndentations(javaProject)) {
 			int tabWidth= CodeFormatterUtil.getTabWidth(javaProject);
 			tabString= EMPTY_STR;
-			for (int i= 0; i < tabWidth; i++) {
+			for (int i= 0; i < tabWidth; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tabString+= SPACE_STR;
 			}
 		}
@@ -1134,7 +1134,7 @@ public class IndentAction extends TextEditorAction {
 	private static String getTabSpaceString(IJavaProject javaProject) {
 		int tabWidth= CodeFormatterUtil.getTabWidth(javaProject);
 		String tabString= EMPTY_STR;
-		for (int i= 0; i < tabWidth; i++) {
+		for (int i= 0; i < tabWidth; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tabString+= SPACE_STR;
 		}
 		return tabString;

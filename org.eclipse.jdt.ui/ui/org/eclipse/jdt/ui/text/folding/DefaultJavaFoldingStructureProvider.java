@@ -172,7 +172,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 
 		private IType fFirstType;
 		private boolean fHasHeaderComment;
-		private LinkedHashMap<JavaProjectionAnnotation, Position> fMap= new LinkedHashMap<>();
+		private LinkedHashMap<JavaProjectionAnnotation, Position> fMap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		private IScanner fDefaultScanner; // this one may or not be the shared DefaultJavaFoldingStructureProvider.fSharedScanner
 		private IScanner fScannerForProject;
 
@@ -376,7 +376,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		 */
 		@Override
 		public String toString() {
-			return "JavaProjectionAnnotation:\n" + //$NON-NLS-1$
+			return "JavaProjectionAnnotation:\n" + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"\telement: \t"+ fJavaElement + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
 					"\tcollapsed: \t" + isCollapsed() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
 					"\tcomment: \t" + isComment() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -455,7 +455,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		}
 	}
 
-	private class ElementChangedListener implements IElementChangedListener {
+	private class ElementChangedListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 		/*
 		 * @see org.eclipse.jdt.core.IElementChangedListener#elementChanged(org.eclipse.jdt.core.ElementChangedEvent)
@@ -489,7 +489,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		 * @return <code>true</code> if the delta should be ignored
 		 * @since 3.3
 		 */
-		private boolean shouldIgnoreDelta(CompilationUnit ast, IJavaElementDelta delta) {
+		private boolean shouldIgnoreDelta(CompilationUnit ast, IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (ast == null)
 				return false; // can't compute
 
@@ -519,7 +519,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 			}
 
 			if (caretLine > 0) {
-				for (IProblem problem : ast.getProblems()) {
+				for (IProblem problem : ast.getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (problem.isError() && caretLine == problem.getSourceLineNumber()) {
 						return true;
 					}
@@ -529,7 +529,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 			return false;
 		}
 
-		private IJavaElementDelta findElement(IJavaElement target, IJavaElementDelta delta) {
+		private IJavaElementDelta findElement(IJavaElement target, IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			if (delta == null || target == null)
 				return null;
@@ -542,7 +542,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 			if (target.equals(element))
 				return delta;
 
-			for (IJavaElementDelta child : delta.getAffectedChildren()) {
+			for (IJavaElementDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElementDelta d= findElement(target, child);
 				if (d != null)
 					return d;
@@ -565,7 +565,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		/*
 		 * @see org.eclipse.jface.text.source.projection.IProjectionPosition#computeFoldingRegions(org.eclipse.jface.text.IDocument)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IRegion[] computeProjectionRegions(IDocument document) throws BadLocationException {
 			DocumentCharacterIterator sequence= new DocumentCharacterIterator(document, offset, offset + length);
 			int prefixEnd= 0;
@@ -615,7 +615,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		 */
 		private int findFirstContent(final CharSequence content, int prefixEnd) {
 			int lenght= content.length();
-			for (int i= prefixEnd; i < lenght; i++) {
+			for (int i= prefixEnd; i < lenght; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Character.isUnicodeIdentifierPart(content.charAt(i)))
 					return i;
 			}
@@ -655,7 +655,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		/*
 		 * @see org.eclipse.jface.text.source.projection.IProjectionPosition#computeFoldingRegions(org.eclipse.jface.text.IDocument)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IRegion[] computeProjectionRegions(IDocument document) throws BadLocationException {
 			int nameStart= offset;
 			try {
@@ -779,7 +779,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	private ProjectionListener fProjectionListener;
 	private IJavaElement fInput;
 	private IElementChangedListener fElementListener;
-	private final IPropertyChangeListener fPropertyChangeListener = event -> {
+	private final IPropertyChangeListener fPropertyChangeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		final Set<String> foldingProperties= Set.of(PreferenceConstants.EDITOR_FOLDING_COLLAPSE_CUSTOM_REGIONS, PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_END,
 				PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_START, PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGIONS_ENABLED, PreferenceConstants.EDITOR_FOLDING_HEADERS,
 				PreferenceConstants.EDITOR_FOLDING_ENABLED,
@@ -844,7 +844,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		if (editor instanceof JavaEditor) {
 			fProjectionListener= new ProjectionListener(viewer);
 			fEditor= (JavaEditor)editor;
-			for (IPreferenceStore store : FoldingPreferencePage.getAllFoldingPreferenceStores(fEditor)) {
+			for (IPreferenceStore store : FoldingPreferencePage.getAllFoldingPreferenceStores(fEditor)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				store.addPropertyChangeListener(fPropertyChangeListener);
 			}
 		}
@@ -869,7 +869,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 			handleProjectionDisabled();
 			fProjectionListener.dispose();
 			fProjectionListener= null;
-			for (IPreferenceStore store : FoldingPreferencePage.getAllFoldingPreferenceStores(fEditor)) {
+			for (IPreferenceStore store : FoldingPreferencePage.getAllFoldingPreferenceStores(fEditor)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				store.removePropertyChangeListener(fPropertyChangeListener);
 			}
 			fEditor= null;
@@ -905,7 +905,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		if (isInstalled()) {
 			initialize();
 			fElementListener= new ElementChangedListener();
-			JavaCore.addElementChangedListener(fElementListener);
+			JavaCore.addElementChangedListener(fElementListener); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		}
 	}
 
@@ -972,7 +972,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	/**
 	 * @return <code>true</code> if the preferences changed from the last time they were initialized.
 	 */
-	private boolean initializePreferences() {
+	private boolean initializePreferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= FoldingPreferencePage.getFoldingPreferenceStore(fEditor);
 
 		Preferences temp= new Preferences();
@@ -1001,22 +1001,22 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		return preferencesChanged;
 	}
 
-	private void update(FoldingStructureComputationContext ctx) {
+	private void update(FoldingStructureComputationContext ctx) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (ctx == null)
 			return;
 
-		Map<JavaProjectionAnnotation, Position> additions= new HashMap<>();
-		List<JavaProjectionAnnotation> deletions= new ArrayList<>();
-		List<JavaProjectionAnnotation> updates= new ArrayList<>();
+		Map<JavaProjectionAnnotation, Position> additions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		List<JavaProjectionAnnotation> deletions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<JavaProjectionAnnotation> updates= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		computeFoldingStructure(ctx);
 		keepLargestByPosition(ctx.fMap);
 		Map<IJavaElement, List<Tuple>> oldStructure= computeCurrentStructure(ctx);
 
-		List<Map.Entry<JavaProjectionAnnotation, Position>> newStructureList = new ArrayList<>(ctx.fMap.entrySet());
-		Collections.sort(newStructureList, Comparator.comparingInt(e -> e.getValue().offset));
+		List<Map.Entry<JavaProjectionAnnotation, Position>> newStructureList = new ArrayList<>(ctx.fMap.entrySet()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Collections.sort(newStructureList, Comparator.comparingInt(e -> e.getValue().offset)); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
-		for(Map.Entry<JavaProjectionAnnotation, Position> newStructureEntry : newStructureList) {
+		for(Map.Entry<JavaProjectionAnnotation, Position> newStructureEntry : newStructureList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectionAnnotation newAnnotation= newStructureEntry.getKey();
 			Position newPosition= newStructureEntry.getValue();
 
@@ -1038,7 +1038,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 			} else {
 				Iterator<Tuple> x= annotations.iterator();
 				boolean matched= false;
-				while (x.hasNext()) {
+				while (x.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Tuple tuple= x.next();
 					JavaProjectionAnnotation existingAnnotation= tuple.annotation;
 					Position existingPosition= tuple.position;
@@ -1068,10 +1068,10 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		}
 
 		Iterator<List<Tuple>> iter= oldStructure.values().iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<Tuple> list= iter.next();
 			int size= list.size();
-			for (int i= 0; i < size; i++)
+			for (int i= 0; i < size; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				deletions.add(list.get(i).annotation);
 		}
 
@@ -1088,7 +1088,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		processSourceReference(ctx);
 	}
 
-	private void processSourceReference(FoldingStructureComputationContext ctx) {
+	private void processSourceReference(FoldingStructureComputationContext ctx) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IParent parent= (IParent) fInput;
 		try {
 			if (!(fInput instanceof ISourceReference))
@@ -1127,7 +1127,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		return alignRegion(region, ctx, false); // Do not fold the last line (preserve existing behavior for subclasses)
 	}
 
-	private IRegion alignRegion(IRegion region, FoldingStructureComputationContext ctx, boolean mayIncludeLastLine) {
+	private IRegion alignRegion(IRegion region, FoldingStructureComputationContext ctx, boolean mayIncludeLastLine) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (region == null)
 			return null;
 
@@ -1166,7 +1166,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 
 			return new Region(offset, endOffset - offset);
 		} catch (BadLocationException x) {
-			JavaPlugin.log(new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IJavaStatusConstants.INTERNAL_ERROR, "A folding region could not be processed and will therefore not be shown.\nThe region is located at offset " + region.getOffset() + " with length " + region.getLength(), x)); //$NON-NLS-1$ //$NON-NLS-2$
+			JavaPlugin.log(new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IJavaStatusConstants.INTERNAL_ERROR, "A folding region could not be processed and will therefore not be shown.\nThe region is located at offset " + region.getOffset() + " with length " + region.getLength(), x)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null;
 		}
 	}
@@ -1180,7 +1180,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * @return {@code true} if the folding region should exclude the last line containing the offset, else {@code false}
 	 */
 	private boolean hasLineMoreContent(int offset, IDocument document) throws BadLocationException {
-		for (int i= offset; i < document.getLength(); i++) {
+		for (int i= offset; i < document.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= document.getChar(i);
 			if (c == '\n' || c == '\r') {
 				return false;
@@ -1205,8 +1205,8 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		return new CommentPosition(aligned.getOffset(), aligned.getLength());
 	}
 
-	private void computeFoldingStructure(IJavaElement[] elements, FoldingStructureComputationContext ctx) throws JavaModelException {
-		for (IJavaElement element : elements) {
+	private void computeFoldingStructure(IJavaElement[] elements, FoldingStructureComputationContext ctx) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			computeFoldingStructure(element, ctx);
 
 			if (element instanceof IParent) {
@@ -1215,7 +1215,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 				computeFoldingStructure(children, ctx);
 				if (fCurrentPreferences.fNewFolding && element instanceof ISourceReference sourceRef) {
 					// Dives deeper and processes the tokens directly found in the source code.
-					for (IRegion r : computeProjectionRangesUsingTokensInSourceCode(sourceRef, ctx, children)) {
+					for (IRegion r : computeProjectionRangesUsingTokensInSourceCode(sourceRef, ctx, children)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						boolean isComment= (r instanceof ITypedRegion tr) && COMMENT_TYPE.equals(tr.getType());
 						boolean collapse= isComment ? ctx.collapseJavadoc() : ctx.collapseMembers();
 						normalizeAndAddRegion(ctx, element, collapse, r, isComment);
@@ -1258,7 +1258,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * @param element the java element to compute the folding structure for
 	 * @param ctx the computation context
 	 */
-	protected void computeFoldingStructure(IJavaElement element, FoldingStructureComputationContext ctx) {
+	protected void computeFoldingStructure(IJavaElement element, FoldingStructureComputationContext ctx) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean collapse= false;
 		switch (element.getElementType()) {
 			case IJavaElement.IMPORT_CONTAINER:
@@ -1274,7 +1274,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 						return;
 					}
 				} catch (JavaModelException e) {
-					JavaPlugin.log(new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IJavaStatusConstants.INTERNAL_ERROR, "An error occurred while processing " + type.getFullyQualifiedName() + " for folding.", e)); //$NON-NLS-1$ //$NON-NLS-2$
+					JavaPlugin.log(new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IJavaStatusConstants.INTERNAL_ERROR, "An error occurred while processing " + type.getFullyQualifiedName() + " for folding.", e)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					return;
 				}
 				break;
@@ -1290,7 +1290,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		IRegion[] regions= computeProjectionRanges((ISourceReference) element, ctx);
 		if (regions.length > 0) {
 			// comments
-			for (int i= 0; i < regions.length - 1; i++) {
+			for (int i= 0; i < regions.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean commentCollapse;
 				if (i == 0 && (regions.length > 2 || ctx.hasHeaderComment()) && element == ctx.getFirstType()) {
 					commentCollapse= ctx.collapseHeaderComments();
@@ -1330,7 +1330,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * @param ctx the folding context
 	 * @return the regions to be folded
 	 */
-	protected final IRegion[] computeProjectionRanges(ISourceReference reference, FoldingStructureComputationContext ctx) {
+	protected final IRegion[] computeProjectionRanges(ISourceReference reference, FoldingStructureComputationContext ctx) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 				ISourceRange range= reference.getSourceRange();
 				if (!SourceRange.isAvailable(range))
@@ -1340,7 +1340,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 				if (contents == null)
 					return new IRegion[0];
 
-				List<IRegion> regions= new ArrayList<>();
+				List<IRegion> regions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				if (!ctx.hasFirstType() && reference instanceof IType) {
 					ctx.setFirstType((IType) reference);
 					IRegion headerComment= computeHeaderComment(ctx);
@@ -1355,7 +1355,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 				scanner.resetTo(shift, shift + range.getLength());
 
 				int start= shift;
-				while (true) {
+				while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					int token= scanner.getNextToken();
 					start= scanner.getCurrentTokenStartPosition();
@@ -1399,7 +1399,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 
 	private int findLastClosingBracePosition(IScanner scanner) throws InvalidInputException {
 		int lastClosingBracePosition= -1;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			int token= scanner.getNextToken();
 
@@ -1413,7 +1413,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		return lastClosingBracePosition;
 	}
 
-	private IRegion computeHeaderComment(FoldingStructureComputationContext ctx) throws JavaModelException {
+	private IRegion computeHeaderComment(FoldingStructureComputationContext ctx) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// search at most up to the first type
 		ISourceRange range= ctx.getFirstType().getSourceRange();
 		if (range == null)
@@ -1436,7 +1436,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		try {
 			boolean foundComment= false;
 			int terminal= scanner.getNextToken();
-			while (terminal != ITerminalSymbols.TokenNameEOF
+			while (terminal != ITerminalSymbols.TokenNameEOF //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					&& (terminal != ITerminalSymbols.TokenNameclass)
 					&& (terminal != ITerminalSymbols.TokenNameinterface)
 					&& (terminal != ITerminalSymbols.TokenNameenum)
@@ -1508,7 +1508,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 						BinaryOperator.maxBy(Comparator.comparingInt(e -> e.getValue().getLength()))));
 
 		// keep only folding regions in bestByOffset
-		map.entrySet().retainAll(new HashSet<>(bestByOffset.values()));
+		map.entrySet().retainAll(new HashSet<>(bestByOffset.values())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	private void normalizeAndAddRegion(FoldingStructureComputationContext ctx, IJavaElement element, boolean collapse, IRegion region, boolean isComment) {
@@ -1525,7 +1525,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * Scan the given source code and find the regions in it by identifying their opening and closing tokens
 	 * Anything inside of any excludedElements should not be scanned
 	 */
-	private IRegion[] computeProjectionRangesUsingTokensInSourceCode(ISourceReference reference, FoldingStructureComputationContext ctx, IJavaElement[] excludedElements) {
+	private IRegion[] computeProjectionRangesUsingTokensInSourceCode(ISourceReference reference, FoldingStructureComputationContext ctx, IJavaElement[] excludedElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ISourceRange range= reference.getSourceRange();
 			if (!SourceRange.isAvailable(range))
@@ -1535,7 +1535,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 			if (contents == null)
 				return new IRegion[0];
 
-			List<IRegion> regions= new ArrayList<>();
+			List<IRegion> regions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (!ctx.hasFirstType() && reference instanceof IType type) {
 				ctx.setFirstType(type);
 				IRegion headerComment= computeHeaderComment(ctx);
@@ -1549,7 +1549,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 			IScanner scanner= ctx.getScanner();
 
 			Deque<TokenAtOffset> startPositions= new LinkedList<>();
-			for (IJavaElement excluded : excludedElements) {
+			for (IJavaElement excluded : excludedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (excluded instanceof ISourceReference excludedReference && SourceRange.isAvailable(excludedReference.getSourceRange())) {
 					ISourceRange excludedRange= excludedReference.getSourceRange();
 					scanner.resetTo(shift, excludedRange.getOffset());
@@ -1576,16 +1576,16 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 			} else {
 				name = String.valueOf(reference);
 			}
-			JavaPlugin.log(new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IJavaStatusConstants.INTERNAL_ERROR, "An error occured trying to compute the folding regions for " + name + ". These folding regions will be skipped.", e)); //$NON-NLS-1$ //$NON-NLS-2$
+			JavaPlugin.log(new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IJavaStatusConstants.INTERNAL_ERROR, "An error occured trying to compute the folding regions for " + name + ". These folding regions will be skipped.", e)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return new IRegion[0];
 	}
 
-	private void populateProjectionRegions(List<IRegion> regions, Deque<TokenAtOffset> startPositions, IScanner scanner) throws InvalidInputException {
+	private void populateProjectionRegions(List<IRegion> regions, Deque<TokenAtOffset> startPositions, IScanner scanner) throws InvalidInputException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int start;
 		int token;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			token= scanner.getNextToken();
 			start= scanner.getCurrentTokenStartPosition();
 
@@ -1620,11 +1620,11 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * @param endToken the token that closes/ends a region
 	 * @return the token that opens the region and its offset.
 	 */
-	private Optional<TokenAtOffset> findStartTokenForEndToken(Deque<TokenAtOffset> startTokens, int endToken) {
+	private Optional<TokenAtOffset> findStartTokenForEndToken(Deque<TokenAtOffset> startTokens, int endToken) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// find corresponding start token
 		TokenAtOffset found = null;
 		int numberOfTokens= 0;
-		for (TokenAtOffset tokenAtOffset : startTokens) {
+		for (TokenAtOffset tokenAtOffset : startTokens) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			numberOfTokens++;
 			if (canCloseOpeningTokenWith(tokenAtOffset.token(), endToken)) {
 				found = tokenAtOffset;
@@ -1633,7 +1633,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		}
 		if (found != null) {
 			// pop all until the start token
-			for (int i = 0; i < numberOfTokens; i++) {
+			for (int i = 0; i < numberOfTokens; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				startTokens.pop();
 			}
 			return Optional.of(found);
@@ -1649,20 +1649,20 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		return openingToken == ITerminalSymbols.TokenNameLBRACE && endToken == ITerminalSymbols.TokenNameRBRACE;
 	}
 
-	private void computeFoldingStructureCustom(IJavaElement rootElement, FoldingStructureComputationContext ctx) throws JavaModelException {
+	private void computeFoldingStructureCustom(IJavaElement rootElement, FoldingStructureComputationContext ctx) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IScanner scanner= ctx.getScanner();
 		scanner.resetTo(0, ctx.fDocument.getLength());
 		try {
-			Deque<Deque<Integer>> openCommentStartPositions= new ArrayDeque<>();
-			List<IRegion> customFoldingRegions = new ArrayList<>();
-			openCommentStartPositions.add(new ArrayDeque<>()); // allow folding outside of any block (e.g. fold multiple top level classes)
+			Deque<Deque<Integer>> openCommentStartPositions= new ArrayDeque<>(); //FLLDCIM: MARK — M08 M3_DEQUE_LANES NEW
+			List<IRegion> customFoldingRegions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			openCommentStartPositions.add(new ArrayDeque<>()); // allow folding outside of any block (e.g. fold multiple top level classes) //FLLDCIM: MARK — M08 M3_DEQUE_LANES NEW
 
 			boolean currentBlockIsEmpty= true;
 			Region singleCommentBlockCommentRegion= null;
 			int lastToken;
 
 			int token= -1;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				lastToken= token;
 				token= scanner.getNextToken();
 				switch (token) {
@@ -1674,7 +1674,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 						currentBlockIsEmpty= lastToken == ITerminalSymbols.TokenNameSEMICOLON || lastToken == ITerminalSymbols.TokenNameLBRACE || lastToken == ITerminalSymbols.TokenNameRBRACE
 								|| lastToken == ITerminalSymbols.TokenNameCOMMENT_BLOCK || lastToken == ITerminalSymbols.TokenNameCOMMENT_LINE;
 						singleCommentBlockCommentRegion= null;
-						openCommentStartPositions.addLast(new ArrayDeque<>());
+						openCommentStartPositions.addLast(new ArrayDeque<>()); //FLLDCIM: MARK — M08 M3_DEQUE_LANES NEW
 					}
 					case ITerminalSymbols.TokenNameRBRACE -> {
 						if (!openCommentStartPositions.isEmpty()) {
@@ -1722,11 +1722,11 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 				}
 			} while (token != ITerminalSymbols.TokenNameEOF);
 			if (fCurrentPreferences.fCustomFoldingRegionMarkersCanOverlap) {
-				for (Deque<Integer> openRegions : openCommentStartPositions.reversed()) {
+				for (Deque<Integer> openRegions : openCommentStartPositions.reversed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					closeOpenFoldingRegions(openRegions, ctx.fDocument.getLength(), customFoldingRegions);
 				}
 			}
-			Collections.sort(customFoldingRegions, Comparator.comparingInt(IRegion::getOffset));
+			Collections.sort(customFoldingRegions, Comparator.comparingInt(IRegion::getOffset)); //FLLDCIM: MARK — M16 SORT_LANE CALL
 			addCustomFoldingRegions(ctx, rootElement, customFoldingRegions, 0);
 		} catch (InvalidInputException e) {
 			JavaPlugin.log(e);
@@ -1734,7 +1734,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	}
 
 	private void closeOpenFoldingRegions(Deque<Integer> openRegions, int regionEnd, List<IRegion> customFoldingRegions) {
-		for (Integer start : openRegions.reversed()) {
+		for (Integer start : openRegions.reversed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			customFoldingRegions.add(new Region(start, regionEnd - start));
 		}
 	}
@@ -1749,7 +1749,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * @return The new index of the next folding region to add in customFoldingRegions after calling the method. Needed for recursion.
 	 * @throws JavaModelException should not happen
 	 */
-	private int addCustomFoldingRegions(FoldingStructureComputationContext ctx, IJavaElement current, List<IRegion> customFoldingRegions, int nextRegionIndex) throws JavaModelException {
+	private int addCustomFoldingRegions(FoldingStructureComputationContext ctx, IJavaElement current, List<IRegion> customFoldingRegions, int nextRegionIndex) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (nextRegionIndex >= customFoldingRegions.size() || !(current instanceof ISourceReference sourceRef)) {
 			return nextRegionIndex;
 		}
@@ -1758,7 +1758,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		int rangeLength= sourceRef.getSourceRange().getOffset() + sourceRef.getSourceRange().getLength() - rangeOffset;
 
 		// Any folding regions that start before the offset of the current IJavaElement should be associated with the parent.
-		while (nextRegionIndex < customFoldingRegions.size() && customFoldingRegions.get(nextRegionIndex).getOffset() <= rangeOffset) {
+		while (nextRegionIndex < customFoldingRegions.size() && customFoldingRegions.get(nextRegionIndex).getOffset() <= rangeOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addCustomFoldingRegion(ctx, customFoldingRegions.get(nextRegionIndex++), current.getParent());
 		}
 
@@ -1768,7 +1768,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 
 		// process children
 		if (current instanceof IParent parent) {
-			for (IJavaElement child : parent.getChildren()) {
+			for (IJavaElement child : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nextRegionIndex = addCustomFoldingRegions(ctx, child, customFoldingRegions, nextRegionIndex);
 				if (nextRegionIndex >= customFoldingRegions.size()) {
 					return nextRegionIndex;
@@ -1777,7 +1777,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		}
 
 		// any folding regions starting within the current IJavaElement are associated with it
-		while (nextRegionIndex < customFoldingRegions.size() && customFoldingRegions.get(nextRegionIndex).getOffset() < rangeOffset + rangeLength) {
+		while (nextRegionIndex < customFoldingRegions.size() && customFoldingRegions.get(nextRegionIndex).getOffset() < rangeOffset + rangeLength) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addCustomFoldingRegion(ctx, customFoldingRegions.get(nextRegionIndex++), current);
 		}
 		return nextRegionIndex;
@@ -1809,7 +1809,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	}
 
 	private int skipLeadingWhitespace(char[] source, int start) {
-		while (start < source.length && Character.isWhitespace(source[start])) {
+		while (start < source.length && Character.isWhitespace(source[start])) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			start++;
 		}
 		return start;
@@ -1819,7 +1819,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		if (length < prefix.length) {
 			return false;
 		}
-		for (int i= 0; i < prefix.length; i++) {
+		for (int i= 0; i < prefix.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (source[offset + i] != prefix[i]) {
 				return false;
 			}
@@ -1840,15 +1840,15 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * @param changes list with changed annotations
 	 * @param ctx	the context
 	 */
-	private void match(List<JavaProjectionAnnotation> deletions, Map<JavaProjectionAnnotation, Position> additions, List<JavaProjectionAnnotation> changes, FoldingStructureComputationContext ctx) {
+	private void match(List<JavaProjectionAnnotation> deletions, Map<JavaProjectionAnnotation, Position> additions, List<JavaProjectionAnnotation> changes, FoldingStructureComputationContext ctx) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (deletions.isEmpty() || (additions.isEmpty() && changes.isEmpty()))
 			return;
 
-		List<JavaProjectionAnnotation> newDeletions= new ArrayList<>();
-		List<JavaProjectionAnnotation> newChanges= new ArrayList<>();
+		List<JavaProjectionAnnotation> newDeletions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<JavaProjectionAnnotation> newChanges= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		Iterator<JavaProjectionAnnotation> deletionIterator= deletions.iterator();
-		while (deletionIterator.hasNext()) {
+		while (deletionIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectionAnnotation deleted= deletionIterator.next();
 			Position deletedPosition= ctx.getModel().getPosition(deleted);
 			if (deletedPosition == null)
@@ -1908,9 +1908,9 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * @param ctx the context
 	 * @return a matching tuple or <code>null</code> for no match
 	 */
-	private Tuple findMatch(Tuple tuple, Collection<JavaProjectionAnnotation> annotations, Map<JavaProjectionAnnotation, Position> positionMap, FoldingStructureComputationContext ctx) {
+	private Tuple findMatch(Tuple tuple, Collection<JavaProjectionAnnotation> annotations, Map<JavaProjectionAnnotation, Position> positionMap, FoldingStructureComputationContext ctx) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<JavaProjectionAnnotation> it= annotations.iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectionAnnotation annotation= it.next();
 			if (tuple.annotation.isComment() == annotation.isComment()) {
 				Position position= positionMap == null ? ctx.getModel().getPosition(annotation) : positionMap.get(annotation);
@@ -1935,16 +1935,16 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		}
 
 		Comparator<Tuple> comparator= (o1, o2) -> o1.position.getOffset() - o2.position.getOffset();
-		for (List<Tuple> list : map.values()) {
-			Collections.sort(list, comparator);
+		for (List<Tuple> list : map.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			Collections.sort(list, comparator); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		}
 		return map;
 	}
 
-	private Map<IJavaElement, List<Tuple>> mapAnnotationPositions(ProjectionAnnotationModel model) {
-		Map<IJavaElement, List<Tuple>> map= new HashMap<>();
+	private Map<IJavaElement, List<Tuple>> mapAnnotationPositions(ProjectionAnnotationModel model) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<IJavaElement, List<Tuple>> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator<Annotation> e= model.getAnnotationIterator();
-		while (e.hasNext()) {
+		while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object annotation= e.next();
 			if (annotation instanceof JavaProjectionAnnotation) {
 				JavaProjectionAnnotation java= (JavaProjectionAnnotation) annotation;
@@ -1952,7 +1952,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 				Assert.isNotNull(position);
 				List<Tuple> list= map.get(java.getElement());
 				if (list == null) {
-					list= new ArrayList<>(2);
+					list= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					map.put(java.getElement(), list);
 				}
 				list.add(new Tuple(java, position));
@@ -1984,7 +1984,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 */
 	@Override
 	public final void collapseElements(IJavaElement[] elements) {
-		Set<IJavaElement> set= new HashSet<>(Arrays.asList(elements));
+		Set<IJavaElement> set= new HashSet<>(Arrays.asList(elements)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		modifyFiltered(new JavaElementSetFilter(set, false), false);
 	}
 
@@ -1993,7 +1993,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 */
 	@Override
 	public final void expandElements(IJavaElement[] elements) {
-		Set<IJavaElement> set= new HashSet<>(Arrays.asList(elements));
+		Set<IJavaElement> set= new HashSet<>(Arrays.asList(elements)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		modifyFiltered(new JavaElementSetFilter(set, true), true);
 	}
 
@@ -2004,7 +2004,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	 * @param expand <code>true</code> to expand the matched annotations, <code>false</code> to
 	 *        collapse them
 	 */
-	private void modifyFiltered(Filter filter, boolean expand) {
+	private void modifyFiltered(Filter filter, boolean expand) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isInstalled())
 			return;
 
@@ -2012,9 +2012,9 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		if (model == null)
 			return;
 
-		List<JavaProjectionAnnotation> modified= new ArrayList<>();
+		List<JavaProjectionAnnotation> modified= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<Annotation> iter= model.getAnnotationIterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object annotation= iter.next();
 			if (annotation instanceof JavaProjectionAnnotation) {
 				JavaProjectionAnnotation java= (JavaProjectionAnnotation) annotation;

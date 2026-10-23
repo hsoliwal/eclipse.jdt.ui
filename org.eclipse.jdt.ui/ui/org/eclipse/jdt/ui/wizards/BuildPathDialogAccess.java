@@ -173,7 +173,7 @@ public final class BuildPathDialogAccess {
 	 * <code>null</code> if the dialog has been canceled. Note that the configured URL can be <code>null</code> when the user
 	 * wishes to have no URL location specified.
 	 */
-	public static URL[] configureJavadocLocation(Shell shell, String libraryName, URL initialURL) {
+	public static URL[] configureJavadocLocation(Shell shell, String libraryName, URL initialURL) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (libraryName == null) {
 			throw new IllegalArgumentException();
 		}
@@ -208,7 +208,7 @@ public final class BuildPathDialogAccess {
 	 *
 	 * @since 3.1
 	 */
-	public static IClasspathEntry configureJavadocLocation(Shell shell, IClasspathEntry initialEntry) {
+	public static IClasspathEntry configureJavadocLocation(Shell shell, IClasspathEntry initialEntry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (initialEntry == null) {
 			throw new IllegalArgumentException();
 		}
@@ -349,7 +349,7 @@ public final class BuildPathDialogAccess {
 	 * @return Returns the configured JAR path or <code>null</code> if the dialog has
 	 * been canceled by the user.
 	 */
-	public static IPath configureJAREntry(Shell shell, IPath initialEntry, IPath[] usedEntries) {
+	public static IPath configureJAREntry(Shell shell, IPath initialEntry, IPath[] usedEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (initialEntry == null || usedEntries == null) {
 			throw new IllegalArgumentException();
 		}
@@ -357,9 +357,9 @@ public final class BuildPathDialogAccess {
 		Class<?>[] acceptedClasses= new Class[] { IFile.class };
 		TypedElementSelectionValidator validator= new TypedElementSelectionValidator(acceptedClasses, false);
 
-		ArrayList<IResource> usedJars= new ArrayList<>(usedEntries.length);
+		ArrayList<IResource> usedJars= new ArrayList<>(usedEntries.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-		for (IPath curr : usedEntries) {
+		for (IPath curr : usedEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!curr.equals(initialEntry)) {
 				IResource resource= root.findMember(curr);
 				if (resource instanceof IFile) {
@@ -375,7 +375,7 @@ public final class BuildPathDialogAccess {
 		dialog.setTitle(NewWizardMessages.BuildPathDialogAccess_JARArchiveDialog_edit_title);
 		dialog.setMessage(NewWizardMessages.BuildPathDialogAccess_JARArchiveDialog_edit_description);
 		dialog.setInitialFilter(ArchiveFileFilter.JARZIP_FILTER_STRING);
-		dialog.addFilter(new ArchiveFileFilter(usedJars, true, true));
+		dialog.addFilter(new ArchiveFileFilter(usedJars, true, true)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(root);
 		dialog.setComparator(new ResourceComparator(ResourceComparator.NAME));
 		dialog.setInitialSelection(existing);
@@ -399,16 +399,16 @@ public final class BuildPathDialogAccess {
 	 * @return Returns the new JAR paths or <code>null</code> if the dialog has
 	 * been canceled by the user.
 	 */
-	public static IPath[] chooseJAREntries(Shell shell, IPath initialSelection, IPath[] usedEntries) {
+	public static IPath[] chooseJAREntries(Shell shell, IPath initialSelection, IPath[] usedEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (usedEntries == null) {
 			throw new IllegalArgumentException();
 		}
 
 		Class<?>[] acceptedClasses= new Class[] { IFile.class };
 		TypedElementSelectionValidator validator= new TypedElementSelectionValidator(acceptedClasses, true);
-		ArrayList<IResource> usedJars= new ArrayList<>(usedEntries.length);
+		ArrayList<IResource> usedJars= new ArrayList<>(usedEntries.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-		for (IPath usedEntry : usedEntries) {
+		for (IPath usedEntry : usedEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= root.findMember(usedEntry);
 			if (resource instanceof IFile) {
 				usedJars.add(resource);
@@ -422,7 +422,7 @@ public final class BuildPathDialogAccess {
 		dialog.setTitle(NewWizardMessages.BuildPathDialogAccess_JARArchiveDialog_new_title);
 		dialog.setMessage(NewWizardMessages.BuildPathDialogAccess_JARArchiveDialog_new_description);
 		dialog.setInitialFilter(ArchiveFileFilter.JARZIP_FILTER_STRING);
-		dialog.addFilter(new ArchiveFileFilter(usedJars, true, true));
+		dialog.addFilter(new ArchiveFileFilter(usedJars, true, true)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(root);
 		dialog.setComparator(new ResourceComparator(ResourceComparator.NAME));
 		dialog.setInitialSelection(focus);
@@ -430,7 +430,7 @@ public final class BuildPathDialogAccess {
 		if (dialog.open() == Window.OK) {
 			Object[] elements= dialog.getResult();
 			IPath[] res= new IPath[elements.length];
-			for (int i= 0; i < res.length; i++) {
+			for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource elem= (IResource)elements[i];
 				res[i]= elem.getFullPath();
 			}
@@ -449,7 +449,7 @@ public final class BuildPathDialogAccess {
 	 * @return Returns the configured external JAR path or <code>null</code> if the dialog has
 	 * been canceled by the user.
 	 */
-	public static IPath configureExternalJAREntry(Shell shell, IPath initialEntry) {
+	public static IPath configureExternalJAREntry(Shell shell, IPath initialEntry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (initialEntry == null) {
 			throw new IllegalArgumentException();
 		}
@@ -480,7 +480,7 @@ public final class BuildPathDialogAccess {
 	 * @return Returns the new external JAR paths or <code>null</code> if the dialog has
 	 * been canceled by the user.
 	 */
-	public static IPath[] chooseExternalJAREntries(Shell shell) {
+	public static IPath[] chooseExternalJAREntries(Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String lastUsedPath= JavaPlugin.getDefault().getDialogSettings().get(IUIConstants.DIALOGSTORE_LASTEXTJAR);
 		if (lastUsedPath == null) {
 			lastUsedPath= ""; //$NON-NLS-1$
@@ -499,7 +499,7 @@ public final class BuildPathDialogAccess {
 
 		IPath filterPath= Path.fromOSString(dialog.getFilterPath());
 		IPath[] elems= new IPath[nChosen];
-		for (int i= 0; i < nChosen; i++) {
+		for (int i= 0; i < nChosen; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			elems[i]= filterPath.append(fileNames[i]).makeAbsolute();
 		}
 		JavaPlugin.getDefault().getDialogSettings().put(IUIConstants.DIALOGSTORE_LASTEXTJAR, dialog.getFilterPath());
@@ -518,7 +518,7 @@ public final class BuildPathDialogAccess {
 	 *
 	 * @since 3.4
 	 */
-	public static IPath[] chooseExternalClassFolderEntries(Shell shell) {
+	public static IPath[] chooseExternalClassFolderEntries(Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String lastUsedPath= JavaPlugin.getDefault().getDialogSettings().get(IUIConstants.DIALOGSTORE_LASTEXTJARFOLDER);
 		if (lastUsedPath == null) {
 			lastUsedPath= ""; //$NON-NLS-1$
@@ -613,12 +613,12 @@ public final class BuildPathDialogAccess {
 	}
 
 
-	private static IPath[] internalChooseFolderEntry(Shell shell, IPath initialSelection, IPath[] usedEntries, String title, String message) {
+	private static IPath[] internalChooseFolderEntry(Shell shell, IPath initialSelection, IPath[] usedEntries, String title, String message) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?>[] acceptedClasses= new Class[] { IProject.class, IFolder.class };
 
-		ArrayList<IResource> usedContainers= new ArrayList<>(usedEntries.length);
+		ArrayList<IResource> usedContainers= new ArrayList<>(usedEntries.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-		for (IPath usedEntry : usedEntries) {
+		for (IPath usedEntry : usedEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= root.findMember(usedEntry);
 			if (resource instanceof IContainer) {
 				usedContainers.add(resource);
@@ -640,7 +640,7 @@ public final class BuildPathDialogAccess {
 		if (dialog.open() == Window.OK) {
 			Object[] elements= dialog.getResult();
 			IPath[] res= new IPath[elements.length];
-			for (int i= 0; i < res.length; i++) {
+			for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource elem= (IResource) elements[i];
 				res[i]= elem.getFullPath();
 			}

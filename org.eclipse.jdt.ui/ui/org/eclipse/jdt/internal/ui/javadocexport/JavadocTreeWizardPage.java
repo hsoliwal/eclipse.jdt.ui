@@ -153,7 +153,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, IJavaHelpContextIds.JAVADOC_TREE_PAGE);
 	}
 
-	protected void createJavadocCommandSet(Composite composite) {
+	protected void createJavadocCommandSet(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final int numColumns= 2;
 
@@ -167,12 +167,12 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		createLabel(group, SWT.NONE, JavadocExportMessages.JavadocTreeWizardPage_javadoccommand_label, createGridData(GridData.HORIZONTAL_ALIGN_BEGINNING, numColumns, 0));
 		fJavadocCommandText= createCombo(group, SWT.NONE, null, createGridData(GridData.FILL_HORIZONTAL, numColumns - 1, 0));
 
-		fJavadocCommandText.addModifyListener(unused -> doValidation(JAVADOCSTATUS));
+		fJavadocCommandText.addModifyListener(unused -> doValidation(JAVADOCSTATUS)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		final Button javadocCommandBrowserButton= createButton(group, SWT.PUSH, JavadocExportMessages.JavadocTreeWizardPage_javadoccommand_button_label, createGridData(GridData.HORIZONTAL_ALIGN_FILL, 1, 0));
 		SWTUtil.setButtonDimensionHint(javadocCommandBrowserButton);
 
-		javadocCommandBrowserButton.addSelectionListener(new SelectionAdapter() {
+		javadocCommandBrowserButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				browseForJavadocCommand();
@@ -183,7 +183,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 
 
 
-	protected void createInputGroup(Composite composite) {
+	protected void createInputGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		createLabel(composite, SWT.NONE, JavadocExportMessages.JavadocTreeWizardPage_checkboxtreeandlistgroup_label, createGridData(6));
 		Composite c= new Composite(composite, SWT.NONE);
@@ -199,7 +199,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		ITreeContentProvider listContentProvider= new JavadocMemberContentProvider();
 		fInputGroup= new CheckboxTreeAndListGroup(c, this, treeContentProvider, new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_DEFAULT), listContentProvider, new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_DEFAULT), SWT.NONE, convertWidthInCharsToPixels(60), convertHeightInCharsToPixels(7));
 
-		fInputGroup.addCheckStateListener(unused -> doValidation(TREESTATUS));
+		fInputGroup.addCheckStateListener(unused -> doValidation(TREESTATUS)); //FLLDCIM: MARK — T21  LAMBDA
 		fInputGroup.setTreeComparator(new JavaElementComparator());
 
 		SWTUtil.setAccessibilityText(fInputGroup.getTree(), JavadocExportMessages.JavadocTreeWizardPage_tree_accessibility_message);
@@ -214,7 +214,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		fInputGroup.aboutToOpen();
 	}
 
-	private void createVisibilitySet(Composite composite) {
+	private void createVisibilitySet(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		GridLayout visibilityLayout= createGridLayout(4);
 		visibilityLayout.marginHeight= 0;
@@ -232,7 +232,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		fDescriptionLabel= new CLabel(visibilityGroup, SWT.LEFT);
 		fDescriptionLabel.setLayoutData(createGridData(GridData.FILL_HORIZONTAL, 4, LayoutUtil.getIndent()));
 
-		fPrivateVisibility.addSelectionListener(new SelectionAdapter() {
+		fPrivateVisibility.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (((Button) e.widget).getSelection()) {
@@ -241,7 +241,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 				}
 			}
 		});
-		fPackageVisibility.addSelectionListener(new SelectionAdapter() {
+		fPackageVisibility.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (((Button) e.widget).getSelection()) {
@@ -250,7 +250,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 				}
 			}
 		});
-		fProtectedVisibility.addSelectionListener(new SelectionAdapter() {
+		fProtectedVisibility.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (((Button) e.widget).getSelection()) {
@@ -260,7 +260,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 			}
 		});
 
-		fPublicVisibility.addSelectionListener(new SelectionAdapter() {
+		fPublicVisibility.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (((Button) e.widget).getSelection()) {
@@ -274,7 +274,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 
 	}
 
-	protected void setVisibilitySettings() {
+	protected void setVisibilitySettings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fVisibilitySelection= fStore.getAccess();
 		fPrivateVisibility.setSelection(JavadocOptionsManager.PRIVATE.equals(fVisibilitySelection));
 		if (fPrivateVisibility.getSelection())
@@ -293,7 +293,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 			fDescriptionLabel.setText(JavadocExportMessages.JavadocTreeWizardPage_publicvisibilitydescription_label);
 	}
 
-	private void createOptionsSet(Composite composite) {
+	private void createOptionsSet(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final int numColumns= 4;
 
@@ -310,7 +310,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 				createGridData(GridData.HORIZONTAL_ALIGN_FILL, 1, LayoutUtil.getIndent()));
 		fDestinationText= createText(group, SWT.SINGLE | SWT.BORDER, null, createGridData(GridData.FILL_HORIZONTAL, numColumns - 2, 0));
 		((GridData) fDestinationText.getLayoutData()).widthHint= 0;
-		fDestinationText.addModifyListener(unused -> doValidation(STANDARDSTATUS));
+		fDestinationText.addModifyListener(unused -> doValidation(STANDARDSTATUS)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		fDestinationBrowserButton= createButton(group, SWT.PUSH, JavadocExportMessages.JavadocTreeWizardPage_destinationbrowse_label, createGridData(GridData.HORIZONTAL_ALIGN_END, 1, 0));
 		SWTUtil.setButtonDimensionHint(fDestinationBrowserButton);
@@ -325,30 +325,30 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		((GridData) fDocletTypeText.getLayoutData()).widthHint= 0;
 
 
-		fDocletTypeText.addModifyListener(unused -> doValidation(CUSTOMSTATUS));
+		fDocletTypeText.addModifyListener(unused -> doValidation(CUSTOMSTATUS)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		fDocletLabel= createLabel(group, SWT.NONE, JavadocExportMessages.JavadocTreeWizardPage_docletpathfield_label, createGridData(GridData.HORIZONTAL_ALIGN_BEGINNING, 1, LayoutUtil.getIndent()));
 		fDocletText= createText(group, SWT.SINGLE | SWT.BORDER, null, createGridData(GridData.HORIZONTAL_ALIGN_FILL, numColumns - 1, 0));
 		((GridData) fDocletText.getLayoutData()).widthHint= 0;
 
-		fDocletText.addModifyListener(unused -> doValidation(CUSTOMSTATUS));
+		fDocletText.addModifyListener(unused -> doValidation(CUSTOMSTATUS)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		//Add Listeners
-		fCustomButton.addSelectionListener(new EnableSelectionAdapter(new Control[] { fDocletLabel, fDocletText, fDocletTypeLabel, fDocletTypeText }, new Control[] { fDestinationLabel, fDestinationText, fDestinationBrowserButton }));
-		fCustomButton.addSelectionListener(new SelectionAdapter() {
+		fCustomButton.addSelectionListener(new EnableSelectionAdapter(new Control[] { fDocletLabel, fDocletText, fDocletTypeLabel, fDocletTypeText }, new Control[] { fDestinationLabel, fDestinationText, fDestinationBrowserButton })); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		fCustomButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doValidation(CUSTOMSTATUS);
 			}
 		});
-		fStandardButton.addSelectionListener(new EnableSelectionAdapter(new Control[] { fDestinationLabel, fDestinationText, fDestinationBrowserButton }, new Control[] { fDocletLabel, fDocletText, fDocletTypeLabel, fDocletTypeText }));
-		fStandardButton.addSelectionListener(new SelectionAdapter() {
+		fStandardButton.addSelectionListener(new EnableSelectionAdapter(new Control[] { fDestinationLabel, fDestinationText, fDestinationBrowserButton }, new Control[] { fDocletLabel, fDocletText, fDocletTypeLabel, fDocletTypeText })); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		fStandardButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doValidation(STANDARDSTATUS);
 			}
 		});
-		fDestinationBrowserButton.addSelectionListener(new SelectionAdapter() {
+		fDestinationBrowserButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				String text= handleFolderBrowseButtonPressed(fDestinationText.getText(), JavadocExportMessages.JavadocTreeWizardPage_destinationbrowsedialog_title,
@@ -364,7 +364,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		return fCustomButton.getSelection();
 	}
 
-	private void setOptionSetSettings() {
+	private void setOptionSetSettings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!fStore.isFromStandard()) {
 			fCustomButton.setSelection(true);
@@ -398,7 +398,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 	 * @param sourceElements an array with the source elements
 	 */
 	private void setTreeChecked(IJavaElement[] sourceElements) {
-		for (IJavaElement curr : sourceElements) {
+		for (IJavaElement curr : sourceElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof ICompilationUnit) {
 				fInputGroup.initialCheckListItem(curr);
 			} else if (curr instanceof IPackageFragment
@@ -412,12 +412,12 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		}
 	}
 
-	private IPath[] getSourcePath(IJavaProject[] projects) {
-		HashSet<IPath> res= new HashSet<>();
+	private IPath[] getSourcePath(IJavaProject[] projects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<IPath> res= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		//loops through all projects and gets a list if of their source paths
-		for (IJavaProject javaProject : projects) {
+		for (IJavaProject javaProject : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
-				for (IPackageFragmentRoot curr : javaProject.getPackageFragmentRoots()) {
+				for (IPackageFragmentRoot curr : javaProject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (curr.getKind() == IPackageFragmentRoot.K_SOURCE) {
 						IResource resource= curr.getResource();
 						if (resource != null) {
@@ -437,11 +437,11 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		return res.toArray(new IPath[res.size()]);
 	}
 
-	private IPath[] getClassPath(IJavaProject[] javaProjects) {
-		HashSet<IPath> res= new HashSet<>();
+	private IPath[] getClassPath(IJavaProject[] javaProjects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<IPath> res= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-		for (IJavaProject curr : javaProjects) {
+		for (IJavaProject curr : javaProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				IPath outputLocation= null;
 				// Not really clear yet what to do here for EFS. See bug
@@ -454,7 +454,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 				IResource outputPathFolder= root.findMember(curr.getOutputLocation());
 				if (outputPathFolder != null)
 					outputLocation= outputPathFolder.getLocation();
-				for (String p : JavaRuntime.computeDefaultRuntimeClassPath(curr)) {
+				for (String p : JavaRuntime.computeDefaultRuntimeClassPath(curr)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPath path= Path.fromOSString(p);
 					if (!path.equals(outputLocation)) {
 						res.add(path);
@@ -474,17 +474,17 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 	 * @param projects an array with Java projects
 	 * @return an array with the source elements
 	 */
-	private IJavaElement[] getSourceElements(IJavaProject[] projects) {
-		ArrayList<IJavaElement> res= new ArrayList<>();
+	private IJavaElement[] getSourceElements(IJavaProject[] projects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IJavaElement> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
 			Set<Object> allChecked= fInputGroup.getAllCheckedTreeItems();
 
-			Set<String> incompletePackages= new HashSet<>();
-			for (IJavaProject iJavaProject : projects) {
-				for (IPackageFragmentRoot root : iJavaProject.getPackageFragmentRoots()) {
+			Set<String> incompletePackages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IJavaProject iJavaProject : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IPackageFragmentRoot root : iJavaProject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
 						IPath rootLocation= root.getResource().getLocation();
-						for (IJavaElement curr : root.getChildren()) {
+						for (IJavaElement curr : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (curr.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
 								// default packages are always incomplete
 								if (curr.getElementName().length() == 0 || !allChecked.contains(curr)
@@ -498,7 +498,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 			}
 
 			Iterator<Object> checkedElements= fInputGroup.getAllCheckedListItems();
-			while (checkedElements.hasNext()) {
+			while (checkedElements.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element= checkedElements.next();
 				if (element instanceof ICompilationUnit) {
 					ICompilationUnit unit= (ICompilationUnit) element;
@@ -508,10 +508,10 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 				}
 			}
 
-			Set<String> addedPackages= new HashSet<>();
+			Set<String> addedPackages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 			checkedElements= allChecked.iterator();
-			while (checkedElements.hasNext()) {
+			while (checkedElements.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element= checkedElements.next();
 				if (element instanceof IPackageFragment) {
 					IPackageFragment fragment= (IPackageFragment) element;
@@ -533,7 +533,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		return rootLocation != null && packageLocation != null && rootLocation.isPrefixOf(packageLocation);
 	}
 
-	protected void updateStore() {
+	protected void updateStore() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject[] checkedProjects= getCheckedProjects();
 
 		if (fCustomButton.getSelection()) {
@@ -552,9 +552,9 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		fStore.setAccess(fVisibilitySelection);
 		fStore.setSelectedElements(getSourceElements(checkedProjects));
 
-		ArrayList<String> commands= new ArrayList<>();
+		ArrayList<String> commands= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		commands.add(fJavadocCommandText.getText()); // must be first
-		for (String curr : fJavadocCommandText.getItems()) {
+		for (String curr : fJavadocCommandText.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!commands.contains(curr)) {
 				commands.add(curr);
 			}
@@ -563,8 +563,8 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 	}
 
 	public IJavaProject[] getCheckedProjects() {
-		ArrayList<Object> res= new ArrayList<>();
-		for (TreeItem treeItem : fInputGroup.getTree().getItems()) {
+		ArrayList<Object> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TreeItem treeItem : fInputGroup.getTree().getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (treeItem.getChecked()) {
 				Object curr= treeItem.getData();
 				if (curr instanceof IJavaProject) {
@@ -575,7 +575,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 		return res.toArray(new IJavaProject[res.size()]);
 	}
 
-	protected void doValidation(JavadocTree javadocstatus) {
+	protected void doValidation(JavadocTree javadocstatus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 
 		switch (javadocstatus) {
@@ -649,17 +649,17 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 
 	}
 
-	protected void browseForJavadocCommand() {
+	protected void browseForJavadocCommand() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FileDialog dialog= new FileDialog(getShell(), SWT.SHEET);
 		dialog.setText(JavadocExportMessages.JavadocTreeWizardPage_javadoccmd_dialog_title);
 		String dirName= fJavadocCommandText.getText();
 		dialog.setFileName(dirName);
 		String selectedDirectory= dialog.open();
 		if (selectedDirectory != null) {
-			ArrayList<String> newItems= new ArrayList<>();
+			ArrayList<String> newItems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			String[] items= fJavadocCommandText.getItems();
 			newItems.add(selectedDirectory);
-			for (int i= 0; i < items.length && newItems.size() < 5; i++) { // only keep the last 5 entries
+			for (int i= 0; i < items.length && newItems.size() < 5; i++) { // only keep the last 5 entries //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String curr= items[i];
 				if (!newItems.contains(curr)) {
 					newItems.add(curr);
@@ -673,7 +673,7 @@ public class JavadocTreeWizardPage extends JavadocWizardPage {
 
 	private boolean validDocletPath(String docletPath) {
 		StringTokenizer tokens= new StringTokenizer(docletPath, ";"); //$NON-NLS-1$
-		while (tokens.hasMoreTokens()) {
+		while (tokens.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			File file= new File(tokens.nextToken());
 			if (!file.exists())
 				return false;

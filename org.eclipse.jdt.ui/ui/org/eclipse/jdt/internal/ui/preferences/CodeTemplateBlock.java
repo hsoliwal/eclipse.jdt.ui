@@ -163,7 +163,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		public void keyPressed(TreeListDialogField<String> field, KeyEvent event) {
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int category(Object element) {
 			if (element == COMMENT_NODE) {
 				return 1;
@@ -256,7 +256,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getText(Object element) {
 			if (element == COMMENT_NODE || element == CODE_NODE || element == MARKDOWN_COMMENT_NODE) {
 				return (String) element;
@@ -356,7 +356,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 
 	private TemplateVariableProcessor fTemplateProcessor;
 
-	public CodeTemplateBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) {
+	public CodeTemplateBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(context, project, getAllKeys(), container);
 
 		fTemplateStore= new ProjectTemplateStore(project);
@@ -428,7 +428,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		super.useProjectSpecificSettings(enable);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		fPixelConverter=  new PixelConverter(parent);
 
@@ -462,7 +462,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		fUseMarkdown.setSelection(getBooleanValue(PREF_USE_MARKDOWN));
 	}
 
-	private SourceViewer createViewer(Composite parent, int nColumns) {
+	private SourceViewer createViewer(Composite parent, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label label= new Label(parent, SWT.NONE);
 		label.setText(PreferencesMessages.CodeTemplateBlock_preview);
 		GridData data= new GridData();
@@ -499,7 +499,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		return viewer;
 	}
 
-	private void addActionsToPatternViewer(SourceViewer viewer) {
+	private void addActionsToPatternViewer(SourceViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// create actions
 		fPatternViewerCopyAction = new TextViewerAction(viewer, ITextOperationTarget.COPY);
 		fPatternViewerCopyAction.setActionDefinitionId(ActionFactory.COPY.getCommandId());
@@ -509,11 +509,11 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		fPatternViewerSelectAllAction.setActionDefinitionId(ActionFactory.SELECT_ALL.getCommandId());
 		fPatternViewerSelectAllAction.setText(PreferencesMessages.EditTemplateDialog_select_all);
 
-		viewer.addSelectionChangedListener(this::updateCopyAction);
+		viewer.addSelectionChangedListener(this::updateCopyAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		// create context menu
 		MenuManager manager = new MenuManager(null, null);
 		manager.setRemoveAllWhenShown(true);
-		manager.addMenuListener(this::fillPatternViewerContextMenu);
+		manager.addMenuListener(this::fillPatternViewerContextMenu); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 
 		StyledText text = viewer.getTextWidget();
 		Menu menu = manager.createContextMenu(text);
@@ -534,9 +534,9 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 			fPatternViewerCopyAction.update();
 	}
 
-	protected TemplatePersistenceData[] getTemplateOfCategory(boolean isComment, boolean isMarkdownComment) {
-		ArrayList<TemplatePersistenceData> res=  new ArrayList<>();
-		for (TemplatePersistenceData curr : fTemplateStore.getTemplateData()) {
+	protected TemplatePersistenceData[] getTemplateOfCategory(boolean isComment, boolean isMarkdownComment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<TemplatePersistenceData> res=  new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TemplatePersistenceData curr : fTemplateStore.getTemplateData()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getTemplate().getName().startsWith(CodeTemplateContextType.MARKDOWN_COMMENT_PREFIX)) {
 				if (isMarkdownComment) {
 					res.add(curr);
@@ -574,7 +574,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		}
 	}
 
-	protected void doButtonPressed(int buttonIndex, List<Object> selected) {
+	protected void doButtonPressed(int buttonIndex, List<Object> selected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (buttonIndex) {
 		case IDX_EDIT:
 			edit((TemplatePersistenceData) selected.get(0));
@@ -604,7 +604,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		}
 	}
 
-	private void import_() {
+	private void import_() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FileDialog dialog= new FileDialog(getShell(), SWT.SHEET);
 		dialog.setText(PreferencesMessages.CodeTemplateBlock_import_title);
 		dialog.setFilterExtensions(new String[] {PreferencesMessages.CodeTemplateBlock_import_extension});
@@ -618,7 +618,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 			File file= new File(path);
 			if (file.exists()) {
 				try (InputStream input= new BufferedInputStream(new FileInputStream(file))) {
-					for (TemplatePersistenceData data : reader.read(input, null)) {
+					for (TemplatePersistenceData data : reader.read(input, null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						updateTemplate(data);
 					}
 				}
@@ -634,7 +634,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 	}
 
 	private void updateTemplate(TemplatePersistenceData data) {
-		for (TemplatePersistenceData templatePersistenceData : fTemplateStore.getTemplateData()) {
+		for (TemplatePersistenceData templatePersistenceData : fTemplateStore.getTemplateData()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= templatePersistenceData.getId();
 			if (id != null && id.equals(data.getId())) {
 				templatePersistenceData.setTemplate(data.getTemplate());
@@ -648,8 +648,8 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 	}
 
 	private void export(List<Object> selected) {
-		Set<Object> datas= new HashSet<>();
-		for (Object curr : selected) {
+		Set<Object> datas= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object curr : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof TemplatePersistenceData) {
 				datas.add(curr);
 			} else {
@@ -660,7 +660,7 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		export(datas.toArray(new TemplatePersistenceData[datas.size()]));
 	}
 
-	private void export(TemplatePersistenceData[] templates) {
+	private void export(TemplatePersistenceData[] templates) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FileDialog dialog= new FileDialog(getShell(), SWT.SAVE | SWT.SHEET);
 		String text= templates.length == 1 ? PreferencesMessages.CodeTemplateBlock_export_title_singular : Messages.format(PreferencesMessages.CodeTemplateBlock_export_title_plural, String
 				.valueOf(templates.length));
@@ -716,13 +716,13 @@ public class CodeTemplateBlock extends OptionsConfigurationBlock {
 		super.performDefaults();
 	}
 
-	public boolean performOk(boolean enabled) {
+	public boolean performOk(boolean enabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean res= super.performOk();
 		if (!res)
 			return false;
 
 		if (fProject != null) {
-			for (TemplatePersistenceData td : fTemplateStore.getTemplateData()) {
+			for (TemplatePersistenceData td : fTemplateStore.getTemplateData()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fTemplateStore.setProjectSpecific(td.getId(), enabled);
 			}
 		}

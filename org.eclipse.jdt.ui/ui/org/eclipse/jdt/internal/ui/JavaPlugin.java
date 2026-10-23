@@ -353,7 +353,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 		}
 		fgRepeatedMessages.put(message, now);
 		if (writeToLog)
-			log(new Exception(message + detail).fillInStackTrace());
+			log(new Exception(message + detail).fillInStackTrace()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static boolean isDebug() {
@@ -372,7 +372,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	/* (non - Javadoc)
 	 * Method declared in plug-in
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		fBundleContext= context;
@@ -416,7 +416,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 			// Initialize AST provider
 			getASTProvider();
 
-			fThemeListener= event -> {
+			fThemeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 				if (IThemeManager.CHANGE_CURRENT_THEME.equals(event.getProperty()))
 					JavaUIPreferenceInitializer.setThemeBasedPreferences(PreferenceConstants.getPreferenceStore(), true);
 			};
@@ -434,7 +434,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 		setTypeFilterPreferences();
 	}
 
-	private void createOrUpdateWorkingSet(String name, String oldname, String label, final String id) {
+	private void createOrUpdateWorkingSet(String name, String oldname, String label, final String id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkingSetManager workingSetManager= PlatformUI.getWorkbench().getWorkingSetManager();
 		IWorkingSet workingSet= workingSetManager.getWorkingSet(name);
 		if (workingSet == null) {
@@ -447,7 +447,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 				if (!label.equals(workingSet.getLabel()))
 					workingSet.setLabel(label);
 			} else {
-				logErrorMessage("found existing workingset with name=\"" + name + "\" but id=\"" + workingSet.getId() + "\""); //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+				logErrorMessage("found existing workingset with name=\"" + name + "\" but id=\"" + workingSet.getId() + "\""); //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		IWorkingSet oldWorkingSet= workingSetManager.getWorkingSet(oldname);
@@ -471,7 +471,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	/*
 	 * @see org.eclipse.core.runtime.Plugin#stop
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void stop(BundleContext context) throws Exception {
 		try {
 			// unregister debug options listener
@@ -722,7 +722,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 * @return an array of JavaEditorTextHoverDescriptor
 	 * @since 2.1
 	 */
-	public JavaEditorTextHoverDescriptor[] getJavaEditorTextHoverDescriptors() {
+	public JavaEditorTextHoverDescriptor[] getJavaEditorTextHoverDescriptors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavaEditorTextHoverDescriptor[] result= fJavaEditorTextHoverDescriptors;
 		if (result != null) { // First check (no locking)
 			return result;
@@ -742,10 +742,10 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 				sorter.sort(tmp);
 
 				// Move Best Match hover to front
-				for (int i= 0; i < tmp.length - 1; i++) {
+				for (int i= 0; i < tmp.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (PreferenceConstants.ID_BESTMATCH_HOVER.equals(tmp[i].getId())) {
 						JavaEditorTextHoverDescriptor hoverDescriptor= tmp[i];
-						for (int j= i; j > 0; j--)
+						for (int j= i; j > 0; j--) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							tmp[j]= tmp[j-1];
 						tmp[0]= hoverDescriptor;
 						break;
@@ -800,7 +800,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 * @return the template context type registry for the java plug-in
 	 * @since 3.0
 	 */
-	public ContextTypeRegistry getTemplateContextRegistry() {
+	public ContextTypeRegistry getTemplateContextRegistry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ContextTypeRegistry result= fContextTypeRegistry;
 		if (result != null) { // First check (no locking)
 			return result;
@@ -853,7 +853,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	private static void registerJavaContext(ContextTypeRegistry registry, String id, TemplateContextType parent) {
 		TemplateContextType contextType= registry.getContextType(id);
 		Iterator<TemplateVariableResolver> iter= parent.resolvers();
-		while (iter.hasNext())
+		while (iter.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			contextType.addResolver(iter.next());
 	}
 
@@ -863,7 +863,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 * @return the template store for the java editor templates
 	 * @since 3.0
 	 */
-	public TemplateStore getTemplateStore() {
+	public TemplateStore getTemplateStore() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTemplateStore == null) {
 			synchronized (this) {
 				if (fTemplateStore != null) {
@@ -894,7 +894,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 *         templates
 	 * @since 3.0
 	 */
-	public ContextTypeRegistry getCodeTemplateContextRegistry() {
+	public ContextTypeRegistry getCodeTemplateContextRegistry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCodeTemplateContextTypeRegistry == null) {
 			synchronized (this) {
 				if (fCodeTemplateContextTypeRegistry != null) {
@@ -919,7 +919,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 * @return the template store for the code generation templates
 	 * @since 3.0
 	 */
-	public TemplateStore getCodeTemplateStore() {
+	public TemplateStore getCodeTemplateStore() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCodeTemplateStore == null) {
 			synchronized (this) {
 				if (fCodeTemplateStore != null) {
@@ -963,7 +963,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 *
 	 * @since 3.0
 	 */
-	public IPreferenceStore getCombinedPreferenceStore() {
+	public IPreferenceStore getCombinedPreferenceStore() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCombinedPreferenceStore == null) {
 			synchronized (this) {
 				if (fCombinedPreferenceStore != null) {
@@ -1055,7 +1055,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 * @return the Java content assist history
 	 * @since 3.2
 	 */
-	public ContentAssistHistory getContentAssistHistory() {
+	public ContentAssistHistory getContentAssistHistory() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fContentAssistHistory == null) {
 			synchronized (this) {
 				if (fContentAssistHistory != null) {
@@ -1196,7 +1196,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 *
 	 * @param id The category id for the proposal feature to disable by default
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unused") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private static void initializeCodeAssistCategoryDisabled(String id) {
 		// If preference migrated, nothing to do
 		if (isCodeAssistMigrated(id)) {
@@ -1204,27 +1204,27 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 		}
 
 		String currPrefExcludedValue= PreferenceConstants.getPreferenceStore().getString(PreferenceConstants.CODEASSIST_EXCLUDED_CATEGORIES);
-		Set<String> disabled= new HashSet<>();
+		Set<String> disabled= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		StringTokenizer tok= new StringTokenizer(currPrefExcludedValue, "\0");  //$NON-NLS-1$
-		while (tok.hasMoreTokens()) {
+		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			disabled.add(tok.nextToken());
 		}
 
 		// preference not migrated, and not in user preferences
 		if (!disabled.isEmpty() && !disabled.contains(id)) {
-			String newPrefExcludedValue= currPrefExcludedValue + id + "\0"; //$NON-NLS-1$
+			String newPrefExcludedValue= currPrefExcludedValue + id + "\0"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			PreferenceConstants.getPreferenceStore().setValue(PreferenceConstants.CODEASSIST_EXCLUDED_CATEGORIES, newPrefExcludedValue);
 
 			// retrieve the id=rank to add from CODEASSIST_CATEGORY_ORDER from the default preferences
 			String defPrefOrderValue= PreferenceConstants.getPreferenceStore().getDefaultString(PreferenceConstants.CODEASSIST_CATEGORY_ORDER);
 			tok= new StringTokenizer(defPrefOrderValue, "\0"); //$NON-NLS-1$
-			while (tok.hasMoreTokens()) {
+			while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				StringTokenizer inner= new StringTokenizer(tok.nextToken(), ":"); //$NON-NLS-1$
 				String key= inner.nextToken();
 				int rank= Integer.parseInt(inner.nextToken());
 				if (id.equals(key)) {
 					String currPrefOrderValue= PreferenceConstants.getPreferenceStore().getString(PreferenceConstants.CODEASSIST_CATEGORY_ORDER);
-					String newPreferenceOrderValue= currPrefOrderValue + id + ":" + rank + "\0"; //$NON-NLS-1$ //$NON-NLS-2$
+					String newPreferenceOrderValue= currPrefOrderValue + id + ":" + rank + "\0"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					PreferenceConstants.getPreferenceStore().setValue(PreferenceConstants.CODEASSIST_CATEGORY_ORDER, newPreferenceOrderValue);
 				}
 			}
@@ -1235,13 +1235,13 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	}
 
 	private static boolean isCodeAssistMigrated(String id) {
-		String key= CODE_ASSIST_MIGRATED + "_" + id; //$NON-NLS-1$
+		String key= CODE_ASSIST_MIGRATED + "_" + id; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		boolean res= Platform.getPreferencesService().getBoolean(JavaPlugin.getPluginId(), key, false, null);
 		return res;
 	}
 
 	private static void setCodeAssistMigrated(String id) {
-		String key= CODE_ASSIST_MIGRATED + "_" + id; //$NON-NLS-1$
+		String key= CODE_ASSIST_MIGRATED + "_" + id; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IEclipsePreferences preferences= InstanceScope.INSTANCE.getNode(JavaPlugin.getPluginId());
 		preferences.putBoolean(key, true);
 		try {
@@ -1256,7 +1256,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 	 * filters. Only do this once, so that users have a way to opt-out if they don't want the new
 	 * filters.
 	 */
-	private void setTypeFilterPreferences() {
+	private void setTypeFilterPreferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Set<String> enabledFiltersToAdd= new LinkedHashSet<>();
 		enabledFiltersToAdd.add("com.sun.*"); //$NON-NLS-1$
 		enabledFiltersToAdd.add("sun.*"); //$NON-NLS-1$
@@ -1308,13 +1308,13 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 
 		if (!enabledFiltersToAdd.isEmpty()) {
 			currentEnabledString = currentEnabled.stream().collect(Collectors.joining(";")); //$NON-NLS-1$
-			String newEnabledString= currentEnabledString + ";" + enabledFiltersToAdd.stream().collect(Collectors.joining(";")); //$NON-NLS-1$ //$NON-NLS-2$
+			String newEnabledString= currentEnabledString + ";" + enabledFiltersToAdd.stream().collect(Collectors.joining(";")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			PreferenceConstants.getPreferenceStore().setValue(PreferenceConstants.TYPEFILTER_ENABLED, newEnabledString);
 		}
 
 		if (!disabledFiltersToAdd.isEmpty()) {
 			currentDisabledString = currentDisabled.stream().collect(Collectors.joining(";")); //$NON-NLS-1$
-			String newDisabledString= currentDisabledString + ";" + disabledFiltersToAdd.stream().collect(Collectors.joining(";")); //$NON-NLS-1$ //$NON-NLS-2$
+			String newDisabledString= currentDisabledString + ";" + disabledFiltersToAdd.stream().collect(Collectors.joining(";")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			PreferenceConstants.getPreferenceStore().setValue(PreferenceConstants.TYPEFILTER_DISABLED, newDisabledString);
 		}
 

@@ -97,7 +97,7 @@ public class HistoryDropDownAction extends Action implements IMenuCreator {
 		boolean checked= false;
 		int count= 0;
 		int min= Math.min(elements.size(), RESULTS_IN_DROP_DOWN);
-		for (Iterator<IJavaElement[]> iterator= elements.iterator(); count < min; count++) {
+		for (Iterator<IJavaElement[]> iterator= elements.iterator(); count < min; count++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] entries= iterator.next();
 			if (entries == null || entries.length == 0)
 				continue;

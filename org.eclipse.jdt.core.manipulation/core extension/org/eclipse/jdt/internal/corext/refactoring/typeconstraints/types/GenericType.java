@@ -34,7 +34,7 @@ public final class GenericType extends HierarchyType {
 		TypeEnvironment environment= getEnvironment();
 		ITypeBinding[] typeParameters= binding.getTypeParameters();
 		fTypeParameters= new TypeVariable[typeParameters.length];
-		for (int i= 0; i < typeParameters.length; i++) {
+		for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTypeParameters[i]= (TypeVariable) environment.create(typeParameters[i]);
 		}
 	}
@@ -78,14 +78,14 @@ public final class GenericType extends HierarchyType {
 
 	@Override
 	protected String getPlainPrettySignature() {
-		StringBuilder result= new StringBuilder(getJavaElementType().getFullyQualifiedName('.'));
-		result.append("<"); //$NON-NLS-1$
-		result.append(fTypeParameters[0].getPrettySignature());
-		for (int i= 1; i < fTypeParameters.length; i++) {
-			result.append(", "); //$NON-NLS-1$
-			result.append(fTypeParameters[i].getPrettySignature());
+		StringBuilder result= new StringBuilder(getJavaElementType().getFullyQualifiedName('.')); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append("<"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(fTypeParameters[0].getPrettySignature()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 1; i < fTypeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(fTypeParameters[i].getPrettySignature()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		result.append(">"); //$NON-NLS-1$
+		result.append(">"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 }

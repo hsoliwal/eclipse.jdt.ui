@@ -64,14 +64,14 @@ public class SortMembersCleanUp extends AbstractCleanUp {
 		ICleanUpFix fix= SortMembersFix.createCleanUp(compilationUnit, sortMembers, sortMembers && isEnabled(CleanUpConstants.SORT_MEMBERS_ALL));
 		if (fix != null) {
 			if (fTouchedFiles == null) {
-				fTouchedFiles= new HashSet<>();
+				fTouchedFiles= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			}
 			fTouchedFiles.add(compilationUnit.getJavaElement().getResource());
 		}
 		return fix;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkPostConditions(IProgressMonitor monitor) throws CoreException {
 		if (fTouchedFiles == null) {
 			return super.checkPostConditions(monitor);
@@ -83,7 +83,7 @@ public class SortMembersCleanUp extends AbstractCleanUp {
 
 			try {
 				RefactoringStatus result= new RefactoringStatus();
-    			for (IResource iResource : fTouchedFiles) {
+    			for (IResource iResource : fTouchedFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     	            IFile file= (IFile)iResource;
     	            if (containsRelevantMarkers(file)) {
     	            	String fileLocation= BasicElementLabels.getPathLabel(file.getProjectRelativePath(), false);
@@ -115,29 +115,29 @@ public class SortMembersCleanUp extends AbstractCleanUp {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		buf.append("class SortExample {\n"); //$NON-NLS-1$
+		buf.append("class SortExample {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if ((isEnabled(CleanUpConstants.SORT_MEMBERS) && isEnabled(CleanUpConstants.SORT_MEMBERS_ALL))) {
-			buf.append("  private String bar;\n"); //$NON-NLS-1$
-			buf.append("  private String foo;\n"); //$NON-NLS-1$
+			buf.append("  private String bar;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  private String foo;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("  private String foo;\n"); //$NON-NLS-1$
-			buf.append("  private String bar;\n"); //$NON-NLS-1$
+			buf.append("  private String foo;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  private String bar;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled(CleanUpConstants.SORT_MEMBERS)) {
-			buf.append("  private void bar() {}\n"); //$NON-NLS-1$
-			buf.append("  private void foo() {}\n"); //$NON-NLS-1$
+			buf.append("  private void bar() {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  private void foo() {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("  private void foo() {}\n"); //$NON-NLS-1$
-			buf.append("  private void bar() {}\n"); //$NON-NLS-1$
+			buf.append("  private void foo() {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  private void bar() {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		buf.append("}\n"); //$NON-NLS-1$
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buf.toString();
 	}

@@ -23,7 +23,7 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 
 import org.eclipse.jdt.internal.ui.text.correction.proposals.ChangeMethodSignatureProposalCore.ChangeDescription;
 
-public class ChangeMethodSignatureProposal extends LinkedCorrectionProposal {
+public class ChangeMethodSignatureProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public ChangeMethodSignatureProposal(ChangeMethodSignatureProposalCore core, Image image) {
 		super(core.getName(), core.getCompilationUnit(), null, core.getRelevance(), image, core);
 	}

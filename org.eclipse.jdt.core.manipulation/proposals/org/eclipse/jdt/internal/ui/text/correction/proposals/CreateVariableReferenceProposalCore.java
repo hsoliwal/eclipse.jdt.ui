@@ -93,12 +93,12 @@ public class CreateVariableReferenceProposalCore extends LinkedCorrectionProposa
 	/*
 	 * search local/class/superclass
 	 */
-	private IVariableBinding findReference() {
+	private IVariableBinding findReference() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BodyDeclaration parent= ASTNodes.getParent(fSelectedNode, BodyDeclaration.class);
 		String qualifiedTypeName= Bindings.getFullyQualifiedName(fTypeNode);
 		// search local block
 		Set<SimpleName> localVariableIdentifiers= ASTNodes.getLocalVariableIdentifiers(parent, true);
-		for (SimpleName name : localVariableIdentifiers) {
+		for (SimpleName name : localVariableIdentifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(name.getStartPosition() > fSelectedNode.getStartPosition()) {
 				continue;
 			}
@@ -122,7 +122,7 @@ public class CreateVariableReferenceProposalCore extends LinkedCorrectionProposa
 		}
 		// search class hierarchy
 		List<IVariableBinding> visibleLocalVariablesInScope= getVisibleLocalVariablesInScope(fSelectedNode);
-		for (IVariableBinding binding : visibleLocalVariablesInScope) {
+		for (IVariableBinding binding : visibleLocalVariablesInScope) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// if we live in an static body, we must access a static reference
 			if (Modifier.isStatic(parent.getModifiers()) && !Modifier.isStatic(binding.getModifiers())) {
 				continue;
@@ -140,10 +140,10 @@ public class CreateVariableReferenceProposalCore extends LinkedCorrectionProposa
 	}
 
 	private static List<IVariableBinding> getVisibleLocalVariablesInScope(ASTNode node) {
-		List<IVariableBinding> variableNames= new ArrayList<>();
+		List<IVariableBinding> variableNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CompilationUnit root= (CompilationUnit) node.getRoot();
 		IBinding[] bindings= new ScopeAnalyzer(root).getDeclarationsInScope(node.getStartPosition(), ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY);
-		for (IBinding binding : bindings) {
+		for (IBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			variableNames.add((IVariableBinding) binding);
 		}
 		return variableNames;

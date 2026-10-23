@@ -181,7 +181,7 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 
 	//--- checkActivation
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask("", 7); //$NON-NLS-1$
@@ -272,7 +272,7 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 	}
 
 
-	private void addParameterInfo(CompilationUnitRewrite cuRewrite) throws JavaModelException {
+	private void addParameterInfo(CompilationUnitRewrite cuRewrite) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding typeBinding= Bindings.normalizeForDeclarationUse(fSelectedExpression.resolveTypeBinding(), fSelectedExpression.getAST());
 		String name= fParameterName != null ? fParameterName : guessedParameterName();
 		Expression expression= ASTNodes.getUnparenthesedExpression(fSelectedExpression);
@@ -328,7 +328,7 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 		}
 	}
 
-	private void initializeSelectedExpression(CompilationUnitRewrite cuRewrite) throws JavaModelException {
+	private void initializeSelectedExpression(CompilationUnitRewrite cuRewrite) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IASTFragment fragment= ASTFragmentFactory.createFragmentForSourceRange(
 				new SourceRange(fSelectionStart, fSelectionLength), cuRewrite.getRoot(), cuRewrite.getCu());
 
@@ -350,7 +350,7 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 		fSelectedExpression= expression;
 	}
 
-	private RefactoringStatus checkSelection(CompilationUnitRewrite cuRewrite, IProgressMonitor pm) {
+	private RefactoringStatus checkSelection(CompilationUnitRewrite cuRewrite, IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (fSelectedExpression == null){
 				String message= RefactoringCoreMessages.IntroduceParameterRefactoring_select;
@@ -388,7 +388,7 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 		}
 	}
 
-	private RefactoringStatus checkExpression() {
+	private RefactoringStatus checkExpression() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//TODO: adjust error messages (or generalize for all refactorings on expression-selections?)
 		Expression selectedExpression= fSelectedExpression;
 
@@ -483,9 +483,9 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 		return proposals.toArray(new String[proposals.size()]);
 	}
 
-	private List<String> guessTempNamesFromMethodInvocation(MethodInvocation selectedMethodInvocation, String[] excludedVariableNames) {
+	private List<String> guessTempNamesFromMethodInvocation(MethodInvocation selectedMethodInvocation, String[] excludedVariableNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String methodName= selectedMethodInvocation.getName().getIdentifier();
-		for (String prefix : KNOWN_METHOD_NAME_PREFIXES) {
+		for (String prefix : KNOWN_METHOD_NAME_PREFIXES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! methodName.startsWith(prefix))
 				continue; //not this prefix
 			if (methodName.length() == prefix.length())
@@ -494,7 +494,7 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 			if (! Character.isUpperCase(firstAfterPrefix))
 				continue; //not uppercase after prefix
 			//found matching prefix
-			String proposal= Character.toLowerCase(firstAfterPrefix) + methodName.substring(prefix.length() + 1);
+			String proposal= Character.toLowerCase(firstAfterPrefix) + methodName.substring(prefix.length() + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			methodName= proposal;
 			break;
 		}
@@ -533,7 +533,7 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 		IBinding[] bindings= new ScopeAnalyzer(cuRewrite.getRoot()).getDeclarationsInScope(
 				fSelectedExpression.getStartPosition(), ScopeAnalyzer.VARIABLES);
 		fExcludedParameterNames= new String[bindings.length];
-		for (int i= 0; i < fExcludedParameterNames.length; i++) {
+		for (int i= 0; i < fExcludedParameterNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fExcludedParameterNames[i]= bindings[i].getName();
 		}
 	}
@@ -566,15 +566,15 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 		}
 	}
 
-	private IntroduceParameterDescriptor getRefactoringDescriptor() {
+	private IntroduceParameterDescriptor getRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ChangeMethodSignatureDescriptor extended= (ChangeMethodSignatureDescriptor) fChangeSignatureProcessor.createDescriptor();
 		RefactoringContribution contribution= RefactoringCore.getRefactoringContribution(IJavaRefactorings.CHANGE_METHOD_SIGNATURE);
 
 		Map<String, String> argumentsMap= contribution == null ? Collections.emptyMap() : contribution.retrieveArgumentMap(extended);
 
-		final Map<String, String> arguments= new HashMap<>();
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		arguments.put(ATTRIBUTE_ARGUMENT, fParameter.getNewName());
-		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		arguments.putAll(argumentsMap);
 		String signature= fChangeSignatureProcessor.getMethodName();
 		try {
@@ -592,7 +592,7 @@ public class IntroduceParameterRefactoring extends Refactoring implements IDeleg
 		return RefactoringSignatureDescriptorFactory.createIntroduceParameterDescriptor(extended.getProject(), description, comment.asString(), arguments, extended.getFlags());
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fArguments= arguments;
 		final String selection= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION);
 		if (selection != null) {

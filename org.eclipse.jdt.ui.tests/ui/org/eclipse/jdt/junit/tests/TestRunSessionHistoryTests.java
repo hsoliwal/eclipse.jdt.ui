@@ -149,7 +149,7 @@ public class TestRunSessionHistoryTests {
 		assertTrue(oldest.file(historyDirectory).isFile());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void preservesImportedStartTimeAcrossLocaleAndTimeZoneChanges() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		Locale originalLocale= Locale.getDefault();
@@ -177,7 +177,7 @@ public class TestRunSessionHistoryTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void restoresRelaunchConfigurationAndMode() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		ILaunchConfiguration configuration= createLaunchConfiguration();
@@ -197,7 +197,7 @@ public class TestRunSessionHistoryTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void persistsOriginalConfigurationForTemporaryRelaunch() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		ILaunchManager launchManager= DebugPlugin.getDefault().getLaunchManager();
@@ -228,7 +228,7 @@ public class TestRunSessionHistoryTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void missingLaunchConfigurationDisablesRelaunchWithoutLosingHistory() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		ILaunchConfiguration configuration= createLaunchConfiguration();
@@ -262,7 +262,7 @@ public class TestRunSessionHistoryTests {
 		assertEquals(startTime, restored.getStartTime());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void preservesStoppedStateWhenTheRunContainsAFailure() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		HistoryEntry entry= entry("stoppedWithFailure", 1_788_336_004_000L, 1_788_336_004_000L, //$NON-NLS-1$
@@ -285,7 +285,7 @@ public class TestRunSessionHistoryTests {
 		assertEquals(Result.FAILURE, session.getTestResult(true));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void preservesStoppedStateWhenAllTestsWereStarted() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		HistoryEntry entry= entry("stoppedAfterStart", 1_788_336_005_000L, 1_788_336_005_000L, //$NON-NLS-1$
@@ -305,7 +305,7 @@ public class TestRunSessionHistoryTests {
 		assertTrue(session.isStopped());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void releasesAndReloadsTheSelectedTestTree() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		HistoryEntry entry= entry("reload", 1_788_336_005_500L, 1_788_336_005_500L, //$NON-NLS-1$
@@ -351,7 +351,7 @@ public class TestRunSessionHistoryTests {
 	@Test
 	public void doesNotReuseAnUnownedStaleFile() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
-		File staleFile= new File(historyDirectory, HISTORY_FILE_PREFIX + UUID.randomUUID() + XML_SUFFIX);
+		File staleFile= new File(historyDirectory, HISTORY_FILE_PREFIX + UUID.randomUUID() + XML_SUFFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		Files.writeString(staleFile.toPath(), "<testrun name=\"stale\"/>"); //$NON-NLS-1$
 		TestRunSession current= new TestRunSession("current", null); //$NON-NLS-1$
 
@@ -364,7 +364,7 @@ public class TestRunSessionHistoryTests {
 		assertEquals("current", restored.get(0).getTestRunName()); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void ignoresATruncatedNewerFileWithoutPruningAnOlderValidEntry() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		HistoryEntry newer= emptyEntry("newer", 1_788_336_008_000L); //$NON-NLS-1$
@@ -384,7 +384,7 @@ public class TestRunSessionHistoryTests {
 		assertFalse(newer.file(historyDirectory).exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void rewritesALoadedSessionWhenItsPersistentFileDisappears() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		HistoryEntry entry= entry("loaded", 1_788_336_009_000L, 1_788_336_009_000L, //$NON-NLS-1$
@@ -443,8 +443,8 @@ public class TestRunSessionHistoryTests {
 	@Test
 	public void removesUnpublishedXmlFilesWhenNoIndexExists() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
-		File historyFile= new File(historyDirectory, HISTORY_FILE_PREFIX + UUID.randomUUID() + XML_SUFFIX);
-		File swapFile= new File(historyDirectory, SWAP_FILE_PREFIX + UUID.randomUUID() + XML_SUFFIX);
+		File historyFile= new File(historyDirectory, HISTORY_FILE_PREFIX + UUID.randomUUID() + XML_SUFFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		File swapFile= new File(historyDirectory, SWAP_FILE_PREFIX + UUID.randomUUID() + XML_SUFFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File legacyFile= new File(historyDirectory, "20260901-120000.000.xml"); //$NON-NLS-1$
 		Files.writeString(historyFile.toPath(), "unpublished"); //$NON-NLS-1$
 		Files.writeString(swapFile.toPath(), "transient"); //$NON-NLS-1$
@@ -475,7 +475,7 @@ public class TestRunSessionHistoryTests {
 		assertArrayEquals(xmlBefore, Files.readAllBytes(entry.file(historyDirectory).toPath()));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void keepsHistoryWithAnInvalidEntryUntouched() throws Exception {
 		File historyDirectory= fTemporaryFolder.newFolder("history"); //$NON-NLS-1$
 		HistoryEntry validEntry= emptyEntry("valid", 1_788_336_012_000L); //$NON-NLS-1$
@@ -483,7 +483,7 @@ public class TestRunSessionHistoryTests {
 		writeHistory(historyDirectory, validEntry, invalidEntry);
 		File indexFile= new File(historyDirectory, INDEX_FILE_NAME);
 		String index= Files.readString(indexFile.toPath());
-		String invalidIdProperty= "entry.1.id=" + invalidEntry.fId; //$NON-NLS-1$
+		String invalidIdProperty= "entry.1.id=" + invalidEntry.fId; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue(index.contains(invalidIdProperty));
 		Files.writeString(indexFile.toPath(),
 				index.replace(invalidIdProperty, "entry.1.id=invalid")); //$NON-NLS-1$
@@ -560,7 +560,7 @@ public class TestRunSessionHistoryTests {
 
 	private static HistoryEntry emptyEntry(String name, long timestamp) {
 		return entry(name, timestamp, timestamp, "completed", 0, 0, 0, 0, 0, //$NON-NLS-1$
-				"<testrun name=\"" + name + "\" tests=\"0\" started=\"0\" failures=\"0\" errors=\"0\" ignored=\"0\"/>"); //$NON-NLS-1$ //$NON-NLS-2$
+				"<testrun name=\"" + name + "\" tests=\"0\" started=\"0\" failures=\"0\" errors=\"0\" ignored=\"0\"/>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static HistoryEntry entry(String name, long startTime, long historyTimestamp, String progress,
@@ -578,28 +578,28 @@ public class TestRunSessionHistoryTests {
 				totalCount, startedCount, failureCount, errorCount, ignoredCount, 0, xml);
 	}
 
-	private static void writeHistory(File directory, HistoryEntry... entries) throws Exception {
+	private static void writeHistory(File directory, HistoryEntry... entries) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Properties properties= new Properties();
 		properties.setProperty("formatVersion", "2"); //$NON-NLS-1$ //$NON-NLS-2$
 		properties.setProperty("entryCount", Integer.toString(entries.length)); //$NON-NLS-1$
-		for (int i= 0; i < entries.length; i++) {
+		for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			HistoryEntry entry= entries[i];
 			File file= entry.file(directory);
 			Files.writeString(file.toPath(), entry.fXml);
-			String prefix= "entry." + i + '.'; //$NON-NLS-1$
-			properties.setProperty(prefix + "id", entry.fId); //$NON-NLS-1$
-			properties.setProperty(prefix + "name", entry.fName); //$NON-NLS-1$
-			properties.setProperty(prefix + "startTime", Long.toString(entry.fStartTime)); //$NON-NLS-1$
-			properties.setProperty(prefix + "historyTimestamp", Long.toString(entry.fHistoryTimestamp)); //$NON-NLS-1$
-			properties.setProperty(prefix + "progress", entry.fProgress); //$NON-NLS-1$
-			properties.setProperty(prefix + "result", resultName(entry.fResult)); //$NON-NLS-1$
-			properties.setProperty(prefix + "totalCount", Integer.toString(entry.fTotalCount)); //$NON-NLS-1$
-			properties.setProperty(prefix + "startedCount", Integer.toString(entry.fStartedCount)); //$NON-NLS-1$
-			properties.setProperty(prefix + "failureCount", Integer.toString(entry.fFailureCount)); //$NON-NLS-1$
-			properties.setProperty(prefix + "errorCount", Integer.toString(entry.fErrorCount)); //$NON-NLS-1$
-			properties.setProperty(prefix + "ignoredCount", Integer.toString(entry.fIgnoredCount)); //$NON-NLS-1$
-			properties.setProperty(prefix + "assumptionFailureCount", Integer.toString(entry.fAssumptionFailureCount)); //$NON-NLS-1$
-			properties.setProperty(prefix + "fileLength", Long.toString(file.length())); //$NON-NLS-1$
+			String prefix= "entry." + i + '.'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "id", entry.fId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "name", entry.fName); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "startTime", Long.toString(entry.fStartTime)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "historyTimestamp", Long.toString(entry.fHistoryTimestamp)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "progress", entry.fProgress); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "result", resultName(entry.fResult)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "totalCount", Integer.toString(entry.fTotalCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "startedCount", Integer.toString(entry.fStartedCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "failureCount", Integer.toString(entry.fFailureCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "errorCount", Integer.toString(entry.fErrorCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "ignoredCount", Integer.toString(entry.fIgnoredCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "assumptionFailureCount", Integer.toString(entry.fAssumptionFailureCount)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			properties.setProperty(prefix + "fileLength", Long.toString(file.length())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		try (BufferedOutputStream output= new BufferedOutputStream(
 				new FileOutputStream(new File(directory, INDEX_FILE_NAME)))) {
@@ -618,12 +618,12 @@ public class TestRunSessionHistoryTests {
 			return "FAILURE"; //$NON-NLS-1$
 		if (result == Result.IGNORED)
 			return "IGNORED"; //$NON-NLS-1$
-		throw new AssertionError("Unsupported result: " + result); //$NON-NLS-1$
+		throw new AssertionError("Unsupported result: " + result); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static List<File> xmlFiles(File directory) throws Exception {
 		File[] files= directory.listFiles(file -> file.isFile() && file.getName().endsWith(XML_SUFFIX));
-		List<File> result= new ArrayList<>();
+		List<File> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (files != null)
 			result.addAll(List.of(files));
 		return result;
@@ -663,7 +663,7 @@ public class TestRunSessionHistoryTests {
 		}
 
 		File file(File directory) {
-			return new File(directory, HISTORY_FILE_PREFIX + fId + XML_SUFFIX);
+			return new File(directory, HISTORY_FILE_PREFIX + fId + XML_SUFFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 }

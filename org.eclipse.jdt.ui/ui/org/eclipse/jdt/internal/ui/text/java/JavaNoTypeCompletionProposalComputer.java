@@ -27,7 +27,7 @@ public class JavaNoTypeCompletionProposalComputer extends JavaCompletionProposal
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposalComputer#createCollector(org.eclipse.jdt.ui.text.java.JavaContentAssistInvocationContext)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected CompletionProposalCollector createCollector(JavaContentAssistInvocationContext context) {
 		CompletionProposalCollector collector= super.createCollector(context);
 		collector.setIgnored(CompletionProposal.ANNOTATION_ATTRIBUTE_REF, false);

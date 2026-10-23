@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.IJavaElement;
 /**
  * Filters closed projects
  */
-public class ClosedProjectFilter extends ViewerFilter {
+public class ClosedProjectFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

@@ -101,7 +101,7 @@ public final class TestRunSessionHistory {
 	 * @param maxCount the maximum number of entries to restore
 	 * @return the restored sessions, youngest first
 	 */
-	public static List<TestRunSession> load(File historyDirectory, int maxCount) {
+	public static List<TestRunSession> load(File historyDirectory, int maxCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Path historyPath= historyDirectoryPath(historyDirectory);
 		deleteTemporaryFiles(historyDirectory);
 		deleteTransientSwapFiles(historyDirectory);
@@ -114,7 +114,7 @@ public final class TestRunSessionHistory {
 		}
 		if (!indexFile.isFile()) {
 			BLOCKED_HISTORY_DIRECTORIES.add(historyPath);
-			LOG.error("Could not read the JUnit history index: " + indexFile); //$NON-NLS-1$
+			LOG.error("Could not read the JUnit history index: " + indexFile); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return List.of();
 		}
 
@@ -139,24 +139,24 @@ public final class TestRunSessionHistory {
 		}
 		if (formatVersion != FORMAT_VERSION) {
 			BLOCKED_HISTORY_DIRECTORIES.add(historyPath);
-			LOG.error("Unsupported JUnit history index version: " + formatVersion); //$NON-NLS-1$
+			LOG.error("Unsupported JUnit history index version: " + formatVersion); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return List.of();
 		}
 		BLOCKED_HISTORY_DIRECTORIES.remove(historyPath);
 
 		int limit= Math.max(0, maxCount);
-		List<StoredSession> validEntries= new ArrayList<>(entryCount);
-		Set<String> referencedFiles= new HashSet<>();
-		Set<String> seenIds= new HashSet<>();
+		List<StoredSession> validEntries= new ArrayList<>(entryCount); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<String> referencedFiles= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<String> seenIds= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		boolean indexFullyUnderstood= true;
-		for (int i= 0; i < entryCount; i++) {
+		for (int i= 0; i < entryCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				StoredSession storedSession= readEntry(properties, i, historyDirectory);
 				if (!seenIds.add(storedSession.fId))
-					throw new IllegalArgumentException("Duplicate JUnit history identifier: " + storedSession.fId); //$NON-NLS-1$
+					throw new IllegalArgumentException("Duplicate JUnit history identifier: " + storedSession.fId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				File historyFile= storedSession.fHistoryFile;
 				if (!historyFile.isFile() || historyFile.length() != storedSession.fFileLength) {
-					LOG.error("Ignoring incomplete JUnit history file: " + historyFile); //$NON-NLS-1$
+					LOG.error("Ignoring incomplete JUnit history file: " + historyFile); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					indexFullyUnderstood= false;
 					continue;
 				}
@@ -165,7 +165,7 @@ public final class TestRunSessionHistory {
 			} catch (IllegalArgumentException e) {
 				indexFullyUnderstood= false;
 				BLOCKED_HISTORY_DIRECTORIES.add(historyPath);
-				LOG.error("Invalid JUnit history entry " + i, e); //$NON-NLS-1$
+				LOG.error("Invalid JUnit history entry " + i, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -173,8 +173,8 @@ public final class TestRunSessionHistory {
 			deleteOrphanedXmlFiles(historyDirectory, referencedFiles, false);
 
 		validEntries.sort(Comparator.comparingLong((StoredSession entry) -> entry.fHistoryTimestamp).reversed());
-		List<TestRunSession> sessions= new ArrayList<>(Math.min(limit, validEntries.size()));
-		for (StoredSession storedSession : validEntries) {
+		List<TestRunSession> sessions= new ArrayList<>(Math.min(limit, validEntries.size())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (StoredSession storedSession : validEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (sessions.size() >= limit)
 				break;
 			sessions.add(new RestoredTestRunSession(storedSession));
@@ -191,7 +191,7 @@ public final class TestRunSessionHistory {
 	 * @param historyDirectory the JUnit history directory
 	 * @param maxCount the maximum number of entries to retain
 	 */
-	public static void store(List<TestRunSession> sessions, File historyDirectory, int maxCount) {
+	public static void store(List<TestRunSession> sessions, File historyDirectory, int maxCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (BLOCKED_HISTORY_DIRECTORIES.contains(historyDirectoryPath(historyDirectory))) {
 			LOG.error("Keeping the existing JUnit history because its index could not be read"); //$NON-NLS-1$
 			return;
@@ -205,9 +205,9 @@ public final class TestRunSessionHistory {
 		}
 
 		int limit= Math.max(0, maxCount);
-		List<StoredSession> storedSessions= new ArrayList<>(Math.min(limit, sessions.size()));
+		List<StoredSession> storedSessions= new ArrayList<>(Math.min(limit, sessions.size())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean persistenceFailure= false;
-		for (TestRunSession session : sessions) {
+		for (TestRunSession session : sessions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (storedSessions.size() >= limit)
 				break;
 			if (!isPersistable(session))
@@ -241,8 +241,8 @@ public final class TestRunSessionHistory {
 		if (!writeIndexAtomically(storedSessions, historyDirectory))
 			return;
 
-		Set<String> retainedFiles= new HashSet<>();
-		for (StoredSession storedSession : storedSessions)
+		Set<String> retainedFiles= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (StoredSession storedSession : storedSessions) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			retainedFiles.add(storedSession.fHistoryFile.getName());
 		deleteOrphanedXmlFiles(historyDirectory, retainedFiles, true);
 	}
@@ -259,7 +259,7 @@ public final class TestRunSessionHistory {
 	static void exportAtomically(TestRunSession session, File targetFile) throws CoreException, IOException {
 		File directory= targetFile.getParentFile();
 		Files.createDirectories(directory.toPath());
-		File temporaryFile= Files.createTempFile(directory.toPath(), targetFile.getName() + '.', TEMP_SUFFIX).toFile();
+		File temporaryFile= Files.createTempFile(directory.toPath(), targetFile.getName() + '.', TEMP_SUFFIX).toFile(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try {
 			JUnitModel.exportTestRunSession(session, temporaryFile);
 			if (session.hasSwapInFailed())
@@ -273,7 +273,7 @@ public final class TestRunSessionHistory {
 	private static StoredSession writeSessionAtomically(TestRunSession session, File historyDirectory) throws CoreException, IOException {
 		String id;
 		File historyFile;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			id= UUID.randomUUID().toString();
 			historyFile= new File(historyDirectory, historyFileName(id));
 		} while (historyFile.exists());
@@ -281,17 +281,17 @@ public final class TestRunSessionHistory {
 		return StoredSession.from(session, id, historyFile, historyTimestamp(session.getStartTime()));
 	}
 
-	private static boolean writeIndexAtomically(List<StoredSession> storedSessions, File historyDirectory) {
+	private static boolean writeIndexAtomically(List<StoredSession> storedSessions, File historyDirectory) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Properties properties= new Properties();
 		properties.setProperty(KEY_FORMAT_VERSION, Integer.toString(FORMAT_VERSION));
 		properties.setProperty(KEY_ENTRY_COUNT, Integer.toString(storedSessions.size()));
-		for (int i= 0; i < storedSessions.size(); i++)
+		for (int i= 0; i < storedSessions.size(); i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			writeEntry(properties, i, storedSessions.get(i));
 
 		File indexFile= new File(historyDirectory, INDEX_FILE_NAME);
 		File temporaryFile;
 		try {
-			temporaryFile= Files.createTempFile(historyDirectory.toPath(), INDEX_FILE_NAME + '.', TEMP_SUFFIX).toFile();
+			temporaryFile= Files.createTempFile(historyDirectory.toPath(), INDEX_FILE_NAME + '.', TEMP_SUFFIX).toFile(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (IOException e) {
 			LOG.error("Could not create a temporary JUnit history index", e); //$NON-NLS-1$
 			return false;
@@ -311,7 +311,7 @@ public final class TestRunSessionHistory {
 		}
 	}
 
-	private static void writeEntry(Properties properties, int index, StoredSession session) {
+	private static void writeEntry(Properties properties, int index, StoredSession session) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		properties.setProperty(entryKey(index, KEY_ID), session.fId);
 		properties.setProperty(entryKey(index, KEY_NAME), session.fTestRunName);
 		setOptional(properties, entryKey(index, KEY_PROJECT), session.fProjectName);
@@ -332,7 +332,7 @@ public final class TestRunSessionHistory {
 		properties.setProperty(entryKey(index, KEY_FILE_LENGTH), Long.toString(session.fFileLength));
 	}
 
-	private static StoredSession readEntry(Properties properties, int index, File historyDirectory) {
+	private static StoredSession readEntry(Properties properties, int index, File historyDirectory) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id= UUID.fromString(required(properties, entryKey(index, KEY_ID))).toString();
 		String testRunName= required(properties, entryKey(index, KEY_NAME));
 		String projectName= properties.getProperty(entryKey(index, KEY_PROJECT));
@@ -352,7 +352,7 @@ public final class TestRunSessionHistory {
 		} else if (PROGRESS_COMPLETED.equals(progress)) {
 			stopped= false;
 		} else {
-			throw new IllegalArgumentException("Unsupported JUnit history progress state: " + progress); //$NON-NLS-1$
+			throw new IllegalArgumentException("Unsupported JUnit history progress state: " + progress); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		String resultName= required(properties, entryKey(index, KEY_RESULT));
@@ -385,7 +385,7 @@ public final class TestRunSessionHistory {
 			return "FAILURE"; //$NON-NLS-1$
 		if (result == Result.IGNORED)
 			return "IGNORED"; //$NON-NLS-1$
-		throw new IllegalArgumentException("Unsupported JUnit history result: " + result); //$NON-NLS-1$
+		throw new IllegalArgumentException("Unsupported JUnit history result: " + result); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static Result parseResult(String resultName) {
@@ -395,22 +395,22 @@ public final class TestRunSessionHistory {
 			case "ERROR" -> Result.ERROR; //$NON-NLS-1$
 			case "FAILURE" -> Result.FAILURE; //$NON-NLS-1$
 			case "IGNORED" -> Result.IGNORED; //$NON-NLS-1$
-			default -> throw new IllegalArgumentException("Unsupported JUnit history result: " + resultName); //$NON-NLS-1$
+			default -> throw new IllegalArgumentException("Unsupported JUnit history result: " + resultName); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		};
 	}
 
 	private static String historyFileName(String id) {
-		return HISTORY_FILE_PREFIX + id + XML_SUFFIX;
+		return HISTORY_FILE_PREFIX + id + XML_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static String entryKey(int index, String name) {
-		return "entry." + index + '.' + name; //$NON-NLS-1$
+		return "entry." + index + '.' + name; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static String required(Properties properties, String key) {
 		String value= properties.getProperty(key);
 		if (value == null)
-			throw new IllegalArgumentException("Missing JUnit history property: " + key); //$NON-NLS-1$
+			throw new IllegalArgumentException("Missing JUnit history property: " + key); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return value;
 	}
 
@@ -424,14 +424,14 @@ public final class TestRunSessionHistory {
 		try {
 			return Long.parseLong(value);
 		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Invalid JUnit history number: " + key, e); //$NON-NLS-1$
+			throw new IllegalArgumentException("Invalid JUnit history number: " + key, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private static long readLong(Properties properties, String key, long minimum, long maximum) {
 		long value= readLong(properties, key);
 		if (value < minimum || value > maximum)
-			throw new IllegalArgumentException("JUnit history number out of range: " + key); //$NON-NLS-1$
+			throw new IllegalArgumentException("JUnit history number out of range: " + key); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return value;
 	}
 
@@ -472,7 +472,7 @@ public final class TestRunSessionHistory {
 				&& file.getName().startsWith(SWAP_FILE_PREFIX)
 				&& file.getName().endsWith(XML_SUFFIX));
 		if (swapFiles != null) {
-			for (File swapFile : swapFiles)
+			for (File swapFile : swapFiles) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				delete(swapFile);
 		}
 	}
@@ -480,7 +480,7 @@ public final class TestRunSessionHistory {
 	private static void deleteTemporaryFiles(File historyDirectory) {
 		File[] temporaryFiles= historyDirectory.listFiles(file -> file.isFile() && file.getName().endsWith(TEMP_SUFFIX));
 		if (temporaryFiles != null) {
-			for (File temporaryFile : temporaryFiles)
+			for (File temporaryFile : temporaryFiles) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				delete(temporaryFile);
 		}
 	}
@@ -488,7 +488,7 @@ public final class TestRunSessionHistory {
 	private static void deleteOrphanedXmlFiles(File historyDirectory, Set<String> retainedFileNames, boolean deleteLegacyFiles) {
 		File[] historyFiles= historyDirectory.listFiles(file -> file.isFile() && file.getName().endsWith(XML_SUFFIX));
 		if (historyFiles != null) {
-			for (File historyFile : historyFiles) {
+			for (File historyFile : historyFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String fileName= historyFile.getName();
 				if (!retainedFileNames.contains(fileName)
 						&& (deleteLegacyFiles || fileName.startsWith(HISTORY_FILE_PREFIX)))
@@ -534,7 +534,7 @@ public final class TestRunSessionHistory {
 		final String fIncludeTags;
 		final String fExcludeTags;
 
-		StoredSession(String id, File historyFile, long fileLength, String testRunName, String projectName,
+		StoredSession(String id, File historyFile, long fileLength, String testRunName, String projectName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				String launchConfigurationMemento, String launchMode, long startTime, long historyTimestamp,
 				boolean stopped, Result result, int totalCount, int startedCount, int failureCount, int errorCount,
 				int ignoredCount, int assumptionFailureCount, String includeTags, String excludeTags) {
@@ -559,7 +559,7 @@ public final class TestRunSessionHistory {
 			fExcludeTags= excludeTags;
 		}
 
-		static StoredSession from(TestRunSession session, String id, File historyFile, long historyTimestamp) {
+		static StoredSession from(TestRunSession session, String id, File historyFile, long historyTimestamp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaProject project= session.getLaunchedProject();
 			String launchConfigurationMemento= null;
 			String launchMode= null;
@@ -640,7 +640,7 @@ public final class TestRunSessionHistory {
 			return fContentsLoaded ? super.getElapsedTimeInSeconds() : Double.NaN;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public synchronized void swapIn() {
 			if (fContentsLoaded || fLoadingContents || !fValid)
 				return;

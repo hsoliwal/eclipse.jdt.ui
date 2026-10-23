@@ -76,11 +76,11 @@ import org.eclipse.jdt.internal.corext.refactoring.structure.ImportRemover;
  */
 public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void find(UseIteratorToForLoopFixCore fixcore, CompilationUnit compilationUnit,
 			Set<CompilationUnitRewriteOperation> operations, Set<ASTNode> nodesprocessed, boolean createForOnlyIfVarUsed) {
 		ReferenceHolder<ASTNode, WhileLoopToChangeHit> dataholder= new ReferenceHolder<>();
-		Map<ASTNode, WhileLoopToChangeHit> operationsMap= new LinkedHashMap<>();
+		Map<ASTNode, WhileLoopToChangeHit> operationsMap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		WhileLoopToChangeHit invalidHit= new WhileLoopToChangeHit(true);
 		HelperVisitor.callVariableDeclarationStatementVisitor(Iterator.class, compilationUnit, dataholder, nodesprocessed, (init_iterator, unused) -> {
 			List<Object> computeVarName= computeVarName(init_iterator);
@@ -93,7 +93,7 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 						final HelperVisitor<ReferenceHolder<ASTNode, WhileLoopToChangeHit>, ASTNode, WhileLoopToChangeHit> helperVisitor= holder.getHelperVisitor();
 						if (helperVisitor.nodesprocessed.size() > 0) {
 							boolean invalidated= false;
-							for (ASTNode astNode : helperVisitor.nodesprocessed) {
+							for (ASTNode astNode : helperVisitor.nodesprocessed) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								WhileLoopToChangeHit oldHit= operationsMap.get(astNode);
 								if (oldHit != null && oldHit.iteratorDeclaration == init_iterator) {
 									operationsMap.put(astNode, invalidHit);
@@ -191,18 +191,18 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 			}
 			return true;
 		});
-		for (WhileLoopToChangeHit hit : operationsMap.values()) {
+		for (WhileLoopToChangeHit hit : operationsMap.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!hit.isInvalid && validate(hit)) {
 				operations.add(fixcore.rewrite(hit));
 			}
 		}
 	}
 
-	private static boolean validate(final WhileLoopToChangeHit hit) {
+	private static boolean validate(final WhileLoopToChangeHit hit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode iterDeclarationParent= hit.iteratorDeclaration.getParent();
 		List<StructuralPropertyDescriptor> descs= iterDeclarationParent.structuralPropertiesForType();
 		boolean hasStatements= false;
-		for (StructuralPropertyDescriptor desc : descs) {
+		for (StructuralPropertyDescriptor desc : descs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getId().equals("statements")) { //$NON-NLS-1$
 				hasStatements= true;
 				break;
@@ -212,7 +212,7 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 			return false;
 		}
 		ReferenceHolder<ASTNode, WhileLoopToChangeHit> dataholder= new ReferenceHolder<>();
-		Set<ASTNode> nodesprocessed= new HashSet<>();
+		Set<ASTNode> nodesprocessed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		VariableDeclarationFragment iterDeclFragment= (VariableDeclarationFragment) hit.iteratorDeclaration.fragments().get(0);
 		IVariableBinding iterBinding= iterDeclFragment.resolveBinding();
 		if (iterBinding == null) {
@@ -276,8 +276,8 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 		return name;
 	}
 
-	private static List<Object> computeVarName(VariableDeclarationStatement node_a) {
-		List<Object> objectList= new ArrayList<>();
+	private static List<Object> computeVarName(VariableDeclarationStatement node_a) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Object> objectList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (node_a.fragments().size() > 1) {
 			return null;
 		}
@@ -306,7 +306,7 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 		return objectList;
 	}
 
-	private static MethodInvocation computeIteratorCall(VariableDeclarationStatement node_a) {
+	private static MethodInvocation computeIteratorCall(VariableDeclarationStatement node_a) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		VariableDeclarationFragment bli= (VariableDeclarationFragment) node_a.fragments().get(0);
 		Expression exp= bli.getInitializer();
 		IBinding bliBinding= bli.getName().resolveBinding();
@@ -318,7 +318,7 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 		if (exp != null && exp instanceof MethodInvocation) {
 			dataholder.put(node_a, exp);
 		}
-		Set<ASTNode> nodesprocessed= new HashSet<>();
+		Set<ASTNode> nodesprocessed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		final Object Invalid= new Object();
 		try {
 			HelperVisitor.callAssignmentVisitor(parent, dataholder, nodesprocessed, (assignment, unused) -> {
@@ -355,7 +355,7 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 		}
 	}
 
-	private static ITypeBinding computeTypeArgument(VariableDeclarationStatement node_a) {
+	private static ITypeBinding computeTypeArgument(VariableDeclarationStatement node_a) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		VariableDeclarationFragment bli= (VariableDeclarationFragment) node_a.fragments().get(0);
 		Expression exp= bli.getInitializer();
 		if (exp == null) {
@@ -365,7 +365,7 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 			}
 			ASTNode parent= node_a.getParent();
 			ReferenceHolder<ASTNode, Object> dataholder= new ReferenceHolder<>();
-			Set<ASTNode> nodesprocessed= new HashSet<>();
+			Set<ASTNode> nodesprocessed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			final Object Invalid= new Object();
 			try {
 				HelperVisitor.callAssignmentVisitor(parent, dataholder, nodesprocessed, (assignment, unused) -> {
@@ -422,8 +422,8 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 		return node_a.getAST().resolveWellKnownType("java.lang.Object"); //$NON-NLS-1$
 	}
 
-	protected String[] getUsedVariableNames(WhileStatement whileStatement) {
-		final List<String> results= new ArrayList<>();
+	protected String[] getUsedVariableNames(WhileStatement whileStatement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<String> results= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		CompilationUnit root= (CompilationUnit)whileStatement.getRoot();
 
@@ -447,7 +447,7 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 		return results.toArray(new String[results.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void rewrite(UseIteratorToForLoopFixCore upp, final WhileLoopToChangeHit hit, final CompilationUnitRewrite cuRewrite,
 			TextEditGroup group) {
 		ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -545,7 +545,7 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 			if (hit.nextWithoutVariableDeclaration) {
 				// remove it.next(); expression statements
 				ASTNode loopVarDeclaration= hit.loopVarDeclaration;
-				while (loopVarDeclaration.getParent() instanceof ParenthesizedExpression) {
+				while (loopVarDeclaration.getParent() instanceof ParenthesizedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					loopVarDeclaration= loopVarDeclaration.getParent();
 				}
 				if (loopVarDeclaration.getLocationInParent() == ExpressionStatement.EXPRESSION_PROPERTY) {
@@ -567,12 +567,12 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 		remover.applyRemoves(importRewrite);
 	}
 
-	private boolean isLocalOrMemberType(ITypeBinding binding, WhileStatement whileStatement) {
+	private boolean isLocalOrMemberType(ITypeBinding binding, WhileStatement whileStatement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding declClass= binding.getDeclaringClass();
 		if (declClass == null) {
 			return false;
 		}
-		while (declClass.getDeclaringClass() != null) {
+		while (declClass.getDeclaringClass() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			declClass= declClass.getDeclaringClass();
 		}
 		AbstractTypeDeclaration typeDecl= ASTNodes.getFirstAncestorOrNull(whileStatement, AbstractTypeDeclaration.class);
@@ -583,20 +583,20 @@ public class WhileToForEach extends AbstractTool<WhileLoopToChangeHit> {
 		if (typeDeclBinding == null) {
 			return false;
 		}
-		while (typeDeclBinding.getDeclaringClass() != null) {
+		while (typeDeclBinding.getDeclaringClass() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			typeDeclBinding= typeDeclBinding.getDeclaringClass();
 		}
 		return declClass.isEqualTo(typeDeclBinding);
 	}
 
-	private Type handleParameterizedType(ITypeBinding binding, AST ast, CompilationUnitRewrite cuRewrite) {
+	private Type handleParameterizedType(ITypeBinding binding, AST ast, CompilationUnitRewrite cuRewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String loopTargetType= binding.getErasure().getQualifiedName();
 		Type type= ast.newSimpleType(addImport(loopTargetType, cuRewrite, ast));
 		if (binding.isParameterizedType()) {
 			ParameterizedType pType= ast.newParameterizedType(type);
-			Collection<Type> typeArgs= new ArrayList<>();
+			Collection<Type> typeArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			ITypeBinding[] args= binding.getTypeArguments();
-			for (ITypeBinding arg : args) {
+			for (ITypeBinding arg : args) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type argType= null;
 				if (arg.isParameterizedType()) {
 					argType= handleParameterizedType(arg, ast, cuRewrite);

@@ -210,7 +210,7 @@ public class WizardsTest extends TestCase {
 		JavaProjectHelper.delete(jproject);
 	}
 
-	public void testJarPackageWizard_sameElementOrderInJarDescriptionExports() throws Exception {
+	public void testJarPackageWizard_sameElementOrderInJarDescriptionExports() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource[] roots = createProjectsWithSourceFolders(20);
 		IProject outputProject = roots[0].getProject();
 
@@ -232,7 +232,7 @@ public class WizardsTest extends TestCase {
 				is(Files.readString(jardescReverseOrder.getLocation().toPath())));
 		assertThat("original and rewritten JAR descriptions differ", Files.readString(jardescProperOrder.getLocation().toPath()), is(Files.readString(jardescRewritten.getLocation().toPath())));
 
-		for (IResource root : roots) {
+		for (IResource root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.delete(root.getProject());
 		}
 	}
@@ -241,7 +241,7 @@ public class WizardsTest extends TestCase {
 		String binFolderName = "bin";
 		String sourceFolderName = "src";
 		IResource[] roots = new IResource[numberOfProjects];
-		for (int projectNumber = 0 ; projectNumber < numberOfProjects; projectNumber++) {
+		for (int projectNumber = 0 ; projectNumber < numberOfProjects; projectNumber++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject project= JavaProjectHelper.createJavaProject(UUID.randomUUID().toString(), binFolderName);
 			roots[projectNumber] = JavaProjectHelper.addSourceContainer(project, sourceFolderName).getResource();
 		}
@@ -254,7 +254,7 @@ public class WizardsTest extends TestCase {
 		return exportJardesc(projectForExport, data);
 	}
 
-	private IFile exportJardesc(IProject projectForExport, JarPackageData data) throws CoreException {
+	private IFile exportJardesc(IProject projectForExport, JarPackageData data) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFile exportFile = projectForExport.getFile("export.jar");
 		data.setJarLocation(exportFile.getLocation());
 		IFile jardescFile = projectForExport.getFile("save.jardesc");
@@ -269,7 +269,7 @@ public class WizardsTest extends TestCase {
 		boolean exportSuccessful = wizard.performFinish();
 
 		exportFile.delete(true, null);
-		assertTrue("wizard did not finish successfully: " + wizard, exportSuccessful);
+		assertTrue("wizard did not finish successfully: " + wizard, exportSuccessful); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("JAR description file was not created", jardescFile.exists());
 		return jardescFile;
 	}

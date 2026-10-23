@@ -308,7 +308,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * if the kind of node is inappropriate for this refactoring.
 	 * @return a RefactoringStatus indicating whether the selection is valid
 	 */
-	private RefactoringStatus checkSelection(IProgressMonitor pm) throws JavaModelException {
+	private RefactoringStatus checkSelection(IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			pm.beginTask(RefactoringCoreMessages.IntroduceFactory_examiningSelection, 2);
 
@@ -362,7 +362,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 			pm.worked(1);
 
 			if (fNewMethodName == null)
-				return setNewMethodName("create" + fCtorBinding.getName());//$NON-NLS-1$
+				return setNewMethodName("create" + fCtorBinding.getName());//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
 				return new RefactoringStatus();
 		} finally {
@@ -394,10 +394,10 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * call sites to the constructor.
 	 */
 	private ICompilationUnit[] collectAffectedUnits(SearchResultGroup[] searchHits) {
-		Collection<ICompilationUnit>	result= new ArrayList<>();
+		Collection<ICompilationUnit>	result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean hitInFactoryClass= false;
 
-		for (SearchResultGroup rg : searchHits) {
+		for (SearchResultGroup rg : searchHits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit	icu= rg.getCompilationUnit();
 
 			result.add(icu);
@@ -413,7 +413,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * @return a <code>SearchPattern</code> that finds all calls to the constructor
 	 * identified by the argument <code>methodBinding</code>.
 	 */
-	private SearchPattern createSearchPattern(IMethod ctor, IMethodBinding methodBinding) {
+	private SearchPattern createSearchPattern(IMethod ctor, IMethodBinding methodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(methodBinding,
 				RefactoringCoreMessages.IntroduceFactory_noBindingForSelectedConstructor);
 
@@ -421,16 +421,16 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 			return SearchPattern.createPattern(ctor, IJavaSearchConstants.REFERENCES, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 		else { // perhaps a synthetic method? (but apparently not always... hmmm...)
 			// Can't find an IMethod for this method, so build a string pattern instead
-			StringBuilder	buf= new StringBuilder();
+			StringBuilder	buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-			buf.append(methodBinding.getDeclaringClass().getQualifiedName())
+			buf.append(methodBinding.getDeclaringClass().getQualifiedName()) //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			   .append("(");//$NON-NLS-1$
-			for(int i=0; i < fArgTypes.length; i++) {
+			for(int i=0; i < fArgTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i != 0)
-					buf.append(","); //$NON-NLS-1$
-				buf.append(fArgTypes[i].getQualifiedName());
+					buf.append(","); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(fArgTypes[i].getQualifiedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(")"); //$NON-NLS-1$
+			buf.append(")"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return SearchPattern.createPattern(buf.toString(), IJavaSearchConstants.CONSTRUCTOR,
 					IJavaSearchConstants.REFERENCES, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 		}
@@ -451,9 +451,9 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * (i.e. are binary and therefore can't be modified).
 	 */
 	private SearchResultGroup[] excludeBinaryUnits(SearchResultGroup[] groups) {
-		Collection<SearchResultGroup>	result= new ArrayList<>();
+		Collection<SearchResultGroup>	result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (SearchResultGroup rg : groups) {
+		for (SearchResultGroup rg : groups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit	unit= rg.getCompilationUnit();
 
 			if (unit != null) // ignore hits within a binary unit
@@ -500,7 +500,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 		return groups;
 	}
 
-	private IType findNonPrimaryType(String fullyQualifiedName, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException {
+	private IType findNonPrimaryType(String fullyQualifiedName, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SearchPattern p= SearchPattern.createPattern(fullyQualifiedName, IJavaSearchConstants.TYPE, IJavaSearchConstants.DECLARATIONS, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 		if (p == null) {
 			return null;
@@ -514,8 +514,8 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 
 		SearchResultGroup[] groups= (SearchResultGroup[]) engine.getResults();
 
-		for (SearchResultGroup rg : groups) {
-			for (SearchMatch match : rg.getSearchResults()) {
+		for (SearchResultGroup rg : groups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (SearchMatch match : rg.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (match.getAccuracy() == SearchMatch.A_ACCURATE) {
 					return (IType) match.getElement();
 				}
@@ -527,7 +527,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	/*
 	 * @see org.eclipse.jdt.internal.corext.refactoring.base.Refactoring#checkInput(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask(RefactoringCoreMessages.IntroduceFactory_checking_preconditions, 1);
@@ -563,7 +563,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * identified by <code>fCtorBinding</code>, if available, or default
 	 * names if unavailable (e.g. if the constructor resides in a binary unit).
 	 */
-	private String[] findCtorArgNames() {
+	private String[] findCtorArgNames() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int			numArgs= fCtorBinding.getParameterTypes().length;
 		String[]	names= new String[numArgs];
 
@@ -580,7 +580,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 					formalArgs= recDecl.recordComponents();
 				}
 			}
-			for(Iterator<SingleVariableDeclaration> iter= formalArgs.iterator(); iter.hasNext(); i++) {
+			for(Iterator<SingleVariableDeclaration> iter= formalArgs.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SingleVariableDeclaration svd= iter.next();
 
 				names[i]= svd.getName().getIdentifier();
@@ -589,8 +589,8 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 		}
 
 		// Have no way of getting the formal argument names; just fake it.
-		for(int i=0; i < numArgs; i++)
-			names[i]= "arg" + (i+1); //$NON-NLS-1$
+		for(int i=0; i < numArgs; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			names[i]= "arg" + (i+1); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		return names;
 	}
@@ -605,7 +605,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * @return the new method declaration
 	 * @throws CoreException if an exception occurs while accessing its corresponding resource
 	 */
-	private MethodDeclaration createFactoryMethod(AST ast, IMethodBinding ctorBinding, ASTRewrite unitRewriter) throws CoreException{
+	private MethodDeclaration createFactoryMethod(AST ast, IMethodBinding ctorBinding, ASTRewrite unitRewriter) throws CoreException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MethodDeclaration		newMethod= ast.newMethodDeclaration();
 		SimpleName				newMethodName= ast.newSimpleName(fNewMethodName);
 		ClassInstanceCreation	newCtorCall= ast.newClassInstanceCreation();
@@ -634,7 +634,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 			AnonymousClassDeclaration decl= ast.newAnonymousClassDeclaration();
 			CodeGenerationSettings settings= JavaPreferencesSettings.getCodeGenerationSettings(fCUHandle.getJavaProject());
 			ImportRewriteContext context= new ContextSensitiveImportRewriteContext(fFactoryCU, decl.getStartPosition(), fImportRewriter);
-			for (IMethodBinding unImplementedMethod : getUnimplementedMethods(declaringClass)) {
+			for (IMethodBinding unImplementedMethod : getUnimplementedMethods(declaringClass)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MethodDeclaration newMethodDecl= StubUtility2Core.createImplementationStub(fCUHandle, unitRewriter, fImportRewriter, context,
 					unImplementedMethod, unImplementedMethod.getDeclaringClass(), settings, false, new NodeFinder(fFactoryCU, decl.getStartPosition(), 0).getCoveringNode());
 				decl.bodyDeclarations().add(newMethodDecl);
@@ -671,7 +671,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
             ParameterizedType newInstantiatedType= ast.newParameterizedType(baseType);
             List<Type> newInstTypeArgs= newInstantiatedType.typeArguments();
 
-			for (ITypeBinding ctorOwnerTypeParameter : ctorOwnerTypeParameters) {
+			for (ITypeBinding ctorOwnerTypeParameter : ctorOwnerTypeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type typeArg= ASTNodeFactory.newType(ast, ctorOwnerTypeParameter.getName());
 				newInstTypeArgs.add(typeArg);
 			}
@@ -698,7 +698,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
             ParameterizedType newRetType= ast.newParameterizedType(baseType);
             List<Type> newRetTypeArgs= newRetType.typeArguments();
 
-			for (ITypeBinding ctorOwnerTypeParameter : ctorOwnerTypeParameters) {
+			for (ITypeBinding ctorOwnerTypeParameter : ctorOwnerTypeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type retTypeArg= ASTNodeFactory.newType(ast, ctorOwnerTypeParameter.getName());
 				newRetTypeArgs.add(retTypeArg);
 			}
@@ -717,10 +717,10 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * @param ast utility object used to create AST nodes
 	 * @param newMethod the <code>MethodDeclaration</code> for the factory method
 	 */
-	private void createFactoryMethodSignature(AST ast, MethodDeclaration newMethod) {
+	private void createFactoryMethodSignature(AST ast, MethodDeclaration newMethod) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<SingleVariableDeclaration> argDecls= newMethod.parameters();
 
-		for(int i=0; i < fArgTypes.length; i++) {
+		for(int i=0; i < fArgTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration argDecl= ast.newSingleVariableDeclaration();
 			Type argType;
 
@@ -740,7 +740,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 
 		List<Type> exceptions= newMethod.thrownExceptionTypes();
 
-		for (ITypeBinding ctorExcept : fCtorBinding.getExceptionTypes()) {
+		for (ITypeBinding ctorExcept : fCtorBinding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			exceptions.add(fImportRewriter.addImport(ctorExcept, ast));
 		}
 
@@ -766,11 +766,11 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 */
 	private void copyTypeParameters(AST ast, MethodDeclaration newMethod) {
 		List<TypeParameter> factoryMethodTypeParms= newMethod.typeParameters();
-		for (ITypeBinding ctorOwnerTypeParm : fCtorBinding.getDeclaringClass().getTypeParameters()) {
+		for (ITypeBinding ctorOwnerTypeParm : fCtorBinding.getDeclaringClass().getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter newParm= ast.newTypeParameter();
 			List<Type> newParmBounds= newParm.typeBounds();
 			newParm.setName(ast.newSimpleName(ctorOwnerTypeParm.getName()));
-			for (ITypeBinding parmTypeBound : ctorOwnerTypeParm.getTypeBounds()) {
+			for (ITypeBinding parmTypeBound : ctorOwnerTypeParm.getTypeBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parmTypeBound.isClass() && parmTypeBound.getSuperclass() == null) {
 					continue;
 				}
@@ -812,7 +812,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	private void createFactoryMethodConstructorArgs(AST ast, ClassInstanceCreation newCtorCall) {
 		List<Expression> argList= newCtorCall.arguments();
 
-		for(int i=0; i < fArgTypes.length; i++) {
+		for(int i=0; i < fArgTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode ctorArg= ast.newSimpleName(fFormalArgNames[i]);
 
 			argList.add((Expression) ctorArg);
@@ -826,7 +826,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * @param unitRewriter the AST rewriter
 	 * @param gd the edit group to use
 	 */
-	private void rewriteFactoryMethodCall(ClassInstanceCreation ctorCall, ASTRewrite unitRewriter, TextEditGroup gd) {
+	private void rewriteFactoryMethodCall(ClassInstanceCreation ctorCall, ASTRewrite unitRewriter, TextEditGroup gd) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= unitRewriter.getAST();
 		MethodInvocation factoryMethodCall= ast.newMethodInvocation();
 
@@ -856,7 +856,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 		factoryMethodCall.setName(ast.newSimpleName(fNewMethodName));
 
 		List<Expression> actualCtorArgsList= actualCtorArgs.getRewrittenList();
-		for (Expression actualCtorArg : actualCtorArgsList) {
+		for (Expression actualCtorArg : actualCtorArgsList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode movedArg;
 			if (ASTNodes.isExistingNode(actualCtorArg)) {
 				movedArg= unitRewriter.createMoveTarget(actualCtorArg);
@@ -911,7 +911,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * @param unitChange the CompilationUnitChange object for the compilation unit in question
 	 * @return <code>true</code> iff a change has been added
 	 */
-	private boolean addAllChangesFor(SearchResultGroup rg, ICompilationUnit	unitHandle, CompilationUnitChange unitChange) throws CoreException {
+	private boolean addAllChangesFor(SearchResultGroup rg, ICompilationUnit	unitHandle, CompilationUnitChange unitChange) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 //		ICompilationUnit	unitHandle= rg.getCompilationUnit();
 		Assert.isTrue(rg == null || rg.getCompilationUnit() == unitHandle);
 		CompilationUnit		unit= getASTFor(unitHandle);
@@ -986,7 +986,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * @param unitChange the compilation unit change
 	 * @return true iff at least one constructor call site was rewritten.
 	 */
-	private boolean replaceConstructorCalls(SearchResultGroup rg, CompilationUnit unit, ASTRewrite unitRewriter, CompilationUnitChange unitChange) throws CoreException {
+	private boolean replaceConstructorCalls(SearchResultGroup rg, CompilationUnit unit, ASTRewrite unitRewriter, CompilationUnitChange unitChange) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(ASTCreator.getCu(unit).equals(rg.getCompilationUnit()));
 		SearchMatch[] hits= rg.getSearchResults();
 		/*
@@ -998,7 +998,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 
 		boolean someCallPatched= false;
 
-		for (SearchMatch hit : hits) {
+		for (SearchMatch hit : hits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode ctrCall= getCtorCallAt(hit.getOffset(), hit.getLength(), unit);
 			if (ctrCall instanceof ClassInstanceCreation) {
 				TextEditGroup gd= new TextEditGroup(RefactoringCoreMessages.IntroduceFactory_replaceCalls);
@@ -1028,7 +1028,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * doesn't always cough up text extents that <code>NodeFinder.perform()</code> agrees with.
 	 * @return return a {@link ClassInstanceCreation} or a {@link MethodRef} or <code>null</code> if this is really a constructor->constructor call (e.g. "this(...)")
 	 */
-	private ASTNode getCtorCallAt(int start, int length, CompilationUnit unitAST) throws CoreException {
+	private ASTNode getCtorCallAt(int start, int length, CompilationUnit unitAST) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit unitHandle= ASTCreator.getCu(unitAST);
 		ASTNode node= NodeFinder.perform(unitAST, start, length);
 
@@ -1092,7 +1092,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 		} else
 			throw new CoreException(JavaUIStatus.createError(IStatus.ERROR,
 					Messages.format(RefactoringCoreMessages.IntroduceFactory_unexpectedASTNodeTypeForConstructorSearchHit,
-							new Object[] { BasicElementLabels.getJavaElementName(node.getClass().getName() + "('" + node.toString() + "')"), BasicElementLabels.getFileName(unitHandle) }), //$NON-NLS-1$ //$NON-NLS-2$
+							new Object[] { BasicElementLabels.getJavaElementName(node.getClass().getName() + "('" + node.toString() + "')"), BasicElementLabels.getFileName(unitHandle) }), //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					null));
 	}
 
@@ -1122,12 +1122,12 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 		unitRewriter.getListRewrite(factoryOwner, factoryOwner.getBodyDeclarationsProperty()).insertAt(fFactoryMethod, idx, gd);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask(RefactoringCoreMessages.IntroduceFactory_createChanges, fAllCallsTo.length);
 			final ITypeBinding binding= fFactoryOwningClass.resolveBinding();
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			String project= null;
 			IJavaProject javaProject= fCUHandle.getJavaProject();
 			if (javaProject != null)
@@ -1146,13 +1146,13 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 			final IntroduceFactoryDescriptor descriptor= RefactoringSignatureDescriptorFactory.createIntroduceFactoryDescriptor(project, description, comment.asString(), arguments, flags);
 			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fCUHandle));
 			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_NAME, fNewMethodName);
-			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1, JavaRefactoringDescriptorUtil.elementToHandle(project, binding.getJavaElement()));
-			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1, JavaRefactoringDescriptorUtil.elementToHandle(project, binding.getJavaElement())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.put(ATTRIBUTE_PROTECT, Boolean.toString(fProtectConstructor));
 			final DynamicValidationStateChange result= new DynamicValidationRefactoringChange(descriptor, RefactoringCoreMessages.IntroduceFactory_name);
 			boolean hitInFactoryClass= false;
 			boolean hitInCtorClass= false;
-			for (SearchResultGroup rg : fAllCallsTo) {
+			for (SearchResultGroup rg : fAllCallsTo) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit unitHandle= rg.getCompilationUnit();
 				CompilationUnitChange cuChange= new CompilationUnitChange(getName(), unitHandle);
 
@@ -1262,7 +1262,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 	 * @param fullyQualifiedTypeName an <code>IType</code> referring to an existing class
 	 * @return return the resulting status
 	 */
-	public RefactoringStatus setFactoryClass(String fullyQualifiedTypeName) {
+	public RefactoringStatus setFactoryClass(String fullyQualifiedTypeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType factoryType;
 
 		try {
@@ -1331,7 +1331,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 		return fFactoryOwningClass.resolveBinding().getQualifiedName();
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String selection= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION);
 		if (selection != null) {
 			int offset= -1;
@@ -1359,7 +1359,7 @@ public class IntroduceFactoryRefactoring extends Refactoring {
 			}
 		} else
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT));
-		handle= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1);
+		handle= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
 			if (element == null || !element.exists() || element.getElementType() != IJavaElement.TYPE)

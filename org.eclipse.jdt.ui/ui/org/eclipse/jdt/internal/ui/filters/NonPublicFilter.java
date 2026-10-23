@@ -21,7 +21,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.MemberFilter;
  *
  * @since 3.0
  */
-public class NonPublicFilter extends MemberFilter {
+public class NonPublicFilter extends MemberFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	public NonPublicFilter() {
 		addFilter(MemberFilter.FILTER_NONPUBLIC);
 	}

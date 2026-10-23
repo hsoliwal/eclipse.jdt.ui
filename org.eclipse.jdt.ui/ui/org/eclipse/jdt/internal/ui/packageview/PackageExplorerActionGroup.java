@@ -121,7 +121,7 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 
 	private ProjectActionGroup fProjectActionGroup;
 
-	public PackageExplorerActionGroup(PackageExplorerPart part) {
+	public PackageExplorerActionGroup(PackageExplorerPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		fPart= part;
 		fFrameActionsShown= false;
@@ -153,12 +153,12 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 		fFrameList= new FrameList(frameSource);
 		frameSource.connectTo(fFrameList);
 		fZoomInAction= new GoIntoAction(fFrameList);
-		fPart.getSite().getSelectionProvider().addSelectionChangedListener(unused -> fZoomInAction.update());
+		fPart.getSite().getSelectionProvider().addSelectionChangedListener(unused -> fZoomInAction.update()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		fBackAction= new BackAction(fFrameList);
 		fForwardAction= new ForwardAction(fFrameList);
 		fUpAction= new UpAction(fFrameList);
-		fFrameList.addPropertyChangeListener(unused -> {
+		fFrameList.addPropertyChangeListener(unused -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			fPart.updateTitle();
 			fPart.updateToolbar();
 		});
@@ -236,7 +236,7 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 		toolBar.update(true);
 	}
 
-	public void updateToolBar(IToolBarManager toolBar) {
+	public void updateToolBar(IToolBarManager toolBar) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		boolean hasBeenFrameActionsShown= fFrameActionsShown;
 		fFrameActionsShown= fBackAction.isEnabled() || fUpAction.isEnabled() || fForwardAction.isEnabled();
@@ -259,7 +259,7 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 	/* package */ void fillViewMenu(IMenuManager menu) {
 		menu.add(new Separator());
 		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS+"-end"));//$NON-NLS-1$
+		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS+"-end"));//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	//---- Context menu -------------------------------------------------------------------------
@@ -320,7 +320,7 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 
 	//---- Key board and mouse handling ------------------------------------------------------------
 
-	/* package*/ void handleDoubleClick(DoubleClickEvent event) {
+	/* package*/ void handleDoubleClick(DoubleClickEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TreeViewer viewer= fPart.getTreeViewer();
 		IStructuredSelection selection= (IStructuredSelection)event.getSelection();
 		Object element= selection.getFirstElement();
@@ -337,7 +337,7 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 				if (openAction != null && openAction.isEnabled() && OpenStrategy.getOpenMethod() == OpenStrategy.DOUBLE_CLICK)
 					return;
 				if (selection instanceof ITreeSelection) {
-					for (TreePath path : ((ITreeSelection)selection).getPathsFor(element)) {
+					for (TreePath path : ((ITreeSelection)selection).getPathsFor(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						viewer.setExpandedState(path, !viewer.getExpandedState(path));
 					}
 				} else {
@@ -379,7 +379,7 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 		}
 	}
 
-	private void doWorkingSetChanged(PropertyChangeEvent event) {
+	private void doWorkingSetChanged(PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (ViewActionGroup.MODE_CHANGED.equals(event.getProperty())) {
 			fPart.rootModeChanged(((Integer)event.getNewValue()));
 			Object oldInput= null;
@@ -393,7 +393,7 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 			}
 			if (oldInput != null && newInput != null) {
 				Frame frame;
-				for (int i= 0; (frame= fFrameList.getFrame(i)) != null; i++) {
+				for (int i= 0; (frame= fFrameList.getFrame(i)) != null; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (frame instanceof TreeFrame) {
 						TreeFrame treeFrame= (TreeFrame)frame;
 						if (oldInput.equals(treeFrame.getInput()))
@@ -414,7 +414,7 @@ class PackageExplorerActionGroup extends CompositeActionGroup {
 			if (IWorkingSetManager.CHANGE_WORKING_SET_CONTENT_CHANGE.equals(property)) {
 				TreeViewer viewer= fPart.getTreeViewer();
 				viewer.getControl().setRedraw(false);
-				viewer.refresh();
+				viewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				viewer.getControl().setRedraw(true);
 			}
 		}

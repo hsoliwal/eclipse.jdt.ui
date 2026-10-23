@@ -85,7 +85,7 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 		return "f";
 	}
 
-	private void renameRecordCompactConstructor(String fieldName, String newFieldName, boolean updateReferences, boolean fail, boolean isGetterPresent) throws Exception{
+	private void renameRecordCompactConstructor(String fieldName, String newFieldName, boolean updateReferences, boolean fail, boolean isGetterPresent) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cu2= createCUfromTestFile(getPackageP(), "B");
@@ -98,11 +98,11 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 		ILocalVariable localVar= null;
 		IMethod[] methods= recordA.getMethods();
 		if (methods != null && methods.length > 0) {
-			for (IMethod meth : methods) {
+			for (IMethod meth : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (meth.getElementName().equals(recordA.getElementName())) {
 					ILocalVariable[] lVars= meth.getParameters();
 					if (lVars != null && lVars.length > 0) {
-						for (ILocalVariable lVar : lVars) {
+						for (ILocalVariable lVar : lVars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (lVar != null && lVar.getElementName().equals(fieldName)) {
 								localVar= lVar;
 								break;
@@ -131,9 +131,9 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 			assertEquals("Getter rename should not be enabled", "", processor.canEnableGetterRenaming());
 		}
 
-		List<IAnnotatable> elements= new ArrayList<>();
+		List<IAnnotatable> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		elements.add(field);
-		List<RenameArguments> args= new ArrayList<>();
+		List<RenameArguments> args= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		args.add(new RenameArguments(newFieldName, updateReferences));
 		if (method != null && method.exists()) {
 			elements.add(method);
@@ -174,7 +174,7 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 		}
 	}
 
-	private void renameRecordCompactConstructor2(String fieldName, String newFieldName, boolean updateReferences, boolean fail, boolean isGetterPresent) throws Exception{
+	private void renameRecordCompactConstructor2(String fieldName, String newFieldName, boolean updateReferences, boolean fail, boolean isGetterPresent) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cu2= createCUfromTestFile(getPackageP(), "B");
@@ -189,11 +189,11 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 		ILocalVariable localVar= null;
 		IMethod[] methods= recordA.getMethods();
 		if (methods != null && methods.length > 0) {
-			for (IMethod meth : methods) {
+			for (IMethod meth : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (meth.getElementName().equals(recordA.getElementName())) {
 					ILocalVariable[] lVars= meth.getParameters();
 					if (lVars != null && lVars.length > 0) {
-						for (ILocalVariable lVar : lVars) {
+						for (ILocalVariable lVar : lVars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (lVar != null && lVar.getElementName().equals(fieldName)) {
 								localVar= lVar;
 								break;
@@ -222,9 +222,9 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 			assertEquals("Getter rename should not be enabled", "", processor.canEnableGetterRenaming());
 		}
 
-		List<IAnnotatable> elements= new ArrayList<>();
+		List<IAnnotatable> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		elements.add(field);
-		List<RenameArguments> args= new ArrayList<>();
+		List<RenameArguments> args= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		args.add(new RenameArguments(newFieldName, updateReferences));
 		if (method != null && method.exists()) {
 			elements.add(method);
@@ -275,7 +275,7 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 		renameRecordCompactConstructor(methodName, newMethodName, updateReferences, fail, true);
 	}
 
-	private void renameRecordComponentFail(String record, String fieldName, String newFieldName, String failMsg) throws Exception {
+	private void renameRecordComponentFail(String record, String fieldName, String newFieldName, String failMsg) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), record);
 		IType recordA= getType(cu, record);
@@ -296,7 +296,7 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 		assertEquals(failMsg.replaceAll("TestProject", projName), result.toString());
 	}
 
-	private void renameRecord(String recordName, String newRecordName, boolean updateReferences) throws Exception{
+	private void renameRecord(String recordName, String newRecordName, boolean updateReferences) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), recordName);
 		ICompilationUnit cu2= createCUfromTestFile(getPackageP(), "B");
@@ -313,7 +313,7 @@ public class RenameRecordElementsTests extends GenericRefactoringTest {
 
 		RefactoringStatus result= performRefactoring(refactoring);
 		assertNull("was supposed to pass", result);
-		ICompilationUnit newcu= pack.getCompilationUnit(newRecordName +".java");
+		ICompilationUnit newcu= pack.getCompilationUnit(newRecordName +".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("invalid renaming", getFileContents(getOutputTestFileName(newRecordName)), newcu.getSource());
 		assertEqualLines("invalid renaming", getFileContents(getOutputTestFileName("B")), cu2.getSource());
 

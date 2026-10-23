@@ -68,7 +68,7 @@ public class TemplateSet {
 	private static final String DESCRIPTION_ATTRIBUTE= "description"; //$NON-NLS-1$
 	private static final String CONTEXT_ATTRIBUTE= "context"; //$NON-NLS-1$
 
-	private List<Template> fTemplates= new ArrayList<>();
+	private List<Template> fTemplates= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private String fTemplateTag;
 
 	private static final int TEMPLATE_PARSE_EXCEPTION= 10002;
@@ -111,7 +111,7 @@ public class TemplateSet {
 	 * @param allowDuplicates <code>true</code> if duplicates are allowed
 	 * @throws CoreException if reading fails
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addFromStream(InputStream stream, boolean allowDuplicates) throws CoreException {
 		try {
 			DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
@@ -122,7 +122,7 @@ public class TemplateSet {
 			NodeList elements= document.getElementsByTagName(getTemplateTag());
 
 			int count= elements.getLength();
-			for (int i= 0; i != count; i++) {
+			for (int i= 0; i != count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Node node= elements.item(i);
 				NamedNodeMap attributes= node.getAttributes();
 
@@ -139,12 +139,12 @@ public class TemplateSet {
 				if (context == null)
 					throw new SAXException(JavaTemplateMessages.TemplateSet_error_missing_attribute);
 
-				StringBuilder buffer= new StringBuilder();
+				StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				NodeList children= node.getChildNodes();
-				for (int j= 0; j != children.getLength(); j++) {
+				for (int j= 0; j != children.getLength(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String value= children.item(j).getNodeValue();
 					if (value != null)
-						buffer.append(value);
+						buffer.append(value); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				String pattern= buffer.toString().trim();
 
@@ -153,7 +153,7 @@ public class TemplateSet {
 				String message= validateTemplate(template);
 				if (message == null) {
 					if (!allowDuplicates) {
-						for (Template t : getTemplates(name)) {
+						for (Template t : getTemplates(name)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							remove(t);
 						}
 					}
@@ -171,7 +171,7 @@ public class TemplateSet {
 	protected String validateTemplate(Template template) {
 		TemplateContextType type= fRegistry.getContextType(template.getContextTypeId());
 		if (type == null) {
-			return "Unknown context type: " + template.getContextTypeId(); //$NON-NLS-1$
+			return "Unknown context type: " + template.getContextTypeId(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		try {
 			type.validate(template.getPattern());
@@ -211,7 +211,7 @@ public class TemplateSet {
 	 * @param stream the stream
 	 * @throws CoreException in case the save operation fails
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saveToStream(OutputStream stream) throws CoreException {
 		try {
 			DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
@@ -221,7 +221,7 @@ public class TemplateSet {
 			Node root= document.createElement("templates"); //$NON-NLS-1$
 			document.appendChild(root);
 
-			for (Template template : fTemplates) {
+			for (Template template : fTemplates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Node node= document.createElement(getTemplateTag());
 				root.appendChild(node);
 
@@ -328,8 +328,8 @@ public class TemplateSet {
 	 */
 	@Deprecated
 	public Template[] getTemplates(String name) {
-		ArrayList<Template> res= new ArrayList<>();
-		for (Template curr : fTemplates) {
+		ArrayList<Template> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Template curr : fTemplates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getName().equals(name)) {
 				res.add(curr);
 			}
@@ -345,7 +345,7 @@ public class TemplateSet {
 	 */
 	@Deprecated
 	public Template getFirstTemplate(String name) {
-		for (Template curr : fTemplates) {
+		for (Template curr : fTemplates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getName().equals(name)) {
 				return curr;
 			}

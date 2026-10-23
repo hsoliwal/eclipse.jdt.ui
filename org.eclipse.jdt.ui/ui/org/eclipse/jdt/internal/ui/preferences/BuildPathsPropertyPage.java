@@ -114,7 +114,7 @@ public class BuildPathsPropertyPage extends PropertyPage implements IStatusChang
 	 * @see org.eclipse.jface.preference.PreferencePage#okToLeave()
 	 * @since 3.5
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean okToLeave() {
 		if (fBuildPathsBlock != null && fBuildPathsBlock.hasChangesInDialog()) {
 			String title= PreferencesMessages.BuildPathsPropertyPage_unsavedchanges_title;
@@ -212,12 +212,12 @@ public class BuildPathsPropertyPage extends PropertyPage implements IStatusChang
 	/*
 	 * @see IPreferencePage#performOk
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		if (fBuildPathsBlock != null) {
 			getSettings().put(INDEX, fBuildPathsBlock.getPageIndex());
 			if (fBuildPathsBlock.hasChangesInDialog() || fBuildPathsBlock.isClassfileMissing()) {
-				IWorkspaceRunnable runnable= monitor -> fBuildPathsBlock.configureJavaProject(monitor);
+				IWorkspaceRunnable runnable= monitor -> fBuildPathsBlock.configureJavaProject(monitor); //FLLDCIM: MARK — T09  LAMBDA
 				WorkbenchRunnableAdapter op= new WorkbenchRunnableAdapter(runnable);
 				if (fBlockOnApply) {
 					try {
@@ -242,7 +242,7 @@ public class BuildPathsPropertyPage extends PropertyPage implements IStatusChang
 		StatusUtil.applyToStatusLine(this, status);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void applyData(Object data) {
 		if (data instanceof Map) {
 			Map<?, ?> map= (Map<?, ?>) data;

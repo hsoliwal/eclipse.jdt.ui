@@ -46,17 +46,17 @@ class LocationCopyAction extends Action {
 		setActionDefinitionId(IWorkbenchCommandConstants.EDIT_COPY);
 		setEnabled(!fLocationViewer.getSelection().isEmpty());
 
-		locationViewer.addSelectionChangedListener(event -> setEnabled(! event.getSelection().isEmpty()));
+		locationViewer.addSelectionChangedListener(event -> setEnabled(! event.getSelection().isEmpty())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IStructuredSelection selection= (IStructuredSelection) fLocationViewer.getSelection();
-		StringBuilder buf= new StringBuilder();
-		for (Object name : selection) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CallLocation location= (CallLocation) name;
-			buf.append(location.getLineNumber()).append('\t').append(location.getCallText());
-			buf.append('\n');
+			buf.append(location.getLineNumber()).append('\t').append(location.getCallText()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		TextTransfer plainTextTransfer = TextTransfer.getInstance();
 		try {

@@ -41,7 +41,7 @@ import org.eclipse.jdt.ui.text.java.JavaContentAssistInvocationContext;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
 
-public class LazyJavaCompletionProposal extends AbstractJavaCompletionProposal {
+public class LazyJavaCompletionProposal extends AbstractJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	protected static final String LPAREN= "("; //$NON-NLS-1$
 	protected static final String RPAREN= ")"; //$NON-NLS-1$
@@ -467,7 +467,7 @@ public class LazyJavaCompletionProposal extends AbstractJavaCompletionProposal {
 		return super.isPrefix(pattern, string);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public StyledString getStyledDisplayString(IDocument document, int offset, BoldStylerProvider boldStylerProvider) {
 		StyledString styledDisplayString= new StyledString();
 		styledDisplayString.append(getStyledDisplayString());
@@ -484,7 +484,7 @@ public class LazyJavaCompletionProposal extends AbstractJavaCompletionProposal {
 			int[] matchingRegions= SearchPattern.getMatchingRegions(pattern, displayString, patternMatchRule);
 			if (isJavadocTag && matchingRegions != null) {
 				Strings.markMatchingRegions(styledDisplayString, 0, new int[] { 0, 1 }, boldStylerProvider.getBoldStyler());
-				for (int i= 0; i < matchingRegions.length; i+= 2) {
+				for (int i= 0; i < matchingRegions.length; i+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					matchingRegions[i]++;
 				}
 			}

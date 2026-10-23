@@ -46,7 +46,7 @@ class BCOViewSelectionProvider implements IPostSelectionProvider {
 
 	public BCOViewSelectionProvider() {
 		super();
-		selProviders = new ArrayList<>();
+		selProviders = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void setCurrentSelectionProvider(IPostSelectionProvider provider) {
@@ -68,22 +68,22 @@ class BCOViewSelectionProvider implements IPostSelectionProvider {
 
 	@Override
 	public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
-		for (IPostSelectionProvider provider : selProviders) {
-			provider.addPostSelectionChangedListener(listener);
+		for (IPostSelectionProvider provider : selProviders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			provider.addPostSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 	}
 
 	@Override
 	public void removePostSelectionChangedListener(ISelectionChangedListener listener) {
-		for (IPostSelectionProvider provider : selProviders) {
+		for (IPostSelectionProvider provider : selProviders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			provider.removePostSelectionChangedListener(listener);
 		}
 	}
 
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		for (IPostSelectionProvider provider : selProviders) {
-			provider.addSelectionChangedListener(listener);
+		for (IPostSelectionProvider provider : selProviders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			provider.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 	}
 
@@ -94,7 +94,7 @@ class BCOViewSelectionProvider implements IPostSelectionProvider {
 
 	@Override
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
-		for (IPostSelectionProvider provider : selProviders) {
+		for (IPostSelectionProvider provider : selProviders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			provider.removeSelectionChangedListener(listener);
 		}
 	}

@@ -76,7 +76,7 @@ public class PullOutIfFromIfElseFixCore extends CompilationUnitRewriteOperations
 			this.elseInnerIfStatement= elseInnerIfStatement;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -106,7 +106,7 @@ public class PullOutIfFromIfElseFixCore extends CompilationUnitRewriteOperations
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		PullOutIfFromIfElseFinder finder= new PullOutIfFromIfElseFinder(operations);
 		compilationUnit.accept(finder);
 

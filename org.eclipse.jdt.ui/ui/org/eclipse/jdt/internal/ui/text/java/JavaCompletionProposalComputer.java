@@ -142,7 +142,7 @@ public class JavaCompletionProposalComputer implements IJavaCompletionProposalCo
 		return context.getInvocationOffset();
 	}
 
-	protected final int guessMethodContextInformationPosition(ContentAssistInvocationContext context) {
+	protected final int guessMethodContextInformationPosition(ContentAssistInvocationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int contextPosition= context.getInvocationOffset();
 
 		IDocument document= context.getDocument();
@@ -151,7 +151,7 @@ public class JavaCompletionProposalComputer implements IJavaCompletionProposalCo
 
 		// try the innermost scope of parentheses that looks like a method call
 		int pos= contextPosition - 1;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int paren= scanner.findOpeningPeer(pos, bound, '(', ')');
 			if (paren == JavaHeuristicScanner.NOT_FOUND) {
 				break;
@@ -168,12 +168,12 @@ public class JavaCompletionProposalComputer implements IJavaCompletionProposalCo
 		return contextPosition;
 	}
 
-	private List<IContextInformation> addContextInformations(JavaContentAssistInvocationContext context, int offset) {
+	private List<IContextInformation> addContextInformations(JavaContentAssistInvocationContext context, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<ICompletionProposal> proposals= internalComputeCompletionProposals(offset, context);
-		List<IContextInformation> result= new ArrayList<>(proposals.size());
-		List<IContextInformation> anonymousResult= new ArrayList<>(proposals.size());
+		List<IContextInformation> result= new ArrayList<>(proposals.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IContextInformation> anonymousResult= new ArrayList<>(proposals.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (ICompletionProposal proposal : proposals) {
+		for (ICompletionProposal proposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContextInformation contextInformation= proposal.getContextInformation();
 			if (contextInformation != null) {
 				ContextInformationWrapper wrapper= new ContextInformationWrapper(contextInformation);
@@ -220,7 +220,7 @@ public class JavaCompletionProposalComputer implements IJavaCompletionProposalCo
 		return Collections.emptyList();
 	}
 
-	private List<ICompletionProposal> internalComputeCompletionProposals(int offset, JavaContentAssistInvocationContext context) {
+	private List<ICompletionProposal> internalComputeCompletionProposals(int offset, JavaContentAssistInvocationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit unit= context.getCompilationUnit();
 		if (unit == null) {
 			return Collections.emptyList();
@@ -268,7 +268,7 @@ public class JavaCompletionProposalComputer implements IJavaCompletionProposalCo
 				}
 			};
 			if (Display.getCurrent() == null && Display.getDefault() != null) {
-				Display.getDefault().asyncExec(() -> {
+				Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					popup.accept(widget);
 				});
 			} else {
@@ -279,7 +279,7 @@ public class JavaCompletionProposalComputer implements IJavaCompletionProposalCo
 		ICompletionProposal[] javaProposals= collector.getJavaCompletionProposals();
 		int contextInformationOffset= guessMethodContextInformationPosition(context);
 		if (contextInformationOffset != offset) {
-			for (ICompletionProposal javaProposal : javaProposals) {
+			for (ICompletionProposal javaProposal : javaProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (javaProposal instanceof JavaMethodCompletionProposal) {
 					JavaMethodCompletionProposal jmcp= (JavaMethodCompletionProposal) javaProposal;
 					jmcp.setContextInformationPosition(contextInformationOffset);
@@ -287,7 +287,7 @@ public class JavaCompletionProposalComputer implements IJavaCompletionProposalCo
 			}
 		}
 
-		List<ICompletionProposal> proposals= new ArrayList<>(Arrays.asList(javaProposals));
+		List<ICompletionProposal> proposals= new ArrayList<>(Arrays.asList(javaProposals)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (proposals.size() == 0) {
 			String error= collector.getErrorMessage();
 			if (error.length() > 0) {

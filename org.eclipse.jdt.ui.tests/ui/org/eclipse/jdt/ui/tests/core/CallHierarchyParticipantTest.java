@@ -88,7 +88,7 @@ public class CallHierarchyParticipantTest {
 				participants.length >= 2);
 
 		boolean foundTest = false;
-		for (SearchParticipant p : participants) {
+		for (SearchParticipant p : participants) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (p instanceof TestCallHierarchyParticipant) {
 				foundTest = true;
 			}
@@ -101,7 +101,7 @@ public class CallHierarchyParticipantTest {
 	 * Verifies that the existing Java AST-based callee analysis path is unchanged
 	 * when a Java AST is available.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void outgoingCallsJavaASTPathUnchanged() throws Exception {
 		JavaProjectHelper.addRTJar9(fSourceProject);
 		IPackageFragmentRoot src = JavaProjectHelper.addSourceContainer(fSourceProject, "src");
@@ -137,7 +137,7 @@ public class CallHierarchyParticipantTest {
 	 * {@code DerivedSourceSearchParticipant.locateCallees()} when the member has no Java AST
 	 * (binary member without source attachment).
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void outgoingCallsFallBackToParticipants() throws Exception {
 		JavaProjectHelper.addRTJar9(fSourceProject);
 		IPackageFragmentRoot src = JavaProjectHelper.addSourceContainer(fSourceProject, "src");
@@ -203,7 +203,7 @@ public class CallHierarchyParticipantTest {
 
 		boolean foundTarget = false;
 		boolean foundAnother = false;
-		for (MethodWrapper callee : callees) {
+		for (MethodWrapper callee : callees) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = callee.getMember().getElementName();
 			if ("targetMethod".equals(name)) foundTarget = true;
 			if ("anotherTarget".equals(name)) foundAnother = true;
@@ -216,7 +216,7 @@ public class CallHierarchyParticipantTest {
 	 * Verifies that {@code CalleeMethodWrapper.resolveCallee()} resolves
 	 * existing callees directly without additional search.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void outgoingCallsResolvesExistingCallees() throws Exception {
 		JavaProjectHelper.addRTJar9(fSourceProject);
 		IPackageFragmentRoot src = JavaProjectHelper.addSourceContainer(fSourceProject, "src");
@@ -283,7 +283,7 @@ public class CallHierarchyParticipantTest {
 	 * (e.g. KotlinCompilationUnit) that implements the public API but not the
 	 * internal compiler interface.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void outgoingCallsFallBackOnClassCastException() throws Exception {
 		JavaProjectHelper.addRTJar9(fSourceProject);
 		IPackageFragmentRoot src = JavaProjectHelper.addSourceContainer(fSourceProject, "src");
@@ -359,7 +359,7 @@ public class CallHierarchyParticipantTest {
 	 * Regression test for switching from {@code getDefaultSearchParticipant()}
 	 * to {@code SearchEngine.getSearchParticipants()}.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void incomingCallsUsesAllParticipants() throws Exception {
 		JavaProjectHelper.addRTJar9(fSourceProject);
 		IPackageFragmentRoot src = JavaProjectHelper.addSourceContainer(fSourceProject, "src");
@@ -390,7 +390,7 @@ public class CallHierarchyParticipantTest {
 
 		boolean foundFirst = false;
 		boolean foundSecond = false;
-		for (MethodWrapper caller : callers) {
+		for (MethodWrapper caller : callers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = caller.getMember().getElementName();
 			if ("firstCaller".equals(name)) foundFirst = true;
 			if ("secondCaller".equals(name)) foundSecond = true;
@@ -407,7 +407,7 @@ public class CallHierarchyParticipantTest {
 	 * guard must not reject {@code IClassFile} members whose element name ends
 	 * in {@code .class}.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void outgoingCallsWorkForClassFileWithAttachedSource() throws Exception {
 		JavaProjectHelper.addRTJar9(fSourceProject);
 		IPackageFragmentRoot src = JavaProjectHelper.addSourceContainer(fSourceProject, "src");
@@ -453,7 +453,7 @@ public class CallHierarchyParticipantTest {
 
 		boolean foundTarget = false;
 		boolean foundAnother = false;
-		for (MethodWrapper callee : callees) {
+		for (MethodWrapper callee : callees) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = callee.getMember().getElementName();
 			if ("targetMethod".equals(name)) foundTarget = true;
 			if ("anotherTarget".equals(name)) foundAnother = true;

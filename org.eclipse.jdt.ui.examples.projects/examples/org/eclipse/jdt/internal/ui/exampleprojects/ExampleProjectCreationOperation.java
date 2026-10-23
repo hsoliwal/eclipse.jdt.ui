@@ -44,7 +44,7 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
 
-public class ExampleProjectCreationOperation implements IRunnableWithProgress {
+public class ExampleProjectCreationOperation implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	private IResource fElementToOpen;
 
@@ -77,7 +77,7 @@ public class ExampleProjectCreationOperation implements IRunnableWithProgress {
 	}
 
 
-	private void createProject(ExampleProjectCreationWizardPage page, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	private void createProject(ExampleProjectCreationWizardPage page, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspaceRoot root= ExampleProjectsPlugin.getWorkspace().getRoot();
 		IConfigurationElement desc= page.getConfigurationElement();
 
@@ -95,18 +95,18 @@ public class ExampleProjectCreationOperation implements IRunnableWithProgress {
 		String name= page.getName();
 
 		String[] natureIds= new String[nNatures];
-		for (int i= 0; i < nNatures; i++) {
+		for (int i= 0; i < nNatures; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			natureIds[i]= natures[i].getAttribute("id"); //$NON-NLS-1$
 		}
 		IProject[] referencedProjects= new IProject[nReferences];
-		for (int i= 0; i < nReferences; i++) {
+		for (int i= 0; i < nReferences; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			referencedProjects[i]= root.getProject(references[i].getAttribute("id")); //$NON-NLS-1$
 		}
 
 		IProject proj= configNewProject(root, name, natureIds, referencedProjects, encoding, subMon.split(1));
 
 
-		for (int i= 0; i < nImports; i++) {
+		for (int i= 0; i < nImports; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			doImports(proj, imports[i], subMon.split(1));
 		}
 
@@ -120,7 +120,7 @@ public class ExampleProjectCreationOperation implements IRunnableWithProgress {
 
 	}
 
-	private IProject configNewProject(IWorkspaceRoot root, String name, String[] natureIds, IProject[] referencedProjects, String encoding, IProgressMonitor monitor) throws InvocationTargetException {
+	private IProject configNewProject(IWorkspaceRoot root, String name, String[] natureIds, IProject[] referencedProjects, String encoding, IProgressMonitor monitor) throws InvocationTargetException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IProject project= root.getProject(name);
 			if (!project.exists()) {
@@ -146,7 +146,7 @@ public class ExampleProjectCreationOperation implements IRunnableWithProgress {
 		}
 	}
 
-	private void doImports(IProject project, IConfigurationElement curr, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	private void doImports(IProject project, IConfigurationElement curr, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IPath destPath;
 			String name= curr.getAttribute("dest"); //$NON-NLS-1$
@@ -184,9 +184,9 @@ public class ExampleProjectCreationOperation implements IRunnableWithProgress {
 	private ZipFile getZipFileFromPluginDir(String pluginRelativePath, Bundle pluginDescriptor) throws CoreException {
 		try {
 			URL starterURL= pluginDescriptor.getEntry(pluginRelativePath);
-			return new ZipFile(FileLocator.toFileURL(starterURL).getFile());
+			return new ZipFile(FileLocator.toFileURL(starterURL).getFile()); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 		} catch (IOException e) {
-			String message= pluginRelativePath + ": " + e.getMessage(); //$NON-NLS-1$
+			String message= pluginRelativePath + ": " + e.getMessage(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Status status= new Status(IStatus.ERROR, ExampleProjectsPlugin.getPluginId(), IStatus.ERROR, message, e);
 			throw new CoreException(status);
 		}

@@ -118,7 +118,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 		}
 
 		private List<CompilationUnitRewriteOperation> fResult;
-		private Set<IfStatement> ifsProcessed= new HashSet<>();
+		private Set<IfStatement> ifsProcessed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		public SwitchStatementsFinder(List<CompilationUnitRewriteOperation> ops) {
 			fResult= ops;
@@ -133,7 +133,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 
 		final class SeveralIfVisitor extends ASTVisitor {
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final IfStatement visited) {
 				if (ifsProcessed.contains(visited)) {
 					return false;
@@ -145,17 +145,17 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 				}
 
 				Expression switchExpression= variable.name;
-				List<IfStatement> ifStatements= new ArrayList<>();
-				List<SwitchCaseSection> cases= new ArrayList<>();
+				List<IfStatement> ifStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<SwitchCaseSection> cases= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				Statement remainingStatement= null;
 
 				IfStatement ifStatement= visited;
 				boolean isFallingThrough= true;
 
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IfStatement currentNode= ifStatement;
 
-					while (ASTNodes.isSameVariable(switchExpression, variable.name)) {
+					while (ASTNodes.isSameVariable(switchExpression, variable.name)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (variable.getTypePattern() == null) {
 							cases.add(new NullSwitchCaseSection(variable.getTypePattern(), variable.isPatternNameUsed(),
 									ASTNodes.asList(currentNode.getThenStatement())));
@@ -224,11 +224,11 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 						|| statement instanceof WhileStatement;
 			}
 
-			private PatternToSwitchExpressionOperation getOperation(List<IfStatement> ifStatements, Expression switchExpression,
+			private PatternToSwitchExpressionOperation getOperation(List<IfStatement> ifStatements, Expression switchExpression, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					List<SwitchCaseSection> cases, Statement remainingStatement) {
-				List<SwitchCaseSection> throwList= new ArrayList<>();
-				List<Assignment> assignmentList= new ArrayList<>();
-				List<SwitchCaseSection> returnList= new ArrayList<>();
+				List<SwitchCaseSection> throwList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<Assignment> assignmentList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<SwitchCaseSection> returnList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				String assignmentName= null;
 				IVariableBinding assignmentBinding= null;
 				Statement addedSibling= null;
@@ -244,13 +244,13 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 					return null;
 				}
 				// add default as a case section with null type pattern
-				List<SwitchCaseSection> extendedCases= new ArrayList<>(cases);
+				List<SwitchCaseSection> extendedCases= new ArrayList<>(cases); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				SwitchCaseSection defaultSection= new SwitchCaseSection(null, false, ASTNodes.asList(remainingStatement));
 				extendedCases.add(defaultSection);
 
-				for (SwitchCaseSection switchCaseSection : extendedCases) {
+				for (SwitchCaseSection switchCaseSection : extendedCases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					boolean blockExit= false;
-					for (Iterator<Statement> stmtIterator= switchCaseSection.statements.iterator(); stmtIterator.hasNext();) {
+					for (Iterator<Statement> stmtIterator= switchCaseSection.statements.iterator(); stmtIterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Statement statement= stmtIterator.next();
 						if (isInvalidStatement(statement)) {
 							return null;
@@ -289,7 +289,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 							if (statement instanceof Block) {
 								Block block= (Block)statement;
 								// allow one level of block with no invalid statements inside
-								for (Iterator<Statement> blockIter= block.statements().iterator(); blockIter.hasNext();) {
+								for (Iterator<Statement> blockIter= block.statements().iterator(); blockIter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									Statement blockStatement= blockIter.next();
 									if (isInvalidStatement(blockStatement) || blockStatement instanceof Block) {
 										return null;
@@ -356,7 +356,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 				}
 			}
 
-			private TypeVariable extractVariableAndValues(final Statement statement) {
+			private TypeVariable extractVariableAndValues(final Statement statement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (statement instanceof IfStatement ifStmt) {
 					TypeVariable result= extractVariableAndValues(((IfStatement) statement).getExpression());
 					if (result != null) {
@@ -428,7 +428,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 			this.remainingStatement= remainingStatement;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			ImportRewrite importRewrite= cuRewrite.getImportRewrite();
@@ -451,7 +451,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 			switchStatement.setExpression((Expression) rewrite.createCopyTarget(switchExpression));
 
 			boolean haveNullCase= false;
-			for (SwitchCaseSection aCase : cases) {
+			for (SwitchCaseSection aCase : cases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (aCase instanceof NullSwitchCaseSection) {
 					addCaseWithStatements(rewrite, importRewrite, ast, switchStatement, aCase.typePattern, true, false, aCase.isNameUsed, aCase.statements);
 					haveNullCase= true;
@@ -467,14 +467,14 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 				addCaseWithStatements(rewrite, importRewrite, ast, switchStatement, null, false, haveNullCase, false, Collections.emptyList());
 			}
 
-			for (int i= 0; i < ifStatements.size() - 1; i++) {
+			for (int i= 0; i < ifStatements.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNodes.removeButKeepComment(rewrite, ifStatements.get(i), group);
 			}
 
 			ASTNodes.replaceButKeepComment(rewrite, ifStatements.get(ifStatements.size() - 1), newStatement, group);
 		}
 
-		private void addCaseWithStatements(final ASTRewrite rewrite, final ImportRewrite importRewrite,
+		private void addCaseWithStatements(final ASTRewrite rewrite, final ImportRewrite importRewrite, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				final AST ast, final SwitchStatement switchStatement,
 				final TypePattern caseValueOrNullForDefault,
 				final boolean isNullCase,
@@ -530,7 +530,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 
 			// Add the statement(s) for this case(s)
 			if (!innerStatements.isEmpty()) {
-				for (Statement statement : innerStatements) {
+				for (Statement statement : innerStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					statementsList.add((Statement) rewrite.createCopyTarget(statement));
 				}
 			}
@@ -580,7 +580,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 			this.assignmentBinding= assignmentBinding;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			final ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			final ImportRewrite importRewrite= cuRewrite.getImportRewrite();
@@ -593,7 +593,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 
 			// build switch expression
 			boolean haveNullCase= false;
-			for (SwitchCaseSection switchCaseSection : cases) {
+			for (SwitchCaseSection switchCaseSection : cases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<Statement> oldStatements= switchCaseSection.statements;
 				SwitchCase switchCase= null;
 				SwitchCase newSwitchCase= ast.newSwitchCase();
@@ -628,7 +628,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 					switchCase.expressions().add(newExpression);
 				}
 
-				while (true) {
+				while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (oldStatements.size() == 1 && oldStatements.get(0) instanceof Block) {
 						oldStatements= ((Block)oldStatements.get(0)).statements();
 					}
@@ -647,7 +647,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 					} else {
 						Block newBlock= ast.newBlock();
 						int statementsLen= oldStatements.size();
-						for (int i= 0; i < statementsLen - 1; ++i) {
+						for (int i= 0; i < statementsLen - 1; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Statement oldSwitchCaseStatement= oldStatements.get(i);
 							newBlock.statements().add(rewrite.createCopyTarget(oldSwitchCaseStatement));
 						}
@@ -686,7 +686,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 							Block block= (Block)parent;
 							List<Statement> statements= block.statements();
 							ListRewrite listRewrite= rewrite.getListRewrite(block, Block.STATEMENTS_PROPERTY);
-							for (int i= 0; i < statements.size(); ++i) {
+							for (int i= 0; i < statements.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Statement statement= statements.get(i);
 								if (statement instanceof VariableDeclarationStatement) {
 									VariableDeclarationStatement decl= (VariableDeclarationStatement)statement;
@@ -738,7 +738,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 			} else {
 				rewrite.replace(ifStatements.get(0), newExpressionStatement, group);
 			}
-			for (int i= 1; i< ifStatements.size(); ++i) {
+			for (int i= 1; i< ifStatements.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ifStatements.get(i).getLocationInParent() != IfStatement.ELSE_STATEMENT_PROPERTY) {
 					rewrite.remove(ifStatements.get(i), group);
 				}
@@ -750,14 +750,14 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 
 	}
 
-	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
+	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= (ICompilationUnit)compilationUnit.getJavaElement();
 
 		if (cu == null || !JavaModelUtil.is21OrHigher(cu.getJavaProject())) {
 			return null;
 		}
 
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SwitchStatementsFinder finder= new SwitchStatementsFinder(operations);
 		compilationUnit.accept(finder);
 
@@ -769,7 +769,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 		return new PatternInstanceofToSwitchFixCore(FixMessages.SwitchFix_convert_if_to_switch, compilationUnit, ops);
 	}
 
-	public static PatternInstanceofToSwitchFixCore createPatternInstanceofToSwitchFix(IfStatement ifStmt) {
+	public static PatternInstanceofToSwitchFixCore createPatternInstanceofToSwitchFix(IfStatement ifStmt) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit compilationUnit= (CompilationUnit) ifStmt.getRoot();
 		ICompilationUnit cu= (ICompilationUnit)compilationUnit.getJavaElement();
 
@@ -777,7 +777,7 @@ public class PatternInstanceofToSwitchFixCore extends CompilationUnitRewriteOper
 			return null;
 		}
 
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SwitchStatementsFinder finder= new SwitchStatementsFinder(operations);
 		SwitchStatementsFinder.SeveralIfVisitor visitor= finder.new SeveralIfVisitor();
 		ifStmt.accept(visitor);

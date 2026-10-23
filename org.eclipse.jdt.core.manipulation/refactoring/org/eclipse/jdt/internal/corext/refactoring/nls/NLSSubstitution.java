@@ -78,7 +78,7 @@ public class NLSSubstitution {
 	public static int countItems(NLSSubstitution[] elems, int task) {
 		Assert.isTrue(task == NLSSubstitution.EXTERNALIZED || task == NLSSubstitution.IGNORED || task == NLSSubstitution.INTERNALIZED);
 		int result= 0;
-		for (NLSSubstitution substitution : elems) {
+		for (NLSSubstitution substitution : elems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (substitution.fState == task) {
 				result++;
 			}
@@ -106,9 +106,9 @@ public class NLSSubstitution {
 					length= length + fPrefix.length();
 				if (fKey != null)
 					length= length + fKey.length();
-				StringBuilder sb= new StringBuilder(length);
-				sb.append(fPrefix);
-				sb.append(fKey);
+				StringBuilder sb= new StringBuilder(length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				sb.append(fPrefix); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				sb.append(fKey); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				fCachedPrefixPlusKey= sb.toString();
 			}
 			return fCachedPrefixPlusKey;
@@ -197,7 +197,7 @@ public class NLSSubstitution {
 		return false;
 	}
 
-	public boolean hasAccessorClassChange() {
+	public boolean hasAccessorClassChange() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInitialState != EXTERNALIZED && fState != EXTERNALIZED) {
 			return false;
 		}
@@ -217,7 +217,7 @@ public class NLSSubstitution {
 		return false;
 	}
 
-	public boolean hasSourceChange() {
+	public boolean hasSourceChange() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hasStateChanged()) {
 			return true;
 		}
@@ -264,7 +264,7 @@ public class NLSSubstitution {
 		if (fState == EXTERNALIZED) {
 			String currKey= getKey();
 			String currValue= getValueNonEmpty();
-			for (NLSSubstitution substitution : substitutions) {
+			for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (substitution != this && substitution.getState() == EXTERNALIZED) {
 					// same key but different value
 					if (currKey.equals(substitution.getKey()) && !currValue.equals(substitution.getValueNonEmpty())) {
@@ -285,9 +285,9 @@ public class NLSSubstitution {
 	public void generateKey(NLSSubstitution[] substitutions, Properties properties) {
 		if (fState != EXTERNALIZED || ((fState == EXTERNALIZED) && hasStateChanged())) {
 			int number= 0;
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String ithKey= createKey(number);
-				if (!properties.containsKey(fPrefix + ithKey) && !containsKey(substitutions, ithKey)) {
+				if (!properties.containsKey(fPrefix + ithKey) && !containsKey(substitutions, ithKey)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fCachedPrefixPlusKey= null;
 					fKey= ithKey;
 					return;
@@ -298,7 +298,7 @@ public class NLSSubstitution {
 	}
 
 	private boolean containsKey(NLSSubstitution[] substitutions, String key) {
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (substitution == this || substitution.fState != EXTERNALIZED)
 				continue;
 
@@ -310,7 +310,7 @@ public class NLSSubstitution {
 	}
 
 	public static void updateSubtitutions(NLSSubstitution[] substitutions, Properties props, String accessorClassName) {
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((substitution.getState() == NLSSubstitution.EXTERNALIZED) && !substitution.hasStateChanged()) {
 				substitution.setInitialValue(props.getProperty(substitution.getKey()));
 				substitution.setUpdatedAccessor(accessorClassName);

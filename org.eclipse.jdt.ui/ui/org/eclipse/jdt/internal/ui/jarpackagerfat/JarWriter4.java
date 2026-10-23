@@ -73,7 +73,7 @@ public class JarWriter4 extends JarWriter3 {
 				fJarPackage.isCompressed(), jarOutputStream, this.getDirectories());
 	}
 
-	public void addZipEntryStream(ZipEntry zipEntry, byte[] content, String path) throws IOException {
+	public void addZipEntryStream(ZipEntry zipEntry, byte[] content, String path) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJarPackage.areDirectoryEntriesIncluded())
 			addDirectories(path);
 		JarEntry newEntry= new JarEntry(path.replace(File.separatorChar, '/'));
@@ -110,7 +110,7 @@ public class JarWriter4 extends JarWriter3 {
 		}
 	}
 
-	private void addFile(File file, IPath path) throws IOException {
+	private void addFile(File file, IPath path) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJarPackage.areDirectoryEntriesIncluded())
 			addDirectories(path);
 

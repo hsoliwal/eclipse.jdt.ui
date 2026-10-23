@@ -105,12 +105,12 @@ public class PackageSelectionDialog extends ElementListSelectionDialog {
 	/*
 	 * @see org.eclipse.jface.window.Window#open()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int open() {
-		final ArrayList<IJavaElement> packageList= new ArrayList<>();
+		final ArrayList<IJavaElement> packageList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		IRunnableWithProgress runnable= new IRunnableWithProgress() {
-			@Override
+		IRunnableWithProgress runnable= new IRunnableWithProgress() { //FLLDCIM: MARK — T09  ANONYMOUS
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				if (monitor == null) {
 					monitor= new NullProgressMonitor();
@@ -119,7 +119,7 @@ public class PackageSelectionDialog extends ElementListSelectionDialog {
 				SubMonitor subMonitor= SubMonitor.convert(monitor, JavaUIMessages.PackageSelectionDialog_progress_search, hideEmpty ? 2 : 1);
 				try {
 					SearchRequestor requestor= new SearchRequestor() {
-						private HashSet<String> fSet= new HashSet<>();
+						private HashSet<String> fSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						private final boolean fAddDefault= (fFlags & F_HIDE_DEFAULT_PACKAGE) == 0;
 						private final boolean fDuplicates= (fFlags & F_REMOVE_DUPLICATES) == 0;
 						private final boolean fIncludeParents= (fFlags & F_SHOW_PARENTS) != 0;
@@ -141,7 +141,7 @@ public class PackageSelectionDialog extends ElementListSelectionDialog {
 						private void addParentPackages(IJavaElement enclosingElement, String name) {
 							IPackageFragmentRoot root= (IPackageFragmentRoot) enclosingElement.getParent();
 							int idx= name.lastIndexOf('.');
-							while (idx != -1) {
+							while (idx != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								name= name.substring(0, idx);
 								if (fDuplicates || fSet.add(name)) {
 									packageList.add(root.getPackageFragment(name));
@@ -169,11 +169,11 @@ public class PackageSelectionDialog extends ElementListSelectionDialog {
 				}
 			}
 
-			private void removeEmptyPackages(IProgressMonitor monitor) throws JavaModelException, InterruptedException {
+			private void removeEmptyPackages(IProgressMonitor monitor) throws JavaModelException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				monitor.beginTask(JavaUIMessages.PackageSelectionDialog_progress_findEmpty, packageList.size());
 				try {
-					ArrayList<IPackageFragment> res= new ArrayList<>(packageList.size());
-					for (IJavaElement element : packageList) {
+					ArrayList<IPackageFragment> res= new ArrayList<>(packageList.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (IJavaElement element : packageList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IPackageFragment pkg= (IPackageFragment) element;
 						if (pkg.hasChildren() || !pkg.hasSubpackages()) {
 							res.add(pkg);

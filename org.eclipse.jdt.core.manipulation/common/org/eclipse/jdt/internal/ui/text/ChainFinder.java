@@ -32,11 +32,11 @@ public class ChainFinder {
 
 	private final List<Chain> chains= new LinkedList<>();
 
-	private final Map<IJavaElement, ChainElement> edgeCache= new HashMap<>();
+	private final Map<IJavaElement, ChainElement> edgeCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, List<IJavaElement>> fieldsAndMethodsCache= new HashMap<>();
+	private final Map<String, List<IJavaElement>> fieldsAndMethodsCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, Boolean> assignableCache= new HashMap<>();
+	private final Map<String, Boolean> assignableCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private volatile boolean isCanceled;
 
@@ -57,7 +57,7 @@ public class ChainFinder {
 
 	public void startChainSearch(final List<ChainElement> entrypoints, final int maxChains, final int minDepth,
 			final int maxDepth) {
-		for (final ChainType expected : expectedTypes) {
+		for (final ChainType expected : expectedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (expected != null && !ChainFinder.isFromExcludedType(excludedTypes, expected)) {
 				ChainType expectedType= expected;
 				int expectedDimension= 0;
@@ -74,11 +74,11 @@ public class ChainFinder {
 		isCanceled= true;
 	}
 
-	private void searchChainsForExpectedType(final ChainType expectedType, final int expectedDimensions,
+	private void searchChainsForExpectedType(final ChainType expectedType, final int expectedDimensions, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final List<ChainElement> entrypoints, final int maxChains, final int minDepth, final int maxDepth) {
 		final LinkedList<LinkedList<ChainElement>> incompleteChains= prepareQueue(entrypoints);
 
-		while (!incompleteChains.isEmpty() && !isCanceled) {
+		while (!incompleteChains.isEmpty() && !isCanceled) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final LinkedList<ChainElement> chain= incompleteChains.poll();
 			final ChainElement edge= chain.getLast();
 			final ChainElement start= chain.getFirst();
@@ -109,7 +109,7 @@ public class ChainFinder {
 
 	private static LinkedList<LinkedList<ChainElement>> prepareQueue(final List<ChainElement> entrypoints) {
 		final LinkedList<LinkedList<ChainElement>> incompleteChains= new LinkedList<>();
-		for (final ChainElement entrypoint : entrypoints) {
+		for (final ChainElement entrypoint : entrypoints) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final LinkedList<ChainElement> chain= new LinkedList<>();
 			chain.add(entrypoint);
 			incompleteChains.add(chain);
@@ -132,7 +132,7 @@ public class ChainFinder {
 		return excluded.contains(element.getPrimitiveType());
 	}
 
-	private boolean isValidEndOfChain(final ChainElement edge, ChainElement start, final ChainType expectedType,
+	private boolean isValidEndOfChain(final ChainElement edge, ChainElement start, final ChainType expectedType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int expectedDimension) {
 		if (edge.getElementType() == ElementType.TYPE) {
 			return false;
@@ -147,10 +147,10 @@ public class ChainFinder {
 		if (expectedType.getPrimitiveType() != null) {
 			return expectedType.getPrimitiveType().equals(edge.getReturnType().getPrimitiveType());
 		}
-		Boolean isAssignable= assignableCache.get(edge.toString() + expectedType.toString());
+		Boolean isAssignable= assignableCache.get(edge.toString() + expectedType.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (isAssignable == null) {
 			isAssignable= ChainElementAnalyzer.isAssignable(edge, expectedType.getType(), expectedDimension);
-			assignableCache.put(edge.toString() + expectedType.toString(), isAssignable);
+			assignableCache.put(edge.toString() + expectedType.toString(), isAssignable); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return isAssignable;
 	}
@@ -162,7 +162,7 @@ public class ChainFinder {
 			staticOnly= true;
 		}
 
-		for (final IJavaElement element : findAllFieldsAndMethods(currentlyVisitedType, staticOnly)) {
+		for (final IJavaElement element : findAllFieldsAndMethods(currentlyVisitedType, staticOnly)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ChainElement newEdge= createEdge(element);
 			if (newEdge.getElementType() != null && !chain.contains(newEdge)) {
 				incompleteChains.add(cloneChainAndAppendEdge(chain, newEdge));
@@ -171,18 +171,18 @@ public class ChainFinder {
 	}
 
 	private List<IJavaElement> findAllFieldsAndMethods(final ChainType chainElementType, boolean staticOnly) {
-		List<IJavaElement> cached= fieldsAndMethodsCache.get(chainElementType.toString() + Boolean.toString(staticOnly));
+		List<IJavaElement> cached= fieldsAndMethodsCache.get(chainElementType.toString() + Boolean.toString(staticOnly)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (cached == null) {
 			cached= new LinkedList<>();
 			Collection<IJavaElement> candidates= staticOnly
 					? ChainElementAnalyzer.findAllPublicStaticFieldsAndNonVoidNonPrimitiveStaticMethods(chainElementType, new ChainType(receiverType))
 					: ChainElementAnalyzer.findVisibleInstanceFieldsAndRelevantInstanceMethods(chainElementType, new ChainType(receiverType));
-			for (final IJavaElement e : candidates) {
+			for (final IJavaElement e : candidates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!ChainFinder.isFromExcludedType(excludedTypes, e)) {
 					cached.add(e);
 				}
 			}
-			fieldsAndMethodsCache.put(chainElementType.toString() + Boolean.toString(staticOnly), cached);
+			fieldsAndMethodsCache.put(chainElementType.toString() + Boolean.toString(staticOnly), cached); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return cached;
 	}

@@ -204,7 +204,7 @@ public class RenameLinkedMode {
 		return null;
 	}
 
-	public void start() {
+	public void start() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getActiveLinkedMode() != null) {
 			// for safety; should already be handled in RenameJavaElementAction
 			fgActiveLinkedMode.startFullDialog();
@@ -230,7 +230,7 @@ public class RenameLinkedMode {
 					this.fJavaElement.getElementType() ==  IJavaElement.JAVA_MODULE) {
 				nameNode = (Name) selectedNode;
 				ASTNode parent = nameNode.getParent();
-				while(parent instanceof Name) {
+				while(parent instanceof Name) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					nameNode = (Name) parent;
 					parent = nameNode.getParent();
 				}
@@ -274,14 +274,14 @@ public class RenameLinkedMode {
 						return relativeRank;
 				}
 			});
-			List<ASTNode> nodes= new ArrayList<>();
+			List<ASTNode> nodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			nodes.add(nameNode);
 			IBinding resolvedNameNode= nameNode.resolveBinding();
 			if (resolvedNameNode != null && resolvedNameNode instanceof IMethodBinding) {
 				IJavaElement javaElement= resolvedNameNode.getJavaElement();
 				if (javaElement instanceof IMethod) {
 					IMethod[] relatedMethods= RippleMethodFinder2.getRelatedMethodsInCompilationUnit((IMethod) javaElement, new NullProgressMonitor(), null);
-					for (IMethod iMethod : relatedMethods) {
+					for (IMethod iMethod : relatedMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (root.getJavaElement() == iMethod.getCompilationUnit()) {
 							ASTNode n= NodeFinder.perform(root, iMethod.getNameRange());
 							if (n != null) {
@@ -291,9 +291,9 @@ public class RenameLinkedMode {
 					}
 				}
 			}
-			for (ASTNode astNode : nodes) {
+			for (ASTNode astNode : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (astNode instanceof SimpleName) {
-					for (SimpleName sameNode : LinkedNodeFinder.findByNode(root, (SimpleName) astNode)) {
+					for (SimpleName sameNode : LinkedNodeFinder.findByNode(root, (SimpleName) astNode)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						sameNodes.add(sameNode);
 					}
 				}
@@ -301,7 +301,7 @@ public class RenameLinkedMode {
 			//TODO: copied from LinkedNamesAssistProposal#apply(..):
 			// sort for iteration order, starting with the node @ offset
 			int i=0;
-			for (ASTNode elem : sameNodes) {
+			for (ASTNode elem : sameNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				LinkedPosition linkedPosition= new LinkedPosition(document, elem.getStartPosition(), elem.getLength(), i);
 				if (i == 0)
 					fNamePosition= linkedPosition;
@@ -362,7 +362,7 @@ public class RenameLinkedMode {
 //		anim.schedule();
 //	}
 
-	void doRename(boolean showPreview) {
+	void doRename(boolean showPreview) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		cancel();
 
 		Image image= null;
@@ -379,7 +379,7 @@ public class RenameLinkedMode {
 					Display display= composite.getDisplay();
 
 					// Flush pending redraw requests:
-					while (! display.isDisposed() && display.readAndDispatch()) {
+					while (! display.isDisposed() && display.readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					}
 
 					// Copy editor area:
@@ -443,7 +443,7 @@ public class RenameLinkedMode {
 	private void restoreFullSelection() {
 		if (fOriginalSelection.y != 0) {
 			int originalOffset= fOriginalSelection.x;
-			for (LinkedPosition position : fLinkedPositionGroup.getPositions()) {
+			for (LinkedPosition position : fLinkedPositionGroup.getPositions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! position.isDeleted() && position.includes(originalOffset)) {
 					fEditor.getViewer().setSelectedRange(position.offset, position.length);
 					return;
@@ -452,21 +452,21 @@ public class RenameLinkedMode {
 		}
 	}
 
-	private RenameSupport undoAndCreateRenameSupport(String newName) throws CoreException {
+	private RenameSupport undoAndCreateRenameSupport(String newName) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Assumption: the linked mode model should be shut down by now.
 
 		final ISourceViewer viewer= fEditor.getViewer();
 
 		try {
 			if (! fOriginalName.equals(newName)) {
-				fEditor.getSite().getWorkbenchWindow().run(false, true, unused -> {
+				fEditor.getSite().getWorkbenchWindow().run(false, true, unused -> { //FLLDCIM: MARK — T09  LAMBDA
 					if (viewer instanceof ITextViewerExtension6) {
 						IUndoManager undoManager= ((ITextViewerExtension6)viewer).getUndoManager();
 						if (undoManager instanceof IUndoManagerExtension) {
 							IUndoManagerExtension undoManagerExtension= (IUndoManagerExtension)undoManager;
 							IUndoContext undoContext= undoManagerExtension.getUndoContext();
 							IOperationHistory operationHistory= OperationHistoryFactory.getOperationHistory();
-							while (undoManager.undoable()) {
+							while (undoManager.undoable()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (fStartingUndoOperation != null && fStartingUndoOperation.equals(operationHistory.getUndoOperation(undoContext)))
 									return;
 								undoManager.undo();
@@ -519,7 +519,7 @@ public class RenameLinkedMode {
 	 * @return a rename descriptor with current settings as used in the refactoring dialogs
 	 * @throws JavaModelException if an error occurs while accessing the element
 	 */
-	private RenameJavaElementDescriptor createRenameDescriptor(IJavaElement javaElement, String newName) throws JavaModelException {
+	private RenameJavaElementDescriptor createRenameDescriptor(IJavaElement javaElement, String newName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String contributionId;
 		// see RefactoringExecutionStarter#createRenameSupport(..):
 		int elementType= javaElement.getElementType();
@@ -657,7 +657,7 @@ public class RenameLinkedMode {
 		Point selection= viewer.getSelectedRange();
 		int start= selection.x;
 		int end= start + selection.y;
-		for (LinkedPosition position : fLinkedPositionGroup.getPositions()) {
+		for (LinkedPosition position : fLinkedPositionGroup.getPositions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (position.includes(start) && position.includes(end))
 				return position;
 		}

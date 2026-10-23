@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * Filters out all empty package fragments.
  */
-public class EmptyPackageFilter extends ViewerFilter {
+public class EmptyPackageFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see org.eclipse.jface.viewers.ViewerFilter#select(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
@@ -52,7 +52,7 @@ public class EmptyPackageFilter extends ViewerFilter {
 	 *             accessing its corresponding resource
 	 * @since 3.4.1
 	 */
-	public static boolean hasUnfilteredResources(Viewer viewer, IPackageFragment pkg) throws JavaModelException {
+	public static boolean hasUnfilteredResources(Viewer viewer, IPackageFragment pkg) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] resources= pkg.getNonJavaResources();
 		int length= resources.length;
 		if (length == 0)
@@ -62,8 +62,8 @@ public class EmptyPackageFilter extends ViewerFilter {
 			return true;
 
 		ViewerFilter[] filters= ((StructuredViewer)viewer).getFilters();
-		resourceLoop: for (int i= 0; i < length; i++) {
-			for (ViewerFilter filter : filters) {
+		resourceLoop: for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (ViewerFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!filter.select(viewer, pkg, resources[i])) {
 					continue resourceLoop;
 				}

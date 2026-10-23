@@ -167,7 +167,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		 * @param text The label text for this Preference.
 		 * @param style SWT style flag for the button
 		 */
-		public ButtonPreference(Composite composite, int numColumns,
+		public ButtonPreference(Composite composite, int numColumns, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								  Map<String, String> preferences, String key,
 								  String [] values, String text, int style) {
 		    super(preferences, key);
@@ -182,7 +182,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 
 			updateWidget();
 
-			fCheckbox.addSelectionListener(new SelectionAdapter() {
+			fCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					checkboxChecked(((Button)e.widget).getSelection());
@@ -255,7 +255,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		 * @param text The label text for this Preference.
 		 * @param items An array of n elements indicating the text to be written in the combo box.
 		 */
-		public ComboPreference(Composite composite, int numColumns,
+		public ComboPreference(Composite composite, int numColumns, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								  Map<String, String> preferences, String key,
 								  String [] values, String text, String [] items) {
 		    super(preferences, key);
@@ -270,7 +270,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 			fCombo.setItems(items);
 
 			int max= 0;
-			for (String item : items) {
+			for (String item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item.length() > max) {
 					max= item.length();
 				}
@@ -280,7 +280,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 
 			updateWidget();
 
-			fCombo.addSelectionListener(new SelectionAdapter() {
+			fCombo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					comboSelected(((Combo)e.widget).getSelectionIndex());
@@ -307,7 +307,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 
 		public String getSelectedItem() {
 			final String selected= getPreferences().get(getKey());
-			for (int i= 0; i < fValues.length; i++) {
+			for (int i= 0; i < fValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fValues[i].equals(selected)) {
 					return fItems[i];
 				}
@@ -348,7 +348,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		 * @param maxValue The maximum value which is valid input.
 		 * @param text The label text for this Preference or {@code null} if none.
 		 */
-		public NumberPreference(Composite composite, int numColumns,
+		public NumberPreference(Composite composite, int numColumns, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 							   Map<String, String> preferences, String key,
 							   int minValue, int maxValue, String text) {
 		    super(preferences, key);
@@ -365,7 +365,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 
 			updateWidget();
 
-			fNumberText.addFocusListener(new FocusListener() {
+			fNumberText.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 				@Override
 				public void focusGained(FocusEvent e) {
 				    NumberPreference.this.focusGained();
@@ -376,7 +376,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 				}
 			});
 
-			fNumberText.addModifyListener(unused -> fieldModified());
+			fNumberText.addModifyListener(unused -> fieldModified()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		}
 
 		private IStatus createErrorStatus() {
@@ -438,7 +438,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 			notifyObservers();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void updateWidget() {
 		    final boolean hasKey= getKey() != null;
 
@@ -510,7 +510,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		 * @param text the label text for this Preference.
 		 * @param inputValidator the input validator or <code>null</code> if none
 		 */
-		public StringPreference(Composite composite, int numColumns, Map<String, String> preferences, String key, String text, IInputValidator inputValidator) {
+		public StringPreference(Composite composite, int numColumns, Map<String, String> preferences, String key, String text, IInputValidator inputValidator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(preferences, key);
 
 			fInputValidator= inputValidator;
@@ -529,7 +529,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 
 			updateWidget();
 
-			fText.addFocusListener(new FocusListener() {
+			fText.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 				@Override
 				public void focusGained(FocusEvent e) {
 					StringPreference.this.focusGained();
@@ -541,7 +541,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 				}
 			});
 
-			fText.addModifyListener(unused -> fieldModified());
+			fText.addModifyListener(unused -> fieldModified()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		}
 
 		private IStatus createErrorStatus(String errorText) {
@@ -621,7 +621,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 	 */
 	protected final static class DefaultFocusManager extends FocusAdapter {
 
-		private final static String PREF_LAST_FOCUS_INDEX= JavaUI.ID_PLUGIN + "formatter_page.modify_dialog_tab_page.last_focus_index"; //$NON-NLS-1$
+		private final static String PREF_LAST_FOCUS_INDEX= JavaUI.ID_PLUGIN + "formatter_page.modify_dialog_tab_page.last_focus_index"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		private final IDialogSettings fDialogSettings;
 
@@ -632,8 +632,8 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 
 		public DefaultFocusManager() {
 			fDialogSettings= JavaPlugin.getDefault().getDialogSettings();
-			fItemMap= new HashMap<>();
-			fItemList= new ArrayList<>();
+			fItemMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			fItemList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fIndex= 0;
 		}
 
@@ -643,7 +643,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		}
 
 		public void add(Control control) {
-			control.addFocusListener(this);
+			control.addFocusListener(this); //FLLDCIM: MARK — T15 FOCUS CALL
 			fItemList.add(fIndex, control);
 			fItemMap.put(control, fIndex++);
 		}
@@ -692,7 +692,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 			fMinimalHight= minimalHight;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Point computeSize(Composite composite, int wHint, int hHint, boolean force) {
 			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
 				return new Point(wHint, hHint);
@@ -701,7 +701,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 			int x = fMinimalWidth;
 			int y = fMinimalHight;
 			Control[] children = composite.getChildren();
-			for (Control c : children) {
+			for (Control c : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Point size= c.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
 				x= Math.max(x, size.x);
 				y= Math.max(y, size.y);
@@ -733,7 +733,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		@Override
 		public void layout(Composite composite, boolean force) {
 			Rectangle rect = composite.getClientArea();
-			for (Control c : composite.getChildren()) {
+			for (Control c : composite.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				c.setSize(rect.width, rect.height);
 			}
 		}
@@ -801,7 +801,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 	 * @param parent The parent composite
 	 * @return Created content control
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Composite createContents(Composite parent) {
 		final int numColumns= 4;
 
@@ -809,7 +809,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		    fPixelConverter= new PixelConverter(parent);
 		}
 
-		final SashForm sashForm = new SashForm(parent, SWT.HORIZONTAL);
+		final SashForm sashForm = new SashForm(parent, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		sashForm.setFont(parent.getFont());
 
 		Composite scrollContainer = new Composite(sashForm, SWT.NONE);
@@ -851,7 +851,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 
 		settingsContainer.setSize(settingsContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-		scroll.addControlListener(new ControlListener() {
+		scroll.addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 
 			@Override
 			public void controlMoved(ControlEvent e) {
@@ -895,7 +895,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		b.setEnabled(true);
 		b.setVisible(true);
 		SWTUtil.setButtonDimensionHint(b);
-		b.addSelectionListener(widgetSelectedAdapter((unused) -> { doSetAll(true); }));
+		b.addSelectionListener(widgetSelectedAdapter((unused) -> { doSetAll(true); })); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		b= new Button(buttonHolder, SWT.PUSH);
 		b.setText(FormatterMessages.ModifyDialogTabPage_deselectAll_text);
@@ -904,7 +904,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 		b.setEnabled(true);
 		b.setVisible(true);
 		SWTUtil.setButtonDimensionHint(b);
-		b.addSelectionListener(widgetSelectedAdapter((unused) -> { doSetAll(false); }));
+		b.addSelectionListener(widgetSelectedAdapter((unused) -> { doSetAll(false); })); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		final Composite previewPane= new Composite(sashForm, SWT.NONE);
 		previewPane.setLayout(createGridLayout(numColumns, true));
@@ -1153,6 +1153,6 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 	 * Create a nice javadoc comment for some string.
 	 */
 	protected static String createPreviewHeader(String title) {
-		return "/**\n* " + title + "\n*/\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "/**\n* " + title + "\n*/\n"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

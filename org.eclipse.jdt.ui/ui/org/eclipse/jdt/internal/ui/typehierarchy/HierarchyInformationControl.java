@@ -67,7 +67,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
  *
  * @since 3.0
  */
-public class HierarchyInformationControl extends AbstractInformationControl {
+public class HierarchyInformationControl extends AbstractInformationControl { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 	private TypeHierarchyLifeCycle fLifeCycle;
 	private HierarchyLabelProvider fLabelProvider;
@@ -88,7 +88,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		fMethodOverrideTester= null;
 	}
 
-	private KeyAdapter getKeyAdapter() {
+	private KeyAdapter getKeyAdapter() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fKeyAdapter == null) {
 			fKeyAdapter= new KeyAdapter() {
 				@Override
@@ -99,7 +99,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 					if (sequences == null)
 						return;
 
-					for (TriggerSequence sequence : sequences) {
+					for (TriggerSequence sequence : sequences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (sequence.equals(keySequence)) {
 							e.doit= false;
 							toggleHierarchy();
@@ -121,12 +121,12 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 	protected Text createFilterText(Composite parent) {
 		// text set later
 		Text text= super.createFilterText(parent);
-		text.addKeyListener(getKeyAdapter());
+		text.addKeyListener(getKeyAdapter()); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		return text;
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TreeViewer createTreeViewer(Composite parent, int style) {
 		Tree tree= new Tree(parent, SWT.SINGLE | (style & ~SWT.MULTI));
 		GridData gd= new GridData(GridData.FILL_BOTH);
@@ -141,7 +141,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 				boolean reset = false;
 				if (visited == null) {
 					reset = true;
-					visited = new HashSet<>();
+					visited = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				}
 				if (!shouldExpand(node))
 					return;
@@ -160,7 +160,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 				return data == null || visited.add(data);
 			}
 		};
-		treeViewer.addFilter(new ViewerFilter() {
+		treeViewer.addFilter(new ViewerFilter() { //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				return element instanceof IType;
@@ -173,7 +173,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		treeViewer.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
 
 		fLabelProvider= new HierarchyLabelProvider(fLifeCycle);
-		fLabelProvider.setFilter(new ViewerFilter() {
+		fLabelProvider.setFilter(new ViewerFilter() { //FLLDCIM: MARK — T23  ANONYMOUS
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				return hasFocusMethod((IType) element);
@@ -182,14 +182,14 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 
 		fLabelProvider.setTextFlags(JavaElementLabels.ALL_DEFAULT | JavaElementLabels.T_POST_QUALIFIED | JavaElementLabels.P_COMPRESSED);
 		fLabelProvider.addLabelDecorator(new ProblemsLabelDecorator(null));
-		treeViewer.setLabelProvider(new ColoringLabelProvider(fLabelProvider));
+		treeViewer.setLabelProvider(new ColoringLabelProvider(fLabelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
-		treeViewer.getTree().addKeyListener(getKeyAdapter());
+		treeViewer.getTree().addKeyListener(getKeyAdapter()); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 		return treeViewer;
 	}
 
-	protected boolean hasFocusMethod(IType type) {
+	protected boolean hasFocusMethod(IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fFocus == null) {
 			return true;
 		}
@@ -214,7 +214,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 
 	}
 
-	private IMethod findMethod(IMethod filterMethod, IType typeToFindIn) throws JavaModelException {
+	private IMethod findMethod(IMethod filterMethod, IType typeToFindIn) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType filterType= filterMethod.getDeclaringType();
 		if (filterType.equals(typeToFindIn)) {
 			return filterMethod;
@@ -241,7 +241,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		JavaCore.runReadOnly(() -> setInputCached(information));
 	}
 
-	private void setInputCached(Object information) {
+	private void setInputCached(Object information) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(information instanceof IJavaElement)) {
 			inputChanged(null, null);
 			return;
@@ -271,7 +271,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 					if (elem instanceof IOrdinaryClassFile) {
 						input= ((IOrdinaryClassFile) elem).getType();
 					} else {
-						JavaPlugin.logErrorMessage("Element unsupported by the hierarchy: " + elem.getClass()); //$NON-NLS-1$
+						JavaPlugin.logErrorMessage("Element unsupported by the hierarchy: " + elem.getClass()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					break;
 				case IJavaElement.METHOD :
@@ -297,7 +297,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 					}
 					break;
 				default :
-					JavaPlugin.logErrorMessage("Element unsupported by the hierarchy: " + elem.getClass()); //$NON-NLS-1$
+					JavaPlugin.logErrorMessage("Element unsupported by the hierarchy: " + elem.getClass()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					// input is null;
 			}
 		} catch (JavaModelException e) {
@@ -328,7 +328,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		if (topLevelObjects.length > 0 && contentProvider.getChildren(topLevelObjects[0]).length > 40) {
 			fDoFilter= false;
 		} else {
-			getTreeViewer().addFilter(new NamePatternFilter());
+			getTreeViewer().addFilter(new NamePatternFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		}
 
 		Object selection= null;
@@ -349,7 +349,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		}
 	}
 
-	protected void toggleHierarchy() {
+	protected void toggleHierarchy() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TreeViewer treeViewer= getTreeViewer();
 
 		treeViewer.getTree().setRedraw(false);
@@ -358,7 +358,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		TypeHierarchyContentProvider contentProvider= (TypeHierarchyContentProvider) treeViewer.getContentProvider();
 		treeViewer.setContentProvider(fOtherContentProvider);
 
-		treeViewer.refresh();
+		treeViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		if (fOtherExpandedElements != null) {
 			treeViewer.setExpandedElements(fOtherExpandedElements);
 		} else {

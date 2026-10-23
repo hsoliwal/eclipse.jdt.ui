@@ -64,20 +64,20 @@ public class JavaStringAutoIndentStrategy extends DefaultIndentLineAutoEditStrat
 	 * @param delimiter the line delimiter
 	 * @return the display string
 	 */
-	protected String displayString(String inputString, String indentation, String delimiter, boolean escapeNonAscii) {
+	protected String displayString(String inputString, String indentation, String delimiter, boolean escapeNonAscii) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int length = inputString.length();
-		StringBuilder buffer = new StringBuilder(length);
+		StringBuilder buffer = new StringBuilder(length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		StringTokenizer tokenizer= new StringTokenizer(inputString, "\n\r", true); //$NON-NLS-1$
-		while (tokenizer.hasMoreTokens()){
+		while (tokenizer.hasMoreTokens()){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			String token = tokenizer.nextToken();
 			if ("\r".equals(token)) { //$NON-NLS-1$
-				buffer.append("\\r"); //$NON-NLS-1$
+				buffer.append("\\r"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (tokenizer.hasMoreTokens()) {
 					token = tokenizer.nextToken();
 					if ("\n".equals(token)) { //$NON-NLS-1$
-						buffer.append("\\n"); //$NON-NLS-1$
+						buffer.append("\\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						appendToBuffer(buffer, indentation, delimiter);
 						continue;
 					} else {
@@ -87,52 +87,52 @@ public class JavaStringAutoIndentStrategy extends DefaultIndentLineAutoEditStrat
 					continue;
 				}
 			} else if ("\n".equals(token)) { //$NON-NLS-1$
-				buffer.append("\\n"); //$NON-NLS-1$
+				buffer.append("\\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				appendToBuffer(buffer, indentation, delimiter);
 				continue;
 			}
 
-			StringBuilder tokenBuffer = new StringBuilder();
-			for (int i = 0; i < token.length(); i++){
+			StringBuilder tokenBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i = 0; i < token.length(); i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char c = token.charAt(i);
 				switch (c) {
 					case '\r' :
-						tokenBuffer.append("\\r"); //$NON-NLS-1$
+						tokenBuffer.append("\\r"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case '\n' :
-						tokenBuffer.append("\\n"); //$NON-NLS-1$
+						tokenBuffer.append("\\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case '\b' :
-						tokenBuffer.append("\\b"); //$NON-NLS-1$
+						tokenBuffer.append("\\b"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case '\t' :
 						// keep tabs verbatim
-						tokenBuffer.append("\t"); //$NON-NLS-1$
+						tokenBuffer.append("\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case '\f' :
-						tokenBuffer.append("\\f"); //$NON-NLS-1$
+						tokenBuffer.append("\\f"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case '\"' :
-						tokenBuffer.append("\\\""); //$NON-NLS-1$
+						tokenBuffer.append("\\\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case '\\' :
-						tokenBuffer.append("\\\\"); //$NON-NLS-1$
+						tokenBuffer.append("\\\\"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					default :
 						if(escapeNonAscii && (c < 0x20 || c >= 0x80)) {
 							String hex= "0123456789ABCDEF"; //$NON-NLS-1$
-							tokenBuffer.append('\\');
-							tokenBuffer.append('u');
-							tokenBuffer.append(hex.charAt((c >> 12) & 0xF));
-							tokenBuffer.append(hex.charAt((c >> 8) & 0xF));
-							tokenBuffer.append(hex.charAt((c >> 4) & 0xF));
-							tokenBuffer.append(hex.charAt(c & 0xF));
+							tokenBuffer.append('\\'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append('u'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append(hex.charAt((c >> 12) & 0xF)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append(hex.charAt((c >> 8) & 0xF)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append(hex.charAt((c >> 4) & 0xF)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							tokenBuffer.append(hex.charAt(c & 0xF)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							tokenBuffer.append(c);
+							tokenBuffer.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 				}
 			}
-			buffer.append(tokenBuffer);
+			buffer.append(tokenBuffer); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buffer.toString();
 	}
@@ -140,12 +140,12 @@ public class JavaStringAutoIndentStrategy extends DefaultIndentLineAutoEditStrat
 	private void appendToBuffer(StringBuilder buffer, String indentation, String delimiter) {
 		if (buffer != null) {
 			if (isWrappingBeforeBinaryOperator()) {
-				buffer.append("\"" + delimiter); //$NON-NLS-1$
-				buffer.append(indentation + "+ \""); //$NON-NLS-1$
+				buffer.append("\"" + delimiter); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(indentation + "+ \""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buffer.append("\" + " + delimiter); //$NON-NLS-1$
-				buffer.append(indentation);
-				buffer.append("\""); //$NON-NLS-1$
+				buffer.append("\" + " + delimiter); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(indentation); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append("\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 	}
@@ -186,7 +186,7 @@ public class JavaStringAutoIndentStrategy extends DefaultIndentLineAutoEditStrat
 		return displayString(string, indentation, delimiter, escapeNonAscii);
 	}
 
-	private void javaStringIndentAfterNewLine(IDocument document, DocumentCommand command) throws BadLocationException {
+	private void javaStringIndentAfterNewLine(IDocument document, DocumentCommand command) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ITypedRegion partition= TextUtilities.getPartition(document, fPartitioning, command.offset, true);
 		int offset= partition.getOffset();
@@ -212,9 +212,9 @@ public class JavaStringAutoIndentStrategy extends DefaultIndentLineAutoEditStrat
 
 		if (isEditorWrapStrings() && isLineDelimiter) {
 			if (isWrappingBeforeBinaryOperator()) {
-				command.text= "\"" + command.text + indentation + "+ \"";  //$NON-NLS-1$//$NON-NLS-2$
+				command.text= "\"" + command.text + indentation + "+ \"";  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				command.text= "\" +" + command.text + indentation + "\"";  //$NON-NLS-1$//$NON-NLS-2$
+				command.text= "\" +" + command.text + indentation + "\"";  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else if (command.text.length() > 1 && !isLineDelimiter && isEditorEscapeStrings()) {
 			command.text= getModifiedText(command.text, indentation, delimiter, isEditorEscapeStringsNonAscii());

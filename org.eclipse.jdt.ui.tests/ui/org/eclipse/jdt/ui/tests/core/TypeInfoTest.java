@@ -75,7 +75,7 @@ public class TypeInfoTest {
 		JavaProjectHelper.delete(fJProject2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception {
 
 		// add Junit source to project 2
@@ -94,7 +94,7 @@ public class TypeInfoTest {
 
 		// internal jar
 		//IPackageFragmentRoot root2= JavaProjectHelper.addLibraryWithImport(fJProject1, JARFILE, null, null);
-		ArrayList<TypeNameMatch> result= new ArrayList<>();
+		ArrayList<TypeNameMatch> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IJavaElement[] elements= new IJavaElement[] { fJProject1 };
 		IJavaSearchScope scope= SearchEngine.createJavaSearchScope(elements);
@@ -123,36 +123,36 @@ public class TypeInfoTest {
 		findTypeRef(result, "junit.runner.Version");
 
 
-		for (TypeNameMatch ref : result) {
+		for (TypeNameMatch ref : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//System.out.println(ref.getTypeName());
 			assertResolve(ref);
 
 		}
-		assertEquals("Should find 8 elements, is " + result.size(), 8, result.size());
+		assertEquals("Should find 8 elements, is " + result.size(), 8, result.size()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	}
 
 	private void assertResolve(TypeNameMatch ref) {
 		IType resolvedType= ref.getType();
-		assertNotNull("Could not be resolved: " + ref.toString(), resolvedType);
-		assertTrue("Resolved type does not exist: " + ref.toString(), resolvedType.exists());
+		assertNotNull("Could not be resolved: " + ref.toString(), resolvedType); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("Resolved type does not exist: " + ref.toString(), resolvedType.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		StringAsserts.assertEqualString(resolvedType.getFullyQualifiedName('.'), ref.getFullyQualifiedName());
 	}
 
 	private void findTypeRef(List<TypeNameMatch> refs, String fullname) {
-		for (TypeNameMatch curr : refs) {
+		for (TypeNameMatch curr : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fullname.equals(curr.getFullyQualifiedName())) {
 				return;
 			}
 		}
-		fail("Type not found: " + fullname);
+		fail("Type not found: " + fullname); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test2() throws Exception {
-		ArrayList<TypeNameMatch> result= new ArrayList<>();
+		ArrayList<TypeNameMatch> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// add Junit source to project 2
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
@@ -184,21 +184,21 @@ public class TypeInfoTest {
 
 		assertEquals("wrong element count", 51, result.size());
 		//System.out.println("Elements found: " + result.size());
-		for (TypeNameMatch ref : result) {
+		for (TypeNameMatch ref : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//System.out.println(ref.getTypeName());
 			assertResolve(ref);
 		}
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void bug44772() throws Exception {
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
 
 		JavaProjectHelper.addLibraryWithImport(fJProject1, Path.fromOSString(lib.getPath()), null, null); // as internal
 		JavaProjectHelper.addLibrary(fJProject1, Path.fromOSString(lib.getPath())); // and as external
 
-		ArrayList<TypeNameMatch> result= new ArrayList<>();
+		ArrayList<TypeNameMatch> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IJavaElement[] elements= new IJavaElement[] { fJProject1 };
 		IJavaSearchScope scope= SearchEngine.createJavaSearchScope(elements);
@@ -224,7 +224,7 @@ public class TypeInfoTest {
 		assertNotEquals(type1, type2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimplifySearchText() {
 		// simple filename:
 		assertEquals("MyType", TypeInfoFilter.simplifySearchText("MyType.java"));
@@ -279,7 +279,7 @@ public class TypeInfoTest {
 		// "- waiting to re-lock in wait() <0x00000007005919b0> (a java.lang.ref.ReferenceQueue$Lock)"
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testBug578547() {
     	IJavaElement[] elements= new IJavaElement[] { fJProject1 };
 		IJavaSearchScope scope= SearchEngine.createJavaSearchScope(elements);

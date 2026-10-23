@@ -95,10 +95,10 @@ class NLSSearchResultRequestor extends SearchRequestor {
 	@Override
 	public void beginReporting() {
 		loadProperties();
-		fUsedPropertyNames= new HashSet<>(fProperties.size());
+		fUsedPropertyNames= new HashSet<>(fProperties.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void acceptSearchMatch(SearchMatch match) throws CoreException {
 		if (match.getAccuracy() == SearchMatch.A_INACCURATE)
 			return;
@@ -151,14 +151,14 @@ class NLSSearchResultRequestor extends SearchRequestor {
 		fResult.addMatch(new Match(element, mutableKeyPosition.getOffset(), mutableKeyPosition.getLength()));
 	}
 
-	public void reportUnusedPropertyNames(IProgressMonitor pm) {
+	public void reportUnusedPropertyNames(IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//Don't use endReporting() for long running operation.
 		pm.beginTask("", fProperties.size()); //$NON-NLS-1$
 		boolean hasUnused= false;
 		pm.setTaskName(NLSSearchMessages.NLSSearchResultRequestor_searching);
 		FileEntry groupElement= new FileEntry(fPropertiesFile, NLSSearchMessages.NLSSearchResultCollector_unusedKeys);
 
-		for (Enumeration<?> enumeration= fProperties.propertyNames(); enumeration.hasMoreElements();) {
+		for (Enumeration<?> enumeration= fProperties.propertyNames(); enumeration.hasMoreElements();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String propertyName= (String) enumeration.nextElement();
 			if (!fUsedPropertyNames.contains(propertyName) && !fSpecifiedAsUsedProperties.containsKey(propertyName)) {
 				addMatch(groupElement, propertyName);
@@ -173,7 +173,7 @@ class NLSSearchResultRequestor extends SearchRequestor {
 
 
 
-	private void addMatch(FileEntry groupElement, String propertyName) {
+	private void addMatch(FileEntry groupElement, String propertyName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * TODO (bug 63794): Should read in .properties file with our own reader and not
 		 * with Properties.load(InputStream) . Then, we can remember start position and
@@ -237,7 +237,7 @@ class NLSSearchResultRequestor extends SearchRequestor {
 	 *         <code>null</code> otherwise
 	 * @throws CoreException if a problem occurs while accessing the <code>enclosingElement</code>
 	 */
-	private String findKey(Position keyPositionResult, IJavaElement enclosingElement) throws CoreException {
+	private String findKey(Position keyPositionResult, IJavaElement enclosingElement) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit unit= (ICompilationUnit)enclosingElement.getAncestor(IJavaElement.COMPILATION_UNIT);
 		if (unit == null)
 			return null;
@@ -279,7 +279,7 @@ class NLSSearchResultRequestor extends SearchRequestor {
 				tokenStart= scanner.getCurrentTokenStartPosition();
 				tokenEnd= scanner.getCurrentTokenEndPosition();
 				int token;
-				while ((token= scanner.getNextToken()) == ITerminalSymbols.TokenNameDOT) {
+				while ((token= scanner.getNextToken()) == ITerminalSymbols.TokenNameDOT) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ((nextToken= scanner.getNextToken()) != InternalTokenNameIdentifier) {
 							return null;
 					}
@@ -298,7 +298,7 @@ class NLSSearchResultRequestor extends SearchRequestor {
 					keyPositionResult.setLength(tokenEnd - tokenStart + 1);
 					IType parentClass= (IType)enclosingElement.getAncestor(IJavaElement.TYPE);
 					String identifier= source.substring(tokenStart, tokenEnd + 1);
-					for (IField field : parentClass.getFields()) {
+					for (IField field : parentClass.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (field.getElementName().equals(identifier)) {
 							if (!"String".equals(Signature.getSignatureSimpleName(field.getTypeSignature()))) { //$NON-NLS-1$
 								return null;
@@ -332,7 +332,7 @@ class NLSSearchResultRequestor extends SearchRequestor {
 	 * @param propertyName the property name
 	 * @return	the start position of the property name in the file, -1 if not found
 	 */
-	private int findPropertyNameStartPosition(String propertyName) {
+	private int findPropertyNameStartPosition(String propertyName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Fix for http://dev.eclipse.org/bugs/show_bug.cgi?id=19319
 		String encoding;
 		try {
@@ -345,7 +345,7 @@ class NLSSearchResultRequestor extends SearchRequestor {
 			StringBuffer buf= new StringBuffer(80);
 			int eols= lineReader.readLine(buf);
 			int keyLength= propertyName.length();
-			while (eols > 0) {
+			while (eols > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String line= buf.toString();
 				int i= line.indexOf(propertyName);
 				int charPos= i + keyLength;
@@ -374,10 +374,10 @@ class NLSSearchResultRequestor extends SearchRequestor {
 		}
 	}
 
-	private void loadProperties() {
-		Set<Object> duplicateKeys= new HashSet<>();
+	private void loadProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<Object> duplicateKeys= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fProperties= new Properties(duplicateKeys);
-		Set<Object> duplicateKeys2= new HashSet<>();
+		Set<Object> duplicateKeys2= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fSpecifiedAsUsedProperties= new Properties(duplicateKeys2);
 		try (InputStream stream= new BufferedInputStream(createInputStream(fPropertiesFile))) {
 			fProperties.load(stream);
@@ -421,7 +421,7 @@ class NLSSearchResultRequestor extends SearchRequestor {
 
 		FileEntry groupElement= new FileEntry(fPropertiesFile, NLSSearchMessages.NLSSearchResultCollector_duplicateKeys);
 		Iterator<Object> iter= duplicateKeys.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String propertyName= (String) iter.next();
 			addMatch(groupElement, propertyName);
 		}

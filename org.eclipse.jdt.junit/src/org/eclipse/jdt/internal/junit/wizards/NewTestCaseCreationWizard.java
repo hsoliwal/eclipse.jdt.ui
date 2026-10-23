@@ -96,7 +96,7 @@ public class NewTestCaseCreationWizard extends JUnitWizard {
 		addPage(fPage2);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		IJavaProject project= fPage1.getJavaProject();
 		IRunnableWithProgress runnable= fPage1.getRunnable();
@@ -138,7 +138,7 @@ public class NewTestCaseCreationWizard extends JUnitWizard {
 		return false;
 	}
 
-	private IRunnableWithProgress addJUnitToClasspath(IJavaProject project, final IRunnableWithProgress runnable, JUnitVersion junitVersion) {
+	private IRunnableWithProgress addJUnitToClasspath(IJavaProject project, final IRunnableWithProgress runnable, JUnitVersion junitVersion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String typeToLookup;
 		switch (junitVersion) {
 			case VERSION_5:
@@ -161,7 +161,7 @@ public class NewTestCaseCreationWizard extends JUnitWizard {
 
 		final ClasspathFixProposal fix= dialog.getSelectedClasspathFix();
 		if (fix != null) {
-			return monitor -> {
+			return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				if (monitor == null) {
 					monitor= new NullProgressMonitor();
 				}
@@ -183,7 +183,7 @@ public class NewTestCaseCreationWizard extends JUnitWizard {
 		return runnable;
 	}
 
-	private static class ClasspathFixSelectionDialog extends MessageDialog implements SelectionListener, IDoubleClickListener {
+	private static class ClasspathFixSelectionDialog extends MessageDialog implements SelectionListener, IDoubleClickListener { //FLLDCIM: MARK — T05  IMPLEMENTS
 
 		static class ClasspathFixLabelProvider extends LabelProvider {
 
@@ -242,31 +242,31 @@ public class NewTestCaseCreationWizard extends JUnitWizard {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createCustomArea(Composite composite) {
 			fNoActionRadio= new Button(composite, SWT.RADIO);
 			fNoActionRadio.setLayoutData(new GridData(SWT.LEAD, SWT.TOP, false, false));
 			fNoActionRadio.setText(WizardMessages.NewTestCaseCreationWizard_fix_selection_not_now);
-			fNoActionRadio.addSelectionListener(this);
+			fNoActionRadio.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			fOpenBuildPathRadio= new Button(composite, SWT.RADIO);
 			fOpenBuildPathRadio.setLayoutData(new GridData(SWT.LEAD, SWT.TOP, false, false));
 			fOpenBuildPathRadio.setText(WizardMessages.NewTestCaseCreationWizard_fix_selection_open_build_path_dialog);
-			fOpenBuildPathRadio.addSelectionListener(this);
+			fOpenBuildPathRadio.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			if (fFixProposals.length > 0) {
 
 				fPerformFix= new Button(composite, SWT.RADIO);
 				fPerformFix.setLayoutData(new GridData(SWT.LEAD, SWT.TOP, false, false));
 				fPerformFix.setText(WizardMessages.NewTestCaseCreationWizard_fix_selection_invoke_fix);
-				fPerformFix.addSelectionListener(this);
+				fPerformFix.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				fFixSelectionTable= new TableViewer(composite, SWT.SINGLE | SWT.BORDER);
 				fFixSelectionTable.setContentProvider(ArrayContentProvider.getInstance());
-				fFixSelectionTable.setLabelProvider(new ClasspathFixLabelProvider());
+				fFixSelectionTable.setLabelProvider(new ClasspathFixLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				fFixSelectionTable.setComparator(new ViewerComparator());
-				fFixSelectionTable.addDoubleClickListener(this);
-				fFixSelectionTable.setInput(fFixProposals);
+				fFixSelectionTable.addDoubleClickListener(this); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
+				fFixSelectionTable.setInput(fFixProposals); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fFixSelectionTable.setSelection(new StructuredSelection(fFixProposals[0]));
 
 				GridData gridData= new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -298,7 +298,7 @@ public class NewTestCaseCreationWizard extends JUnitWizard {
 		private static final String BUILD_PATH_PAGE_ID= "org.eclipse.jdt.ui.propertyPages.BuildPathsPropertyPage"; //$NON-NLS-1$
 		private static final String BUILD_PATH_BLOCK= "block_until_buildpath_applied"; //$NON-NLS-1$
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void buttonPressed(int buttonId) {
 			fSelectedFix= null;
 			if (buttonId == 0) {
@@ -306,7 +306,7 @@ public class NewTestCaseCreationWizard extends JUnitWizard {
 					// nothing to do
 				} else if (fOpenBuildPathRadio.getSelection()) {
 					String id= BUILD_PATH_PAGE_ID;
-					Map<String, Boolean> input= new HashMap<>();
+					Map<String, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 					if (PreferencesUtil.createPropertyDialogOn(getShell(), fProject, id, new String[] { id }, input).open() != Window.OK) {
 						return;

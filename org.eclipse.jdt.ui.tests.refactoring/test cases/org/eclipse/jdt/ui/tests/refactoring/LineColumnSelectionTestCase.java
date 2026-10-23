@@ -56,7 +56,7 @@ public abstract class LineColumnSelectionTestCase extends AbstractJunit4CUTestCa
 		int separator= name.indexOf('_');
 		assertNotEquals(-1, separator);
 		assertTrue(separator >= 5);
-		return name.substring(separator + 1) + ".java";
+		return name.substring(separator + 1) + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -67,7 +67,7 @@ public abstract class LineColumnSelectionTestCase extends AbstractJunit4CUTestCa
 		int separator= name.indexOf('_');
 		assertNotEquals(-1, separator);
 		assertTrue(separator >= 5);
-		return Character.toLowerCase(name.charAt(4))
+		return Character.toLowerCase(name.charAt(4)) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ name.substring(5, separator);
 	}
 
@@ -91,8 +91,8 @@ public abstract class LineColumnSelectionTestCase extends AbstractJunit4CUTestCa
 	}
 
 	/* @require refactoring.checkActivation().isOK() */
-	protected void performTest(final ICompilationUnit unit, final Refactoring refactoring, final String out) throws Exception {
-		JavaCore.run(monitor -> {
+	protected void performTest(final ICompilationUnit unit, final Refactoring refactoring, final String out) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		JavaCore.run(monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			String original= unit.getSource();
 			final Change change= refactoring.createChange(monitor);
 			assertNotNull(change);

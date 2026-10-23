@@ -69,7 +69,7 @@ public class ContentProviderTests {
 	private IPackageFragment fPackageFragment2;
 	private IFile fFile1;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fWorkspace= ResourcesPlugin.getWorkspace();
 		assertNotNull(fWorkspace);
@@ -108,7 +108,7 @@ public class ContentProviderTests {
 		tearDownMockView();
 	}
 
-	private void setUpMockView() throws CoreException {
+	private void setUpMockView() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fWorkbench= PlatformUI.getWorkbench();
 		assertNotNull(fWorkbench);
 
@@ -144,7 +144,7 @@ public class ContentProviderTests {
 			throw new ComparisonFailure(message, expList.toString(), actList.toString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOutgoingDeletion148118() {
 		IProject project = (IProject)fJProject1.getResource();
 		fMyPart.addOutgoingDeletion(project, "f1/a");
@@ -167,7 +167,7 @@ public class ContentProviderTests {
 		assertEqualSets("Expected children of f2 does not match actual children", expectedChildren, children);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOutgoingChangeInNonPackage261198() throws Exception {
 		IProject project = (IProject)fJProject1.getResource();
 
@@ -196,7 +196,7 @@ public class ContentProviderTests {
 		assertEqualSets("Expected children of no-package does not match actual children", expectedChildren, children);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOutgoingPackageDeletion269167() throws Exception {
 		IProject project = (IProject)fJProject1.getResource();
 
@@ -218,7 +218,7 @@ public class ContentProviderTests {
 		assertEqualSets("Expected children of project does not match actual children", expectedChildren, children);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIncomingAddition159884() {
 		IProject project = (IProject)fJProject1.getResource();
 		fMyPart.addIncomingAddition(project, "f1/newFolder/");
@@ -245,7 +245,7 @@ public class ContentProviderTests {
 		assertEqualSets("Expected children of new folder does not match actual children", expectedChildren, children);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIncomingAddition159884Part2() {
 		IProject project = (IProject)fJProject1.getResource();
 		fMyPart.addIncomingAddition(project, "f1/newFolder/a");

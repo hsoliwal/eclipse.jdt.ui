@@ -35,7 +35,7 @@ public class NameMatcher {
 	 * @param name2 the second name
 	 * @return the similarity valuer
 	 */
-	public static int getSimilarity(String name1, String name2) {
+	public static int getSimilarity(String name1, String name2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (name1.length() > name2.length()) {
 			String tmp= name1;
 			name1= name2;
@@ -47,14 +47,14 @@ public class NameMatcher {
 		int nMatched= 0;
 
 		int i= 0;
-		while (i < name1len && isSimilarChar(name1.charAt(i), name2.charAt(i))) {
+		while (i < name1len && isSimilarChar(name1.charAt(i), name2.charAt(i))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
 			nMatched++;
 		}
 
 		int k= name1len;
 		int diff= name2len - name1len;
-		while (k > i && isSimilarChar(name1.charAt(k - 1), name2.charAt(k + diff - 1))) {
+		while (k > i && isSimilarChar(name1.charAt(k - 1), name2.charAt(k + diff - 1))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			k--;
 			nMatched++;
 		}

@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.dom.SimpleName;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class QualifyTypeProposal extends LinkedCorrectionProposal {
+public class QualifyTypeProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public QualifyTypeProposal(QualifyTypeProposalCore core) {
 		super(core.getName(), core.getCompilationUnit(), null, core.getRelevance(), JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE), core);
 	}

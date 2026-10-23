@@ -58,7 +58,7 @@ public class HistoryListAction extends Action {
 		private IStatus fHistoryStatus;
 		private IMember[] fResult;
 
-		private HistoryListDialog(Shell shell, IMember[][] elements) {
+		private HistoryListDialog(Shell shell, IMember[][] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(shell);
 			setTitle(CallHierarchyMessages.HistoryListDialog_title);
 

@@ -86,7 +86,7 @@ public class TypeFilter implements IPreferenceChangeListener {
 
 		StringMatcher[] matchers = getStringMatchers();
 		this.fStringMatchers = Arrays.stream(matchers).filter(m -> {
-			for (String importedElement : importedElements) {
+			for (String importedElement : importedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (m.match(importedElement)) {
 					return false;
 				}
@@ -126,7 +126,7 @@ public class TypeFilter implements IPreferenceChangeListener {
 			int nTokens= tok.countTokens();
 
 			fStringMatchers= new StringMatcher[nTokens];
-			for (int i= 0; i < nTokens; i++) {
+			for (int i= 0; i < nTokens; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String curr= tok.nextToken();
 				if (curr.length() > 0) {
 					fStringMatchers[i]= new StringMatcher(curr, false, false);
@@ -151,7 +151,7 @@ public class TypeFilter implements IPreferenceChangeListener {
 	 * @return <code>true</code> iff the given type is filtered out
 	 */
 	public boolean filter(String fullTypeName) {
-		for (StringMatcher curr : getStringMatchers()) {
+		for (StringMatcher curr : getStringMatchers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.match(fullTypeName)) {
 				return true;
 			}

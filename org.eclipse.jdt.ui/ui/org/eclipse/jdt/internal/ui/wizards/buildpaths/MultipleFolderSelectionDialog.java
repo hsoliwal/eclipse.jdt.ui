@@ -52,7 +52,7 @@ import org.eclipse.ui.views.navigator.ResourceComparator;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 
-public class MultipleFolderSelectionDialog extends SelectionStatusDialog implements ISelectionChangedListener {
+public class MultipleFolderSelectionDialog extends SelectionStatusDialog implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private CheckboxTreeViewer fViewer;
 
@@ -80,7 +80,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 	}
 
 	public void setExisting(Object[] existing) {
-		fExisting= new HashSet<>();
+		fExisting= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fExisting.addAll(Arrays.asList(existing));
 	}
 
@@ -98,7 +98,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 	 */
 	public void addFilter(ViewerFilter filter) {
 		if (fFilters == null)
-			fFilters = new ArrayList<>(4);
+			fFilters = new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fFilters.add(filter);
 	}
@@ -115,7 +115,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 	/*
 	 * @see SelectionStatusDialog#computeResult()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void computeResult() {
 		Object[] checked= fViewer.getCheckedElements();
 		if (fExisting == null) {
@@ -123,8 +123,8 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 				checked= null;
 			}
 		} else {
-			ArrayList<Object> res= new ArrayList<>();
-			for (Object elem : checked) {
+			ArrayList<Object> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object elem : checked) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!fExisting.contains(elem)) {
 					res.add(elem);
 				}
@@ -145,7 +145,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 	/*
 	 * @see Window#create()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void create() {
 
 		BusyIndicator.showWhile(null, () -> {
@@ -156,7 +156,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 
 			fViewer.expandToLevel(2);
 			if (fExisting != null) {
-				for (Object object : fExisting) {
+				for (Object object : fExisting) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fViewer.reveal(object);
 				}
 			}
@@ -176,16 +176,16 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 		fViewer = new CheckboxTreeViewer(parent, SWT.BORDER);
 
 		fViewer.setContentProvider(fContentProvider);
-		fViewer.setLabelProvider(fLabelProvider);
-		fViewer.addCheckStateListener(unused -> updateOKStatus());
+		fViewer.setLabelProvider(fLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fViewer.addCheckStateListener(unused -> updateOKStatus()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 
 		fViewer.setComparator(new ResourceComparator(ResourceComparator.NAME));
 		if (fFilters != null) {
-			for (ViewerFilter filter : fFilters)
-				fViewer.addFilter(filter);
+			for (ViewerFilter filter : fFilters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				fViewer.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		}
 
-		fViewer.setInput(fInput);
+		fViewer.setInput(fInput); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		return fViewer;
 	}
@@ -201,7 +201,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -218,7 +218,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 
 		Button button = new Button(composite, SWT.PUSH);
 		button.setText(NewWizardMessages.MultipleFolderSelectionDialog_button);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				newFolderButtonPressed();
@@ -228,7 +228,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 
 		fNewFolderButton= button;
 
-		treeViewer.addSelectionChangedListener(this);
+		treeViewer.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		if (fExisting != null) {
 			Object[] existing= fExisting.toArray();
 			treeViewer.setGrayedElements(existing);
@@ -237,7 +237,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 		if (fFocusElement != null) {
 			treeViewer.setSelection(new StructuredSelection(fFocusElement), true);
 		}
-		treeViewer.addCheckStateListener(this::forceExistingChecked);
+		treeViewer.addCheckStateListener(this::forceExistingChecked); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 
 		applyDialogFont(composite);
 		return composite;
@@ -268,7 +268,7 @@ public class MultipleFolderSelectionDialog extends SelectionStatusDialog impleme
 		Object createdFolder= createFolder(fSelectedContainer);
 		if (createdFolder != null) {
 			CheckboxTreeViewer treeViewer= fViewer;
-			treeViewer.refresh(fSelectedContainer);
+			treeViewer.refresh(fSelectedContainer); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			treeViewer.reveal(createdFolder);
 			treeViewer.setChecked(createdFolder, true);
 			treeViewer.setSelection(new StructuredSelection(createdFolder));

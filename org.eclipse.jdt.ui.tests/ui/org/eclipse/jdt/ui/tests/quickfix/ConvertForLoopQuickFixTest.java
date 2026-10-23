@@ -90,18 +90,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		fConvertLoopProposal= null;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimplestSmokeCase() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -125,19 +125,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNotEqualsComparison() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("\n");
-		bld.append("public class B {\n");
-		bld.append("    public void foo() {\n");
-		bld.append("        int[] array = {5, 6, 7, 8};\n");
-		bld.append("        for (int i = 0; i != array.length; i++) {\n");
-		bld.append("        }\n");
-		bld.append("    }\n");
-		bld.append("}\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("public class B {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        int[] array = {5, 6, 7, 8};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        for (int i = 0; i != array.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("B.java", bld.toString(), false, null);
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(bld, cu);
 		assertNotNull(fConvertLoopProposal);
@@ -157,19 +157,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLengthVariable() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("\n");
-		bld.append("public class C {\n");
-		bld.append("    public void foo() {\n");
-		bld.append("        int[] array = {5, 6, 7, 8};\n");
-		bld.append("        for (int i = 0, len = array.length; i < len; i++) {\n");
-		bld.append("        }\n");
-		bld.append("    }\n");
-		bld.append("}\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("public class C {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        int[] array = {5, 6, 7, 8};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        for (int i = 0, len = array.length; i < len; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("C.java", bld.toString(), false, null);
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(bld, cu);
 		assertNotNull(fConvertLoopProposal);
@@ -189,19 +189,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLengthVariableNotEquals() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("\n");
-		bld.append("public class D {\n");
-		bld.append("    public void foo() {\n");
-		bld.append("        int[] array = {5, 6, 7, 8};\n");
-		bld.append("        for (int i = 0, len = array.length; i != len; i++) {\n");
-		bld.append("        }\n");
-		bld.append("    }\n");
-		bld.append("}\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("public class D {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        int[] array = {5, 6, 7, 8};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        for (int i = 0, len = array.length; i != len; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("D.java", bld.toString(), false, null);
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(bld, cu);
 		assertNotNull(fConvertLoopProposal);
@@ -221,19 +221,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongComparison() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("\n");
-		bld.append("public class E {\n");
-		bld.append("    public void foo() {\n");
-		bld.append("        int[] array = {5, 6, 7, 8};\n");
-		bld.append("        for (int i = 0, len = array.length; i > len; i++) {\n");
-		bld.append("        }\n");
-		bld.append("    }\n");
-		bld.append("}\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        int[] array = {5, 6, 7, 8};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        for (int i = 0, len = array.length; i > len; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", bld.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(bld, cu);
@@ -243,21 +243,21 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCaptureList() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("\n");
-		bld.append("import java.util.List;\n");
-		bld.append("\n");
-		bld.append("public class F {\n");
-		bld.append("    public void foo(List<?> wildcardList) {\n");
-		bld.append("        for (int j = 0; j < wildcardList.size(); j++) {\n");
-		bld.append("            Object element = wildcardList.get(j);\n");
-		bld.append("        }\n");
-		bld.append("    }\n");
-		bld.append("}\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("public class F {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public void foo(List<?> wildcardList) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        for (int j = 0; j < wildcardList.size(); j++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("            Object element = wildcardList.get(j);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("F.java", bld.toString(), false, null);
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(bld, cu);
 		assertNotNull(fConvertLoopProposal);
@@ -278,21 +278,21 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWildcardList() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("\n");
-		bld.append("import java.util.List;\n");
-		bld.append("\n");
-		bld.append("public class G {\n");
-		bld.append("    public void foo(List<? extends String> wildcardList) {\n");
-		bld.append("        for (int j = 0; j < wildcardList.size(); j++) {\n");
-		bld.append("            String element = wildcardList.get(j);\n");
-		bld.append("        }\n");
-		bld.append("    }\n");
-		bld.append("}\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("public class G {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public void foo(List<? extends String> wildcardList) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        for (int j = 0; j < wildcardList.size(); j++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("            String element = wildcardList.get(j);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("G.java", bld.toString(), false, null);
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(bld, cu);
 		assertNotNull(fConvertLoopProposal);
@@ -313,21 +313,21 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUpperBoundList() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("\n");
-		bld.append("import java.util.List;\n");
-		bld.append("\n");
-		bld.append("public class H {\n");
-		bld.append("    public void foo(List<? super String> wildcardList) {\n");
-		bld.append("        for (int j = 0; j < wildcardList.size(); j++) {\n");
-		bld.append("            Object element = wildcardList.get(j);\n");
-		bld.append("        }\n");
-		bld.append("    }\n");
-		bld.append("}\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("public class H {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public void foo(List<? super String> wildcardList) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        for (int j = 0; j < wildcardList.size(); j++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("            Object element = wildcardList.get(j);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("H.java", bld.toString(), false, null);
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(bld, cu);
 		assertNotNull(fConvertLoopProposal);
@@ -348,21 +348,21 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollection() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("\n");
-		bld.append("import java.util.Collection;\n");
-		bld.append("\n");
-		bld.append("public class I {\n");
-		bld.append("    public void foo(Collection<? super String> wildcardCollection) {\n");
-		bld.append("        for (int q = 0; q < wildcardCollection.size(); q++) {\n");
-		bld.append("        }\n");
-		bld.append("    }\n");
-		bld.append("}\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("import java.util.Collection;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("public class I {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public void foo(Collection<? super String> wildcardCollection) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        for (int q = 0; q < wildcardCollection.size(); q++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		ICompilationUnit cu= pack1.createCompilationUnit("I.java", bld.toString(), false, null);
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(bld, cu);
@@ -386,18 +386,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNameDetectionChildren() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("	public void foo() {\n");
-		buf.append("		int[] children = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < children.length; i++){\n");
-		buf.append("		}\n");
-		buf.append("	}\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] children = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < children.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -421,18 +421,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNameDetectionS() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("	public void foo() {\n");
-		buf.append("		int[] locations = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < locations.length; i++){\n");
-		buf.append("		}\n");
-		buf.append("	}\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] locations = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < locations.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -456,18 +456,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNameDetectionlocationEntries() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("	public void foo() {\n");
-		buf.append("		int[] locationEntries = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < locationEntries.length; i++){\n");
-		buf.append("		}\n");
-		buf.append("	}\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] locationEntries = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < locationEntries.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -491,18 +491,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNameDetectionEntries() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("	public void foo() {\n");
-		buf.append("		int[] Entries = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < Entries.length; i++){\n");
-		buf.append("		}\n");
-		buf.append("	}\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] Entries = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < Entries.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -526,18 +526,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNameDetectionProxies() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("	public void foo() {\n");
-		buf.append("		int[] proxies = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < proxies.length; i++){\n");
-		buf.append("		}\n");
-		buf.append("	}\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] proxies = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < proxies.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -561,19 +561,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNameDetectionAllChildren() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("	public void foo() {\n");
-		buf.append("		String[] AllChildren = {\"aaa\",\"bbb\",\"ccc\"};\n");
-		buf.append("		for (int i = 0; i < AllChildren.length; i++){\n");
-		buf.append("			System.out.println(AllChildren[i]);\n");
-		buf.append("		}\n");
-		buf.append("	}\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		String[] AllChildren = {\"aaa\",\"bbb\",\"ccc\"};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < AllChildren.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(AllChildren[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -598,18 +598,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInferPrimitiveTypeElement() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		char[] array = {'1','2'};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		char[] array = {'1','2'};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -633,18 +633,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInferTypeElement() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		String[] array = {\"1\",\"2\"};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		String[] array = {\"1\",\"2\"};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -668,19 +668,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimplestClean() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		String[] array = {\"1\",\"2\"};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			System.out.println(array[i]);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		String[] array = {\"1\",\"2\"};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -705,23 +705,23 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLotsOfRefereces() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		String[] array = {\"1\",\"2\"};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			if (array[i].equals(\"2\"))\n");
-		buf.append("				System.out.println(array[i]);\n");
-		buf.append("			else if ((array[i] + 2) == \"4\"){\n");
-		buf.append("				int k = Integer.parseInt(array[i]) - 2;\n");
-		buf.append("			}\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		String[] array = {\"1\",\"2\"};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			if (array[i].equals(\"2\"))\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				System.out.println(array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			else if ((array[i] + 2) == \"4\"){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				int k = Integer.parseInt(array[i]) - 2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -750,23 +750,23 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInferCollectionFromInitializers() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		String[] array = {\"1\",\"2\"};\n");
-		buf.append("		for (int i = 0, max = array.length; i < max; i++){\n");
-		buf.append("			if (array[i].equals(\"2\"))\n");
-		buf.append("				System.out.println(array[i]);\n");
-		buf.append("			else if ((array[i] + 2) == \"4\"){\n");
-		buf.append("				int k = Integer.parseInt(array[i]) - 2;\n");
-		buf.append("			}\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		String[] array = {\"1\",\"2\"};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, max = array.length; i < max; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			if (array[i].equals(\"2\"))\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				System.out.println(array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			else if ((array[i] + 2) == \"4\"){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				int k = Integer.parseInt(array[i]) - 2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -795,24 +795,24 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNiceReduction() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("class Weirdy{}\n");
-		buf.append("private Weirdy[] weirdies;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo(){\n");
-		buf.append("		for (int i = 0, length = weirdies.length; i < length; i++){\n");
-		buf.append("			System.out.println();\n");
-		buf.append("		    Weirdy p = weirdies[i];\n");
-		buf.append("		    if (p != null){\n");
-		buf.append("				System.out.println(p);\n");
-		buf.append("	    	}\n");
-		buf.append("	    }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("class Weirdy{}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("private Weirdy[] weirdies;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, length = weirdies.length; i < length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    Weirdy p = weirdies[i];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    if (p != null){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				System.out.println(p);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -841,24 +841,24 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNiceReductionArrayIsField() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("class Weirdy{}\n");
-		buf.append("public class A {\n");
-		buf.append("	private Weirdy[] weirdies;\n");
-		buf.append("    public void foo(){\n");
-		buf.append("		for (int i = 0, length = weirdies.length; i < length; i++){\n");
-		buf.append("			System.out.println();\n");
-		buf.append("		    Weirdy p = weirdies[i];\n");
-		buf.append("		    if (p != null){\n");
-		buf.append("				System.out.println(p);\n");
-		buf.append("	    	}\n");
-		buf.append("	    }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("class Weirdy{}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	private Weirdy[] weirdies;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, length = weirdies.length; i < length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    Weirdy p = weirdies[i];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    if (p != null){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				System.out.println(p);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -887,24 +887,24 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayIsQualifiedByThis() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("class Weirdy{}\n");
-		buf.append("public class A {\n");
-		buf.append("	private Weirdy[] weirdies;\n");
-		buf.append("    public void foo(){\n");
-		buf.append("		for (int i = 0, length = this.weirdies.length; i < length; i++){\n");
-		buf.append("			System.out.println();\n");
-		buf.append("		    Weirdy p = this.weirdies[i];\n");
-		buf.append("		    if (p != null){\n");
-		buf.append("				System.out.println(p);\n");
-		buf.append("	    	}\n");
-		buf.append("	    }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("class Weirdy{}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	private Weirdy[] weirdies;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, length = this.weirdies.length; i < length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    Weirdy p = this.weirdies[i];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    if (p != null){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				System.out.println(p);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -933,27 +933,27 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayIsAccessedByMethodInvocation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("class Weirdy{}\n");
-		buf.append("public class A {\n");
-		buf.append("	private Weirdy[] weirdies;\n");
-		buf.append("	private Weirdy[] getArray(){\n");
-		buf.append("		return weirdies;\n");
-		buf.append("	}\n");
-		buf.append("    public void foo(){\n");
-		buf.append("		for (int i = 0, length = this.weirdies.length; i < length; i++){\n");
-		buf.append("			System.out.println();\n");
-		buf.append("		    Weirdy p = getArray()[i];\n");
-		buf.append("		    if (p != null){\n");
-		buf.append("				System.out.println(p);\n");
-		buf.append("	    	}\n");
-		buf.append("	    }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("class Weirdy{}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	private Weirdy[] weirdies;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	private Weirdy[] getArray(){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		return weirdies;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, length = this.weirdies.length; i < length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    Weirdy p = getArray()[i];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    if (p != null){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				System.out.println(p);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -963,28 +963,28 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayIsAccessedByMethodInvocation2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("class Weirdy{}\n");
-		buf.append("public class A {\n");
-		buf.append("	private Weirdy[] weirdies;\n");
-		buf.append("	private Weirdy[] getArray(){\n");
-		buf.append("		return weirdies;\n");
-		buf.append("	}\n");
-		buf.append("    public void foo(){\n");
-		buf.append("		for (int i = 0, length = getArray().length; i < length; i++){\n");
-		buf.append("			System.out.println();\n");
-		buf.append("		    Weirdy p = getArray()[i];\n");
-		buf.append("		    if (p != null){\n");
-		buf.append("				System.out.println(p);\n");
-		buf.append("	    	}\n");
-		buf.append("	    }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("class Weirdy{}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	private Weirdy[] weirdies;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	private Weirdy[] getArray(){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		return weirdies;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, length = getArray().length; i < length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    Weirdy p = getArray()[i];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		    if (p != null){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				System.out.println(p);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -994,19 +994,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMatrix() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[][] matrix = {{1,2},{3,4}};\n");
-		buf.append("		for (int i = 0; i < matrix.length; i++){\n");
-		buf.append("			System.out.println(matrix[i]);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[][] matrix = {{1,2},{3,4}};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < matrix.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(matrix[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1031,21 +1031,21 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMatrix2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[][] matrix = {{1,2},{3,4}};\n");
-		buf.append("		for (int i = 0; i < matrix.length; i++){\n");
-		buf.append("			for(int j = 0; j < matrix[i].length; j++){\n");
-		buf.append("				System.out.println(matrix[i][j]);\n");
-		buf.append("			}\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[][] matrix = {{1,2},{3,4}};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < matrix.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			for(int j = 0; j < matrix[i].length; j++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("				System.out.println(matrix[i][j]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1072,19 +1072,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayIsAssigned() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			array[i]=0;\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			array[i]=0;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1094,19 +1094,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayIsAssigned2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			++array[i];\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			++array[i];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1116,19 +1116,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayCannotBeInferred() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < 4; i++){\n");
-		buf.append("			System.out.println(array[i]);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < 4; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1138,20 +1138,20 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndexBruteModified() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			System.out.println(array[i]);\n");
-		buf.append("			i++;\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			i++;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1161,19 +1161,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndexBruteModified2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			i = array.lenght;\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			i = array.lenght;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1183,19 +1183,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndexReadOutsideArrayAccess() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			if (i == 1){};\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			if (i == 1){};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1205,19 +1205,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndexReadOutsideArrayAccess_StringConcatenation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			System.out.println(i + array[i]);");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(i + array[i]);"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1227,20 +1227,20 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndexReadOutsideInferredArrayAccess() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		int[] array2 = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			System.out.println(array[i] + array2[i]);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array2 = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i] + array2[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1250,22 +1250,22 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndexReadOutsideInferredArrayAccess2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public int get(int i) {\n");
-		buf.append("        return i; \n");
-		buf.append("    }\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		String[] array = null;\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			System.out.println(array[get(i)]);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public int get(int i) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return i; \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		String[] array = null;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[get(i)]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1275,19 +1275,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReverseTraversalIsNotAllowed() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = array.length; i > 0; --i){\n");
-		buf.append("			System.out.println(array[i]);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = array.length; i > 0; --i){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1297,20 +1297,20 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionIsNotArray() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		java.util.List list = new ArrayList();\n");
-		buf.append("		list.add(null);\n");
-		buf.append("		for (int i = 0; i < list.size(); i++) {\n");
-		buf.append("			System.out.println(list.get(i));\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		java.util.List list = new ArrayList();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		list.add(null);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < list.size(); i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(list.get(i));\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1338,19 +1338,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAdditionalLocalIsNotReferenced() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0, j = 0; i < array.length; i++){\n");
-		buf.append("			System.out.println(array[i] + j++);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, j = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i] + j++);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1360,19 +1360,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTwoIndexesNotAllowed() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0, j = 0; i < array.length; i++, j++){\n");
-		buf.append("			System.out.println(array[i] + j);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, j = 0; i < array.length; i++, j++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i] + j);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1382,20 +1382,20 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAdditionalLocalIsNotReferenced2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		int i,j;\n");
-		buf.append("		for (i = 0, j = 1; i < array.length; i++){\n");
-		buf.append("			System.out.println(array[i] + j++);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int i,j;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (i = 0, j = 1; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i] + j++);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1405,19 +1405,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionTypeBindingIsNull() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		in[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < array.length; i++){\n");
-		buf.append("			System.out.println(array[i]);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		in[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < array.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1427,19 +1427,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionBindingIsNull() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("		for (int i = 0; i < arra.length; i++){\n");
-		buf.append("			System.out.println(array[i]);\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0; i < arra.length; i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1449,19 +1449,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionsAccepted() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.List;\n");
-		buf.append("import java.util.ArrayList;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		List strings= new ArrayList();\n");
-		buf.append("		for (int i= 0; i < strings.size(); i++);\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.ArrayList;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		List strings= new ArrayList();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i= 0; i < strings.size(); i++);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1486,19 +1486,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionsAccepted2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.List;\n");
-		buf.append("import java.util.ArrayList;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		List<String> strings= new ArrayList<>();\n");
-		buf.append("		for (int i= 0; i < strings.size(); i++);\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.ArrayList;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		List<String> strings= new ArrayList<>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i= 0; i < strings.size(); i++);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1523,19 +1523,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionsAccepted3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.Set;\n");
-		buf.append("import java.util.TreeSet;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		Set<String> strings= new TreeSet<>();\n");
-		buf.append("		for (int i= 0; i < strings.size(); i++);\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.Set;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.TreeSet;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		Set<String> strings= new TreeSet<>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i= 0; i < strings.size(); i++);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1560,19 +1560,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMapCollectionsNotAccepted() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.Map;\n");
-		buf.append("import java.util.HashMap;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo(Map<String, String> map) {\n");
-		buf.append("		for (int i= 0; i < map.size(); i++) {\n");
-		buf.append("			String x= map.get(\"\" + i);\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.Map;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.HashMap;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(Map<String, String> map) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i= 0; i < map.size(); i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			String x= map.get(\"\" + i);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1582,22 +1582,22 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultipleCollectionsNotAccepted() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.List;\n");
-		buf.append("import java.util.ArrayList;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo(Map<String, String> map) {\n");
-        buf.append("        List<File> a = new ArrayList<>();\n");
-        buf.append("        List<File> b = new ArrayList<>();\n");
-        buf.append("        for (int i = 0; i < a.size(); i++) {\n");
-        buf.append("            System.out.print(a.get(i) + \" \" + b.get(i));\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.ArrayList;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(Map<String, String> map) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+        buf.append("        List<File> a = new ArrayList<>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+        buf.append("        List<File> b = new ArrayList<>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+        buf.append("        for (int i = 0; i < a.size(); i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+        buf.append("            System.out.print(a.get(i) + \" \" + b.get(i));\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1607,22 +1607,22 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug550726() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.io.File;\n");
-		buf.append("import java.util.ArrayList;\n");
-		buf.append("import java.util.List;\n");
-		buf.append("public class A {\n");
-		buf.append("    public static void main(String[] args) {\n");
-		buf.append("        List<File> a = new ArrayList<>();\n");
-		buf.append("        for (int i = 0; i < a.size(); i++) {\n");
-		buf.append("            System.out.print(a);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.io.File;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.ArrayList;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public static void main(String[] args) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        List<File> a = new ArrayList<>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < a.size(); i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.print(a);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1650,22 +1650,22 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayAccessWithCollections() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.List;\n");
-		buf.append("import java.util.ArrayList;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array = {1,2,3,4};\n");
-		buf.append("        List<String> list = ArrayList.asList(\"a\", \"b\", \"c\", \"d\");\n");
-		buf.append("		for (int i = 0, i < list.size(); i++){\n");
-		buf.append("			System.out.println(array[i] + list.get(i));\n");
-		buf.append("		}\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.ArrayList;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array = {1,2,3,4};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        List<String> list = ArrayList.asList(\"a\", \"b\", \"c\", \"d\");\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i = 0, i < list.size(); i++){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(array[i] + list.get(i));\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1675,17 +1675,17 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndexDoesNotStartFromZero() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("		int[] array= null;\n");
-		buf.append("		for (int i= 1; i < array.length; i++);\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		int[] array= null;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		for (int i= 1; i < array.length; i++);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1695,17 +1695,17 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug127346() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    public void foo() {\n");
-		buf.append("        for (int[] arr= new int[7]; 1 < arr.length;) {\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int[] arr= new int[7]; 1 < arr.length;) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1715,19 +1715,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug130139_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test;\n");
-		buf.append("public class E {\n");
-		buf.append("    public void foo(String[] strings) {\n");
-		buf.append("        int x= 1;\n");
-		buf.append("        for (int i= x; i < strings.length; i++) {\n");
-		buf.append("            System.out.println(strings[i]);\n");
-		buf.append("        }  \n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(String[] strings) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        int x= 1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i= x; i < strings.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(strings[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }  \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1737,21 +1737,21 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug130139_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test;\n");
-		buf.append("public class E {\n");
-		buf.append("    public void foo(String[] strings) {\n");
-		buf.append("        for (int i= x(); i < strings.length; i++) {\n");
-		buf.append("            System.out.println(strings[i]);\n");
-		buf.append("        }  \n");
-		buf.append("    }\n");
-		buf.append("    private int x(){\n");
-		buf.append("        return 0;\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(String[] strings) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i= x(); i < strings.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(strings[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }  \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private int x(){\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return 0;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1761,19 +1761,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug130293_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    private int[] arr;\n");
-		buf.append("    public void foo() {\n");
-		buf.append("        for (int i = 0; i < this.arr.length; i++) {\n");
-		buf.append("            System.out.println(this.arr[i]);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private int[] arr;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < this.arr.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(this.arr[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1798,22 +1798,22 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug130293_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    private class E1Sub {\n");
-		buf.append("        public int[] array;\n");
-		buf.append("    }\n");
-		buf.append("    private E1Sub e1sub;\n");
-		buf.append("    public void foo() {\n");
-		buf.append("        for (int i = 0; i < this.e1sub.array.length; i++) {\n");
-		buf.append("            System.out.println(this.e1sub.array[i]);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private class E1Sub {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        public int[] array;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private E1Sub e1sub;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < this.e1sub.array.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(this.e1sub.array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1841,26 +1841,26 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug138353_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    private class Bar {\n");
-		buf.append("        public int[] getBar() {\n");
-		buf.append("            return null;\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("    public void foo() {\n");
-		buf.append("        Bar bar1= null;\n");
-		buf.append("        Bar bar2= null;\n");
-		buf.append("        for (int i = 0; i < bar1.getBar().length; i++) {\n");
-		buf.append("            System.out.println(bar1.getBar()[i]);\n");
-		buf.append("            System.out.println(bar2.getBar()[i]);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private class Bar {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        public int[] getBar() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            return null;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        Bar bar1= null;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        Bar bar2= null;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < bar1.getBar().length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(bar1.getBar()[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(bar2.getBar()[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1870,24 +1870,24 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug138353_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class A {\n");
-		buf.append("    private class Bar {\n");
-		buf.append("        public int[] getBar() {\n");
-		buf.append("            return null;\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("    public void foo() {\n");
-		buf.append("        Bar bar1= null;\n");
-		buf.append("        for (int i = 0; i < bar1.getBar().length; i++) {\n");
-		buf.append("            System.out.println(bar1.getBar()[i]);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class A {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private class Bar {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        public int[] getBar() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            return null;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        Bar bar1= null;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < bar1.getBar().length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(bar1.getBar()[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1897,19 +1897,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug148419() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test;\n");
-		buf.append("public class E {\n");
-		buf.append("    private int[] ints;\n");
-		buf.append("    public void foo() {\n");
-		buf.append("        for (int i = 0; i < this.ints.length; i++) {\n");
-		buf.append("            this.ints[i]= 0;\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private int[] ints;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < this.ints.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            this.ints[i]= 0;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1919,19 +1919,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug149797() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test;\n");
-		buf.append("public class E {\n");
-		buf.append("    private int ba r() {return 0;}\n");
-		buf.append("    public void foo(int[] ints) {\n");
-		buf.append("        for (int i = 0, max = ints.length, b= bar(); i < max; i++) {\n");
-		buf.append("            System.out.println(ints[i] + b);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private int ba r() {return 0;}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(int[] ints) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0, max = ints.length, b= bar(); i < max; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(ints[i] + b);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1941,19 +1941,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug163050_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test;\n");
-		buf.append("public class E {\n");
-		buf.append("    void foo(Object[] x) {\n");
-		buf.append("        int i = 0;\n");
-		buf.append("        for (int j = 0; j < x.length; j++) {\n");
-		buf.append("            System.out.println(x[i]);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    void foo(Object[] x) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        int i = 0;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int j = 0; j < x.length; j++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(x[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -1978,18 +1978,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug163050_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test;\n");
-		buf.append("public class E {\n");
-		buf.append("    void foo(Object[] x) {\n");
-		buf.append("        for (int j = 0; j < x.length; j++) {\n");
-		buf.append("            System.out.println(x[0]);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    void foo(Object[] x) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int j = 0; j < x.length; j++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(x[0]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -2013,18 +2013,18 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug163121() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    void foo(Object[] x, Object[] y) {\n");
-		buf.append("        for (int i= 0; i < y.length; i++)\n");
-		buf.append("            for (Object element : x)\n");
-		buf.append("                System.out.println(y[i]);\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    void foo(Object[] x, Object[] y) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i= 0; i < y.length; i++)\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            for (Object element : x)\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("                System.out.println(y[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -2455,7 +2455,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertTrue(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition04() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -2475,7 +2475,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition05() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -2623,7 +2623,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition13() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -2645,7 +2645,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_1() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2665,7 +2665,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertTrue(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_2() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2685,7 +2685,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertTrue(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_3() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2705,7 +2705,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertTrue(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_4() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2731,7 +2731,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_5() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2757,7 +2757,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_6() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2783,7 +2783,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_7() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2809,7 +2809,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_8() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2835,7 +2835,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBodyPrecondition344674_9() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=344674
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -2860,19 +2860,19 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug110599() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    public void a(int[] ints) {\n");
-		buf.append("        //Comment\n");
-		buf.append("        for (int i = 0; i < ints.length; i++) {\n");
-		buf.append("            System.out.println(ints[i]);\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void a(int[] ints) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        //Comment\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < ints.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(ints[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -2897,20 +2897,20 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug175827() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    public void a(int[] ints) {\n");
-		buf.append("        //Comment\n");
-		buf.append("        for (int i = 0; i < ints.length; i++) {\n");
-		buf.append("            System.out.println(ints[i]);\n");
-		buf.append("        }\n");
-		buf.append("        //Comment\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void a(int[] ints) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        //Comment\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < ints.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(ints[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        //Comment\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -2936,7 +2936,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug214340_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2958,7 +2958,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug214340_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2980,21 +2980,21 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug214340_3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    int[] array = new int[3];\n");
-		buf.append("    static boolean same(E1 one, E1 two) {\n");
-		buf.append("        for (int i = 0; i < one.array.length; i++) {\n");
-		buf.append("            System.out.println(one.array[i]);\n");
-		buf.append("        }\n");
-		buf.append("        return true;\n");
-		buf.append("    }\n");
-		buf.append("}\n");
-		buf.append("\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    int[] array = new int[3];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    static boolean same(E1 one, E1 two) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < one.array.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            System.out.println(one.array[i]);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return true;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", buf.toString(), false, null);
 
 		List<IJavaCompletionProposal> proposals= fetchConvertingProposal(buf, cu);
@@ -3040,26 +3040,26 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertFalse(satisfiesPrecondition(cu));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug510758_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		buf.append("package test1;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    private Object[] array;\n");
-		buf.append("    public boolean isNull(Object object ) {\n");
-		buf.append("        boolean isNull= (object != null) ? false : true;\n");
-		buf.append("        return isNull; \n");
-		buf.append("    }\n");
-		buf.append("    public void method() {\n");
-		buf.append("        for (int i = 0; i < array.length; i++) {\n");
-		buf.append("            if (!isNull(array[i])) {\n");
-		buf.append("                System.out.println(array[i].toString()) ");
-		buf.append("            }\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private Object[] array;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public boolean isNull(Object object ) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        boolean isNull= (object != null) ? false : true;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return isNull; \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void method() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < array.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            if (!isNull(array[i])) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("                System.out.println(array[i].toString()) "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", buf.toString(), false, null);
 
 		assertTrue(satisfiesPrecondition(cu));
@@ -3092,26 +3092,26 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug510758_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		buf.append("package test1;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    private Object[] array;\n");
-		buf.append("    public boolean isNull(Object object ) {\n");
-		buf.append("        boolean isNull= (object != null) ? false : true;\n");
-		buf.append("        return isNull; \n");
-		buf.append("    }\n");
-		buf.append("    public void method() {\n");
-		buf.append("        for (int i = 0; i < array.length; i++) {\n");
-		buf.append("            if (!isNull(array[i+1])) {\n");
-		buf.append("                System.out.println(array[i+1].toString()) ");
-		buf.append("            }\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private Object[] array;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public boolean isNull(Object object ) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        boolean isNull= (object != null) ? false : true;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return isNull; \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void method() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < array.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            if (!isNull(array[i+1])) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("                System.out.println(array[i+1].toString()) "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", buf.toString(), false, null);
 
 		assertFalse(satisfiesPrecondition(cu));
@@ -3123,26 +3123,26 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug510758_3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		buf.append("package test1;\n");
-		buf.append("public class E1 {\n");
-		buf.append("    private Object[] array;\n");
-		buf.append("    public boolean isNull(Object object ) {\n");
-		buf.append("        boolean isNull= (object != null) ? false : true;\n");
-		buf.append("        return isNull; \n");
-		buf.append("    }\n");
-		buf.append("    public void method() {\n");
-		buf.append("        for (int i = 0; i < array.length; i++) {\n");
-		buf.append("            if (~isNull(array[i])) {\n");
-		buf.append("                System.out.println(array[i].toString()) ");
-		buf.append("            }\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private Object[] array;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public boolean isNull(Object object ) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        boolean isNull= (object != null) ? false : true;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return isNull; \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void method() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        for (int i = 0; i < array.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            if (~isNull(array[i])) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("                System.out.println(array[i].toString()) "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", buf.toString(), false, null);
 
 		assertFalse(satisfiesPrecondition(cu));
@@ -3154,28 +3154,28 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug542936() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder orig= new StringBuilder();
+		StringBuilder orig= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		orig.append("package test1;\n");
-		orig.append("public class E1 {\n");
-		orig.append("    private Object[] array1;\n");
-		orig.append("    private Object[] array2;\n");
-		orig.append("    public void method() {\n");
-		orig.append("        outer:\n");
-		orig.append("        for (int i = 0; i < array1.length; i++) {\n");
-		orig.append("            Object o1= array1[i];\n");
-		orig.append("            for (int j = 0; j < array2.length; j++) {\n");
-		orig.append("                Object o2= array2[j];\n");
-		orig.append("                if (o2.equals(o1)) {\n");
-		orig.append("                    continue outer;\n");
-		orig.append("                }\n");
-		orig.append("            }\n");
-		orig.append("        }\n");
-		orig.append("    }\n");
-		orig.append("}\n");
+		orig.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("public class E1 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("    private Object[] array1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("    private Object[] array2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("    public void method() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("        outer:\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("        for (int i = 0; i < array1.length; i++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("            Object o1= array1[i];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("            for (int j = 0; j < array2.length; j++) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("                Object o2= array2[j];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("                if (o2.equals(o1)) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("                    continue outer;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("                }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("            }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		orig.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E1.java", orig.toString(), false, null);
 
 		assertTrue(satisfiesPrecondition(cu));
@@ -3237,11 +3237,11 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview2, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug562291_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append(
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				"""
 					package test1;
 					import java.io.Serializable;
@@ -3281,11 +3281,11 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview1, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug562291_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append(
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				"""
 					package test1;
 					import java.io.Serializable;
@@ -3331,7 +3331,7 @@ public class ConvertForLoopQuickFixTest extends QuickFixTest {
 		return op.satisfiesPreconditions().isOK();
 	}
 
-	private static ForStatement getForStatement(ICompilationUnit cu) {
+	private static ForStatement getForStatement(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit ast= SharedASTProviderCore.getAST(cu, SharedASTProviderCore.WAIT_YES, new NullProgressMonitor());
 
 		final ForStatement[] statement= new ForStatement[1];

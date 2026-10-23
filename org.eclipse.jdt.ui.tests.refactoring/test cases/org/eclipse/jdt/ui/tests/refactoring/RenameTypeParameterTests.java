@@ -69,7 +69,7 @@ public class RenameTypeParameterTests extends GenericRefactoringTest {
 		assertNotNull("precondition was supposed to fail", result);
 	}
 
-	private void helper2(String parameterName, String newParameterName, String typeName, boolean references) throws Exception {
+	private void helper2(String parameterName, String newParameterName, String typeName, boolean references) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType declaringType= getType(cu, typeName);
@@ -96,7 +96,7 @@ public class RenameTypeParameterTests extends GenericRefactoringTest {
 		assertEqualLines("invalid redo", getFileContents(getOutputTestFileName("A")), cu.getSource());
 	}
 
-	private void helper2(String parameterName, String newParameterName, String typeName, String methodName, String[] methodSignature, boolean references) throws Exception {
+	private void helper2(String parameterName, String newParameterName, String typeName, String methodName, String[] methodSignature, boolean references) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType declaringType= getType(cu, typeName);

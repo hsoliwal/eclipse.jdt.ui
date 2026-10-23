@@ -36,7 +36,7 @@ public class WorkspaceTracker {
 		fListeners= new ListenerList<>();
 	}
 
-	private class ResourceListener implements IResourceChangeListener {
+	private class ResourceListener implements IResourceChangeListener { //FLLDCIM: MARK — T07  IMPLEMENTS
 		@Override
 		public void resourceChanged(IResourceChangeEvent event) {
 			workspaceChanged();
@@ -44,7 +44,7 @@ public class WorkspaceTracker {
 	}
 
 	private void workspaceChanged() {
-		for (Listener listener : fListeners) {
+		for (Listener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.workspaceChanged();
 		}
 	}

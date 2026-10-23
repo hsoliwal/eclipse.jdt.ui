@@ -95,7 +95,7 @@ public class Jsp2JavaTagHandler implements ITagHandler {
 	 * This is a good example where the relative line offset in the Java
 	 * document cannot be directly mapped back to Jsp document.
 	 */
-	private int handleUseBeanTag(String jspLineStr, int relativeLineOffsetInJava)  {
+	private int handleUseBeanTag(String jspLineStr, int relativeLineOffsetInJava)  { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int javaPartitionStart;
 
@@ -116,7 +116,7 @@ public class Jsp2JavaTagHandler implements ITagHandler {
 		return javaPartitionStart - relativeLineOffsetInJava;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void processEndTag(ITranslatorResultCollector resultCollector, int sourceLineNumber) throws IOException {
 		Assert.isTrue(resultCollector instanceof JspTranslatorResultCollector);
 
@@ -124,46 +124,46 @@ public class Jsp2JavaTagHandler implements ITagHandler {
 
 		if (fInUseBean) {
 			if (fId != null && fClass != null) {
-				jspResultCollector.appendLocalDeclaration(fClass + " " + fId + "= new " + fClass + "();\n", sourceLineNumber); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				jspResultCollector.appendLocalDeclaration(fClass + " " + fId + "= new " + fClass + "();\n", sourceLineNumber); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fId= fClass= null;
 			}
 			fInUseBean= false;
 		}
 		if (fInTagLib && fTagLibValue != null) {
-			jspResultCollector.appendContent("System.out.println(" + fTagLibValue.substring(2, fTagLibValue.length() - 1) + ");\n", sourceLineNumber);   //$NON-NLS-1$ //$NON-NLS-2$
+			jspResultCollector.appendContent("System.out.println(" + fTagLibValue.substring(2, fTagLibValue.length() - 1) + ");\n", sourceLineNumber);   //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fTagLibValue= null;
 			fInTagLib= false;
 		}
 		if (fInJavaSection)  {
 			int i= 0;
-			StringBuilder out= new StringBuilder();
-			while (i < fSource.length()) {
+			StringBuilder out= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			while (i < fSource.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char c= fSource.charAt(i++);
 				if (c == '\n') {
-					jspResultCollector.appendContent(out.toString() + "\n", sourceLineNumber++); //$NON-NLS-1$
+					jspResultCollector.appendContent(out.toString() + "\n", sourceLineNumber++); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					out.setLength(0);
 				} else {
-					out.append(c);
+					out.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			if (out.length() > 0)  {
-				jspResultCollector.appendContent(out.toString() + "\n", sourceLineNumber); //$NON-NLS-1$
+				jspResultCollector.appendContent(out.toString() + "\n", sourceLineNumber); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		if (fInDeclaration)  {
 			int i= 0;
-			StringBuilder out= new StringBuilder();
-			while (i < fSource.length()) {
+			StringBuilder out= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			while (i < fSource.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char c= fSource.charAt(i++);
 				if (c == '\n') {
-					jspResultCollector.appendDeclaration(out.toString() + "\n", sourceLineNumber++); //$NON-NLS-1$
+					jspResultCollector.appendDeclaration(out.toString() + "\n", sourceLineNumber++); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					out.setLength(0);
 				} else {
-					out.append(c);
+					out.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			if (out.length() > 0)  {
-				jspResultCollector.appendDeclaration(out.toString() + "\n", sourceLineNumber); //$NON-NLS-1$
+				jspResultCollector.appendDeclaration(out.toString() + "\n", sourceLineNumber); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}

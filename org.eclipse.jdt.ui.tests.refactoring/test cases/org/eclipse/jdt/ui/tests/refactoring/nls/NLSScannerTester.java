@@ -116,7 +116,7 @@ public class NLSScannerTester {
 
 	@Test
 	public void test9() throws Exception{
-		String text= "fred\n \"xx\"" + NLSElement.createTagText(1) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		String text= "fred\n \"xx\"" + NLSElement.createTagText(1) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		NLSLine[] l= NLSScanner.scan(text);
 		NLSLine line=l[0];
 		NLSElement el= line.get(0);
@@ -136,7 +136,7 @@ public class NLSScannerTester {
 	@Test
 	public void test11() throws Exception{
 		String text=
-				"\n\"x\" \"y\"" //$NON-NLS-1$
+				"\n\"x\" \"y\"" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ NLSElement.createTagText(2)
 				+ NLSElement.createTagText(1)
 				+ "\n"; //$NON-NLS-1$
@@ -154,7 +154,7 @@ public class NLSScannerTester {
 	@Test
 	public void test12() throws Exception{
 		String text=
-				"\n\"x\" \"y\"" //$NON-NLS-1$
+				"\n\"x\" \"y\"" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ NLSElement.createTagText(1)
 				+ NLSElement.createTagText(2)
 				+ "\n"; //$NON-NLS-1$
@@ -172,7 +172,7 @@ public class NLSScannerTester {
 	@Test
 	public void test13() throws Exception{
 		String text=
-				"\n\"x\" \"y\"" //$NON-NLS-1$
+				"\n\"x\" \"y\"" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ NLSElement.createTagText(1)
 				+ "\n"; //$NON-NLS-1$
 		NLSLine[] l= NLSScanner.scan(text);
@@ -189,7 +189,7 @@ public class NLSScannerTester {
 	@Test
 	public void test14() throws Exception{
 		String text=
-				"\n\"x\" \"y\"" //$NON-NLS-1$
+				"\n\"x\" \"y\"" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ NLSElement.createTagText(2)
 				+ "\n"; //$NON-NLS-1$
 		NLSLine[] l= NLSScanner.scan(text);
@@ -266,7 +266,7 @@ public class NLSScannerTester {
 	}
 
 	// test for bug 102132
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test20() throws Exception {
 		String text=
 			"""
@@ -295,7 +295,7 @@ public class NLSScannerTester {
 	}
 
 	// test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=227482
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test21() throws Exception {
 		String text=
 			"""
@@ -320,7 +320,7 @@ public class NLSScannerTester {
 	}
 
 	// test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=227482
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test22() throws Exception {
 		String text=
 			"""
@@ -345,7 +345,7 @@ public class NLSScannerTester {
 	}
 
 	// test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=227482
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test23() throws Exception {
 		String text=
 			"""
@@ -399,7 +399,7 @@ public class NLSScannerTester {
 	}
 
 	// test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=xxx
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test26() throws Exception {
 		String text=
 				"""
@@ -428,7 +428,7 @@ public class NLSScannerTester {
 	@Test
 	public void test54() throws Exception{
 		String text=
-				"\n\"x\"" //$NON-NLS-1$
+				"\n\"x\"" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ NLSElement.TAG_PREFIX + 1
 				+ "\n"; //$NON-NLS-1$
 		NLSLine[] l= NLSScanner.scan(text);

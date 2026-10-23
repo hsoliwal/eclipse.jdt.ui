@@ -103,7 +103,7 @@ public abstract class AbstractCompletionTest {
 	private char fTrigger;
 	private boolean fWaitBeforeCompleting;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		configureCoreOptions(options);
@@ -158,11 +158,11 @@ public abstract class AbstractCompletionTest {
 	}
 
 	private ICompilationUnit createCU(IPackageFragment pack1, String contents) throws JavaModelException {
-		ICompilationUnit cu= pack1.createCompilationUnit("Completion_" + getName() + ".java", contents, false, null);
+		ICompilationUnit cu= pack1.createCompilationUnit("Completion_" + getName() + ".java", contents, false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return cu;
 	}
 
-	@After
+	@After //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void tearDown() throws Exception {
 		IPreferenceStore store= getJDTUIPrefs();
 		store.setToDefault(PreferenceConstants.CODEGEN_ADD_COMMENTS);
@@ -192,33 +192,33 @@ public abstract class AbstractCompletionTest {
 	protected void addImport(String imp) {
 		imp= normalizeImport(imp);
 		if (fBeforeImports.length() == 0)
-			fBeforeImports= "\n" + imp + "\n";
+			fBeforeImports= "\n" + imp + "\n"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
-			fBeforeImports += imp + "\n";
+			fBeforeImports += imp + "\n"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void expectImport(String imp) {
 		imp= normalizeImport(imp);
 		if (fAfterImports.length() == 0)
-			fAfterImports= "\n" + imp + "\n";
+			fAfterImports= "\n" + imp + "\n"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
-			fAfterImports += imp + "\n";
+			fAfterImports += imp + "\n"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String normalizeImport(String imp) {
 		if (!imp.startsWith("import "))
-			imp= "import " + imp;
+			imp= "import " + imp; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (!imp.endsWith(";"))
 			imp+= ";";
 		return imp;
 	}
 
 	protected void addMembers(String member) {
-		fMembers += "\n	" + member + "\n";
+		fMembers += "\n	" + member + "\n"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void addLocalVariables(String variable) {
-		fLocals += "\n		" + variable + "\n";
+		fLocals += "\n		" + variable + "\n"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void setTrigger(char trigger) {
@@ -366,7 +366,7 @@ public abstract class AbstractCompletionTest {
 		assertEquals(expectedSelection.getLength(), postSelection.getLength());
 	}
 
-	protected void typeAndVerify(String typedText, String expectedResult) throws Exception {
+	protected void typeAndVerify(String typedText, String expectedResult) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer expected= new StringBuffer();
 		IRegion expectedSelection= assembleMethodBodyTestCUExtractSelection(expected, expectedResult, fAfterImports);
 
@@ -375,7 +375,7 @@ public abstract class AbstractCompletionTest {
 		declaredField.setAccessible(true);
 		VerifyKeyListener verifyKeyListeners= (VerifyKeyListener) declaredField.get(fEditor.getViewer());
 
-		for (char c : typedText.toCharArray()) {
+		for (char c : typedText.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Event event= new Event();
 			event.widget= fEditor.getViewer().getTextWidget();
 			VerifyEvent e= new VerifyEvent(event);
@@ -400,7 +400,7 @@ public abstract class AbstractCompletionTest {
 		assertEquals(expectedSelection.getLength(), actualSelection.getLength());
 	}
 
-	private void assertIncrementalCompletion(StringBuffer contents, IRegion preSelection, StringBuffer result, IRegion expectedSelection) throws CoreException {
+	private void assertIncrementalCompletion(StringBuffer contents, IRegion preSelection, StringBuffer result, IRegion expectedSelection) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fCU= createCU(getAnonymousTestPackage(), contents.toString());
 		fEditor= (JavaEditor) EditorUtility.openInEditor(fCU);
 		IDocument doc;
@@ -430,19 +430,19 @@ public abstract class AbstractCompletionTest {
 		}
 	}
 
-	private IRegion assembleMethodBodyTestCUExtractSelection(StringBuffer buffer, String javadocLine, String imports) {
-		String prefix= "package test1;\n" +
+	private IRegion assembleMethodBodyTestCUExtractSelection(StringBuffer buffer, String javadocLine, String imports) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String prefix= "package test1;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				imports +
 				"\n" +
 				"public class Completion_" + getName() + "<T> {\n" +
 				"	public void testMethod(int param) {\n" +
 				fLocals +
 				"		";
-		String postfix= "\n" +
+		String postfix= "\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"	}\n" +
 				fMembers +
 				"}\n";
-		StringBuilder lineBuffer= new StringBuilder(javadocLine);
+		StringBuilder lineBuffer= new StringBuilder(javadocLine); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int firstPipe= lineBuffer.indexOf(CARET);
 		int secondPipe;
 		if (firstPipe == -1) {
@@ -456,22 +456,22 @@ public abstract class AbstractCompletionTest {
 			else
 				lineBuffer.replace(secondPipe, secondPipe + CARET.length(), "");
 		}
-		buffer.append(prefix + lineBuffer + postfix);
+		buffer.append(prefix + lineBuffer + postfix); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return new Region(firstPipe + prefix.length(), secondPipe - firstPipe);
 	}
 
-	private IRegion assembleClassBodyTestCUExtractSelection(StringBuffer buffer, String javadocLine, String imports) {
-		String prefix= "package test1;\n" +
+	private IRegion assembleClassBodyTestCUExtractSelection(StringBuffer buffer, String javadocLine, String imports) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String prefix= "package test1;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		imports +
 		"\n" +
 		"public class Completion_" + getName() + "<T> {\n" +
 		fLocals +
 		"    ";
-		String postfix= "\n" +
+		String postfix= "\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		"\n" +
 		fMembers +
 		"}\n";
-		StringBuilder lineBuffer= new StringBuilder(javadocLine);
+		StringBuilder lineBuffer= new StringBuilder(javadocLine); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int firstPipe= lineBuffer.indexOf(CARET);
 		int secondPipe;
 		if (firstPipe == -1) {
@@ -485,22 +485,22 @@ public abstract class AbstractCompletionTest {
 			else
 				lineBuffer.replace(secondPipe, secondPipe + CARET.length(), "");
 		}
-		buffer.append(prefix + lineBuffer + postfix);
+		buffer.append(prefix + lineBuffer + postfix); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return new Region(firstPipe + prefix.length(), secondPipe - firstPipe);
 	}
 
-	private IRegion assembleClassJavadocTestCUExtractSelection(StringBuffer buffer, String javadocLine, String imports) {
-		String prefix= "package test1;\n" +
+	private IRegion assembleClassJavadocTestCUExtractSelection(StringBuffer buffer, String javadocLine, String imports) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String prefix= "package test1;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				imports +
 				 "\n" +
 				 "/**\n";
-		String postfix= "\n" +
+		String postfix= "\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				 " */\n" +
 				"public class Completion_" + getName() + "<T> {\n" +
 				"\n" +
 				fMembers +
 				"}\n";
-		StringBuilder lineBuffer= new StringBuilder(javadocLine);
+		StringBuilder lineBuffer= new StringBuilder(javadocLine); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int firstPipe= lineBuffer.indexOf(CARET);
 		int secondPipe;
 		if (firstPipe == -1) {
@@ -514,20 +514,20 @@ public abstract class AbstractCompletionTest {
 			else
 				lineBuffer.replace(secondPipe, secondPipe + CARET.length(), "");
 		}
-		buffer.append(prefix + lineBuffer + postfix);
+		buffer.append(prefix + lineBuffer + postfix); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return new Region(firstPipe + prefix.length(), secondPipe - firstPipe);
 	}
 
-	private IRegion assembleMethodJavadocTestCUExtractSelection(StringBuffer buffer, String javadocLine) {
-		String prefix= "package test1;\n" +
+	private IRegion assembleMethodJavadocTestCUExtractSelection(StringBuffer buffer, String javadocLine) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String prefix= "package test1;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"\n" +
 				"public class Completion_" + getName() + "<T> {\n" +
 				"	/**\n	";
-		String postfix= "\n" +
+		String postfix= "\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"	 */\n" +
 				fMembers +
 				"}\n";
-		StringBuilder lineBuffer= new StringBuilder(javadocLine);
+		StringBuilder lineBuffer= new StringBuilder(javadocLine); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int firstPipe= lineBuffer.indexOf(CARET);
 		int secondPipe;
 		if (firstPipe == -1) {
@@ -541,7 +541,7 @@ public abstract class AbstractCompletionTest {
 			else
 				lineBuffer.replace(secondPipe, secondPipe + CARET.length(), "");
 		}
-		buffer.append(prefix + lineBuffer + postfix);
+		buffer.append(prefix + lineBuffer + postfix); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return new Region(firstPipe + prefix.length(), secondPipe - firstPipe);
 	}
 
@@ -554,13 +554,13 @@ public abstract class AbstractCompletionTest {
 
 	private ICompletionProposal findNonNullProposal(String prefix, IRegion selection) {
 		ICompletionProposal proposal= findNamedProposal(prefix, selection);
-		assertNotNull("no proposal starting with \"" + prefix + "\"", proposal);
+		assertNotNull("no proposal starting with \"" + prefix + "\"", proposal); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return proposal;
 	}
 
 	private ICompletionProposal findNamedProposal(String prefix, IRegion selection) {
 		ICompletionProposal found= null;
-		for (ICompletionProposal proposal : collectProposals(selection)) {
+		for (ICompletionProposal proposal : collectProposals(selection)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String displayString= proposal.getDisplayString();
 			if (displayString.startsWith(prefix)) {
 				if (found == null || displayString.equals(prefix)) {
@@ -633,7 +633,7 @@ public abstract class AbstractCompletionTest {
 		return IDocument.DEFAULT_CONTENT_TYPE;
 	}
 
-	private void apply(ITextEditor editor, IDocument doc, ICompletionProposal proposal, IRegion selection) {
+	private void apply(ITextEditor editor, IDocument doc, ICompletionProposal proposal, IRegion selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (proposal instanceof ICompletionProposalExtension2) {
 			ICompletionProposalExtension2 ext= (ICompletionProposalExtension2) proposal;
 			ITextViewer viewer= (ITextViewer) editor.getAdapter(ITextOperationTarget.class);

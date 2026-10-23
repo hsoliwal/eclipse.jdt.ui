@@ -48,7 +48,7 @@ public class MatchLocations {
 		public MatchLocationSelectionDialog(Shell parent, int initialSelection, int searchFor) {
 			super(parent);
 			fSearchFor= searchFor;
-			fButtons= new ArrayList<>();
+			fButtons= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fCurrentSelection= initialSelection;
 		}
 
@@ -63,7 +63,7 @@ public class MatchLocations {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite contents= (Composite) super.createDialogArea(parent);
 			GridLayout layout= (GridLayout) contents.getLayout();
@@ -90,7 +90,7 @@ public class MatchLocations {
 			Button selectAllButton= new Button(buttonComposite, SWT.PUSH);
 			selectAllButton.setLayoutData(new GridData());
 			selectAllButton.setText(SearchMessages.MatchLocations_select_all_button_label);
-			selectAllButton.addSelectionListener(new SelectionAdapter() {
+			selectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					performSelectAction(true);
@@ -106,7 +106,7 @@ public class MatchLocations {
 			Button deselectAllButton= new Button(buttonComposite, SWT.PUSH);
 			deselectAllButton.setLayoutData(new GridData());
 			deselectAllButton.setText(SearchMessages.MatchLocations_deselect_all_button_label);
-			deselectAllButton.addSelectionListener(new SelectionAdapter() {
+			deselectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					performSelectAction(false);
@@ -123,7 +123,7 @@ public class MatchLocations {
 			return contents;
 		}
 
-		private void createMethodFieldMatchLocationsControls(Composite contents) {
+		private void createMethodFieldMatchLocationsControls(Composite contents) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			Composite composite= new Composite(contents, SWT.NONE);
 			GridData gd= new GridData(SWT.LEFT, SWT.BEGINNING, true, true, 2, 1);
@@ -147,7 +147,7 @@ public class MatchLocations {
 			}
 		}
 
-		private void createTypeMatchLocationsControls(Composite contents) {
+		private void createTypeMatchLocationsControls(Composite contents) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Group group= new Group(contents, SWT.NONE);
 			group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
 			group.setLayout(new GridLayout(1, false));
@@ -192,7 +192,7 @@ public class MatchLocations {
 		}
 
 		protected final void performSelectAction(boolean selectAll) {
-			for (Button button : fButtons) {
+			for (Button button : fButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				button.setSelection(selectAll);
 			}
 			validateSettings();
@@ -206,7 +206,7 @@ public class MatchLocations {
 		}
 
 
-		private Button createButton(Composite parent, String text, int data) {
+		private Button createButton(Composite parent, String text, int data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean isSelected= (fCurrentSelection & data) != 0;
 
 			Button button= new Button(parent, SWT.CHECK);
@@ -214,7 +214,7 @@ public class MatchLocations {
 			button.setData(Integer.valueOf(data));
 			button.setLayoutData(new GridData());
 			button.setSelection(isSelected);
-			button.addSelectionListener(new SelectionAdapter() {
+			button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					performOptionChanged();
@@ -245,7 +245,7 @@ public class MatchLocations {
 
 		private void validateSettings() {
 			int selected= 0;
-			for (Button button : fButtons) {
+			for (Button button : fButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (button.getSelection()) {
 					selected |= getIntValue(button);
 				}
@@ -260,12 +260,12 @@ public class MatchLocations {
 		}
 	}
 
-	public static String getMatchLocationDescription(int locations, int entryLimit) {
+	public static String getMatchLocationDescription(int locations, int entryLimit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nOptions= getNumberOfSelectedSettings(locations, entryLimit);
 		if (nOptions > entryLimit) {
 			return SearchMessages.MatchLocations_match_locations_description;
 		}
-		ArrayList<String> args= new ArrayList<>(3);
+		ArrayList<String> args= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isSet(locations, IJavaSearchConstants.IMPORT_DECLARATION_TYPE_REFERENCE)) {
 			args.add(SearchMessages.MatchLocations_imports_description);
 		}
@@ -332,12 +332,12 @@ public class MatchLocations {
 		if (args.size() == 1) {
 			return args.get(0);
 		}
-		StringBuilder buf= new StringBuilder();
-		for (int i= 0; i < args.size(); i++) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < args.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
-				buf.append(JavaElementLabels.COMMA_STRING);
+				buf.append(JavaElementLabels.COMMA_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(args.get(i));
+			buf.append(args.get(i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -361,7 +361,7 @@ public class MatchLocations {
 		}
 	}
 
-	public static int getNumberOfSelectedSettings(int locations, int searchFor) {
+	public static int getNumberOfSelectedSettings(int locations, int searchFor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int count= 0;
 		if (searchFor == IJavaSearchConstants.TYPE) {
 

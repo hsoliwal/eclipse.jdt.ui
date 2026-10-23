@@ -106,17 +106,17 @@ public class DecompiledMethod {
 		this.lineNumbers = lineNumbers;
 		this.options = options;
 		this.access = access;
-		this.text = new ArrayList<>();
+		this.text = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		this.localVariables = meth.localVariables;
-		this.sourceLines = new HashMap<>();
-		this.decompiledLines = new HashMap<>();
-		this.insns = new HashMap<>();
-		this.opcodes = new HashMap<>();
-		this.insnLines = new HashMap<>();
+		this.sourceLines = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		this.decompiledLines = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		this.insns = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		this.opcodes = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		this.insnLines = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	void setText(List<?> inputText) {
-		formatText(inputText, new HashMap<>(), new StringBuffer(), this.text);
+		formatText(inputText, new HashMap<>(), new StringBuffer(), this.text); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		computeMaps(lineNumbers);
 
 		if (options.modes.get(BCOConstants.F_SHOW_ANALYZER) && (access & Opcodes.ACC_ABSTRACT) == 0) {
@@ -134,7 +134,7 @@ public class DecompiledMethod {
 	}
 
 	public String getSignature() {
-		return meth.name + meth.desc;
+		return meth.name + meth.desc; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public boolean containsSource(int sourceLine) {
@@ -147,7 +147,7 @@ public class DecompiledMethod {
 	 *         no match. The return value is method-relative, and need to be transformed to class
 	 *         absolute
 	 */
-	public int getBestDecompiledLine(final int sourceLine) {
+	public int getBestDecompiledLine(final int sourceLine) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!containsSource(sourceLine)) {
 			return -1;
 		}
@@ -156,7 +156,7 @@ public class DecompiledMethod {
 			return -1;
 		}
 		int bestMatch = -1;
-		for (Integer integer : set) {
+		for (Integer integer : set) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int line = integer.intValue();
 			int delta = sourceLine - line;
 			if (delta < 0) {
@@ -174,7 +174,7 @@ public class DecompiledMethod {
 		return decompiledLines.get(Integer.valueOf(bestMatch)).intValue();
 	}
 
-	private void analyzeMethod() {
+	private void analyzeMethod() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Interpreter<BasicValue> interpreter;
 		try {
 			Type type = Type.getType(owner);
@@ -202,8 +202,8 @@ public class DecompiledMethod {
 		frames = a.getFrames();
 	}
 
-	private void formatText(List<?> input, Map<Integer, String> locals, StringBuffer line, List<Object> result) {
-		for (int i = 0; i < input.size(); ++i) {
+	private void formatText(List<?> input, Map<Integer, String> locals, StringBuffer line, List<Object> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i = 0; i < input.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = input.get(i);
 			if (o instanceof List) {
 				formatText((List<?>) o, locals, line, result);
@@ -225,12 +225,12 @@ public class DecompiledMethod {
 			} else {
 				String s = o.toString();
 				int p;
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					p = s.indexOf('\n');
 					if (p == -1) {
 						line.append(s);
 					} else {
-						result.add(line.toString() + s.substring(0, p + 1));
+						result.add(line.toString() + s.substring(0, p + 1)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						s = s.substring(p + 1);
 						line.setLength(0);
 					}
@@ -240,7 +240,7 @@ public class DecompiledMethod {
 	}
 
 	private static Index getNextIndex(List<?> input, int startOffset) {
-		for (int i = startOffset + 1; i < input.size(); i++) {
+		for (int i = startOffset + 1; i < input.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object object = input.get(i);
 			if (object instanceof Index) {
 				return (Index) object;
@@ -250,7 +250,7 @@ public class DecompiledMethod {
 	}
 
 	private void updateLocals(Index index, Map<Integer, String> locals) {
-		for (LocalVariableNode lvNode : localVariables) {
+		for (LocalVariableNode lvNode : localVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lvNode.start == index.labelNode) {
 				locals.put(Integer.valueOf(lvNode.index), lvNode.name);
 			} else if (lvNode.end == index.labelNode) {
@@ -259,11 +259,11 @@ public class DecompiledMethod {
 		}
 	}
 
-	private void computeMaps(Map<Label, Integer> lineNumbers1) {
+	private void computeMaps(Map<Label, Integer> lineNumbers1) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int currentDecompiledLine = 0;
 		int firstLine = -1;
 		int lastLine = -1;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int currentOpcode = -1;
 			int currentInsn1 = -1;
 			int currentSourceLine = -1;
@@ -310,7 +310,7 @@ public class DecompiledMethod {
 
 	public String getText() {
 		StringBuffer buf = new StringBuffer();
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(o instanceof Index)) {
 				buf.append((String) o);
 			}
@@ -318,18 +318,18 @@ public class DecompiledMethod {
 		return buf.toString();
 	}
 
-	public String[][] getTextTable() {
+	public String[][] getTextTable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Frame<?> frame = null;
 		String error1 = ""; //$NON-NLS-1$
-		List<String[]> lines = new ArrayList<>();
+		List<String[]> lines = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String offsStr = null;
-		for (int i = 0; i < text.size(); ++i) {
+		for (int i = 0; i < text.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = text.get(i);
 			if (o instanceof Index) {
 				Index index = (Index) o;
 				int insn = index.insn;
 
-				offsStr = "" + insn; //$NON-NLS-1$
+				offsStr = "" + insn; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (frames != null && insn < frames.length) {
 					frame = frames[insn];
 					if (this.error != null && insn == this.errorInsn) {
@@ -379,11 +379,11 @@ public class DecompiledMethod {
 
 	private static void appendFrame(StringBuffer buf, Frame<?> f) {
 		try {
-			for (int i = 0; i < f.getLocals(); ++i) {
+			for (int i = 0; i < f.getLocals(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				appendValue(buf, f.getLocal(i));
 			}
 			buf.append(' ');
-			for (int i = 0; i < f.getStackSize(); ++i) {
+			for (int i = 0; i < f.getStackSize(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				appendValue(buf, f.getStack(i));
 			}
 		} catch (IndexOutOfBoundsException e) {
@@ -428,7 +428,7 @@ public class DecompiledMethod {
 		return getFrameTablesForInsn(insn.intValue(), useQualifiedNames);
 	}
 
-	public String[][][] getFrameTablesForInsn(int insn, boolean useQualifiedNames) {
+	public String[][][] getFrameTablesForInsn(int insn, boolean useQualifiedNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (error != null && insn == errorInsn) {
 			return null;
 		}
@@ -439,10 +439,10 @@ public class DecompiledMethod {
 			}
 
 			try {
-				ArrayList<String[]> locals = new ArrayList<>();
-				for (int i = 0; i < f.getLocals(); ++i) {
+				ArrayList<String[]> locals = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (int i = 0; i < f.getLocals(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String varName = ""; //$NON-NLS-1$
-					for (LocalVariableNode lvnode : localVariables) {
+					for (LocalVariableNode lvnode : localVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int n = lvnode.index;
 						if (n == i) {
 							varName = lvnode.name;
@@ -452,15 +452,15 @@ public class DecompiledMethod {
 					}
 
 					locals.add(new String[] {
-							"" + i, //$NON-NLS-1$
+							"" + i, //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							getTypeName(useQualifiedNames, f.getLocal(i).toString()),
 							varName });
 				}
 
-				ArrayList<String[]> stack = new ArrayList<>();
-				for (int i = 0; i < f.getStackSize(); ++i) {
+				ArrayList<String[]> stack = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (int i = 0; i < f.getStackSize(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					stack.add(new String[] {
-							"" + i, //$NON-NLS-1$
+							"" + i, //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							getTypeName(useQualifiedNames, f.getStack(i).toString()) });
 				}
 				return new String[][][] {
@@ -473,11 +473,11 @@ public class DecompiledMethod {
 		return null;
 	}
 
-	private static String getTypeName(boolean useQualifiedNames, String s) {
+	private static String getTypeName(boolean useQualifiedNames, String s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!useQualifiedNames) {
 			// get leading array symbols
 			String arraySymbols = ""; //$NON-NLS-1$
-			while (s.startsWith("[")) { //$NON-NLS-1$
+			while (s.startsWith("[")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				arraySymbols += "["; //$NON-NLS-1$
 				s = s.substring(1);
 			}
@@ -485,18 +485,18 @@ public class DecompiledMethod {
 			int idx = s.lastIndexOf('/');
 			if (idx > 0) {
 				// from "Ljava/lang/Object;" to "Object"
-				return arraySymbols + s.substring(idx + 1, s.length() - 1);
+				return arraySymbols + s.substring(idx + 1, s.length() - 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			// this is the case on LVT view - ignore it
 			if ("." == s) { //$NON-NLS-1$
-				return arraySymbols + s;
+				return arraySymbols + s; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			// XXX Unresolved type
 			if ("R" == s) { //$NON-NLS-1$
-				return arraySymbols + s;
+				return arraySymbols + s; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			// resolve primitive types
-			return arraySymbols + CommentedClassVisitor.getSimpleName(Type.getType(s));
+			return arraySymbols + CommentedClassVisitor.getSimpleName(Type.getType(s)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return "Lnull;".equals(s) ? "null" : s; //$NON-NLS-1$ //$NON-NLS-2$
 	}

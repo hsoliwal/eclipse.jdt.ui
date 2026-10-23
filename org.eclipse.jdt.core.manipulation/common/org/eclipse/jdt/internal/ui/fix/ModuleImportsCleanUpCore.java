@@ -98,14 +98,14 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 			}
 		};
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public CompilationUnitChange createChange(IProgressMonitor progressMonitor) throws CoreException {
 			ImportRewrite importRewrite= ImportRewrite.create(fCompilationUnit, true);
 			List<ImportDeclaration> importDecls= fCompilationUnit.imports();
-			for (ImportDeclaration importDecl : importDecls) {
+			for (ImportDeclaration importDecl : importDecls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Modifier.isModule(importDecl.getModifiers())) {
 					boolean found= false;
-					for (IModuleBinding moduleImport : fModuleImports) {
+					for (IModuleBinding moduleImport : fModuleImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (moduleImport.getName().equals(importDecl.getName().getFullyQualifiedName())) {
 							found= true;
 							break;
@@ -116,10 +116,10 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 					}
 				} else if (!importDecl.isStatic()) {
 					if (importDecl.isOnDemand()) {
-						for (IModuleBinding moduleImport : fModuleImports) {
-							for (String pkgName : ImportRewrite.getPackageNamesForModule(moduleImport, fCompilationUnit.getJavaElement().getJavaProject())) {
+						for (IModuleBinding moduleImport : fModuleImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							for (String pkgName : ImportRewrite.getPackageNamesForModule(moduleImport, fCompilationUnit.getJavaElement().getJavaProject())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (importDecl.getName().getFullyQualifiedName().equals(pkgName)) {
-									importRewrite.removeImport(importDecl.getName().getFullyQualifiedName() + ".*"); //$NON-NLS-1$
+									importRewrite.removeImport(importDecl.getName().getFullyQualifiedName() + ".*"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								}
 							}
 						}
@@ -128,10 +128,10 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 					}
 				}
 			}
-			for (IModuleBinding moduleImport : fModuleImports) {
+			for (IModuleBinding moduleImport : fModuleImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				importRewrite.addModuleImport(moduleImport.getName(), moduleImport);
 			}
-			for (String neededImport : fNeededImports) {
+			for (String neededImport : fNeededImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				importRewrite.addImport(neededImport, UNRESOLVABLE_IMPORT_CONTEXT);
 			}
 			CompilationUnitChange result= new CompilationUnitChange(MultiFixMessages.ModuleImportsCleanup_description, (ICompilationUnit)fCompilationUnit.getJavaElement());
@@ -167,7 +167,7 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 	}
 
 
-	private ICleanUpFix createCleanUp(CompilationUnit compilationUnit) {
+	private ICleanUpFix createCleanUp(CompilationUnit compilationUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (compilationUnit != null) {
 			if (compilationUnit.getPackage() == null) {
 				return null;
@@ -183,12 +183,12 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 				return null;
 			}
 			final IModuleBinding[] requiredModules= moduleBinding.getRequiredModules();
-			final List<IModuleBinding> moduleImports= new ArrayList<>();
-			final List<String> neededImports= new ArrayList<>();
-			final Map<String, List<IModuleBinding>> typeList= new HashMap<>();
-			final Map<IModuleBinding, Set<String>> conflictList= new HashMap<>();
+			final List<IModuleBinding> moduleImports= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			final List<String> neededImports= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			final Map<String, List<IModuleBinding>> typeList= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			final Map<IModuleBinding, Set<String>> conflictList= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			ASTVisitor typeVisitor= new ASTVisitor() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(SimpleName node) {
 					if (node.getParent().getNodeType() != ASTNode.QUALIFIED_NAME &&
 							node.getParent().getNodeType() != ASTNode.NAME_QUALIFIED_TYPE) {
@@ -216,16 +216,16 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 					FOUND_NO_CONFLICT,
 					FOUND_CONFLICT
 				}
-				private ModuleTypeStatus findTypeInModules(ITypeBinding binding) {
+				private ModuleTypeStatus findTypeInModules(ITypeBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					ModuleTypeStatus result= ModuleTypeStatus.NOT_FOUND;
-					for (IModuleBinding requiredModule : requiredModules) {
-						for (IPackageBinding pkgBinding : ImportRewrite.getPackageBindingsForModule(requiredModule, project)) {
+					for (IModuleBinding requiredModule : requiredModules) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						for (IPackageBinding pkgBinding : ImportRewrite.getPackageBindingsForModule(requiredModule, project)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (pkgBinding.findTypeBinding(binding.getName()) != null) {
 								if (!binding.getQualifiedName().startsWith(pkgBinding.getName())){
 									result= ModuleTypeStatus.FOUND_CONFLICT;
 									Set<String> importSet= conflictList.get(requiredModule);
 									if (importSet == null) {
-										importSet= new HashSet<>();
+										importSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 									}
 									importSet.add(binding.getQualifiedName());
 									conflictList.put(requiredModule, importSet);
@@ -235,7 +235,7 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 									}
 									List<IModuleBinding> modules= typeList.get(binding.getQualifiedName());
 									if (modules == null) {
-										modules= new ArrayList<>();
+										modules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 									}
 									if (!modules.contains(requiredModule)) {
 										modules.add(requiredModule);
@@ -253,24 +253,24 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 			} catch (AbortSearchException e) {
 				return null;
 			}
-			for (Entry<IModuleBinding, Set<String>> conflictEntry : conflictList.entrySet()) {
+			for (Entry<IModuleBinding, Set<String>> conflictEntry : conflictList.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int conflictNeededCount= 0;
-				for (Entry<String, List<IModuleBinding>> typeListEntry : typeList.entrySet()) {
+				for (Entry<String, List<IModuleBinding>> typeListEntry : typeList.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (typeListEntry.getValue().size() == 1 && typeListEntry.getValue().contains(conflictEntry.getKey())) {
 						++conflictNeededCount;
 					}
 				}
 				if (conflictNeededCount < conflictEntry.getValue().size()) {
-					for (Entry<String, List<IModuleBinding>> typeListEntry2 : typeList.entrySet()) {
+					for (Entry<String, List<IModuleBinding>> typeListEntry2 : typeList.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						typeListEntry2.getValue().remove(conflictEntry.getKey());
 					}
 				} else {
-					for (String name : conflictEntry.getValue()) {
+					for (String name : conflictEntry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						neededImports.add(name);
 					}
 				}
 			}
-			for (String typeListName : typeList.keySet()) {
+			for (String typeListName : typeList.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!neededImports.contains(typeListName)) {
 					if (!typeList.get(typeListName).isEmpty()) {
 						moduleImports.add(typeList.get(typeListName).get(0));
@@ -286,7 +286,7 @@ public class ModuleImportsCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (isEnabled(CleanUpConstants.USE_MODULE_IMPORTS)) {
 			result.add(MultiFixMessages.ModuleImportsCleanup_description);

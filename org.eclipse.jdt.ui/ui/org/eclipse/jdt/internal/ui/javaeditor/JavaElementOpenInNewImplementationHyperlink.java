@@ -94,7 +94,7 @@ public class JavaElementOpenInNewImplementationHyperlink implements IHyperlink {
 	 *
 	 * @param javaElement the method or type
 	 */
-	public static void openInNewEditor(final IJavaElement javaElement) {
+	public static void openInNewEditor(final IJavaElement javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IEditorPart existingEditor = EditorUtility.isOpenInEditor(javaElement);
 			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();

@@ -112,7 +112,7 @@ public final class RenameJavaProjectChange extends AbstractJavaElementRenameChan
 		pm.beginTask("", 1); //$NON-NLS-1$
 		IClasspathEntry[] oldEntries= referencingProject.getRawClasspath();
 		IClasspathEntry[] newEntries= new IClasspathEntry[oldEntries.length];
-		for (int i= 0; i < newEntries.length; i++) {
+		for (int i= 0; i < newEntries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isOurEntry(oldEntries[i]))
 				newEntries[i]= createModifiedEntry(oldEntries[i]);
 			else
@@ -125,7 +125,7 @@ public final class RenameJavaProjectChange extends AbstractJavaElementRenameChan
 	private void modifyClassPaths(IProgressMonitor pm) throws JavaModelException {
 		IProject[] referencing= getProject().getReferencingProjects();
 		pm.beginTask(RefactoringCoreMessages.RenameJavaProjectChange_update, referencing.length);
-		for (IProject p : referencing) {
+		for (IProject p : referencing) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject jp= JavaCore.create(p);
 			if (jp != null && jp.exists()) {
 				modifyClassPath(jp, SubMonitor.convert(pm, 1));

@@ -89,7 +89,7 @@ public class JavaDocSnippetStringEvaluator {
 			this.endTag= endTag;
 		}
 
-		public ReplacementStringIntervalStatus getIntervalStatus(int replacementIntervalStart, int replacementIntervalEnd) {
+		public ReplacementStringIntervalStatus getIntervalStatus(int replacementIntervalStart, int replacementIntervalEnd) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ReplacementStringIntervalStatus intervalStatus= ReplacementStringIntervalStatus.DEFAULT;
 			int startDiff = replacementIntervalStart - this.start;
 			int endDiff = replacementIntervalEnd - this.end;
@@ -126,10 +126,10 @@ public class JavaDocSnippetStringEvaluator {
 		this.fElement= element;
 	}
 
-	public void AddTagElementString(TagElement snippetTag, StringBuffer buffer) {
+	public void AddTagElementString(TagElement snippetTag, StringBuffer buffer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (snippetTag != null) {
 			List<Object> fragments = snippetTag.fragments();
-			for( Object fragment : fragments) {
+			for( Object fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String str= ""; //$NON-NLS-1$
 				if (fragment instanceof AbstractTextElement) {
 					AbstractTextElement textElement= (AbstractTextElement) fragment;
@@ -163,10 +163,10 @@ public class JavaDocSnippetStringEvaluator {
 		return getModifiedString(((AbstractTextElement)region.fragments().get(0)).getText(), tags);
 	}
 
-	private String getModifiedString(String str, List<TagElement> tags) {
-		List<ActionElement> actionElements= new ArrayList<>();
+	private String getModifiedString(String str, List<TagElement> tags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ActionElement> actionElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String modifiedStr= str;
-		for (TagElement tag : tags) {
+		for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= tag.getTagName();
 			switch (name) {
 				case TagElement.TAG_HIGHLIGHT:
@@ -185,16 +185,16 @@ public class JavaDocSnippetStringEvaluator {
 		return getString( modifiedStr, actionElements);
 	}
 
-	private String getString(String str, List<ActionElement> actionElements) {
+	private String getString(String str, List<ActionElement> actionElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String modifiedStr = str;
-		List<StringItem> items= new ArrayList<>();
-		for (ActionElement actElem : actionElements) {
+		List<StringItem> items= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ActionElement actElem : actionElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			StringItem startItem = new StringItem(actElem.start, actElem.startTag);
 			StringItem endItem = new StringItem(actElem.end, actElem.endTag);
 			ListIterator<StringItem> iterator = items.listIterator();
 			boolean endIndexAdded = false;
 			boolean startIndexAdded = false;
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				StringItem elem= iterator.next();
 				if (!endIndexAdded && elem.index < endItem.index) {
 					iterator.previous();
@@ -219,17 +219,17 @@ public class JavaDocSnippetStringEvaluator {
 				items.add(startItem);
 			}
 		}
-		for (StringItem item : items) {
-			modifiedStr = modifiedStr.substring(0, item.index) + item.tag + modifiedStr.substring(item.index);
+		for (StringItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			modifiedStr = modifiedStr.substring(0, item.index) + item.tag + modifiedStr.substring(item.index); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return modifiedStr;
 	}
 
-	private void modifyPrevActionItemsReplacement(int replacementIntervalStart, int relacementIntervalEnd, int replacementStrNewLength, List<ActionElement> actionElements) {
+	private void modifyPrevActionItemsReplacement(int replacementIntervalStart, int relacementIntervalEnd, int replacementStrNewLength, List<ActionElement> actionElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ListIterator<ActionElement> iterator = actionElements.listIterator();
 		int oldLength = relacementIntervalEnd - replacementIntervalStart;
 		int diff = replacementStrNewLength - oldLength;
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActionElement elem= iterator.next();
 			ReplacementStringIntervalStatus intervalStatus= elem.getIntervalStatus(replacementIntervalStart, relacementIntervalEnd);
 			switch(intervalStatus) {
@@ -268,18 +268,18 @@ public class JavaDocSnippetStringEvaluator {
 		}
 	}
 
-	private List<TagElement> getTagElementsForTextElement(TagElement snippetTag, AbstractTextElement textElement) {
-		List<TagElement> tagElements= new ArrayList<>();
+	private List<TagElement> getTagElementsForTextElement(TagElement snippetTag, AbstractTextElement textElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<TagElement> tagElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<JavaDocRegion> regions= snippetTag.tagRegionsStartingAtTextElement(textElement);
 		List<JavaDocRegion> masterList= snippetTag.tagRegionsContainingTextElement(textElement);
 		masterList.removeAll(regions);
-		for (JavaDocRegion region : masterList) {
-			for (Object tagObj : region.tags()) {
+		for (JavaDocRegion region : masterList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object tagObj : region.tags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tagElements.add((TagElement) tagObj);
 			}
 		}
-		for (JavaDocRegion region : regions) {
-			for (Object tagObj : region.tags()) {
+		for (JavaDocRegion region : regions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object tagObj : region.tags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (tagObj instanceof TagElement) {
 					TagElement tagElem= (TagElement) tagObj;
 					Object prop= tagElem.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_INLINE_TAG_COUNT);
@@ -287,7 +287,7 @@ public class JavaDocSnippetStringEvaluator {
 						int val = ((Integer)prop).intValue();
 						ListIterator<TagElement> listIterator= tagElements.listIterator();
 						TagElement addBefore= null;
-						while (listIterator.hasNext()) {
+						while (listIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				           TagElement tElem=  listIterator.next();
 				           Object prop2= tElem.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_INLINE_TAG_COUNT);
 				           if (prop2 instanceof Integer) {
@@ -310,20 +310,20 @@ public class JavaDocSnippetStringEvaluator {
 		return tagElements;
 	}
 
-	private List<TagElement> getTagElementsForDummyJavaDocRegion(TagElement snippetTag, JavaDocRegion javaDocRegion) {
-		List<TagElement> tagElements= new ArrayList<>();
+	private List<TagElement> getTagElementsForDummyJavaDocRegion(TagElement snippetTag, JavaDocRegion javaDocRegion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<TagElement> tagElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		AbstractTextElement textElement= (AbstractTextElement) javaDocRegion.fragments().get(0);
 		List<JavaDocRegion> regions= snippetTag.tagRegionsStartingAtTextElement(textElement);
 		List<JavaDocRegion> masterList= snippetTag.tagRegionsContainingTextElement(textElement);
 		masterList.removeAll(regions);
-		for (JavaDocRegion region : masterList) {
-			for (Object tagObj : region.tags()) {
+		for (JavaDocRegion region : masterList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object tagObj : region.tags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tagElements.add((TagElement) tagObj);
 			}
 		}
 		regions.add(javaDocRegion);
-		for (JavaDocRegion region : regions) {
-			for (Object tagObj : region.tags()) {
+		for (JavaDocRegion region : regions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object tagObj : region.tags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (tagObj instanceof TagElement) {
 					TagElement tagElem= (TagElement) tagObj;
 					Object prop= tagElem.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_INLINE_TAG_COUNT);
@@ -331,7 +331,7 @@ public class JavaDocSnippetStringEvaluator {
 						int val = ((Integer)prop).intValue();
 						ListIterator<TagElement> listIterator= tagElements.listIterator();
 						TagElement addBefore= null;
-						while (listIterator.hasNext()) {
+						while (listIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				           TagElement tElem=  listIterator.next();
 				           Object prop2= tElem.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_INLINE_TAG_COUNT);
 				           if (prop2 instanceof Integer) {
@@ -355,19 +355,19 @@ public class JavaDocSnippetStringEvaluator {
 		return tagElements;
 	}
 
-	private List<TagElement> getTagElementsForTagElement(TagElement snippetTag, TagElement tag) {
-		List<TagElement> tagElements= new ArrayList<>();
+	private List<TagElement> getTagElementsForTagElement(TagElement snippetTag, TagElement tag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<TagElement> tagElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		AbstractTextElement textElement= (AbstractTextElement) tag.fragments().get(0);
 		List<JavaDocRegion> regions= snippetTag.tagRegionsStartingAtTextElement(textElement);
 		List<JavaDocRegion> masterList= snippetTag.tagRegionsContainingTextElement(textElement);
 		masterList.removeAll(regions);
-		for (JavaDocRegion region : masterList) {
-			for (Object tagObj : region.tags()) {
+		for (JavaDocRegion region : masterList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object tagObj : region.tags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tagElements.add((TagElement) tagObj);
 			}
 		}
-		for (JavaDocRegion region : regions) {
-			for (Object tagObj : region.tags()) {
+		for (JavaDocRegion region : regions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object tagObj : region.tags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (tagObj instanceof TagElement) {
 					TagElement tagElem= (TagElement) tagObj;
 					Object prop= tagElem.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_INLINE_TAG_COUNT);
@@ -375,7 +375,7 @@ public class JavaDocSnippetStringEvaluator {
 						int val = ((Integer)prop).intValue();
 						ListIterator<TagElement> listIterator= tagElements.listIterator();
 						TagElement addBefore= null;
-						while (listIterator.hasNext()) {
+						while (listIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				           TagElement tElem=  listIterator.next();
 				           Object prop2= tElem.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_INLINE_TAG_COUNT);
 				           if (prop2 instanceof Integer) {
@@ -400,7 +400,7 @@ public class JavaDocSnippetStringEvaluator {
 			int val = ((Integer)prop3).intValue();
 			ListIterator<TagElement> listIterator= tagElements.listIterator();
 			TagElement addBefore= null;
-			while (listIterator.hasNext()) {
+			while (listIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		          TagElement tElem=  listIterator.next();
 		          Object prop2= tElem.getProperty(TagProperty.TAG_PROPERTY_SNIPPET_INLINE_TAG_COUNT);
 		          if (prop2 instanceof Integer) {
@@ -420,12 +420,12 @@ public class JavaDocSnippetStringEvaluator {
 		return tagElements;
 	}
 
-	private void handleSnippetHighlight(String text, TagElement tagElement, List<ActionElement> actionElements) {
+	private void handleSnippetHighlight(String text, TagElement tagElement, List<ActionElement> actionElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			List<? extends TagProperty> tagProperties= tagElement.tagProperties();
 			String defHighlight= getHighlightHtmlTag(tagProperties);
-			String startDefHighlight = '<' + defHighlight + '>';
-			String endDefHighlight = "</" + defHighlight + '>'; //$NON-NLS-1$
+			String startDefHighlight = '<' + defHighlight + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String endDefHighlight = "</" + defHighlight + '>'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String regExValue = getPropertyValue("regex", tagProperties); //$NON-NLS-1$
 			String subStringValue = getPropertyValue("substring", tagProperties); //$NON-NLS-1$
 			Pattern regexPattern = null;
@@ -433,13 +433,13 @@ public class JavaDocSnippetStringEvaluator {
 				regexPattern = Pattern.compile(regExValue);
 			}
 			if (regexPattern != null) {
-				Matcher matcher = regexPattern.matcher(text);
-				while (matcher.find()) {
+				Matcher matcher = regexPattern.matcher(text); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionElements.add(new ActionElement(matcher.start(), matcher.end(), startDefHighlight, endDefHighlight));
 				}
 			} else if (subStringValue != null) {
 				int startIndex = 0;
-				while ((startIndex = text.indexOf(subStringValue, startIndex)) != -1) {
+				while ((startIndex = text.indexOf(subStringValue, startIndex)) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionElements.add(new ActionElement(startIndex, startIndex + subStringValue.length(), startDefHighlight, endDefHighlight));
 					startIndex += subStringValue.length();
 				}
@@ -453,7 +453,7 @@ public class JavaDocSnippetStringEvaluator {
 		return;
 	}
 
-	private String handleSnippetReplace(String text, TagElement tagElement, List<ActionElement> actionElements) {
+	private String handleSnippetReplace(String text, TagElement tagElement, List<ActionElement> actionElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			List<? extends TagProperty> tagProperties= tagElement.tagProperties();
 			String regExValue = getPropertyValue("regex", tagProperties); //$NON-NLS-1$
@@ -465,20 +465,20 @@ public class JavaDocSnippetStringEvaluator {
 			}
 			String modifiedText = text;
 			if (regexPattern != null) {
-				Matcher matcher = regexPattern.matcher(modifiedText);
-				StringBuilder strBuild= new StringBuilder();
+				Matcher matcher = regexPattern.matcher(modifiedText); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+				StringBuilder strBuild= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				int finalMatchIndex = 0;
-				while (matcher.find()) {
+				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					finalMatchIndex = matcher.end();
 					modifyPrevActionItemsReplacement(matcher.start(), matcher.end(), substitution.length(), actionElements);
 					matcher.appendReplacement(strBuild, substitution);
 				}
-				modifiedText = strBuild.toString() + modifiedText.substring(finalMatchIndex);
+				modifiedText = strBuild.toString() + modifiedText.substring(finalMatchIndex); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else if (subStringValue != null) {
 				int startIndex = 0;
-				while ((startIndex = modifiedText.indexOf(subStringValue, startIndex)) != -1) {
+				while ((startIndex = modifiedText.indexOf(subStringValue, startIndex)) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					modifyPrevActionItemsReplacement(startIndex, startIndex+ subStringValue.length(), substitution.length(), actionElements);
-					modifiedText = modifiedText.substring(0, startIndex) + substitution + modifiedText.substring(startIndex + subStringValue.length());
+					modifiedText = modifiedText.substring(0, startIndex) + substitution + modifiedText.substring(startIndex + subStringValue.length()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					startIndex += substitution.length() ;
 				}
 			} else {
@@ -493,7 +493,7 @@ public class JavaDocSnippetStringEvaluator {
 	}
 
 
-	private void handleSnippetLink(String text, TagElement tagElement, List<ActionElement> actionElements) {
+	private void handleSnippetLink(String text, TagElement tagElement, List<ActionElement> actionElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			List<? extends TagProperty> tagProperties= tagElement.tagProperties();
 			String regExValue = getPropertyValue("regex", tagProperties); //$NON-NLS-1$
@@ -501,26 +501,26 @@ public class JavaDocSnippetStringEvaluator {
 			String additionalStartTag= getLinkHtmlTag(tagProperties);
 			String additionalEndTag= ""; //$NON-NLS-1$
 			if (additionalStartTag.length() > 0) {
-				additionalEndTag= "</" + additionalStartTag + '>'; //$NON-NLS-1$
-				additionalStartTag= '<' + additionalStartTag + '>';
+				additionalEndTag= "</" + additionalStartTag + '>'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				additionalStartTag= '<' + additionalStartTag + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			ASTNode target = getPropertyNodeValue("target", tagProperties); //$NON-NLS-1$
 			String linkRefTxt = getLinkRef(target);
-			String startDefLink = linkRefTxt + additionalStartTag;
-			String endDefLink = additionalEndTag+"</a>"; //$NON-NLS-1$
+			String startDefLink = linkRefTxt + additionalStartTag; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String endDefLink = additionalEndTag+"</a>"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Pattern regexPattern = null;
 			if (regExValue != null) {
 				regexPattern = Pattern.compile(regExValue);
 			}
 			String modifiedText = text;
 			if (regexPattern != null) {
-				Matcher matcher = regexPattern.matcher(modifiedText);
-				while (matcher.find()) {
+				Matcher matcher = regexPattern.matcher(modifiedText); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+				while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionElements.add(new ActionElement(matcher.start(), matcher.end(), startDefLink, endDefLink));
 				}
 			} else if (subStringValue != null) {
 				int startIndex = 0;
-				while ((startIndex = modifiedText.indexOf(subStringValue, startIndex)) != -1) {
+				while ((startIndex = modifiedText.indexOf(subStringValue, startIndex)) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionElements.add(new ActionElement(startIndex, startIndex+ subStringValue.length(), startDefLink, endDefLink));
 					startIndex = startIndex+ subStringValue.length() ;
 				}
@@ -538,7 +538,7 @@ public class JavaDocSnippetStringEvaluator {
 		return;
 	}
 
-	private String getLinkRef(ASTNode node) {
+	private String getLinkRef(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String str= ""; //$NON-NLS-1$
 		String refTypeName= null;
 		String refMemberName= null;
@@ -561,7 +561,7 @@ public class JavaDocSnippetStringEvaluator {
 			int ps= params.size();
 			refMethodParamTypes= new String[ps];
 			refMethodParamNames= new String[ps];
-			for (int i= 0; i < ps; i++) {
+			for (int i= 0; i < ps; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MethodRefParameter param= params.get(i);
 				refMethodParamTypes[i]= ASTNodes.asString(param.getType());
 				SimpleName paramName= param.getName();
@@ -584,10 +584,10 @@ public class JavaDocSnippetStringEvaluator {
 		return str;
 	}
 
-	private String getLinkHtmlTag(List<? extends ASTNode> tagProperties) {
+	private String getLinkHtmlTag(List<? extends ASTNode> tagProperties) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String defaultTag= "code"; //$NON-NLS-1$
 		if (tagProperties != null) {
-			for (ASTNode node : tagProperties) {
+			for (ASTNode node : tagProperties) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (node instanceof TagProperty) {
 					TagProperty tagProp = (TagProperty) node;
 					if ("type".equals(tagProp.getName())) { //$NON-NLS-1$
@@ -610,7 +610,7 @@ public class JavaDocSnippetStringEvaluator {
 	private String getPropertyValue(String property, List<? extends ASTNode> tagProperties) {
 		String defaultTag= null;
 		if (tagProperties != null && property!= null) {
-			for (ASTNode node : tagProperties) {
+			for (ASTNode node : tagProperties) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (node instanceof TagProperty) {
 					TagProperty tagProp = (TagProperty) node;
 					if (property.equals(tagProp.getName())) {
@@ -625,7 +625,7 @@ public class JavaDocSnippetStringEvaluator {
 	private ASTNode getPropertyNodeValue(String property, List<? extends ASTNode> tagProperties) {
 		ASTNode defaultTag= null;
 		if (tagProperties != null && property!= null) {
-			for (ASTNode node : tagProperties) {
+			for (ASTNode node : tagProperties) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (node instanceof TagProperty) {
 					TagProperty tagProp = (TagProperty) node;
 					if (property.equals(tagProp.getName())) {
@@ -638,10 +638,10 @@ public class JavaDocSnippetStringEvaluator {
 		return defaultTag;
 	}
 
-	private String getHighlightHtmlTag(List<? extends ASTNode> tagProperties) {
+	private String getHighlightHtmlTag(List<? extends ASTNode> tagProperties) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String defaultTag= "b"; //$NON-NLS-1$
 		if (tagProperties != null) {
-			for (ASTNode node : tagProperties) {
+			for (ASTNode node : tagProperties) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (node instanceof TagProperty) {
 					TagProperty tagProp = (TagProperty) node;
 					if ("type".equals(tagProp.getName())) { //$NON-NLS-1$

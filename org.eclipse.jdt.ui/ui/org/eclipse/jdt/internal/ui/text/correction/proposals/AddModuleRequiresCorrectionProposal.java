@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.IPackageFragment;
 
 import org.eclipse.jdt.ui.text.java.correction.ChangeCorrectionProposal;
 
-public class AddModuleRequiresCorrectionProposal extends ChangeCorrectionProposal {
+public class AddModuleRequiresCorrectionProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	private AddModuleRequiresCorrectionProposalCore fCore;
 	public AddModuleRequiresCorrectionProposal(AddModuleRequiresCorrectionProposalCore core) {
 		super(core.getName(), null, core.getRelevance());

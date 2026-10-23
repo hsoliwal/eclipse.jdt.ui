@@ -66,11 +66,11 @@ public class WorkingSetFilterActionGroup extends ActionGroup implements IWorking
 	private int fLRUMenuCount;
 	private IMenuManager fMenuManager;
 	private IMenuListener fMenuListener;
-	private List<IContributionItem> fContributions= new ArrayList<>();
+	private List<IContributionItem> fContributions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private final IWorkbenchPage fWorkbenchPage;
 	private boolean fAllowWindowWorkingSetByDefault;
 
-	public WorkingSetFilterActionGroup(IWorkbenchPartSite site, IPropertyChangeListener changeListener) {
+	public WorkingSetFilterActionGroup(IWorkbenchPartSite site, IPropertyChangeListener changeListener) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(site);
 		Assert.isNotNull(changeListener);
 
@@ -92,7 +92,7 @@ public class WorkingSetFilterActionGroup extends ActionGroup implements IWorking
 		}
 	}
 
-	public WorkingSetFilterActionGroup(Shell shell, IWorkbenchPage page, IPropertyChangeListener changeListener) {
+	public WorkingSetFilterActionGroup(Shell shell, IWorkbenchPage page, IPropertyChangeListener changeListener) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(shell);
 		Assert.isNotNull(changeListener);
 
@@ -225,7 +225,7 @@ public class WorkingSetFilterActionGroup extends ActionGroup implements IWorking
 			removePreviousLRUWorkingSetActions(manager);
 			addLRUWorkingSetActions(manager);
 		};
-		fMenuManager.addMenuListener(fMenuListener);
+		fMenuManager.addMenuListener(fMenuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 	}
 
 	private void add(IMenuManager mm, IAction action) {
@@ -240,7 +240,7 @@ public class WorkingSetFilterActionGroup extends ActionGroup implements IWorking
 	}
 
 	private void removePreviousLRUWorkingSetActions(IMenuManager mm) {
-		for (int i= 1; i < fLRUMenuCount; i++) {
+		for (int i= 1; i < fLRUMenuCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= WorkingSetMenuContributionItem.getId(i);
 			IContributionItem item= mm.remove(id);
 			if (item != null) {
@@ -259,7 +259,7 @@ public class WorkingSetFilterActionGroup extends ActionGroup implements IWorking
 			addLRUWorkingSetAction(mm, currId++, fWorkbenchPage.getAggregateWorkingSet());
 		}
 
-		for (IWorkingSet workingSet : workingSets) {
+		for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!workingSet.isAggregateWorkingSet()) {
 				addLRUWorkingSetAction(mm, currId++, workingSet);
 			}
@@ -276,7 +276,7 @@ public class WorkingSetFilterActionGroup extends ActionGroup implements IWorking
 
 	@Override
 	public void cleanViewMenu(IMenuManager menuManager) {
-		for (IContributionItem iContributionItem : fContributions) {
+		for (IContributionItem iContributionItem : fContributions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem removed= menuManager.remove(iContributionItem);
 			if (removed != null) {
 				removed.dispose();

@@ -83,7 +83,7 @@ public class ASTProviderTest extends CoreTests {
 		public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 			CompilationUnitChange result= new CompilationUnitChange("", fCu);
 
-			String text= "  private int " + getFieldName(fFieldNumber) + "=1;\n";
+			String text= "  private int " + getFieldName(fFieldNumber) + "=1;\n"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			int position= 33 + (fFieldNumber * text.length());
 			result.setEdit(new ReplaceEdit(position, 0, text));
 
@@ -96,7 +96,7 @@ public class ASTProviderTest extends CoreTests {
 		}
 
 		private static String getFieldName(int number) {
-			return "a"+getNormalizeNumber(number);
+			return "a"+getNormalizeNumber(number); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}
@@ -117,7 +117,7 @@ public class ASTProviderTest extends CoreTests {
 		TestUtils.waitForEditorJobs(60_000L, true);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug181257() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -129,7 +129,7 @@ public class ASTProviderTest extends CoreTests {
 
 		JavaUI.openInEditor(cu);
 
-		for (int i= 0; i < 100; i++) {
+		for (int i= 0; i < 100; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String expected= cu.getBuffer().getContents();
 			CompilationUnit ast= SharedASTProviderCore.getAST(cu, SharedASTProviderCore.WAIT_ACTIVE_ONLY, null);
 			assertNotNull(ast);
@@ -146,13 +146,13 @@ public class ASTProviderTest extends CoreTests {
 
 	private static String getNormalizeNumber(int number) {
 		if (number < 10) {
-			return "000" + number;
+			return "000" + number; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (number < 100) {
-			return "00" + number;
+			return "00" + number; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (number < 1000) {
-			return "0" + number;
+			return "0" + number; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
-			return "" + number;
+			return "" + number; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 }

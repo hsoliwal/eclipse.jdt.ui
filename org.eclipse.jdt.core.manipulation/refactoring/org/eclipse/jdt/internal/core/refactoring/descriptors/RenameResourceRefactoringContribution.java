@@ -37,7 +37,7 @@ import org.eclipse.jdt.core.refactoring.descriptors.RenameResourceDescriptor;
 @Deprecated
 public final class RenameResourceRefactoringContribution extends JavaRefactoringContribution {
 
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public Refactoring createRefactoring(JavaRefactoringDescriptor javaDescriptor, RefactoringStatus status) throws CoreException {
 		if (javaDescriptor instanceof RenameResourceDescriptor) {

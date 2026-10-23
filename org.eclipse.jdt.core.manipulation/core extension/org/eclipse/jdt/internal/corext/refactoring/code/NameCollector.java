@@ -27,7 +27,7 @@ import org.eclipse.jdt.internal.corext.dom.GenericVisitor;
 import org.eclipse.jdt.internal.corext.dom.Selection;
 
 class NameCollector extends GenericVisitor {
-	private List<String> names= new ArrayList<>();
+	private List<String> names= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private Selection fSelection;
 	public NameCollector(ASTNode node) {
 		fSelection= Selection.createFromStartLength(node.getStartPosition(), node.getLength());

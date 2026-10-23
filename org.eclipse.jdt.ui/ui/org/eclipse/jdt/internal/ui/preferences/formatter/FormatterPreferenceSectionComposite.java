@@ -27,8 +27,8 @@ public class FormatterPreferenceSectionComposite extends ExpandableComposite {
 
 	public FormatterPreferenceSectionComposite(Composite parent, int style, int expansionStyle) {
 		super(parent, style, expansionStyle);
-		textLabel.addListener(SWT.MouseEnter, unused -> fHasFocusBeforeClick= toggle.isFocusControl());
-		textLabel.addListener(SWT.MouseDown, e -> fExpandLock= !fHasFocusBeforeClick || e.button != 1);
+		textLabel.addListener(SWT.MouseEnter, unused -> fHasFocusBeforeClick= toggle.isFocusControl()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		textLabel.addListener(SWT.MouseDown, e -> fExpandLock= !fHasFocusBeforeClick || e.button != 1); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	@Override

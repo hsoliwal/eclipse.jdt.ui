@@ -57,7 +57,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitSwitchCaseLabelRuleStatement() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -117,7 +117,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpression1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -190,7 +190,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpression2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -270,7 +270,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpression3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -345,7 +345,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpression4() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -413,7 +413,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpression5() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -468,7 +468,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConvertToSwitchExpression1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -514,7 +514,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConvertToSwitchExpression2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -561,7 +561,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpression6() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -637,7 +637,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpression7() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -712,7 +712,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpression8() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -780,7 +780,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConvertToSwitchExpression3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -825,7 +825,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.SwitchExpressionsFix_convert_to_switch_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConvertToSwitchExpression4() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/2728
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -860,7 +860,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.SwitchExpressionsFix_convert_to_switch_expression);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnwrapCaseBlock1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -916,7 +916,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnwrapCaseBlock2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -972,7 +972,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnwrapCaseBlock3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1026,7 +1026,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUnwrapCaseBlock1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1066,7 +1066,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.SwitchCaseUnblockFix_unwrap_case_block);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUnwrapCaseBlock2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1107,7 +1107,7 @@ public class AssistQuickFixTest14 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.SwitchCaseUnblockFix_unwrap_case_block);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUnwrapCaseBlock3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);

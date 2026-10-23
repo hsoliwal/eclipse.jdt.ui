@@ -64,7 +64,7 @@ public class AdvancedQuickAssistTest10 extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitLocalVarTypeVariable1() throws Exception {
 		// 'if' in lambda body - positive cases
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -105,7 +105,7 @@ public class AdvancedQuickAssistTest10 extends QuickFixTest {
 		assertProposalPreviewEquals(buf, CorrectionMessages.QuickAssistProcessor_splitdeclaration_description, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitLocalVarTypeVariable2() throws Exception {
 		// 'if' in lambda body - positive cases
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -148,7 +148,7 @@ public class AdvancedQuickAssistTest10 extends QuickFixTest {
 		assertProposalPreviewEquals(buf, CorrectionMessages.QuickAssistProcessor_splitdeclaration_description, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitLocalVarTypeVariable3() throws Exception {
 		// 'if' in lambda body - positive cases
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -205,7 +205,7 @@ public class AdvancedQuickAssistTest10 extends QuickFixTest {
 		assertProposalPreviewEquals(buf, CorrectionMessages.QuickAssistProcessor_splitdeclaration_description, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitLocalVarTypeVariable4() throws Exception {
 		// 'if' in lambda body - positive cases
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -264,7 +264,7 @@ public class AdvancedQuickAssistTest10 extends QuickFixTest {
 		assertProposalPreviewEquals(buf, CorrectionMessages.QuickAssistProcessor_splitdeclaration_description, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarOptionAvailableForLocalVarTypeVariable() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String buf= """
@@ -290,8 +290,8 @@ public class AdvancedQuickAssistTest10 extends QuickFixTest {
 		ICompletionProposal proposal= findProposalByName(CorrectionMessages.AssignToVariableAssistProposal_assigntolocal_description, proposals);
 		ICompletionProposal proposal2=  findProposalByName(CorrectionMessages.AssignToVariableAssistProposal_assignintrywithresources_description, proposals);
 
-		assertNotNull("Proposal `" + CorrectionMessages.AssignToVariableAssistProposal_assigntolocal_description + "` missing",proposal);
-		assertNotNull("Proposal `" + CorrectionMessages.AssignToVariableAssistProposal_assignintrywithresources_description + "` missing",proposal2);
+		assertNotNull("Proposal `" + CorrectionMessages.AssignToVariableAssistProposal_assigntolocal_description + "` missing",proposal); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertNotNull("Proposal `" + CorrectionMessages.AssignToVariableAssistProposal_assignintrywithresources_description + "` missing",proposal2); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		assertLinkedChoicesContains(proposal, "type", choices);
         assertLinkedChoicesContains(proposal2, "type", choices);

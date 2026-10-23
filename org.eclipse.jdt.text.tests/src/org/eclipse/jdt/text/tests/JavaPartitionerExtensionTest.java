@@ -74,7 +74,7 @@ public class JavaPartitionerExtensionTest {
 
 		fDocumentPartitioningChanged= false;
 		fChangedDocumentPartitioning= null;
-		fDocument.addDocumentPartitioningListener(new PartitioningListener());
+		fDocument.addDocumentPartitioningListener(new PartitioningListener()); //FLLDCIM: MARK — T28 DOCUMENT_DELTA CALL
 	}
 
 	@AfterEach
@@ -89,11 +89,11 @@ public class JavaPartitionerExtensionTest {
 
 
 	protected String print(ITypedRegion r) {
-		return r != null ? "[" + r.getOffset() + "," + r.getLength() + "," + r.getType() + "]" : "null";
+		return r != null ? "[" + r.getOffset() + "," + r.getLength() + "," + r.getType() + "]" : "null"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String print(IRegion r) {
-		return r != null ? "[" + r.getOffset() + "," + r.getLength() + "]" : "null";
+		return r != null ? "[" + r.getOffset() + "," + r.getLength() + "]" : "null"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void check(int offset, int length) {

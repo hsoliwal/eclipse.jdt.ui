@@ -51,7 +51,7 @@ class BreadcrumbItemDetails {
 	private boolean fHasFocus;
 
 
-	public BreadcrumbItemDetails(BreadcrumbItem parent, Composite parentContainer) {
+	public BreadcrumbItemDetails(BreadcrumbItem parent, Composite parentContainer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fParent= parent;
 		fTextVisible= true;
 
@@ -70,7 +70,7 @@ class BreadcrumbItemDetails {
 		layout.marginHeight= 1;
 		layout.marginWidth= 2;
 		fImageComposite.setLayout(layout);
-		fImageComposite.addPaintListener(e -> {
+		fImageComposite.addPaintListener(e -> { //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 			if (fHasFocus && !isTextVisible()) {
 				e.gc.drawFocus(e.x, e.y, e.width, e.height);
 			}
@@ -90,7 +90,7 @@ class BreadcrumbItemDetails {
 		layout.marginWidth= 2;
 		fTextComposite.setLayout(layout);
 		addElementListener(fTextComposite);
-		fTextComposite.addPaintListener(e -> {
+		fTextComposite.addPaintListener(e -> { //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 			if (fHasFocus && isTextVisible()) {
 				e.gc.drawFocus(e.x, e.y, e.width, e.height);
 			}
@@ -194,7 +194,7 @@ class BreadcrumbItemDetails {
 		return result;
 	}
 
-	public void setTextVisible(boolean enabled) {
+	public void setTextVisible(boolean enabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTextVisible == enabled)
 			return;
 
@@ -269,8 +269,8 @@ class BreadcrumbItemDetails {
 	 *
 	 * @param composite the composite which may get focus
 	 */
-	private void installFocusComposite(Composite composite) {
-		composite.addTraverseListener(e -> {
+	private void installFocusComposite(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		composite.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
 				int index= fParent.getViewer().getIndexOfItem(fParent);
 				if (e.detail == SWT.TRAVERSE_TAB_NEXT) {
@@ -286,8 +286,8 @@ class BreadcrumbItemDetails {
 				e.doit= true;
 			}
 		});
-		composite.addKeyListener(new KeyListener() {
-			@Override
+		composite.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyPressed(KeyEvent e) {
 				BreadcrumbViewer viewer= fParent.getViewer();
 
@@ -353,7 +353,7 @@ class BreadcrumbItemDetails {
 			}
 		});
 
-		composite.addFocusListener(new FocusListener() {
+		composite.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusGained(FocusEvent e) {
 				if (!fHasFocus) {
@@ -375,8 +375,8 @@ class BreadcrumbItemDetails {
 	 *
 	 * @param control the control to which may be clicked
 	 */
-	private void addElementListener(Control control) {
-		control.addMouseListener(new MouseListener() {
+	private void addElementListener(Control control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		control.addMouseListener(new MouseListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 			}
@@ -402,7 +402,7 @@ class BreadcrumbItemDetails {
 			public void mouseUp(MouseEvent e) {
 			}
 		});
-		control.addMenuDetectListener(e -> {
+		control.addMenuDetectListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			BreadcrumbViewer viewer= fParent.getViewer();
 			viewer.selectItem(fParent);
 			fParent.getViewer().fireMenuDetect(e);

@@ -53,7 +53,7 @@ public class PropertiesFilePartitionerTest {
 		//             01234567890 1234567890 1234567890 123456789
 
 		fDocumentPartitioningChanged= false;
-		fDocument.addDocumentPartitioningListener(unused -> fDocumentPartitioningChanged= true);
+		fDocument.addDocumentPartitioningListener(unused -> fDocumentPartitioningChanged= true); //FLLDCIM: MARK — T28 DOCUMENT_DELTA CALL
 	}
 
 	@AfterEach
@@ -67,22 +67,22 @@ public class PropertiesFilePartitionerTest {
 	}
 
 	protected String print(ITypedRegion r) {
-		return "[" + r.getOffset() + "," + r.getLength() + "," + r.getType() + "]";
+		return "[" + r.getOffset() + "," + r.getLength() + "," + r.getType() + "]"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void checkPartitioning(ITypedRegion[] expectation, ITypedRegion[] result) {
 
 		assertEquals(expectation.length, result.length, "invalid number of partitions:");
 
-		for (int i= 0; i < expectation.length; i++) {
+		for (int i= 0; i < expectation.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypedRegion e= expectation[i];
 			ITypedRegion r= result[i];
-			assertEquals(r, e, "was: " + print(r) + ", expected: " + print(e));
+			assertEquals(r, e, "was: " + print(r) + ", expected: " + print(e)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInitialPartitioning() {
 		try {
 			ITypedRegion[] result= fDocument.computePartitioning(IPropertiesFilePartitions.PROPERTIES_FILE_PARTITIONING, 0, fDocument.getLength(), false);
@@ -104,7 +104,7 @@ public class PropertiesFilePartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPartitioningWithEndingEscape() {
 		try {
 			fDocument.replace(40, 0, "\n key value\\n\nkey value\n");
@@ -131,7 +131,7 @@ public class PropertiesFilePartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPartitioningWithLeadingWhitespace() {
 		try {
 			fDocument.replace(40, 0, "\n key value\n  key value\n\tkey value\n\t\tkey value");
@@ -162,7 +162,7 @@ public class PropertiesFilePartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIntraPartitionChange1() {
 		try {
 
@@ -189,7 +189,7 @@ public class PropertiesFilePartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIntraPartitionChange2() {
 		try {
 
@@ -216,7 +216,7 @@ public class PropertiesFilePartitionerTest {
 			}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInsertNewPartition() {
 		try {
 
@@ -245,7 +245,7 @@ public class PropertiesFilePartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveCommentPartition() {
 		try {
 
@@ -271,7 +271,7 @@ public class PropertiesFilePartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveValuePartition() {
 
 		fDocumentPartitioningChanged= false;
@@ -301,7 +301,7 @@ public class PropertiesFilePartitionerTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJoinPartitions1() {
 		try {
 
@@ -326,7 +326,7 @@ public class PropertiesFilePartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJoinPartitions2() {
 		try {
 
@@ -352,7 +352,7 @@ public class PropertiesFilePartitionerTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitPartition1() {
 
 		testJoinPartitions1();
@@ -396,8 +396,8 @@ public class PropertiesFilePartitionerTest {
 	public void testPartitionFinder() {
 		try {
 
-			for (ITypedRegion expected : fDocument.computePartitioning(IPropertiesFilePartitions.PROPERTIES_FILE_PARTITIONING, 0, fDocument.getLength(), false)) {
-				for (int j= 0; j < expected.getLength(); j++) {
+			for (ITypedRegion expected : fDocument.computePartitioning(IPropertiesFilePartitions.PROPERTIES_FILE_PARTITIONING, 0, fDocument.getLength(), false)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (int j= 0; j < expected.getLength(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypedRegion result= fDocument.getPartition(IPropertiesFilePartitions.PROPERTIES_FILE_PARTITIONING, expected.getOffset() + j, false);
 					assertEquals(expected, result);
 				}

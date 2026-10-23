@@ -131,8 +131,8 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 
 	public static class TypeVariableFinder extends ASTVisitor {
 
-		private final Map<String, ITypeBinding> fBindings= new HashMap<>();
-		private final List<ITypeBinding> fFound= new ArrayList<>();
+		private final Map<String, ITypeBinding> fBindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		private final List<ITypeBinding> fFound= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		@Override
 		public final boolean visit(final SimpleName node) {
@@ -280,7 +280,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
     	return StubUtility.doAddComments(fCu.getJavaProject());
     }
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
         RefactoringStatus result= Checks.validateModifiesFiles(
         	ResourceUtil.getFiles(new ICompilationUnit[]{fCu}),
@@ -306,7 +306,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         fDeclareStatic = mustInnerClassBeStatic();
     }
 
-    private void initAST(IProgressMonitor pm) {
+    private void initAST(IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	if (fCompilationUnitNode == null) {
     		fCompilationUnitNode= RefactoringASTParser.parseWithASTProvider(fCu, true, pm);
     	}
@@ -317,15 +317,15 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 			final AbstractTypeDeclaration declaration= ASTNodes.getParent(fAnonymousInnerClassNode, AbstractTypeDeclaration.class);
 			if (declaration instanceof TypeDeclaration) {
 				final AbstractTypeDeclaration[] nested= ((TypeDeclaration) declaration).getTypes();
-				fClassNamesUsed= new HashSet<>(nested.length);
-				for (AbstractTypeDeclaration element : nested)
+				fClassNamesUsed= new HashSet<>(nested.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (AbstractTypeDeclaration element : nested) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fClassNamesUsed.add(element.getName().getIdentifier());
 			} else
 				fClassNamesUsed= Collections.emptySet();
 		}
 	}
 
-    private static AnonymousClassDeclaration getAnonymousInnerClass(ASTNode node) {
+    private static AnonymousClassDeclaration getAnonymousInnerClass(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if (node == null)
             return null;
         if (node instanceof AnonymousClassDeclaration)
@@ -365,10 +365,10 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         List<IVariableBinding> anonymousInnerFieldTypes = getAllEnclosingAnonymousTypesField();
         List<IBinding> accessedField = getAllAccessedFields();
         final Iterator<IVariableBinding> it = anonymousInnerFieldTypes.iterator();
-        while(it.hasNext()) {
+        while(it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             final IVariableBinding variableBinding = it.next();
             final Iterator<IBinding> it2 = accessedField.iterator();
-            while (it2.hasNext()) {
+            while (it2.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 IVariableBinding variableBinding2 = (IVariableBinding) it2.next();
                 if(Bindings.equals(variableBinding, variableBinding2)) {
                     return true;
@@ -378,8 +378,8 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         return false;
     }
 
-	private List<IBinding> getAllAccessedFields() {
-		final List<IBinding> accessedFields= new ArrayList<>();
+	private List<IBinding> getAllAccessedFields() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<IBinding> accessedFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		ASTVisitor visitor= new ASTVisitor() {
 
@@ -427,10 +427,10 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 	}
 
     private List<IVariableBinding> getAllEnclosingAnonymousTypesField() {
-		final List<IVariableBinding> ans= new ArrayList<>();
+		final List<IVariableBinding> ans= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final AbstractTypeDeclaration declaration= ASTNodes.getParent(fAnonymousInnerClassNode, AbstractTypeDeclaration.class);
 		AnonymousClassDeclaration anonymous= (AnonymousClassDeclaration) ASTNodes.getParent(fAnonymousInnerClassNode, ASTNode.ANONYMOUS_CLASS_DECLARATION);
-		while (anonymous != null) {
+		while (anonymous != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ASTNodes.isParent(anonymous, declaration)) {
 				ITypeBinding binding= anonymous.resolveBinding();
 				if (binding != null) {
@@ -446,7 +446,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 
     private boolean classNameHidesEnclosingType() {
         ITypeBinding type= ASTNodes.getParent(fAnonymousInnerClassNode, AbstractTypeDeclaration.class).resolveBinding();
-        while (type != null) {
+        while (type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (fClassName.equals(type.getName()))
                 return true;
             type= type.getDeclaringClass();
@@ -489,7 +489,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		return result;
 	}
 
-	private ITypeBinding[] getImpliedClassCreationTypeParameters() {
+	private ITypeBinding[] getImpliedClassCreationTypeParameters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ClassInstanceCreation creation= (ClassInstanceCreation) fAnonymousInnerClassNode.getParent();
 		// In assignments and variable declaration statements, a type parameter might exist in the
 		// left side of the statement and implied in the class creation (e.g. Set<String> x= new HashSet<>();)
@@ -522,8 +522,8 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		return new ITypeBinding[0];
 	}
 
-	private ITypeBinding[] getTypeParameters() {
-		final List<ITypeBinding> parameters= new ArrayList<>(4);
+	private ITypeBinding[] getTypeParameters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<ITypeBinding> parameters= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final ClassInstanceCreation creation= (ClassInstanceCreation) fAnonymousInnerClassNode.getParent();
 		if (fDeclareStatic) {
 			final TypeVariableFinder finder= new TypeVariableFinder();
@@ -534,7 +534,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 			if (declaration != null) {
 				ITypeBinding binding= null;
 				TypeParameter parameter= null;
-				for (final Iterator<TypeParameter> iterator= declaration.typeParameters().iterator(); iterator.hasNext();) {
+				for (final Iterator<TypeParameter> iterator= declaration.typeParameters().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					parameter= iterator.next();
 					binding= parameter.resolveBinding();
 					if (binding != null)
@@ -545,14 +545,14 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		final TypeVariableFinder finder= new TypeVariableFinder();
 		creation.accept(finder);
 		final ITypeBinding[] variables= finder.getResult();
-		final List<ITypeBinding> remove= new ArrayList<>(4);
+		final List<ITypeBinding> remove= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean match= false;
 		ITypeBinding binding= null;
 		ITypeBinding variable= null;
-		for (final Iterator<ITypeBinding> iterator= parameters.iterator(); iterator.hasNext();) {
+		for (final Iterator<ITypeBinding> iterator= parameters.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			match= false;
 			binding= iterator.next();
-			for (ITypeBinding variable2 : variables) {
+			for (ITypeBinding variable2 : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				variable= variable2;
 				if (variable.equals(binding))
 					match= true;
@@ -578,10 +578,10 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		return null;
 	}
 
-	private RefactoringChangeDescriptor createRefactoringDescriptor() {
+	private RefactoringChangeDescriptor createRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ITypeBinding binding= fAnonymousInnerClassNode.resolveBinding();
 		final String[] labels= new String[] { BindingLabelProviderCore.getBindingLabel(binding, JavaElementLabelsCore.ALL_FULLY_QUALIFIED), BindingLabelProviderCore.getBindingLabel(binding.getDeclaringMethod(), JavaElementLabelsCore.ALL_FULLY_QUALIFIED)};
-		final Map<String, String> arguments= new HashMap<>();
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final String projectName= fCu.getJavaProject().getElementName();
 		final int flags= RefactoringDescriptor.STRUCTURAL_CHANGE | JavaRefactoringDescriptor.JAR_REFACTORING | JavaRefactoringDescriptor.JAR_SOURCE_ATTACHMENT;
 		final String description= RefactoringCoreMessages.ConvertAnonymousToNestedRefactoring_descriptor_description_short;
@@ -601,7 +601,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 			comment.addSetting(RefactoringCoreMessages.ConvertAnonymousToNestedRefactoring_declare_static);
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(projectName, fCu));
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_NAME, fClassName);
-		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + ' ' + Integer.toString(fSelectionLength));
+		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + ' ' + Integer.toString(fSelectionLength)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		arguments.put(ATTRIBUTE_FINAL, Boolean.toString(fDeclareFinal));
 		arguments.put(ATTRIBUTE_STATIC, Boolean.toString(fDeclareStatic));
 		arguments.put(ATTRIBUTE_VISIBILITY, Integer.toString(fVisibility));
@@ -614,7 +614,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		rewrite.getASTRewrite().replace(fAnonymousInnerClassNode.getParent(), createNewClassInstanceCreation(rewrite, parameters), null);
 	}
 
-	private ASTNode createNewClassInstanceCreation(CompilationUnitRewrite rewrite, ITypeBinding[] parameters) {
+	private ASTNode createNewClassInstanceCreation(CompilationUnitRewrite rewrite, ITypeBinding[] parameters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= fAnonymousInnerClassNode.getAST();
 		ClassInstanceCreation newClassCreation= ast.newClassInstanceCreation();
 		newClassCreation.setAnonymousClassDeclaration(null);
@@ -622,7 +622,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		SimpleName newNameNode= ast.newSimpleName(fClassName);
 		if (parameters.length > 0) {
 			final ParameterizedType parameterized= ast.newParameterizedType(ast.newSimpleType(newNameNode));
-			for (ITypeBinding parameter : parameters)
+			for (ITypeBinding parameter : parameters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameterized.typeArguments().add(ast.newSimpleType(ast.newSimpleName(parameter.getName())));
 			type= parameterized;
 		} else
@@ -644,7 +644,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 	}
 
 	private void addArgumentsForLocalsUsedInInnerClass(ClassInstanceCreation newClassCreation) {
-        for (final IVariableBinding binding : getUsedLocalVariables()) {
+        for (final IVariableBinding binding : getUsedLocalVariables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             final AST ast= fAnonymousInnerClassNode.getAST();
 			Name name= null;
 			if (binding.isEnumConstant())
@@ -655,7 +655,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         }
     }
 
-    private void copyArguments(CompilationUnitRewrite rewrite, ClassInstanceCreation newClassCreation) {
+    private void copyArguments(CompilationUnitRewrite rewrite, ClassInstanceCreation newClassCreation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	Iterator<Expression> iter= ((ClassInstanceCreation) fAnonymousInnerClassNode.getParent()).arguments().iterator();
     	if (!iter.hasNext())
     		return;
@@ -667,7 +667,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		ASTRewrite astRewrite= rewrite.getASTRewrite();
 		int last= parameterTypes.length - 1;
 
-		for (int i= 0; i < last; i++) {
+		for (int i= 0; i < last; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			arguments.add((Expression) astRewrite.createCopyTarget(iter.next()));
 		}
     	if (superConstructorBinding.isVarargs()) {
@@ -679,7 +679,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
     		arguments.add(arrayCreation);
     		arguments= initializer.expressions();
     	}
-    	while (iter.hasNext()) {
+    	while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     		arguments.add((Expression) astRewrite.createCopyTarget(iter.next()));
     	}
     }
@@ -693,7 +693,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
     }
 
     private static int findIndexOfFistNestedClass(List<BodyDeclaration> list) {
-        for (int i= 0, n= list.size(); i < n; i++) {
+        for (int i= 0, n= list.size(); i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             BodyDeclaration each= list.get(i);
             if (isNestedType(each))
                 return i;
@@ -707,7 +707,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         return (each.getParent() instanceof AbstractTypeDeclaration);
     }
 
-    private AbstractTypeDeclaration createNewNestedClass(CompilationUnitRewrite rewrite, ITypeBinding[] typeParameters, ITypeBinding[] impliedSuperTypeParameters) throws CoreException {
+    private AbstractTypeDeclaration createNewNestedClass(CompilationUnitRewrite rewrite, ITypeBinding[] typeParameters, ITypeBinding[] impliedSuperTypeParameters) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final AST ast= fAnonymousInnerClassNode.getAST();
 
 		final TypeDeclaration newDeclaration= ast.newTypeDeclaration();
@@ -717,7 +717,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		newDeclaration.setName(ast.newSimpleName(fClassName));
 
 		TypeParameter parameter= null;
-		for (ITypeBinding typeParameter : typeParameters) {
+		for (ITypeBinding typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parameter= ast.newTypeParameter();
 			parameter.setName(ast.newSimpleName(typeParameter.getName()));
 			newDeclaration.typeParameters().add(parameter);
@@ -727,16 +727,16 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		IJavaProject project= fCu.getJavaProject();
 
 		IVariableBinding[] bindings= getUsedLocalVariables();
-		ArrayList<String> fieldNames= new ArrayList<>();
-		for (int i= 0; i < bindings.length; i++) {
+		ArrayList<String> fieldNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= StubUtility.getBaseName(bindings[i], project);
 			String[] fieldNameProposals= StubUtility.getVariableNameSuggestions(NamingConventions.VK_INSTANCE_FIELD, project, name, 0, fieldNames, true);
 			fieldNames.add(fieldNameProposals[0]);
 
 
 			if (fLinkedProposalModelCore != null) {
-				LinkedProposalPositionGroupCore positionGroup= fLinkedProposalModelCore.getPositionGroup(KEY_FIELD_NAME_EXT + i, true);
-				for (int k= 0; k < fieldNameProposals.length; k++) {
+				LinkedProposalPositionGroupCore positionGroup= fLinkedProposalModelCore.getPositionGroup(KEY_FIELD_NAME_EXT + i, true); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				for (int k= 0; k < fieldNameProposals.length; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					positionGroup.addProposal(fieldNameProposals[k], fieldNameProposals.length - k);
 				}
 			}
@@ -756,7 +756,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 
 		if (doAddComments()) {
 			String[] parameterNames= new String[typeParameters.length];
-			for (int index= 0; index < parameterNames.length; index++) {
+			for (int index= 0; index < parameterNames.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameterNames[index]= typeParameters[index].getName();
 			}
 			String string= CodeGeneration.getTypeComment(rewrite.getCu(), fClassName, parameterNames, StubUtility.getLineDelimiterUsed(fCu));
@@ -773,7 +773,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		return newDeclaration;
 	}
 
-	private void updateAndMoveBodyDeclarations(CompilationUnitRewrite rewriter, IVariableBinding[] bindings, String[] fieldNames, List<BodyDeclaration> newBodyDeclarations, MethodDeclaration newConstructorDecl) {
+	private void updateAndMoveBodyDeclarations(CompilationUnitRewrite rewriter, IVariableBinding[] bindings, String[] fieldNames, List<BodyDeclaration> newBodyDeclarations, MethodDeclaration newConstructorDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ASTRewrite astRewrite= rewriter.getASTRewrite();
 		final AST ast= astRewrite.getAST();
 
@@ -781,12 +781,12 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 
 		int fieldInsertIndex= newConstructorDecl != null ? newBodyDeclarations.lastIndexOf(newConstructorDecl) : newBodyDeclarations.size();
 
-		for (Iterator<BodyDeclaration> iterator= fAnonymousInnerClassNode.bodyDeclarations().iterator(); iterator.hasNext();) {
+		for (Iterator<BodyDeclaration> iterator= fAnonymousInnerClassNode.bodyDeclarations().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BodyDeclaration body= iterator.next();
 
-			for (int i= 0; i < bindings.length; i++) {
+			for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String fieldName= fieldNames[i];
-				for (SimpleName name : LinkedNodeFinder.findByBinding(body, bindings[i])) {
+				for (SimpleName name : LinkedNodeFinder.findByBinding(body, bindings[i])) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SimpleName newNode= ast.newSimpleName(fieldName);
 					if (useThisAccess) {
 						FieldAccess access= ast.newFieldAccess();
@@ -796,7 +796,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 					} else {
 						astRewrite.replace(name, newNode, null);
 					}
-					addLinkedPosition(KEY_FIELD_NAME_EXT + i, newNode, astRewrite, false);
+					addLinkedPosition(KEY_FIELD_NAME_EXT + i, newNode, astRewrite, false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			if (body instanceof Initializer || body instanceof FieldDeclaration) {
@@ -810,7 +810,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 			// move initialization of existing fields to constructor if an outer is referenced
 			List<Statement> bodyStatements= newConstructorDecl.getBody().statements();
 
-			for (VariableDeclarationFragment fragment : getFieldsToInitializeInConstructor()) {
+			for (VariableDeclarationFragment fragment : getFieldsToInitializeInConstructor()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression initializer= fragment.getInitializer();
 				Expression replacement= (Expression) astRewrite.get(fragment, VariableDeclarationFragment.INITIALIZER_PROPERTY);
 				if (replacement == initializer) {
@@ -823,12 +823,12 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		}
 	}
 
-    private void createFieldsForAccessedLocals(CompilationUnitRewrite rewrite, IVariableBinding[] varBindings, String[] fieldNames, List<BodyDeclaration> newBodyDeclarations) throws CoreException {
+    private void createFieldsForAccessedLocals(CompilationUnitRewrite rewrite, IVariableBinding[] varBindings, String[] fieldNames, List<BodyDeclaration> newBodyDeclarations) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ImportRewrite importRewrite= rewrite.getImportRewrite();
 		final ASTRewrite astRewrite= rewrite.getASTRewrite();
 		final AST ast= astRewrite.getAST();
 
-		for (int i= 0; i < varBindings.length; i++) {
+		for (int i= 0; i < varBindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment fragment= ast.newVariableDeclarationFragment();
 			fragment.setInitializer(null);
 			fragment.setName(ast.newSimpleName(fieldNames[i]));
@@ -846,7 +846,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 
 			newBodyDeclarations.add(field);
 
-			addLinkedPosition(KEY_FIELD_NAME_EXT + i, fragment.getName(), astRewrite, false);
+			addLinkedPosition(KEY_FIELD_NAME_EXT + i, fragment.getName(), astRewrite, false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -858,10 +858,10 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 
 
     private IVariableBinding[] getUsedLocalVariables() {
-        final Set<IBinding> result= new HashSet<>(0);
+        final Set<IBinding> result= new HashSet<>(0); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
         collectRefrencedVariables(fAnonymousInnerClassNode, result);
-        ArrayList<IVariableBinding> usedLocals= new ArrayList<>();
-        for (IBinding iBinding : result) {
+        ArrayList<IVariableBinding> usedLocals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+        for (IBinding iBinding : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         	IVariableBinding next= (IVariableBinding) iBinding;
 			if (isBindingToTemp(next)) {
         		usedLocals.add(next);
@@ -893,7 +893,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		return true;
 	}
 
-    private MethodDeclaration createNewConstructor(CompilationUnitRewrite rewrite, IVariableBinding[] bindings, String[] fieldNames) throws JavaModelException {
+    private MethodDeclaration createNewConstructor(CompilationUnitRewrite rewrite, IVariableBinding[] bindings, String[] fieldNames) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	ClassInstanceCreation instanceCreation= (ClassInstanceCreation) fAnonymousInnerClassNode.getParent();
 
     	if (instanceCreation.arguments().isEmpty() && bindings.length == 0)
@@ -916,7 +916,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		List<Statement> newStatements= newConstructor.getBody().statements();
 
         List<SingleVariableDeclaration> newParameters= newConstructor.parameters();
-        List<String> newParameterNames= new ArrayList<>();
+        List<String> newParameterNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
         // add parameters for elements passed with the instance creation
         if (!instanceCreation.arguments().isEmpty()) {
@@ -925,7 +925,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         		SuperConstructorInvocation superConstructorInvocation= ast.newSuperConstructorInvocation();
     			ITypeBinding[] parameterTypes= constructorBinding.getParameterTypes();
     	        String[][] parameterNames= StubUtility.suggestArgumentNamesWithProposals(project, constructorBinding);
-    	        for (int i= 0; i < parameterNames.length; i++) {
+    	        for (int i= 0; i < parameterNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     	        	String[] nameProposals= parameterNames[i];
     	        	String paramName= nameProposals[0];
 
@@ -937,10 +937,10 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 					superConstructorInvocation.arguments().add(newSIArgument);
 
 					if (fLinkedProposalModelCore != null) {
-						LinkedProposalPositionGroupCore positionGroup= fLinkedProposalModelCore.getPositionGroup(KEY_PARAM_NAME_CONST+ String.valueOf(i), true);
+						LinkedProposalPositionGroupCore positionGroup= fLinkedProposalModelCore.getPositionGroup(KEY_PARAM_NAME_CONST+ String.valueOf(i), true); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						positionGroup.addPosition(astRewrite.track(param.getName()), false);
 						positionGroup.addPosition(astRewrite.track(newSIArgument), false);
-	        	        for (int k= 0; k < nameProposals.length; k++) {
+	        	        for (int k= 0; k < nameProposals.length; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        	        	positionGroup.addProposal(nameProposals[k], nameProposals.length - k);
 						}
 					}
@@ -950,7 +950,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         }
         // add parameters for all outer variables used
         boolean useThisAccess= useThisForFieldAccess();
-        for (int i= 0; i < bindings.length; i++) {
+        for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         	String baseName= StubUtility.getBaseName(bindings[i], project);
         	String[] paramNameProposals= StubUtility.getVariableNameSuggestions(NamingConventions.VK_PARAMETER, project, baseName, 0, newParameterNames, true);
         	String paramName= paramNameProposals[0];
@@ -965,14 +965,14 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 			newStatements.add(newFieldAssignment(ast, fieldNameNode, paramNameNode, useThisAccess || newParameterNames.contains(fieldName)));
 
 			if (fLinkedProposalModelCore != null) {
-				LinkedProposalPositionGroupCore positionGroup= fLinkedProposalModelCore.getPositionGroup(KEY_PARAM_NAME_EXT+ String.valueOf(i), true);
+				LinkedProposalPositionGroupCore positionGroup= fLinkedProposalModelCore.getPositionGroup(KEY_PARAM_NAME_EXT+ String.valueOf(i), true); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				positionGroup.addPosition(astRewrite.track(param.getName()), false);
 				positionGroup.addPosition(astRewrite.track(paramNameNode), false);
-    	        for (int k= 0; k < paramNameProposals.length; k++) {
+    	        for (int k= 0; k < paramNameProposals.length; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     	        	positionGroup.addProposal(paramNameProposals[k], paramNameProposals.length - k);
 				}
 
-    	        fLinkedProposalModelCore.getPositionGroup(KEY_FIELD_NAME_EXT + i, true).addPosition(astRewrite.track(fieldNameNode), false);
+    	        fLinkedProposalModelCore.getPositionGroup(KEY_FIELD_NAME_EXT + i, true).addPosition(astRewrite.track(fieldNameNode), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -1012,12 +1012,12 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 
     // live List of VariableDeclarationFragments
     private List<VariableDeclarationFragment> getFieldsToInitializeInConstructor() {
-        List<VariableDeclarationFragment> result= new ArrayList<>(0);
-        for (Iterator<BodyDeclaration> iter= fAnonymousInnerClassNode.bodyDeclarations().iterator(); iter.hasNext(); ) {
+        List<VariableDeclarationFragment> result= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+        for (Iterator<BodyDeclaration> iter= fAnonymousInnerClassNode.bodyDeclarations().iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             Object element= iter.next();
             if (element instanceof FieldDeclaration) {
             	List<VariableDeclarationFragment> fragments= ((FieldDeclaration) element).fragments();
-                for (VariableDeclarationFragment fragment : fragments) {
+                for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                     if (isToBeInitializerInConstructor(fragment, result))
                         result.add(fragment);
                 }
@@ -1031,12 +1031,12 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
     }
 
     private boolean areLocalsUsedIn(Expression fieldInitializer, List<VariableDeclarationFragment> fieldsToInitialize) {
-        Set<IBinding> localsUsed= new HashSet<>(0);
+        Set<IBinding> localsUsed= new HashSet<>(0); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
         collectRefrencedVariables(fieldInitializer, localsUsed);
 
         ITypeBinding anonType= fAnonymousInnerClassNode.resolveBinding();
 
-        for (IBinding iBinding : localsUsed) {
+        for (IBinding iBinding : localsUsed) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding curr= (IVariableBinding) iBinding;
 			if (isBindingToTemp(curr) // Reference a local from outside
 					|| (curr.isField() && curr.getDeclaringClass() == anonType && fieldsToInitialize.contains(fCompilationUnitNode.findDeclaringNode(curr)))) { // References a field that references a local from outside
@@ -1053,7 +1053,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         if (anonConstr == null)
             return null;
         ITypeBinding superClass= anonConstr.getDeclaringClass().getSuperclass();
-        for (IMethodBinding superMethod : superClass.getDeclaredMethods()) {
+        for (IMethodBinding superMethod : superClass.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (superMethod.isConstructor() && parameterTypesMatch(superMethod, anonConstr))
                 return superMethod;
         }
@@ -1066,7 +1066,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         ITypeBinding[] m2Params= m2.getParameterTypes();
         if (m1Params.length != m2Params.length)
             return false;
-        for (int i= 0; i < m2Params.length; i++) {
+        for (int i= 0; i < m2Params.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (!m1Params[i].equals(m2Params[i]))
                 return false;
         }
@@ -1077,7 +1077,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         IMethodBinding constructorBinding= getSuperConstructorBinding();
         if (constructorBinding == null)
             return;
-        for (ITypeBinding exception : constructorBinding.getExceptionTypes()) {
+        for (ITypeBinding exception : constructorBinding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type exceptionType= importRewrite.addImport(exception, fAnonymousInnerClassNode.getAST());
 			newConstructor.thrownExceptionTypes().add(exceptionType);
         }
@@ -1090,7 +1090,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 		return param;
     }
 
-    private void setSuperType(CompilationUnitRewrite rewrite, TypeDeclaration declaration, ITypeBinding[] impliedSuperTypeParameters) {
+    private void setSuperType(CompilationUnitRewrite rewrite, TypeDeclaration declaration, ITypeBinding[] impliedSuperTypeParameters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ClassInstanceCreation classInstanceCreation= (ClassInstanceCreation) fAnonymousInnerClassNode.getParent();
 		ITypeBinding binding= classInstanceCreation.resolveTypeBinding();
 		if (binding == null)
@@ -1104,7 +1104,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
 			Type oldType= classInstanceCreation.getType();
 			Type newBaseType= (Type) ASTNode.copySubtree(ast, ((ParameterizedType) oldType).getType());
 			newType= ast.newParameterizedType(newBaseType);
-			for (ITypeBinding impliedTypeBinding : impliedSuperTypeParameters) {
+			for (ITypeBinding impliedTypeBinding : impliedSuperTypeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type type= importRewriter.addImport(impliedTypeBinding, ast);
 				((ParameterizedType) newType).typeArguments().add(type);
 			}
@@ -1137,11 +1137,11 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         return flags;
     }
 
-    public boolean mustInnerClassBeStatic() {
+    public boolean mustInnerClassBeStatic() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         ITypeBinding typeBinding = ASTNodes.getParent(fAnonymousInnerClassNode, AbstractTypeDeclaration.class).resolveBinding();
         ASTNode current = fAnonymousInnerClassNode.getParent();
         boolean ans = false;
-        while(current != null) {
+        while(current != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             switch(current.getNodeType()) {
 				case ASTNode.SUPER_CONSTRUCTOR_INVOCATION:
 				case ASTNode.CONSTRUCTOR_INVOCATION:
@@ -1188,7 +1188,7 @@ public class ConvertAnonymousToNestedRefactoring extends Refactoring {
         return ans;
     }
 
-    private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+    private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSelfInitializing= true;
 		final String handle= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {

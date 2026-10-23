@@ -90,7 +90,7 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 		super(name);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -185,9 +185,9 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 	}
 
 	private void measureCompletionNoParameters(PerformanceMeter meter, final int runs) throws Exception {
-		for (int run= 0; run < runs; run++) {
+		for (int run= 0; run < runs; run++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			meter.start();
-			for (int accumulated= 0; accumulated < ACC_COMPLETION; accumulated++) {
+			for (int accumulated= 0; accumulated < ACC_COMPLETION; accumulated++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				CompletionProposalCollector collector= createCollector();
 				codeComplete(collector);
@@ -198,12 +198,12 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 	}
 
 	private void measureApplicationNoParameters(PerformanceMeter meter, final int runs) throws Exception {
-		for (int run= 0; run < runs; run++) {
+		for (int run= 0; run < runs; run++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CompletionProposalCollector collector= createCollector();
 			IJavaCompletionProposal[] proposals= codeComplete(collector);
 
 			meter.start();
-			for (int accumulated= 0; accumulated < ACC_APPLICATION; accumulated++) {
+			for (int accumulated= 0; accumulated < ACC_APPLICATION; accumulated++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				applyProposal(proposals[0]);
 				applyProposal(proposals[2]);
@@ -229,10 +229,10 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 	}
 
 	private void measureCompletionWithParamterNames(PerformanceMeter meter, final int runs) throws Exception {
-		for (int run= 0; run < runs; run++) {
+		for (int run= 0; run < runs; run++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			meter.start();
 
-			for (int accumulated= 0; accumulated < ACC_COMPLETION; accumulated++) {
+			for (int accumulated= 0; accumulated < ACC_COMPLETION; accumulated++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CompletionProposalCollector collector= new FillArgumentNamesCompletionProposalCollector(createContext());
 				collector.setIgnored(CompletionProposal.METHOD_REF, false);
 				codeComplete(collector);
@@ -251,14 +251,14 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 	}
 
 	private void measureApplicationWithParamterNames(PerformanceMeter meter, final int runs) throws Exception {
-		for (int run= 0; run < runs; run++) {
+		for (int run= 0; run < runs; run++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CompletionProposalCollector collector= new FillArgumentNamesCompletionProposalCollector(createContext());
 			collector.setIgnored(CompletionProposal.METHOD_REF, false);
 			IJavaCompletionProposal[] proposals= codeComplete(collector);
 
 			meter.start();
 
-			for (int accumulated= 0; accumulated < ACC_APPLICATION; accumulated++) {
+			for (int accumulated= 0; accumulated < ACC_APPLICATION; accumulated++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				applyProposal(proposals[0]);
 				applyProposal(proposals[2]);
 				applyProposal(proposals[9]);
@@ -280,10 +280,10 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.CODEASSIST_GUESS_METHOD_ARGUMENTS, true);
 
-		for (int run= 0; run < runs; run++) {
+		for (int run= 0; run < runs; run++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			meter.start();
 
-			for (int accumulated= 0; accumulated < ACC_COMPLETION; accumulated++) {
+			for (int accumulated= 0; accumulated < ACC_COMPLETION; accumulated++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CompletionProposalCollector collector= new FillArgumentNamesCompletionProposalCollector(createContext());
 				collector.setIgnored(CompletionProposal.METHOD_REF, false);
 				codeComplete(collector);
@@ -302,18 +302,18 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 		assertAllPerformance();
 	}
 
-	private void measureApplicationWithParamterGuesses(PerformanceMeter meter, final int runs) throws Exception {
+	private void measureApplicationWithParamterGuesses(PerformanceMeter meter, final int runs) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.CODEASSIST_GUESS_METHOD_ARGUMENTS, true);
 
-		for (int run= 0; run < runs; run++) {
+		for (int run= 0; run < runs; run++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CompletionProposalCollector collector= new FillArgumentNamesCompletionProposalCollector(createContext());
 			collector.setIgnored(CompletionProposal.METHOD_REF, false);
 			IJavaCompletionProposal[] proposals= codeComplete(collector);
 
 			meter.start();
 
-			for (int accumulated= 0; accumulated < ACC_PARAMETER_APPLICATION; accumulated++) {
+			for (int accumulated= 0; accumulated < ACC_PARAMETER_APPLICATION; accumulated++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				applyProposal(proposals[0]);
 				applyProposal(proposals[2]);
 				applyProposal(proposals[9]);
@@ -334,14 +334,14 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 		assertAllPerformance();
 	}
 
-	private void createTypeHierarchy() throws JavaModelException {
+	private void createTypeHierarchy() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragment fragment= fSourceFolder.createPackageFragment("test2", false, null);
 
 		String parent= "HashMap";
-		for (int i= 0; i < 20; i++) {
-			String cu= "Completion" + i;
-			String field= "fField" + i;
-			String content= "package test2;\n" +
+		for (int i= 0; i < 20; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String cu= "Completion" + i; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String field= "fField" + i; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String content= "package test2;\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"\n" +
 					"public class " + cu + " extends " + parent + " {\n" +
 					"    int " + field + ";\n" +
@@ -354,7 +354,7 @@ public class CodeCompletionPerformanceTest extends TextPerformanceTestCase {
 					"        run.//here\n" +
 					"    }\n" +
 					"}\n";
-			fCU= fragment.createCompilationUnit(cu + ".java", content, false, null);
+			fCU= fragment.createCompilationUnit(cu + ".java", content, false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			parent= cu;
 			fContents= content;
 			fCodeAssistOffset= content.indexOf( "//here");

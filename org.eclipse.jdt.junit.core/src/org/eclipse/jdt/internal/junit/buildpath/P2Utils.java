@@ -74,7 +74,7 @@ class P2Utils {
 	 * @param isSourceBundle <code>true</code> if it is a source bundle <code>false</code> otherwise
 	 * @return the bundle info or <code>null</code> if not found
 	 */
-	public static BundleInfo findBundle(String symbolicName, VersionRange versionRange, boolean isSourceBundle) {
+	public static BundleInfo findBundle(String symbolicName, VersionRange versionRange, boolean isSourceBundle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(symbolicName != null);
 		Assert.isLegal(versionRange != null);
 
@@ -99,7 +99,7 @@ class P2Utils {
 		}
 
 		if (bundles != null) {
-			for (BundleInfo bundleInfo : bundles) {
+			for (BundleInfo bundleInfo : bundles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (symbolicName.equals(bundleInfo.getSymbolicName())) {
 					Version version= new Version(bundleInfo.getVersion());
 					if (versionRange.includes(version)) {

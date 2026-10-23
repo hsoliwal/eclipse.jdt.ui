@@ -40,7 +40,7 @@ public class FileAdapterTest {
 		JavaSearchQuery query= SearchTestHelper.runTypeRefQuery("junit.framework.Test");
 		JavaSearchResult result= (JavaSearchResult) query.getSearchResult();
 		IFileMatchAdapter adapter= result.getFileMatchAdapter();
-		for (Object element : result.getElements()) {
+		for (Object element : result.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement je= (IJavaElement) element;
 			IResource underlying= je.getUnderlyingResource();
 			if (underlying != null && underlying.getName().endsWith(".java")) {

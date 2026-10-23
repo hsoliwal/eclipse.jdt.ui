@@ -64,9 +64,9 @@ public abstract class FatJarAntExporter {
 	private static final String ANT_PROPERTYNAME_DIR_WORKSPACE= "dir.workspace"; //$NON-NLS-1$
 	private static final String ANT_PROPERTYNAME_DIR_JARFILE= "dir.jarfile"; //$NON-NLS-1$
 
-	private static final String ANT_PROPERTY_DIR_BUILDFILE= "${"+ANT_PROPERTYNAME_DIR_BUILDFILE+"}"; //$NON-NLS-1$ //$NON-NLS-2$
-	private static final String ANT_PROPERTY_DIR_WORKSPACE= "${"+ANT_PROPERTYNAME_DIR_WORKSPACE+"}"; //$NON-NLS-1$ //$NON-NLS-2$
-	private static final String ANT_PROPERTY_DIR_JARFILE= "${"+ANT_PROPERTYNAME_DIR_JARFILE+"}"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String ANT_PROPERTY_DIR_BUILDFILE= "${"+ANT_PROPERTYNAME_DIR_BUILDFILE+"}"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String ANT_PROPERTY_DIR_WORKSPACE= "${"+ANT_PROPERTYNAME_DIR_WORKSPACE+"}"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String ANT_PROPERTY_DIR_JARFILE= "${"+ANT_PROPERTYNAME_DIR_JARFILE+"}"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	protected static class SourceInfo {
 
@@ -87,17 +87,17 @@ public abstract class FatJarAntExporter {
 	 * On apply the longest substitution is chosen.
 	 */
 	private static class PathSubstituter {
-		private Map<String, String> pathSubstitutions= new HashMap<>();
+		private Map<String, String> pathSubstitutions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		public PathSubstituter addSubstitution(String basePath, String baseReplacement) {
 			pathSubstitutions.put(basePath, baseReplacement);
 			return this;
 		}
 
-		public String substitute(String path) {
+		public String substitute(String path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int len= 0;
 			String result= path;
-			for (Map.Entry<String, String> entry : pathSubstitutions.entrySet()) {
+			for (Map.Entry<String, String> entry : pathSubstitutions.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String basePath = entry.getKey();
 				if (basePath.length() < len) {
 					continue;
@@ -106,9 +106,9 @@ public abstract class FatJarAntExporter {
 					result= entry.getValue();
 					break;
 				}
-				if (path.startsWith(basePath + File.separator)) {
+				if (path.startsWith(basePath + File.separator)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					len= basePath.length();
-					result= entry.getValue() + path.substring(len);
+					result= entry.getValue() + path.substring(len); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			return result;
@@ -132,7 +132,7 @@ public abstract class FatJarAntExporter {
 	 * @param jarLocation the location of the jar file which the ANT script will generate
 	 * @param launchConfiguration the launch configuration to generate a ANT script for
 	 */
-	public FatJarAntExporter(IPath antScriptLocation, IPath jarLocation, ILaunchConfiguration launchConfiguration) {
+	public FatJarAntExporter(IPath antScriptLocation, IPath jarLocation, ILaunchConfiguration launchConfiguration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fLaunchConfiguration= launchConfiguration;
 		fAbsJarfile= jarLocation;
 		fAntScriptLocation= antScriptLocation;
@@ -167,7 +167,7 @@ public abstract class FatJarAntExporter {
 	 * @param status to report warnings to
 	 * @throws CoreException if something went wrong while generating the ant script
 	 */
-	public void run(MultiStatus status) throws CoreException {
+	public void run(MultiStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 
 			IPath[] classpath= getClasspath(fLaunchConfiguration);
@@ -191,13 +191,13 @@ public abstract class FatJarAntExporter {
 		}
 	}
 
-	private static IPath[] getClasspath(ILaunchConfiguration configuration) throws CoreException {
+	private static IPath[] getClasspath(ILaunchConfiguration configuration) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRuntimeClasspathEntry[] entries= JavaRuntime.computeUnresolvedRuntimeClasspath(configuration);
 		entries= JavaRuntime.resolveRuntimeClasspath(entries, configuration);
 
-		ArrayList<IPath> userEntries= new ArrayList<>(entries.length);
+		ArrayList<IPath> userEntries= new ArrayList<>(entries.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean isModularConfig= JavaRuntime.isModularConfiguration(configuration);
-		for (IRuntimeClasspathEntry cpentry : entries) {
+		for (IRuntimeClasspathEntry cpentry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int classPathProperty= cpentry.getClasspathProperty();
 			if ((!isModularConfig && classPathProperty == IRuntimeClasspathEntry.USER_CLASSES)
 				|| (isModularConfig && (classPathProperty == IRuntimeClasspathEntry.CLASS_PATH || classPathProperty == IRuntimeClasspathEntry.MODULE_PATH))) {
@@ -232,7 +232,7 @@ public abstract class FatJarAntExporter {
 
 	protected static SourceInfo[] convert(IPath[] classpath) {
 		SourceInfo[] result= new SourceInfo[classpath.length];
-		for (int i= 0; i < classpath.length; i++) {
+		for (int i= 0; i < classpath.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath path= classpath[i];
 			if (path != null) {
 				if (path.toFile().isDirectory()) {
@@ -259,7 +259,7 @@ public abstract class FatJarAntExporter {
 	 * @param document the DOM document of the ant build script
 	 * @param project the project tag
 	 */
-	protected void addBaseDirProperties(Document document, Element project) {
+	protected void addBaseDirProperties(Document document, Element project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Node comment= document.createComment("define folder properties"); //$NON-NLS-1$
 		project.appendChild(comment);
@@ -310,14 +310,14 @@ public abstract class FatJarAntExporter {
 	 *
 	 * @return the relative path for the workspace-dir
 	 */
-	protected String getWorkspaceRelativeDir() {
+	protected String getWorkspaceRelativeDir() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String result;
-		if (fBuildfileDir.startsWith(fWorkspaceDir + File.separator)) {
+		if (fBuildfileDir.startsWith(fWorkspaceDir + File.separator)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			int lastSlash= fWorkspaceDir.length();
-			result= "${dir.buildfile}" + File.separator + ".."; //$NON-NLS-1$ //$NON-NLS-2$
+			result= "${dir.buildfile}" + File.separator + ".."; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			lastSlash= fBuildfileDir.indexOf(File.separator, lastSlash + 1);
-			while (lastSlash != -1) {
-				result+= File.separator + ".."; //$NON-NLS-1$
+			while (lastSlash != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				result+= File.separator + ".."; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				lastSlash= fBuildfileDir.indexOf(File.separator, lastSlash + 1);
 			}
 		}

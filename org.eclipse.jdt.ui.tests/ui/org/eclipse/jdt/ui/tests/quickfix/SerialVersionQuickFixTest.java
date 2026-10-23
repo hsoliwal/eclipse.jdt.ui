@@ -72,7 +72,7 @@ public class SerialVersionQuickFixTest extends QuickFixTest {
 
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		JavaRuntime.getDefaultVMInstall();
 		fProject= projectSetup.getProject();
@@ -104,7 +104,7 @@ public class SerialVersionQuickFixTest extends QuickFixTest {
 		JavaProjectHelper.clear(fProject, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLocalClass() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test3", false, null);
 		String str= """
@@ -175,7 +175,7 @@ public class SerialVersionQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInnerClass() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test2", false, null);
 		String str= """
@@ -235,7 +235,7 @@ public class SerialVersionQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOuterClass() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -279,7 +279,7 @@ public class SerialVersionQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOuterClass2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test3", false, null);
 		String str= """
@@ -356,7 +356,7 @@ public class SerialVersionQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOuterClass3() throws Exception {
 		// longer package
 

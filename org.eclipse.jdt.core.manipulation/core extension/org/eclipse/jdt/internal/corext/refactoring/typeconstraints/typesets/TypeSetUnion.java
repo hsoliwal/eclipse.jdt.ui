@@ -124,6 +124,6 @@ public class TypeSetUnion extends TypeSet {
 
 	@Override
 	public String toString() {
-		return "<" + fID + ": union(" + fLHS + "," + fRHS + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "<" + fID + ": union(" + fLHS + "," + fRHS + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

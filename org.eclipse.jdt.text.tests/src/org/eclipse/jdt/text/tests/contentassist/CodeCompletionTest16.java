@@ -76,7 +76,7 @@ public class CodeCompletionTest16 extends AbstractCompletionTest {
 
 	private IJavaProject fJProject1;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fJProject1= j16s.getProject();
 		fJProject1.setOption(JavaCore.COMPILER_COMPLIANCE, "16");
@@ -128,9 +128,9 @@ public class CodeCompletionTest16 extends AbstractCompletionTest {
 	}
 
 	public static void closeAllEditors() {
-		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
-			for (IWorkbenchPage page : window.getPages()) {
-				for (IEditorReference editorReference : page.getEditorReferences()) {
+		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IWorkbenchPage page : window.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IEditorReference editorReference : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					closeEditor(editorReference.getEditor(false));
 				}
 			}
@@ -143,7 +143,7 @@ public class CodeCompletionTest16 extends AbstractCompletionTest {
 		return new JavaContentAssistInvocationContext(viewer, offset, editor);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug560674() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -188,14 +188,14 @@ public class CodeCompletionTest16 extends AbstractCompletionTest {
 		assertEquals(expectedContents, doc.get());
 	}
 	private ICompletionProposal findProposal(List<ICompletionProposal> proposals, String displayName) {
-		for (ICompletionProposal proposal : proposals) {
+		for (ICompletionProposal proposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (proposal.getDisplayString().equals(displayName)) {
 				return proposal;
 			}
 		}
 		return null;
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordComponentJavadoc1() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -236,11 +236,11 @@ public class CodeCompletionTest16 extends AbstractCompletionTest {
 		String info= proposal.getAdditionalProposalInfo();
 		int idx = info.indexOf("A foo bar.<dl><dt>Parameters:");
 		if (idx != -1) {
-			fail("Unexpected Javadoc found. Found instead: " + info);
+			fail("Unexpected Javadoc found. Found instead: " + info); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		idx = info.indexOf("The foo.");
 		if (idx == -1) {
-			fail("Expected Javadoc not found. Found instead: " + info);
+			fail("Expected Javadoc not found. Found instead: " + info); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		proposal= findProposal(proposals, "toString() : String - Object");
 		assertNotNull("Proposal not found", proposal.getDisplayString());
@@ -248,7 +248,7 @@ public class CodeCompletionTest16 extends AbstractCompletionTest {
 		proposal= findProposal(proposals, "foo : String - FooBar");
 		assertNull("Record component should not be proposed", proposal);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordComponentJavadoc2() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -282,11 +282,11 @@ public class CodeCompletionTest16 extends AbstractCompletionTest {
 		String info= proposal.getAdditionalProposalInfo();
 		int idx = info.indexOf("A foo bar.<dl><dt>Parameters:");
 		if (idx != -1) {
-			fail("Unexpected Javadoc found. Found instead: " + info);
+			fail("Unexpected Javadoc found. Found instead: " + info); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		idx = info.indexOf("The foo.");
 		if (idx == -1) {
-			fail("Expected Javadoc not found. Found instead: " + info);
+			fail("Expected Javadoc not found. Found instead: " + info); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		proposal= findProposal(proposals, "foo : String - FooBar");
@@ -294,14 +294,14 @@ public class CodeCompletionTest16 extends AbstractCompletionTest {
 		info= proposal.getAdditionalProposalInfo();
 		idx = info.indexOf("A foo bar.<dl><dt>Parameters:");
 		if (idx != -1) {
-			fail("Unexpected Javadoc found. Found instead: " + info);
+			fail("Unexpected Javadoc found. Found instead: " + info); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		idx = info.indexOf("The foo.");
 		if (idx == -1) {
-			fail("Expected Javadoc not found. Found instead: " + info);
+			fail("Expected Javadoc not found. Found instead: " + info); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordConstructor() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 

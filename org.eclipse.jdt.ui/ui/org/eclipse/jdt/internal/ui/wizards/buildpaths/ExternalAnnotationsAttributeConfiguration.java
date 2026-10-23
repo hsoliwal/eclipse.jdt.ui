@@ -47,7 +47,7 @@ public class ExternalAnnotationsAttributeConfiguration extends ClasspathAttribut
 		return NewWizardMessages.CPListLabelProvider_external_annotations_location_label;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getValueLabel(ClasspathAttributeAccess access) {
 		String arg= null;
 		String str= access.getClasspathAttribute().getValue();

@@ -93,7 +93,7 @@ public final class JavaCopyProcessor extends CopyProcessor implements IReorgDest
 		return fCopyPolicy.checkFinalConditions(Progress.subMonitor(pm, 1), context, fReorgQueries);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		RefactoringStatus result= new RefactoringStatus();
 		IResource[] resources= ReorgUtilsCore.getNotNulls(fCopyPolicy.getResources());
@@ -101,7 +101,7 @@ public final class JavaCopyProcessor extends CopyProcessor implements IReorgDest
 		if (!status.isOK()) {
 			boolean autoRefresh= Platform.getPreferencesService().getBoolean(ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PREF_LIGHTWEIGHT_AUTO_REFRESH, false, null);
 			if (autoRefresh) {
-				for (IResource resource : resources) {
+				for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						resource.refreshLocal(IResource.DEPTH_INFINITE, pm);
 					} catch (CoreException e) {
@@ -118,7 +118,7 @@ public final class JavaCopyProcessor extends CopyProcessor implements IReorgDest
 		if (!status.isOK()) {
 			boolean autoRefresh= Platform.getPreferencesService().getBoolean(ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PREF_LIGHTWEIGHT_AUTO_REFRESH, false, null);
 			if (autoRefresh) {
-				for (IResource resource : resources) {
+				for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						resource.refreshLocal(IResource.DEPTH_INFINITE, pm);
 					} catch (CoreException e) {
@@ -132,7 +132,7 @@ public final class JavaCopyProcessor extends CopyProcessor implements IReorgDest
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		Assert.isNotNull(fNewNameQueries);
 		Assert.isTrue(fCopyPolicy.getJavaElementDestination() == null || fCopyPolicy.getResourceDestination() == null);
@@ -180,7 +180,7 @@ public final class JavaCopyProcessor extends CopyProcessor implements IReorgDest
 	private String[] getAffectedProjectNatures() throws CoreException {
 		String[] jNatures= JavaProcessors.computeAffectedNaturs(fCopyPolicy.getJavaElements());
 		String[] rNatures= ResourceProcessors.computeAffectedNatures(fCopyPolicy.getResources());
-		Set<String> result= new HashSet<>(Arrays.asList(jNatures));
+		Set<String> result= new HashSet<>(Arrays.asList(jNatures)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		result.addAll(Arrays.asList(rNatures));
 		return result.toArray(new String[result.size()]);
 	}
@@ -197,7 +197,7 @@ public final class JavaCopyProcessor extends CopyProcessor implements IReorgDest
 	public Object[] getElements() {
 		IJavaElement[] jElements= fCopyPolicy.getJavaElements();
 		IResource[] resources= fCopyPolicy.getResources();
-		List<IAdaptable> result= new ArrayList<>(jElements.length + resources.length);
+		List<IAdaptable> result= new ArrayList<>(jElements.length + resources.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.addAll(Arrays.asList(jElements));
 		result.addAll(Arrays.asList(resources));
 		return result.toArray();

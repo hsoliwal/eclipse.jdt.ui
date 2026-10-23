@@ -227,15 +227,15 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return !(node instanceof AnnotationTypeDeclaration);
 	}
 
-	public RefactoringStatus checkInitialConditions(ImportRewrite rewriter) {
+	public RefactoringStatus checkInitialConditions(ImportRewrite rewriter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= getStatus();
 		checkExpression(result);
 		if (result.hasFatalError())
 			return result;
 
-		List<ASTNode> validDestinations= new ArrayList<>();
+		List<ASTNode> validDestinations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ASTNode destination= ASTResolving.findParentType(fEnclosingBodyDeclaration.getParent());
-		while (destination != null) {
+		while (destination != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isValidDestination(destination)) {
 				validDestinations.add(destination);
 			}
@@ -313,7 +313,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		}
 	}
 
-	private void initReturnType(ImportRewrite rewriter) {
+	private void initReturnType(ImportRewrite rewriter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= fEnclosingBodyDeclaration.getAST();
 		fReturnType= null;
 		fReturnTypeBinding= null;
@@ -443,20 +443,20 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		if (superClass != null) {
 			status.merge(Checks.checkMethodInHierarchy(superClass, methodName, null, arguments));
 		}
-		for (ITypeBinding superInterface : type.getInterfaces()) {
+		for (ITypeBinding superInterface : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			status.merge(Checks.checkMethodInHierarchy(superInterface, methodName, null, arguments));
 		}
 	}
 
 	private ITypeBinding[] getArgumentTypes() {
 		ITypeBinding[] result= new ITypeBinding[fArguments.length];
-		for (int i= 0; i < fArguments.length; i++) {
+		for (int i= 0; i < fArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= fArguments[i].getType();
 		}
 		return result;
 	}
 
-	private RefactoringStatus analyzeSelection(RefactoringStatus status) {
+	private RefactoringStatus analyzeSelection(RefactoringStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fInputFlowContext= new FlowContext(0, fMaxVariableId + 1);
 		fInputFlowContext.setConsiderAccessMode(true);
 		fInputFlowContext.setComputeMode(FlowContext.ARGUMENTS);
@@ -506,10 +506,10 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return status;
 	}
 
-	private String checkForFinalFields() {
+	private String checkForFinalFields() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode[] selectedNodes= getSelectedNodes();
 		final String[] problems= new String[] { null };
-		for (ASTNode astNode : selectedNodes) {
+		for (ASTNode astNode : selectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				astNode.accept(new ASTVisitor() {
 					@Override
@@ -534,12 +534,12 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return problems[0];
 	}
 
-	public List<SimpleName> findFieldReferencesForType(AbstractTypeDeclaration type) {
-		final List<SimpleName> fieldList= new ArrayList<>();
+	public List<SimpleName> findFieldReferencesForType(AbstractTypeDeclaration type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<SimpleName> fieldList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ASTNode[] selectedNodes= getSelectedNodes();
 		ITypeBinding typeBinding= type.resolveBinding();
 		if (typeBinding != null) {
-			for (ASTNode astNode : selectedNodes) {
+			for (ASTNode astNode : selectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				astNode.accept(new ASTVisitor() {
 					@Override
 					public boolean visit(SimpleName node) {
@@ -557,7 +557,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return fieldList;
 	}
 
-	private String canHandleBranches() {
+	private String canHandleBranches() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fReturnValue != null)
 			return RefactoringCoreMessages.ExtractMethodAnalyzer_branch_mismatch;
 
@@ -575,11 +575,11 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 				return RefactoringCoreMessages.ExtractMethodAnalyzer_branch_mismatch;
 		}
 
-		final Map<ASTNode, String> pendingProblems= new LinkedHashMap<>();
-		for (ASTNode astNode : selectedNodes) {
+		final Map<ASTNode, String> pendingProblems= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		for (ASTNode astNode : selectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			astNode.accept(new ASTVisitor() {
-				ArrayList<String> fLocalLoopLabels= new ArrayList<>();
-				ArrayList<Statement> fBreakTargets= new ArrayList<>();
+				ArrayList<String> fLocalLoopLabels= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				ArrayList<Statement> fBreakTargets= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 				@Override
 				public boolean visit(BreakStatement node) {
@@ -587,7 +587,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 					if (label != null && !fLocalLoopLabels.contains(label.getIdentifier())) {
 						pendingProblems.put(label, Messages.format(
 							RefactoringCoreMessages.ExtractMethodAnalyzer_branch_break_mismatch,
-							new Object[] { ("break " + label.getIdentifier()) })); //$NON-NLS-1$
+							new Object[] { ("break " + label.getIdentifier()) })); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} else if (label == null) {
 						ASTNode parentStatement= ASTNodes.getFirstAncestorOrNull(node, WhileStatement.class, ForStatement.class,
 								DoStatement.class, SwitchStatement.class, EnhancedForStatement.class);
@@ -644,7 +644,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 						if (fEnclosingLoopLabel == null || ! label.getIdentifier().equals(fEnclosingLoopLabel.getIdentifier())) {
 							pendingProblems.put(node, Messages.format(
 								RefactoringCoreMessages.ExtractMethodAnalyzer_branch_continue_mismatch,
-								new Object[] { "continue " + label.getIdentifier() })); //$NON-NLS-1$
+								new Object[] { "continue " + label.getIdentifier() })); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					}
 				}
@@ -656,10 +656,10 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return null;
 	}
 
-	private Statement getParentLoopBody(ASTNode node) {
+	private Statement getParentLoopBody(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Statement stmt= null;
 		ASTNode start= node;
-		while (start != null
+		while (start != null //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				&& !(start instanceof ForStatement)
 				&& !(start instanceof DoStatement)
 				&& !(start instanceof WhileStatement)
@@ -683,7 +683,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return stmt;
 	}
 
-	private boolean isVoidMethod() {
+	private boolean isVoidMethod() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding binding= null;
 		LambdaExpression enclosingLambdaExpr= ASTResolving.findEnclosingLambdaExpression(getFirstSelectedNode());
 		if (enclosingLambdaExpr != null) {
@@ -706,7 +706,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return fIsLastStatementSelected;
 	}
 
-	private void computeLastStatementSelected() {
+	private void computeLastStatementSelected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode[] nodes= getSelectedNodes();
 		if (nodes.length == 0) {
 			fIsLastStatementSelected= false;
@@ -747,9 +747,9 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 	}
 
 	private IVariableBinding[] removeSelectedDeclarations(IVariableBinding[] bindings) {
-		List<IVariableBinding> result= new ArrayList<>(bindings.length);
+		List<IVariableBinding> result= new ArrayList<>(bindings.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Selection selection= getSelection();
-		for (IVariableBinding binding : bindings) {
+		for (IVariableBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode decl= ((CompilationUnit)fEnclosingBodyDeclaration.getRoot()).findDeclaringNode(binding);
 			if (!selection.covers(decl)) {
 				result.add(binding);
@@ -758,20 +758,20 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return result.toArray(new IVariableBinding[result.size()]);
 	}
 
-	private ITypeBinding[] computeTypeVariables(ITypeBinding[] bindings) {
+	private ITypeBinding[] computeTypeVariables(ITypeBinding[] bindings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Selection selection= getSelection();
-		Set<ITypeBinding> result= new HashSet<>();
+		Set<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		// first remove all type variables that come from outside of the method
 		// or are covered by the selection
 		CompilationUnit compilationUnit= (CompilationUnit)fEnclosingBodyDeclaration.getRoot();
-		for (ITypeBinding binding : bindings) {
+		for (ITypeBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode decl= compilationUnit.findDeclaringNode(binding);
 			if (decl == null || (!selection.covers(decl) && decl.getParent() instanceof MethodDeclaration)) {
 				result.add(binding);
 			}
 		}
 		// all all type variables which are needed since a local variable uses it
-		for (IVariableBinding arg : fArguments) {
+		for (IVariableBinding arg : fArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding type= arg.getType();
 			if (type != null && type.isTypeVariable()) {
 				ASTNode decl= compilationUnit.findDeclaringNode(type);
@@ -789,19 +789,19 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		final int fMaxPosition;
 		public LocalWriteVisitor(IRegion selectionRegion, List<IVariableBinding> returnValues) {
 			fRetValues= returnValues;
-			fOriginalRetValues= new ArrayList<>(returnValues);
+			fOriginalRetValues= new ArrayList<>(returnValues); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fMinPosition= selectionRegion.getOffset();
 			fMaxPosition= fMinPosition + selectionRegion.getLength();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SimpleName node) {
 			if (node.getStartPosition() > fMinPosition && node.getStartPosition() < fMaxPosition) {
 				if (node.getParent() instanceof VariableDeclarationFragment) {
 					IBinding binding= node.resolveBinding();
 					IVariableBinding foundValue= null;
 					if (binding instanceof IVariableBinding varBinding && !varBinding.isField()) {
-						for (IVariableBinding retValue : fRetValues) {
+						for (IVariableBinding retValue : fRetValues) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (retValue.isEqualTo(binding)) {
 								foundValue= retValue;
 								break;
@@ -816,7 +816,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 				IBinding binding= node.resolveBinding();
 				IVariableBinding foundValue= null;
 				if (binding instanceof IVariableBinding varBinding && !varBinding.isField()) {
-					for (IVariableBinding origRetValue : fOriginalRetValues) {
+					for (IVariableBinding origRetValue : fOriginalRetValues) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (origRetValue.isEqualTo(binding)) {
 							foundValue= origRetValue;
 							break;
@@ -831,7 +831,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		}
 	}
 
-	private void computeOutput(RefactoringStatus status) {
+	private void computeOutput(RefactoringStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// First find all writes inside the selection.
 		FlowContext flowContext= new FlowContext(0, fMaxVariableId + 1);
 		flowContext.setConsiderAccessMode(true);
@@ -840,7 +840,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		IVariableBinding[] returnValues= returnInfo.get(flowContext, FlowInfo.WRITE | FlowInfo.WRITE_POTENTIAL | FlowInfo.UNKNOWN);
 
 		// Remove all local variables declared in the selected region from potential return values
-		List<IVariableBinding> returnValueList= new ArrayList<>(Arrays.asList(returnValues));
+		List<IVariableBinding> returnValueList= new ArrayList<>(Arrays.asList(returnValues)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		LocalWriteVisitor visitor= new LocalWriteVisitor(getSelectedNodeRange(), returnValueList);
 		if (getLastCoveringNode() != null) {
 			getLastCoveringNode().accept(visitor);
@@ -850,13 +850,13 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		IRegion region= getSelectedNodeRange();
 		Selection selection= Selection.createFromStartLength(region.getOffset(), region.getLength());
 
-		List<IVariableBinding> localReads= new ArrayList<>();
+		List<IVariableBinding> localReads= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		flowContext.setComputeMode(FlowContext.ARGUMENTS);
 		FlowInfo argInfo= new InputFlowAnalyzer(flowContext, selection, true).perform(fEnclosingBodyDeclaration);
 		IVariableBinding[] reads= argInfo.get(flowContext, FlowInfo.READ | FlowInfo.READ_POTENTIAL | FlowInfo.UNKNOWN);
-		outer: for (int i= 0; i < returnValues.length && localReads.size() < returnValues.length; i++) {
+		outer: for (int i= 0; i < returnValues.length && localReads.size() < returnValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding binding= returnValues[i];
-			for (IVariableBinding read : reads) {
+			for (IVariableBinding read : reads) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (read.isEqualTo(binding)) {
 					localReads.add(binding);
 					fReturnValue= binding;
@@ -872,22 +872,22 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 				break;
 			default:
 				fReturnValue= null;
-				StringBuilder affectedLocals= new StringBuilder();
-				for (int i= 0; i < localReads.size(); i++) {
+				StringBuilder affectedLocals= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				for (int i= 0; i < localReads.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IVariableBinding binding= localReads.get(i);
 					String bindingName= BindingLabelProviderCore.getBindingLabel(binding, BindingLabelProviderCore.DEFAULT_TEXTFLAGS | JavaElementLabelsCore.F_PRE_TYPE_SIGNATURE);
-					affectedLocals.append(bindingName);
+					affectedLocals.append(bindingName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (i != localReads.size() - 1) {
-						affectedLocals.append('\n');
+						affectedLocals.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 				String message= MessageFormat.format(RefactoringCoreMessages.ExtractMethodAnalyzer_assignments_to_local, affectedLocals.toString());
 				status.addFatalError(message, JavaStatusContext.create(fCUnit, getSelection()));
 				return;
 		}
-		List<IVariableBinding> callerLocals= new ArrayList<>(5);
+		List<IVariableBinding> callerLocals= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		FlowInfo localInfo= new InputFlowAnalyzer(flowContext, selection, false).perform(fEnclosingBodyDeclaration);
-		for (IVariableBinding write : localInfo.get(flowContext, FlowInfo.WRITE | FlowInfo.WRITE_POTENTIAL | FlowInfo.UNKNOWN)) {
+		for (IVariableBinding write : localInfo.get(flowContext, FlowInfo.WRITE | FlowInfo.WRITE_POTENTIAL | FlowInfo.UNKNOWN)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getSelection().covers(ASTNodes.findDeclaration(write, fEnclosingBodyDeclaration)))
 				callerLocals.add(write);
 		}
@@ -896,8 +896,8 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 			fReturnLocal= fReturnValue;
 	}
 
-	private void adjustArgumentsAndMethodLocals() {
-		for (int i= 0; i < fArguments.length; i++) {
+	private void adjustArgumentsAndMethodLocals() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i= 0; i < fArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding argument= fArguments[i];
 			// Both arguments and locals consider FlowInfo.WRITE_POTENTIAL. But at the end a variable
 			// can either be a local of an argument. Fix this based on the compute return type which
@@ -907,7 +907,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 					fArguments[i]= null;
 				// We didn't remove the argument. So we have to remove the local declaration
 				if (fArguments[i] != null) {
-					for (int l= 0; l < fMethodLocals.length; l++) {
+					for (int l= 0; l < fMethodLocals.length; l++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (fMethodLocals[l] == argument)
 							fMethodLocals[l]= null;
 					}
@@ -922,11 +922,11 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		fMethodLocals= compressArray(fMethodLocals);
 	}
 
-	private IVariableBinding[] compressArray(IVariableBinding[] array) {
+	private IVariableBinding[] compressArray(IVariableBinding[] array) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (array == null)
 			return null;
 		int size= 0;
-		for (IVariableBinding binding : array) {
+		for (IVariableBinding binding : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (binding != null) {
 				size++;
 			}
@@ -934,7 +934,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		if (size == array.length)
 			return array;
 		IVariableBinding[] result= new IVariableBinding[size];
-		for (int i= 0, r= 0; i < array.length; i++) {
+		for (int i= 0, r= 0; i < array.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (array[i] != null)
 				result[r++]= array[i];
 		}
@@ -951,8 +951,8 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 	public ITypeBinding[] getExceptions(boolean includeRuntimeExceptions) {
 		if (includeRuntimeExceptions)
 			return fAllExceptions;
-		List<ITypeBinding> result= new ArrayList<>(fAllExceptions.length);
-		for (ITypeBinding exception : fAllExceptions) {
+		List<ITypeBinding> result= new ArrayList<>(fAllExceptions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ITypeBinding exception : fAllExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!includeRuntimeExceptions && Bindings.isRuntimeException(exception))
 				continue;
 			result.add(exception);
@@ -994,7 +994,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 
 	private void checkParent(ASTNode node) {
 		ASTNode firstParent= getFirstSelectedNode().getParent();
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 			if (node == firstParent)
 				return;
@@ -1002,7 +1002,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		invalidSelection(RefactoringCoreMessages.ExtractMethodAnalyzer_parent_mismatch);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(CompilationUnit node) {
 		RefactoringStatus status= getStatus();
 		superCall: {
@@ -1060,7 +1060,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 							isPartOfQualifiedName= true;
 							QualifiedName qualifiedName= (QualifiedName) name.getParent();
 							QualifiedName currParent= qualifiedName;
-							while (true) {
+							while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								ASTNode parent= currParent.getParent();
 								if (parent instanceof QualifiedName) {
 									currParent= (QualifiedName) parent;
@@ -1149,7 +1149,7 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(LambdaExpression node) {
 		Selection selection= getSelection();
 		int selectionStart= selection.getOffset();
@@ -1340,8 +1340,8 @@ public class ExtractMethodAnalyzer extends CodeAnalyzer {
 	}
 
 
-	private boolean checkForLocalOrAnonymousTypeReference(MethodInvocation methodInvocation) {
-		for (Object arg : methodInvocation.arguments()) {
+	private boolean checkForLocalOrAnonymousTypeReference(MethodInvocation methodInvocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Object arg : methodInvocation.arguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (arg instanceof MethodInvocation mI) {
 				if (checkLocalOrAnonymousType(mI.getExpression() != null ? mI.getExpression().resolveTypeBinding() : null)) {
 					return true;

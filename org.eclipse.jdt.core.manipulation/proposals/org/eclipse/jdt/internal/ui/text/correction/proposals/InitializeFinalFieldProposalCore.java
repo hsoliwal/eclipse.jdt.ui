@@ -91,7 +91,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		return getRewrite() != null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ASTRewrite getRewrite() throws CoreException {
 		switch (fupdateType) {
 			case UPDATE_AT_CONSTRUCTOR:
@@ -111,7 +111,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		return null;
 	}
 
-	private ASTRewrite doInitField() {
+	private ASTRewrite doInitField() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FieldDeclaration field= getFieldDeclaration(fVariableBinding.getName());
 		if (field == null) {
 			return null;
@@ -159,11 +159,11 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		return rewrite;
 	}
 
-	private Type createParameterizedType(AST ast, ITypeBinding typeBinding) {
+	private Type createParameterizedType(AST ast, ITypeBinding typeBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (typeBinding.isParameterizedType() && !typeBinding.isRawType()) {
 			Type baseType= ast.newSimpleType(ASTNodeFactory.newName(ast, typeBinding.getErasure().getName()));
 			ParameterizedType newType= ast.newParameterizedType(baseType);
-			for (int i= 0; i < typeBinding.getTypeArguments().length; i++) {
+			for (int i= 0; i < typeBinding.getTypeArguments().length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding typeArg= typeBinding.getTypeArguments()[i];
 				Type argType= createParameterizedType(ast, typeArg); // recursive call
 				newType.typeArguments().add(argType);
@@ -181,7 +181,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		}
 	}
 
-	private ASTRewrite doInitRecordComponentsInConstructor() {
+	private ASTRewrite doInitRecordComponentsInConstructor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String variableName= fProblem.getProblemArguments()[0];
 		SingleVariableDeclaration svd= getRecordComponentDeclaration(variableName);
 		if (svd == null) {
@@ -218,7 +218,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		InitializeFinalFieldProposalCore.ConstructorVisitor cv= new ConstructorVisitor(((RecordDeclaration) svd.getParent()).getName().toString());
 		fAstNode.getRoot().accept(cv);
 
-		for (MethodDeclaration md : cv.getNodes()) {
+		for (MethodDeclaration md : cv.getNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isCanonical(md)) {
 				continue;
 			}
@@ -234,7 +234,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		return ((methodBinding == null) ? false : methodBinding.isCanonicalConstructor());
 	}
 
-	private ASTRewrite doUpdateConstructorWithParameter() {
+	private ASTRewrite doUpdateConstructorWithParameter() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String variableName= fProblem.getProblemArguments()[0];
 		FieldDeclaration field= getFieldDeclaration(variableName);
 		if (field == null) {
@@ -298,9 +298,9 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 	}
 
 	private String[] collectParameterNames(MethodDeclaration methodDeclaration) {
-		final List<String> names= new ArrayList<>();
+		final List<String> names= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object element : methodDeclaration.parameters()) {
+		for (Object element : methodDeclaration.parameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration svd= (SingleVariableDeclaration) element;
 			names.add(svd.getName().getIdentifier());
 		}
@@ -315,7 +315,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		return names.toArray(new String[names.size()]);
 	}
 
-	private ASTRewrite doInitFieldInConstructor() {
+	private ASTRewrite doInitFieldInConstructor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String variableName= fProblem.getProblemArguments()[0];
 		FieldDeclaration field= getFieldDeclaration(variableName);
 		if (field == null) {
@@ -352,7 +352,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		InitializeFinalFieldProposalCore.ConstructorVisitor cv= new ConstructorVisitor(((AbstractTypeDeclaration) field.getParent()).getName().toString());
 		fAstNode.getRoot().accept(cv);
 
-		for (MethodDeclaration md : cv.getNodes()) {
+		for (MethodDeclaration md : cv.getNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Block body= md.getBody();
 			// check if we call this(), then we can't add initialization here
 			if (!hasThisCall(body)) {
@@ -375,10 +375,10 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		return rewrite;
 	}
 
-	private boolean hasFieldInitialization(Block body, final String variableName) {
+	private boolean hasFieldInitialization(Block body, final String variableName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean[] hasInit= new boolean[1];
 		ASTVisitor v= new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(SimpleName node) {
 				if (!node.getIdentifier().equals(variableName)) {
 					return true;
@@ -412,14 +412,14 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 	}
 
 	private List<String> getFinalFieldList(List<ASTNode> fieldDeclarations) {
-		List<String> list= new ArrayList<>();
-		for (ASTNode astNode : fieldDeclarations) {
+		List<String> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ASTNode astNode : fieldDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (astNode instanceof FieldDeclaration) {
 				int modifiers= ((FieldDeclaration) astNode).getModifiers();
 				if (!Modifier.isFinal(modifiers)) {
 					continue;
 				}
-				for (Object object : ((FieldDeclaration) astNode).fragments()) {
+				for (Object object : ((FieldDeclaration) astNode).fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					list.add(((VariableDeclarationFragment) object).getName().getIdentifier());
 				}
 			}
@@ -430,13 +430,13 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 	/*
 	 * Find insertion index in statements based on declaration order.
 	 */
-	private int findFinalFieldAssignmentInsertIndex(List<ASTNode> astNodes, String variableName, List<String> finalFieldList) {
+	private int findFinalFieldAssignmentInsertIndex(List<ASTNode> astNodes, String variableName, List<String> finalFieldList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int index= 0;
 		int fieldIndex= 0;
 		int findFinalFieldDeclarationIndex= finalFieldList.indexOf(variableName);
 		String[] fieldAccess= new String[1];
 
-		for (ASTNode astNode : astNodes) {
+		for (ASTNode astNode : astNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fieldAccess[0]= null;
 
 			ASTVisitor v= new ASTVisitor() {
@@ -479,11 +479,11 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		return fieldIndex;
 	}
 
-	private int findFirstFinalFieldReferenceIndex(List<ASTNode> astNodes, String variableName) {
+	private int findFirstFinalFieldReferenceIndex(List<ASTNode> astNodes, String variableName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int index= 0;
 		String[] fieldAccess= new String[1];
 
-		for (ASTNode astNode : astNodes) {
+		for (ASTNode astNode : astNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fieldAccess[0]= null;
 
 			ASTVisitor v= new ASTVisitor() {
@@ -515,7 +515,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 	}
 
 	private boolean hasThisCall(Block body) {
-		for (Object object : body.statements()) {
+		for (Object object : body.statements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (((ASTNode) object).getNodeType() == ASTNode.CONSTRUCTOR_INVOCATION) {
 				return true;
 			}
@@ -524,7 +524,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 	}
 
 	private boolean hasDefaultConstructor(ITypeBinding type) {
-		for (IMethodBinding mb : type.getDeclaredMethods()) {
+		for (IMethodBinding mb : type.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= mb.getKey();
 			if (key.contains(";.()V")) { //$NON-NLS-1$
 				return true;
@@ -541,8 +541,8 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		InitializeFinalFieldProposalCore.FieldVisitor fieldVisitor= new FieldVisitor();
 		fAstNode.getRoot().accept(fieldVisitor);
 
-		for (FieldDeclaration f : fieldVisitor.getNodes()) {
-			for (Object object : f.fragments()) {
+		for (FieldDeclaration f : fieldVisitor.getNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object object : f.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclarationFragment fragment= (VariableDeclarationFragment) object;
 				if (fragment.getName().getIdentifier().equals(name)) {
 					return f;
@@ -556,7 +556,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 		InitializeFinalFieldProposalCore.RecordComponentVisitor recordComponentVisitor= new RecordComponentVisitor();
 		fAstNode.getRoot().accept(recordComponentVisitor);
 
-		for (SingleVariableDeclaration f : recordComponentVisitor.getNodes()) {
+		for (SingleVariableDeclaration f : recordComponentVisitor.getNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (f.getName().getIdentifier().equals(name)) {
 				return f;
 			}
@@ -565,7 +565,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 	}
 
 	private static final class FieldVisitor extends ASTVisitor {
-		private final List<FieldDeclaration> fNodes= new ArrayList<>();
+		private final List<FieldDeclaration> fNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		public FieldVisitor() {
 		}
@@ -582,7 +582,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 	}
 
 	private static final class ConstructorVisitor extends ASTVisitor {
-		private final List<MethodDeclaration> fNodes= new ArrayList<>();
+		private final List<MethodDeclaration> fNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		private String fTypeName;
 
@@ -604,7 +604,7 @@ public class InitializeFinalFieldProposalCore extends LinkedCorrectionProposalCo
 	}
 
 	private static final class RecordComponentVisitor extends ASTVisitor {
-		private final List<SingleVariableDeclaration> fNodes= new ArrayList<>();
+		private final List<SingleVariableDeclaration> fNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		public RecordComponentVisitor() {
 		}

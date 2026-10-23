@@ -140,9 +140,9 @@ public class InlineTempRefactoring extends Refactoring {
 	private SimpleName[] fReferences;
 	private CompilationUnit fASTRoot;
 	private boolean fCheckResultForCompileProblems;
-	private Set<SimpleName> fReferencesNeedingParams= new HashSet<>();
-	private Map<SimpleName, ITrackedNodePosition> fTrackedReferences= new HashMap<>();
-	private Map<SimpleName, ISourceRange> fResolvedTrackedReferences= new HashMap<>();
+	private Set<SimpleName> fReferencesNeedingParams= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+	private Map<SimpleName, ITrackedNodePosition> fTrackedReferences= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<SimpleName, ISourceRange> fResolvedTrackedReferences= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private CompilationUnitChange fChange;
 
 	/**
@@ -233,7 +233,7 @@ public class InlineTempRefactoring extends Refactoring {
 		return RefactoringCoreMessages.InlineTempRefactoring_name;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask("", 1); //$NON-NLS-1$
@@ -255,16 +255,16 @@ public class InlineTempRefactoring extends Refactoring {
 		}
 	}
 
-	private RefactoringStatus checkClashes(VariableDeclaration declaration) {
-		for (SimpleName reference : getReferences()) {
+	private RefactoringStatus checkClashes(VariableDeclaration declaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (SimpleName reference : getReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Set<IVariableBinding> newVariables= getNewVariables(reference);
 			final List<Name> initializerNames= getInitializerNames(declaration.getInitializer());
-			for (Name name : initializerNames) {
+			for (Name name : initializerNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (clashesWithNewVariables(newVariables, name)) {
 					List<Expression> alternativeQualifications= getAlternativeQualifications(reference, name);
 					if (alternativeQualifications.size() > 0) {
 						boolean inlinable= false;
-						for (Expression alternative : alternativeQualifications) {
+						for (Expression alternative : alternativeQualifications) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!clashesWithNewVariables(newVariables, alternative)) {
 								inlinable= true;
 								break;
@@ -281,7 +281,7 @@ public class InlineTempRefactoring extends Refactoring {
 		return null;
 	}
 
-	private RefactoringStatus checkSelection(ASTNode selectedNode, VariableDeclaration decl) {
+	private RefactoringStatus checkSelection(ASTNode selectedNode, VariableDeclaration decl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= decl.getParent();
 		if (parent instanceof MethodDeclaration) {
 			return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.InlineTempRefactoring_method_parameter);
@@ -309,7 +309,7 @@ public class InlineTempRefactoring extends Refactoring {
 		}
 
 		SimpleName[] references= getReferences();
-		for (SimpleName ref : references) {
+		for (SimpleName ref : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ref.getLocationInParent() == TryStatement.RESOURCES2_PROPERTY) {
 				return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.InlineTempRefactoring_resource_used_in_try_with_resources);
 			}
@@ -333,7 +333,7 @@ public class InlineTempRefactoring extends Refactoring {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask("", 1); //$NON-NLS-1$
@@ -353,7 +353,7 @@ public class InlineTempRefactoring extends Refactoring {
 				doc = new Document(fCu.getSource());
 				try {
 					cuRewrite.getASTRewrite().rewriteAST().apply(doc);
-					for (Entry<SimpleName, ITrackedNodePosition> entry : fTrackedReferences.entrySet()) {
+					for (Entry<SimpleName, ITrackedNodePosition> entry : fTrackedReferences.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SimpleName name= entry.getKey();
 						ITrackedNodePosition position= entry.getValue();
 						int start= position.getStartPosition();
@@ -372,13 +372,13 @@ public class InlineTempRefactoring extends Refactoring {
 				RefactoringStatus result= doc == null ? RefactoringAnalyzeUtil.checkNewSource(fChange, fCu, fASTRoot, pm)
 						: RefactoringAnalyzeUtil.checkNewSource(doc, fCu, fASTRoot, pm);
 				if (!result.isOK()) {
-					for (RefactoringStatusEntry entry : result.getEntries()) {
+					for (RefactoringStatusEntry entry : result.getEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						JavaStringStatusContext context= (JavaStringStatusContext) entry.getContext();
 						if (entry.getMessage().startsWith("Type mismatch:")) { //$NON-NLS-1$
 							ISourceRange range= context.getSourceRange();
 							int rangeEnd= range.getOffset() + range.getLength();
 							try {
-								for (Entry<SimpleName, ISourceRange> trackedEntry : fResolvedTrackedReferences.entrySet()) {
+								for (Entry<SimpleName, ISourceRange> trackedEntry : fResolvedTrackedReferences.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									int trackedEntryEnd= trackedEntry.getValue().getOffset() + trackedEntry.getValue().getLength();
 									if (trackedEntry.getValue().getOffset() >= range.getOffset() &&
 											trackedEntryEnd <= rangeEnd) {
@@ -423,8 +423,8 @@ public class InlineTempRefactoring extends Refactoring {
 		}
 	}
 
-	private InlineLocalVariableDescriptor createRefactoringDescriptor() {
-		final Map<String, String> arguments= new HashMap<>();
+	private InlineLocalVariableDescriptor createRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String project= null;
 		IJavaProject javaProject= fCu.getJavaProject();
 		if (javaProject != null)
@@ -436,14 +436,14 @@ public class InlineTempRefactoring extends Refactoring {
 		if (method != null)
 			text= BindingLabelProviderCore.getBindingLabel(method, JavaElementLabelsCore.ALL_FULLY_QUALIFIED);
 		else
-			text= BasicElementLabels.getJavaElementName('{' + JavaElementLabelsCore.ELLIPSIS_STRING + '}');
+			text= BasicElementLabels.getJavaElementName('{' + JavaElementLabelsCore.ELLIPSIS_STRING + '}'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final String description= Messages.format(RefactoringCoreMessages.InlineTempRefactoring_descriptor_description_short, BasicElementLabels.getJavaElementName(binding.getName()));
 		final String header= Messages.format(RefactoringCoreMessages.InlineTempRefactoring_descriptor_description, new String[] { BindingLabelProviderCore.getBindingLabel(binding, JavaElementLabelsCore.ALL_FULLY_QUALIFIED), text});
 		final JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(project, this, header);
 		comment.addSetting(Messages.format(RefactoringCoreMessages.InlineTempRefactoring_original_pattern, BindingLabelProviderCore.getBindingLabel(binding, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)));
 		final InlineLocalVariableDescriptor descriptor= RefactoringSignatureDescriptorFactory.createInlineLocalVariableDescriptor(project, description, comment.asString(), arguments, RefactoringDescriptor.NONE);
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fCu));
-		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, String.valueOf(fSelectionStart) + ' ' + String.valueOf(fSelectionLength));
+		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, String.valueOf(fSelectionStart) + ' ' + String.valueOf(fSelectionLength)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return descriptor;
 	}
 
@@ -451,7 +451,7 @@ public class InlineTempRefactoring extends Refactoring {
 		TextEditGroup groupDesc= cuRewrite.createGroupDescription(RefactoringCoreMessages.InlineTempRefactoring_inline_edit_name);
 		ASTRewrite rewrite= cuRewrite.getASTRewrite();
 
-		for (SimpleName curr : getReferences()) {
+		for (SimpleName curr : getReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode initializerCopy= getInitializerSource(cuRewrite, curr, groupDesc);
 			rewrite.replace(curr, initializerCopy, groupDesc);
 		}
@@ -483,7 +483,7 @@ public class InlineTempRefactoring extends Refactoring {
 		return copy;
 	}
 
-	private Expression getModifiedInitializerSource(CompilationUnitRewrite rewrite, SimpleName reference, TextEditGroup groupDesc) throws JavaModelException {
+	private Expression getModifiedInitializerSource(CompilationUnitRewrite rewrite, SimpleName reference, TextEditGroup groupDesc) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		VariableDeclaration varDecl= getVariableDeclaration();
 		Expression initializer= varDecl.getInitializer();
 		List<Name> initializerNames= getInitializerNames(initializer);
@@ -547,12 +547,12 @@ public class InlineTempRefactoring extends Refactoring {
 		return copy;
 	}
 
-	private List<Name> getInitializerNames(final Expression initializer) {
+	private List<Name> getInitializerNames(final Expression initializer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ScopeAnalyzer scopeAnalyzer= new ScopeAnalyzer(fASTRoot);
 		VariableDeclaration var= getVariableDeclaration();
 		int end = var.getStartPosition();
-		final Set<IBinding> declarationsAtInitializer= new HashSet<>(Arrays.asList(scopeAnalyzer.getDeclarationsInScope(end, ScopeAnalyzer.VARIABLES)));
-		final List<Name> initializerNames= new ArrayList<>();
+		final Set<IBinding> declarationsAtInitializer= new HashSet<>(Arrays.asList(scopeAnalyzer.getDeclarationsInScope(end, ScopeAnalyzer.VARIABLES))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final List<Name> initializerNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (initializer != null) {
 			initializer.accept(new ASTVisitor() {
 				@Override
@@ -579,7 +579,7 @@ public class InlineTempRefactoring extends Refactoring {
 		return initializerNames;
 	}
 
-	private Expression replaceClashingNames(final CompilationUnitRewrite rewrite, final TextEditGroup groupDesc, Expression initializer, final Map<Name, Expression> replacements) {
+	private Expression replaceClashingNames(final CompilationUnitRewrite rewrite, final TextEditGroup groupDesc, Expression initializer, final Map<Name, Expression> replacements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Expression copyOfInitializer= (Expression) ASTNode.copySubtree(fASTRoot.getAST(), initializer);
 		final ASTMatcher astMatcher= new ASTMatcher();
 		copyOfInitializer.accept(new ASTVisitor() {
@@ -595,7 +595,7 @@ public class InlineTempRefactoring extends Refactoring {
 
 			private boolean replace(Name copyOfInitializerNode) {
 				Set<Entry<Name, Expression>> replacementKeySet= replacements.entrySet();
-				for (Iterator<Entry<Name, Expression>> replacementIterator= replacementKeySet.iterator(); replacementIterator.hasNext();) {
+				for (Iterator<Entry<Name, Expression>> replacementIterator= replacementKeySet.iterator(); replacementIterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Entry<Name, Expression> replacement= replacementIterator.next();
 					Name key= replacement.getKey();
 					if (key instanceof QualifiedName && astMatcher.match((QualifiedName) key, copyOfInitializerNode) ||
@@ -618,11 +618,11 @@ public class InlineTempRefactoring extends Refactoring {
 
 	private Map<Name, Expression> getClashingReplacements(SimpleName reference, List<Name> initializerNames) {
 		Set<IVariableBinding> newVariables= getNewVariables(reference);
-		final Map<Name, Expression> replacements= new HashMap<>();
-		for (Name initializerName : initializerNames) {
+		final Map<Name, Expression> replacements= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Name initializerName : initializerNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (clashesWithNewVariables(newVariables, initializerName)) {
 				List<Expression> alternativeQualifications= getAlternativeQualifications(reference, initializerName);
-				for (Expression alternative : alternativeQualifications) {
+				for (Expression alternative : alternativeQualifications) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!clashesWithNewVariables(newVariables, alternative)) {
 						replacements.put(initializerName, alternative);
 						break;
@@ -633,8 +633,8 @@ public class InlineTempRefactoring extends Refactoring {
 		return replacements;
 	}
 
-	private List<Expression> getAlternativeQualifications(SimpleName reference, Name initializerName) {
-		List<Expression> ans= new ArrayList<>();
+	private List<Expression> getAlternativeQualifications(SimpleName reference, Name initializerName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Expression> ans= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (initializerName instanceof SimpleName) {
 			SimpleName simpleNameInitializer= ((SimpleName) initializerName);
 			IBinding resolveBinding= simpleNameInitializer.resolveBinding();
@@ -678,8 +678,8 @@ public class InlineTempRefactoring extends Refactoring {
 	 *         initializerQualifiedName in order to get to the declaring class of the passed in
 	 *         reference.
 	 */
-	private int findCommonDeclaringClassIndex(SimpleName reference, QualifiedName initializerQualifiedName) {
-		final List<SimpleName> initializerSimpleNames= new ArrayList<>();
+	private int findCommonDeclaringClassIndex(SimpleName reference, QualifiedName initializerQualifiedName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<SimpleName> initializerSimpleNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		initializerQualifiedName.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(QualifiedName qualifiedName) {
@@ -697,7 +697,7 @@ public class InlineTempRefactoring extends Refactoring {
 		TypeDeclaration typeDeclaration= (TypeDeclaration) ASTNodes.getParent(reference, ASTNode.TYPE_DECLARATION);
 		ITypeBinding declaringClassBinding= typeDeclaration.resolveBinding();
 		int i= 1;
-		while (i < initializerSimpleNames.size() && declaringClassBinding != getDeclaringClass(initializerSimpleNames.get(i))) {
+		while (i < initializerSimpleNames.size() && declaringClassBinding != getDeclaringClass(initializerSimpleNames.get(i))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
 		}
 		return i;
@@ -728,7 +728,7 @@ public class InlineTempRefactoring extends Refactoring {
 
 	private boolean clashesWithNewVariables(Set<IVariableBinding> newVariables, SimpleName leftMostSimpleName) {
 		String leftMostSimpleNameIdentifier= leftMostSimpleName.getIdentifier();
-		for (IVariableBinding newVariable : newVariables) {
+		for (IVariableBinding newVariable : newVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (newVariable.getName().equals(leftMostSimpleNameIdentifier)) {
 				return true;
 			}
@@ -744,13 +744,13 @@ public class InlineTempRefactoring extends Refactoring {
 	private Set<IVariableBinding> getNewVariables(SimpleName reference) {
 		ScopeAnalyzer scopeAnalyzer= new ScopeAnalyzer(fASTRoot);
 		IBinding[] declarationsAtReference= scopeAnalyzer.getDeclarationsInScope(reference.getStartPosition(), ScopeAnalyzer.VARIABLES);
-		Set<IVariableBinding> newVariables= new HashSet<>(declarationsAtReference.length);
-		for (IBinding newVariable : declarationsAtReference) {
+		Set<IVariableBinding> newVariables= new HashSet<>(declarationsAtReference.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IBinding newVariable : declarationsAtReference) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newVariables.add((IVariableBinding) newVariable);
 		}
 		VariableDeclaration var= getVariableDeclaration();
 		int endPosition= var.getStartPosition() + var.getLength();
-		for (IBinding oldVariable : scopeAnalyzer.getDeclarationsInScope(endPosition, ScopeAnalyzer.VARIABLES)) {
+		for (IBinding oldVariable : scopeAnalyzer.getDeclarationsInScope(endPosition, ScopeAnalyzer.VARIABLES)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newVariables.remove(oldVariable);
 		}
 		return newVariables;
@@ -760,38 +760,38 @@ public class InlineTempRefactoring extends Refactoring {
 		return createFullyQualifiedName(simpleName, declaringClass, 0, addPackage);
 	}
 
-	private Name createFullyQualifiedName(SimpleName simpleName, ITypeBinding declaringClass, int numberOfClassesToSkip, boolean addPackage) {
+	private Name createFullyQualifiedName(SimpleName simpleName, ITypeBinding declaringClass, int numberOfClassesToSkip, boolean addPackage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= fASTRoot.getAST();
-		List<ITypeBinding> declaringClasses = new ArrayList<>();
-		while (declaringClass != null) {
+		List<ITypeBinding> declaringClasses = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (declaringClass != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			declaringClasses.add(declaringClass);
 			declaringClass= declaringClass.getDeclaringClass();
 		}
-		for (int i= 0; i < numberOfClassesToSkip; i++) {
+		for (int i= 0; i < numberOfClassesToSkip; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (declaringClasses.size() > 0) {
 				declaringClasses.remove(declaringClasses.size() - 1);
 			} else {
 				break;
 			}
 		}
-		StringBuilder qualifiedName = new StringBuilder();
+		StringBuilder qualifiedName = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (addPackage && declaringClasses.size() > 0) {
-			qualifiedName.append(declaringClasses.get(declaringClasses.size() - 1).getPackage().getName());
-			qualifiedName.append('.');
+			qualifiedName.append(declaringClasses.get(declaringClasses.size() - 1).getPackage().getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			qualifiedName.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		for (int i= declaringClasses.size() - 1; i >= 0; i--) {
-			qualifiedName.append(declaringClasses.get(i).getName());
-			qualifiedName.append('.');
+		for (int i= declaringClasses.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			qualifiedName.append(declaringClasses.get(i).getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			qualifiedName.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		qualifiedName.append(simpleName.getFullyQualifiedName());
+		qualifiedName.append(simpleName.getFullyQualifiedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return ast.newName(qualifiedName.toString());
 	}
 
-	private String createParameterizedInvocation(Expression invocation, ITypeBinding[] typeArguments, CompilationUnitRewrite cuRewrite) throws JavaModelException {
+	private String createParameterizedInvocation(Expression invocation, ITypeBinding[] typeArguments, CompilationUnitRewrite cuRewrite) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTRewrite rewrite= ASTRewrite.create(invocation.getAST());
 		ListRewrite typeArgsRewrite= Invocations.getInferredTypeArgumentsRewrite(rewrite, invocation);
 
-		for (ITypeBinding typeArgument : typeArguments) {
+		for (ITypeBinding typeArgument : typeArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type typeArgumentNode = cuRewrite.getImportRewrite().addImport(typeArgument, cuRewrite.getAST());
 			typeArgsRewrite.insertLast(typeArgumentNode, null);
 		}
@@ -836,7 +836,7 @@ public class InlineTempRefactoring extends Refactoring {
 		return fReferences;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String selection= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION);
 		if (selection != null) {
 			int offset= -1;

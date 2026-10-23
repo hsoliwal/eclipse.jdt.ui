@@ -87,7 +87,7 @@ public class EnumSourceValidationTest {
 		assertAppendExclusionExpandsSingleName("\"R\" + \"ED\""); //$NON-NLS-1$
 	}
 
-	private void assertAppendExclusionExpandsSingleName(String nameExpression) throws Exception {
+	private void assertAppendExclusionExpandsSingleName(String nameExpression) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Both named tests exercise single-value shorthand without an ArrayInitializer.
 		IMethod method= createTest("""
 				@EnumSource(value = Color.class, from = "RED", to = "BLUE",
@@ -97,24 +97,24 @@ public class EnumSourceValidationTest {
 		assertExcludedNames(method, List.of("RED")); //$NON-NLS-1$
 		assertExclusionTarget(method, 1, "GREEN"); //$NON-NLS-1$
 
-		assertTrue("Expected excludeEnumValue(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected excludeEnumValue(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$
 
 		assertExcludedNames(method, List.of("RED", "GREEN")); //$NON-NLS-1$ //$NON-NLS-2$
 		assertExcludeMode(method);
 		assertNoExclusionTarget(method, 1);
 		String source= cu.getSource();
-		String expectedNames= "names={" + nameExpression + ",\"GREEN\"}"; //$NON-NLS-1$ //$NON-NLS-2$
-		assertTrue("Expected the original name expression and appended GREEN in source: " + source, //$NON-NLS-1$
+		String expectedNames= "names={" + nameExpression + ",\"GREEN\"}"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("Expected the original name expression and appended GREEN in source: " + source, //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.replaceAll("\\s+", "").contains(expectedNames.replaceAll("\\s+", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		assertTrue("Expected the RED lower bound to be preserved in source: " + source, source.contains("from = \"RED\"")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertTrue("Expected the BLUE upper bound to be preserved in source: " + source, source.contains("to = \"BLUE\"")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Expected the RED lower bound to be preserved in source: " + source, source.contains("from = \"RED\"")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("Expected the BLUE upper bound to be preserved in source: " + source, source.contains("to = \"BLUE\"")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertCompiles(cu);
 
-		assertFalse("Expected excludeEnumValue(GREEN) to be rejected for " + methodContext(method), //$NON-NLS-1$
+		assertFalse("Expected excludeEnumValue(GREEN) to be rejected for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$
 		assertEquals("Expected repeating the same exclusion to leave the source unchanged", source, cu.getSource()); //$NON-NLS-1$
-		assertTrue("Expected removeValueFromExclusion(RED) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected removeValueFromExclusion(RED) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeValueFromExclusion(method, "RED")); //$NON-NLS-1$
 		assertExcludedNames(method, List.of("GREEN")); //$NON-NLS-1$
 		assertExclusionTarget(method, 1, "RED"); //$NON-NLS-1$
@@ -123,7 +123,7 @@ public class EnumSourceValidationTest {
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReincludeOneWhenAllValuesExcluded() throws Exception {
 		IMethod method= createTest("""
 				@EnumSource(value = Color.class, mode = EnumSource.Mode.EXCLUDE,
@@ -134,7 +134,7 @@ public class EnumSourceValidationTest {
 		assertExcludedNames(method, List.of("RED", "GREEN", "BLUE")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		assertNoExclusionTarget(method, 1);
 
-		assertTrue("Expected removeValueFromExclusion(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected removeValueFromExclusion(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeValueFromExclusion(method, "GREEN")); //$NON-NLS-1$
 		assertExcludedNames(method, List.of("RED", "BLUE")); //$NON-NLS-1$ //$NON-NLS-2$
 		// GREEN is runnable again but is the last value, so it cannot be excluded.
@@ -143,7 +143,7 @@ public class EnumSourceValidationTest {
 		assertCompiles(method.getCompilationUnit());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReincludeLastExcludedValueInRange() throws Exception {
 		IMethod method= createTest("""
 				@EnumSource(value = Color.class, from = "GREEN", to = "GREEN",
@@ -152,13 +152,13 @@ public class EnumSourceValidationTest {
 
 		assertExcludeMode(method);
 		assertNoExclusionTarget(method, 1);
-		assertTrue("Expected removeValueFromExclusion(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected removeValueFromExclusion(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeValueFromExclusion(method, "GREEN")); //$NON-NLS-1$
 		assertFilterRemoved(method);
 		String source= method.getCompilationUnit().getSource();
-		assertTrue("Expected the GREEN lower bound to remain in " + sourceContext(method.getCompilationUnit()), //$NON-NLS-1$
+		assertTrue("Expected the GREEN lower bound to remain in " + sourceContext(method.getCompilationUnit()), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("from = \"GREEN\"")); //$NON-NLS-1$
-		assertTrue("Expected the GREEN upper bound to remain in " + sourceContext(method.getCompilationUnit()), //$NON-NLS-1$
+		assertTrue("Expected the GREEN upper bound to remain in " + sourceContext(method.getCompilationUnit()), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("to = \"GREEN\"")); //$NON-NLS-1$
 		// GREEN is runnable again but is the last value, so it cannot be excluded.
 		assertNoExclusionTarget(method, 1);
@@ -175,7 +175,7 @@ public class EnumSourceValidationTest {
 
 		assertExcludeMode(method);
 		assertNoExclusionTarget(method, 1);
-		assertTrue("Expected removeExcludeMode to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected removeExcludeMode to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeExcludeMode(method));
 		assertFilterRemoved(method);
 		assertExcludedNames(method, List.of());
@@ -233,7 +233,7 @@ public class EnumSourceValidationTest {
 	public void testInvocationMappingRejectsInvalidIndices() throws Exception {
 		createTest("@EnumSource(Color.class)"); //$NON-NLS-1$
 		assertActionDisabled(null);
-		for (String id : List.of("", "[engine:junit-jupiter]", //$NON-NLS-1$ //$NON-NLS-2$
+		for (String id : List.of("", "[engine:junit-jupiter]", //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				"[test-template-invocation:#0]", "[test-template-invocation:#4]", //$NON-NLS-1$ //$NON-NLS-2$
 				"[test-template-invocation:#-1]", "[test-template-invocation:#2147483648]", //$NON-NLS-1$ //$NON-NLS-2$
 				"[test-template-invocation:#999999999999999999999999]")) { //$NON-NLS-1$
@@ -255,9 +255,9 @@ public class EnumSourceValidationTest {
 		IMethod method= createTest("@EnumSource(Color.class)"); //$NON-NLS-1$
 		ExcludeParameterValueAction action= new ExcludeParameterValueAction();
 		action.update(invocation(method, 2));
-		assertTrue("Expected GREEN at invocation index 2 to be eligible for exclusion in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$
+		assertTrue("Expected GREEN at invocation index 2 to be eligible for exclusion in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		assertTrue("Expected excludeEnumValue(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected excludeEnumValue(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$
 		String source= method.getCompilationUnit().getSource();
 		action.run();
@@ -273,7 +273,7 @@ public class EnumSourceValidationTest {
 		IMethod method= createTest("@EnumSource(Color.class)"); //$NON-NLS-1$
 		ExcludeParameterValueAction action= new ExcludeParameterValueAction();
 		action.update(invocation(method, 2));
-		assertTrue("Expected GREEN at invocation index 2 to be eligible for exclusion in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$
+		assertTrue("Expected GREEN at invocation index 2 to be eligible for exclusion in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IMethod updatedMethod= createTest("""
 				@EnumSource(value = Color.class, mode = EnumSource.Mode.MATCH_ANY, names = "R.*")
@@ -291,7 +291,7 @@ public class EnumSourceValidationTest {
 		IMethod method= createTest("@EnumSource(Color.class)"); //$NON-NLS-1$
 		ExcludeParameterValueAction action= new ExcludeParameterValueAction();
 		action.update(invocation(method, 2));
-		assertTrue("Expected GREEN at invocation index 2 to be eligible for exclusion in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$
+		assertTrue("Expected GREEN at invocation index 2 to be eligible for exclusion in " + methodContext(method), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		action.update(null);
 		String source= method.getCompilationUnit().getSource();
@@ -301,7 +301,7 @@ public class EnumSourceValidationTest {
 		assertFalse("Expected no changes after clearing the selection; the action must be disabled", action.isEnabled()); //$NON-NLS-1$
 	}
 
-	private IMethod createTest(String enumSource) throws Exception {
+	private IMethod createTest(String enumSource) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= EnumSourceTestSupport.createCompilationUnit(fSourceFolder, "test1", "MyTest.java", """
 				package test1;
 
@@ -324,17 +324,17 @@ public class EnumSourceValidationTest {
 		String original= method.getCompilationUnit().getSource();
 		assertExcludedNames(method, List.of());
 		assertNoExclusionTarget(method, 1);
-		assertFalse("Expected excludeEnumValue(RED) to be rejected for " + methodContext(method), //$NON-NLS-1$
+		assertFalse("Expected excludeEnumValue(RED) to be rejected for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "RED")); //$NON-NLS-1$
-		assertFalse("Expected removeValueFromExclusion(GREEN) to be rejected for " + methodContext(method), //$NON-NLS-1$
+		assertFalse("Expected removeValueFromExclusion(GREEN) to be rejected for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeValueFromExclusion(method, "GREEN")); //$NON-NLS-1$
-		assertFalse("Expected removeExcludeMode to be rejected for " + methodContext(method), //$NON-NLS-1$
+		assertFalse("Expected removeExcludeMode to be rejected for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeExcludeMode(method));
 		assertEquals("Expected unsupported source to remain unchanged", original, method.getCompilationUnit().getSource()); //$NON-NLS-1$
 	}
 
 	private void assertActionEnabled(String uniqueId) {
-		assertTrue("Expected enum exclusion to be enabled for unique ID: " + uniqueId, isActionEnabled(uniqueId)); //$NON-NLS-1$
+		assertTrue("Expected enum exclusion to be enabled for unique ID: " + uniqueId, isActionEnabled(uniqueId)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void assertActionDisabled(String uniqueId) {
@@ -342,7 +342,7 @@ public class EnumSourceValidationTest {
 	}
 
 	private void assertActionDisabled(String uniqueId, boolean dynamic) {
-		assertFalse("Expected enum exclusion to be disabled for unique ID: " + uniqueId + " (dynamic=" + dynamic + ")", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertFalse("Expected enum exclusion to be disabled for unique ID: " + uniqueId + " (dynamic=" + dynamic + ")", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				isActionEnabled(uniqueId, dynamic));
 	}
 

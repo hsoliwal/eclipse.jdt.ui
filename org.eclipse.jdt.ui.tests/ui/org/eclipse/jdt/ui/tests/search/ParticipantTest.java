@@ -83,7 +83,7 @@ public class ParticipantTest {
 		JavaSearchResult result= (JavaSearchResult) query.getSearchResult();
 		assertEquals(20, result.getMatchCount());
 
-		for (Object element : result.getElements()) {
+		for (Object element : result.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(element instanceof Integer);
 		}
 	}

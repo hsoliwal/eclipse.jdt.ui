@@ -114,13 +114,13 @@ public class VarCleanUpCore extends AbstractMultiFix {
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.USE_VAR) || !JavaModelUtil.is10OrHigher(unit.getJavaElement().getJavaProject())) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -150,7 +150,7 @@ public class VarCleanUpCore extends AbstractMultiFix {
 				return maybeUseVar(node.getType(), node.getInitializer(), node.getExtraDimensions());
 			}
 
-			private boolean maybeUseVar(final Type type, final Expression initializer, final int extraDimensions) {
+			private boolean maybeUseVar(final Type type, final Expression initializer, final int extraDimensions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (initializer instanceof ExpressionMethodReference) {
 					return false;
 				}
@@ -218,7 +218,7 @@ public class VarCleanUpCore extends AbstractMultiFix {
 								ParameterizedType parameterizedType= (ParameterizedType) statementType;
 								List<Type> typeArgs= parameterizedType.typeArguments();
 
-								for (Type typeArg : typeArgs) {
+								for (Type typeArg : typeArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (typeArg.isWildcardType()) {
 										return true;
 									}
@@ -322,10 +322,10 @@ public class VarCleanUpCore extends AbstractMultiFix {
 				rewriteOperations.toArray(new CompilationUnitRewriteOperation[0]));
 	}
 
-	private boolean checkForWildCard(LambdaExpression lambda, List<Expression> args, IMethodBinding methodBinding) {
+	private boolean checkForWildCard(LambdaExpression lambda, List<Expression> args, IMethodBinding methodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int index= -1;
 
-		for (int i= 0; i < args.size(); ++i) {
+		for (int i= 0; i < args.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (args.get(i) == lambda) {
 				index= i;
 				break;
@@ -343,7 +343,7 @@ public class VarCleanUpCore extends AbstractMultiFix {
 		ITypeBinding lambdaParamType= methodBinding.getParameterTypes()[index];
 		ITypeBinding[] typeArgs= lambdaParamType.getTypeArguments();
 
-		for (ITypeBinding typeArg : typeArgs) {
+		for (ITypeBinding typeArg : typeArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (typeArg.isWildcardType()) {
 				return true;
 			}
@@ -386,7 +386,7 @@ public class VarCleanUpCore extends AbstractMultiFix {
 			this.postfix= postfix;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			ImportRemover remover= cuRewrite.getImportRemover();
@@ -398,7 +398,7 @@ public class VarCleanUpCore extends AbstractMultiFix {
 				ASTNode replacement= rewrite.createCopyTarget(node);
 				ASTNodes.replaceButKeepComment(rewrite, node1, replacement, group);
 			} else if (literal != null) {
-				NumberLiteral replacement= ast.newNumberLiteral(literal.getToken() + postfix);
+				NumberLiteral replacement= ast.newNumberLiteral(literal.getToken() + postfix); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				ASTNodes.replaceButKeepComment(rewrite, literal, replacement, group);
 			}
 

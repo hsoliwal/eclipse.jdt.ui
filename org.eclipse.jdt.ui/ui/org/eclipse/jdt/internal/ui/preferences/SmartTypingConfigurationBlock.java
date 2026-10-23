@@ -65,7 +65,7 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 		store.addKeys(createOverlayStoreKeys());
 	}
 
-	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() {
+	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		return new OverlayPreferenceStore.OverlayKey[] {
 				new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_SMART_PASTE),
@@ -94,7 +94,7 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 	 * @param parent the parent composite
 	 * @return the control for the preference page
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createControl(Composite parent) {
 		ScrolledPageContent scrolled= new ScrolledPageContent(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolled.setExpandHorizontal(true);
@@ -206,7 +206,7 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 		addCheckBox(composite, label, PreferenceConstants.EDITOR_SMART_OPENING_BRACE, 0);
 	}
 
-	private void addAutoclosingSection(Composite composite) {
+	private void addAutoclosingSection(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		GridLayout layout= new GridLayout();
 		layout.numColumns= 1;
@@ -247,7 +247,7 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 	 * might return <code>null</code> on error.
 	 * @return the compilation unit represented by the document
 	 */
-	private static ICompilationUnit getCompilationUnit() {
+	private static ICompilationUnit getCompilationUnit() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IWorkbenchWindow window= JavaPlugin.getActiveWorkbenchWindow();
 		if (window == null)
@@ -269,7 +269,7 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 		return unit;
 	}
 
-	private void createMessage(final Composite composite) {
+	private void createMessage(final Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// TODO create a link with an argument, so the formatter preference page can open the
 		// current profile automatically.
 		String linkTooltip= PreferencesMessages.SmartTypingConfigurationBlock_tabs_message_tooltip;
@@ -286,7 +286,7 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 		GridData gd= new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gd.widthHint= 300; // don't get wider initially
 		link.setLayoutData(gd);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PreferencesUtil.createPreferenceDialogOn(link.getShell(), "org.eclipse.jdt.ui.preferences.CodeFormatterPreferencePage", null, null); //$NON-NLS-1$
@@ -294,7 +294,7 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 		});
 
 		final IPreferenceStore combinedStore= JavaPlugin.getDefault().getCombinedPreferenceStore();
-		final IPropertyChangeListener propertyChangeListener= new IPropertyChangeListener() {
+		final IPropertyChangeListener propertyChangeListener= new IPropertyChangeListener() { //FLLDCIM: MARK — T06  ANONYMOUS
 			private boolean fHasRun= false;
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
@@ -315,10 +315,10 @@ class SmartTypingConfigurationBlock extends AbstractConfigurationBlock {
 			}
 		};
 		combinedStore.addPropertyChangeListener(propertyChangeListener);
-		link.addDisposeListener(unused -> combinedStore.removePropertyChangeListener(propertyChangeListener));
+		link.addDisposeListener(unused -> combinedStore.removePropertyChangeListener(propertyChangeListener)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
-	private String getIndentMode() {
+	private String getIndentMode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String indentMode= JavaPlugin.getDefault().getCombinedPreferenceStore().getString(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
 
 		if (indentMode != null) {

@@ -20,7 +20,7 @@ import org.eclipse.jdt.core.IJavaProject;
 
 import org.eclipse.jdt.ui.text.java.JavaContentAssistInvocationContext;
 
-public class LazyPackageCompletionProposal extends LazyJavaCompletionProposal {
+public class LazyPackageCompletionProposal extends LazyJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private final ICompilationUnit fCompilationUnit;
 

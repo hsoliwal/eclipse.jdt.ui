@@ -121,7 +121,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		public boolean visit(QualifiedName node) {
 			if (fFindUnqualifiedAccesses || fFindUnqualifiedStaticAccesses) {
 				ASTNode simpleName= node;
-				while (simpleName instanceof QualifiedName) {
+				while (simpleName instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					simpleName= ((QualifiedName) simpleName).getQualifier();
 				}
 				if (simpleName instanceof SimpleName) {
@@ -155,10 +155,10 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			return true;
 		}
 
-		private void handleSimpleName(SimpleName node) {
+		private void handleSimpleName(SimpleName node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode firstExpression= node.getParent();
 			if (firstExpression instanceof FieldAccess) {
-				while (firstExpression instanceof FieldAccess) {
+				while (firstExpression instanceof FieldAccess) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					firstExpression= ((FieldAccess)firstExpression).getExpression();
 				}
 				if (!(firstExpression instanceof SimpleName))
@@ -179,7 +179,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			handleVariable(node, (IVariableBinding) binding);
 		}
 
-		private void handleVariable(SimpleName node, IVariableBinding varbinding) {
+		private void handleVariable(SimpleName node, IVariableBinding varbinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!varbinding.isField())
 				return;
 
@@ -214,7 +214,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			}
 		}
 
-		private void handleMethod(SimpleName node, IMethodBinding binding) {
+		private void handleMethod(SimpleName node, IMethodBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ITypeBinding declaringClass= binding.getDeclaringClass();
 			if (Modifier.isStatic(binding.getModifiers())) {
 				if (fFindUnqualifiedStaticMethodAccesses) {
@@ -256,7 +256,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			fOperations= result;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final FieldAccess node) {
 			if (!fRemoveFieldQualifiers)
 				return true;
@@ -311,7 +311,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			return super.visit(node);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final MethodInvocation node) {
 			if (!fRemoveMethodQualifiers)
 				return true;
@@ -358,7 +358,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 		private ITypeBinding getDeclaringType(MethodInvocation node) {
 			ASTNode p= node;
-			while (p != null) {
+			while (p != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				p= p.getParent();
 				if (p instanceof AbstractTypeDeclaration) {
 					return ((AbstractTypeDeclaration)p).resolveBinding();
@@ -367,9 +367,9 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			return null;
         }
 
-		private boolean hasConflict(int startPosition, SimpleName name, int flag) {
+		private boolean hasConflict(int startPosition, SimpleName name, int flag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ScopeAnalyzer analyzer= new ScopeAnalyzer(fCompilationUnit);
-			for (IBinding decl : analyzer.getDeclarationsInScope(startPosition, flag)) {
+			for (IBinding decl : analyzer.getDeclarationsInScope(startPosition, flag)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IBinding nameBinding= name.resolveBinding();
 				if (decl.getName().equals(name.getIdentifier()) && nameBinding != decl) {
 					if ((decl instanceof IVariableBinding) && (nameBinding instanceof IVariableBinding)) {
@@ -404,7 +404,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			if (fQualifier == null) {
 				qualifierLabel= "this"; //$NON-NLS-1$
 			} else {
-				qualifierLabel= BasicElementLabels.getJavaElementName(fQualifier + ".this"); //$NON-NLS-1$
+				qualifierLabel= BasicElementLabels.getJavaElementName(fQualifier + ".this"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			return Messages.format(FixMessages.CodeStyleFix_QualifyWithThis_description, new Object[] {nameLabel, qualifierLabel});
@@ -440,7 +440,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			fName= name;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore model) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			CompilationUnit compilationUnit= cuRewrite.getRoot();
@@ -494,7 +494,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 			cuRewrite.getASTRewrite().replace(fQualifier, type, group);
 		}
 
-		private void extractQualifier(Expression qualifier, CompilationUnitRewrite cuRewrite, TextEditGroup group) {
+		private void extractQualifier(Expression qualifier, CompilationUnitRewrite cuRewrite, TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Statement statement= ASTResolving.findParentStatement(qualifier);
 			if (statement == null)
 				return;
@@ -539,11 +539,11 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		}
 	}
 
-	public static CompilationUnitRewriteOperationsFixCore[] createNonStaticAccessFixes(CompilationUnit compilationUnit, IProblemLocation problem) {
+	public static CompilationUnitRewriteOperationsFixCore[] createNonStaticAccessFixes(CompilationUnit compilationUnit, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isNonStaticAccess(problem))
 			return null;
 
-		ToStaticAccessOperation operations[]= createToStaticAccessOperations(compilationUnit, new HashMap<>(), problem, false);
+		ToStaticAccessOperation operations[]= createToStaticAccessOperations(compilationUnit, new HashMap<>(), problem, false); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		if (operations == null)
 			return null;
 
@@ -574,7 +574,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		if (!isIndirectStaticAccess(problem))
 			return null;
 
-		ToStaticAccessOperation operations[]= createToStaticAccessOperations(compilationUnit, new HashMap<>(), problem, false);
+		ToStaticAccessOperation operations[]= createToStaticAccessOperations(compilationUnit, new HashMap<>(), problem, false); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		if (operations == null)
 			return null;
 
@@ -582,7 +582,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return new CodeStyleFixCore(label, compilationUnit, new CompilationUnitRewriteOperation[] {operations[0]});
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean addThisQualifier,
 			boolean changeNonStaticAccessToStatic,
 			boolean qualifyStaticFieldAccess,
@@ -595,7 +595,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		if (!addThisQualifier && !changeNonStaticAccessToStatic && !qualifyStaticFieldAccess && !changeIndirectStaticAccessToDirect && !qualifyMethodAccess && !qualifyStaticMethodAccess && !removeFieldQualifier && !removeMethodQualifier)
 			return null;
 
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (addThisQualifier || qualifyStaticFieldAccess || qualifyMethodAccess || qualifyStaticMethodAccess) {
 			CodeStyleVisitor codeStyleVisitor= new CodeStyleVisitor(compilationUnit, addThisQualifier, qualifyStaticFieldAccess, qualifyMethodAccess, qualifyStaticMethodAccess, operations);
 			compilationUnit.accept(codeStyleVisitor);
@@ -603,7 +603,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 		IProblem[] problems= compilationUnit.getProblems();
 		IProblemLocation[] locations= new IProblemLocation[problems.length];
-		for (int i= 0; i < problems.length; i++) {
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			locations[i]= new ProblemLocation(problems[i]);
 		}
 		addToStaticAccessOperations(compilationUnit, locations, changeNonStaticAccessToStatic, changeIndirectStaticAccessToDirect, operations);
@@ -620,7 +620,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return new CodeStyleFixCore(FixMessages.CodeStyleFix_change_name, compilationUnit, operationsArray);
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean addThisQualifier,
 			boolean changeNonStaticAccessToStatic,
 			boolean changeIndirectStaticAccessToDirect) {
@@ -628,9 +628,9 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		if (!addThisQualifier && !changeNonStaticAccessToStatic && !changeIndirectStaticAccessToDirect)
 			return null;
 
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (addThisQualifier) {
-			for (IProblemLocation problem : problems) {
+			for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (problem.getProblemId() == IProblem.UnqualifiedFieldAccess) {
 					AddThisQualifierOperation operation= getUnqualifiedFieldAccessResolveOperation(compilationUnit, problem);
 					if (operation != null)
@@ -648,13 +648,13 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return new CodeStyleFixCore(FixMessages.CodeStyleFix_change_name, compilationUnit, operationsArray);
 	}
 
-	public static void addToStaticAccessOperations(CompilationUnit compilationUnit, IProblemLocation[] problems, boolean changeNonStaticAccessToStatic, boolean changeIndirectStaticAccessToDirect, List<CompilationUnitRewriteOperation> result) {
+	public static void addToStaticAccessOperations(CompilationUnit compilationUnit, IProblemLocation[] problems, boolean changeNonStaticAccessToStatic, boolean changeIndirectStaticAccessToDirect, List<CompilationUnitRewriteOperation> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!changeNonStaticAccessToStatic && !changeIndirectStaticAccessToDirect)
 			return;
 
-		List<ToStaticAccessOperation> operations= new ArrayList<>();
-		HashMap<ASTNode, Block> createdBlocks= new HashMap<>();
-		for (IProblemLocation problem : problems) {
+		List<ToStaticAccessOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		HashMap<ASTNode, Block> createdBlocks= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean isNonStaticAccess= changeNonStaticAccessToStatic && isNonStaticAccess(problem);
 			boolean isIndirectStaticAccess= changeIndirectStaticAccessToDirect && isIndirectStaticAccess(problem);
 			if (isNonStaticAccess || isIndirectStaticAccess) {
@@ -663,7 +663,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 					ToStaticAccessOperation op= nonStaticAccessInformation[0];
 
 					Expression qualifier= op.fQualifier;
-					for (CompilationUnitRewriteOperation oper : result) { // see bug 346230
+					for (CompilationUnitRewriteOperation oper : result) { // see bug 346230 //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (oper instanceof CodeStyleFixCore.AddThisQualifierOperation
 								&& ((CodeStyleFixCore.AddThisQualifierOperation) oper).fName.equals(qualifier)) {
 							result.remove(oper);
@@ -676,7 +676,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		}
 		// Make sure qualifiers are processed inside-out and left-to-right, so that
 		// ToStaticAccessOperation#extractQualifier(..) extracts qualifiers in execution order:
-		Collections.sort(operations, (o1, o2) -> {
+		Collections.sort(operations, (o1, o2) -> { //FLLDCIM: MARK — M16 SORT_LANE CALL
 			if (ASTNodes.isParent(o1.fQualifier, o2.fQualifier)) {
 				return -1;
 			} else if (ASTNodes.isParent(o2.fQualifier, o1.fQualifier)) {
@@ -699,7 +699,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 				|| problem.getProblemId() == IProblem.NonStaticOrAlienTypeReceiver);
 	}
 
-	public static ToStaticAccessOperation[] createToStaticAccessOperations(CompilationUnit astRoot, HashMap<ASTNode, Block> createdBlocks, IProblemLocation problem, boolean conservative) {
+	public static ToStaticAccessOperation[] createToStaticAccessOperations(CompilationUnit astRoot, HashMap<ASTNode, Block> createdBlocks, IProblemLocation problem, boolean conservative) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(astRoot);
 		if (selectedNode == null) {
 			return null;
@@ -774,7 +774,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return null;
 	}
 
-	public static AddThisQualifierOperation getUnqualifiedFieldAccessResolveOperation(CompilationUnit compilationUnit, IProblemLocation problem) {
+	public static AddThisQualifierOperation getUnqualifiedFieldAccessResolveOperation(CompilationUnit compilationUnit, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SimpleName name= getName(compilationUnit, problem);
 		if (name == null)
 			return null;
@@ -795,16 +795,16 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 		return new AddThisQualifierOperation(replacement, name);
 	}
 
-	private static String getThisExpressionQualifier(ITypeBinding declaringClass, ImportRewrite imports, SimpleName name) {
+	private static String getThisExpressionQualifier(ITypeBinding declaringClass, ImportRewrite imports, SimpleName name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding parentType= Bindings.getBindingOfParentType(name);
 		ITypeBinding currType= parentType;
-		while (currType != null && !Bindings.isSuperType(declaringClass, currType)) {
+		while (currType != null && !Bindings.isSuperType(declaringClass, currType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			currType= currType.getDeclaringClass();
 		}
 		if (currType == null) {
 			declaringClass= declaringClass.getTypeDeclaration();
 			currType= parentType;
-			while (currType != null && !Bindings.isSuperType(declaringClass, currType)) {
+			while (currType != null && !Bindings.isSuperType(declaringClass, currType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				currType= currType.getDeclaringClass();
 			}
 		}
@@ -827,7 +827,7 @@ public class CodeStyleFixCore extends CompilationUnitRewriteOperationsFixCore {
 	private static SimpleName getName(CompilationUnit compilationUnit, IProblemLocation problem) {
 		ASTNode selectedNode= problem.getCoveringNode(compilationUnit);
 
-		while (selectedNode instanceof QualifiedName) {
+		while (selectedNode instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= ((QualifiedName) selectedNode).getQualifier();
 		}
 		if (!(selectedNode instanceof SimpleName)) {

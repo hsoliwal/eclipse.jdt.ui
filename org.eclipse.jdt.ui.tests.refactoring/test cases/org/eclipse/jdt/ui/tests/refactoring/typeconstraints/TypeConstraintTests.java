@@ -54,11 +54,11 @@ public class TypeConstraintTests extends GenericRefactoringTest {
 	}
 
 	private String getSimpleTestFileName(){
-		return "A_" + tn.getMethodName() + ".java";
+		return "A_" + tn.getMethodName() + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getTestFileName(){
-		return TEST_PATH_PREFIX + getRefactoringPath() + getSimpleTestFileName();
+		return TEST_PATH_PREFIX + getRefactoringPath() + getSimpleTestFileName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private ICompilationUnit createCUfromTestFile(IPackageFragment pack) throws Exception {
@@ -106,10 +106,10 @@ public class TypeConstraintTests extends GenericRefactoringTest {
 
 	private static List<String> allToStrings(Object[] elements) {
 		String[] strings= new String[elements.length];
-		for (int i= 0; i < elements.length; i++) {
+		for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			strings[i]= elements[i].toString();
 		}
-		return new ArrayList<>(Arrays.asList(strings));//want to be able to remove stuff from it
+		return new ArrayList<>(Arrays.asList(strings));//want to be able to remove stuff from it //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private void testConstraints(String[] constraintStrings) throws Exception{
@@ -120,8 +120,8 @@ public class TypeConstraintTests extends GenericRefactoringTest {
 
 		List<String> externals= allToStrings(constraints);
 		assertEquals("length", constraintStrings.length, constraints.length);
-		for (String constraintString : constraintStrings) {
-			assertTrue("missing constraint:" + constraintString, externals.remove(constraintString));
+		for (String constraintString : constraintStrings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue("missing constraint:" + constraintString, externals.remove(constraintString)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

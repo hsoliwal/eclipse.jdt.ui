@@ -108,7 +108,7 @@ public class TestKind implements ITestKind {
 	boolean precedes(ITestKind otherKind) {
 		final String precededKindId = getPrecededKindId();
 		String[] ids = precededKindId.split(","); //$NON-NLS-1$
-		for (String id : ids) {
+		for (String id : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.equals(otherKind.getId())) {
 				return true;
 			}
@@ -123,7 +123,7 @@ public class TestKind implements ITestKind {
 	public JUnitRuntimeClasspathEntry[] getClasspathEntries() {
 		IConfigurationElement[] children= fElement.getChildren(ITestKind.RUNTIME_CLASSPATH_ENTRY);
 		JUnitRuntimeClasspathEntry[] returnThis= new JUnitRuntimeClasspathEntry[children.length];
-		for (int i= 0; i < children.length; i++) {
+		for (int i= 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement element= children[i];
 			String pluginID= element.getAttribute(ITestKind.CLASSPATH_PLUGIN_ID);
 			String pathToJar= element.getAttribute(ITestKind.CLASSPATH_PATH_TO_JAR);
@@ -138,6 +138,6 @@ public class TestKind implements ITestKind {
 	 */
 	@Override
 	public String toString() {
-		return getDisplayName() + " (id: " + getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		return getDisplayName() + " (id: " + getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

@@ -66,9 +66,9 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 
 	private void checkAdditionalFile(String subdir, String fileName) throws Exception, JavaModelException, IOException {
 		IPackageFragment pack= getSubPackage(subdir);
-		ICompilationUnit cu= pack.getCompilationUnit(fileName+".java");
+		ICompilationUnit cu= pack.getCompilationUnit(fileName+".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull(cu);
-		assertTrue(cu.getPath() + " does not exist", cu.exists());
+		assertTrue(cu.getPath() + " does not exist", cu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String actual= cu.getSource();
 		String expected= getFileContents(getOutputTestFileName(fileName));
 		assertEqualLines(expected, actual);
@@ -90,17 +90,17 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 	}
 
 	private String getCUFileName(boolean caller) {
-		StringBuilder sb= new StringBuilder();
-		sb.append(getCUName(caller));
-		sb.append(".java");
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		sb.append(getCUName(caller)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		sb.append(".java"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return sb.toString();
 	}
 
 	private String getCUName(boolean caller) {
-		StringBuilder sb= new StringBuilder();
-		sb.append(Character.toUpperCase(getName().charAt(0)) + getName().substring(1));
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		sb.append(Character.toUpperCase(getName().charAt(0)) + getName().substring(1)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (caller)
-			sb.append("Caller");
+			sb.append("Caller"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return sb.toString();
 	}
 
@@ -112,7 +112,7 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 	private IPackageFragment getSubPackage(String subDir) throws Exception {
 		IPackageFragment pack= getPackageP();
 		if (subDir != null) {
-			String packageName= pack.getElementName() + "." + subDir;
+			String packageName= pack.getElementName() + "." + subDir; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			pack= getRoot().getPackageFragment(packageName);
 			if (!pack.exists()) {
 				IPackageFragment create= getRoot().createPackageFragment(packageName, true, new NullProgressMonitor());
@@ -124,7 +124,7 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 		return pack;
 	}
 
-	protected void runRefactoring(boolean expectError, boolean useSuggestedMethod) throws Exception {
+	protected void runRefactoring(boolean expectError, boolean useSuggestedMethod) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus status= performRefactoring(fDescriptor);
 		if (expectError) {
 			assertNotNull(status);
@@ -139,7 +139,7 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 				return;
 			}
 		}
-		assertNull(status+"",status);
+		assertNull(status+"",status); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String expected= getFileContents(getOutputTestFileName(getCUName(false)));
 		assertNotNull(expected);
 		ICompilationUnit resultCU= fPack.getCompilationUnit(getCUFileName(false));
@@ -153,7 +153,7 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 			if (packageName!=null)
 				fPack=getRoot().getPackageFragment(packageName);
 			assertNotNull(fPack);
-			String parameterClassFile= fDescriptor.getClassName()+".java";
+			String parameterClassFile= fDescriptor.getClassName()+".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			ICompilationUnit unit= fPack.getCompilationUnit(parameterClassFile);
 			assertNotNull(unit);
 			assertTrue(unit.exists());
@@ -185,7 +185,7 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 		assertNotNull(type);
 		assertTrue(type.exists());
 		IMethod fooMethod= null;
-		for (IMethod method : type.getMethods()) {
+		for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("foo".equals(method.getElementName())) {
 				fooMethod= method;
 			}
@@ -249,7 +249,7 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 		runRefactoring(false, true);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDelegateCreationCodeStyle() throws Exception {
 		IJavaProject javaProject= getRoot().getJavaProject();
 		Map<String, String> originalOptions= javaProject.getOptions(false);
@@ -390,7 +390,7 @@ public class IntroduceParameterObjectTests extends GenericRefactoringTest {
 		runRefactoring(false, true);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimpleEnclosingCodeStyle() throws Exception {
 		IJavaProject javaProject= getRoot().getJavaProject();
 		Map<String, String> originalOptions= javaProject.getOptions(false);

@@ -26,7 +26,7 @@ import org.eclipse.jdt.bcoview.preferences.BCOConstants;
 
 public class DecompilerHelper {
 
-	public static DecompiledClass getDecompiledClass(byte[] bytes, DecompilerOptions options) throws UnsupportedClassVersionError {
+	public static DecompiledClass getDecompiledClass(byte[] bytes, DecompilerOptions options) throws UnsupportedClassVersionError { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ClassReader cr = new ClassReader(bytes);
 		ClassNode cn = new ClassNode(DecompilerOptions.LATEST_ASM_VERSION);
 		int crFlags = 0;
@@ -46,9 +46,9 @@ public class DecompilerHelper {
 	}
 
 	private static DecompiledClass getResult(ICommentedClassVisitor printer, ClassNode classNode) {
-		List<Object> classText = new ArrayList<>();
+		List<Object> classText = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		formatText(printer.getText(), new StringBuffer(), classText);
-		while (classText.size() > 0 && "\n".equals(classText.get(0))) { //$NON-NLS-1$
+		while (classText.size() > 0 && "\n".equals(classText.get(0))) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			classText.remove(0);
 		}
 
@@ -56,8 +56,8 @@ public class DecompilerHelper {
 		return new DecompiledClass(classText, classInfo, classNode);
 	}
 
-	private static void formatText(final List<?> input, final StringBuffer line, final List<Object> result) {
-		for (int i = 0; i < input.size(); ++i) {
+	private static void formatText(final List<?> input, final StringBuffer line, final List<Object> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i = 0; i < input.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = input.get(i);
 			if (o instanceof List) {
 				formatText((List<?>) o, line, result);
@@ -66,12 +66,12 @@ public class DecompilerHelper {
 			} else {
 				String s = o.toString();
 				int p;
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					p = s.indexOf('\n');
 					if (p == -1) {
 						line.append(s);
 					} else {
-						result.add(line.toString() + s.substring(0, p + 1));
+						result.add(line.toString() + s.substring(0, p + 1)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						s = s.substring(p + 1);
 						line.setLength(0);
 					}

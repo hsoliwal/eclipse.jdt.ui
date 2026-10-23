@@ -61,22 +61,22 @@ public class TypeNameMatchCollector extends TypeNameMatchRequestor {
 	}
 
 	private boolean filter(String fullTypeName) {
-		for (Pattern curr : getStringMatchers()) {
-			if (curr.matcher(fullTypeName).matches()) {
+		for (Pattern curr : getStringMatchers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			if (curr.matcher(fullTypeName).matches()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private synchronized Pattern[] getStringMatchers() {
+	private synchronized Pattern[] getStringMatchers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fStringMatchers == null) {
 			String str= getPreference("org.eclipse.jdt.ui.typefilter.enabled"); //$NON-NLS-1$
 			StringTokenizer tok= new StringTokenizer(str, ";"); //$NON-NLS-1$
 			int nTokens= tok.countTokens();
 
 			fStringMatchers= new Pattern[nTokens];
-			for (int i= 0; i < nTokens; i++) {
+			for (int i= 0; i < nTokens; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String curr= tok.nextToken();
 				if (curr.length() > 0) {
 					// Simulate '*', and '?' wildcards using '.*' and '.'

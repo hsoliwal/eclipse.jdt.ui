@@ -31,30 +31,30 @@ public abstract class AbstractRenamePackagePerfTest extends RepeatingRefactoring
 
 	private IPackageFragment generateSources(int numberOfCus, int numberOfRefs) throws Exception {
 		IPackageFragment pack= fTestProject.getSourceFolder().createPackageFragment("pack", false, null);
-		for (int i= 0; i < numberOfRefs; i++) {
-			StringBuilder buf= new StringBuilder();
-			buf.append("package pack;\n");
-			buf.append("public class A" + i + " {\n");
-			buf.append("}\n");
-			pack.createCompilationUnit("A" + i + ".java", buf.toString(), false, null);
+		for (int i= 0; i < numberOfRefs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append("package pack;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("public class A" + i + " {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			pack.createCompilationUnit("A" + i + ".java", buf.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		IPackageFragment references= fTestProject.getSourceFolder().createPackageFragment("ref", false, null);
-		for(int i= 0; i < numberOfCus; i++) {
+		for(int i= 0; i < numberOfCus; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createReferenceCu(references, i, numberOfRefs);
 		}
 		return pack;
 	}
 
 	private static void createReferenceCu(IPackageFragment pack, int index, int numberOfRefs) throws Exception {
-		StringBuilder buf= new StringBuilder();
-		buf.append("package " + pack.getElementName() + ";\n");
-		for (int i= 0; i < numberOfRefs; i++) {
-			buf.append("import pack.A" + i + ";\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package " + pack.getElementName() + ";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < numberOfRefs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append("import pack.A" + i + ";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("public class Ref" + index + " {\n");
-		buf.append("}\n");
-		pack.createCompilationUnit("Ref" + index + ".java", buf.toString(), false, null);
+		buf.append("public class Ref" + index + " {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		pack.createCompilationUnit("Ref" + index + ".java", buf.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

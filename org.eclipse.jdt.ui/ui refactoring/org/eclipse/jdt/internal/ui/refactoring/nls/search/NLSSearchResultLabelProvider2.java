@@ -51,7 +51,7 @@ class NLSSearchResultLabelProvider2 extends TextSearchLabelProvider implements I
 		return getLabelWithCounts(element, internalGetText(element).getString());
 	}
 
-	private StyledString internalGetText(Object element) {
+	private StyledString internalGetText(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String description;
 		StyledString elementLabel;
 
@@ -73,7 +73,7 @@ class NLSSearchResultLabelProvider2 extends TextSearchLabelProvider implements I
 	private StyledString getPropertiesName(IFile propertiesFile) {
 		String path= BasicElementLabels.getPathLabel(propertiesFile.getFullPath().removeLastSegments(1), false);
 		String propertiesName= BasicElementLabels.getResourceName(propertiesFile.getName());
-		return new StyledString(propertiesName).append(JavaElementLabels.CONCAT_STRING + path, StyledString.QUALIFIER_STYLER);
+		return new StyledString(propertiesName).append(JavaElementLabels.CONCAT_STRING + path, StyledString.QUALIFIER_STYLER); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

@@ -65,7 +65,7 @@ public class CopyResourceChange extends ResourceChange {
 	/* non java-doc
 	 * @see IChange#perform(ChangeContext, IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final Change perform(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		try{
 			pm.beginTask(getName(), 2);
@@ -97,7 +97,7 @@ public class CopyResourceChange extends ResourceChange {
 	 * @return returns <code>true</code> if the resource already exists
 	 * @throws CoreException thrown when teh resource cannpt be accessed
 	 */
-	private boolean deleteIfAlreadyExists(IProgressMonitor pm, String newName) throws CoreException {
+	private boolean deleteIfAlreadyExists(IProgressMonitor pm, String newName) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask("", 1); //$NON-NLS-1$
 		IResource current= getDestination().findMember(newName);
 		if (current == null)

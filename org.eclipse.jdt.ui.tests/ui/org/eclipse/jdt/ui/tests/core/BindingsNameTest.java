@@ -49,7 +49,7 @@ public class BindingsNameTest {
 	private IPackageFragmentRoot fSourceFolder;
 	private ICompilationUnit fCompilationUnit;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		JavaProjectHelper.addRTJar13(fJProject1);
@@ -85,7 +85,7 @@ public class BindingsNameTest {
 		JavaProjectHelper.delete(fJProject1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getFullyQualifiedName() throws Exception {
 		CompilationUnit astRoot= createAST(fCompilationUnit);
 		IProblem[] problems= astRoot.getProblems();
@@ -97,7 +97,7 @@ public class BindingsNameTest {
 		List<SingleVariableDeclaration> params= methodDeclaration.parameters();
 		String[] fullNames= new String[params.size()];
 
-		for (int i= 0; i < params.size(); i++) {
+		for (int i= 0; i < params.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration elem= params.get(i);
 			IVariableBinding varBinding= elem.resolveBinding();
 			fullNames[i]= Bindings.getFullyQualifiedName(varBinding.getType());
@@ -113,7 +113,7 @@ public class BindingsNameTest {
 		assertEquals("x.X[][][]", fullNames[7]);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getTypeQualifiedName() throws Exception {
 		CompilationUnit astRoot= createAST(fCompilationUnit);
 		IProblem[] problems= astRoot.getProblems();
@@ -125,7 +125,7 @@ public class BindingsNameTest {
 		List<SingleVariableDeclaration> params= methodDeclaration.parameters();
 		String[] fullNames= new String[params.size()];
 
-		for (int i= 0; i < params.size(); i++) {
+		for (int i= 0; i < params.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration elem= params.get(i);
 			IVariableBinding varBinding= elem.resolveBinding();
 			fullNames[i]= Bindings.getTypeQualifiedName(varBinding.getType());
@@ -141,7 +141,7 @@ public class BindingsNameTest {
 		assertEquals("X[][][]", fullNames[7]);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getAllNameComponents() throws Exception {
 		CompilationUnit astRoot= createAST(fCompilationUnit);
 		IProblem[] problems= astRoot.getProblems();
@@ -153,7 +153,7 @@ public class BindingsNameTest {
 		List<SingleVariableDeclaration> params= methodDeclaration.parameters();
 		String[][] fullNames= new String[params.size()][];
 
-		for (int i= 0; i < params.size(); i++) {
+		for (int i= 0; i < params.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration elem= params.get(i);
 			IVariableBinding varBinding= elem.resolveBinding();
 			fullNames[i]= Bindings.getAllNameComponents(varBinding.getType());
@@ -169,7 +169,7 @@ public class BindingsNameTest {
 		assertEqualArray(new String[] { "x", "X[][][]" }, fullNames[7]);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getNameComponents() throws Exception {
 		CompilationUnit astRoot= createAST(fCompilationUnit);
 		IProblem[] problems= astRoot.getProblems();
@@ -181,7 +181,7 @@ public class BindingsNameTest {
 		List<SingleVariableDeclaration> params= methodDeclaration.parameters();
 		String[][] fullNames= new String[params.size()][];
 
-		for (int i= 0; i < params.size(); i++) {
+		for (int i= 0; i < params.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration elem= params.get(i);
 			IVariableBinding varBinding= elem.resolveBinding();
 			fullNames[i]= Bindings.getNameComponents(varBinding.getType());
@@ -199,7 +199,7 @@ public class BindingsNameTest {
 
 	private void assertEqualArray(Object[] elements, Object[] list) {
 		assertEquals("different length", list.length, elements.length);
-		for (int i= 0; i < list.length; i++) {
+		for (int i= 0; i < list.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertEquals(elements[i], list[i]);
 		}
 	}

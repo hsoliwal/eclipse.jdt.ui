@@ -98,7 +98,7 @@ public class ReorgQueries implements IReorgQueries {
 				return false;
 
 			final int[] result= new int[1];
-			fShell.getDisplay().syncExec(createQueryRunnable(question, result));
+			fShell.getDisplay().syncExec(createQueryRunnable(question, result)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return getResult(result);
 		}
 
@@ -111,13 +111,13 @@ public class ReorgQueries implements IReorgQueries {
 				return false;
 
 			final int[] result= new int[1];
-			fShell.getDisplay().syncExec(createQueryRunnable(question, elements, result));
+			fShell.getDisplay().syncExec(createQueryRunnable(question, elements, result)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return getResult(result);
 		}
 
-		private Runnable createQueryRunnable(final String question, final int[] result) {
+		private Runnable createQueryRunnable(final String question, final int[] result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new Runnable() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void run() {
 					int[] resultId= getResultIDs();
 
@@ -179,7 +179,7 @@ public class ReorgQueries implements IReorgQueries {
 				dialog.setAddCancelButton(false);
 				dialog.setBlockOnOpen(true);
 				dialog.setContentProvider(ArrayContentProvider.getInstance());
-				dialog.setLabelProvider(new JavaElementLabelProvider());
+				dialog.setLabelProvider(new JavaElementLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				dialog.setTitle(fDialogTitle);
 				dialog.setMessage(question);
 				dialog.setInput(elements);
@@ -189,7 +189,7 @@ public class ReorgQueries implements IReorgQueries {
 			};
 		}
 
-		private boolean getResult(int[] result) throws OperationCanceledException {
+		private boolean getResult(int[] result) throws OperationCanceledException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			switch(result[0]){
 				case IDialogConstants.YES_TO_ALL_ID:
 					fYesToAll= true;
@@ -225,20 +225,20 @@ public class ReorgQueries implements IReorgQueries {
 		@Override
 		public boolean confirm(String question) throws OperationCanceledException {
 			final int[] result= new int[1];
-			fShell.getDisplay().syncExec(createQueryRunnable(question, result));
+			fShell.getDisplay().syncExec(createQueryRunnable(question, result)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return getResult(result);
 		}
 
 		@Override
 		public boolean confirm(String question, Object[] elements) throws OperationCanceledException {
 			final int[] result= new int[1];
-			fShell.getDisplay().syncExec(createQueryRunnable(question, elements, result));
+			fShell.getDisplay().syncExec(createQueryRunnable(question, elements, result)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return getResult(result);
 		}
 
-		private Runnable createQueryRunnable(final String question, final int[] result){
+		private Runnable createQueryRunnable(final String question, final int[] result){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new Runnable() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void run() {
 					MessageDialog dialog= new MessageDialog(
 						fShell,
@@ -288,7 +288,7 @@ public class ReorgQueries implements IReorgQueries {
 				dialog.setAddCancelButton(false);
 				dialog.setBlockOnOpen(true);
 				dialog.setContentProvider(ArrayContentProvider.getInstance());
-				dialog.setLabelProvider(new JavaElementLabelProvider());
+				dialog.setLabelProvider(new JavaElementLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				dialog.setTitle(fDialogTitle);
 				dialog.setMessage(question);
 				dialog.setInput(elements);
@@ -330,7 +330,7 @@ public class ReorgQueries implements IReorgQueries {
 			if (fSkipAll)
 				return false;
 			final int[] result= new int[1];
-			fShell.getDisplay().syncExec(createQueryRunnable(question, result));
+			fShell.getDisplay().syncExec(createQueryRunnable(question, result)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return getResult(result);
 		}
 
@@ -339,9 +339,9 @@ public class ReorgQueries implements IReorgQueries {
 			throw new UnsupportedOperationException("Not supported for skip queries"); //$NON-NLS-1$
 		}
 
-		private Runnable createQueryRunnable(final String question, final int[] result){
+		private Runnable createQueryRunnable(final String question, final int[] result){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new Runnable() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void run() {
 					MessageDialog dialog= new MessageDialog(
 						fShell,

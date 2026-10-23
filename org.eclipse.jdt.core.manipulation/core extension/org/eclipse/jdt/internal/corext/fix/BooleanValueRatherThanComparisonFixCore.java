@@ -47,7 +47,7 @@ public class BooleanValueRatherThanComparisonFixCore extends CompilationUnitRewr
 			fResult= ops;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final MethodInvocation visited) {
 			if (ASTNodes.usesGivenSignature(visited, Boolean.class.getCanonicalName(), "equals", Object.class.getCanonicalName())) { //$NON-NLS-1$
 				Boolean isExpressionTrue= ASTNodes.getBooleanLiteral(visited.getExpression());
@@ -90,7 +90,7 @@ public class BooleanValueRatherThanComparisonFixCore extends CompilationUnitRewr
 			return maybeRefactorInfixExpression(visited, visited);
 		}
 
-		private boolean maybeRefactorInfixExpression(final Expression visited, final InfixExpression originalCondition) {
+		private boolean maybeRefactorInfixExpression(final Expression visited, final InfixExpression originalCondition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!originalCondition.hasExtendedOperands()
 					&& ASTNodes.hasOperator(originalCondition, InfixExpression.Operator.EQUALS, InfixExpression.Operator.NOT_EQUALS, InfixExpression.Operator.XOR)
 					// Either:
@@ -141,7 +141,7 @@ public class BooleanValueRatherThanComparisonFixCore extends CompilationUnitRewr
 			this.isTrue= isTrue;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -169,7 +169,7 @@ public class BooleanValueRatherThanComparisonFixCore extends CompilationUnitRewr
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		BooleanValueRatherThanComparisonFinder finder= new BooleanValueRatherThanComparisonFinder(operations);
 		compilationUnit.accept(finder);
 

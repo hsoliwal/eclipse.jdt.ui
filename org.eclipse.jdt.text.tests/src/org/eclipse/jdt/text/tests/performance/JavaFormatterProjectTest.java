@@ -75,7 +75,7 @@ public class JavaFormatterProjectTest extends TextPerformanceTestCase {
 		IAction action= ((IViewSite) view.getSite()).getActionBars().getGlobalActionHandler(FORMAT_ACTION_ID);
 		boolean wasEnabled= EditorTestHelper.setDialogEnabled(FORMAT_DIALOG_ID, false);
 		StructuredSelection selection= new StructuredSelection(JavaCore.create(ResourceTestHelper.getProject(TextPluginTestSetup.PROJECT)));
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			performanceMeter.start();
 			((SelectionDispatchAction) action).run(selection);
 			performanceMeter.stop();

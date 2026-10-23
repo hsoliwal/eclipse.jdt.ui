@@ -46,7 +46,7 @@ public class JEMarker extends JEAttribute {
 
 	@Override
 	public String getLabel() {
-		return fName +  ": (" + getMarkerAttribute(IMarker.SEVERITY) + ") " + getMarkerAttribute(IMarker.MESSAGE);
+		return fName +  ": (" + getMarkerAttribute(IMarker.SEVERITY) + ") " + getMarkerAttribute(IMarker.MESSAGE); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public Object getMarkerAttribute(String attributeName) {
@@ -66,7 +66,7 @@ public class JEMarker extends JEAttribute {
 		return fMarker;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

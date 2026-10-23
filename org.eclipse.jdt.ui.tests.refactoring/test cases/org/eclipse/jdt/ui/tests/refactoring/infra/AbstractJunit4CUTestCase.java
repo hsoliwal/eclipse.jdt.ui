@@ -63,7 +63,7 @@ public abstract class AbstractJunit4CUTestCase {
 	}
 
 	protected String adaptName(String name) {
-		return name + ".java";
+		return name + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String getProofedContent(String folder, String name) throws Exception {
@@ -74,7 +74,7 @@ public abstract class AbstractJunit4CUTestCase {
 	}
 
 	private String getFilePath(String path, String name) {
-		return getResourceLocation() + path + "/" + name;
+		return getResourceLocation() + path + "/" + name; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String getFilePath(IPackageFragment pack, String name) {

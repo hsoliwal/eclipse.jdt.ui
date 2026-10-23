@@ -51,7 +51,7 @@ public class PerformanceTestCase2 extends TestCase {
 		return 20;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void runTest() throws Throwable {
 		assertNotNull(getName());
 		Method runMethod= null;
@@ -62,21 +62,21 @@ public class PerformanceTestCase2 extends TestCase {
 			// inherited ones.
 			runMethod= getClass().getMethod(getName(), PerformanceMeter.class);
 		} catch (NoSuchMethodException e) {
-			throw new AssertionFailedError("Method \""+getName()+"\" not found");  //$NON-NLS-1$//$NON-NLS-2$
+			throw new AssertionFailedError("Method \""+getName()+"\" not found");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		assertTrue("Method \"" + getName() + "\" should be public", Modifier.isPublic(runMethod.getModifiers())); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Method \"" + getName() + "\" should be public", Modifier.isPublic(runMethod.getModifiers())); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		try {
 			int warmUpRuns= getWarmUpRuns();
 			PerformanceMeter nullMeter= Performance.getDefault().getNullPerformanceMeter();
 			Object[] args= { nullMeter };
-			for (int i= 0; i < warmUpRuns; i++)
+			for (int i= 0; i < warmUpRuns; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				runMethod.invoke(this, args);
 
 			int measuredRuns= getMeasuredRuns();
 			PerformanceMeter meter= createPerformanceMeter();
 			args[0]= meter;
-			for (int i= 0; i < measuredRuns; i++)
+			for (int i= 0; i < measuredRuns; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				runMethod.invoke(this, args);
 
 			commitAllMeasurements();
@@ -124,7 +124,7 @@ public class PerformanceTestCase2 extends TestCase {
 	 */
 	private void addPerformanceMeter(PerformanceMeter performanceMeter) {
 		if (fPerformanceMeters == null)
-			fPerformanceMeters= new ArrayList<>();
+			fPerformanceMeters= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fPerformanceMeters.add(performanceMeter);
 	}
 
@@ -134,7 +134,7 @@ public class PerformanceTestCase2 extends TestCase {
 	 */
 	protected final void commitAllMeasurements() {
 		if (fPerformanceMeters != null)
-			for (PerformanceMeter performanceMeter : fPerformanceMeters)
+			for (PerformanceMeter performanceMeter : fPerformanceMeters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				performanceMeter.commit();
 	}
 
@@ -158,7 +158,7 @@ public class PerformanceTestCase2 extends TestCase {
 	 */
 	protected final void assertAllPerformance() {
 		if (fPerformanceMeters != null)
-			for (PerformanceMeter performanceMeter : fPerformanceMeters)
+			for (PerformanceMeter performanceMeter : fPerformanceMeters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assertPerformance(performanceMeter);
 	}
 
