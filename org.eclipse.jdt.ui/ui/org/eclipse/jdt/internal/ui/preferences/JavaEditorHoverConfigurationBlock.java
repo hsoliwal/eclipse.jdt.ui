@@ -537,7 +537,7 @@ class JavaEditorHoverConfigurationBlock implements IPreferenceConfigurationBlock
 			fStatus= new StatusInfo();
 
 		int i= 0;
-		HashMap<Integer, String> stateMasks= new HashMap<>(fHoverConfigs.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		HashMap<Integer, String> stateMasks= new HashMap<>(fHoverConfigs.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		while (fStatus.isOK() && i < fHoverConfigs.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fHoverConfigs[i].fIsEnabled) {
 				String label= getContributedHovers()[i].getLabel();

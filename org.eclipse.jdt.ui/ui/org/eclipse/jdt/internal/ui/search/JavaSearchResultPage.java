@@ -218,7 +218,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 	private void showWithMarker(IEditorPart editor, IFile file, int offset, int length) throws PartInitException {
 		try {
 			IMarker marker= file.createMarker(NewSearchUI.SEARCH_MARKER);
-			HashMap<String, Integer> attributes= new HashMap<>(4); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			HashMap<String, Integer> attributes= new HashMap<>(4); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			attributes.put(IMarker.CHAR_START, offset);
 			attributes.put(IMarker.CHAR_END, offset + length);
 			marker.setAttributes(attributes);

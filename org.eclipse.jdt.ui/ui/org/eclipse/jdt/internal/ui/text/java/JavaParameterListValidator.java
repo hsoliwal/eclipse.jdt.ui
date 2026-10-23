@@ -307,7 +307,7 @@ public class JavaParameterListValidator implements IContextInformationValidator,
 		final int length= code.length();
 	    int pos= 0;
 	    int angleLevel= 0;
-		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		positions.add(-1);
 		while (pos < length && pos != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);

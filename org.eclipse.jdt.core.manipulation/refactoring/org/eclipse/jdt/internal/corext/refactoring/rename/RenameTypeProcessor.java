@@ -164,7 +164,7 @@ public class RenameTypeProcessor extends JavaRenameProcessor implements ITextUpd
 
 	// Preloaded information for the UI.
 	private LinkedHashMap<IJavaElement, String> fPreloadedElementToName= null;
-	private Map<IJavaElement, Boolean> fPreloadedElementToSelection= null;
+	private Map<IJavaElement, Boolean> fPreloadedElementToSelection= null; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 	private LinkedHashMap<IJavaElement, String> fPreloadedElementToNameDefault= null;
 
 	// Cache information to decide whether to

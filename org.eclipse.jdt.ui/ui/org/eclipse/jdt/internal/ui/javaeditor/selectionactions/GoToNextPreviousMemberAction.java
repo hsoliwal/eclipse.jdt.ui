@@ -203,7 +203,7 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 	}
 
 	private static Integer[] createOffsetArray(IType[] types) throws JavaModelException {
-		List<Integer> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (IType iType : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addOffset(result, iType.getNameRange().getOffset());
 			addOffset(result, iType.getSourceRange().getOffset() + iType.getSourceRange().getLength());
@@ -214,7 +214,7 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 		return result.toArray(new Integer[result.size()]);
 	}
 
-	private static void addMemberOffsetList(List<Integer> result, IMember[] members) throws JavaModelException {
+	private static void addMemberOffsetList(List<Integer> result, IMember[] members) throws JavaModelException { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addOffset(result, getOffset(member));
 		}
@@ -259,7 +259,7 @@ public class GoToNextPreviousMemberAction extends Action implements IUpdate {
 		return new SourceRange(ts.getOffset(), ts.getLength());
 	}
 
-	private static void addOffset(List<Integer> result, int offset) {
+	private static void addOffset(List<Integer> result, int offset) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		if (offset >= 0)
 			result.add(offset);
 	}

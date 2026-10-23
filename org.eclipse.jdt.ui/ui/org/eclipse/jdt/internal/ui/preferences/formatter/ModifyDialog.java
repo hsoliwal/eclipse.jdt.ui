@@ -547,7 +547,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 
 				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected void prepareControl() {
-					LinkedHashMap<String, Integer> itemCounts= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+					LinkedHashMap<String, Integer> itemCounts= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					List<ComboPreference> preferences= findPreferences(ComboPreference.class);
 					for (ComboPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String[] items= pref.getControl().getItems();
@@ -678,7 +678,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 				protected void prepareControl() {
 					int modeValue= 0;
 					int modeCount= -1;
-					HashMap<Integer, Integer> counts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+					HashMap<Integer, Integer> counts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					List<NumberPreference> preferences= findPreferences(NumberPreference.class);
 					for (NumberPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int value= pref.getControl().getSelection();
@@ -1078,7 +1078,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 	 */
 	protected final class FocusManager implements FocusListener {
 		private HashMap<Control, PreferenceTreeNode<?>> fControl2node= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
-		private final Map<Control, Integer> fItemMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		private final Map<Control, Integer> fItemMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private final List<Control> fItemList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private int fIndex= 0;
 		private PreferenceTreeNode<?> fCurrentlyFocused;

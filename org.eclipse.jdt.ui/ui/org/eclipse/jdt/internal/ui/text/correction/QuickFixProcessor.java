@@ -364,7 +364,7 @@ public class QuickFixProcessor implements IQuickFixProcessor {
 			return null;
 		}
 
-		HashSet<Integer> handledProblems= new HashSet<>(locations.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		HashSet<Integer> handledProblems= new HashSet<>(locations.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		ArrayList<ICommandAccess> resultingCollections= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		for (IProblemLocation curr : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Integer id= curr.getProblemId();

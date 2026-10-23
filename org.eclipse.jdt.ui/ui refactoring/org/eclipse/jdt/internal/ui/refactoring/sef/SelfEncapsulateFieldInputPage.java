@@ -583,7 +583,7 @@ public class SelfEncapsulateFieldInputPage extends UserInputWizardPage {
 		if(warningIcon == null || warningText == null) {
 			return;
 		}
-		List<Integer> visibilityIndex = Stream.of(Flags.AccPrivate, Flags.AccDefault, Flags.AccProtected, Flags.AccPublic).toList();
+		List<Integer> visibilityIndex = Stream.of(Flags.AccPrivate, Flags.AccDefault, Flags.AccProtected, Flags.AccPublic).toList(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		boolean shouldWarn = getSelectedRefactorings().stream().anyMatch(refactoring -> {
 			try {
 				return visibilityIndex.indexOf(refactoring.getVisibility()) < visibilityIndex.indexOf(refactoring.getFieldVisibility());

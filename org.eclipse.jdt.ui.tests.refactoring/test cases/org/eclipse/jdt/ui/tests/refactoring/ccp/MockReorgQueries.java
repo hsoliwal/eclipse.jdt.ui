@@ -30,7 +30,7 @@ import org.eclipse.jdt.internal.corext.refactoring.reorg.INewNameQuery;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.IReorgQueries;
 
 public class MockReorgQueries implements IReorgQueries, INewNameQueries {
-	private final List<Integer> fQueriesRun= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final List<Integer> fQueriesRun= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	@Override
 	public IConfirmQuery createYesNoQuery(String queryTitle, boolean allowCancel, int queryID) {

@@ -692,7 +692,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		} else if ("c".equals(data)) { // open compliance //$NON-NLS-1$
 			String buildPath= BUILD_PATH_PAGE_ID;
 			String complianceId= COMPLIANCE_PAGE_ID;
-			Map<String, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			Map<String, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 			input.put(KEY_NO_LINK, Boolean.TRUE);
 			PreferencesUtil.createPropertyDialogOn(getShell(), javaProject, complianceId, new String[] { buildPath, complianceId  }, data).open();

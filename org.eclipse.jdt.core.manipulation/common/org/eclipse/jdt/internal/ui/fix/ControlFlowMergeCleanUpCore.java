@@ -139,7 +139,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 
 					// If all cases exist
 					ASTSemanticMatcher matcher= new ASTMatcherSameVariablesAndMethods();
-					List<Integer> casesToRefactor= getMatchingCases(allCasesStatements, matcher);
+					List<Integer> casesToRefactor= getMatchingCases(allCasesStatements, matcher); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 
 					if (casesToRefactor == null || casesToRefactor.size() <= 1) {
 						return true;
@@ -209,7 +209,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 			}
 
 			private void flagStmtsToRemove(final List<List<Statement>> allCasesStatements, final int stmtIndex,
-					final List<Statement>[] caseStmtsToRemove, final List<Integer> casesToRefactor) {
+					final List<Statement>[] caseStmtsToRemove, final List<Integer> casesToRefactor) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				for (int i : casesToRefactor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<Statement> caseStatements= allCasesStatements.get(i);
 					Statement stmtToRemove= caseStatements.get(caseStatements.size() - stmtIndex);
@@ -217,7 +217,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 				}
 			}
 
-			private boolean match(final ASTSemanticMatcher matcher, final List<List<Statement>> allCasesStatements, final int stmtIndex, final List<Integer> casesToRefactor) {
+			private boolean match(final ASTSemanticMatcher matcher, final List<List<Statement>> allCasesStatements, final int stmtIndex, final List<Integer> casesToRefactor) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				List<Statement> firstCaseToRefactor= allCasesStatements.get(casesToRefactor.get(0));
 
 				for (int i= 1; i < casesToRefactor.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -232,7 +232,7 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 				return true;
 			}
 
-			private int smallestStatementNumber(final List<List<Statement>> allCasesStatements, final List<Integer> casesToRefactor) {
+			private int smallestStatementNumber(final List<List<Statement>> allCasesStatements, final List<Integer> casesToRefactor) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				int min= allCasesStatements.get(casesToRefactor.get(0)).size();
 
 				for (Integer caseToRefactor : casesToRefactor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -325,13 +325,13 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 		private final List<ASTNode> allCases;
 		private final List<List<Statement>> allCasesStatements;
 		private final List<Statement>[] caseStatementsToPullDown;
-		private final List<Integer> casesToRefactor;
+		private final List<Integer> casesToRefactor; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 		public ControlFlowMergeOperation(final IfStatement visited,
 				final List<ASTNode> allCases,
 				final List<List<Statement>> allCasesStatements,
 				final List<Statement>[] caseStatementsToPullDown,
-				final List<Integer> casesToRefactor) {
+				final List<Integer> casesToRefactor) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			this.visited= visited;
 			this.allCases= allCases;
 			this.allCasesStatements= allCasesStatements;
@@ -458,9 +458,9 @@ public class ControlFlowMergeCleanUpCore extends AbstractMultiFix {
 
 	private static final class StatementAndBlockIndices {
 		private final Statement statement;
-		private final List<Integer> blockIndices;
+		private final List<Integer> blockIndices; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
-		private StatementAndBlockIndices(final Statement statement, final List<Integer> blockIndices) {
+		private StatementAndBlockIndices(final Statement statement, final List<Integer> blockIndices) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			this.statement= statement;
 			this.blockIndices= blockIndices;
 		}

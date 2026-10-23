@@ -486,7 +486,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		private final IMethodBinding fEnclosingMethod;
 		private final IMember[] fMembersToMove;
 		private final CompilationUnit fRoot;
-		private final Map<MethodDeclaration, Integer> fRangeMap;
+		private final Map<MethodDeclaration, Integer> fRangeMap; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private boolean fAnonymousClassDeclaration;
 		private boolean fTypeDeclarationStatement;
 
@@ -496,7 +496,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 		}
 
 		public NewArgumentMethodChecker(final Map<IMethod, String> argumentsMap, final MethodDeclaration enclosingMethodDeclaration,
-				IMember[] membersToMove, CompilationUnit root, Map<MethodDeclaration, Integer> rangeMap) {
+				IMember[] membersToMove, CompilationUnit root, Map<MethodDeclaration, Integer> rangeMap) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			fNewArgumentMap= argumentsMap;
 			fEnclosingMethodDeclaration= enclosingMethodDeclaration;
 			fEnclosingMethod= enclosingMethodDeclaration.resolveBinding();
@@ -561,7 +561,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 								MethodDeclaration method;
 								try {
 									method= ASTNodeSearchUtil.getMethodDeclarationNode((IMethod) member, fRoot);
-									Map<MethodDeclaration, Integer> rangeMap= fRangeMap;
+									Map<MethodDeclaration, Integer> rangeMap= fRangeMap; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 									if (rangeMap == null) {
 										rangeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 									}
@@ -639,7 +639,7 @@ public class PullUpRefactoringProcessor extends HierarchyProcessor {
 								MethodDeclaration method;
 								try {
 									method= ASTNodeSearchUtil.getMethodDeclarationNode((IMethod) member, fRoot);
-									Map<MethodDeclaration, Integer> rangeMap= fRangeMap;
+									Map<MethodDeclaration, Integer> rangeMap= fRangeMap; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 									if (rangeMap == null) {
 										rangeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 									}

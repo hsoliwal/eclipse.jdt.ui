@@ -669,7 +669,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			String jreID= BuildPathSupport.JRE_PREF_PAGE_ID;
 			String eeID= BuildPathSupport.EE_PREF_PAGE_ID;
 			String complianceId= CompliancePreferencePage.PREF_ID;
-			Map<String, Boolean> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			Map<String, Boolean> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			data.put(PropertyAndPreferencePage.DATA_NO_LINK, Boolean.TRUE);
 			PreferencesUtil.createPreferenceDialogOn(getShell(), jreID, new String[] { jreID, complianceId , eeID }, data).open();
 
@@ -1140,7 +1140,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			String jreID= BuildPathSupport.JRE_PREF_PAGE_ID;
 			String eeID= BuildPathSupport.EE_PREF_PAGE_ID;
 			String complianceId= CompliancePreferencePage.PREF_ID;
-			Map<String, Boolean> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			Map<String, Boolean> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			data.put(PropertyAndPreferencePage.DATA_NO_LINK, Boolean.TRUE);
 			String id= "JRE".equals(e.text) ? jreID : complianceId; //$NON-NLS-1$
 			PreferencesUtil.createPreferenceDialogOn(getShell(), id, new String[] { jreID, complianceId, eeID  }, data).open();

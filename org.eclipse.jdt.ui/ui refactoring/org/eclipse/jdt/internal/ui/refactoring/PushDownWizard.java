@@ -403,7 +403,7 @@ public final class PushDownWizard extends RefactoringWizard {
 
 		// String -> Integer
 		private Map<String, Integer> createStringMappingForSelectedElements() {
-			final Map<String, Integer> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			final Map<String, Integer> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			int action= MemberActionInfo.PUSH_DOWN_ACTION;
 			result.put(MemberActionInfoLabelProvider.getActionLabel(action), action);
 			int action1= MemberActionInfo.PUSH_ABSTRACT_ACTION;
@@ -420,7 +420,7 @@ public final class PushDownWizard extends RefactoringWizard {
 				final String labelText= selectedMembers.length == 1 ? Messages.format(RefactoringMessages.PushDownInputPage_Mark_selected_members_singular, JavaElementLabels.getElementLabel(
 						selectedMembers[0].getMember(), JavaElementLabels.M_PARAMETER_TYPES)) : Messages.format(RefactoringMessages.PushDownInputPage_Mark_selected_members_plural, String
 						.valueOf(selectedMembers.length));
-				final Map<String, Integer> stringMapping= createStringMappingForSelectedElements();
+				final Map<String, Integer> stringMapping= createStringMappingForSelectedElements(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 				final String[] keys= stringMapping.keySet().toArray(new String[stringMapping.size()]);
 				Arrays.sort(keys);
 				final int initialSelectionIndex= getInitialSelectionIndexForEditDialog(stringMapping, keys);
@@ -466,7 +466,7 @@ public final class PushDownWizard extends RefactoringWizard {
 			return code;
 		}
 
-		private int getInitialSelectionIndexForEditDialog(final Map<String, Integer> mapping, final String[] keys) {
+		private int getInitialSelectionIndexForEditDialog(final Map<String, Integer> mapping, final String[] keys) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			final int commonActionCode= getCommonActionCodeForSelectedInfos();
 			if (commonActionCode == -1)
 				return 0;

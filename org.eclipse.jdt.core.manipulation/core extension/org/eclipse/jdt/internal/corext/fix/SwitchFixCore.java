@@ -81,9 +81,9 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 		static final class Variable {
 			private final Expression name;
 			private final List<Expression> constantValues;
-			private final List<Boolean> tagValues;
+			private final List<Boolean> tagValues; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
-			private Variable(final Expression firstOp, final List<Expression> constantValues, final List<Boolean> tagValues) {
+			private Variable(final Expression firstOp, final List<Expression> constantValues, final List<Boolean> tagValues) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				this.name= firstOp;
 				this.constantValues= constantValues;
 				this.tagValues= tagValues;
@@ -96,7 +96,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 			private Variable mergeValues(final Variable other) {
 				List<Expression> values= new ArrayList<>(constantValues); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				values.addAll(other.constantValues);
-				List<Boolean> tags= new ArrayList<>(tagValues); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<Boolean> tags= new ArrayList<>(tagValues); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 				tags.addAll(other.tagValues);
 				return new Variable(name, values, tags);
 			}
@@ -295,7 +295,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 				for (SwitchCaseSection sourceCase : sourceCases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<Expression> filteredExprs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
-					List<Boolean> filteredTagList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					List<Boolean> filteredTagList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 
 					for (int i= 0; i < sourceCase.literalExpressions.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Expression expression= sourceCase.literalExpressions.get(i);
@@ -571,7 +571,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 		}
 
 		private void addCaseWithStatements(final ASTRewrite rewrite, final AST ast, final SwitchStatement newSwitchStatement, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-				final SwitchExpression newSwitchExpression, final List<Expression> caseValuesOrNullForDefault, final List<Boolean> tagList,
+				final SwitchExpression newSwitchExpression, final List<Expression> caseValuesOrNullForDefault, final List<Boolean> tagList, //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				final List<Statement> innerStatements, boolean isEnum, boolean useNewStyleCase) {
 			List<Statement> switchStatements= newSwitchExpression != null ? newSwitchExpression.statements() : newSwitchStatement.statements();
 			boolean needBlock= checkForLocalDeclarations(innerStatements) || (useNewStyleCase
@@ -745,7 +745,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 		 * build.
 		 */
 		private final List<Expression> literalExpressions;
-		private final List<Boolean> tagList;
+		private final List<Boolean> tagList; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		/** The statements executed for the switch cases. */
 		private final List<Statement> statements;
 
@@ -755,7 +755,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 		 * @param literalExpressions The constant expressions
 		 * @param statements The statements
 		 */
-		private SwitchCaseSection(final List<Expression> literalExpressions, final List<Boolean> tagList,
+		private SwitchCaseSection(final List<Expression> literalExpressions, final List<Boolean> tagList, //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				final List<Statement> statements) {
 			this.literalExpressions= literalExpressions;
 			this.statements= statements;

@@ -158,7 +158,7 @@ public class JavaElementLinks {
 
 		private boolean appendHoverParent= true;
 		private int nextNestingLevel= 1;
-		private Map<String, Integer> typesIds= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+		private Map<String, Integer> typesIds= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private int nextTypeNo= 1;
 		private int nextParamNo= 1;
 		private boolean appendingMethodQualification= false;
@@ -945,7 +945,7 @@ public class JavaElementLinks {
 	}
 
 	public static Integer[] getColorPreferencesIndicesForTypeParamsReference() {
-		List<Integer> retVal= new ArrayList<>(MAX_COLOR_INDEX); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> retVal= new ArrayList<>(MAX_COLOR_INDEX); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (int i= 1; i <= MAX_COLOR_INDEX; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i <= 4) {
 				// pretend first 4 colors are always set (since we have defaults for them)

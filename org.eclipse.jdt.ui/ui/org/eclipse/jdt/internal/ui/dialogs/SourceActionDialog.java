@@ -129,7 +129,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 	private boolean fSynchronized;
 	private Composite fInsertPositionComposite;
 	private boolean fHasUserChangedPositionIndex;
-	private List<Integer> fAllowedVisibilities;
+	private List<Integer> fAllowedVisibilities; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	public SourceActionDialog(Shell parent, ILabelProvider labelProvider, ITreeContentProvider contentProvider, CompilationUnitEditor editor,
 			IType type, boolean isConstructor) throws JavaModelException {
@@ -513,7 +513,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 	}
 
 	private List<Integer> convertToIntegerList(int[] array) {
-		List<Integer> result= new ArrayList<>(array.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> result= new ArrayList<>(array.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (int element : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(element);
 		}

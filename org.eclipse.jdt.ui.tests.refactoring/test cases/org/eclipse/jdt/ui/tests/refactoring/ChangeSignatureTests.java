@@ -334,7 +334,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 
 	private void modifyInfos(List<ParameterInfo> infos, ParameterInfo[] newParamInfos, int[] newIndices, String[] oldParamNames, String[] newParamNames, String[] newParamTypeNames, int[] permutation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addInfos(infos, newParamInfos, newIndices);
-		List<Integer> swapped= new ArrayList<>(infos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> swapped= new ArrayList<>(infos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		List<String> oldNameList= Arrays.asList(oldParamNames);
 		List<String> newNameList= Arrays.asList(newParamNames);
 		for (int i= 0; i < permutation.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -360,7 +360,7 @@ public class ChangeSignatureTests extends GenericRefactoringTest {
 
 	private static void modifyInfos(List<ParameterInfo> infos, String[] newOrder, String[] oldNames, String[] newNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int[] permutation= createPermutation(infos, newOrder);
-		List<Integer> swapped= new ArrayList<>(infos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> swapped= new ArrayList<>(infos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		if (oldNames == null || newNames == null){
 			ParameterInfo[] newInfos= new  ParameterInfo[infos.size()];
 			for (int i= 0; i < permutation.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP

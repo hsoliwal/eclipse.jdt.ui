@@ -1,0 +1,152 @@
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledClass.java	269	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	51	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	56	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	61	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	66	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	71	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	96	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	103	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	154	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	205	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	252	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/asm/DecompiledMethod.java	262	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/preferences/BCOConstants.java	136	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/ui/JdtUtils.java	857	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/ui/JdtUtils.java	990	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/views/BytecodeOutlineView.java	1096	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/JavaCodeTokenizer.java	115	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/JavaCodeTokenizer.java	251	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/JavaCodeTokenizer.java	257	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/common/VisitorEnum.java	261	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/core/manipulation/StubUtility.java	533	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/core/manipulation/StubUtility.java	1177	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	142	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	212	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	220	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	235	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	328	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	334	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	461	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ControlFlowMergeCleanUpCore.java	463	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainElement.java	171	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainElement.java	208	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainElement.java	228	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainElement.java	240	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/text/ChainFinder.java	39	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	84	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	86	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	99	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	298	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	574	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	748	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/SwitchFixCore.java	758	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/generics/InferTypeArgumentsConstraintsSolver.java	324	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenameAnalyzeUtil.java	297	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenameAnalyzeUtil.java	315	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenameAnalyzeUtil.java	316	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/rename/RenameAnalyzeUtil.java	332	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/structure/IntroduceParameterObjectProcessor.java	354	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/typeconstraints/ConstraintVariableFactory.java	45	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/typeconstraints/types/HierarchyType.java	65	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/refactoring/typeconstraints/types/TypeEnvironment.java	121	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/util/ControlWorkflowMatcher.java	291	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/util/ControlWorkflowMatcher.java	312	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/util/ControlWorkflowMatcher.java	370	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/util/Resources.java	120	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/util/Resources.java	127	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/util/Resources.java	139	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/binary/StubCreator.java	252	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/RenamePackageChange.java	55	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/RenamePackageChange.java	64	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/RenamePackageChange.java	72	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/changes/RenamePackageChange.java	101	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/nls/NLSHint.java	143	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/rename/RenameTypeProcessor.java	167	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/structure/PullUpRefactoringProcessor.java	489	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/structure/PullUpRefactoringProcessor.java	499	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/structure/PullUpRefactoringProcessor.java	564	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.core.manipulation/refactoring/org/eclipse/jdt/internal/corext/refactoring/structure/PullUpRefactoringProcessor.java	642	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/util/Resources.java	113	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/util/Resources.java	120	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/util/Resources.java	131	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/wizards/NewTestCaseCreationWizard.java	309	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/wizards/NewTestCaseWizardPageOne.java	695	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/JavaParameterListValidatorTest.java	130	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/InvocationCountExampleTest.java	40	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/InvocationCountPerformanceMeter.java	232	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/InvocationCountPerformanceMeter.java	269	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/ResourceTestHelper.java	148	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/ResourceTestHelper.java	162	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/ResourceTestHelper.java	168	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/ResourceTestHelper.java	178	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ChangeSignatureTests.java	337	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ChangeSignatureTests.java	363	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/RefactoringScannerTests.java	71	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/RefactoringScannerTests.java	75	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/ccp/MockReorgQueries.java	33	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/DisabledParameterizedTestViewTest.java	291	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/util/OpenTypeHistory.java	171	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/InputPageUtil.java	49	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/InputPageUtil.java	93	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PullUpMemberPage.java	293	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PullUpMemberPage.java	625	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PullUpMemberPage.java	707	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PullUpMemberPage.java	767	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PushDownWizard.java	406	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PushDownWizard.java	423	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PushDownWizard.java	469	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/UseSupertypeWizard.java	145	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/UseSupertypeWizard.java	329	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/UseSupertypeWizard.java	330	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsPage.java	594	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsPage.java	627	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/sef/SelfEncapsulateFieldInputPage.java	586	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/JavaPlugin.java	165	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/compare/JavaIgnoreWhitespaceContributor.java	33	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/SourceActionDialog.java	132	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/SourceActionDialog.java	516	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/MergeConditionalBlocksCleanUp.java	139	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/MergeConditionalBlocksCleanUp.java	175	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/MergeConditionalBlocksCleanUp.java	283	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/MergeConditionalBlocksCleanUp.java	285	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaStickyLinesProvider.java	80	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/selectionactions/GoToNextPreviousMemberAction.java	206	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/selectionactions/GoToNextPreviousMemberAction.java	217	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/selectionactions/GoToNextPreviousMemberAction.java	262	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavaEditorHoverConfigurationBlock.java	540	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	380	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	413	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	417	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	565	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	550	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	681	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	1081	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialogTabPage.java	628	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/JavaSearchResultPage.java	221	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/OccurrencesSearchQuery.java	77	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/OccurrencesSearchQuery.java	104	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/LineComparator.java	37	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/SmartBackspaceManager.java	170	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickFixProcessor.java	367	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/CompletionProposalComputerRegistry.java	342	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/ContentAssistHistory.java	271	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/ContentAssistHistory.java	274	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/ContentAssistHistory.java	397	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/JavaParameterListValidator.java	310	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	122	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	305	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	307	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	313	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/JavaSourceHover.java	338	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/spelling/SpellCheckIterator.java	70	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/JavaElementLinks.java	161	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/JavaElementLinks.java	948	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathFixSelectionDialog.java	221	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/ProblemsLabelDecorator.java	352	M10	M3_PRIMITIVE_LANES	FIELD
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1228	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1504	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1681	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1725	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/text/folding/DefaultJavaFoldingStructureProvider.java	1736	M10	M3_PRIMITIVE_LANES	PARAMETER
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	672	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE
+org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1143	M10	M3_PRIMITIVE_LANES	LOCAL_VARIABLE

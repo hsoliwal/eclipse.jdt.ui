@@ -1093,7 +1093,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 
 	private void refreshVerifyView(DecompiledClass result) {
 		setVerifyTableItems(result.getTextTable());
-		List<Integer> errors = result.getErrorLines();
+		List<Integer> errors = result.getErrorLines(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		if (errors.size() > 0) {
 			// TODO this only changes color of status line -
 			// but it is possible also to provide useful info here...

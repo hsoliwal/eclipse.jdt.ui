@@ -294,7 +294,7 @@ public class RenameAnalyzeUtil {
 
 	private static void analyzeChanges(ICompilationUnit cu, TextChange change,
 			SearchMatch[] oldMatches, SearchMatch[] newMatches, String newElementName, RefactoringStatus result) {
-		Map<Integer, SearchMatch> updatedOldOffsets= getUpdatedChangeOffsets(change, oldMatches);
+		Map<Integer, SearchMatch> updatedOldOffsets= getUpdatedChangeOffsets(change, oldMatches); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (SearchMatch newMatch : newMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Integer offsetInNew= newMatch.getOffset();
 			SearchMatch oldMatch= updatedOldOffsets.remove(offsetInNew);
@@ -312,8 +312,8 @@ public class RenameAnalyzeUtil {
 	 * @return Map &lt;Integer updatedOffset, SearchMatch oldMatch&gt;
 	 */
 	private static Map<Integer, SearchMatch> getUpdatedChangeOffsets(TextChange change, SearchMatch[] oldMatches) {
-		Map<Integer, SearchMatch> updatedOffsets= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
-		Map<Integer, Integer> oldToUpdatedOffsets= getEditChangeOffsetUpdates(change);
+		Map<Integer, SearchMatch> updatedOffsets= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		Map<Integer, Integer> oldToUpdatedOffsets= getEditChangeOffsetUpdates(change); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (SearchMatch oldMatch : oldMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Integer updatedOffset= oldToUpdatedOffsets.get(Integer.valueOf(oldMatch.getOffset()));
 			if (updatedOffset == null)
@@ -329,7 +329,7 @@ public class RenameAnalyzeUtil {
 	 */
 	private static Map<Integer, Integer> getEditChangeOffsetUpdates(TextChange change) {
 		TextEditChangeGroup[] editChanges= change.getTextEditChangeGroups();
-		Map<Integer, Integer> offsetUpdates= new HashMap<>(editChanges.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<Integer, Integer> offsetUpdates= new HashMap<>(editChanges.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (TextEditChangeGroup editChange : editChanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IRegion oldRegion= editChange.getRegion();
 			if (oldRegion == null)

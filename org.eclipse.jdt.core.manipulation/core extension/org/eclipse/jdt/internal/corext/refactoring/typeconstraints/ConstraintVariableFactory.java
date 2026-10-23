@@ -42,7 +42,7 @@ public class ConstraintVariableFactory implements IConstraintVariableFactory {
 	private Map<IBinding, IBinding> fBindingMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private Map<Object, ExpressionVariable> fExpressionMap= new Hashtable<>();
-	private Map<Integer, ExpressionVariable> fLiteralMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<Integer, ExpressionVariable> fLiteralMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 	private Map<CompilationUnitRange, TypeVariable> fTypeVariableMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private Map<String, DeclaringTypeVariable> fDeclaringTypeVariableMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private Map<String, ParameterTypeVariable> fParameterMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW

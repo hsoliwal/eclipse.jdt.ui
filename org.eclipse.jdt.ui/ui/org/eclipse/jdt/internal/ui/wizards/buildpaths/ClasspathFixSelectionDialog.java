@@ -218,7 +218,7 @@ public class ClasspathFixSelectionDialog extends StatusDialog {
 	protected final void configureBuildPathPressed() {
 		cancelPressed();
 		String id= BUILD_PATH_PAGE_ID;
-		Map<Object, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<Object, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 		if (PreferencesUtil.createPropertyDialogOn(getShell(), fProject, id, new String[] { id }, input).open() != Window.OK) {
 			return;

@@ -339,7 +339,7 @@ public final class CompletionProposalComputerRegistry {
 		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			disabled.add(tok.nextToken());
 		}
-		Map<String, Integer> ordered= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<String, Integer> ordered= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		preference= store.getString(PreferenceConstants.CODEASSIST_CATEGORY_ORDER);
 		tok= new StringTokenizer(preference, "\0"); //$NON-NLS-1$
 		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP

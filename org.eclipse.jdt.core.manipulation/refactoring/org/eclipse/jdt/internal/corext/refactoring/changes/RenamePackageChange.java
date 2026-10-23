@@ -52,7 +52,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		return new Path(packageName.replace('.', IPath.SEPARATOR));
 	}
 
-	private Map<IResource, Long> fCompilationUnitStamps;
+	private Map<IResource, Long> fCompilationUnitStamps; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	private final boolean fRenameSubpackages;
 
@@ -61,7 +61,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		Assert.isTrue(!pack.isReadOnly(), "package must not be read only"); //$NON-NLS-1$
 	}
 
-	private RenamePackageChange(IPath resourcePath, String oldName, String newName, long stampToRestore, Map<IResource, Long> compilationUnitStamps, boolean renameSubpackages) {
+	private RenamePackageChange(IPath resourcePath, String oldName, String newName, long stampToRestore, Map<IResource, Long> compilationUnitStamps, boolean renameSubpackages) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		super(resourcePath, oldName, newName, stampToRestore);
 		fCompilationUnitStamps= compilationUnitStamps;
 		fRenameSubpackages= renameSubpackages;
@@ -69,7 +69,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		setValidationMethod(VALIDATE_NOT_DIRTY);
 	}
 
-	private void addStamps(Map<IResource, Long> stamps, ICompilationUnit[] units) {
+	private void addStamps(Map<IResource, Long> stamps, ICompilationUnit[] units) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= unit.getResource();
 			long stamp= IResource.NULL_STAMP;
@@ -98,7 +98,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		IPackageFragment pack= getPackage();
 		if (pack == null)
 			return new NullChange();
-		Map<IResource, Long> stamps= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<IResource, Long> stamps= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		if (!fRenameSubpackages) {
 			addStamps(stamps, pack.getCompilationUnits());
 		} else {

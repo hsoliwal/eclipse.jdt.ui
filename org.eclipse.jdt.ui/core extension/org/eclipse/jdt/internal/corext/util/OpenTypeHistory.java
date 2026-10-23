@@ -168,7 +168,7 @@ public class OpenTypeHistory extends History<TypeNameMatch, TypeNameMatch> {
 	// Needs to be volatile since accesses aren't synchronized.
 	private volatile boolean fNeedsConsistencyCheck;
 	// Map of cached time stamps
-	private Map<TypeNameMatch, Long> fTimestampMapping;
+	private Map<TypeNameMatch, Long> fTimestampMapping; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	private final IElementChangedListener fDeltaListener;
 	private final UpdateJob fUpdateJob;

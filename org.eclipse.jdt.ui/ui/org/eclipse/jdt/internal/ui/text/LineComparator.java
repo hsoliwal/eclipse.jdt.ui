@@ -34,7 +34,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 public class LineComparator implements IRangeComparator {
 
 	private final IDocument fDocument;
-	private final ArrayList<Integer> fHashes;
+	private final ArrayList<Integer> fHashes; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
     /**
 	 * Create a line comparator for the given document.

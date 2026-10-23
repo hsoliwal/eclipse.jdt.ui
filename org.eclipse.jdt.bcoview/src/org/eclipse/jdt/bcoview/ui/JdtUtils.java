@@ -854,7 +854,7 @@ public class JdtUtils {
 	}
 
 	private static void debugCompilePrio(AnonymClassComparator classComparator) {
-		final Map<IType, Integer> map = classComparator.map;
+		final Map<IType, Integer> map = classComparator.map; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		Comparator<IType> prioComp = (e1, e2) -> {
 			int result = map.get(e2).compareTo(map.get(e1));
 			if (result == 0) {
@@ -987,7 +987,7 @@ public class JdtUtils {
 
 		private final SourceOffsetComparator sourceComparator;
 
-		private final Map<IType, Integer> map;
+		private final Map<IType, Integer> map; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 		public AnonymClassComparator(SourceOffsetComparator sourceComparator) {
 			this.sourceComparator = sourceComparator;

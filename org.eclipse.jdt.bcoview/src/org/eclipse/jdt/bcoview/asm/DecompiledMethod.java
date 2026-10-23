@@ -48,27 +48,27 @@ public class DecompiledMethod {
 	/**
 	 * decompiled line -> source line
 	 */
-	private final Map<Integer, Integer> sourceLines;
+	private final Map<Integer, Integer> sourceLines; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	/**
 	 * source line -> decompiled line
 	 */
-	private final Map<Integer, Integer> decompiledLines;
+	private final Map<Integer, Integer> decompiledLines; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	/**
 	 * decompiled line -> insn
 	 */
-	private final Map<Integer, Integer> insns;
+	private final Map<Integer, Integer> insns; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	/**
 	 * decompiled line -> opcode
 	 */
-	private final Map<Integer, Integer> opcodes;
+	private final Map<Integer, Integer> opcodes; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	/**
 	 * insn -> decompile line
 	 */
-	private final Map<Integer, Integer> insnLines;
+	private final Map<Integer, Integer> insnLines; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	private int lineCount;
 
@@ -93,14 +93,14 @@ public class DecompiledMethod {
 	private final String owner;
 
 
-	private final Map<Label, Integer> lineNumbers;
+	private final Map<Label, Integer> lineNumbers; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	private final DecompilerOptions options;
 
 	private final int access;
 
 
-	public DecompiledMethod(String owner, Map<Label, Integer> lineNumbers, MethodNode meth, DecompilerOptions options, int access) {
+	public DecompiledMethod(String owner, Map<Label, Integer> lineNumbers, MethodNode meth, DecompilerOptions options, int access) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		this.meth = meth;
 		this.owner = owner;
 		this.lineNumbers = lineNumbers;
@@ -151,7 +151,7 @@ public class DecompiledMethod {
 		if (!containsSource(sourceLine)) {
 			return -1;
 		}
-		Set<Integer> set = decompiledLines.keySet();
+		Set<Integer> set = decompiledLines.keySet(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		if (set.size() == 0) {
 			return -1;
 		}
@@ -202,7 +202,7 @@ public class DecompiledMethod {
 		frames = a.getFrames();
 	}
 
-	private void formatText(List<?> input, Map<Integer, String> locals, StringBuffer line, List<Object> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	private void formatText(List<?> input, Map<Integer, String> locals, StringBuffer line, List<Object> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		for (int i = 0; i < input.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = input.get(i);
 			if (o instanceof List) {
@@ -249,7 +249,7 @@ public class DecompiledMethod {
 		return null;
 	}
 
-	private void updateLocals(Index index, Map<Integer, String> locals) {
+	private void updateLocals(Index index, Map<Integer, String> locals) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		for (LocalVariableNode lvNode : localVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lvNode.start == index.labelNode) {
 				locals.put(Integer.valueOf(lvNode.index), lvNode.name);
@@ -259,7 +259,7 @@ public class DecompiledMethod {
 		}
 	}
 
-	private void computeMaps(Map<Label, Integer> lineNumbers1) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	private void computeMaps(Map<Label, Integer> lineNumbers1) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		int currentDecompiledLine = 0;
 		int firstLine = -1;
 		int lastLine = -1;

@@ -229,7 +229,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		 */
 		public void update(Object key1, Object key2) {
 			int value;
-			Map<Object, Integer> results;
+			Map<Object, Integer> results; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			if (fResultsMap.containsKey(key1)) {
 				results= fResultsMap.get(key1);
 				if (results.containsKey(key2))
@@ -266,7 +266,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		 */
 		public void print(Object key1) {
 			System.out.println(key1.toString() + ":"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-			Map<Object, Integer> results= fResultsMap.get(key1);
+			Map<Object, Integer> results= fResultsMap.get(key1); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			for (Map.Entry<Object, Integer> entry : results.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object key = entry.getKey();
 				System.out.println("\t" + key + ": " + entry.getValue().intValue()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT

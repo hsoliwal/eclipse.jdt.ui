@@ -168,7 +168,7 @@ public class ChainElement {
 	}
 
 	public static String createChainCode(final Chain chain, final boolean createAsTitle, final int expectedDimension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		final Map<String, Integer> varNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		final Map<String, Integer> varNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		StringBuilder sb= new StringBuilder(64); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		for (final ChainElement edge : chain.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (edge.getElementType()) {
@@ -205,7 +205,7 @@ public class ChainElement {
 		sb.append((edge.getElement()).getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
-	private static void appendParameters(final StringBuilder sb, final IMethod method, final Map<String, Integer> varNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	private static void appendParameters(final StringBuilder sb, final IMethod method, final Map<String, Integer> varNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		sb.append("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		for (final String typeSig : method.getParameterTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String parameterName= Signature.getSignatureSimpleName(Signature.getElementType(typeSig));
@@ -225,7 +225,7 @@ public class ChainElement {
 	}
 
 	private static void appendTemplateVariable(final StringBuilder sb, final String varname,
-			final Map<String, Integer> varNames) {
+			final Map<String, Integer> varNames) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		int val= varNames.containsKey(varname) ? varNames.get(varname) : 0;
 		varNames.put(varname, val + 1);
 		sb.append("${").append(varname); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
@@ -237,7 +237,7 @@ public class ChainElement {
 	}
 
 	private static void appendArrayDimensions(final StringBuilder sb, final int dimension, final int expectedDimension,
-			final boolean appendVariables, final Map<String, Integer> varNames) {
+			final boolean appendVariables, final Map<String, Integer> varNames) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		for (int i= dimension; i-- > expectedDimension;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sb.append("["); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (appendVariables) {

@@ -136,7 +136,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 				PatternNameVisitor visitor= new PatternNameVisitor();
 				visited.accept(visitor);
 				patternNames= visitor.getPatternNames();
-				List<Boolean> isThenStatement= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<Boolean> isThenStatement= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 				AtomicInteger operandCount= new AtomicInteger(ASTNodes.getNbOperands(visited.getExpression()));
 				duplicateIfBlocks.add(visited);
 				isThenStatement.add(Boolean.TRUE);
@@ -172,7 +172,7 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 			}
 		}
 
-		private boolean addOneMoreIf(final List<IfStatement> duplicateIfBlocks, final List<Boolean> isThenStatement, final AtomicInteger operandCount, Set<String> patternNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		private boolean addOneMoreIf(final List<IfStatement> duplicateIfBlocks, final List<Boolean> isThenStatement, final AtomicInteger operandCount, Set<String> patternNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			IfStatement lastBlock= getLast(duplicateIfBlocks);
 			Statement previousStatement= getLast(isThenStatement) ? lastBlock.getThenStatement() : lastBlock.getElseStatement();
 			Statement nextStatement= getLast(isThenStatement) ? lastBlock.getElseStatement() : lastBlock.getThenStatement();
@@ -280,9 +280,9 @@ public class MergeConditionalBlocksCleanUp extends AbstractMultiFix {
 
 	private static class MergeConditionalBlocksOperation extends CompilationUnitRewriteOperationWithSourceRange {
 		private final List<IfStatement> duplicateIfBlocks;
-		private final List<Boolean> isThenStatement;
+		private final List<Boolean> isThenStatement; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
-		public MergeConditionalBlocksOperation(final List<IfStatement> duplicateIfBlocks, final List<Boolean> isThenStatement) {
+		public MergeConditionalBlocksOperation(final List<IfStatement> duplicateIfBlocks, final List<Boolean> isThenStatement) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			this.duplicateIfBlocks= duplicateIfBlocks;
 			this.isThenStatement= isThenStatement;
 		}

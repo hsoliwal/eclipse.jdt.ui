@@ -167,7 +167,7 @@ public class SmartBackspaceManager {
 
 	private ITextViewer fViewer;
 	private BackspaceListener fBackspaceListener;
-	private Map<Integer, UndoSpec> fSpecs;
+	private Map<Integer, UndoSpec> fSpecs; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 	private TypingRunDetector fRunDetector;
 	private ITypingRunListener fRunListener;
 

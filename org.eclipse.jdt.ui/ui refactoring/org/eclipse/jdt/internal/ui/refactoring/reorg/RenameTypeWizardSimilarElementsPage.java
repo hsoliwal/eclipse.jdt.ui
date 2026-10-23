@@ -591,7 +591,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 
 	private void initializeRefFromUI() {
 		IJavaElement[] selected= getCheckedSimilarElements();
-		Map<IJavaElement, Boolean> selection= getRenameTypeProcessor().getSimilarElementsToSelection();
+		Map<IJavaElement, Boolean> selection= getRenameTypeProcessor().getSimilarElementsToSelection(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (IJavaElement element : selection.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selection.put(element, Boolean.FALSE);
 		}
@@ -624,7 +624,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		}
 	}
 
-	private void restoreSelectionAndNames(final Map<IJavaElement, Boolean> selection) {
+	private void restoreSelectionAndNames(final Map<IJavaElement, Boolean> selection) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		for (Map.Entry<IJavaElement, Boolean> entry : selection.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element = entry.getKey();
 			boolean isSelected= entry.getValue();

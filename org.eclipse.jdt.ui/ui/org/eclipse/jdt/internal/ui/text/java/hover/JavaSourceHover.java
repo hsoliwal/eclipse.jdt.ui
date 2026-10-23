@@ -119,7 +119,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 	private ISourceRange fNodeRange;
 
 	/** Lines of bracket-type node's content to keep not skipped in hover viewer */
-	private List<Integer> fKeptLines;
+	private List<Integer> fKeptLines; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	static class JavaSourceInformationInput {
 		private IJavaElement fElement;
@@ -302,15 +302,15 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 	 * Java source information input supporting semantic coloring for bracket nodes hover
 	 */
 	static class JavaBracketSourceInformationInput extends JavaSourceLineTrimmingInformationInput {
-		private final List<Integer> fKeptLines;
+		private final List<Integer> fKeptLines; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
-		JavaBracketSourceInformationInput(String hoverInfo, ITypeRoot rootElement, IDocument document, ISourceRange nodeRange, List<Integer> keptLines) {
+		JavaBracketSourceInformationInput(String hoverInfo, ITypeRoot rootElement, IDocument document, ISourceRange nodeRange, List<Integer> keptLines) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			super(null, hoverInfo, rootElement, document.get(), adjustVisibleRange(document, nodeRange, keptLines));
 			fKeptLines= new ArrayList<>(keptLines); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		// handles case when visible area should end with last kept line (no following JavaSourceHover_skippedLinesSymbol)
-		private static ISourceRange adjustVisibleRange(IDocument document, ISourceRange nodeRange, List<Integer> keptLines) {
+		private static ISourceRange adjustVisibleRange(IDocument document, ISourceRange nodeRange, List<Integer> keptLines) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			try {
 				int lastNodeRangeLine= document.getLineOfOffset(nodeRange.getOffset() + nodeRange.getLength());
 				boolean noLinesAfterLastKept= keptLines.get(keptLines.size() - 1).intValue() == lastNodeRangeLine - 1;
@@ -335,7 +335,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 				doLineTrimming(sourceViewer);
 
 				// apply skipped lines substitutions
-				List<Integer> keptLines= new ArrayList<>(fKeptLines); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<Integer> keptLines= new ArrayList<>(fKeptLines); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 				int currentLine= firstLine;
 				int replaceStartOffset= -1;
 				int linesToRemove= 0;

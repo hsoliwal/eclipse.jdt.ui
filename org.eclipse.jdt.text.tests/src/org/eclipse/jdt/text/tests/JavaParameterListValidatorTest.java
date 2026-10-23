@@ -127,7 +127,7 @@ public class JavaParameterListValidatorTest {
 	private int[] computeCommaPositions(String code) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    int angleLevel= 0;
 	    int pos= 0;
-		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		while (pos < code.length() && pos != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);
 			switch (ch) {

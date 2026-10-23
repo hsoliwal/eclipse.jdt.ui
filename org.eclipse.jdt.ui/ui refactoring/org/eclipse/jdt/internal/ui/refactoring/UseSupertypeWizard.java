@@ -142,7 +142,7 @@ public class UseSupertypeWizard extends RefactoringWizard{
 		private static final String REWRITE_INSTANCEOF= "rewriteInstanceOf";  //$NON-NLS-1$
 		public static final String PAGE_NAME= "UseSupertypeInputPage";//$NON-NLS-1$
 		private TreeViewer fTreeViewer;
-		private final Map<IType, Integer> fFileCount;  //IType -> Integer
+		private final Map<IType, Integer> fFileCount;  //IType -> Integer //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private final static String MESSAGE= RefactoringMessages.UseSupertypeInputPage_Select_supertype;
 		private JavaElementLabelProvider fLabelProvider;
 		private IDialogSettings fSettings;
@@ -326,8 +326,8 @@ public class UseSupertypeWizard extends RefactoringWizard{
 		}
 
 		private static class UseSupertypeLabelProvider extends JavaElementLabelProvider{
-			private final Map<IType, Integer> fFileCount;
-			private UseSupertypeLabelProvider(Map<IType, Integer> fileCount){
+			private final Map<IType, Integer> fFileCount; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
+			private UseSupertypeLabelProvider(Map<IType, Integer> fileCount){ //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				fFileCount= fileCount;
 			}
 			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD

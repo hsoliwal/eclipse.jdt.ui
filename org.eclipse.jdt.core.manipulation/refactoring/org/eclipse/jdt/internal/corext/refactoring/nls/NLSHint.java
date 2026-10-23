@@ -140,7 +140,7 @@ public class NLSHint {
 	private AccessorClassReference createEclipseNLSLines(final IDocument document, CompilationUnit astRoot, List<NLSLine> nlsLines) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final AccessorClassReference[] firstAccessor= new AccessorClassReference[1];
-		final SortedMap<Integer, NLSLine> lineToNLSLine= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+		final SortedMap<Integer, NLSLine> lineToNLSLine= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 
 		astRoot.accept(new ASTVisitor() {
 

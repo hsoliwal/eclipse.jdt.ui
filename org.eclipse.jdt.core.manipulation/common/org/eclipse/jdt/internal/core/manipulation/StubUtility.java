@@ -530,7 +530,7 @@ public class StubUtility {
 		IDocument doc= new Document(buffer.getString());
 		int nLines= doc.getNumberOfLines();
 		MultiTextEdit edit= new MultiTextEdit();
-		HashSet<Integer> removedLines= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		HashSet<Integer> removedLines= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (String variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TemplateVariable position= findVariable(buffer, variable); // look if Javadoc tags have to be added
 			if (position == null || position.getLength() > 0) {
@@ -1174,7 +1174,7 @@ public class StubUtility {
 		String name= methodInvocation.getName().getIdentifier();
 		if (!name.toLowerCase().contains(typeName.toLowerCase())) {
 			List<Expression> arguments= methodInvocation.arguments();
-			List<Integer> argumentTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<Integer> argumentTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			for (Expression argument : arguments) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				argumentTypes.add(Integer.valueOf(argument.getNodeType()));
 			if (arguments.size() > 1 || argumentTypes.contains(Integer.valueOf(ASTNode.METHOD_INVOCATION))) {

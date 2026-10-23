@@ -36,7 +36,7 @@ public class ChainFinder {
 
 	private final Map<String, List<IJavaElement>> fieldsAndMethodsCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, Boolean> assignableCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<String, Boolean> assignableCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	private volatile boolean isCanceled;
 

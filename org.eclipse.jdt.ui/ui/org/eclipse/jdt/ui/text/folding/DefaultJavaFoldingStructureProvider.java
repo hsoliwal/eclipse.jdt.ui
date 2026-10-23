@@ -1225,7 +1225,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		}
 	}
 
-	private Region checkCommentForCustomFolding(Deque<Integer> openCustomRegionStartPositions, int commentTextStart, char[] source, int currentTokenStartPosition, int currentTokenEndPosition) {
+	private Region checkCommentForCustomFolding(Deque<Integer> openCustomRegionStartPositions, int commentTextStart, char[] source, int currentTokenStartPosition, int currentTokenEndPosition) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		int currentTokenLengthStartingAtCommentTextStart= currentTokenEndPosition - commentTextStart;
 		Region returnedRegion= null;
 		if (startsWith(source, commentTextStart, currentTokenLengthStartingAtCommentTextStart, fCurrentPreferences.fCustomFoldingRegionEnd) && !openCustomRegionStartPositions.isEmpty()) {
@@ -1501,7 +1501,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 	private void keepLargestByPosition(Map<JavaProjectionAnnotation, Position> map) {
 		// Map from offset to information on the region
 		// if two folding regions use the same offset, the larger one is used
-		Map<Integer, Map.Entry<JavaProjectionAnnotation, Position>> bestByOffset= map.entrySet().stream()
+		Map<Integer, Map.Entry<JavaProjectionAnnotation, Position>> bestByOffset= map.entrySet().stream() //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 				.collect(Collectors.toMap(
 						e -> e.getValue().getOffset(),
 						Function.identity(),
@@ -1678,7 +1678,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 					}
 					case ITerminalSymbols.TokenNameRBRACE -> {
 						if (!openCommentStartPositions.isEmpty()) {
-							Deque<Integer> openRegions= openCommentStartPositions.removeLast();
+							Deque<Integer> openRegions= openCommentStartPositions.removeLast(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 							if (fCurrentPreferences.fCustomFoldingRegionMarkersCanOverlap && openRegions != null && !openRegions.isEmpty()) {
 								int regionEnd= scanner.getCurrentTokenStartPosition();
 								closeOpenFoldingRegions(openRegions, regionEnd, customFoldingRegions);
@@ -1722,7 +1722,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 				}
 			} while (token != ITerminalSymbols.TokenNameEOF);
 			if (fCurrentPreferences.fCustomFoldingRegionMarkersCanOverlap) {
-				for (Deque<Integer> openRegions : openCommentStartPositions.reversed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (Deque<Integer> openRegions : openCommentStartPositions.reversed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					closeOpenFoldingRegions(openRegions, ctx.fDocument.getLength(), customFoldingRegions);
 				}
 			}
@@ -1733,7 +1733,7 @@ public class DefaultJavaFoldingStructureProvider implements IJavaFoldingStructur
 		}
 	}
 
-	private void closeOpenFoldingRegions(Deque<Integer> openRegions, int regionEnd, List<IRegion> customFoldingRegions) {
+	private void closeOpenFoldingRegions(Deque<Integer> openRegions, int regionEnd, List<IRegion> customFoldingRegions) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		for (Integer start : openRegions.reversed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			customFoldingRegions.add(new Region(start, regionEnd - start));
 		}

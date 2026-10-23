@@ -46,7 +46,7 @@ public final class InputPageUtil {
 	}
 
 	public static Composite createVisibilityControl(Composite parent, final IVisibilityChangeListener visibilityChangeListener, int[] availableVisibilities, int correctVisibility) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		List<Integer> allowedVisibilities= convertToIntegerList(availableVisibilities);
+		List<Integer> allowedVisibilities= convertToIntegerList(availableVisibilities); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		if (allowedVisibilities.size() == 1)
 			return null;
 
@@ -90,7 +90,7 @@ public final class InputPageUtil {
 	}
 
 	private static List<Integer> convertToIntegerList(int[] array) {
-		List<Integer> result= new ArrayList<>(array.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> result= new ArrayList<>(array.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (int element : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(element);
 		}

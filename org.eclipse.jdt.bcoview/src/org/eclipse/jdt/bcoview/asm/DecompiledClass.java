@@ -266,7 +266,7 @@ public class DecompiledClass {
 	}
 
 	public List<Integer> getErrorLines() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		List<Integer> errors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> errors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		int currentDecompiledLine = 0;
 		for (int i = 0; i < text.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = text.get(i);

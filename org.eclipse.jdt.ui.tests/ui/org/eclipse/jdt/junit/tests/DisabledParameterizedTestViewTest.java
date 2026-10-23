@@ -288,7 +288,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 
 	private static class ChangeRecordingListener extends TestRunListenerTest5.TestSessionListener {
 		final List<ProgressState> fProgressStates= new CopyOnWriteArrayList<>();
-		final List<Boolean> fIgnoredStates= new CopyOnWriteArrayList<>();
+		final List<Boolean> fIgnoredStates= new CopyOnWriteArrayList<>(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 		@Override
 		public void testChanged(TestElement testElement) {

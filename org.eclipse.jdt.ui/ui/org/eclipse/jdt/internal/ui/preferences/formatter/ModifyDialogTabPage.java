@@ -625,7 +625,7 @@ public abstract class ModifyDialogTabPage implements IModifyDialogTabPage {
 
 		private final IDialogSettings fDialogSettings;
 
-		private final Map<Control, Integer> fItemMap;
+		private final Map<Control, Integer> fItemMap; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private final List<Control> fItemList;
 
 		private int fIndex;

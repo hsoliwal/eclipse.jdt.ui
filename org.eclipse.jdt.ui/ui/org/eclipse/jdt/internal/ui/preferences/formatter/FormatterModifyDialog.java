@@ -377,7 +377,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				protected void prepareControl() {
 					final String STYLE= "style", FORCE= "force", INDENT= "indent", BEFORE= "before"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					List<LineWrapPreference> preferences= findPreferences(LineWrapPreference.class);
-					Map<String, Integer> valueCounts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+					Map<String, Integer> valueCounts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					valueCounts.put(FORCE + true, 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					int hasWrapBeforeCount= 0;
 					for (LineWrapPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -410,11 +410,11 @@ public class FormatterModifyDialog extends ModifyDialog {
 					}
 				}
 
-				private void increment(String key, Map<String, Integer> valueCounts) {
+				private void increment(String key, Map<String, Integer> valueCounts) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 					valueCounts.merge(key, 1, Integer::sum);
 				}
 
-				private MenuItem prepareItems(List<MenuItem> items, Object[][] itemDatas, String keyPrefix, Map<String, Integer> valueCounts, int totalCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+				private MenuItem prepareItems(List<MenuItem> items, Object[][] itemDatas, String keyPrefix, Map<String, Integer> valueCounts, int totalCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 					int maxCount= 0;
 					int maxCountIndex= 0;
 					for (int i= 0; i < itemDatas.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -562,7 +562,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				protected void prepareControl() {
 					int modeValue= 0;
 					int modeCount= -1;
-					HashMap<Integer, Integer> counts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+					HashMap<Integer, Integer> counts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					int removeLinesCount= 0;
 					List<BlankLinesPreference> preferences= findPreferences(BlankLinesPreference.class);
 					for (BlankLinesPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP

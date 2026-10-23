@@ -351,7 +351,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		Parameter[] parameters= parameter.getParameters();
 		if (parameters == null)
 			parameters= IntroduceParameterObjectDescriptor.createParameters(getMethod());
-		Map<Integer, ParameterInfo> paramIndex= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<Integer, ParameterInfo> paramIndex= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (ParameterInfo pi : pis) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paramIndex.put(pi.getOldIndex(), pi);
 		}

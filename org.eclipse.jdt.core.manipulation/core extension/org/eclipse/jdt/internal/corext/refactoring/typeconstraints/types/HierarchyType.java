@@ -62,7 +62,7 @@ public abstract class HierarchyType extends TType {
 
 	public boolean isSubType(HierarchyType other) {
 		if (getEnvironment() == other.getEnvironment()) {
-			Map<TypeTuple, Boolean> cache= getEnvironment().getSubTypeCache();
+			Map<TypeTuple, Boolean> cache= getEnvironment().getSubTypeCache(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			TypeTuple key= new TypeTuple(this, other);
 			Boolean value= cache.get(key);
 			if (value != null)

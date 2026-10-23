@@ -74,7 +74,7 @@ public class OccurrencesSearchQuery implements ISearchQuery {
 		try {
 			OccurrenceLocation[] occurrences= fFinder.getOccurrences();
 			if (occurrences != null) {
-				HashMap<Integer, JavaElementLine> lineMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+				HashMap<Integer, JavaElementLine> lineMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 				CompilationUnit astRoot= fFinder.getASTRoot();
 				ArrayList<OccurrenceMatch> resultingMatches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
@@ -101,7 +101,7 @@ public class OccurrencesSearchQuery implements ISearchQuery {
 		return Status.OK_STATUS;
 	}
 
-	private JavaElementLine getLineElement(CompilationUnit astRoot, OccurrenceLocation location, HashMap<Integer, JavaElementLine> lineToGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	private JavaElementLine getLineElement(CompilationUnit astRoot, OccurrenceLocation location, HashMap<Integer, JavaElementLine> lineToGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		int lineNumber= astRoot.getLineNumber(location.getOffset());
 		if (lineNumber <= 0) {
 			return null;

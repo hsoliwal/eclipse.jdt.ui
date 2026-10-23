@@ -290,7 +290,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		return result;
 	}
 
-	private static void putToStringMapping(final Map<String, Integer> result, final String[] actionLabels, final int actionIndex) {
+	private static void putToStringMapping(final Map<String, Integer> result, final String[] actionLabels, final int actionIndex) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		result.put(actionLabels[actionIndex], actionIndex);
 	}
 
@@ -622,7 +622,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 
 	// String -> Integer
 	private Map<String, Integer> createStringMappingForSelectedMembers() {
-		final Map<String, Integer> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		final Map<String, Integer> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		putToStringMapping(result, METHOD_LABELS, PULL_UP_ACTION);
 		putToStringMapping(result, METHOD_LABELS, DECLARE_ABSTRACT_ACTION);
 		return result;
@@ -704,7 +704,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 					? Messages.format(RefactoringMessages.PullUpInputPage1_Mark_selected_members_singular, JavaElementLabels.getElementLabel(selectedMembers[0].getMember(),
 							JavaElementLabels.M_PARAMETER_TYPES))
 					: Messages.format(RefactoringMessages.PullUpInputPage1_Mark_selected_members_plural, String.valueOf(selectedMembers.length));
-			final Map<String, Integer> stringMapping= createStringMappingForSelectedMembers();
+			final Map<String, Integer> stringMapping= createStringMappingForSelectedMembers(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			final String[] keys= stringMapping.keySet().toArray(new String[stringMapping.size()]);
 			Arrays.sort(keys);
 			final int initialSelectionIndex= getInitialSelectionIndexForEditDialog(stringMapping, keys);
@@ -764,7 +764,7 @@ public class PullUpMemberPage extends UserInputWizardPage {
 		return null;
 	}
 
-	private int getInitialSelectionIndexForEditDialog(final Map<String, Integer> stringMapping, final String[] keys) {
+	private int getInitialSelectionIndexForEditDialog(final Map<String, Integer> stringMapping, final String[] keys) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		final int commonActionCode= getCommonActionCodeForSelectedInfos();
 		if (commonActionCode == -1)
 			return 0;

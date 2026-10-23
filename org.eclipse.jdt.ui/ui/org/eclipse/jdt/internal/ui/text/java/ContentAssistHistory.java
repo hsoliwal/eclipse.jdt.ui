@@ -268,10 +268,10 @@ public final class ContentAssistHistory {
 	 * @since 3.2
 	 */
 	public static final class RHSHistory {
-		private final LinkedHashMap<String, Integer> fHistory;
+		private final LinkedHashMap<String, Integer> fHistory; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private List<String> fList;
 
-		RHSHistory(LinkedHashMap<String, Integer> history) {
+		RHSHistory(LinkedHashMap<String, Integer> history) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			fHistory= history;
 		}
 
@@ -394,7 +394,7 @@ public final class ContentAssistHistory {
 		MRUSet<String> rhsCache= fLHSCache.get(lhs);
 		if (rhsCache != null) {
 			int count= rhsCache.size();
-			LinkedHashMap<String, Integer> history= new LinkedHashMap<>((int) (count / 0.75)); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+			LinkedHashMap<String, Integer> history= new LinkedHashMap<>((int) (count / 0.75)); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			int rank= 1;
 			for (Iterator<String> it= rhsCache.iterator(); it.hasNext(); rank++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String type= it.next();

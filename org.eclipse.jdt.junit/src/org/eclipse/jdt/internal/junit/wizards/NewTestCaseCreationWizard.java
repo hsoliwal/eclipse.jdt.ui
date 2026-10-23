@@ -306,7 +306,7 @@ public class NewTestCaseCreationWizard extends JUnitWizard {
 					// nothing to do
 				} else if (fOpenBuildPathRadio.getSelection()) {
 					String id= BUILD_PATH_PAGE_ID;
-					Map<String, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+					Map<String, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 					if (PreferencesUtil.createPropertyDialogOn(getShell(), fProject, id, new String[] { id }, input).open() != Window.OK) {
 						return;

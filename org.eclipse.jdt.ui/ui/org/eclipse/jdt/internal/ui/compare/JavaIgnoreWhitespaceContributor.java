@@ -30,7 +30,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 
 public class JavaIgnoreWhitespaceContributor implements IIgnoreWhitespaceContributor {
 
-	private TreeMap<Integer /* start offset */, Integer /* end offset */> stringsByOffset= null;
+	private TreeMap<Integer /* start offset */, Integer /* end offset */> stringsByOffset= null; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 	private final IDocument document;
 
 	public JavaIgnoreWhitespaceContributor(IDocument document) {

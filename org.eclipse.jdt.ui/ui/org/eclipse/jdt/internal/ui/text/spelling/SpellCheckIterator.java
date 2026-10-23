@@ -67,7 +67,7 @@ public class SpellCheckIterator implements ISpellCheckIterator {
 	protected int fPrevious= 0;
 
 	/** The sentence breaks */
-	private final LinkedList<Integer> fSentenceBreaks= new LinkedList<>();
+	private final LinkedList<Integer> fSentenceBreaks= new LinkedList<>(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	/** Does the current word start a sentence? */
 	private boolean fStartsSentence= false;

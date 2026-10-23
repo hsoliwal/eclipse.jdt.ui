@@ -349,7 +349,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 		/**
 		 * Cache for projects and source folders status, key is resource, value is known adornment flags
 		 */
-		final Map<IResource, Integer> adornmentCache;
+		final Map<IResource, Integer> adornmentCache; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 		/** Job to compute adornments for container resources in background */
 		final AdornmentCalculationJob adornmentJob;

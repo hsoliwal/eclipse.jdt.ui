@@ -77,7 +77,7 @@ public class JavaStickyLinesProvider implements IStickyLinesProvider {
 	private final static Pattern NEW_PATTERN= Pattern.compile("new[\\s,{]"); //$NON-NLS-1$
 
 	private static Map<ITypeRoot, CompilationUnit> cuMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
-	private static Map<ITypeRoot, Long> timeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private static Map<ITypeRoot, Long> timeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public List<IStickyLine> getStickyLines(ISourceViewer sourceViewer, int lineNumber, StickyLinesProperties properties) {

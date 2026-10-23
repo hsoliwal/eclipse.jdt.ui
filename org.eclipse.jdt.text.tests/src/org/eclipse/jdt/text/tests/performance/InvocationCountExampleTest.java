@@ -37,7 +37,7 @@ public class InvocationCountExampleTest extends TestCase {
 			Double.class.getDeclaredMethod("equals", Object.class),
 		});
 		try {
-			Set<Double> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			Set<Double> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			performanceMeter.start();
 			set.add(10.0);
 			set.add(9.0);

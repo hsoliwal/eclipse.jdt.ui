@@ -110,14 +110,14 @@ public class Resources {
 		if (readOnlyFiles.isEmpty())
 			return Status.OK_STATUS;
 
-		Map<IFile, Long> oldTimeStamps= createModificationStampMap(readOnlyFiles);
+		Map<IFile, Long> oldTimeStamps= createModificationStampMap(readOnlyFiles); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		IStatus status= ResourcesPlugin.getWorkspace().validateEdit(
 			readOnlyFiles.toArray(new IFile[readOnlyFiles.size()]), context);
 		if (!status.isOK())
 			return status;
 
 		IStatus modified= null;
-		Map<IFile, Long> newTimeStamps= createModificationStampMap(readOnlyFiles);
+		Map<IFile, Long> newTimeStamps= createModificationStampMap(readOnlyFiles); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (IFile file : oldTimeStamps.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!oldTimeStamps.get(file).equals(newTimeStamps.get(file)))
 				modified= addModified(modified, file);
@@ -128,7 +128,7 @@ public class Resources {
 	}
 
 	private static Map<IFile, Long> createModificationStampMap(List<IFile> files){
-		Map<IFile, Long> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<IFile, Long> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (IFile file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			map.put(file, file.getModificationStamp());
 		}

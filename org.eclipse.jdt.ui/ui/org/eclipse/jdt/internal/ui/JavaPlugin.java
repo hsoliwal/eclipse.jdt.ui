@@ -162,7 +162,7 @@ public class JavaPlugin extends AbstractUIPlugin implements DebugOptionsListener
 
 	private static JavaPlugin fgJavaPlugin;
 
-	private static LinkedHashMap<String, Long> fgRepeatedMessages= new LinkedHashMap<>(20, 0.75f, true) {
+	private static LinkedHashMap<String, Long> fgRepeatedMessages= new LinkedHashMap<>(20, 0.75f, true) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private static final long serialVersionUID= 1L;
 		@Override
 		protected boolean removeEldestEntry(java.util.Map.Entry<String, Long> eldest) {

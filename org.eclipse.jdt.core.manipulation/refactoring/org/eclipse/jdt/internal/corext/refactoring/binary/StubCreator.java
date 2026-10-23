@@ -249,7 +249,7 @@ public class StubCreator {
 					final IMethod[] superMethods= superclass.getMethods();
 
 					// collect super constructors by parameter count
-					Map<Integer, List<IMethod>> superConstructorsByParamCount= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+					Map<Integer, List<IMethod>> superConstructorsByParamCount= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					boolean multi= false;
 					IMethod superConstructor= null;
 					for (IMethod superMethod : superMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP

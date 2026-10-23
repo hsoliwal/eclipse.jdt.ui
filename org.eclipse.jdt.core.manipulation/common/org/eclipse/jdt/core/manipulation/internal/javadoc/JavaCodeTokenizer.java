@@ -112,7 +112,7 @@ public class JavaCodeTokenizer {
 	private int pos;
 	private int braceDepth;
 	private final Map<String, Deque<Integer>> parameterNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
-	private final Map<String, Integer> pendingParameters= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<String, Integer> pendingParameters= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 	private final Map<String, Deque<Integer>> localVariables= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private final Map<String, Deque<Integer>> fields= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private final Map<String, Deque<Integer>> staticFields= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
@@ -248,13 +248,13 @@ public class JavaCodeTokenizer {
 	}
 
 	private static boolean hasBinding(Map<String, Deque<Integer>> map, String name) {
-		Deque<Integer> stack= map.get(name);
+		Deque<Integer> stack= map.get(name); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		return stack != null && !stack.isEmpty();
 	}
 
 	private void cleanupBindings(Map<String, Deque<Integer>> map) {
 		map.entrySet().removeIf(e -> {
-			Deque<Integer> stack= e.getValue();
+			Deque<Integer> stack= e.getValue(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			while (!stack.isEmpty() && stack.peek() > braceDepth) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				stack.pop();
 			}

@@ -145,7 +145,7 @@ public class ResourceTestHelper {
 
 	public static void replicate(String src, String destPrefix, String destSuffix, int n, String srcName, String destNamePrefix, int ifExists) throws IOException, CoreException {
 		StringBuffer s= read(src);
-		List<Integer> positions= identifierPositions(s, srcName);
+		List<Integer> positions= identifierPositions(s, srcName); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (int j= 0; j < n; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String dest= destPrefix + j + destSuffix; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (handleExisting(dest, ifExists)) {
@@ -159,13 +159,13 @@ public class ResourceTestHelper {
 	public static void copy(String src, String dest, String srcName, String destName, int ifExists) throws IOException, CoreException {
 		if (handleExisting(dest, ifExists)) {
 			StringBuffer buf= read(src);
-			List<Integer> positions= identifierPositions(buf, srcName);
+			List<Integer> positions= identifierPositions(buf, srcName); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			replacePositions(buf, srcName.length(), destName, positions);
 			write(dest, buf.toString());
 		}
 	}
 
-	private static void replacePositions(StringBuffer c, int origLength, String string, List<Integer> positions) {
+	private static void replacePositions(StringBuffer c, int origLength, String string, List<Integer> positions) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		int offset= 0;
 		for (Integer integer : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int position= integer;
@@ -175,7 +175,7 @@ public class ResourceTestHelper {
 	}
 
 	private static List<Integer> identifierPositions(StringBuffer buffer, String identifier) {
-		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		int i= -1;
 		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i= buffer.indexOf(identifier, i + 1);

@@ -68,11 +68,11 @@ public class RefactoringScannerTests extends GenericRefactoringTest {
 		String text= getFileContents(getRefactoringPath() + fileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fScanner.scan(text);
 
-		ArrayList<Integer> expectedMatchesList= new ArrayList<>(expectedMatches.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<Integer> expectedMatchesList= new ArrayList<>(expectedMatches.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (Position expectedMatch : expectedMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expectedMatchesList.add(TextRangeUtil.getOffset(text, expectedMatch.fLine, expectedMatch.fColumn));
 		}
-		ArrayList<Integer> matchesList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<Integer> matchesList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		for (TextMatch element : fScanner.getMatches()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			matchesList.add(element.getStartPosition());
 		}
