@@ -4108,7 +4108,7 @@ public class ASTNodes {
 			String visitedString= buffer.substring(visited.getStartPosition(), visited.getStartPosition() + visited.getLength());
 			// we are using the toString() method to get string representation of replace_with_Call so tweak string to
 			// add spaces between parameters
-			String replacementCallString= replace_with_Call.toString().replaceAll(",", ", "); //$NON-NLS-1$ //$NON-NLS-2$
+			String replacementCallString= replace_with_Call.toString().replace(",", ", "); //$NON-NLS-1$ //$NON-NLS-2$
 			String originalmodified= original.replace(visitedString, replacementCallString);
 			replacement= rewrite.createStringPlaceholder(originalmodified, st.getNodeType());
 			rewrite.replace(st, replacement, editGroup);
