@@ -361,7 +361,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
         menuMgr.addMenuListener(this);
         fContextMenu= menuMgr.createContextMenu(fPackageViewer.getTree());
         fPackageViewer.getTree().setMenu(fContextMenu);
-        parent.addDisposeListener(_ -> fContextMenu.dispose());
+        parent.addDisposeListener(unused -> fContextMenu.dispose());
 
         return fPackageViewer.getControl();
     }
@@ -448,7 +448,7 @@ public class DialogPackageExplorer implements IMenuListener, IPostSelectionProvi
         if (elements == null || elements.isEmpty())
             return;
 		try {
-	        ResourcesPlugin.getWorkspace().run((IWorkspaceRunnable) _ -> {
+	        ResourcesPlugin.getWorkspace().run((IWorkspaceRunnable) unused -> {
 				fPackageViewer.refresh();
 			    IStructuredSelection selection= new StructuredSelection(elements);
 			    fPackageViewer.setSelection(selection, true);

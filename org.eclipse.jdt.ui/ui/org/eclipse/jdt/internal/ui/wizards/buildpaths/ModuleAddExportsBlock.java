@@ -405,7 +405,7 @@ public class ModuleAddExportsBlock {
 		if (!moduleName.isEmpty()) {
 			roots= findRoots(mod -> (mod != null && mod.getElementName().equals(moduleName)));
 		} else {
-			roots= findRoots(_ -> true);
+			roots= findRoots(unused -> true);
 			needToSetSource= true;
 		}
 		if (roots != null) {

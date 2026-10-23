@@ -223,7 +223,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			l.setText(RefactoringMessages.IntroduceParameterObjectWizard_parameterfield_label);
 			final Text text= new Text(group, SWT.BORDER);
 			text.setText(fProcessor.getParameterName());
-			text.addModifyListener(_ -> {
+			text.addModifyListener(unused -> {
 				fProcessor.setParameterName(text.getText());
 				updateSignaturePreview();
 				validateRefactoring();
@@ -541,7 +541,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 				}
 
 			});
-			tv.addSelectionChangedListener(_ -> updateButtons(tv, upButton, downButton, editButton));
+			tv.addSelectionChangedListener(unused -> updateButtons(tv, upButton, downButton, editButton));
 		}
 
 		private void addSpacer(Composite parent) {
@@ -643,7 +643,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			text.setText(fProcessor.getClassName());
 			text.selectAll();
 			text.setFocus();
-			text.addModifyListener(_ -> {
+			text.addModifyListener(unused -> {
 				fProcessor.setClassName(text.getText());
 				updateSignaturePreview();
 				validateRefactoring();

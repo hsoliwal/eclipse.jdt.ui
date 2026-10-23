@@ -186,7 +186,7 @@ public final class MoveInstanceMethodWizard extends RefactoringWizard {
 			fMethodNameField.selectAll();
 			fMethodNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			fMethodNameField.setFocus();
-			fMethodNameField.addModifyListener(_ -> {
+			fMethodNameField.addModifyListener(unused -> {
 				fMethodNameStatus= fProcessor.setMethodName(fMethodNameField.getText());
 				handleStatusChanged();
 			});
@@ -205,7 +205,7 @@ public final class MoveInstanceMethodWizard extends RefactoringWizard {
 				setPageComplete(false);
 			}
 			fTargetNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			fTargetNameField.addModifyListener(_ -> {
+			fTargetNameField.addModifyListener(unused -> {
 				fTargetNameStatus= fProcessor.setTargetName(fTargetNameField.getText());
 				handleStatusChanged();
 			});

@@ -1,0 +1,201 @@
+step	path	changed_lines
+manifest	org.eclipse.jdt.astview/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.astview/.classpath	1
+prefs	org.eclipse.jdt.astview/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.astview/src/org/eclipse/jdt/astview/views/ASTView.java	2
+manifest	org.eclipse.jdt.bcoview/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.bcoview/.classpath	1
+prefs	org.eclipse.jdt.bcoview/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.bcoview/src/org/eclipse/jdt/bcoview/views/BytecodeOutlineView.java	2
+manifest	org.eclipse.jdt.core.manipulation/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.core.manipulation/.classpath	1
+prefs	org.eclipse.jdt.core.manipulation/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/core/manipulation/internal/javadoc/JavaCodeTokenizer.java	1
+java	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/codemanipulation/StubUtility2Core.java	1
+java	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/AddUnimplementedMethodsOperation.java	1
+java	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/helper/WhileToForEach.java	6
+java	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/NullAnnotationsFixCore.java	11
+java	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/UnusedCodeFixCore.java	1
+manifest	org.eclipse.jdt.jeview/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.jeview/.classpath	1
+prefs	org.eclipse.jdt.jeview/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.jeview/src/org/eclipse/jdt/jeview/views/JavaElementView.java	2
+manifest	org.eclipse.jdt.junit.core/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.junit.core/.classpath	1
+prefs	org.eclipse.jdt.junit.core/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/launcher/JUnit5TestFinder.java	1
+manifest	org.eclipse.jdt.junit/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.junit/.classpath	1
+prefs	org.eclipse.jdt.junit/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/buildpath/JUnitContainerWizardPage.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/CompareResultDialog.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/CompareResultsAction.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/CounterPanel.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/FailureTableDisplay.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/FailureTrace.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/ui/TestRunnerViewPart.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/internal/junit/util/CheckedTableSelectionDialog.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java	15
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchShortcut.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/wizards/NewTestCaseWizardPageTwo.java	1
+java	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/wizards/NewTestSuiteWizardPage.java	1
+manifest	org.eclipse.jdt.text.tests/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.text.tests/.classpath	1
+prefs	org.eclipse.jdt.text.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/codemining/ParameterNamesCodeMiningTest.java	1
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/contentassist/CodeCompletionTest.java	1
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/contentassist/ContentAssistAndThreadsTest.java	1
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/JavaPartitionerTest.java	1
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/EditorTestHelper.java	1
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/performance/KeyboardProbe.java	1
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/PropertiesFilePartitionerTest.java	1
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/semantictokens/SemanticTokensProviderErrorTest.java	1
+java	org.eclipse.jdt.text.tests/src/org/eclipse/jdt/text/tests/semantictokens/SemanticTokensProviderTest.java	1
+manifest	org.eclipse.jdt.ui.examples.javafamily/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.ui.examples.javafamily/.classpath	1
+prefs	org.eclipse.jdt.ui.examples.javafamily/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/launching/TomcatTab.java	2
+manifest	org.eclipse.jdt.ui.examples.projects/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.ui.examples.projects/.classpath	1
+prefs	org.eclipse.jdt.ui.examples.projects/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.ui.examples.projects/examples/org/eclipse/jdt/internal/ui/exampleprojects/ExampleProjectCreationWizardPage.java	1
+manifest	org.eclipse.jdt.ui.tests.refactoring/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.ui.tests.refactoring/.classpath	1
+prefs	org.eclipse.jdt.ui.tests.refactoring/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/DocumentChangeTest.java	4
+java	org.eclipse.jdt.ui.tests.refactoring/test cases/org/eclipse/jdt/ui/tests/refactoring/infra/RefactoringTestRepositoryProvider.java	1
+manifest	org.eclipse.jdt.ui.tests/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.ui.tests/.classpath	1
+prefs	org.eclipse.jdt.ui.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.ui.tests/examples/org/eclipse/jdt/ui/examples/MyJavadocExportWizardPage.java	1
+java	org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/views/OpenTypePerfTest.java	1
+java	org.eclipse.jdt.ui.tests/performance/org/eclipse/jdt/ui/tests/performance/views/PackageExplorerPerfTest.java	1
+java	org.eclipse.jdt.ui.tests/test plugin/org/eclipse/jdt/testplugin/JavaProjectHelper.java	2
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java	15
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/JUnitRenameParticipantTest.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/junit/tests/WrappingUnitTest.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/buildpath/BuildpathModifierActionEnablementTest.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/CallHierarchyParticipantTest.java	2
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ImportOrganizeTest.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/ImportOrganizeTest25.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/OverrideIndicatorLabelDecoratorTest.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/source/GenerateGettersSettersTest.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/source/GenerateGettersSettersTest16.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/source/GenerateGettersSettersTest23.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/TypeHierarchyTest.java	3
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/packageview/WorkingSetDropAdapterTest.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/AnnotateAssistTest1d5.java	1
+java	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/JarUtil.java	1
+manifest	org.eclipse.jdt.ui/META-INF/MANIFEST.MF	1
+classpath	org.eclipse.jdt.ui/.classpath	1
+prefs	org.eclipse.jdt.ui/.settings/org.eclipse.jdt.core.prefs	3
+java	org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/fix/CleanUpRegistry.java	1
+java	org.eclipse.jdt.ui/core extension/org/eclipse/jdt/internal/corext/fix/ImportsFix.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/ExpandWithConstructorsDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/callhierarchy/FiltersDialog.java	3
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/GenerateToStringDialog.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/OpenTypeSelectionDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/OverrideMethodDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/SortMembersMessageDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/dialogs/TextFieldNavigationHandler.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/filtertable/JavaFilterTable.java	7
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/CleanUpRefactoringWizard.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/fix/CleanUpSelectionDialog.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/infoviews/JavadocView.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarimport/JarImportWizardPage.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/jarpackager/JarPackageWizardPage.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocSpecificsWizardPage.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocStandardWizardPage.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javadocexport/JavadocTreeWizardPage.java	5
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/breadcrumb/BreadcrumbItemDropDown.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/breadcrumb/BreadcrumbViewer.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/ClassFileEditor.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/CompilationUnitEditor.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaCodeMiningReconciler.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaEditor.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/JavaEditorBreadcrumb.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/saveparticipant/AbstractSaveParticipantPreferenceConfiguration.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/selectionactions/SelectionHistory.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/packageview/PackageExplorerActionGroup.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpConfigurationBlock.java	3
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CleanUpTabPage.java	6
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/cleanup/CodeFormatingTabPage.java	4
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/EditTemplateDialog.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/FilteredPreferenceTree.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/FilterTextControl.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/AlreadyExistsDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/CreateProfileDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterModifyDialog.java	6
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/FormatterPreferenceSectionComposite.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/JavaPreview.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialog.java	5
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/formatter/ModifyDialogTabPage.java	5
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavaEditorColoringConfigurationBlock.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavaEditorHoverConfigurationBlock.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/JavaSourcePreviewerUpdater.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/MembersOrderPreferencePage.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/PreferenceHighlight.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/ProblemSeveritiesConfigurationBlock.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/ProjectSelectionDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/PropertiesFileEditorPreferencePage.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/preferences/SmartTypingConfigurationBlock.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/propertiesfileeditor/PropertyKeyHyperlink.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/search/JavaSearchPage.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/proposals/FixCorrectionProposal.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistLightBulbUpdater.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/AnnotationExpansionControl.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/LazyGenericTypeProposal.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/JavaReconciler.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/template/contentassist/TemplateInformationControlCreator.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/HistoryListAction.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/viewsupport/javadoc/SignatureStylingMenuToolbarAction.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/AddSourceFolderWizardPage.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathContainerDefaultPage.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathContainerSelectionPage.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ClasspathFixSelectionDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleAddExportsBlock.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDependenciesList.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDependenciesPage.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleDialog.java	7
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ModuleSelectionDialog.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/MultipleFolderSelectionDialog.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/newsourcepage/DialogPackageExplorer.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/newsourcepage/HintTextGroup.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/newsourcepage/NewSourceContainerWorkbookPage.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/buildpaths/ReleaseAttributeConfiguration.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/wizards/dialogfields/StringDialogField.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/AbstractWorkingSetWizardPage.java	3
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/ViewActionGroup.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/workingsets/WorkingSetConfigurationDialog.java	3
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/actions/ExternalizeStringsAction.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/actions/FindStringsToExternalizeAction.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/ProblemsLabelDecorator.java	2
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewAnnotationWizardPage.java	1
+java	org.eclipse.jdt.ui/ui/org/eclipse/jdt/ui/wizards/NewJavaProjectWizardPageOne.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ChangeExceptionsControl.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ChangeParametersControl.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ChangeSignatureWizard.java	2
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/code/ExtractMethodInputPage.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ConvertAnonymousToNestedWizard.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/CreateTextFileChangePreviewViewer.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractClassWizard.java	3
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractInterfaceWizard.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/ExtractSupertypeMemberPage.java	4
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceFactoryInputPage.java	2
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceIndirectionInputPage.java	2
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/IntroduceParameterObjectWizard.java	3
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/MoveInnerToTopWizard.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/MoveInstanceMethodWizard.java	2
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/nls/ExternalizeWizardPage.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/nls/PackageFragmentSelection.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PromoteTempWizard.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PullUpMemberPage.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PullUpMethodPage.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/PushDownWizard.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/QualifiedNameComponent.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/DestinationContentProvider.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameInformationPopup.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameLinkedMode.java	2
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsOptionsDialog.java	3
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/reorg/RenameTypeWizardSimilarElementsPage.java	1
+java	org.eclipse.jdt.ui/ui refactoring/org/eclipse/jdt/internal/ui/refactoring/TextInputWizardPage.java	1

@@ -206,7 +206,7 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 
 	private void createTableViewer(Composite parent) {
 		fTableViewer= CheckboxTableViewer.newCheckList(parent, SWT.BORDER | SWT.MULTI);
-		fTableViewer.addCheckStateListener(_ -> updateButtonAvailability());
+		fTableViewer.addCheckStateListener(unused -> updateButtonAvailability());
 		GridData data= new GridData(GridData.FILL_BOTH);
 		data.heightHint= convertHeightInCharsToPixels(20);
 		data.widthHint= convertWidthInCharsToPixels(50);
@@ -214,8 +214,8 @@ public class WorkingSetConfigurationDialog extends SelectionDialog {
 
 		fTableViewer.setLabelProvider(new WorkingSetLabelProvider());
 		fTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-		fTableViewer.addSelectionChangedListener(_ -> handleSelectionChanged());
-		fTableViewer.addDoubleClickListener(_ -> {
+		fTableViewer.addSelectionChangedListener(unused -> handleSelectionChanged());
+		fTableViewer.addDoubleClickListener(unused -> {
 			if (fEditButton.isEnabled())
 				editSelectedWorkingSet();
 		});

@@ -115,7 +115,7 @@ public class IntroduceFactoryInputPage extends UserInputWizardPage {
 		gd.horizontalSpan= 2;
 		protectCtorCB.setLayoutData(gd);
 
-		fMethodName.addModifyListener(_ -> {
+		fMethodName.addModifyListener(unused -> {
 			fMethodNameStatus = getUseFactoryRefactoring().setNewMethodName(fMethodName.getText());
 			validateInput(true);
 			/*
@@ -140,7 +140,7 @@ public class IntroduceFactoryInputPage extends UserInputWizardPage {
 			}
 		});
 
-		factoryTypeName.addModifyListener(_ -> {
+		factoryTypeName.addModifyListener(unused -> {
 			fDestinationStatus= getUseFactoryRefactoring().setFactoryClass(factoryTypeName.getText());
 			validateInput(false);
 			/*

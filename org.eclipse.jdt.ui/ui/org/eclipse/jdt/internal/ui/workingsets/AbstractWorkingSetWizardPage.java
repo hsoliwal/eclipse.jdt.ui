@@ -164,7 +164,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		fWorkingSetName= new Text(composite, SWT.SINGLE | SWT.BORDER);
 		fWorkingSetName.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 		fWorkingSetName.addModifyListener(
-			_ -> validateInput()
+			unused -> validateInput()
 		);
 
 		Composite leftCenterRightComposite= new Composite(composite, SWT.NONE);
@@ -275,7 +275,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 			}
 		});
 
-		fTree.addDoubleClickListener(_ -> {
+		fTree.addDoubleClickListener(unused -> {
 			addTreeSelection();
 
 			removeAllButton.setEnabled(true);
@@ -294,7 +294,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 			}
 		});
 
-		fTable.addDoubleClickListener(_ -> {
+		fTable.addDoubleClickListener(unused -> {
 			removeTableSelection();
 
 			addAllButton.setEnabled(true);

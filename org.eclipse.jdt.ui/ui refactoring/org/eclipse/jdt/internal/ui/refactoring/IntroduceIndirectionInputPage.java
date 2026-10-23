@@ -139,7 +139,7 @@ public class IntroduceIndirectionInputPage extends UserInputWizardPage {
 		fIntermediaryMethodName.setText(getIntroduceIndirectionRefactoring().getIntermediaryMethodName());
 		fIntermediaryTypeName.setText(getIntroduceIndirectionRefactoring().getIntermediaryTypeName());
 
-		fIntermediaryMethodName.addModifyListener(_ -> validateInput());
+		fIntermediaryMethodName.addModifyListener(unused -> validateInput());
 
 		enableReferencesCheckBox.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -148,7 +148,7 @@ public class IntroduceIndirectionInputPage extends UserInputWizardPage {
 			}
 		});
 
-		fIntermediaryTypeName.addModifyListener(_ -> validateInput());
+		fIntermediaryTypeName.addModifyListener(unused -> validateInput());
 
 		browseTypes.addSelectionListener(new SelectionAdapter() {
 			@Override

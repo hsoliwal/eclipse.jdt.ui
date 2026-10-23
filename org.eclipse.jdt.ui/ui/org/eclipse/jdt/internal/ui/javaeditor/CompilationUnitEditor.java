@@ -598,7 +598,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 			final IDocument document= sourceViewer.getDocument();
 			if (document instanceof IDocumentExtension) {
 				IDocumentExtension extension= (IDocumentExtension) document;
-				extension.registerPostNotificationReplace(null, (_, _) -> {
+				extension.registerPostNotificationReplace(null, (unused, unused2) -> {
 					if ((level.fFirstPosition.isDeleted || level.fFirstPosition.length == 0)
 							&& !level.fSecondPosition.isDeleted
 							&& level.fSecondPosition.offset == level.fFirstPosition.offset)

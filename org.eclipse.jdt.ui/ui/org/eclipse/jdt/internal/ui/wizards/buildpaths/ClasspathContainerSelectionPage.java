@@ -81,8 +81,8 @@ public class ClasspathContainerSelectionPage extends WizardPage {
 		fListViewer.setContentProvider(ArrayContentProvider.getInstance());
 		fListViewer.setComparator(new ViewerComparator());
 		fListViewer.setInput(Arrays.asList(fContainers));
-		fListViewer.addSelectionChangedListener(_ -> validatePage());
-		fListViewer.addDoubleClickListener(_ -> doDoubleClick());
+		fListViewer.addSelectionChangedListener(unused -> validatePage());
+		fListViewer.addDoubleClickListener(unused -> doDoubleClick());
 
 		int selectionIndex= fDialogSettings.getInt(DIALOGSTORE_CONTAINER_IDX);
 		if (selectionIndex >= fContainers.length) {

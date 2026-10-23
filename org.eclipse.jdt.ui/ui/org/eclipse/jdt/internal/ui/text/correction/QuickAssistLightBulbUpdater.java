@@ -118,7 +118,7 @@ public class QuickAssistLightBulbUpdater {
 	}
 
 	private void installSelectionListener() {
-		fListener= (_, selection, astRoot) -> doSelectionChanged(selection.getOffset(), selection.getLength(), astRoot);
+		fListener= (unused, selection, astRoot) -> doSelectionChanged(selection.getOffset(), selection.getLength(), astRoot);
 		SelectionListenerWithASTManager.getDefault().addListener(fEditor, fListener);
 	}
 

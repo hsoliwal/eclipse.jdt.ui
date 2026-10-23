@@ -157,7 +157,7 @@ public class AddUnimplementedMethodsOperation extends CompilationUnitRewriteOper
 				IVariableBinding varBinding= enumConstantDeclaration.resolveVariable();
 				if (varBinding != null) {
 					binding= varBinding.getDeclaringClass();
-					filter= _->false;
+					filter= unused->false;
 				}
 			}
 		}

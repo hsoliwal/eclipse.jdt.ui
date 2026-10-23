@@ -58,7 +58,7 @@ public class SemanticTokensProviderTest extends AbstractSemanticHighlightingTest
 	@Test
 	public void disabledHighlightingNoError() throws Exception {
 		List<IStatus> errors= new ArrayList<>();
-		ILogListener logListener= (status, _) -> {
+		ILogListener logListener= (status, unused) -> {
 			if (status.getSeverity() == IStatus.ERROR) {
 				errors.add(status);
 			}

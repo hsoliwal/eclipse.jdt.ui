@@ -265,7 +265,7 @@ public class CompareResultDialog extends TrayDialog {
 	    setCompareViewerInput();
 
 	    Control control= fViewer.getControl();
-	    control.addDisposeListener(_ -> compareConfiguration.dispose());
+	    control.addDisposeListener(unused -> compareConfiguration.dispose());
 	    return control;
 	}
 

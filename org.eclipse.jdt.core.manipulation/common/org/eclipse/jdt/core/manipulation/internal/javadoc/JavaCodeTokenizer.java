@@ -244,7 +244,7 @@ public class JavaCodeTokenizer {
 	}
 
 	private static void addBinding(Map<String, Deque<Integer>> map, String name, int depth) {
-		map.computeIfAbsent(name, _ -> new ArrayDeque<>()).push(depth);
+		map.computeIfAbsent(name, unused -> new ArrayDeque<>()).push(depth);
 	}
 
 	private static boolean hasBinding(Map<String, Deque<Integer>> map, String name) {

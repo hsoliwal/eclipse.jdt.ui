@@ -604,7 +604,7 @@ public class JavaProjectHelper {
 		if (ASSERT_NO_MIXED_LINE_DELIMIERS)
 			MixedLineDelimiterDetector.assertNoMixedLineDelimiters(elem);
 
-		IWorkspaceRunnable runnable= _ -> {
+		IWorkspaceRunnable runnable= unused -> {
 			performDummySearch();
 			if (elem instanceof IJavaProject) {
 				IJavaProject jproject= (IJavaProject) elem;
@@ -676,7 +676,7 @@ public class JavaProjectHelper {
 	 */
 	public static void clear(final IJavaProject jproject, final IClasspathEntry[] entries) throws Exception {
 		performDummySearch();
-		IWorkspaceRunnable runnable= _ -> {
+		IWorkspaceRunnable runnable= unused -> {
 			jproject.setRawClasspath(entries, null);
 
 			for (IResource resource : jproject.getProject().members()) {

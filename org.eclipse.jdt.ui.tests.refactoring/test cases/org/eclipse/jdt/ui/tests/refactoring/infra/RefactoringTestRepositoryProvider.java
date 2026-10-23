@@ -89,7 +89,7 @@ public class RefactoringTestRepositoryProvider extends RepositoryProvider {
 		private IStatus makeWritable(final IFile[] resources) {
 			try {
 				ResourcesPlugin.getWorkspace().run(
-					(IWorkspaceRunnable) _ -> {
+					(IWorkspaceRunnable) unused -> {
 						for (IFile resource : resources) {
 							ResourceAttributes resourceAttributes = resource.getResourceAttributes();
 							if (resourceAttributes != null) {

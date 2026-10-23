@@ -111,7 +111,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 			fEditor.getSite().getShell().addControlListener(this);
 			viewer.addTextListener(this);
 			viewer.addViewportListener(this);
-			fPopup.addDisposeListener(_ -> {
+			fPopup.addDisposeListener(unused -> {
 				IWorkbenchWindow workbenchWindow= fEditor.getSite().getWorkbenchWindow();
 				if (workbenchWindow == null) {
 					return; // happens on eclipse restart

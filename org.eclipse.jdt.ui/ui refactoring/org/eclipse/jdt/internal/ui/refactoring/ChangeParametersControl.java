@@ -322,7 +322,7 @@ public class ChangeParametersControl extends Composite {
 		fTableViewer.setUseHashlookup(true);
 		fTableViewer.setContentProvider(new ParameterInfoContentProvider());
 		fTableViewer.setLabelProvider(new ParameterInfoLabelProvider());
-		fTableViewer.addSelectionChangedListener(_ -> updateButtonsEnabledState());
+		fTableViewer.addSelectionChangedListener(unused -> updateButtonsEnabledState());
 
 		table.addTraverseListener(e -> {
 			if (e.detail == SWT.TRAVERSE_RETURN && e.stateMask == SWT.NONE) {

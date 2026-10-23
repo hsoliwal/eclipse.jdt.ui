@@ -368,7 +368,7 @@ public class FindStringsToExternalizeAction extends SelectionDispatchAction {
 		@Override
 		protected Control createDialogArea(Composite parent) {
 			Composite result= (Composite)super.createDialogArea(parent);
-			getTableViewer().addSelectionChangedListener(_ -> {
+			getTableViewer().addSelectionChangedListener(unused -> {
 				if (fOpenButton != null){
 					fOpenButton.setEnabled(! getTableViewer().getSelection().isEmpty());
 				}

@@ -139,7 +139,7 @@ public class FilterTextControl {
 			gridData.horizontalSpan= 2;
 		fTextControl.setLayoutData(gridData);
 
-		fTextControl.addModifyListener(_ -> updateClearButtonVisibility(fTextControl.getText().length() != 0));
+		fTextControl.addModifyListener(unused -> updateClearButtonVisibility(fTextControl.getText().length() != 0));
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class FilterTextControl {
 				public void mouseHover(MouseEvent e) {
 				}
 			});
-			clearButton.addDisposeListener(_ -> {
+			clearButton.addDisposeListener(unused -> {
 				if (inactiveImage != null) {
 					inactiveImage.dispose();
 				}

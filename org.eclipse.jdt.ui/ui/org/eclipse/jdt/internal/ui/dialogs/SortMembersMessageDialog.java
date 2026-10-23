@@ -154,7 +154,7 @@ public class SortMembersMessageDialog extends OptionalMessageDialog {
 		label.setLayoutData(gridData);
 		label.setFont(warningComposite.getFont());
 
-		fNotSortAllRadio.setDialogFieldListener(_ -> {
+		fNotSortAllRadio.setDialogFieldListener(unused -> {
 			imageLabel1.setEnabled(!fNotSortAllRadio.isSelected());
 			label.setEnabled(!fNotSortAllRadio.isSelected());
 		});

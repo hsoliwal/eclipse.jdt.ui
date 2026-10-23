@@ -765,7 +765,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		final TrayLabelProvider trayLabelProvider= new TrayLabelProvider();
 		fTray.setLabelProvider(trayLabelProvider);
 		fTray.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
-		fTrayUpdater= _ -> {
+		fTrayUpdater= unused -> {
 			IStructuredSelection viewerSelection= fViewer.getStructuredSelection();
 			if (viewerSelection.size() == 1) {
 				Object first= viewerSelection.getFirstElement();
@@ -778,7 +778,7 @@ public class ASTView extends ViewPart implements IShowInSource, IShowInTargetLis
 		};
 		fTray.addPostSelectionChangedListener(fTrayUpdater);
 		fViewer.addPostSelectionChangedListener(fTrayUpdater);
-		fTray.addDoubleClickListener(_ -> performTrayDoubleClick());
+		fTray.addDoubleClickListener(unused -> performTrayDoubleClick());
 		fTray.addSelectionChangedListener(event -> {
 			IStructuredSelection selection= event.getStructuredSelection();
 			fDeleteAction.setEnabled(selection.size() >= 1 && fTray.getTree().isFocusControl());

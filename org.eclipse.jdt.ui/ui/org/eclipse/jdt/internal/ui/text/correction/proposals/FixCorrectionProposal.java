@@ -104,7 +104,7 @@ public class FixCorrectionProposal extends LinkedCorrectionProposal implements I
 
 		refactoring.addCleanUp(fCleanUp);
 
-		IRunnableContext context= (_, _, runnable) -> runnable.run(monitor == null ? new NullProgressMonitor() : monitor);
+		IRunnableContext context= (unused, unused2, runnable) -> runnable.run(monitor == null ? new NullProgressMonitor() : monitor);
 
 		Shell shell= JavaPlugin.getActiveWorkbenchShell();
 		RefactoringExecutionHelper helper= new RefactoringExecutionHelper(refactoring, IStatus.INFO, IRefactoringSaveModes.SAVE_REFACTORING, shell, context);

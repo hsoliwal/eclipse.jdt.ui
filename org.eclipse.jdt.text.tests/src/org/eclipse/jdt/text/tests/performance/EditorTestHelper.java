@@ -418,7 +418,7 @@ public class EditorTestHelper {
 	}
 
 	public static void closeAllPopUps(SourceViewer sourceViewer) {
-		IWidgetTokenKeeper tokenKeeper= _ -> true;
+		IWidgetTokenKeeper tokenKeeper= unused -> true;
 		sourceViewer.requestWidgetToken(tokenKeeper, Integer.MAX_VALUE);
 		sourceViewer.releaseWidgetToken(tokenKeeper);
 	}

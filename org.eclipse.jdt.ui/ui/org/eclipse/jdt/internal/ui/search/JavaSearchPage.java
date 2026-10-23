@@ -644,7 +644,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 				updateOKStatus();
 			}
 		});
-		fPattern.addModifyListener(_ -> {
+		fPattern.addModifyListener(unused -> {
 			doPatternModified();
 			updateOKStatus();
 
@@ -1146,7 +1146,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	public void setContainer(ISearchPageContainer container) {
 		fContainer= container;
 		if (container instanceof IScopeChangeProvider provider) {
-			provider.addScopeChangedListener((_) -> updateOKStatus());
+			provider.addScopeChangedListener((unused) -> updateOKStatus());
 		}
 	}
 

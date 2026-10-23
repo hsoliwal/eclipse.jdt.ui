@@ -312,14 +312,14 @@ public class CallHierarchyParticipantTest {
 		ICompilationUnit fakeCU = (ICompilationUnit) Proxy.newProxyInstance(
 				getClass().getClassLoader(),
 				new Class<?>[] { ICompilationUnit.class },
-				(_, method, args) -> method.invoke(cu, args));
+				(unused, method, args) -> method.invoke(cu, args));
 
 		// Create a proxy IMethod that delegates to realCallerMethod but returns
 		// the non-standard ICompilationUnit from getTypeRoot()
 		IMethod proxyMethod = (IMethod) Proxy.newProxyInstance(
 				getClass().getClassLoader(),
 				new Class<?>[] { IMethod.class },
-				(_, method, args) -> {
+				(unused, method, args) -> {
 					if ("getTypeRoot".equals(method.getName())) {
 						return fakeCU;
 					}

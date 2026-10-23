@@ -131,17 +131,17 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 							Expression exp= node.getExpression();
 							if (exp != null) {
 								switch (exp) {
-									case BooleanLiteral _ -> {}
-									case CharacterLiteral _ ->{}
-									case StringLiteral _ -> {}
-									case NumberLiteral _ -> {}
-									case TypeLiteral _ -> {}
-									case MethodReference _ -> {}
-									case TextBlock _ -> {}
-									case ThisExpression _ -> {}
-									case PrefixExpression _ -> {}
-									case PostfixExpression _ -> {}
-									case ClassInstanceCreation _ -> {}
+									case BooleanLiteral unused -> {}
+									case CharacterLiteral unused ->{}
+									case StringLiteral unused -> {}
+									case NumberLiteral unused -> {}
+									case TypeLiteral unused -> {}
+									case MethodReference unused -> {}
+									case TextBlock unused -> {}
+									case ThisExpression unused -> {}
+									case PrefixExpression unused -> {}
+									case PostfixExpression unused -> {}
+									case ClassInstanceCreation unused -> {}
 									case MethodInvocation mi -> {
 										IMethodBinding miBinding= mi.resolveMethodBinding();
 										if (miBinding == null) {
