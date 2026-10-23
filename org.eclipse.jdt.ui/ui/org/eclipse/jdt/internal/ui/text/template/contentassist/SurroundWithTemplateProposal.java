@@ -87,10 +87,12 @@ public class SurroundWithTemplateProposal extends TemplateProposal {
 			return new ArrayList<>();
 		}
 
+		private static final Pattern TEMPLATE_VARIABLE_REG_EX_PATTERN = Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$
+
 		@Override
 		protected boolean isNewContext() {
 
-			final Pattern templateVariableRegEx= Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$
+			final Pattern templateVariableRegEx= TEMPLATE_VARIABLE_REG_EX_PATTERN;
 
 			String template= fTemplate.getPattern();
 			Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template);

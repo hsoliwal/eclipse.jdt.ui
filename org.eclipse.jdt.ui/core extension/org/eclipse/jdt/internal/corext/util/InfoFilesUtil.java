@@ -106,9 +106,11 @@ public class InfoFilesUtil {
 		return CodeGeneration.getTypeComment(cu, typeName, lineDelimiterUsed);
 	}
 
+	private static final Pattern GET_MODULE_COMMENT_PATTERN = Pattern.compile("\\s*module\\s*(\\w*).*"); //$NON-NLS-1$
+
 	public static String getModuleComment(String fileName, IPackageFragment pack, String fileContent, String lineDelimiterUsed) throws CoreException {
 		ICompilationUnit cu= pack.getCompilationUnit(fileName);
-		Pattern p= Pattern.compile("\\s*module\\s*(\\w*).*"); //$NON-NLS-1$
+		Pattern p= GET_MODULE_COMMENT_PATTERN;
 		Matcher m= p.matcher(fileContent);
 		String moduleName= ""; //$NON-NLS-1$
 		if (m.matches()) {
