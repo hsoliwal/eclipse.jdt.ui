@@ -166,12 +166,15 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 				@Override
 				public void elementChanged(final ElementChangedEvent e) {
 
-					if (getControl() == null)
-						return;
-
-					Display d= getControl().getDisplay();
-					if (d != null) {
+					// IElementChangedListener can run on a Java-model worker thread.
+					Display d= fM3OutlineDisplay;
+					if (d != null && !d.isDisposed()) {
 						d.asyncExec(() -> {
+							if (fM3OutlineDisplay != d || fOutlineViewer == null)
+								return;
+							Control control= fOutlineViewer.getControl();
+							if (control == null || control.isDisposed())
+								return;
 							ICompilationUnit cu= (ICompilationUnit) fInput;
 							IJavaElement base= cu;
 							if (fTopLevelTypeOnly) {
@@ -756,6 +759,8 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	private String fContextMenuID;
 	private Menu fMenu;
 	private JavaOutlineViewer fOutlineViewer;
+	/** Owning UI Display published once per control; never read the SWT Control on a JDT worker. */
+	private volatile Display fM3OutlineDisplay;
 	private JavaEditor fEditor;
 
 	private MemberFilterActionGroup fMemberFilterActionGroup;
@@ -936,6 +941,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	private void createControlCached(Composite parent) {
 
 		Tree tree= new Tree(parent, SWT.MULTI);
+		fM3OutlineDisplay= tree.getDisplay();
 
 		AppearanceAwareLabelProvider lprovider= new AppearanceAwareLabelProvider(
 			AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS |  JavaElementLabels.F_APP_TYPE_SIGNATURE | JavaElementLabels.ALL_CATEGORY2,
@@ -1054,6 +1060,8 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 
 	@Override
 	public void dispose() {
+		// Reject already scheduled model updates before disposing the native UI.
+		fM3OutlineDisplay= null;
 
 		if (fEditor == null)
 			return;
