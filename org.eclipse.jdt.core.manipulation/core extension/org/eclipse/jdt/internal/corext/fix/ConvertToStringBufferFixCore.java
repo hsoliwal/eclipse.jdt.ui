@@ -305,7 +305,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 				linkedModel.getPositionGroup(groupID, true).addPosition(rewrite.track(bufferNameReference), true);
 
 				if (tagsCount > 0) {
-					ASTNodes.replaceAndRemoveNLSByCount(rewrite, oldInfixExpression, bufferToString.toString().replaceAll(",", ", "), tagsCount, null, cuRewrite); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+					ASTNodes.replaceAndRemoveNLSByCount(rewrite, oldInfixExpression, bufferToString.toString().replace(",", ", "), tagsCount, null, cuRewrite); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				} else {
 					rewrite.replace(oldInfixExpression, bufferToString, null);
 				}
