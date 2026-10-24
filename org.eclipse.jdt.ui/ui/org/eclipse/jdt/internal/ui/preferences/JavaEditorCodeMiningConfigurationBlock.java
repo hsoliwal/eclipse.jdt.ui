@@ -104,7 +104,7 @@ public class JavaEditorCodeMiningConfigurationBlock extends OptionsConfiguration
 
 	private PreferenceTree fFilteredPrefTree;
 
-	private List<PreferenceStoreEntry> generalCodeMiningOptions= new ArrayList<>();
+	private List<PreferenceStoreEntry> generalCodeMiningOptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	public JavaEditorCodeMiningConfigurationBlock(IStatusChangeListener context,
 			IWorkbenchPreferenceContainer container) {
@@ -117,7 +117,7 @@ public class JavaEditorCodeMiningConfigurationBlock extends OptionsConfiguration
 				PREF_SHOW_IMPLEMENTATIONS, PREF_SHOW_PARAMETER_NAMES, PREF_IGNORE_INEXACT_MATCHES, PREF_FILTER_IMPLIED_PARAMETER_NAMES, PREF_DEFAULT_FILTER_FOR_PARAMETER_NAMES, PREF_SHOW_ONE_PARAMETER };
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		fPixelConverter= new PixelConverter(parent);
 		Shell shell= parent.getShell();
@@ -156,7 +156,7 @@ public class JavaEditorCodeMiningConfigurationBlock extends OptionsConfiguration
 		gridData.heightHint= fPixelConverter.convertHeightInCharsToPixels(20);
 		commonComposite.setLayoutData(gridData);
 
-		codeMiningEnabledCheckBox.addSelectionListener(new SelectionAdapter() {
+		codeMiningEnabledCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateEnableStates();
@@ -171,7 +171,7 @@ public class JavaEditorCodeMiningConfigurationBlock extends OptionsConfiguration
 		return mainComp;
 	}
 
-	private Composite createCodeMiningContent(Composite parent) {
+	private Composite createCodeMiningContent(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Create filtered tree which contains code minings
 		fFilteredPrefTree= new PreferenceTree(this, parent,
 				PreferencesMessages.JavaEditorCodeMiningConfigurationBlock_common_description, false);
@@ -204,7 +204,7 @@ public class JavaEditorCodeMiningConfigurationBlock extends OptionsConfiguration
 		}
 	}
 
-	private void createGeneralSection(int nColumns, Composite parent) {
+	private void createGeneralSection(int nColumns, Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int defaultIndent= 0;
 		int extraIndent= LayoutUtil.getIndent();
 		String label= PreferencesMessages.JavaEditorCodeMiningConfigurationBlock_section_general;
@@ -286,10 +286,10 @@ public class JavaEditorCodeMiningConfigurationBlock extends OptionsConfiguration
 		GridData selectAllGridData= new GridData(SWT.END, SWT.CENTER, false, false);
 		selectAllGridData.widthHint= fPixelConverter.convertHorizontalDLUsToPixels(70);
 		selectAllInGeneral.setLayoutData(selectAllGridData);
-		selectAllInGeneral.addSelectionListener(new SelectionAdapter() {
+		selectAllInGeneral.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for (PreferenceStoreEntry entry : generalCodeMiningOptions) {
+				for (PreferenceStoreEntry entry : generalCodeMiningOptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Button button= entry.node.getControl();
 					setValue(entry.key, true);
 					button.setSelection(true);
@@ -303,10 +303,10 @@ public class JavaEditorCodeMiningConfigurationBlock extends OptionsConfiguration
 		GridData deselectAllData= new GridData(SWT.END, SWT.CENTER, false, false);
 		deselectAllData.widthHint= fPixelConverter.convertHorizontalDLUsToPixels(70);
 		deselectAllInGeneral.setLayoutData(deselectAllData);
-		deselectAllInGeneral.addSelectionListener(new SelectionAdapter() {
+		deselectAllInGeneral.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for (PreferenceStoreEntry entry : generalCodeMiningOptions) {
+				for (PreferenceStoreEntry entry : generalCodeMiningOptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Button button= entry.node.getControl();
 					setValue(entry.key, false);
 					button.setSelection(false);
@@ -316,7 +316,7 @@ public class JavaEditorCodeMiningConfigurationBlock extends OptionsConfiguration
 		});
 	}
 
-	private void updateEnableStates() {
+	private void updateEnableStates() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean enabledCodeMining= getCheckBox(PREF_CODEMINING_ENABLED).getSelection();
 		if (enabledCodeMining) {
 			// Show references checkboxes

@@ -60,7 +60,7 @@ public class JavaElementLabelsTest1d8 extends CoreTests {
 		JavaProjectHelper.clear(fJProject1, j18p.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodLabelPolymorphicSignatureDeclaration() throws Exception {
 		IType methodHandle= fJProject1.findType("java.lang.invoke.MethodHandle");
 		IMethod invokeExact= methodHandle.getMethod("invokeExact", new String[] {
@@ -83,18 +83,18 @@ public class JavaElementLabelsTest1d8 extends CoreTests {
 		assertEqualString(lab, "invokeExact(Object...)");
 	}
 
-	private IJavaElement createInvokeReference(String invocation) throws CoreException, JavaModelException {
+	private IJavaElement createInvokeReference(String invocation) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
 		IPackageFragment pack1= sourceFolder.createPackageFragment("org.test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package org.test;\n");
-		buf.append("import java.lang.invoke.MethodHandle;\n");
-		buf.append("public class Test {\n");
-		buf.append("    void foo(MethodHandle mh) throws Throwable {\n");
-		buf.append("        " + invocation + ";\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package org.test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.lang.invoke.MethodHandle;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class Test {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    void foo(MethodHandle mh) throws Throwable {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        " + invocation + ";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String content= buf.toString();
 		ICompilationUnit cu= pack1.createCompilationUnit("Test.java", content, false, null);
 
@@ -212,7 +212,7 @@ public class JavaElementLabelsTest1d8 extends CoreTests {
 		assertEqualString(lab, "Object invoke(char arg00, ArrayList arg01, Void arg02)");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelLambda1() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -242,7 +242,7 @@ public class JavaElementLabelsTest1d8 extends CoreTests {
 		assertEqualString(lab, "() -> {...} IntConsumer - org.test.C.c");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelLambda2() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");

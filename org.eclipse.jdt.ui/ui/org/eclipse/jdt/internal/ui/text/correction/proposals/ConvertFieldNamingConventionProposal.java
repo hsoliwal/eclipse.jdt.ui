@@ -41,7 +41,7 @@ import org.eclipse.jdt.ui.text.java.correction.ICommandAccess;
 import org.eclipse.jdt.internal.ui.text.correction.CorrectionMessages;
 import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
 
-public class ConvertFieldNamingConventionProposal implements IJavaCompletionProposal, ICommandAccess {
+public class ConvertFieldNamingConventionProposal implements IJavaCompletionProposal, ICommandAccess { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private String replacement;
 
@@ -66,7 +66,7 @@ public class ConvertFieldNamingConventionProposal implements IJavaCompletionProp
 		this.fSelectedField= selectedField;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document) {
 		try {
 			RenameFieldProcessor processor= new RenameFieldProcessor(fSelectedField);

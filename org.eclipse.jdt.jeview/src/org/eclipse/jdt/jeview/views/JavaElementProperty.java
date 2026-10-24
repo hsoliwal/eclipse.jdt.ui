@@ -34,7 +34,7 @@ public class JavaElementProperty extends JEAttribute {
 		fName= name;
 		fValueObject= value;
 		if (value instanceof String)
-			fValue= "\"" + value + "\"";
+			fValue= "\"" + value + "\""; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
 			fValue= String.valueOf(value);
 	}
@@ -49,7 +49,7 @@ public class JavaElementProperty extends JEAttribute {
 		return fValueObject;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -102,7 +102,7 @@ public class JavaElementProperty extends JEAttribute {
 		if (fName == null)
 			return value;
 		else
-			return fName + ": " + value;
+			return fName + ": " + value; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected Object computeValue() throws Exception {

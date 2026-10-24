@@ -57,7 +57,7 @@ import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
  *
  * @since 3.5
  */
-public class GenerateToStringOperation implements IWorkspaceRunnable {
+public class GenerateToStringOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/** The insertion point, or <code>null</code> */
 	private IJavaElement fInsert;
@@ -86,7 +86,7 @@ public class GenerateToStringOperation implements IWorkspaceRunnable {
 		fSave= save;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor monitor) throws CoreException {
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
@@ -106,7 +106,7 @@ public class GenerateToStringOperation implements IWorkspaceRunnable {
 				if (replace == null || ((Boolean)toStringMethod.getProperty(AbstractToStringGenerator.OVERWRITE_METHOD_PROPERTY)).booleanValue())
 					insertMethod(toStringMethod, rewriter, replace);
 
-				for (MethodDeclaration method : fGenerator.generateHelperMethods()) {
+				for (MethodDeclaration method : fGenerator.generateHelperMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					replace= findMethodToReplace(list, method);
 					if (replace == null || ((Boolean)method.getProperty(AbstractToStringGenerator.OVERWRITE_METHOD_PROPERTY)).booleanValue()) {
 						insertMethod(method, rewriter, replace);
@@ -162,15 +162,15 @@ public class GenerateToStringOperation implements IWorkspaceRunnable {
 	 * @return declaration of method from the list that has the same name and parameter types, or
 	 *         null if not found
 	 */
-	protected BodyDeclaration findMethodToReplace(final List<BodyDeclaration> list, MethodDeclaration method) {
-		for (BodyDeclaration bodyDecl : list) {
+	protected BodyDeclaration findMethodToReplace(final List<BodyDeclaration> list, MethodDeclaration method) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (BodyDeclaration bodyDecl : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (bodyDecl instanceof MethodDeclaration) {
 				final MethodDeclaration method2= (MethodDeclaration)bodyDecl;
 				if (method2.getName().getIdentifier().equals(method.getName().getIdentifier()) && method2.parameters().size() == method.parameters().size()) {
 					Iterator<SingleVariableDeclaration> iterator1= method.parameters().iterator();
 					Iterator<SingleVariableDeclaration> iterator2= method2.parameters().iterator();
 					boolean ok= true;
-					while (iterator1.hasNext()) {
+					while (iterator1.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!iterator1.next().getType().subtreeMatch(new ASTMatcher(), iterator2.next().getType())) {
 							ok= false;
 							break;
@@ -232,7 +232,7 @@ public class GenerateToStringOperation implements IWorkspaceRunnable {
 			case CUSTOM_BUILDER:
 				return new CustomBuilderGenerator();
 			default:
-				throw new IllegalArgumentException("Undefined toString() code style: " + toStringStyle); //$NON-NLS-1$
+				throw new IllegalArgumentException("Undefined toString() code style: " + toStringStyle); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

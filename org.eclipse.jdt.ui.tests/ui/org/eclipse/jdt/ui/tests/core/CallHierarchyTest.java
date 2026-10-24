@@ -70,14 +70,14 @@ public class CallHierarchyTest {
 		return methodWrappers[0];
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void callers() throws Exception {
         helper.createSimpleClasses();
 
         IMethod method= helper.getMethod1();
         IMethod secondLevelMethod= helper.getMethod3();
 
-        Collection<IMember> expectedMethods= new ArrayList<>();
+        Collection<IMember> expectedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedMethods.add(helper.getMethod2());
         expectedMethods.add(secondLevelMethod);
 
@@ -91,7 +91,7 @@ public class CallHierarchyTest {
 
         MethodWrapper wrapper2= helper.findMethodWrapper(secondLevelMethod, cachedCalls);
 
-        Collection<IMember> expectedSecondLevelMethods= new ArrayList<>();
+        Collection<IMember> expectedSecondLevelMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedSecondLevelMethods.add(helper.getMethod4());
         helper.assertCalls(expectedSecondLevelMethods, wrapper2.getCalls(new NullProgressMonitor()));
     }
@@ -102,7 +102,7 @@ public class CallHierarchyTest {
 
         IMethod method= helper.getMethod4();
 
-        Collection<IMember> expectedMethods= new ArrayList<>();
+        Collection<IMember> expectedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
         MethodWrapper wrapper= getSingleCallerRoot(method);
 
@@ -113,14 +113,14 @@ public class CallHierarchyTest {
         helper.assertCalls(expectedMethods, cachedCalls);
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void callees() throws Exception {
         helper.createSimpleClasses();
 
         IMethod method= helper.getMethod4();
         IMethod secondLevelMethod= helper.getMethod3();
 
-        Collection<IMember> expectedMethods= new ArrayList<>();
+        Collection<IMember> expectedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedMethods.add(secondLevelMethod);
 
         MethodWrapper wrapper= getSingleCalleeRoot(method);
@@ -133,7 +133,7 @@ public class CallHierarchyTest {
 
         MethodWrapper wrapper2= helper.findMethodWrapper(secondLevelMethod, cachedCalls);
 
-        Collection<IMember> expectedMethodsTo3= new ArrayList<>();
+        Collection<IMember> expectedMethodsTo3= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedMethodsTo3.add(helper.getMethod1());
         expectedMethodsTo3.add(helper.getMethod2());
 
@@ -146,7 +146,7 @@ public class CallHierarchyTest {
 
         IMethod method= helper.getMethod1();
 
-        Collection<IMember> expectedMethods= new ArrayList<>();
+        Collection<IMember> expectedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
         MethodWrapper wrapper= getSingleCalleeRoot(method);
 
@@ -157,17 +157,17 @@ public class CallHierarchyTest {
         helper.assertCalls(expectedMethods, cachedCalls);
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void recursiveCallers() throws Exception {
         helper.createSimpleClasses();
 
         IMethod method1= helper.getRecursiveMethod1();
         IMethod method2= helper.getRecursiveMethod2();
 
-        Collection<IMember> expectedMethodsTo1= new ArrayList<>();
+        Collection<IMember> expectedMethodsTo1= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedMethodsTo1.add(method2);
 
-        Collection<IMember> expectedMethodsTo2= new ArrayList<>();
+        Collection<IMember> expectedMethodsTo2= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedMethodsTo2.add(method1);
 
         MethodWrapper wrapper= getSingleCallerRoot(method1);
@@ -189,17 +189,17 @@ public class CallHierarchyTest {
         assertRecursive(callsTo1, true);
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void recursiveCallees() throws Exception {
         helper.createSimpleClasses();
 
         IMethod method1= helper.getRecursiveMethod1();
         IMethod method2= helper.getRecursiveMethod2();
 
-        Collection<IMember> expectedMethodsFrom1= new ArrayList<>();
+        Collection<IMember> expectedMethodsFrom1= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedMethodsFrom1.add(method2);
 
-        Collection<IMember> expectedMethodsFrom2= new ArrayList<>();
+        Collection<IMember> expectedMethodsFrom2= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedMethodsFrom2.add(method1);
 
         MethodWrapper wrapper= getSingleCalleeRoot(method1);
@@ -224,7 +224,7 @@ public class CallHierarchyTest {
     /**
      * Tests calls that origin from an inner class
      */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void innerClassCallers() throws Exception {
         helper.createInnerClass();
 
@@ -233,7 +233,7 @@ public class CallHierarchyTest {
         IMethod innerMethod1= helper.getType1().getType("Inner").getMethod("innerMethod1", EMPTY);
         IMethod innerMethod2= helper.getType1().getType("Inner").getMethod("innerMethod2", EMPTY);
 
-        Collection<IMember> expectedCallers= new ArrayList<>();
+        Collection<IMember> expectedCallers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallers.add(innerMethod1);
 
         MethodWrapper wrapper= getSingleCallerRoot(someMethod);
@@ -241,7 +241,7 @@ public class CallHierarchyTest {
         assertRecursive(callers, false);
         helper.assertCalls(expectedCallers, callers);
 
-        Collection<IMember> expectedCallersSecondLevel= new ArrayList<>();
+        Collection<IMember> expectedCallersSecondLevel= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallersSecondLevel.add(innerMethod2);
         MethodWrapper innerMethod1Wrapper= helper.findMethodWrapper(innerMethod1, callers);
         helper.assertCalls(expectedCallersSecondLevel, innerMethod1Wrapper.getCalls(new NullProgressMonitor()));
@@ -250,7 +250,7 @@ public class CallHierarchyTest {
     /**
      * Tests callees that enter an inner class
      */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void innerClassCalleesEntering() throws Exception {
         helper.createInnerClass();
 
@@ -259,7 +259,7 @@ public class CallHierarchyTest {
         IMethod innerMethod1= helper.getType1().getType("Inner").getMethod("innerMethod1", EMPTY);
         IMethod innerMethod2= helper.getType1().getType("Inner").getMethod("innerMethod2", EMPTY);
 
-        Collection<IMember> expectedCallers= new ArrayList<>();
+        Collection<IMember> expectedCallers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallers.add(innerMethod2);
 
         MethodWrapper wrapper= getSingleCalleeRoot(someMethod);
@@ -267,7 +267,7 @@ public class CallHierarchyTest {
         assertRecursive(callers, false);
         helper.assertCalls(expectedCallers, callers);
 
-        Collection<IMember> expectedCallersSecondLevel= new ArrayList<>();
+        Collection<IMember> expectedCallersSecondLevel= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallersSecondLevel.add(innerMethod1);
         MethodWrapper innerMethod2Wrapper= helper.findMethodWrapper(innerMethod2, callers);
         helper.assertCalls(expectedCallersSecondLevel, innerMethod2Wrapper.getCalls(new NullProgressMonitor()));
@@ -276,7 +276,7 @@ public class CallHierarchyTest {
     /**
      * Tests callees that exits an inner class
      */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void innerClassCalleesExiting() throws Exception {
         helper.createInnerClass();
 
@@ -285,7 +285,7 @@ public class CallHierarchyTest {
         IMethod innerMethod1= helper.getType1().getType("Inner").getMethod("innerMethod1", EMPTY);
         IMethod innerMethod2= helper.getType1().getType("Inner").getMethod("innerMethod2", EMPTY);
 
-        Collection<IMember> expectedCallers= new ArrayList<>();
+        Collection<IMember> expectedCallers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallers.add(innerMethod1);
 
         MethodWrapper wrapper= getSingleCalleeRoot(innerMethod2);
@@ -293,7 +293,7 @@ public class CallHierarchyTest {
         assertRecursive(callers, false);
         helper.assertCalls(expectedCallers, callers);
 
-        Collection<IMember> expectedCallersSecondLevel= new ArrayList<>();
+        Collection<IMember> expectedCallersSecondLevel= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallersSecondLevel.add(someMethod);
         MethodWrapper innerMethod1Wrapper= helper.findMethodWrapper(innerMethod1, callers);
         helper.assertCalls(expectedCallersSecondLevel, innerMethod1Wrapper.getCalls(new NullProgressMonitor()));
@@ -309,7 +309,7 @@ public class CallHierarchyTest {
         IMethod someMethod= helper.getType1().getMethod("someMethod", EMPTY);
 
         IMethod result= helper.getType1().getField("anonClass").getType("", 1).getMethod("anotherMethod", EMPTY);
-        Collection<IMember> expectedCallers= new ArrayList<>();
+        Collection<IMember> expectedCallers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallers.add(result);
 
         MethodWrapper wrapper= getSingleCallerRoot(someMethod);
@@ -341,7 +341,7 @@ public class CallHierarchyTest {
     /**
      * Tests calls that origin from an inner class
      */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void anonymousInnerClassInsideMethodCallees() throws Exception {
         //regression test for bug 56732 call hierarchy: Call Hierarchy doesn't show callees of method from anonymous type
         helper.createAnonymousInnerClassInsideMethod();
@@ -396,7 +396,7 @@ public class CallHierarchyTest {
 
         IInitializer initializer= helper.getType1().getInitializer(1);
 
-        Collection<IMember> expectedCallers= new ArrayList<>();
+        Collection<IMember> expectedCallers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallers.add(initializer);
 
         MethodWrapper wrapper= getSingleCallerRoot(someMethod);
@@ -411,7 +411,7 @@ public class CallHierarchyTest {
 
         IMethod constructorA= helper.getType1().getMethod("A", EMPTY);
 
-        Collection<IMember> expectedCallers= new ArrayList<>();
+        Collection<IMember> expectedCallers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallers.add(helper.getType2());
 
         MethodWrapper wrapper= getSingleCallerRoot(constructorA);
@@ -426,7 +426,7 @@ public class CallHierarchyTest {
 
         IMethod constructorB= helper.getType2().getMethods()[0];
 
-        Collection<IMember> expectedCallers= new ArrayList<>();
+        Collection<IMember> expectedCallers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         expectedCallers.add(helper.getType1());
 
         MethodWrapper wrapper= getSingleCalleeRoot(constructorB);
@@ -473,7 +473,7 @@ public class CallHierarchyTest {
         checkCalls(helper.getType1().getType("OneRecord").getMethod("OneRecord", EMPTY), helper.getMethod2());
     }
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void implementingCallees_onInterfaces() throws Exception {
     	JavaPlugin.getDefault().getPreferenceStore().setValue("PREF_USE_IMPLEMENTORS", true);
     	helper.createCalleeClasses();
@@ -493,7 +493,7 @@ public class CallHierarchyTest {
         helper.assertCalls(Arrays.asList(helper.getFooImplMethod_A(), helper.getFooImplMethod_B()), secondLevel);
     }
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void implementingCallees_onAbstractMethods() throws Exception {
     	JavaPlugin.getDefault().getPreferenceStore().setValue("PREF_USE_IMPLEMENTORS", true);
         helper.createCalleeClasses();
@@ -530,8 +530,8 @@ public class CallHierarchyTest {
     }
 
     private void assertRecursive(MethodWrapper[] callResults, boolean shouldBeRecursive) {
-    	for (MethodWrapper callResult : callResults) {
-    		assertEquals("Wrong recursive value: " + callResult.getName(), shouldBeRecursive, callResult.isRecursive());
+    	for (MethodWrapper callResult : callResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+    		assertEquals("Wrong recursive value: " + callResult.getName(), shouldBeRecursive, callResult.isRecursive()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     	}
     }
 }

@@ -54,7 +54,7 @@ public class SWTTemplateCompletionProposalComputer extends AbstractTemplateCompl
 	/**
 	 * Listener that resets the cached java project if its build path changes.
 	 */
-	private final class BuildPathChangeListener implements IElementChangedListener {
+	private final class BuildPathChangeListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 		@Override
 		public void elementChanged(ElementChangedEvent event) {
@@ -62,7 +62,7 @@ public class SWTTemplateCompletionProposalComputer extends AbstractTemplateCompl
 			if (javaProject == null)
 				return;
 
-			for (IJavaElementDelta child : event.getDelta().getChangedChildren()) {
+			for (IJavaElementDelta child : event.getDelta().getChangedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (javaProject.equals(child.getElement())) {
 					if (isClasspathChange(child)) {
 						setCachedJavaProject(null);
@@ -82,7 +82,7 @@ public class SWTTemplateCompletionProposalComputer extends AbstractTemplateCompl
 				return true;
 
 			if ((flags & IJavaElementDelta.F_CHILDREN) != 0) {
-				for (IJavaElementDelta child : delta.getAffectedChildren()) {
+				for (IJavaElementDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isClasspathChangeFlag(child.getFlags())) {
 						return true;
 					}
@@ -139,7 +139,7 @@ public class SWTTemplateCompletionProposalComputer extends AbstractTemplateCompl
 		fSWTMembersTemplateEngine= createTemplateEngine(templateContextRegistry, SWTContextType.ID_MEMBERS);
 		fSWTStatementsTemplateEngine= createTemplateEngine(templateContextRegistry, SWTContextType.ID_STATEMENTS);
 
-		JavaCore.addElementChangedListener(new BuildPathChangeListener());
+		JavaCore.addElementChangedListener(new BuildPathChangeListener()); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 	}
 
 	private static TemplateEngine createTemplateEngine(ContextTypeRegistry templateContextRegistry, String contextTypeId) {
@@ -148,7 +148,7 @@ public class SWTTemplateCompletionProposalComputer extends AbstractTemplateCompl
 		return new TemplateEngine(contextType);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TemplateEngine computeCompletionEngine(JavaContentAssistInvocationContext context) {
 		ICompilationUnit unit= context.getCompilationUnit();
 		if (unit == null)

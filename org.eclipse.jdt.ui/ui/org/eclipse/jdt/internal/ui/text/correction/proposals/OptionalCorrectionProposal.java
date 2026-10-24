@@ -22,7 +22,7 @@ import org.eclipse.jdt.ui.text.java.correction.ASTRewriteCorrectionProposal;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class OptionalCorrectionProposal extends ASTRewriteCorrectionProposal {
+public class OptionalCorrectionProposal extends ASTRewriteCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public static final String ADD_OPTIONAL_ID= OptionalCorrectionProposalCore.ADD_OPTIONAL_ID;
 
 	public static final int OPTIONAL_EMPTY= OptionalCorrectionProposalCore.OPTIONAL_EMPTY;

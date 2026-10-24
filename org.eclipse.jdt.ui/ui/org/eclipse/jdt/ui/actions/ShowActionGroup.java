@@ -102,7 +102,7 @@ public class ShowActionGroup extends ActionGroup {
 		ISelection selection= provider.getSelection();
 		fShowInPackagesViewAction.update(selection);
 		if (!isJavaEditor) {
-			provider.addSelectionChangedListener(fShowInPackagesViewAction);
+			provider.addSelectionChangedListener(fShowInPackagesViewAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 	}
 

@@ -53,7 +53,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.EditFilterWizard;
 
 
 //SelectedElements iff enabled: (IJavaProject || IPackageFragmentRoot) && size == 1
-public class EditFilterAction extends BuildpathModifierAction {
+public class EditFilterAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public EditFilterAction(IWorkbenchSite site) {
 		this(site, null);
@@ -81,7 +81,7 @@ public class EditFilterAction extends BuildpathModifierAction {
 		return NewWizardMessages.PackageExplorerActionGroup_FormText_Edit;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		Shell shell= getShell();
 
@@ -143,7 +143,7 @@ public class EditFilterAction extends BuildpathModifierAction {
 
 	private static CPListElement findElement(IJavaElement element, CPListElement[] elements) {
 		IPath path= element.getPath();
-		for (CPListElement cur : elements) {
+		for (CPListElement cur : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cur.getEntryKind() == IClasspathEntry.CPE_SOURCE && cur.getPath().equals(path)) {
 				return cur;
 			}
@@ -151,7 +151,7 @@ public class EditFilterAction extends BuildpathModifierAction {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(IStructuredSelection selection) {
 		if (selection.size() != 1)
 			return false;

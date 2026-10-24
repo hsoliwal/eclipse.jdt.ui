@@ -64,7 +64,7 @@ public interface IOccurrencesFinder {
 
 		@Override
 		public String toString() {
-			return "[" + fOffset + " / " + fLength + "] " + fDescription; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			return "[" + fOffset + " / " + fLength + "] " + fDescription; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}

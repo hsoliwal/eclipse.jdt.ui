@@ -110,7 +110,7 @@ public class JavaSpellingProblem extends SpellingProblem {
 	 * @see org.eclipse.ui.texteditor.spelling.SpellingProblem#getProposals(org.eclipse.jface.text.quickassist.IQuickAssistInvocationContext)
 	 * @since 3.4
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICompletionProposal[] getProposals(IQuickAssistInvocationContext context) {
 		String[] arguments= getArguments();
 		if (arguments == null)
@@ -151,13 +151,13 @@ public class JavaSpellingProblem extends SpellingProblem {
 								.getLocale()) };
 			else {
 
-				proposals= new ArrayList<>(checker.getProposals(arguments[0],
+				proposals= new ArrayList<>(checker.getProposals(arguments[0], //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						sentence));
 				size= proposals.size();
 
 				if (threshold > 0 && size > threshold) {
 
-					Collections.sort(proposals);
+					Collections.sort(proposals); //FLLDCIM: MARK — M16 SORT_LANE CALL
 					proposals= proposals
 							.subList(size - threshold - 1, size - 1);
 					size= proposals.size();
@@ -166,7 +166,7 @@ public class JavaSpellingProblem extends SpellingProblem {
 				boolean extendable= !fixed ? (checker.acceptsWords() || AddWordProposal.canAskToConfigure()) : false;
 				result= new IJavaCompletionProposal[size + (extendable ? 3 : 2)];
 
-				for (index= 0; index < size; index++) {
+				for (index= 0; index < size; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					proposal= proposals.get(index);
 					result[index]= new WordCorrectionProposal(proposal
@@ -189,7 +189,7 @@ public class JavaSpellingProblem extends SpellingProblem {
 		return PreferenceConstants.getPreferenceStore().getBoolean(PreferenceConstants.SPELLING_IGNORE_AMPERSAND_IN_PROPERTIES);
 	}
 
-	public String[] getArguments() {
+	public String[] getArguments() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String prefix= ""; //$NON-NLS-1$
 		String postfix= ""; //$NON-NLS-1$

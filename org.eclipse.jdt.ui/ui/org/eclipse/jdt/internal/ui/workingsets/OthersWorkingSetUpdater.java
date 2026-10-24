@@ -55,7 +55,7 @@ public class OthersWorkingSetUpdater implements IWorkingSetUpdater {
 	private IWorkingSet fWorkingSet;
 	private WorkingSetModel fWorkingSetModel;
 
-	private class ResourceChangeListener implements IResourceChangeListener {
+	private class ResourceChangeListener implements IResourceChangeListener { //FLLDCIM: MARK — T07  IMPLEMENTS
 		@Override
 		public void resourceChanged(IResourceChangeEvent event) {
 			if (fWorkingSet == null)
@@ -65,7 +65,7 @@ public class OthersWorkingSetUpdater implements IWorkingSetUpdater {
 			if (affectedChildren.length > 0) {
 				updateElements();
 			} else {
-				for (IResourceDelta projectDelta : delta.getAffectedChildren(IResourceDelta.CHANGED, IResource.PROJECT)) {
+				for (IResourceDelta projectDelta : delta.getAffectedChildren(IResourceDelta.CHANGED, IResource.PROJECT)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ((projectDelta.getFlags() & IResourceDelta.DESCRIPTION) != 0) {
 						updateElements();
 						// one is enough
@@ -77,7 +77,7 @@ public class OthersWorkingSetUpdater implements IWorkingSetUpdater {
 	}
 	private IResourceChangeListener fResourceChangeListener;
 
-	private class WorkingSetListener implements IPropertyChangeListener {
+	private class WorkingSetListener implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			if (IWorkingSetManager.CHANGE_WORKING_SET_CONTENT_CHANGE.equals(event.getProperty())) {
@@ -90,15 +90,15 @@ public class OthersWorkingSetUpdater implements IWorkingSetUpdater {
 	}
 	private IPropertyChangeListener fWorkingSetListener;
 
-	private class JavaElementChangeListener implements IElementChangedListener {
+	private class JavaElementChangeListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 		@Override
 		public void elementChanged(ElementChangedEvent event) {
 			if (fWorkingSet == null)
 				return; // not yet initialized
 
-			processJavaDelta(new ArrayList<>(Arrays.asList(fWorkingSet.getElements())), event.getDelta());
+			processJavaDelta(new ArrayList<>(Arrays.asList(fWorkingSet.getElements())), event.getDelta()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
-		private void processJavaDelta(List<IAdaptable> elements, IJavaElementDelta delta) {
+		private void processJavaDelta(List<IAdaptable> elements, IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement jElement= delta.getElement();
 			int type= jElement.getElementType();
 			if (type == IJavaElement.JAVA_PROJECT) {
@@ -120,7 +120,7 @@ public class OthersWorkingSetUpdater implements IWorkingSetUpdater {
 				// don't visit below projects
 				return;
 			}
-			for (IJavaElementDelta child : delta.getAffectedChildren()) {
+			for (IJavaElementDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				processJavaDelta(elements, child);
 			}
 		}
@@ -152,7 +152,7 @@ public class OthersWorkingSetUpdater implements IWorkingSetUpdater {
 		fWorkingSetListener= new WorkingSetListener();
 		PlatformUI.getWorkbench().getWorkingSetManager().addPropertyChangeListener(fWorkingSetListener);
 		fJavaElementChangeListener= new JavaElementChangeListener();
-		JavaCore.addElementChangedListener(fJavaElementChangeListener, ElementChangedEvent.POST_CHANGE);
+		JavaCore.addElementChangedListener(fJavaElementChangeListener, ElementChangedEvent.POST_CHANGE); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 	}
 
 	@Override
@@ -170,16 +170,16 @@ public class OthersWorkingSetUpdater implements IWorkingSetUpdater {
 		}
 	}
 
-	public void updateElements() {
+	public void updateElements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(fWorkingSet != null && fWorkingSetModel != null); // init and addWorkingSet have happend
 
-		List<IAdaptable> result= new ArrayList<>();
-		Set<IResource> projects= new HashSet<>();
-		for (IWorkingSet activeWorkingSet : fWorkingSetModel.getActiveWorkingSets()) {
+		List<IAdaptable> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<IResource> projects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IWorkingSet activeWorkingSet : fWorkingSetModel.getActiveWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (activeWorkingSet == fWorkingSet) {
 				continue;
 			}
-			for (IAdaptable element : activeWorkingSet.getElements()) {
+			for (IAdaptable element : activeWorkingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource resource= element.getAdapter(IResource.class);
 				if (resource != null && resource.getType() == IResource.PROJECT) {
 					projects.add(resource);
@@ -188,12 +188,12 @@ public class OthersWorkingSetUpdater implements IWorkingSetUpdater {
 		}
 		IJavaModel model= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 		try {
-			for (IJavaProject jProject : model.getJavaProjects()) {
+			for (IJavaProject jProject : model.getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!projects.contains(jProject.getProject())) {
 					result.add(jProject);
 				}
 			}
-			for (Object rProject : model.getNonJavaResources()) {
+			for (Object rProject : model.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!projects.contains(rProject)) {
 					result.add((IProject) rProject);
 				}

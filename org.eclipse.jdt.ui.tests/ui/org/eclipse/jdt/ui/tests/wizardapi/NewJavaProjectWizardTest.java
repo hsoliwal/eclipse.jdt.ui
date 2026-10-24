@@ -156,7 +156,7 @@ public class NewJavaProjectWizardTest {
 		assertBasicBuildPath(jproj.getProject(), outputLocation, classpath);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testProjectChange() throws Exception {
 		fWizardPage.initBuildPath();
 		IProject project= fWizardPage.getProjectHandle();
@@ -197,7 +197,7 @@ public class NewJavaProjectWizardTest {
 		assertEquals("g", classpath[2].getPath(), getJREEntryPath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUserSet() throws Exception {
 		IProject project= fWizardPage.getProjectHandle();
 
@@ -225,7 +225,7 @@ public class NewJavaProjectWizardTest {
 		assertBasicBuildPath(project, outputLocation1, classpath1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUserCreate() throws Exception {
 		IProject project= fWizardPage.getProjectHandle();
 
@@ -254,7 +254,7 @@ public class NewJavaProjectWizardTest {
 		assertUserBuildPath(jproj.getProject(), outputLocation, classpath);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReadExisting() throws Exception {
 		IProject project= fWizardPage.getProjectHandle();
 
@@ -287,7 +287,7 @@ public class NewJavaProjectWizardTest {
 		assertUserBuildPath(project, outputLocation1, classpath1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExistingOverwrite() throws Exception {
 		IProject project= fWizardPage.getProjectHandle();
 

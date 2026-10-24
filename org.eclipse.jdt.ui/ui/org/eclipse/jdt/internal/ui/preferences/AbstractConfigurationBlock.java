@@ -79,10 +79,10 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 	protected final class SectionManager {
 		/** The preference setting for keeping no section open. */
 		private static final String __NONE= "__none"; //$NON-NLS-1$
-		private Set<ExpandableComposite> fSections= new HashSet<>();
+		private Set<ExpandableComposite> fSections= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		private boolean fIsBeingManaged= false;
 		private ExpansionAdapter fListener= new ExpansionAdapter() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void expansionStateChanged(ExpansionEvent e) {
 				ExpandableComposite source= (ExpandableComposite) e.getSource();
 				updateSectionStyle(source);
@@ -91,7 +91,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 				if (e.getState()) {
 					try {
 						fIsBeingManaged= true;
-						for (ExpandableComposite composite : fSections) {
+						for (ExpandableComposite composite : fSections) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (composite != source)
 								composite.setExpanded(false);
 						}
@@ -183,7 +183,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 		 * @param label the display name of the section
 		 * @return a composite within the expandable section
 		 */
-		public Composite createSection(String label) {
+		public Composite createSection(String label) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Assert.isNotNull(fBody);
 			final ExpandableComposite excomposite= new ExpandableComposite(fBody, SWT.NONE, ExpandableComposite.TWISTIE | ExpandableComposite.CLIENT_INDENT | ExpandableComposite.COMPACT);
 			if (fFirstChild == null)
@@ -215,7 +215,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 	protected static final int INDENT= 20;
 	private OverlayPreferenceStore fStore;
 
-	private Map<Button, String> fCheckBoxes= new HashMap<>();
+	private Map<Button, String> fCheckBoxes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private SelectionListener fCheckBoxListener= new SelectionListener() {
 		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -228,14 +228,14 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 	};
 
 
-	private Map<Text, String> fTextFields= new HashMap<>();
-	private ModifyListener fTextFieldListener= e -> {
+	private Map<Text, String> fTextFields= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private ModifyListener fTextFieldListener= e -> { //FLLDCIM: MARK — T02  LAMBDA
 		Text text= (Text) e.widget;
 		fStore.setValue(fTextFields.get(text), text.getText());
 	};
 
-	private ArrayList<Text> fNumberFields= new ArrayList<>();
-	private ModifyListener fNumberFieldListener= e -> numberFieldChanged((Text) e.widget);
+	private ArrayList<Text> fNumberFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private ModifyListener fNumberFieldListener= e -> numberFieldChanged((Text) e.widget); //FLLDCIM: MARK — T02  LAMBDA
 
 	/**
 	 * List of master/slave listeners when there's a dependency.
@@ -243,7 +243,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 	 * @see #createDependency(Button, Control)
 	 * @since 3.0
 	 */
-	private ArrayList<SelectionListener> fMasterSlaveListeners= new ArrayList<>();
+	private ArrayList<SelectionListener> fMasterSlaveListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private StatusInfo fStatus;
 	private final PreferencePage fMainPage;
@@ -263,7 +263,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 
 	protected final ScrolledPageContent getParentScrolledComposite(Control control) {
 		Control parent= control.getParent();
-		while (!(parent instanceof ScrolledPageContent) && parent != null) {
+		while (!(parent instanceof ScrolledPageContent) && parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		if (parent != null) {
@@ -274,7 +274,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 
 	private final ExpandableComposite getParentExpandableComposite(Control control) {
 		Control parent= control.getParent();
-		while (!(parent instanceof ExpandableComposite) && parent != null) {
+		while (!(parent instanceof ExpandableComposite) && parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		if (parent != null) {
@@ -306,7 +306,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 		gd.horizontalIndent= indentation;
 		gd.horizontalSpan= 2;
 		checkBox.setLayoutData(gd);
-		checkBox.addSelectionListener(fCheckBoxListener);
+		checkBox.addSelectionListener(fCheckBoxListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		makeScrollableCompositeAware(checkBox);
 
 		fCheckBoxes.put(checkBox, key);
@@ -328,7 +328,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 	 * @param isNumber		<code>true</code> iff this text field is used to e4dit a number
 	 * @return the controls added
 	 */
-	protected Control[] addLabelledTextField(Composite composite, String label, String key, int textLimit, int indentation, boolean isNumber) {
+	protected Control[] addLabelledTextField(Composite composite, String label, String key, int textLimit, int indentation, boolean isNumber) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		PixelConverter pixelConverter= new PixelConverter(composite);
 
@@ -346,9 +346,9 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 		fTextFields.put(textControl, key);
 		if (isNumber) {
 			fNumberFields.add(textControl);
-			textControl.addModifyListener(fNumberFieldListener);
+			textControl.addModifyListener(fNumberFieldListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		} else {
-			textControl.addModifyListener(fTextFieldListener);
+			textControl.addModifyListener(fTextFieldListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		}
 
 		return new Control[]{labelControl, textControl};
@@ -366,7 +366,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {}
 		};
-		master.addSelectionListener(listener);
+		master.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		fMasterSlaveListeners.add(listener);
 	}
 
@@ -379,15 +379,15 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 		initializeFields();
 	}
 
-	private void initializeFields() {
+	private void initializeFields() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		for (Entry<Button, String> entry : fCheckBoxes.entrySet()) {
+		for (Entry<Button, String> entry : fCheckBoxes.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button b= entry.getKey();
 			String keyForStore= entry.getValue();
 			b.setSelection(fStore.getBoolean(keyForStore));
 		}
 
-		for (Entry<Text, String> entry : fTextFields.entrySet()) {
+		for (Entry<Text, String> entry : fTextFields.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Text t= entry.getKey();
 			String keyForStore= entry.getValue();
 			t.setText(fStore.getString(keyForStore));
@@ -395,7 +395,7 @@ abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlo
 
         // Update slaves
         Iterator<SelectionListener> iter3= fMasterSlaveListeners.iterator();
-        while (iter3.hasNext()) {
+        while (iter3.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             SelectionListener listener= iter3.next();
 			listener.widgetSelected((SelectionEvent) null);
         }

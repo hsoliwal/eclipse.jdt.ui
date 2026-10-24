@@ -94,7 +94,7 @@ public class EclipseUtils {
 	 * @param resource can be null
 	 * @return full package name in default java notation (with dots) or empty string
 	 */
-	public static String getJavaPackageName(IJavaElement resource) {
+	public static String getJavaPackageName(IJavaElement resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name;
 		if (resource == null) {
 			return ""; //$NON-NLS-1$

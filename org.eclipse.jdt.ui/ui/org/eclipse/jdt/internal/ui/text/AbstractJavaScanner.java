@@ -70,7 +70,7 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 	private IColorManager fColorManager;
 	private IPreferenceStore fPreferenceStore;
 
-	private Map<String, Token> fTokenMap= new HashMap<>();
+	private Map<String, Token> fTokenMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private String[] fPropertyNamesColor;
 	/**
 	 * Preference keys for boolean preferences which are <code>true</code>,
@@ -146,7 +146,7 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 	/**
 	 * Must be called after the constructor has been called.
 	 */
-	public final void initialize() {
+	public final void initialize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fPropertyNamesColor= getTokenProperties();
 		int length= fPropertyNamesColor.length;
@@ -155,7 +155,7 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 		fPropertyNamesStrikethrough= new String[length];
 		fPropertyNamesUnderline= new String[length];
 
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fPropertyNamesBold[i]= getBoldKey(fPropertyNamesColor[i]);
 			fPropertyNamesItalic[i]= getItalicKey(fPropertyNamesColor[i]);
 			fPropertyNamesStrikethrough[i]= getStrikethroughKey(fPropertyNamesColor[i]);
@@ -163,7 +163,7 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 		}
 
 		fNeedsLazyColorLoading= Display.getCurrent() == null;
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fNeedsLazyColorLoading)
 				addTokenWithProxyAttribute(fPropertyNamesColor[i], fPropertyNamesBold[i], fPropertyNamesItalic[i], fPropertyNamesStrikethrough[i], fPropertyNamesUnderline[i]);
 			else
@@ -174,19 +174,19 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 	}
 
 	protected String getBoldKey(String colorKey) {
-		return colorKey + PreferenceConstants.EDITOR_BOLD_SUFFIX;
+		return colorKey + PreferenceConstants.EDITOR_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String getItalicKey(String colorKey) {
-		return colorKey + PreferenceConstants.EDITOR_ITALIC_SUFFIX;
+		return colorKey + PreferenceConstants.EDITOR_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String getStrikethroughKey(String colorKey) {
-		return colorKey + PreferenceConstants.EDITOR_STRIKETHROUGH_SUFFIX;
+		return colorKey + PreferenceConstants.EDITOR_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected String getUnderlineKey(String colorKey) {
-		return colorKey + PreferenceConstants.EDITOR_UNDERLINE_SUFFIX;
+		return colorKey + PreferenceConstants.EDITOR_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -198,7 +198,7 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 
 	private void resolveProxyAttributes() {
 		if (fNeedsLazyColorLoading && Display.getCurrent() != null) {
-			for (int i= 0; i < fPropertyNamesColor.length; i++) {
+			for (int i= 0; i < fPropertyNamesColor.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addToken(fPropertyNamesColor[i], fPropertyNamesBold[i], fPropertyNamesItalic[i], fPropertyNamesStrikethrough[i], fPropertyNamesUnderline[i]);
 			}
 			fNeedsLazyColorLoading= false;
@@ -209,7 +209,7 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 		fTokenMap.put(colorKey, new Token(createTextAttribute(null, boldKey, italicKey, strikethroughKey, underlineKey)));
 	}
 
-	private void addToken(String colorKey, String boldKey, String italicKey, String strikethroughKey, String underlineKey) {
+	private void addToken(String colorKey, String boldKey, String italicKey, String strikethroughKey, String underlineKey) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fColorManager != null && colorKey != null && fColorManager.getColor(colorKey) == null) {
 			RGB rgb= PreferenceConverter.getColor(fPreferenceStore, colorKey);
 			if (fColorManager instanceof IColorManagerExtension) {
@@ -275,7 +275,7 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 	private int indexOf(String property) {
 		if (property != null) {
 			int length= fPropertyNamesColor.length;
-			for (int i= 0; i < length; i++) {
+			for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (property.equals(fPropertyNamesColor[i]) || property.equals(fPropertyNamesBold[i]) || property.equals(fPropertyNamesItalic[i]) || property.equals(fPropertyNamesStrikethrough[i]) || property.equals(fPropertyNamesUnderline[i]))
 					return i;
 			}
@@ -303,7 +303,7 @@ public abstract class AbstractJavaScanner extends BufferedRuleBasedScanner {
 			adaptToStyleChange(token, event, TextAttribute.UNDERLINE);
 	}
 
-	private void adaptToColorChange(Token token, PropertyChangeEvent event) {
+	private void adaptToColorChange(Token token, PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RGB rgb= null;
 
 		Object value= event.getNewValue();

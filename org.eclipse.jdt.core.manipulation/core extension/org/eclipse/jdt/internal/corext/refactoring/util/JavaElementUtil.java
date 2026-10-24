@@ -71,7 +71,7 @@ public class JavaElementUtil {
 	}
 
 	public static String createFieldSignature(IField field){
-		return BasicElementLabels.getJavaElementName(field.getDeclaringType().getFullyQualifiedName('.') + "." + field.getElementName()); //$NON-NLS-1$
+		return BasicElementLabels.getJavaElementName(field.getDeclaringType().getFullyQualifiedName('.') + "." + field.getElementName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static String createSignature(IMember member){
@@ -91,8 +91,8 @@ public class JavaElementUtil {
 	}
 
 	public static IJavaElement[] getElementsOfType(IJavaElement[] elements, int type){
-		Set<IJavaElement> result= new HashSet<>(elements.length);
-		for (IJavaElement element : elements) {
+		Set<IJavaElement> result= new HashSet<>(elements.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getElementType() == type)
 				result.add(element);
 		}
@@ -100,7 +100,7 @@ public class JavaElementUtil {
 	}
 
 	public static IType getMainType(ICompilationUnit cu) throws JavaModelException{
-		for (IType type : cu.getTypes()) {
+		for (IType type : cu.getTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isMainType(type)) {
 				return type;
 			}
@@ -137,7 +137,7 @@ public class JavaElementUtil {
 	/* @see org.eclipse.jdt.internal.core.JavaElement#isAncestorOf(org.eclipse.jdt.core.IJavaElement) */
 	public static boolean isAncestorOf(IJavaElement ancestor, IJavaElement child) {
 		IJavaElement parent= child.getParent();
-		while (parent != null && !parent.equals(ancestor)) {
+		while (parent != null && !parent.equals(ancestor)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		return parent != null;
@@ -146,8 +146,8 @@ public class JavaElementUtil {
 	public static IMethod[] getAllConstructors(IType type) throws JavaModelException {
 		if (JavaModelUtil.isInterfaceOrAnnotation(type))
 			return new IMethod[0];
-		List<IMethod> result= new ArrayList<>();
-		for (IMethod iMethod : type.getMethods()) {
+		List<IMethod> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMethod iMethod : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (iMethod.isConstructor())
 				result.add(iMethod);
 		}
@@ -164,8 +164,8 @@ public class JavaElementUtil {
 		if (cpe.getEntryKind() == IClasspathEntry.CPE_LIBRARY)
 			cpe= root.getResolvedClasspathEntry();
 		IJavaProject[] allJavaProjects= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()).getJavaProjects();
-		List<IJavaProject> result= new ArrayList<>(allJavaProjects.length);
-		for (IJavaProject project : allJavaProjects) {
+		List<IJavaProject> result= new ArrayList<>(allJavaProjects.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaProject project : allJavaProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragmentRoot[] roots= project.findPackageFragmentRoots(cpe);
 			if (roots.length > 0)
 				result.add(project);
@@ -175,12 +175,12 @@ public class JavaElementUtil {
 
 	public static IMember[] merge(IMember[] a1, IMember[] a2) {
 		// Don't use hash sets since ordering is important for some refactorings.
-		List<IMember> result= new ArrayList<>(a1.length + a2.length);
-		for (IMember member : a1) {
+		List<IMember> result= new ArrayList<>(a1.length + a2.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMember member : a1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!result.contains(member))
 				result.add(member);
 		}
-		for (IMember member : a2) {
+		for (IMember member : a2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!result.contains(member))
 				result.add(member);
 		}
@@ -201,10 +201,10 @@ public class JavaElementUtil {
 			return new IPackageFragment[] { pack };
 
 		IPackageFragmentRoot root= (IPackageFragmentRoot) pack.getParent();
-		ArrayList<IPackageFragment> subpackages= new ArrayList<>();
+		ArrayList<IPackageFragment> subpackages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		subpackages.add(pack);
-		String prefix= pack.getElementName() + '.';
-		for (IJavaElement packageFragment : root.getChildren()) {
+		String prefix= pack.getElementName() + '.'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (IJavaElement packageFragment : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment currentPackage = (IPackageFragment) packageFragment;
 			if (currentPackage.getElementName().startsWith(prefix))
 				subpackages.add(currentPackage);
@@ -253,15 +253,15 @@ public class JavaElementUtil {
 		}
 	}
 
-	public static boolean isForbiddenOnClasspath(ITypeRoot root, String qualifiedTypeName) throws JavaModelException {
+	public static boolean isForbiddenOnClasspath(ITypeRoot root, String qualifiedTypeName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= root.getJavaProject();
 		if (javaProject != null) {
 			String qualifiedPathName= qualifiedTypeName.replace('.', '/');
 			IJavaElement type= javaProject.findElement(IPath.fromPortableString(qualifiedPathName).removeLastSegments(1));
-			while (type != null) {
+			while (type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IClasspathEntry entry= javaProject.getClasspathEntryFor(type.getPath());
 				if (entry != null) {
-					for (IAccessRule rule : entry.getAccessRules()) {
+					for (IAccessRule rule : entry.getAccessRules()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (CharOperation.pathMatch(rule.getPattern().toString().toCharArray(), qualifiedPathName.toCharArray(),
 								true/*case sensitive*/, '/')) {
 							switch (rule.getKind()) {

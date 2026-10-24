@@ -78,7 +78,7 @@ public class ContentProviderTests5{
 	private IFile fDotProject;
 	private IPackageFragmentRoot jdk;
 
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 
 		IWorkspace workspace= ResourcesPlugin.getWorkspace();
@@ -92,7 +92,7 @@ public class ContentProviderTests5{
 		fJProject= JavaProjectHelper.createJavaProject("TestProject", "bin");
 		assertNotNull(fJProject);
 
-		for (Object object : fJProject.getNonJavaResources()) {
+		for (Object object : fJProject.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IFile) {
 				IFile file = (IFile) object;
 				if (".classpath".equals(file.getName()))
@@ -117,7 +117,7 @@ public class ContentProviderTests5{
 		setUpView();
 	}
 
-	private void setUpView() throws PartInitException {
+	private void setUpView() throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbench workbench= PlatformUI.getWorkbench();
 		assertNotNull(workbench);
 
@@ -152,7 +152,7 @@ public class ContentProviderTests5{
 		return new ByteArrayInputStream(string.getBytes(ResourcesPlugin.getEncoding()));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testProjectSource1() throws Exception { //bug 35851, 66694
 		IPath[] inclusionFilters= {new Path("**"), new Path("excl/incl/")};
 		IPath[] exclusionFilters= {new Path("excl/*"), new Path("x/*.java"), new Path("y/")};
@@ -205,7 +205,7 @@ public class ContentProviderTests5{
 		assertEqualElements(new Object[] {yX, yhidden},	fProvider.getChildren(y));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNestedSource1() throws Exception { //bug 35851, 66694
 //		<classpathentry excluding="a-b/a/b/" kind="src" path="src"/>
 //		<classpathentry kind="src" path="src/a-b/a/b"/>
@@ -241,7 +241,7 @@ public class ContentProviderTests5{
 		assertEqualElements(new Object[] {b}, fProvider.getChildren(defaultAbab));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInclExcl1() throws Exception { //bug 35851, 66694
 //		<classpathentry including="a/b/c/" excluding="a/b/c/d/" kind="src" path="src2"/>
 		IPath[] inclusionFilters= {new Path("a/b/c/")};
@@ -267,13 +267,13 @@ public class ContentProviderTests5{
 
 	private void assertEqualElements(Object[] expected, Object[] actual) {
 		assertEquals(expected.length, actual.length, "array length");
-		exp: for (int i= 0; i < expected.length; i++) {
+		exp: for (int i= 0; i < expected.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object e= expected[i];
-			for (Object a : actual) {
+			for (Object a : actual) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (e.equals(a))
 					continue exp;
 			}
-			fail("expected[" + i + "] not found in actual:" + Arrays.asList(actual).toString());
+			fail("expected[" + i + "] not found in actual:" + Arrays.asList(actual).toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 }

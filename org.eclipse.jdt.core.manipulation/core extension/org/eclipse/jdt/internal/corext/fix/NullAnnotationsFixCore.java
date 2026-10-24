@@ -109,14 +109,14 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 	public static boolean isComplainingAboutReturn(ASTNode selectedNode) {
 		if (selectedNode.getParent().getNodeType() == ASTNode.RETURN_STATEMENT)
 			return true;
-		while (!(selectedNode instanceof Type)) {
+		while (!(selectedNode instanceof Type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (selectedNode == null) return false;
 			selectedNode= selectedNode.getParent();
 		}
 		return selectedNode.getLocationInParent() == MethodDeclaration.RETURN_TYPE2_PROPERTY;
 	}
 
-	public static NullAnnotationsFixCore createReplaceNullableFix(CompilationUnit compilationUnit, IProblemLocation problem) {
+	public static NullAnnotationsFixCore createReplaceNullableFix(CompilationUnit compilationUnit, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(compilationUnit);
 		List<IExtendedModifier> modifiers= null;
 		String labelName= ""; //$NON-NLS-1$
@@ -126,7 +126,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 				MethodDeclaration methodDeclaration= NullAnnotationsFixCore.getMethodDeclarationInCU(selectedNode, methodBinding);
 				if (methodDeclaration != null) {
 					ASTVisitor NullReturnVisitor= new ASTVisitor() {
-						@Override
+						@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						public boolean visit(ReturnStatement node) {
 							Expression exp= node.getExpression();
 							if (exp != null) {
@@ -149,7 +149,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 										}
 										IAnnotationBinding[] annotations= miBinding.getReturnType().getTypeAnnotations();
 										boolean foundNonNull= false;
-										for (IAnnotationBinding annotation : annotations) {
+										for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 											if (Bindings.isNonNullAnnotation(annotation.getAnnotationType(), compilationUnit.getJavaElement().getJavaProject())) {
 												foundNonNull= true;
 											}
@@ -167,7 +167,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 					try {
 						methodDeclaration.accept(NullReturnVisitor);
 						modifiers= methodDeclaration.modifiers();
-						labelName= methodDeclaration.getName().getFullyQualifiedName() + "()"; //$NON-NLS-1$
+						labelName= methodDeclaration.getName().getFullyQualifiedName() + "()"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} catch (AbortSearchException e) {
 						// do nothing
 					}
@@ -179,12 +179,12 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 				if (varBinding.isParameter()) {
 					ITypeBinding varTypeBinding= varBinding.getType();
 					IAnnotationBinding[] annotations= varTypeBinding.getTypeAnnotations();
-					for (IAnnotationBinding annotation : annotations) {
+					for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (annotation.getName().equals(NullAnnotationsFixCore.getNullableAnnotationName(compilationUnit.getJavaElement(), true))) {
 							MethodDeclaration methodDeclaration= ASTNodes.getFirstAncestorOrNull(selectedNode, MethodDeclaration.class);
 							if (methodDeclaration != null) {
 								List<SingleVariableDeclaration> parameters= methodDeclaration.parameters();
-								for (SingleVariableDeclaration parameter : parameters) {
+								for (SingleVariableDeclaration parameter : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (parameter.getName().getFullyQualifiedName().equals(name.getFullyQualifiedName())) {
 										if (binding.isEqualTo(parameter.getName().resolveBinding())) {
 											modifiers= parameter.modifiers();
@@ -200,7 +200,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 			}
 		}
 		if (modifiers != null) {
-			for (IExtendedModifier modifier : modifiers) {
+			for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (modifier instanceof Annotation annotation) {
 					if (annotation.getTypeName().getFullyQualifiedName().equals(NullAnnotationsFixCore.getNullableAnnotationName(compilationUnit.getJavaElement(), true))) {
 						String label= Messages.format(CorrectionMessages.NullAnnotationsCorrectionProcessor_replace_nullable_with_nonnull,
@@ -216,7 +216,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 		return null;
 	}
 
-	public static NullAnnotationsFixCore createNullAnnotationInSignatureFix(CompilationUnit compilationUnit, IProblemLocation problem,
+	public static NullAnnotationsFixCore createNullAnnotationInSignatureFix(CompilationUnit compilationUnit, IProblemLocation problem, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ChangeKind changeKind, boolean isArgumentProblem) {
 		IJavaElement javaElement= compilationUnit.getJavaElement();
 		String nullableAnnotationName= getNullableAnnotationName(javaElement, false);
@@ -292,12 +292,12 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 	}
 
 	// Entry for NullAnnotationsCleanup:
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] locations, int problemID) {
-		List<CompilationUnitRewriteOperationWithSourceRange> operations= new ArrayList<>();
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] locations, int problemID) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<CompilationUnitRewriteOperationWithSourceRange> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (locations == null) {
 			org.eclipse.jdt.core.compiler.IProblem[] problems= compilationUnit.getProblems();
 			locations= new IProblemLocation[problems.length];
-			for (int i= 0; i < problems.length; i++) {
+			for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (problems[i].getID() == problemID)
 					locations[i]= new ProblemLocation(problems[i]);
 			}
@@ -319,7 +319,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 
 	private static boolean createMoveTypeAnnotationOperations(CompilationUnit compilationUnit, IProblemLocation[] locations, List<CompilationUnitRewriteOperationWithSourceRange> operations) {
 		boolean isMove= false;
-		for (IProblemLocation location: locations) {
+		for (IProblemLocation location: locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (location == null)
 				continue;
 			MoveTypeAnnotationRewriteOperation operation= new MoveTypeAnnotationRewriteOperation(compilationUnit, location);
@@ -329,12 +329,12 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 		return isMove;
 	}
 
-	private static void createAddNullAnnotationOperations(CompilationUnit compilationUnit, IProblemLocation[] locations, List<CompilationUnitRewriteOperationWithSourceRange> result) {
+	private static void createAddNullAnnotationOperations(CompilationUnit compilationUnit, IProblemLocation[] locations, List<CompilationUnitRewriteOperationWithSourceRange> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String nullableAnnotationName= getNullableAnnotationName(compilationUnit.getJavaElement(), false);
 		String nonNullAnnotationName= getNonNullAnnotationName(compilationUnit.getJavaElement(), false);
 
-		Set<String> handledPositions= new HashSet<>();
-		for (IProblemLocation problem : locations) {
+		Set<String> handledPositions= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IProblemLocation problem : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem == null)
 				continue; // problem was filtered out by createCleanUp()
 
@@ -386,7 +386,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 	}
 
 	private static void createRemoveRedundantNullAnnotationsOperations(CompilationUnit compilationUnit, IProblemLocation[] locations, List<CompilationUnitRewriteOperationWithSourceRange> result) {
-		for (IProblemLocation problem : locations) {
+		for (IProblemLocation problem : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem == null)
 				continue; // problem was filtered out by createCleanUp()
 
@@ -400,14 +400,14 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 		}
 	}
 
-	public static NullAnnotationsFixCore createRemoveContradictoryNullAnnotationsFix(CompilationUnit astRoot, IProblemLocation problem, String annotationName) {
+	public static NullAnnotationsFixCore createRemoveContradictoryNullAnnotationsFix(CompilationUnit astRoot, IProblemLocation problem, String annotationName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode coveringNode= problem.getCoveringNode(astRoot);
 		if (coveringNode == null) {
 			return null;
 		}
 		coveringNode= coveringNode.getParent();
 
-		List<IExtendedModifier> modifiers= new ArrayList<>();
+		List<IExtendedModifier> modifiers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Annotation removeAnnotation= null;
 
 		if (coveringNode instanceof SingleVariableDeclaration) {
@@ -425,7 +425,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 			return null;
 		}
 
-		for (IExtendedModifier modifier : modifiers) {
+		for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modifier instanceof Annotation annotation) {
 				IAnnotationBinding binding= annotation.resolveAnnotationBinding();
 				if (binding != null) {
@@ -462,7 +462,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 	 * @param offset the offset
 	 * @return <code>true</code> if the compilation unit has an explicit null annotation
 	 */
-	public static boolean hasExplicitNullAnnotation(ICompilationUnit compilationUnit, int offset) {
+	public static boolean hasExplicitNullAnnotation(ICompilationUnit compilationUnit, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 // FIXME(SH): check for existing annotations disabled due to lack of precision:
 //		      should distinguish what is actually annotated (return? param? which?)
 //		try {
@@ -503,7 +503,7 @@ public class NullAnnotationsFixCore extends CompilationUnitRewriteOperationsFixC
 		return qualifiedName;
 	}
 
-	public static MethodDeclaration getMethodDeclarationInCU(ASTNode selectedNode, IMethodBinding methodBinding) {
+	public static MethodDeclaration getMethodDeclarationInCU(ASTNode selectedNode, IMethodBinding methodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class MethodVisitor extends ASTVisitor {
 			private MethodDeclaration fMethodDeclaration;
 			public MethodDeclaration getMethodDeclaration() {

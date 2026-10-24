@@ -55,7 +55,7 @@ public class IdentityHashSet {
 	private static int getInsertionIndex(Object elem, Object[] elements) {
 		int hash= getHash(elem, elements.length);
 		Object entry= elements[hash];
-		while (entry != null && entry != elem) {
+		while (entry != null && entry != elem) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hash++;
 			if (hash == elements.length) {
 				hash= 0; // wrap
@@ -72,7 +72,7 @@ public class IdentityHashSet {
 	private void increaseSize() {
 		int newSize= fObjects.length * 2;
 		Object[] newArray= new Object[newSize];
-		for (int i= 0; i < fObjects.length; i++) {
+		for (int i= 0; i < fObjects.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object curr= fObjects[i];
 			if (curr != null) {
 				int insertionIndex= getInsertionIndex(curr, newArray);

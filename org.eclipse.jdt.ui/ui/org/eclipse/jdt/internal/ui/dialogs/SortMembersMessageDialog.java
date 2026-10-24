@@ -78,7 +78,7 @@ public class SortMembersMessageDialog extends OptionalMessageDialog {
 	private Control createLinkControl(Composite composite) {
 		Link link= new Link(composite, SWT.WRAP | SWT.RIGHT);
 		link.setText(DialogsMessages.SortMembersMessageDialog_description);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				openMembersSortOrderPage();
@@ -110,7 +110,7 @@ public class SortMembersMessageDialog extends OptionalMessageDialog {
 		return contents;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createMessageArea(Composite parent) {
 		initializeDialogUnits(parent);
 

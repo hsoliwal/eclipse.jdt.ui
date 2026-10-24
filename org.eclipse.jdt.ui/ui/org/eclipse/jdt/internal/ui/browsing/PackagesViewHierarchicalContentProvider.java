@@ -50,7 +50,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
  * but might be required to later.
  * </p>
  */
-class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider implements ITreeContentProvider {
+class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider implements ITreeContentProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	public PackagesViewHierarchicalContentProvider(StructuredViewer viewer){
 		super(viewer);
@@ -59,7 +59,7 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 	/*
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object parentElement) {
 		try {
 			if (parentElement instanceof IJavaElement) {
@@ -75,8 +75,8 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 							fMapToPackageFragments.clear();
 							IJavaProject project= (IJavaProject) parentElement;
 
-							List<IPackageFragment> list= new ArrayList<>();
-							for (IPackageFragment fragment : getTopLevelChildrenByElementName(project.getPackageFragments())) {
+							List<IPackageFragment> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+							for (IPackageFragment fragment : getTopLevelChildrenByElementName(project.getPackageFragments())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								IJavaElement el= fragment.getParent();
 								if (el instanceof IPackageFragmentRoot) {
 									IPackageFragmentRoot root= (IPackageFragmentRoot) el;
@@ -85,8 +85,8 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 								}
 							}
 
-							List<Object> folders= new ArrayList<>();
-							for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+							List<Object> folders= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+							for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								IResource resource= root.getUnderlyingResource();
 								if (resource instanceof IFolder) {
 									folders.addAll(getFolders(((IFolder)resource).members()));
@@ -146,9 +146,9 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 							if (nonJavaResources.length == 0) {
 								return fragments;
 							}
-							ArrayList<Object> combined= new ArrayList<>();
+							ArrayList<Object> combined= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							combined.addAll(Arrays.asList(fragments));
-							for (Object curr : nonJavaResources) {
+							for (Object curr : nonJavaResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (curr instanceof IFolder) {
 									combined.add(curr);
 								}
@@ -160,9 +160,9 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 			//@Improve: rewrite using concatenate
 			} else if (parentElement instanceof LogicalPackage) {
 
-				List<IPackageFragment> children= new ArrayList<>();
+				List<IPackageFragment> children= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				LogicalPackage logicalPackage= (LogicalPackage) parentElement;
-				for (IPackageFragment fragment : logicalPackage.getFragments()) {
+				for (IPackageFragment fragment : logicalPackage.getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPackageFragment[] objects= findNextLevelChildrenByElementName((IPackageFragmentRoot) fragment.getParent(), fragment);
 					children.addAll(Arrays.asList(objects));
 				}
@@ -182,8 +182,8 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 	}
 
 	private void addFragmentsToMap(List<IAdaptable> elements) {
-		List<IPackageFragment> packageFragments= new ArrayList<>();
-		for (IAdaptable iAdaptable : elements) {
+		List<IPackageFragment> packageFragments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IAdaptable iAdaptable : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object elem= iAdaptable;
 			if (elem instanceof IPackageFragment)
 				packageFragments.add((IPackageFragment) elem);
@@ -192,8 +192,8 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 	}
 
 	private List<IAdaptable> getFoldersAndElements(IResource[] resources) {
-		List<IAdaptable> list= new ArrayList<>();
-		for (IResource resource : resources) {
+		List<IAdaptable> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource instanceof IFolder) {
 				IFolder folder= (IFolder) resource;
 				IJavaElement element= JavaCore.create(folder);
@@ -209,8 +209,8 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 	}
 
 	private List<IFolder> getFolders(IResource[] resources) {
-		List<IFolder> list= new ArrayList<>();
-		for (IResource resource : resources) {
+		List<IFolder> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource instanceof IFolder) {
 				IFolder folder= (IFolder) resource;
 				IJavaElement element= JavaCore.create(folder);
@@ -223,12 +223,12 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 		return list;
 	}
 
-	private IPackageFragment[] findNextLevelChildrenByElementName(IPackageFragmentRoot parent, IPackageFragment fragment) {
-		List<IPackageFragment> list= new ArrayList<>();
+	private IPackageFragment[] findNextLevelChildrenByElementName(IPackageFragmentRoot parent, IPackageFragment fragment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IPackageFragment> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
 
 			String fragmentname= fragment.getElementName();
-			for (IJavaElement element : parent.getChildren()) {
+			for (IJavaElement element : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IPackageFragment) {
 					IPackageFragment frag= (IPackageFragment) element;
 
@@ -249,8 +249,8 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 	}
 
 	private IPackageFragment[] getTopLevelChildrenByElementName(IJavaElement[] elements){
-		List<IJavaElement> topLevelElements= new ArrayList<>();
-		for (IJavaElement iJavaElement : elements) {
+		List<IJavaElement> topLevelElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement iJavaElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//if the name of the PackageFragment is the top level package it will contain no "." separators
 			if (iJavaElement instanceof IPackageFragment && iJavaElement.getElementName().indexOf('.')==-1){
 				topLevelElements.add(iJavaElement);
@@ -262,7 +262,7 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 	/*
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getParent(Object element) {
 
 		if (element instanceof IPackageFragment) {
@@ -321,13 +321,13 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 	 * LogicalPackage and if so creates the LogicalPackage and adds it to the
 	 * map.
 	 */
-	private LogicalPackage createLogicalPackage(IPackageFragment pkgFragment) {
+	private LogicalPackage createLogicalPackage(IPackageFragment pkgFragment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(!fInputIsProject)
 			return null;
 
-		List<IPackageFragment> fragments= new ArrayList<>();
+		List<IPackageFragment> fragments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
-			for (IPackageFragmentRoot root : pkgFragment.getJavaProject().getPackageFragmentRoots()) {
+			for (IPackageFragmentRoot root : pkgFragment.getJavaProject().getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPackageFragment fragment= root.getPackageFragment(pkgFragment.getElementName());
 				if(fragment.exists() && !fragment.equals(pkgFragment))
 					fragments.add(fragment);
@@ -336,7 +336,7 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 				LogicalPackage logicalPackage= new LogicalPackage(pkgFragment);
 				fMapToLogicalPackage.put(getKey(pkgFragment), logicalPackage);
 				Iterator<IPackageFragment> iter= fragments.iterator();
-				while(iter.hasNext()){
+				while(iter.hasNext()){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPackageFragment f= iter.next();
 					if(logicalPackage.belongs(f)){
 						logicalPackage.add(f);
@@ -354,7 +354,7 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 		return null;
 	}
 
-	private Object getHierarchicalParent(IPackageFragment fragment) {
+	private Object getHierarchicalParent(IPackageFragment fragment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement parent= fragment.getParent();
 
 		if ((parent instanceof IPackageFragmentRoot) && parent.exists()) {
@@ -416,7 +416,7 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 		return getChildren(inputElement);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void processDelta(IJavaElementDelta delta) throws JavaModelException {
 
 		int kind = delta.getKind();
@@ -490,7 +490,7 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 	}
 
 	private void processAffectedChildren(IJavaElementDelta delta) throws JavaModelException {
-		for (IJavaElementDelta child : delta.getAffectedChildren()) {
+		for (IJavaElementDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(child instanceof ICompilationUnit)) {
 				processDelta(child);
 			}
@@ -519,7 +519,7 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 		postRunnable(() -> {
 			Control ctrl= fViewer.getControl();
 			if (ctrl != null && !ctrl.isDisposed()) {
-				((TreeViewer) fViewer).refresh(object);
+				((TreeViewer) fViewer).refresh(object); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		});
 	}
@@ -531,16 +531,16 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 			try {
 				Display currentDisplay= Display.getCurrent();
 				if (currentDisplay != null && currentDisplay.equals(ctrl.getDisplay()))
-					ctrl.getDisplay().syncExec(r);
+					ctrl.getDisplay().syncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				else
-					ctrl.getDisplay().asyncExec(r);
+					ctrl.getDisplay().asyncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			} finally {
 		//		fBrowsingPart.setProcessSelectionEvents(true);
 			}
 		}
 	}
 
-	private void addElement(IPackageFragment frag, Object parent) {
+	private void addElement(IPackageFragment frag, Object parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String key= getKey(frag);
 		LogicalPackage lp= fMapToLogicalPackage.get(key);
@@ -591,7 +591,7 @@ class PackagesViewHierarchicalContentProvider extends LogicalPackagesProvider im
 		}
 	}
 
-	private void removeElement(IPackageFragment frag) {
+	private void removeElement(IPackageFragment frag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String key= getKey(frag);
 		LogicalPackage lp= fMapToLogicalPackage.get(key);

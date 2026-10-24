@@ -34,7 +34,7 @@ import org.eclipse.jdt.internal.ui.text.java.LazyJavaTypeCompletionProposal;
  *
  * @since 3.2
  */
-public class JavadocLinkTypeCompletionProposal extends LazyJavaTypeCompletionProposal {
+public class JavadocLinkTypeCompletionProposal extends LazyJavaTypeCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private static final String LINK_PREFIX= "{@link "; //$NON-NLS-1$
 
@@ -52,7 +52,7 @@ public class JavadocLinkTypeCompletionProposal extends LazyJavaTypeCompletionPro
 		// XXX: respect the auto-close preference, but do so consistently with method completions
 		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=113544
 //		if (autocloseBrackets())
-		return LINK_PREFIX + typeReplacement + "}"; //$NON-NLS-1$
+		return LINK_PREFIX + typeReplacement + "}"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 //		else
 //			return "{@link " + typeReplacement; //$NON-NLS-1$
 	}
@@ -78,7 +78,7 @@ public class JavadocLinkTypeCompletionProposal extends LazyJavaTypeCompletionPro
 			setUpLinkedMode(document, '}');
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public StyledString getStyledDisplayString(IDocument document, int offset, BoldStylerProvider boldStylerProvider) {
 		StyledString styledDisplayString= new StyledString();
 		styledDisplayString.append(getStyledDisplayString());
@@ -95,7 +95,7 @@ public class JavadocLinkTypeCompletionProposal extends LazyJavaTypeCompletionPro
 			int patternMatchRule= getPatternMatchRule(pattern, displayString);
 			int[] matchingRegions= SearchPattern.getMatchingRegions(pattern, displayString, patternMatchRule);
 			if (matchingRegions != null) {
-				for (int i= 0; i < matchingRegions.length; i+= 2) {
+				for (int i= 0; i < matchingRegions.length; i+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					matchingRegions[i]= matchingRegions[i] + prefixLength;
 				}
 			}

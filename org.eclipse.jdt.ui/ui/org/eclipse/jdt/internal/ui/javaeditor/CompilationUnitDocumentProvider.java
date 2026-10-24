@@ -200,7 +200,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		private boolean fIsQuickFixableStateSet= false;
 
 
-		public ProblemAnnotation(IProblem problem, ICompilationUnit cu) {
+		public ProblemAnnotation(IProblem problem, ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			fProblem= problem;
 			fCompilationUnit= cu;
@@ -231,7 +231,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 			return fLayer;
 		}
 
-		private void initializeImage() {
+		private void initializeImage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// http://bugs.eclipse.org/bugs/show_bug.cgi?id=18936
 			if (!fImageInitialized) {
 				initializeImages();
@@ -357,7 +357,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		@Override
 		public void addOverlaid(IJavaAnnotation annotation) {
 			if (fOverlaids == null)
-				fOverlaids= new ArrayList<>(1);
+				fOverlaids= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fOverlaids.add(annotation);
 		}
 
@@ -442,7 +442,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		static class Entry {
 			private final Position position;
 
-			final List<JavaMarkerAnnotation> annotations= new ArrayList<>();
+			final List<JavaMarkerAnnotation> annotations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			public Entry(Position position) {
 				this.position= position;
@@ -453,7 +453,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 			}
 		}
 
-		private List<Entry> entries= new ArrayList<>(2);
+		private List<Entry> entries= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		private int anchorIndex= 0;
 
@@ -470,7 +470,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		private Entry getEntry(Position position, boolean useAndStoreAnchor) {
 			int startIndex= useAndStoreAnchor ? anchorIndex : 0;
 			int numberOfIndices= entries.size();
-			for (int i= 0; i < numberOfIndices; i++) {
+			for (int i= 0; i < numberOfIndices; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int indexToCheck= (i + startIndex) % numberOfIndices;
 				Entry entry= entries.get(indexToCheck);
 				if (entry.isFor(position)) {
@@ -530,14 +530,14 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		private int fStateCount= 0;
 
 		private ICompilationUnit fCompilationUnit;
-		private final List<ProblemAnnotation> fGeneratedAnnotations= new ArrayList<>();
+		private final List<ProblemAnnotation> fGeneratedAnnotations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private IProgressMonitor fProgressMonitor;
 		private boolean fIsActive= false;
 		private boolean fIsHandlingTemporaryProblems;
 
 		private ReverseJavaMarkerAnnotationsMap fReverseMap= new ReverseJavaMarkerAnnotationsMap();
 		private List<JavaMarkerAnnotation> fPreviouslyOverlaid= null;
-		private List<JavaMarkerAnnotation> fCurrentlyOverlaid= new ArrayList<>();
+		private List<JavaMarkerAnnotation> fCurrentlyOverlaid= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private Thread fActiveThread;
 
 
@@ -564,7 +564,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 			return new CompilationUnitAnnotationModelEvent(this, getResource());
 		}
 
-		protected Position createPositionFromProblem(IProblem problem) {
+		protected Position createPositionFromProblem(IProblem problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int start= problem.getSourceStart();
 			int end= problem.getSourceEnd();
 
@@ -614,7 +614,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 			if (fCompilationUnit != null && fCompilationUnit.getJavaProject().isOnClasspath(fCompilationUnit)) {
 				ProblemRequestorState state= new ProblemRequestorState();
 				state.fInsideReportingSequence= insideReportingSequence;
-				state.fReportedProblems= new ArrayList<>();
+				state.fReportedProblems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				synchronized (getLockObject()) {
 					fProblemRequestorState.set(state);
 					++fStateCount;
@@ -671,7 +671,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		 *
 		 * @param reportedProblems the problems to report
 		 */
-		private void reportProblems(List<IProblem> reportedProblems) {
+		private void reportProblems(List<IProblem> reportedProblems) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fProgressMonitor != null && fProgressMonitor.isCanceled())
 				return;
 
@@ -682,7 +682,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 				boolean isCanceled= false;
 
 				fPreviouslyOverlaid= fCurrentlyOverlaid;
-				fCurrentlyOverlaid= new ArrayList<>();
+				fCurrentlyOverlaid= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 				if (fGeneratedAnnotations.size() > 0) {
 					temporaryProblemsChanged= true;
@@ -693,7 +693,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 				if (reportedProblems != null && reportedProblems.size() > 0) {
 
 					Iterator<IProblem> e= reportedProblems.iterator();
-					while (e.hasNext()) {
+					while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 						if (fProgressMonitor != null && fProgressMonitor.isCanceled()) {
 							isCanceled= true;
@@ -731,7 +731,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 				fCurrentlyOverlaid.addAll(fPreviouslyOverlaid);
 			} else if (fPreviouslyOverlaid != null) {
 				Iterator<JavaMarkerAnnotation> e= fPreviouslyOverlaid.iterator();
-				while (e.hasNext()) {
+				while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					JavaMarkerAnnotation annotation= e.next();
 					annotation.setOverlay(null);
 				}
@@ -753,7 +753,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		}
 
 		private void overlayMarkers(Position position, ProblemAnnotation problemAnnotation) {
-			for (JavaMarkerAnnotation annotation : getJavaMarkerAnnotations(position)) {
+			for (JavaMarkerAnnotation annotation : getJavaMarkerAnnotations(position)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				setOverlay(annotation, problemAnnotation);
 			}
 		}
@@ -878,7 +878,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		 */
 		@Override
 		public void modelChanged(IAnnotationModel model) {
-			for (IAnnotationModelListener listener : fListenerList) {
+			for (IAnnotationModelListener listener : fListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.modelChanged(model);
 			}
 		}
@@ -888,7 +888,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		 */
 		@Override
 		public void modelChanged(AnnotationModelEvent event) {
-			for (IAnnotationModelListener curr : fListenerList) {
+			for (IAnnotationModelListener curr : fListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr instanceof IAnnotationModelListenerExtension) {
 					((IAnnotationModelListenerExtension) curr).modelChanged(event);
 				}
@@ -922,7 +922,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	 * Element information of all connected elements with a fake CU but no file info.
 	 * @since 3.2
 	 */
-	private final Map<Object, CompilationUnitInfo> fFakeCUMapForMissingInfo= new HashMap<>();
+	private final Map<Object, CompilationUnitInfo> fFakeCUMapForMissingInfo= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 
 	/**
@@ -935,7 +935,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		setParentDocumentProvider(provider);
 
 		fGlobalAnnotationModelListener= new GlobalAnnotationModelListener();
-		fPropertyListener= event -> {
+		fPropertyListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (HANDLE_TEMPORARY_PROBLEMS.equals(event.getProperty()))
 				enableHandlingTemporaryProblems();
 		};
@@ -978,7 +978,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	/*
 	 * @see org.eclipse.ui.editors.text.TextFileDocumentProvider#createFileInfo(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected FileInfo createFileInfo(Object element) throws CoreException {
 		ICompilationUnit original= null;
 		if (element instanceof IFileEditorInput) {
@@ -1055,7 +1055,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	 * @return the fake compilation unit
 	 * @since 3.2
 	 */
-	private ICompilationUnit createFakeCompiltationUnit(IStorageEditorInput editorInput, boolean setContents) {
+	private ICompilationUnit createFakeCompiltationUnit(IStorageEditorInput editorInput, boolean setContents) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProgressMonitor progressMonitor= getProgressMonitor();
 		try {
 			final IStorage storage= editorInput.getStorage();
@@ -1147,7 +1147,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	 * @return the fake compilation unit
 	 * @since 3.3
 	 */
-	private ICompilationUnit createFakeCompiltationUnit(IURIEditorInput editorInput) {
+	private ICompilationUnit createFakeCompiltationUnit(IURIEditorInput editorInput) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProgressMonitor progressMonitor= getProgressMonitor();
 		try {
 			final URI uri= editorInput.getURI();
@@ -1199,7 +1199,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	 * @return the matching Java project or <code>null</code>
 	 * @since 3.2
 	 */
-	private IJavaProject findJavaProject(IPath path) {
+	private IJavaProject findJavaProject(IPath path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (path == null)
 			return null;
 
@@ -1211,10 +1211,10 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		} catch (JavaModelException e) {
 			return null; // ignore - use default JRE
 		}
-		for (IJavaProject project : projects) {
+		for (IJavaProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath projectPath= project.getProject().getFullPath();
 			String projectSegment= projectPath.segments()[0];
-			for (String pathSegment : pathSegments) {
+			for (String pathSegment : pathSegments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (projectSegment.equals(pathSegment)) {
 					return project;
 				}
@@ -1247,7 +1247,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	 * @see org.eclipse.ui.editors.text.TextFileDocumentProvider#connect(java.lang.Object)
 	 * @since 3.2
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void connect(Object element) throws CoreException {
 		super.connect(element);
 		if (getFileInfo(element) != null)
@@ -1327,7 +1327,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		return new NullProgressMonitor();
 	}
 
-	protected void commitWorkingCopy(IProgressMonitor monitor, Object element, final CompilationUnitInfo info, boolean overwrite) throws CoreException {
+	protected void commitWorkingCopy(IProgressMonitor monitor, Object element, final CompilationUnitInfo info, boolean overwrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
@@ -1421,7 +1421,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 					IMarker[] markers= r.findMarkers(IMarker.MARKER, true, IResource.DEPTH_ZERO);
 					if (markers != null && markers.length > 0) {
 						AbstractMarkerAnnotationModel model= (AbstractMarkerAnnotationModel) info.fModel;
-						for (IMarker marker : markers) {
+						for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							model.updateMarker(document, marker, null);
 						}
 					}
@@ -1435,7 +1435,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	/*
 	 * @see org.eclipse.ui.editors.text.TextFileDocumentProvider#createSaveOperation(java.lang.Object, org.eclipse.jface.text.IDocument, boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected DocumentProviderOperation createSaveOperation(final Object element, final IDocument document, final boolean overwrite) throws CoreException {
 		final FileInfo info= getFileInfo(element);
 		if (info instanceof CompilationUnitInfo) {
@@ -1454,7 +1454,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 				throw new CoreException(status);
 			}
 
-			return new DocumentProviderOperation() {
+			return new DocumentProviderOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 				/*
 				 * @see org.eclipse.ui.editors.text.TextFileDocumentProvider.DocumentProviderOperation#execute(org.eclipse.core.runtime.IProgressMonitor)
 				 */
@@ -1494,7 +1494,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 		 */
 		protected void enableHandlingTemporaryProblems() {
 			boolean enable= isHandlingTemporaryProblems();
-			for (Iterator<FileInfo> iter= getFileInfosIterator(); iter.hasNext();) {
+			for (Iterator<FileInfo> iter= getFileInfosIterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				FileInfo info= iter.next();
 				if (info.fModel instanceof IProblemRequestorExtension) {
 					IProblemRequestorExtension  extension= (IProblemRequestorExtension) info.fModel;
@@ -1551,7 +1551,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	public void shutdown() {
 		JavaPlugin.getDefault().getPreferenceStore().removePropertyChangeListener(fPropertyListener);
 		Iterator<?> e= getConnectedElementsIterator();
-		while (e.hasNext())
+		while (e.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			disconnect(e.next());
 		fFakeCUMapForMissingInfo.clear();
 	}
@@ -1590,7 +1590,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 	 * @see IPostSaveListener
 	 * @since 3.3
 	 */
-	protected void notifyPostSaveListeners(final CompilationUnitInfo info, final IRegion[] changedRegions, IPostSaveListener[] listeners, final IProgressMonitor monitor) throws CoreException {
+	protected void notifyPostSaveListeners(final CompilationUnitInfo info, final IRegion[] changedRegions, IPostSaveListener[] listeners, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ICompilationUnit unit= info.fCopy;
 		final IBuffer buffer= unit.getBuffer();
 
@@ -1599,10 +1599,10 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 
 		monitor.beginTask(JavaEditorMessages.CompilationUnitDocumentProvider_progressNotifyingSaveParticipants, listeners.length * 5);
 		try {
-			for (IPostSaveListener listener : listeners) {
+			for (IPostSaveListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final String participantName= listener.getName();
 				SafeRunner.run(new ISafeRunnable() {
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public void run() {
 						try {
 							long stamp= unit.getResource().getModificationStamp();
@@ -1627,7 +1627,7 @@ public class CompilationUnitDocumentProvider extends TextFileDocumentProvider im
 						}
 					}
 
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public void handleException(Throwable ex) {
 						String msg= Messages.format("The save participant ''{0}'' caused an exception: {1}", new String[] { listener.getId(), ex.toString()}); //$NON-NLS-1$
 						JavaPlugin.log(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, IJavaStatusConstants.EDITOR_POST_SAVE_NOTIFICATION, msg, ex));

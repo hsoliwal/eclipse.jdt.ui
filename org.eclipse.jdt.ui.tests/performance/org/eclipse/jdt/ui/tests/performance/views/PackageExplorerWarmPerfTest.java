@@ -29,7 +29,7 @@ import org.eclipse.jdt.ui.tests.performance.JdtPerformanceTestCaseCommon;
 
 public class PackageExplorerWarmPerfTest extends JdtPerformanceTestCaseCommon {
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOpen() throws Exception {
 		IWorkbenchWindow activeWorkbenchWindow= PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage page= activeWorkbenchWindow.getActivePage();
@@ -37,7 +37,7 @@ public class PackageExplorerWarmPerfTest extends JdtPerformanceTestCaseCommon {
 		page= activeWorkbenchWindow.openPage("org.eclipse.ui.resourcePerspective", ResourcesPlugin.getWorkspace().getRoot());
 		joinBackgroudActivities();
 		page.showView(JavaUI.ID_PACKAGES);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			page.close();
 			page= activeWorkbenchWindow.openPage("org.eclipse.ui.resourcePerspective", ResourcesPlugin.getWorkspace().getRoot());
 			joinBackgroudActivities();

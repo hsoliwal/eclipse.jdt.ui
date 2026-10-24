@@ -107,7 +107,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.LayoutUtil;
  */
 public class GenerateToStringDialog extends SourceActionDialog {
 
-	private static class GenerateToStringContentProvider implements ITreeContentProvider {
+	private static class GenerateToStringContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private static final Object[] EMPTY= new Object[0];
 
@@ -130,7 +130,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		private static final String inheritedMethodsNode= JavaUIMessages.GenerateToStringDialog_inherited_methods_node;
 
 		public GenerateToStringContentProvider(IVariableBinding[] fields, IVariableBinding[] inheritedFields, IMethodBinding[] methods, IMethodBinding[] inheritedMethods) {
-			ArrayList<String> nodes= new ArrayList<>();
+			ArrayList<String> nodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fFields= fields.clone();
 			if (fFields.length > 0)
 				nodes.add(fieldsNode);
@@ -147,7 +147,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		}
 
 		private int getElementPosition(Object element, Object[] array) {
-			for (int i= 0; i < array.length; i++) {
+			for (int i= 0; i < array.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (array[i].equals(element)) {
 					return i;
 				}
@@ -198,7 +198,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			array[position]= array[position + direction];
 			array[position + direction]= temp;
 			tree.setSelection(new StructuredSelection(element));
-			tree.refresh();
+			tree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 		public void sort() {
@@ -293,7 +293,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		}
 
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus validate(Object[] selection) {
 			if (getGenerationSettings().toStringStyle == GenerateToStringOperation.CUSTOM_BUILDER) {
 				if (fValidator == null)
@@ -304,7 +304,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			}
 
 			int countFields= 0, countMethods= 0;
-			for (Object s : selection) {
+			for (Object s : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (s instanceof IVariableBinding) {
 					countFields++;
 				} else if (s instanceof IMethodBinding) {
@@ -353,7 +353,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 				return true;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected Control createDialogArea(Composite parent) {
 				getShell().setText(templateNumber >= 0 ? JavaUIMessages.GenerateToStringDialog_templateEdition_WindowTitle : JavaUIMessages.GenerateToStringDialog_templateEdition_NewWindowTitle);
 
@@ -390,10 +390,10 @@ public class GenerateToStringDialog extends SourceActionDialog {
 				}
 				templateName.setSelection(0, templateName.getText().length());
 
-				templateName.addModifyListener(unused -> validate(templateName.getText()));
+				templateName.addModifyListener(unused -> validate(templateName.getText())); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 				//Ctrl+Enter should execute the default button, workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=145959
-				template.addTraverseListener(e -> {
+				template.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 					if (e.detail == SWT.TRAVERSE_RETURN && (e.stateMask & SWT.MODIFIER_MASK) != 0) {
 						buttonPressed(((Integer)getShell().getDefaultButton().getData()));
 					}
@@ -419,7 +419,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 
 				int copyCount= 2;
 				String newName;
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newName= Messages.format(JavaUIMessages.GenerateToStringDialog_newTemplateNameArg, Integer.valueOf(copyCount));
 					copyCount++;
 				} while (templateNames.contains(newName));
@@ -445,9 +445,9 @@ public class GenerateToStringDialog extends SourceActionDialog {
 				String systemLineDelimiter= Text.DELIMITER;
 				final String javaLineDelimiter= "\n"; //$NON-NLS-1$
 				if (!javaLineDelimiter.equals(systemLineDelimiter)) {
-					StringBuilder outputBuffer= new StringBuilder(input);
+					StringBuilder outputBuffer= new StringBuilder(input); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					int pos= outputBuffer.indexOf(systemLineDelimiter);
-					while (pos >= 0) {
+					while (pos >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						outputBuffer.delete(pos, pos + systemLineDelimiter.length());
 						outputBuffer.insert(pos, javaLineDelimiter);
 						pos= outputBuffer.indexOf(systemLineDelimiter, pos + javaLineDelimiter.length());
@@ -460,7 +460,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		}
 
 
-		private class ToStringTemplateProposalProvider implements IContentProposalProvider {
+		private class ToStringTemplateProposalProvider implements IContentProposalProvider { //FLLDCIM: MARK — T30  IMPLEMENTS
 			private class Proposal implements IContentProposal {
 				final private String proposal;
 
@@ -498,13 +498,13 @@ public class GenerateToStringDialog extends SourceActionDialog {
 
 			private int latestPosition;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IContentProposal[] getProposals(String contents, int position) {
-				List<Proposal> primaryProposals= new ArrayList<>();
-				List<Proposal> secondaryProposals= new ArrayList<>();
+				List<Proposal> primaryProposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<Proposal> secondaryProposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				String[] proposalStrings= parser.getVariables();
 				String contentToCursor= contents.substring(0, position);
-				for (String proposalString : proposalStrings) {
+				for (String proposalString : proposalStrings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (stringOverlap(contentToCursor, proposalString) > 0) {
 						primaryProposals.add(new Proposal(proposalString));
 					} else {
@@ -529,9 +529,9 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			 */
 			private int stringOverlap(String s1, String s2) {
 				int l1= s1.length();
-				for (int l= 1; l <= Math.min(s1.length(), s2.length()); l++) {
+				for (int l= 1; l <= Math.min(s1.length(), s2.length()); l++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					boolean ok= true;
-					for (int i= 0; i < l; i++) {
+					for (int i= 0; i < l; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (s1.charAt(l1 - l + i) != s2.charAt(i)) {
 							ok= false;
 							break;
@@ -576,7 +576,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			PlatformUI.getWorkbench().getHelpSystem().setHelp(getShell(), IJavaHelpContextIds.GENERATE_TOSTRING_MANAGE_TEMPLATES_DIALOG);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			getShell().setText(JavaUIMessages.GenerateToStringDialog_templatesManagerTitle);
 
@@ -614,12 +614,12 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			gd.widthHint= 450;
 			templateTextControl.setLayoutData(gd);
 
-			templateNames= new ArrayList<>(Arrays.asList(getTemplateNames()));
-			templates= new ArrayList<>(Arrays.asList(getTemplates(getDialogSettings())));
+			templateNames= new ArrayList<>(Arrays.asList(getTemplateNames())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			templates= new ArrayList<>(Arrays.asList(getTemplates(getDialogSettings()))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			selectedTemplateNumber= getGenerationSettings().stringFormatTemplateNumber;
 			refreshControls();
 
-			templateNameControl.addSelectionListener(new SelectionListener() {
+			templateNameControl.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					onEdit();
@@ -655,7 +655,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			getButton(APPLY_BUTTON).setEnabled(false);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void buttonPressed(int buttonId) {
 			switch (buttonId) {
 				case APPLY_BUTTON:
@@ -746,14 +746,14 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			fJavaProject= javaProject;
 		}
 
-		public IStatus validateBuilderType(IType type) {
+		public IStatus validateBuilderType(IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fLastValidBuilderType != null && fLastValidBuilderType.equals(type)) {
 				return new StatusInfo();
 			}
 
 			try {
 				boolean foundConstructor= false;
-				for (IMethod method : type.getMethods()) {
+				for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (method.isConstructor() && Flags.isPublic(method.getFlags())) {
 						String[] parameterTypes= method.getParameterTypes();
 						if (parameterTypes.length == 1 && "java.lang.Object".equals(JavaModelUtil.getResolvedTypeName(parameterTypes[0], type))) { //$NON-NLS-1$
@@ -787,7 +787,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			return validateBuilderType(((IType)selection[0]));
 		}
 
-		public IStatus revalidateAll(CustomBuilderSettings builderSettings) {
+		public IStatus revalidateAll(CustomBuilderSettings builderSettings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				if (builderSettings.className.length() == 0) {
 					return new StatusInfo(IStatus.ERROR, JavaUIMessages.GenerateToStringDialog_customBuilderConfig_noBuilderClassError);
@@ -834,7 +834,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			return fJavaProject.findType(builderClassName, (IProgressMonitor)null);
 		}
 
-		public List<String> getAppendMethodSuggestions(final IType type) throws JavaModelException {
+		public List<String> getAppendMethodSuggestions(final IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fLastValidBuilderType != null && fLastValidBuilderType.equals(type)) {
 				return fLastValidAppendMethodSuggestions;
 			}
@@ -848,7 +848,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 					return false;
 				}
 				int countObjects= 0, countStrings= 0;
-				for (String parameterType : parameterTypes) {
+				for (String parameterType : parameterTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String resolvedParameterTypeName= JavaModelUtil.getResolvedTypeName(parameterType, type);
 					if ("java.lang.Object".equals(resolvedParameterTypeName))//$NON-NLS-1$
 						countObjects++;
@@ -872,9 +872,9 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		}
 
 		private List<String> getMethodSuggestions(IType type, MethodChecker checker) throws JavaModelException {
-			ArrayList<String> result= new ArrayList<>();
-			for (IType classe : type.newSupertypeHierarchy(null).getAllClasses()) {
-				for (IMethod method : classe.getMethods()) {
+			ArrayList<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IType classe : type.newSupertypeHierarchy(null).getAllClasses()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IMethod method : classe.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (checker.isMethodOK(method)) {
 						String name= method.getElementName();
 						if (!result.contains(name))
@@ -907,7 +907,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		/**
 		 * Listener for text fields - updates combos and validates entered data
 		 */
-		private final ModifyListener modifyListener= e -> {
+		private final ModifyListener modifyListener= e -> { //FLLDCIM: MARK — T02  LAMBDA
 			if (e.widget == this.fBuilderClassName) {
 				this.fBuilderSettings.className= this.fBuilderClassName.getText();
 				updateCombos();
@@ -946,7 +946,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			return fValidator;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			getShell().setText(JavaUIMessages.GenerateToStringDialog_customBuilderConfig_windowTitle);
 
@@ -961,7 +961,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			Button button= new Button(composite, SWT.NONE);
 			button.setText(JavaUIMessages.GenerateToStringDialog_customBuilderConfig_browseButton);
 			setButtonLayoutData(button);
-			button.addSelectionListener(new SelectionAdapter() {
+			button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					browseForBuilderClass();
@@ -983,7 +983,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			fResultMethodName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
 			updateCombos();
-			ModifyListener comboListener= e -> {
+			ModifyListener comboListener= e -> { //FLLDCIM: MARK — T02  LAMBDA
 				Combo c= (Combo)e.widget;
 				if (c.getText().length() > 0) {
 					if (c == fAppendMethodName)
@@ -994,8 +994,8 @@ public class GenerateToStringDialog extends SourceActionDialog {
 				updateStatus(fValidator.revalidateAll(fBuilderSettings));
 				enableApplyButton();
 			};
-			fAppendMethodName.addModifyListener(comboListener);
-			fResultMethodName.addModifyListener(comboListener);
+			fAppendMethodName.addModifyListener(comboListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+			fResultMethodName.addModifyListener(comboListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			if (!select(fAppendMethodName, fBuilderSettings.appendMethod)) {
 				fAppendMethodName.select(0);
 			}
@@ -1007,7 +1007,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			fChainInvocations.setText(JavaUIMessages.GenerateToStringDialog_customBuilderConfig_chainedCallsCheckbox);
 			fChainInvocations.setSelection(fBuilderSettings.chainCalls);
 			fChainInvocations.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-			fChainInvocations.addSelectionListener(new SelectionAdapter() {
+			fChainInvocations.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fBuilderSettings.chainCalls= fChainInvocations.getSelection();
@@ -1066,7 +1066,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			return false;
 		}
 
-		private void updateCombos() {
+		private void updateCombos() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String[] empty= new String[0];
 			try {
 				IType type= fValidator.findType(fBuilderSettings.className);
@@ -1095,12 +1095,12 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			Text result= new Text(composite, SWT.BORDER);
 			result.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, gridHSpan, 1));
 			result.setText(text);
-			result.addModifyListener(modifyListener);
+			result.addModifyListener(modifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			TextFieldNavigationHandler.install(result);
 			return result;
 		}
 
-		private void browseForBuilderClass() {
+		private void browseForBuilderClass() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				IJavaSearchScope scope= SearchEngine.createJavaSearchScope(new IJavaElement[] { getType().getJavaProject() });
 				SelectionDialog dialog= JavaUI.createTypeDialog(getShell(), PlatformUI.getWorkbench().getProgressService(), scope,
@@ -1178,7 +1178,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		super(shell, new BindingLabelProvider(), new GenerateToStringContentProvider(fields, inheritedFields, methods, inheritededMethods), editor, type, false);
 		setEmptyListMessage(JavaUIMessages.GenerateHashCodeEqualsDialog_no_entries);
 
-		List<Object> selected= new ArrayList<>(Arrays.asList(selectedFields));
+		List<Object> selected= new ArrayList<>(Arrays.asList(selectedFields)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (selectedFields.length == fields.length && selectedFields.length > 0)
 			selected.add(getContentProvider().getParent(selectedFields[0]));
 		setInitialElementSelections(selected);
@@ -1206,8 +1206,8 @@ public class GenerateToStringDialog extends SourceActionDialog {
 	@Override
 	public Object[] getResult() {
 		Object[] oldResult= super.getResult();
-		List<Object> newResult= new ArrayList<>();
-		for (Object r : oldResult) {
+		List<Object> newResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object r : oldResult) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(r instanceof String)) {
 				newResult.add(r);
 			}
@@ -1221,11 +1221,11 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, IJavaHelpContextIds.GENERATE_TOSTRING_SELECTION_DIALOG);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected CheckboxTreeViewer createTreeViewer(Composite parent) {
 		CheckboxTreeViewer treeViewer= super.createTreeViewer(parent);
 
-		treeViewer.setLabelProvider(new GenerateToStringLabelProvider());
+		treeViewer.setLabelProvider(new GenerateToStringLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		//expandAll because setSubtreeChecked() used in CheckStateListener below assumes that elements have been expanded
 		treeViewer.expandAll();
@@ -1233,7 +1233,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		treeViewer.collapseAll();
 		treeViewer.expandToLevel(GenerateToStringContentProvider.fieldsNode, 1);
 
-		treeViewer.addSelectionChangedListener(unused -> {
+		treeViewer.addSelectionChangedListener(unused -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			IStructuredSelection selection= (IStructuredSelection)getTreeViewer().getSelection();
 
 			Object selected= selection.size() > 0 ? selection.toList().get(0) : null;
@@ -1242,14 +1242,14 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			fButtonControls[UP_INDEX].setEnabled(cp.canMoveUp(selected));
 			fButtonControls[DOWN_INDEX].setEnabled(cp.canMoveDown(selected));
 		});
-		treeViewer.addCheckStateListener(event -> {
+		treeViewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			getTreeViewer().setSubtreeChecked(event.getElement(), event.getChecked());
 			getTreeViewer().setGrayed(event.getElement(), false);
 			Object parentElement= ((ITreeContentProvider)(getTreeViewer().getContentProvider())).getParent(event.getElement());
 			if (parentElement != null) {
 				Object[] siblings= ((ITreeContentProvider)(getTreeViewer().getContentProvider())).getChildren(parentElement);
 				int count= 0;
-				for (Object sibling : siblings) {
+				for (Object sibling : siblings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (getTreeViewer().getChecked(sibling)) {
 						count++;
 					}
@@ -1291,7 +1291,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void buttonPressed(int buttonId) {
 		super.buttonPressed(buttonId);
 		switch (buttonId) {
@@ -1314,7 +1314,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 			case SORT_BUTTON: {
 				GenerateToStringContentProvider contentProvider= (GenerateToStringContentProvider)getTreeViewer().getContentProvider();
 				contentProvider.sort();
-				getTreeViewer().refresh();
+				getTreeViewer().refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				updateOKStatus();
 				break;
 			}
@@ -1342,7 +1342,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 
 	private Button styleButton;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Composite createCommentSelection(Composite parentComposite) {
 		Composite composite= super.createCommentSelection(parentComposite);
 
@@ -1370,7 +1370,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		formatCombo.select(fGenerationSettings.stringFormatTemplateNumber);
 		formatCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		SWTUtil.setDefaultVisibleItemCount(formatCombo);
-		formatCombo.addSelectionListener(new SelectionAdapter() {
+		formatCombo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fGenerationSettings.stringFormatTemplateNumber= ((Combo)e.widget).getSelectionIndex();
@@ -1380,7 +1380,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		final Button formatButton= new Button(composite2, SWT.NONE);
 		formatButton.setText(JavaUIMessages.GenerateToStringDialog_manage_templates_button);
 		setButtonLayoutData(formatButton);
-		formatButton.addSelectionListener(new SelectionAdapter() {
+		formatButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				manageTemplatesButtonSelected();
@@ -1397,7 +1397,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		styleCombo.setItems(GenerateToStringOperation.getStyleNames());
 		styleCombo.select(Math.min(fGenerationSettings.toStringStyle, styleCombo.getItemCount() - 1));
 		SWTUtil.setDefaultVisibleItemCount(styleCombo);
-		styleCombo.addSelectionListener(new SelectionAdapter() {
+		styleCombo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				changeToStringStyle(((Combo)e.widget).getSelectionIndex());
@@ -1407,7 +1407,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		styleButton= new Button(composite2, SWT.NONE);
 		styleButton.setText(JavaUIMessages.GenerateToStringDialog_codeStyleConfigureButton);
 		setButtonLayoutData(styleButton);
-		styleButton.addSelectionListener(new SelectionAdapter() {
+		styleButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				configureStyleButtonSelected();
@@ -1417,7 +1417,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		skipNullsButton= new Button(group, SWT.CHECK);
 		skipNullsButton.setText(JavaUIMessages.GenerateToStringDialog_skip_null_button);
 		skipNullsButton.setSelection(fGenerationSettings.skipNulls);
-		skipNullsButton.addSelectionListener(new SelectionAdapter() {
+		skipNullsButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				fGenerationSettings.skipNulls= ((Button)event.widget).getSelection();
@@ -1427,7 +1427,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		final Button arrayButton= new Button(group, SWT.CHECK);
 		arrayButton.setText(JavaUIMessages.GenerateToStringDialog_ignore_default_button);
 		arrayButton.setSelection(fGenerationSettings.customArrayToString);
-		arrayButton.addSelectionListener(new SelectionAdapter() {
+		arrayButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fGenerationSettings.customArrayToString= ((Button)e.widget).getSelection();
@@ -1443,7 +1443,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		final Button limitButton= new Button(limitRow, SWT.CHECK);
 		limitButton.setText(JavaUIMessages.GenerateToStringDialog_limit_elements_button);
 		limitButton.setSelection(fGenerationSettings.limitElements);
-		limitButton.addSelectionListener(new SelectionAdapter() {
+		limitButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fGenerationSettings.limitElements= ((Button)e.widget).getSelection();
@@ -1453,7 +1453,7 @@ public class GenerateToStringDialog extends SourceActionDialog {
 		final Spinner limitSpinner= new Spinner(limitRow, SWT.BORDER);
 		limitSpinner.setMinimum(0);
 		limitSpinner.setSelection(fGenerationSettings.limitValue);
-		limitSpinner.addSelectionListener(new SelectionAdapter() {
+		limitSpinner.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fGenerationSettings.limitValue= ((Spinner)e.widget).getSelection();

@@ -34,7 +34,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 public class LineComparator implements IRangeComparator {
 
 	private final IDocument fDocument;
-	private final ArrayList<Integer> fHashes;
+	private final ArrayList<Integer> fHashes; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
     /**
 	 * Create a line comparator for the given document.
@@ -45,7 +45,7 @@ public class LineComparator implements IRangeComparator {
 		fDocument= document;
 
 		Integer[] nulls= new Integer[fDocument.getNumberOfLines()];
-		fHashes= new ArrayList<>(Arrays.asList(nulls));
+		fHashes= new ArrayList<>(Arrays.asList(nulls)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
     }
 
 	/*
@@ -103,7 +103,7 @@ public class LineComparator implements IRangeComparator {
 	private int computeDJBHash(String string) {
 		int hash= 5381;
 		int len= string.length();
-		for (int i= 0; i < len; i++) {
+		for (int i= 0; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= string.charAt(i);
 			hash= (hash << 5) + hash + ch;
 		}

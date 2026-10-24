@@ -41,7 +41,7 @@ class InclusivePositionUpdater implements IPositionUpdater {
 	/*
 	 * @see org.eclipse.jface.text.IPositionUpdater#update(org.eclipse.jface.text.DocumentEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update(DocumentEvent event) {
 
 		int eventOffset= event.getOffset();
@@ -52,7 +52,7 @@ class InclusivePositionUpdater implements IPositionUpdater {
 		try {
 			Position[] positions= event.getDocument().getPositions(fCategory);
 
-			for (Position position : positions) {
+			for (Position position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				if (position.isDeleted())
 					continue;

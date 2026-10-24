@@ -34,7 +34,7 @@ public class JavaIgnoreWhitespaceContributorTest {
 	@Test
 	public void whitespaceInLiteralNotIgnored() throws Exception {
 		String source= "String #ignored1# variable #ignored2# = \"lit #not_ignored#  eral\";";
-		Map<String, ITextSelection> selections= new HashMap<>();
+		Map<String, ITextSelection> selections= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		source= extractSelection(source, selections);
 		assertEquals(3,selections.size());
 		assertSelections(source, selections);
@@ -43,18 +43,18 @@ public class JavaIgnoreWhitespaceContributorTest {
 	@Test
 	public void whitespaceInMultlineLiteralNotIgnored() throws Exception {
 		String source= "String #ignored1# variable #ignored2# = \"\"\"\r\nlit\r\n #not_ignored#  eral\"\"\";";
-		Map<String, ITextSelection> selections= new HashMap<>();
+		Map<String, ITextSelection> selections= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		source= extractSelection(source, selections);
 		assertEquals(3,selections.size());
 		assertSelections(source, selections);
 	}
 
 	private String extractSelection(String source, Map<String, ITextSelection> selections) {
-		var result= new StringBuilder(source);
-		var pattern = Pattern.compile("#([a-z0-9_]+)#");
-		while (true) {
-			Matcher matcher= pattern.matcher(result);
-			if (matcher.find()) {
+		var result= new StringBuilder(source); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		var pattern = Pattern.compile("#([a-z0-9_]+)#"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			Matcher matcher= pattern.matcher(result); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			if (matcher.find()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				int start= matcher.start();
 				int end= matcher.end();
 				String name= matcher.group(1);
@@ -69,7 +69,7 @@ public class JavaIgnoreWhitespaceContributorTest {
 	private void assertSelections(String source, Map<String, ITextSelection> selections) throws BadLocationException {
 		var doc= new Document(source);
 		var c= new JavaIgnoreWhitespaceContributor(doc);
-		for (var entry : selections.entrySet()) {
+		for (var entry : selections.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int offset= entry.getValue().getOffset();
 			int line= doc.getLineOfOffset(offset);
 			int col= offset - doc.getLineOffset(line);

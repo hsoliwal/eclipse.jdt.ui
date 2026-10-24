@@ -60,7 +60,7 @@ public class RenamePackageWizard extends RenameRefactoringWizard {
 			super(message, contextHelpId, true, initialValue);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void addAdditionalOptions(Composite composite, RowLayouter layouter) {
 			fRenameSubpackages= new Button(composite, SWT.CHECK);
 			fRenameSubpackages.setText(RefactoringMessages.RenamePackageWizard_rename_subpackages);
@@ -68,7 +68,7 @@ public class RenamePackageWizard extends RenameRefactoringWizard {
 			fRenameSubpackages.setSelection(subpackagesSelection);
 			getRenamePackageProcessor().setRenameSubpackages(subpackagesSelection);
 			fRenameSubpackages.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			fRenameSubpackages.addSelectionListener(new SelectionAdapter(){
+			fRenameSubpackages.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					getRenamePackageProcessor().setRenameSubpackages(fRenameSubpackages.getSelection());

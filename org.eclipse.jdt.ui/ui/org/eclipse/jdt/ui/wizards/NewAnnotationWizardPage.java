@@ -249,7 +249,7 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 		private String[] toStringArray(Class<E> enumClass) {
 			E[] enums= enumClass.getEnumConstants();
 			String[] strings= new String[enums.length];
-			for (Enum<?> en : enums) {
+			for (Enum<?> en : enums) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				strings[en.ordinal()]= labelFor(en);
 			}
 			return strings;
@@ -259,7 +259,7 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 			String name= en.name();
 			String first= name.substring(0, 1).toUpperCase();
 			String rest= name.substring(1).toLowerCase().replace('_', ' ');
-			return first + rest;
+			return first + rest; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		public void init(IDialogSettings settings) {
@@ -286,7 +286,7 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 			fEnumButtons.setEnabled(enabled);
 
 			fEnumButtons.setSelection(0, false);
-			for (String string : selectedEnumsAsStrings) {
+			for (String string : selectedEnumsAsStrings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				E en= Enum.valueOf(fEnumClass, string);
 				fEnumButtons.setSelection(en.ordinal(), true);
 			}
@@ -308,9 +308,9 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 		}
 
 		private String[] selectedEnumsAsStrings() {
-			List<String> resultList= new ArrayList<>();
+			List<String> resultList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (E en : allEnums()) {
+			for (E en : allEnums()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isSelected(en)) {
 					resultList.add(en.name());
 				}
@@ -380,8 +380,8 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 		}
 
 		private List<E> availableSelectedEnums() {
-			List<E> resultList= new ArrayList<>();
-			for (E en : allEnums()) {
+			List<E> resultList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (E en : allEnums()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isEnabled(en) && isSelected(en)) {
 					resultList.add(en);
 				}
@@ -397,32 +397,32 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 			return fEnumButtons.isSelected(en.ordinal());
 		}
 
-		private String createAnnotationAndImports(List<E> selectedEnums, ImportsManager imports, String lineDelimiter) {
-			StringBuilder buffer= new StringBuilder();
+		private String createAnnotationAndImports(List<E> selectedEnums, ImportsManager imports, String lineDelimiter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 			String annotationTypeName= imports.addImport(fAnnotationClass.getName());
-			buffer.append("@"); //$NON-NLS-1$
-			buffer.append(annotationTypeName);
-			buffer.append("("); //$NON-NLS-1$
+			buffer.append("@"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(annotationTypeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			if (selectedEnums.size() > 1) {
-				buffer.append("{"); //$NON-NLS-1$
+				buffer.append("{"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
-			for (Enum<?> en : selectedEnums) {
+			for (Enum<?> en : selectedEnums) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String enumTypeName= imports.addStaticImport(en.getClass().getName(), en.name(), true);
-				buffer.append(enumTypeName);
-				buffer.append(", "); //$NON-NLS-1$
+				buffer.append(enumTypeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			buffer.delete(buffer.length() - 2, buffer.length());
 
 			if (selectedEnums.size() > 1) {
-				buffer.append("}"); //$NON-NLS-1$
+				buffer.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
-			buffer.append(")"); //$NON-NLS-1$
-			buffer.append(lineDelimiter);
+			buffer.append(")"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			return buffer.toString();
 		}
@@ -444,7 +444,7 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 		protected String labelFor(Enum<?> en) {
 			String label= super.labelFor(en);
 			String mnemonic= MNEMONICS[en.ordinal()];
-			return label.replaceFirst(mnemonic, "&" + mnemonic); //$NON-NLS-1$
+			return label.replaceFirst(mnemonic, "&" + mnemonic); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 
 		@Override
@@ -476,7 +476,7 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 
 		@Override
 		protected void updateAvailableButtons() {
-			for (int index : fEnumValuesSinceJava8) {
+			for (int index : fEnumValuesSinceJava8) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fEnumButtons.enableSelectionButton(index, true);
 			}
 		}
@@ -490,7 +490,7 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 	/*
 	 * @see WizardPage#createControl
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -564,7 +564,7 @@ public class NewAnnotationWizardPage extends NewTypeWizardPage {
 			String typeName= imports.addImport(Documented.class.getName());
 			int start= newType.getSourceRange().getOffset();
 			IBuffer buffer= newType.getCompilationUnit().getBuffer();
-			buffer.replace(start, 0, "@" + typeName + lineDelimiter); //$NON-NLS-1$
+			buffer.replace(start, 0, "@" + typeName + lineDelimiter); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

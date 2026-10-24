@@ -231,11 +231,11 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		String[] categories= member.getCategories();
 		if (categories.length > 0) {
 			int offset= fBuffer.length();
-			StringBuilder categoriesBuf= new StringBuilder();
-			for (int i= 0; i < categories.length; i++) {
+			StringBuilder categoriesBuf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i= 0; i < categories.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0)
-					categoriesBuf.append(JavaElementLabels.CATEGORY_SEPARATOR_STRING);
-				categoriesBuf.append(categories[i]);
+					categoriesBuf.append(JavaElementLabels.CATEGORY_SEPARATOR_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				categoriesBuf.append(categories[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			fBuffer.append(JavaElementLabels.CONCAT_STRING);
 			fBuffer.append(Messages.format(JavaUIMessages.JavaElementLabels_category, categoriesBuf.toString()));
@@ -270,7 +270,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 			appendInternalArchiveLabel(root, flags);
 	}
 
-	private boolean appendVariableLabel(IPackageFragmentRoot root, long flags) {
+	private boolean appendVariableLabel(IPackageFragmentRoot root, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IClasspathEntry rawEntry= root.getRawClasspathEntry();
 			if (rawEntry.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
@@ -317,7 +317,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		return false;
 	}
 
-	private void appendExternalArchiveLabel(IPackageFragmentRoot root, long flags) {
+	private void appendExternalArchiveLabel(IPackageFragmentRoot root, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath path;
 		IClasspathEntry classpathEntry= null;
 		try {
@@ -360,7 +360,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void appendAbbreviatedPackageFragment(IPackageFragment pack) {
 		refreshPackageNameAbbreviation();
 
@@ -368,7 +368,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 
 		if (fgPkgNameAbbreviation != null && fgPkgNameAbbreviation.length != 0) {
 
-			for (PackageNameAbbreviation abbr : fgPkgNameAbbreviation) {
+			for (PackageNameAbbreviation abbr : fgPkgNameAbbreviation) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String abbrPrefix= abbr.getPackagePrefix();
 				if (pkgName.startsWith(abbrPrefix)) {
 					int abbrPrefixLength= abbrPrefix.length();
@@ -403,7 +403,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		}
 	}
 
-	private void appendInternalArchiveLabel(IPackageFragmentRoot root, long flags) {
+	private void appendInternalArchiveLabel(IPackageFragmentRoot root, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= root.getResource();
 		boolean rootQualified= getFlag(flags, JavaElementLabels.ROOT_QUALIFIED);
 		if (rootQualified) {
@@ -435,7 +435,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		}
 	}
 
-	private void appendFolderLabel(IPackageFragmentRoot root, long flags) {
+	private void appendFolderLabel(IPackageFragmentRoot root, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= root.getResource();
 		if (resource == null) {
 			appendExternalArchiveLabel(root, flags);
@@ -490,7 +490,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void refreshPackageNamePattern() {
 		String pattern= getPkgNamePatternForPackagesView();
 		final String EMPTY_STRING= ""; //$NON-NLS-1$
@@ -506,7 +506,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		fgPkgNameChars= 0;
 		fgPkgNamePrefix= EMPTY_STRING;
 		fgPkgNamePostfix= EMPTY_STRING;
-		while (i < pattern.length()) {
+		while (i < pattern.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= pattern.charAt(i);
 			if (Character.isDigit(ch)) {
 				fgPkgNameChars= ch-48;
@@ -523,7 +523,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		fgPkgNameLength= pattern.length();
 	}
 
-	private void refreshPackageNameAbbreviation() {
+	private void refreshPackageNameAbbreviation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String pattern= getPkgNameAbbreviationPatternForPackagesView();
 
 		if (fgPkgNameAbbreviationPattern.equals(pattern))
@@ -545,14 +545,14 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		fgPkgNameAbbreviation= abbrs;
 	}
 
-	public static PackageNameAbbreviation[] parseAbbreviationPattern(String pattern) {
-		ArrayList<PackageNameAbbreviation> result= new ArrayList<>();
+	public static PackageNameAbbreviation[] parseAbbreviationPattern(String pattern) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<PackageNameAbbreviation> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String p : pattern.split("\\s*(?:\r\n?|\n)\\s*")) { //$NON-NLS-1$
+		for (String p : pattern.split("\\s*(?:\r\n?|\n)\\s*")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			String part= p.trim();
 			if (part.length() == 0)
 				continue;
-			String[] parts2= part.split("\\s*=\\s*", 2); //$NON-NLS-1$
+			String[] parts2= part.split("\\s*=\\s*", 2); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			if (parts2.length != 2)
 				return null;
 			String prefix= parts2[0].trim();
@@ -563,7 +563,7 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 			result.add(pkgAbbr);
 		}
 
-		Collections.sort(result, (a1, a2) -> a2.getPackagePrefix().length() - a1.getPackagePrefix().length());
+		Collections.sort(result, (a1, a2) -> a2.getPackagePrefix().length() - a1.getPackagePrefix().length()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 		return result.toArray(new PackageNameAbbreviation[0]);
 	}

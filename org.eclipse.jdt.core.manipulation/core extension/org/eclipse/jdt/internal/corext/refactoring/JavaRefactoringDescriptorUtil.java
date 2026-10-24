@@ -163,7 +163,7 @@ public class JavaRefactoringDescriptorUtil {
 	 * @return the corresponding java element, or <code>null</code> if no such
 	 *         element exists
 	 */
-	public static IJavaElement handleToElement(final WorkingCopyOwner owner, final String project, final String handle, final boolean check) {
+	public static IJavaElement handleToElement(final WorkingCopyOwner owner, final String project, final String handle, final boolean check) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement element= null;
 		if (owner != null)
 			element= JavaCore.create(handle, owner);
@@ -173,9 +173,9 @@ public class JavaRefactoringDescriptorUtil {
 			final IJavaProject javaProject= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()).getJavaProject(project);
 			final String identifier= javaProject.getHandleIdentifier();
 			if (owner != null)
-				element= JavaCore.create(identifier + handle, owner);
+				element= JavaCore.create(identifier + handle, owner); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
-				element= JavaCore.create(identifier + handle);
+				element= JavaCore.create(identifier + handle); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (check && element instanceof IMethod) {
 			/*

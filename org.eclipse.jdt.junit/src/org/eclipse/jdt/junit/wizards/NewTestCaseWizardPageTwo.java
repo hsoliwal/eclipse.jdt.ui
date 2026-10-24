@@ -67,8 +67,8 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 
 	private final static String PAGE_NAME= "NewTestCaseCreationWizardPage2"; //$NON-NLS-1$
 
-	private final static String STORE_USE_TASKMARKER= PAGE_NAME + ".USE_TASKMARKER"; //$NON-NLS-1$
-	private final static String STORE_CREATE_FINAL_METHOD_STUBS= PAGE_NAME + ".CREATE_FINAL_METHOD_STUBS"; //$NON-NLS-1$
+	private final static String STORE_USE_TASKMARKER= PAGE_NAME + ".USE_TASKMARKER"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_CREATE_FINAL_METHOD_STUBS= PAGE_NAME + ".CREATE_FINAL_METHOD_STUBS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private IType fClassToTest;
 
@@ -107,7 +107,7 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(container, IJUnitHelpContextIds.NEW_TESTCASE_WIZARD_PAGE2);
 	}
 
-	private void createButtonChoices(Composite container) {
+	private void createButtonChoices(Composite container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridLayout layout;
 		GridData gd;
 		Composite prefixContainer= new Composite(container, SWT.NONE);
@@ -137,7 +137,7 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		button.setText(name);
 		button.setEnabled(true);
 		button.setSelection(true);
-		button.addSelectionListener(listener);
+		button.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		GridData gd= new GridData(GridData.FILL, GridData.CENTER, false, false);
 		button.setLayoutData(gd);
 		return button;
@@ -153,7 +153,7 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		saveWidgetValues();
 	}
 
-	private void createMethodsTreeControls(Composite container) {
+	private void createMethodsTreeControls(Composite container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label label= new Label(container, SWT.LEFT | SWT.WRAP);
 		label.setFont(container.getFont());
 		label.setText(WizardMessages.NewTestCaseWizardPageTwo_methods_tree_label);
@@ -166,10 +166,10 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		gd.heightHint= 180;
 		fMethodsTree.getTree().setLayoutData(gd);
 
-		fMethodsTree.setLabelProvider(new JavaElementLabelProvider());
+		fMethodsTree.setLabelProvider(new JavaElementLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fMethodsTree.setAutoExpandLevel(2);
-		fMethodsTree.addCheckStateListener(unused -> doCheckedStateChanged());
-		fMethodsTree.addFilter(new ViewerFilter() {
+		fMethodsTree.addCheckStateListener(unused -> doCheckedStateChanged()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
+		fMethodsTree.addFilter(new ViewerFilter() { //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				if (element instanceof IMethod) {
@@ -193,7 +193,7 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		fSelectAllButton.setText(WizardMessages.NewTestCaseWizardPageTwo_selectAll);
 		gd= new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		fSelectAllButton.setLayoutData(gd);
-		fSelectAllButton.addSelectionListener(new SelectionAdapter() {
+		fSelectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fMethodsTree.setCheckedElements((Object[]) fMethodsTree.getInput());
@@ -206,7 +206,7 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		fDeselectAllButton.setText(WizardMessages.NewTestCaseWizardPageTwo_deselectAll);
 		gd= new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		fDeselectAllButton.setLayoutData(gd);
-		fDeselectAllButton.addSelectionListener(new SelectionAdapter() {
+		fDeselectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fMethodsTree.setCheckedElements(new Object[0]);
@@ -249,7 +249,7 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (visible) {
@@ -267,16 +267,16 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 					superTypes= hierarchy.getAllSuperInterfaces(fClassToTest);
 				else
 					superTypes= new IType[0];
-				types= new ArrayList<>(superTypes.length+1);
+				types= new ArrayList<>(superTypes.length+1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				types.add(fClassToTest);
 				types.addAll(Arrays.asList(superTypes));
 			} catch(JavaModelException e) {
 				JUnitPlugin.log(e);
 			}
 			if (types == null)
-				types= new ArrayList<>();
+				types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fMethodsTree.setContentProvider(new MethodsTreeContentProvider(types.toArray()));
-			fMethodsTree.setInput(types.toArray());
+			fMethodsTree.setInput(types.toArray()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fMethodsTree.setSelection(new StructuredSelection(fClassToTest), true);
 			doCheckedStateChanged();
 
@@ -291,14 +291,14 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 	 */
 	public IMethod[] getCheckedMethods() {
 		int methodCount= 0;
-		for (Object fCheckedObject : fCheckedObjects) {
+		for (Object fCheckedObject : fCheckedObjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fCheckedObject instanceof IMethod) {
 				methodCount++;
 			}
 		}
 		IMethod[] checkedMethods= new IMethod[methodCount];
 		int j= 0;
-		for (Object fCheckedObject : fCheckedObjects) {
+		for (Object fCheckedObject : fCheckedObjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fCheckedObject instanceof IMethod) {
 				checkedMethods[j]= (IMethod) fCheckedObject;
 				j++;
@@ -307,25 +307,25 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		return checkedMethods;
 	}
 
-	private static class MethodsTreeContentProvider implements ITreeContentProvider {
+	private static class MethodsTreeContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		private Object[] fTypes;
 		private IMethod[] fMethods;
 		private final Object[] fEmpty= new Object[0];
 
-		public MethodsTreeContentProvider(Object[] types) {
+		public MethodsTreeContentProvider(Object[] types) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fTypes= types;
 			Vector<IMethod> methods= new Vector<>();
-			for (int i = types.length-1; i > -1; i--) {
+			for (int i = types.length-1; i > -1; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object object = types[i];
 				if (object instanceof IType) {
 					IType type = (IType) object;
 					try {
 						IMethod[] currMethods= type.getMethods();
 						for_currMethods:
-						for (IMethod currMethod : currMethods) {
+						for (IMethod currMethod : currMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							int flags= currMethod.getFlags();
 							if (!Flags.isPrivate(flags) && !Flags.isSynthetic(flags)) {
-								for (int k = 0; k < methods.size(); k++) {
+								for (int k = 0; k < methods.size(); k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									IMethod m= methods.get(k);
 									if (m.getElementName().equals(currMethod.getElementName())
 										&& m.getSignature().equals(currMethod.getSignature())) {
@@ -352,8 +352,8 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof IType) {
 				IType parentType= (IType)parentElement;
-				ArrayList<IMethod> result= new ArrayList<>(fMethods.length);
-				for (IMethod fMethod : fMethods) {
+				ArrayList<IMethod> result= new ArrayList<>(fMethods.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IMethod fMethod : fMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fMethod.getDeclaringType().equals(parentType)) {
 						result.add(fMethod);
 					}
@@ -430,7 +430,7 @@ public class NewTestCaseWizardPageTwo extends WizardPage {
 		fCheckedObjects= checked;
 
 		int checkedMethodCount= 0;
-		for (Object element : checked) {
+		for (Object element : checked) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IMethod)
 				checkedMethodCount++;
 		}

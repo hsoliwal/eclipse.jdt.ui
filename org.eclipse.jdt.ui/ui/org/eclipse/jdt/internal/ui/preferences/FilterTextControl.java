@@ -139,7 +139,7 @@ public class FilterTextControl {
 			gridData.horizontalSpan= 2;
 		fTextControl.setLayoutData(gridData);
 
-		fTextControl.addModifyListener(unused -> updateClearButtonVisibility(fTextControl.getText().length() != 0));
+		fTextControl.addModifyListener(unused -> updateClearButtonVisibility(fTextControl.getText().length() != 0)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class FilterTextControl {
 	 *
 	 * @param parent parent <code>Composite</code> of button
 	 */
-	private void createClearButton(Composite parent) {
+	private void createClearButton(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// only create the button if the text widget doesn't support one natively
 		if ((fTextControl.getStyle() & SWT.ICON_CANCEL) == 0) {
 			final Image inactiveImage= fgDisabledClearIconDescriptor.isPresent() ? fgDisabledClearIconDescriptor.get().createImage() : null;
@@ -159,7 +159,7 @@ public class FilterTextControl {
 			clearButton.setImage(inactiveImage);
 			clearButton.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 			clearButton.setToolTipText(PreferencesMessages.FilterTextControl_Clear);
-			clearButton.addMouseListener(new MouseAdapter() {
+			clearButton.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				private MouseMoveListener fMoveListener;
 
 				@Override
@@ -177,7 +177,7 @@ public class FilterTextControl {
 							}
 						}
 					};
-					clearButton.addMouseMoveListener(fMoveListener);
+					clearButton.addMouseMoveListener(fMoveListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				}
 
 				@Override
@@ -199,7 +199,7 @@ public class FilterTextControl {
 					return 0 <= e.x && e.x < buttonSize.x && 0 <= e.y && e.y < buttonSize.y;
 				}
 			});
-			clearButton.addMouseTrackListener(new MouseTrackListener() {
+			clearButton.addMouseTrackListener(new MouseTrackListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				@Override
 				public void mouseEnter(MouseEvent e) {
 					clearButton.setImage(activeImage);
@@ -214,7 +214,7 @@ public class FilterTextControl {
 				public void mouseHover(MouseEvent e) {
 				}
 			});
-			clearButton.addDisposeListener(unused -> {
+			clearButton.addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				if (inactiveImage != null) {
 					inactiveImage.dispose();
 				}

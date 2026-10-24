@@ -41,7 +41,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaTextSelection;
 import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
-public class ReorgMoveAction extends SelectionDispatchAction {
+public class ReorgMoveAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	public ReorgMoveAction(IWorkbenchSite site) {
 		super(site);
 		setText(ReorgMessages.ReorgMoveAction_3);
@@ -49,7 +49,7 @@ public class ReorgMoveAction extends SelectionDispatchAction {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this, IJavaHelpContextIds.MOVE_ACTION);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(IStructuredSelection selection) {
 		if (!selection.isEmpty()) {
 			if (ReorgUtilsCore.containsOnlyProjects(selection.toList())) {

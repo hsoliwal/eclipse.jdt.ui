@@ -119,7 +119,7 @@ public class RenamingNameSuggestorTests {
 		fh("mAHahAHa", "mBHahAHa", "A", "B"); // match first occurrence
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEmbeddedMatching() {
 		fPrefixes= new String[0];
 		fSuffixes= new String[0];
@@ -143,7 +143,7 @@ public class RenamingNameSuggestorTests {
 		fhf("createelementsecondelementnomore", "Element", "Member");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCamelCaseMatching() {
 		fPrefixes= new String[0];
 		fSuffixes= new String[0];
@@ -202,7 +202,7 @@ public class RenamingNameSuggestorTests {
 		fhf("fElement", "SomeLongElement", "AnotherDifferentElement"); //-> don't suggest renaming fElement to fElement!
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUpperCaseCamelCaseMatching() {
 		fPrefixes= new String[] { "f" };
 		fSuffixes= new String[0];
@@ -270,7 +270,7 @@ public class RenamingNameSuggestorTests {
 		fh("astNode", "myAstNode", "ASTNode", "MyASTNode");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPluralS() {
 		 fPrefixes= new String[0];
 		 fSuffixes= new String[0];

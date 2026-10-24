@@ -101,8 +101,8 @@ public class RenameAnalyzeUtil {
 				Assert.isNotNull(edits);
 				Assert.isNotNull(key);
 
-				fRanges= new HashSet<>(Arrays.asList(RefactoringAnalyzeUtil.getNewRanges(edits, change)));
-				fProblemNodes= new ArrayList<>(0);
+				fRanges= new HashSet<>(Arrays.asList(RefactoringAnalyzeUtil.getNewRanges(edits, change))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				fProblemNodes= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				fKey= key;
 			}
 
@@ -112,7 +112,7 @@ public class RenameAnalyzeUtil {
 
 			//----- visit methods
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(SimpleName node) {
 				VariableDeclaration decl= getVariableDeclaration(node);
 				if (decl == null)
@@ -160,12 +160,12 @@ public class RenameAnalyzeUtil {
 
 	public static RefactoringStatus analyzeRenameChanges(TextChangeManager manager,  SearchResultGroup[] oldOccurrences, SearchResultGroup[] newOccurrences) {
 		RefactoringStatus result= new RefactoringStatus();
-		for (SearchResultGroup oldGroup : oldOccurrences) {
+		for (SearchResultGroup oldGroup : oldOccurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SearchMatch[] oldSearchResults= oldGroup.getSearchResults();
 			ICompilationUnit cunit= oldGroup.getCompilationUnit();
 			if (cunit == null)
 				continue;
-			for (SearchMatch oldSearchResult : oldSearchResults) {
+			for (SearchMatch oldSearchResult : oldSearchResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! RenameAnalyzeUtil.existsInNewOccurrences(oldSearchResult, newOccurrences, manager)){
 					addShadowsError(cunit, oldSearchResult, result);
 				}
@@ -176,7 +176,7 @@ public class RenameAnalyzeUtil {
 
 	public static ICompilationUnit findWorkingCopyForCu(ICompilationUnit[] newWorkingCopies, ICompilationUnit cu){
 		ICompilationUnit original= cu == null ? null : cu.getPrimary();
-		for (ICompilationUnit newWorkingCopy : newWorkingCopies) {
+		for (ICompilationUnit newWorkingCopy : newWorkingCopies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (newWorkingCopy.getPrimary().equals(original))
 				return newWorkingCopy;
 		}
@@ -186,7 +186,7 @@ public class RenameAnalyzeUtil {
 	public static ICompilationUnit[] createNewWorkingCopies(ICompilationUnit[] compilationUnitsToModify, TextChangeManager manager, WorkingCopyOwner owner, IProgressMonitor pm) throws CoreException {
 		pm.beginTask("", compilationUnitsToModify.length); //$NON-NLS-1$
 		ICompilationUnit[] newWorkingCopies= new ICompilationUnit[compilationUnitsToModify.length];
-		for (int i= 0; i < compilationUnitsToModify.length; i++) {
+		for (int i= 0; i < compilationUnitsToModify.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= compilationUnitsToModify[i];
 			newWorkingCopies[i]= createNewWorkingCopy(cu, manager, owner, Progress.subMonitor(pm, 1));
 		}
@@ -213,7 +213,7 @@ public class RenameAnalyzeUtil {
 			return false;
 
 		int oldRangeOffset = oldEditRange.getOffset();
-		for (SearchMatch newSearchResult : newGroup.getSearchResults()) {
+		for (SearchMatch newSearchResult : newGroup.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (newSearchResult.getOffset() == oldRangeOffset)
 				return true;
 		}
@@ -226,7 +226,7 @@ public class RenameAnalyzeUtil {
 			return null;
 
 		IRegion oldMatchRange= createTextRange(searchResult);
-		for (TextEditChangeGroup editChange : change.getTextEditChangeGroups()) {
+		for (TextEditChangeGroup editChange : change.getTextEditChangeGroups()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (oldMatchRange.equals(editChange.getRegion()))
 				return TextEdit.getCoverage(change.getPreviewEdits(editChange.getTextEdits()));
 		}
@@ -245,7 +245,7 @@ public class RenameAnalyzeUtil {
 	}
 
 	private static SearchResultGroup findOccurrenceGroup(IResource resource, SearchResultGroup[] newOccurrences) {
-		for (SearchResultGroup newOccurrence : newOccurrences) {
+		for (SearchResultGroup newOccurrence : newOccurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (newOccurrence.getResource().equals(resource))
 				return newOccurrence;
 		}
@@ -256,18 +256,18 @@ public class RenameAnalyzeUtil {
 
 	//TODO: Currently filters out declarations (MethodDeclarationMatch, FieldDeclarationMatch).
 	//Long term solution: only pass reference search results in.
-	public static RefactoringStatus analyzeRenameChanges2(TextChangeManager manager,
+	public static RefactoringStatus analyzeRenameChanges2(TextChangeManager manager, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			SearchResultGroup[] oldReferences, SearchResultGroup[] newReferences, String newElementName) {
 		RefactoringStatus result= new RefactoringStatus();
 
-		HashMap<ICompilationUnit, SearchMatch[]> cuToNewResults= new HashMap<>(newReferences.length);
-		for (SearchResultGroup newReference : newReferences) {
+		HashMap<ICompilationUnit, SearchMatch[]> cuToNewResults= new HashMap<>(newReferences.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (SearchResultGroup newReference : newReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= newReference.getCompilationUnit();
 			if (cu != null)
 				cuToNewResults.put(cu.getPrimary(), newReference.getSearchResults());
 		}
 
-		for (SearchResultGroup oldGroup : oldReferences) {
+		for (SearchResultGroup oldGroup : oldReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SearchMatch[] oldMatches= oldGroup.getSearchResults();
 			ICompilationUnit cu= oldGroup.getCompilationUnit();
 			if (cu == null)
@@ -275,7 +275,7 @@ public class RenameAnalyzeUtil {
 
 			SearchMatch[] newSearchMatches= cuToNewResults.remove(cu);
 			if (newSearchMatches == null) {
-				for (SearchMatch oldMatch : oldMatches) {
+				for (SearchMatch oldMatch : oldMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addShadowsError(cu, oldMatch, result);
 				}
 			} else {
@@ -283,9 +283,9 @@ public class RenameAnalyzeUtil {
 			}
 		}
 
-		for (Entry<ICompilationUnit, SearchMatch[]> entry : cuToNewResults.entrySet()) {
+		for (Entry<ICompilationUnit, SearchMatch[]> entry : cuToNewResults.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= entry.getKey();
-			for (SearchMatch newMatch : entry.getValue()) {
+			for (SearchMatch newMatch : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addReferenceShadowedError(cu, newMatch, newElementName, result);
 			}
 		}
@@ -294,15 +294,15 @@ public class RenameAnalyzeUtil {
 
 	private static void analyzeChanges(ICompilationUnit cu, TextChange change,
 			SearchMatch[] oldMatches, SearchMatch[] newMatches, String newElementName, RefactoringStatus result) {
-		Map<Integer, SearchMatch> updatedOldOffsets= getUpdatedChangeOffsets(change, oldMatches);
-		for (SearchMatch newMatch : newMatches) {
+		Map<Integer, SearchMatch> updatedOldOffsets= getUpdatedChangeOffsets(change, oldMatches); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (SearchMatch newMatch : newMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Integer offsetInNew= newMatch.getOffset();
 			SearchMatch oldMatch= updatedOldOffsets.remove(offsetInNew);
 			if (oldMatch == null) {
 				addReferenceShadowedError(cu, newMatch, newElementName, result);
 			}
 		}
-		for (SearchMatch oldMatch : updatedOldOffsets.values()) {
+		for (SearchMatch oldMatch : updatedOldOffsets.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addShadowsError(cu, oldMatch, result);
 		}
 	}
@@ -312,9 +312,9 @@ public class RenameAnalyzeUtil {
 	 * @return Map &lt;Integer updatedOffset, SearchMatch oldMatch&gt;
 	 */
 	private static Map<Integer, SearchMatch> getUpdatedChangeOffsets(TextChange change, SearchMatch[] oldMatches) {
-		Map<Integer, SearchMatch> updatedOffsets= new HashMap<>();
-		Map<Integer, Integer> oldToUpdatedOffsets= getEditChangeOffsetUpdates(change);
-		for (SearchMatch oldMatch : oldMatches) {
+		Map<Integer, SearchMatch> updatedOffsets= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		Map<Integer, Integer> oldToUpdatedOffsets= getEditChangeOffsetUpdates(change); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (SearchMatch oldMatch : oldMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Integer updatedOffset= oldToUpdatedOffsets.get(Integer.valueOf(oldMatch.getOffset()));
 			if (updatedOffset == null)
 				updatedOffset= -1; //match not updated
@@ -329,8 +329,8 @@ public class RenameAnalyzeUtil {
 	 */
 	private static Map<Integer, Integer> getEditChangeOffsetUpdates(TextChange change) {
 		TextEditChangeGroup[] editChanges= change.getTextEditChangeGroups();
-		Map<Integer, Integer> offsetUpdates= new HashMap<>(editChanges.length);
-		for (TextEditChangeGroup editChange : editChanges) {
+		Map<Integer, Integer> offsetUpdates= new HashMap<>(editChanges.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (TextEditChangeGroup editChange : editChanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IRegion oldRegion= editChange.getRegion();
 			if (oldRegion == null)
 				continue;
@@ -410,7 +410,7 @@ public class RenameAnalyzeUtil {
 		return analyzeLocalRenames(analyzePackages, cuChange, oldCUNode, true, recovery);
 	}
 
-	private static RefactoringStatus analyzeLocalRenames(LocalAnalyzePackage[] analyzePackages, TextChange cuChange, CompilationUnit oldCUNode, boolean isCompactConstructor, boolean recovery) throws CoreException {
+	private static RefactoringStatus analyzeLocalRenames(LocalAnalyzePackage[] analyzePackages, TextChange cuChange, CompilationUnit oldCUNode, boolean isCompactConstructor, boolean recovery) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringStatus result= new RefactoringStatus();
 		ICompilationUnit compilationUnit= (ICompilationUnit) oldCUNode.getJavaElement();
@@ -422,7 +422,7 @@ public class RenameAnalyzeUtil {
 		if (result.hasError())
 			return result;
 
-		for (LocalAnalyzePackage analyzePackage : analyzePackages) {
+		for (LocalAnalyzePackage analyzePackage : analyzePackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode enclosing;
 			IRegion newRegion;
 			if (!isCompactConstructor) {
@@ -470,7 +470,7 @@ public class RenameAnalyzeUtil {
 
 	private static RefactoringStatus analyzeCompileErrors(String newCuSource, CompilationUnit newCUNode, CompilationUnit oldCUNode) {
 		RefactoringStatus result= new RefactoringStatus();
-		for (IProblem problem : RefactoringAnalyzeUtil.getIntroducedCompileProblems(newCUNode, oldCUNode)) {
+		for (IProblem problem : RefactoringAnalyzeUtil.getIntroducedCompileProblems(newCUNode, oldCUNode)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem.isError())
 				result.addEntry(new RefactoringStatusEntry(RefactoringStatus.ERROR, problem.getMessage(), new JavaStringStatusContext(newCuSource,
 						SourceRangeFactory.create(problem))));

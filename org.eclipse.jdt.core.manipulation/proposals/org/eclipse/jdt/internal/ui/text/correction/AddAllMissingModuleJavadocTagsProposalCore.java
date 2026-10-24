@@ -54,7 +54,7 @@ public class AddAllMissingModuleJavadocTagsProposalCore extends CUCorrectionProp
 		fDecl= decl;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addEdits(IDocument document, TextEdit rootEdit) throws CoreException {
 		try {
 			Javadoc javadoc= null;
@@ -64,7 +64,7 @@ public class AddAllMissingModuleJavadocTagsProposalCore extends CUCorrectionProp
 			CompilationUnit cu= (CompilationUnit)fDecl.getParent();
 			Name moduleName= fDecl.getName();
 			List<Comment> comments= cu.getCommentList();
-			for (Comment comment : comments) {
+			for (Comment comment : comments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (comment instanceof Javadoc
 						&& comment.getStartPosition() + comment.getLength() < moduleName.getStartPosition()) {
 						javadoc= (Javadoc)comment;
@@ -73,28 +73,28 @@ public class AddAllMissingModuleJavadocTagsProposalCore extends CUCorrectionProp
 			if (javadoc == null) {
 				return;
 			}
-			StringBuilder comment= new StringBuilder();
+			StringBuilder comment= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			insertPosition= AddMissingModuleJavadocTagProposalCore.findInsertPosition(javadoc, document, lineDelimiter);
 
 		 	List<ModuleDirective> moduleStatements= fDecl.moduleStatements();
-		 	for (int i= moduleStatements.size() - 1; i >= 0 ; i--) {
+		 	for (int i= moduleStatements.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		 		ModuleDirective directive= moduleStatements.get(i);
 		 		String name;
 		 		if (directive instanceof ProvidesDirective) {
 		 			name= ((ProvidesDirective)directive).getName().getFullyQualifiedName().toString();
 		 			if (JavadocTagsSubProcessorCore.findTag(javadoc, TagElement.TAG_PROVIDES, name) == null) {
-				 		comment.append(" * ").append(TagElement.TAG_PROVIDES).append(" ").append(name).append(lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$
+				 		comment.append(" * ").append(TagElement.TAG_PROVIDES).append(" ").append(name).append(lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		 			}
 		 		}
 		 	}
 
-		 	for (int i= moduleStatements.size() - 1; i >= 0 ; i--) {
+		 	for (int i= moduleStatements.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		 		ModuleDirective directive= moduleStatements.get(i);
 		 		String name;
 		 		if (directive instanceof UsesDirective) {
 		 			name= ((UsesDirective)directive).getName().getFullyQualifiedName().toString();
 		 			if (JavadocTagsSubProcessorCore.findTag(javadoc, TagElement.TAG_USES, name) == null) {
-				 		comment.append(" * ").append(TagElement.TAG_USES).append(" ").append(name).append(lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$
+				 		comment.append(" * ").append(TagElement.TAG_USES).append(" ").append(name).append(lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		 			}
 		 		}
 		 	}

@@ -85,7 +85,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.viewsupport.BindingLabelProvider;
 
 
-public class CopyQualifiedNameAction extends SelectionDispatchAction {
+public class CopyQualifiedNameAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private static final long LABEL_FLAGS= JavaElementLabels.F_FULLY_QUALIFIED | JavaElementLabels.M_FULLY_QUALIFIED | JavaElementLabels.I_FULLY_QUALIFIED
 			| JavaElementLabels.T_FULLY_QUALIFIED | JavaElementLabels.M_PARAMETER_TYPES | JavaElementLabels.USE_RESOLVED | JavaElementLabels.T_TYPE_PARAMETERS | JavaElementLabels.CU_QUALIFIED
@@ -125,7 +125,7 @@ public class CopyQualifiedNameAction extends SelectionDispatchAction {
 	}
 
 	private boolean canEnable(Object[] objects) {
-		for (Object element : objects) {
+		for (Object element : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isValidElement(element))
 				return true;
 		}
@@ -133,7 +133,7 @@ public class CopyQualifiedNameAction extends SelectionDispatchAction {
 		return false;
 	}
 
-	private boolean isValidElement(Object element) {
+	private boolean isValidElement(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof IMember)
 			return true;
 
@@ -170,7 +170,7 @@ public class CopyQualifiedNameAction extends SelectionDispatchAction {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 
 		try {
@@ -202,11 +202,11 @@ public class CopyQualifiedNameAction extends SelectionDispatchAction {
 					dataTypes= new Transfer[] { TextTransfer.getInstance() };
 				}
 			} else {
-				StringBuilder buf= new StringBuilder();
-				buf.append(getQualifiedName(elements[0]));
-				for (int i= 1; i < elements.length; i++) {
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append(getQualifiedName(elements[0])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				for (int i= 1; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String qualifiedName= getQualifiedName(elements[i]);
-					buf.append(System.lineSeparator()).append(qualifiedName);
+					buf.append(System.lineSeparator()).append(qualifiedName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				data= new Object[] { buf.toString() };
 				dataTypes= new Transfer[] { TextTransfer.getInstance() };
@@ -230,7 +230,7 @@ public class CopyQualifiedNameAction extends SelectionDispatchAction {
 		}
 	}
 
-	private String getQualifiedName(Object element) throws JavaModelException {
+	private String getQualifiedName(Object element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof IResource)
 			return ((IResource)element).getFullPath().toString();
 
@@ -252,7 +252,7 @@ public class CopyQualifiedNameAction extends SelectionDispatchAction {
 		return TextProcessor.deprocess(JavaElementLabels.getTextLabel(element, LABEL_FLAGS));
 	}
 
-	private Object[] getSelectedElements() {
+	private Object[] getSelectedElements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fEditor != null) {
 			Object element= getSelectedElement(fEditor);
 			if (element == null)
@@ -265,8 +265,8 @@ public class CopyQualifiedNameAction extends SelectionDispatchAction {
 		if (!(selection instanceof IStructuredSelection))
 			return null;
 
-		List<Object> result= new ArrayList<>();
-		for (Object element : ((IStructuredSelection) selection)) {
+		List<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : ((IStructuredSelection) selection)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isValidElement(element))
 				result.add(element);
 		}
@@ -276,7 +276,7 @@ public class CopyQualifiedNameAction extends SelectionDispatchAction {
 		return result.toArray(new Object[result.size()]);
 	}
 
-	private Object getSelectedElement(JavaEditor editor) {
+	private Object getSelectedElement(JavaEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISourceViewer viewer= editor.getViewer();
 		if (viewer == null)
 			return null;

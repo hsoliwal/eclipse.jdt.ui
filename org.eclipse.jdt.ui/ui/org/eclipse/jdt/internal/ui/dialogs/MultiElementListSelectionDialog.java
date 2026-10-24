@@ -93,7 +93,7 @@ public class MultiElementListSelectionDialog extends AbstractElementListSelectio
 	public void setElements(Object[][] elements) {
 		fNumberOfPages= elements.length;
 		fPages= new Page[fNumberOfPages];
-		for (int i= 0; i != fNumberOfPages; i++)
+		for (int i= 0; i != fNumberOfPages; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fPages[i]= new Page(elements[i]);
 
 		initializeResult(fNumberOfPages);
@@ -164,7 +164,7 @@ public class MultiElementListSelectionDialog extends AbstractElementListSelectio
 	/*
 	 * @see org.eclipse.ui.dialogs.SelectionDialog#createMessageArea(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Label createMessageArea(Composite parent) {
 		Composite composite= new Composite(parent, SWT.NONE);
 
@@ -201,7 +201,7 @@ public class MultiElementListSelectionDialog extends AbstractElementListSelectio
 	/*
 	 * @see org.eclipse.jface.dialogs.Dialog#buttonPressed(int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void buttonPressed(int buttonId) {
 		switch (buttonId) {
 			case IDialogConstants.SKIP_ID:
@@ -240,13 +240,13 @@ public class MultiElementListSelectionDialog extends AbstractElementListSelectio
 	/**
 	 * @see AbstractElementListSelectionDialog#updateButtonsEnableState(IStatus)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updateButtonsEnableState(IStatus status) {
 		boolean isOK= !status.matches(IStatus.ERROR);
 		fPages[fCurrentPage].okState= isOK;
 
 		boolean isAllOK= isOK;
-		for (int i= 0; i != fNumberOfPages; i++)
+		for (int i= 0; i != fNumberOfPages; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			isAllOK = isAllOK && fPages[i].okState;
 
 		fFinishButton.setEnabled(isAllOK);
@@ -266,7 +266,7 @@ public class MultiElementListSelectionDialog extends AbstractElementListSelectio
 		}
 	}
 
-	private void turnPage(boolean toNextPage, boolean skipSelection) {
+	private void turnPage(boolean toNextPage, boolean skipSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Page page= fPages[fCurrentPage];
 
 		// store filter
@@ -334,8 +334,8 @@ public class MultiElementListSelectionDialog extends AbstractElementListSelectio
 	}
 
 	private void initializeResult(int length) {
-		List<Object> result= new ArrayList<>(length);
-		for (int i= 0; i != length; i++)
+		List<Object> result= new ArrayList<>(length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i != length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(null);
 
 		setResult(result);

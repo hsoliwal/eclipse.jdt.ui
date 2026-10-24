@@ -86,7 +86,7 @@ import org.eclipse.jdt.internal.ui.util.SelectionUtil;
  *
  * @since 3.0
  */
-public abstract class AbstractInfoView extends ViewPart implements ISelectionListener, IMenuListener, IPropertyChangeListener {
+public abstract class AbstractInfoView extends ViewPart implements ISelectionListener, IMenuListener, IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 
 	/** JavaElementLabels flags used for the title */
@@ -106,7 +106,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	/*
 	 * @see IPartListener2
 	 */
-	private IPartListener2 fPartListener= new IPartListener2() {
+	private IPartListener2 fPartListener= new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 		@Override
 		public void partVisible(IWorkbenchPartReference ref) {
 			if (ref.getId().equals(getSite().getId())) {
@@ -255,7 +255,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 
 		ISelectionProvider provider= getSelectionProvider();
 		if (provider != null)
-			provider.addSelectionChangedListener(fCopyToClipboardAction);
+			provider.addSelectionChangedListener(fCopyToClipboardAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	/**
@@ -264,7 +264,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	protected void createContextMenu() {
 		MenuManager menuManager= new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuManager.setRemoveAllWhenShown(true);
-		menuManager.addMenuListener(this);
+		menuManager.addMenuListener(this); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		Menu contextMenu= menuManager.createContextMenu(getControl());
 		getControl().setMenu(contextMenu);
 		getSite().registerContextMenu(menuManager, getSelectionProvider());
@@ -273,7 +273,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	/*
 	 * @see IMenuListener#menuAboutToShow(org.eclipse.jface.action.IMenuManager)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void menuAboutToShow(IMenuManager menu) {
 		menu.add(new Separator(IContextMenuConstants.GROUP_GOTO));
 		menu.add(new Separator(IContextMenuConstants.GROUP_OPEN));
@@ -356,7 +356,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	 * @see org.eclipse.jdt.internal.ui.infoviews.AbstractInfoView#inititalizeColors()
 	 * @since 3.2
 	 */
-	private void inititalizeColors() {
+	private void inititalizeColors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getSite().getShell().isDisposed())
 			return;
 
@@ -365,7 +365,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 			return;
 
 		ColorRegistry registry= JFaceResources.getColorRegistry();
-		registry.addListener(this);
+		registry.addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		Color fgColor;
 		fForegroundColorRGB = (getForegroundColorKey() != null) ? registry.getRGB(getForegroundColorKey()) : null;
@@ -487,7 +487,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	 * @param selection the selection
 	 * @return the selected Java element
 	 */
-	protected IJavaElement findSelectedJavaElement(IWorkbenchPart part, ISelection selection) {
+	protected IJavaElement findSelectedJavaElement(IWorkbenchPart part, ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object element;
 		try {
 			if (part instanceof JavaEditor && selection instanceof ITextSelection) {
@@ -526,14 +526,14 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	 * @return an offset into the given document, or <code>null</code> if the selection is not in a method call.
 	 * The returned selection is guaranteed to be in front of the given selection.
 	 */
-	private ITextSelection guessMethodNamePosition(IDocument document, ITextSelection selection) {
+	private ITextSelection guessMethodNamePosition(IDocument document, ITextSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int contextPosition= selection.getOffset();
 		JavaHeuristicScanner scanner= new JavaHeuristicScanner(document);
 		int bound= Math.max(-1, contextPosition - 200);
 
 		// try the innermost scope of parentheses that looks like a method call
 		int pos= contextPosition - 1;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int paren= scanner.findOpeningPeer(pos, bound, '(', ')');
 			if (paren == JavaHeuristicScanner.NOT_FOUND) {
 				try {
@@ -607,7 +607,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	 * @param cu	the compilation unit
 	 * @return	the type with same name as the given CU or the first type in the CU
 	 */
-	protected IType getTypeForCU(ICompilationUnit cu) {
+	protected IType getTypeForCU(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (cu == null || !cu.exists())
 			return null;
@@ -632,7 +632,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	/*
 	 * @see IWorkbenchPart#dispose()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final void dispose() {
 		// cancel possible running computation
 		fComputeCount++;
@@ -686,7 +686,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 	 * @param element the java element, or <code>null</code> if <code>part</code> not <code>null</code>
 	 * @param resetIfInvalid <code>true</code> if the view should be reset if the input is invalid, <code>false</code> otherwise
 	 */
-	private void computeAndDoSetInput(final IWorkbenchPart part, final IJavaElement element, final boolean resetIfInvalid) {
+	private void computeAndDoSetInput(final IWorkbenchPart part, final IJavaElement element, final boolean resetIfInvalid) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int currentCount= ++fComputeCount;
 
 		final ISelection selection;
@@ -709,7 +709,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 		fComputeProgressMonitor= computeProgressMonitor;
 
 		Thread thread= new Thread("Info view input computer") { //$NON-NLS-1$
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				if (currentCount != fComputeCount)
 					return;
@@ -750,7 +750,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 				if (display.isDisposed())
 					return;
 
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 					if (fComputeCount != currentCount || getViewSite().getShell().isDisposed())
 						return;
@@ -772,7 +772,7 @@ public abstract class AbstractInfoView extends ViewPart implements ISelectionLis
 				if (display.isDisposed())
 					return;
 
-				display.asyncExec(() -> fToggleLinkAction.updateLinkImage(isBroken));
+				display.asyncExec(() -> fToggleLinkAction.updateLinkImage(isBroken)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		};
 

@@ -74,15 +74,15 @@ public class ContinuousTypingCompletionTest extends AbstractCompletionTest {
 	/*
 	 * This tests https://bugs.eclipse.org/bugs/show_bug.cgi?id=511542
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testContinousTypingSelectsTopProposal() throws Exception {
-		String contents= "public class " + getName() + " {\n" +
+		String contents= "public class " + getName() + " {\n" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"	int ab, ba;\n" +
 				"	void m() {\n" +
 				"		/*COMPLETE_HERE*/\n" +
 				"	}\n" +
 				"}\n";
-		ICompilationUnit compilationUnit= cts.getAnonymousTestPackage().createCompilationUnit(getName() + ".java", contents, true, new NullProgressMonitor());
+		ICompilationUnit compilationUnit= cts.getAnonymousTestPackage().createCompilationUnit(getName() + ".java", contents, true, new NullProgressMonitor()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fEditor= (JavaEditor) EditorUtility.openInEditor(compilationUnit);
 		int completionOffset= contents.indexOf("/*COMPLETE_HERE*/");
 		fEditor.getViewer().setSelectedRange(completionOffset, 0);

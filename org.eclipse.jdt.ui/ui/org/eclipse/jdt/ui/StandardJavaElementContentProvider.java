@@ -71,7 +71,7 @@ Java model (<code>IJavaModel</code>)
  *
  * @since 2.0
  */
-public class StandardJavaElementContentProvider implements ITreeContentProvider, IWorkingCopyProvider {
+public class StandardJavaElementContentProvider implements ITreeContentProvider, IWorkingCopyProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	protected static final Object[] NO_CHILDREN= new Object[0];
 	protected boolean fProvideMembers;
@@ -171,7 +171,7 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 	public void dispose() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object element) {
 		if (!exists(element))
 			return NO_CHILDREN;
@@ -205,7 +205,7 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 		return NO_CHILDREN;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean hasChildren(Object element) {
 		if (getProvideMembers()) {
 			// assume CUs and class files are never empty
@@ -257,7 +257,7 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 	 *
 	 * @since 3.3
 	 */
-	protected Object[] getPackageFragmentRootContent(IPackageFragmentRoot root) throws JavaModelException {
+	protected Object[] getPackageFragmentRootContent(IPackageFragmentRoot root) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] fragments= root.getChildren();
 		if (JavaModelUtil.is9OrHigher(root.getJavaProject())) {
 			ITypeRoot moduleRoot= getModuleRoot(root);
@@ -265,7 +265,7 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 				IJavaElement defaultPackage= moduleRoot.getParent();
 				if (!JavaModelUtil.containsOrdinaryCompilationUnit((IPackageFragment) defaultPackage)) {
 					// replace "empty" default package with module-info
-					for (int i= 0; i < fragments.length; i++) {
+					for (int i= 0; i < fragments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (fragments[i].equals(defaultPackage)) {
 							fragments= Arrays.copyOf(fragments, fragments.length);
 							fragments[i]= moduleRoot;
@@ -289,13 +289,13 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 		return concatenate(fragments, nonJavaResources);
 	}
 
-	ITypeRoot getModuleRoot(IPackageFragmentRoot root) throws JavaModelException {
+	ITypeRoot getModuleRoot(IPackageFragmentRoot root) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement module= root.getModuleDescription();
 		if (module == null) {
 			// may still need to show an empty module-info.java, which otherwise would remain invisible
 			IPackageFragment dfltPack= root.getPackageFragment(""); //$NON-NLS-1$
 			if (dfltPack.exists()) {
-				for (IJavaElement child : dfltPack.getChildren()) {
+				for (IJavaElement child : dfltPack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (child instanceof ITypeRoot
 							&& JavaModelUtil.isModuleInfo((ITypeRoot) child)
 							&& ((ITypeRoot) child).getChildren().length == 0) {
@@ -316,15 +316,15 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 	 * @exception JavaModelException if the Java project does not exist or if an
 	 *      exception occurs while accessing its corresponding resource
 	 */
-	protected Object[] getPackageFragmentRoots(IJavaProject project) throws JavaModelException {
+	protected Object[] getPackageFragmentRoots(IJavaProject project) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!project.getProject().isOpen())
 			return NO_CHILDREN;
 
 		IPackageFragmentRoot[] roots= project.getPackageFragmentRoots();
-		List<Object> list= new ArrayList<>(roots.length);
+		List<Object> list= new ArrayList<>(roots.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// filter out package fragments that correspond to projects and
 		// replace them with the package fragments directly
-		for (IPackageFragmentRoot root : roots) {
+		for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isProjectPackageFragmentRoot(root)) {
 				Object[] fragments= getPackageFragmentRootContent(root);
 				list.addAll(Arrays.asList(fragments));
@@ -370,7 +370,7 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 		if (fragment.isDefaultPackage() && JavaModelUtil.is9OrHigher(fragment.getJavaProject())) {
 			int count= 0;
 			ITypeRoot[] newUnits= new ITypeRoot[units.length];
-			for (ITypeRoot unit : units) {
+			for (ITypeRoot unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!JavaModelUtil.isModuleInfo(unit)) {
 					newUnits[count++]= unit;
 				}
@@ -389,22 +389,22 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 	 *
 	 * @since 3.3
 	 */
-	protected Object[] getFolderContent(IFolder folder) throws CoreException {
+	protected Object[] getFolderContent(IFolder folder) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource[] members= folder.members();
 		IJavaProject javaProject= JavaCore.create(folder.getProject());
 		if (javaProject == null || !javaProject.exists())
 			return members;
 		boolean isFolderOnClasspath = javaProject.isOnClasspath(folder);
-		List<IResource> nonJavaResources= new ArrayList<>();
-		Set<IPath> classRootPaths= new HashSet<>();
-		for (IPackageFragmentRoot classpathRoot : javaProject.getAllPackageFragmentRoots()) {
+		List<IResource> nonJavaResources= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<IPath> classRootPaths= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IPackageFragmentRoot classpathRoot : javaProject.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath classRootPath= classpathRoot.getPath();
 			if (classRootPath != null) {
 				classRootPaths.add(classRootPath);
 			}
 		}
 		// Can be on classpath but as a member of non-java resource folder
-		for (IResource member : members) {
+		for (IResource member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// A resource can also be a java element
 			// in the case of exclusion and inclusion filters.
 			// We therefore exclude Java elements from the list
@@ -519,7 +519,7 @@ public class StandardJavaElementContentProvider implements ITreeContentProvider,
 	 *
 	 * @noreference This method is not intended to be referenced by clients.
 	 */
-	protected Object internalGetParent(Object element) {
+	protected Object internalGetParent(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// try to map resources to the containing package fragment
 		if (element instanceof IResource) {

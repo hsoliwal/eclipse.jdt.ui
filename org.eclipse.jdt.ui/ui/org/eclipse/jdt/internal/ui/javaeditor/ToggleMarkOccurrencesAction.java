@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
  *
  * @since 3.0
  */
-public class ToggleMarkOccurrencesAction extends TextEditorAction implements IPropertyChangeListener {
+public class ToggleMarkOccurrencesAction extends TextEditorAction implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private IPreferenceStore fStore;
 
@@ -76,7 +76,7 @@ public class ToggleMarkOccurrencesAction extends TextEditorAction implements IPr
 	/*
 	 * @see TextEditorAction#setEditor(ITextEditor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setEditor(ITextEditor editor) {
 
 		super.setEditor(editor);

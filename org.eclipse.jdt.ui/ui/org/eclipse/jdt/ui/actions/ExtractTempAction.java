@@ -43,7 +43,7 @@ import org.eclipse.jdt.internal.ui.refactoring.actions.RefactoringStarter;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ExtractTempAction extends SelectionDispatchAction {
+public class ExtractTempAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final JavaEditor fEditor;
 

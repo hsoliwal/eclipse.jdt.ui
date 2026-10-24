@@ -54,7 +54,7 @@ import org.eclipse.jdt.ui.StandardJavaElementContentProvider;
 
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
-class JavaBrowsingContentProvider extends StandardJavaElementContentProvider implements IElementChangedListener {
+class JavaBrowsingContentProvider extends StandardJavaElementContentProvider implements IElementChangedListener { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	private StructuredViewer fViewer;
 	private Object fInput;
@@ -66,7 +66,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 		super(provideMembers);
 		fBrowsingPart= browsingPart;
 		fViewer= fBrowsingPart.getViewer();
-		JavaCore.addElementChangedListener(this);
+		JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 	}
 
 	@Override
@@ -79,7 +79,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object element) {
 		if (!exists(element))
 			return NO_CHILDREN;
@@ -92,7 +92,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 					return NO_CHILDREN;
 				Object[] result= new Object[0];
 				Iterator<?> iter= ((Collection<?>)element).iterator();
-				while (iter.hasNext()) {
+				while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object[] children= getChildren(iter.next());
 					if (children != NO_CHILDREN)
 						result= concatenate(result, children);
@@ -115,14 +115,14 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 		}
 	}
 
-	private Object[] getPackageContents(IPackageFragment fragment) throws JavaModelException {
+	private Object[] getPackageContents(IPackageFragment fragment) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISourceReference[] sourceRefs;
 		if (fragment.getKind() == IPackageFragmentRoot.K_SOURCE) {
 			sourceRefs= fragment.getCompilationUnits();
 		}
 		else {
-			List<IOrdinaryClassFile> topLevelClassFile= new ArrayList<>();
-			for (IOrdinaryClassFile classFile : fragment.getOrdinaryClassFiles()) {
+			List<IOrdinaryClassFile> topLevelClassFile= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IOrdinaryClassFile classFile : fragment.getOrdinaryClassFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IType type= classFile.getType();
 				if (type != null && type.getDeclaringType() == null && !type.isAnonymous() && !type.isLocal()) {
 					topLevelClassFile.add(classFile);
@@ -132,15 +132,15 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 		}
 
 		Object[] result= new Object[0];
-		for (ISourceReference sourceRef : sourceRefs) {
+		for (ISourceReference sourceRef : sourceRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result= concatenate(result, removeImportAndPackageDeclarations(getChildren(sourceRef)));
 		}
 		return concatenate(result, fragment.getNonJavaResources());
 	}
 
 	private Object[] removeImportAndPackageDeclarations(Object[] members) {
-		ArrayList<Object> tempResult= new ArrayList<>(members.length);
-		for (Object member : members) {
+		ArrayList<Object> tempResult= new ArrayList<>(members.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(member instanceof IImportContainer) && !(member instanceof IPackageDeclaration)) {
 				tempResult.add(member);
 			}
@@ -148,7 +148,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 		return tempResult.toArray();
 	}
 
-	private Object[] getChildren(IType type) throws JavaModelException{
+	private Object[] getChildren(IType type) throws JavaModelException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IParent parent;
 		if (type.isBinary())
 			parent= type.getClassFile();
@@ -160,8 +160,8 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 
 		// Add import declarations
 		IJavaElement[] members= parent.getChildren();
-		ArrayList<IJavaElement> tempResult= new ArrayList<>(members.length);
-		for (IJavaElement member : members) {
+		ArrayList<IJavaElement> tempResult= new ArrayList<>(members.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member instanceof IImportContainer) {
 				tempResult.add(member);
 			}
@@ -170,16 +170,16 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 		return tempResult.toArray();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object[] getPackageFragmentRoots(IJavaProject project) throws JavaModelException {
 		if (!project.getProject().isOpen())
 			return NO_CHILDREN;
 
 		IPackageFragmentRoot[] roots= project.getPackageFragmentRoots();
-		List<IJavaElement> list= new ArrayList<>(roots.length);
+		List<IJavaElement> list= new ArrayList<>(roots.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// filter out package fragments that correspond to projects and
 		// replace them with the package fragments directly
-		for (IPackageFragmentRoot root : roots) {
+		for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!root.isExternal()) {
 				IJavaElement[] children= root.getChildren();
 				list.addAll(Arrays.asList(children));
@@ -229,7 +229,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 	 * tree is fully refreshed starting at this node. The delta is processed in the
 	 * current thread but the viewer updates are posted to the UI thread.
 	 */
-	protected void processDelta(IJavaElementDelta delta) throws JavaModelException {
+	protected void processDelta(IJavaElementDelta delta) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int kind= delta.getKind();
 		int flags= delta.getFlags();
 		final IJavaElement element= delta.getElement();
@@ -361,7 +361,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 				return;
 			}
 		}
-		for (IJavaElementDelta child : affectedChildren) {
+		for (IJavaElementDelta child : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processDelta(child);
 		}
 	}
@@ -388,7 +388,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 		postRunnable(() -> {
 			Control ctrl= fViewer.getControl();
 			if (ctrl != null && !ctrl.isDisposed())
-				fViewer.refresh(root, updateLabels);
+				fViewer.refresh(root, updateLabels); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		});
 	}
 
@@ -400,7 +400,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 		postAdd(parent, new Object[] {element});
 	}
 
-	private void postAdd(final Object parent, final Object[] elements) {
+	private void postAdd(final Object parent, final Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements == null || elements.length <= 0)
 			return;
 
@@ -429,8 +429,8 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 
 	private Object[] getNewElements(Object[] elements) {
 		int elementsLength= elements.length;
-		ArrayList<Object> result= new ArrayList<>(elementsLength);
-		for (int i= 0; i < elementsLength; i++) {
+		ArrayList<Object> result= new ArrayList<>(elementsLength); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < elementsLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= elements[i];
 			if (fViewer.testFindItem(element) == null)
 				result.add(element);
@@ -495,9 +495,9 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 			fBrowsingPart.setProcessSelectionEvents(false);
 			try {
 				if (isDisplayThread() && fReadsInDisplayThread == 0)
-					ctrl.getDisplay().syncExec(r);
+					ctrl.getDisplay().syncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				else
-					ctrl.getDisplay().asyncExec(r);
+					ctrl.getDisplay().asyncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			} finally {
 				fBrowsingPart.setProcessSelectionEvents(true);
 			}
@@ -512,7 +512,7 @@ class JavaBrowsingContentProvider extends StandardJavaElementContentProvider imp
 	 * returns the original element instead.
 	 * </p>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object internalGetParent(Object element) {
 		if (element instanceof IJavaProject) {
 			return ((IJavaProject)element).getJavaModel();

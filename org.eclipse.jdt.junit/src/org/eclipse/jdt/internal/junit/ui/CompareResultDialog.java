@@ -200,10 +200,10 @@ public class CompareResultDialog extends TrayDialog {
 		return JUnitPlugin.getDefault().getDialogSettingsSection(getClass().getName());
 	}
 
-	private void computePrefixSuffix() {
+	private void computePrefixSuffix() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int end= Math.min(fExpected.length(), fActual.length());
 		int i= 0;
-		for(; i < end; i++)
+		for(; i < end; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fExpected.charAt(i) != fActual.charAt(i))
 				break;
 		fPrefixSuffix[0]= i;
@@ -211,7 +211,7 @@ public class CompareResultDialog extends TrayDialog {
 		int j= fExpected.length()-1;
 		int k= fActual.length()-1;
 		int l= 0;
-		for (; k >= i && j >= i; k--,j--) {
+		for (; k >= i && j >= i; k--,j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fExpected.charAt(j) != fActual.charAt(k))
 				break;
 			l++;
@@ -231,7 +231,7 @@ public class CompareResultDialog extends TrayDialog {
 		createButton(parent, IDialogConstants.OK_ID, JUnitMessages.CompareResultDialog_labelOK, true);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite)super.createDialogArea(parent);
 		GridLayout layout= new GridLayout();
@@ -265,7 +265,7 @@ public class CompareResultDialog extends TrayDialog {
 	    setCompareViewerInput();
 
 	    Control control= fViewer.getControl();
-	    control.addDisposeListener(unused -> compareConfiguration.dispose());
+	    control.addDisposeListener(unused -> compareConfiguration.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	    return control;
 	}
 

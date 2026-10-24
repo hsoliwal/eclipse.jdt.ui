@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.junit.util.CoreTestSearchEngine;
 
 public class JUnit3TestFinder implements ITestFinder {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findTestsInContainer(IJavaElement element, Set<IType> result, IProgressMonitor pm) throws CoreException {
 		if (element == null || result == null) {
 			throw new IllegalArgumentException();
@@ -50,7 +50,7 @@ public class JUnit3TestFinder implements ITestFinder {
 				}
 			} else if (element instanceof ICompilationUnit) {
 				IType[] types= ((ICompilationUnit) element).getAllTypes();
-				for (IType type : types) {
+				for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isTest(type)) {
 						result.add(type);
 					}

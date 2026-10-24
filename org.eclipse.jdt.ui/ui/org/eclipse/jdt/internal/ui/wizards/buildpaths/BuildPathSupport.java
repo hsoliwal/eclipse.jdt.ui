@@ -89,16 +89,16 @@ public class BuildPathSupport {
 	 * @param elem The new classpath entry
 	 * @return A path to be taken for the source attachment or <code>null</code>
 	 */
-	public static IPath guessSourceAttachment(CPListElement elem) {
+	public static IPath guessSourceAttachment(CPListElement elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elem.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 			return null;
 		}
 		IJavaProject currProject= elem.getJavaProject(); // can be null
 		try {
 			IJavaModel jmodel= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
-			for (IJavaProject curr : jmodel.getJavaProjects()) {
+			for (IJavaProject curr : jmodel.getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!curr.equals(currProject)) {
-					for (IClasspathEntry entry : curr.getRawClasspath()) {
+					for (IClasspathEntry entry : curr.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (entry.getEntryKind() == elem.getEntryKind()
 							&& entry.getPath().equals(elem.getPath())) {
 							IPath attachPath= entry.getSourceAttachmentPath();
@@ -120,7 +120,7 @@ public class BuildPathSupport {
 	 * @param elem The new classpath entry
 	 * @return A javadoc location found in a similar classpath entry or <code>null</code>.
 	 */
-	public static String guessJavadocLocation(CPListElement elem) {
+	public static String guessJavadocLocation(CPListElement elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elem.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 			return null;
 		}
@@ -128,11 +128,11 @@ public class BuildPathSupport {
 		try {
 			// try if the jar itself contains the source
 			IJavaModel jmodel= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
-			for (IJavaProject curr : jmodel.getJavaProjects()) {
+			for (IJavaProject curr : jmodel.getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!curr.equals(currProject)) {
-					for (IClasspathEntry entry : curr.getRawClasspath()) {
+					for (IClasspathEntry entry : curr.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (entry.getEntryKind() == elem.getEntryKind() && entry.getPath().equals(elem.getPath())) {
-							for (IClasspathAttribute attrib : entry.getExtraAttributes()) {
+							for (IClasspathAttribute attrib : entry.getExtraAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (IClasspathAttribute.JAVADOC_LOCATION_ATTRIBUTE_NAME.equals(attrib.getName())) {
 									return attrib.getValue();
 								}
@@ -199,14 +199,14 @@ public class BuildPathSupport {
 		}
 	}
 
-	private static void updateContainerClasspath(IJavaProject jproject, IPath containerPath, IClasspathEntry newEntry, String[] changedAttributes, IProgressMonitor monitor) throws CoreException {
+	private static void updateContainerClasspath(IJavaProject jproject, IPath containerPath, IClasspathEntry newEntry, String[] changedAttributes, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IClasspathContainer container= JavaCore.getClasspathContainer(containerPath, jproject);
 		if (container == null) {
-			throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, IStatus.ERROR, "Container " + containerPath + " cannot be resolved", null));  //$NON-NLS-1$//$NON-NLS-2$
+			throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, IStatus.ERROR, "Container " + containerPath + " cannot be resolved", null));  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		IClasspathEntry[] entries= container.getClasspathEntries();
 		IClasspathEntry[] newEntries= new IClasspathEntry[entries.length];
-		for (int i= 0; i < entries.length; i++) {
+		for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= entries[i];
 			if (curr.getEntryKind() == newEntry.getEntryKind() && curr.getPath().equals(newEntry.getPath())) {
 				newEntries[i]= getUpdatedEntry(curr, newEntry, changedAttributes, jproject);
@@ -224,7 +224,7 @@ public class BuildPathSupport {
 		}
 		CPListElement currElem= CPListElement.createFromExisting(currEntry, jproject);
 		CPListElement newElem= CPListElement.createFromExisting(updatedEntry, jproject);
-		for (String attrib : updatedAttributes) {
+		for (String attrib : updatedAttributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			currElem.setAttribute(attrib, newElem.getAttribute(attrib));
 		}
 		return currElem.getClasspathEntry();
@@ -246,14 +246,14 @@ public class BuildPathSupport {
 		}
 	}
 
-	private static void updateProjectClasspath(Shell shell, IJavaProject jproject, IClasspathEntry newEntry, String[] changedAttributes, IProgressMonitor monitor) throws JavaModelException {
+	private static void updateProjectClasspath(Shell shell, IJavaProject jproject, IClasspathEntry newEntry, String[] changedAttributes, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IClasspathEntry[] oldClasspath= jproject.getRawClasspath();
 		int nEntries= oldClasspath.length;
-		ArrayList<IClasspathEntry> newEntries= new ArrayList<>(nEntries + 1);
+		ArrayList<IClasspathEntry> newEntries= new ArrayList<>(nEntries + 1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int entryKind= newEntry.getEntryKind();
 		IPath jarPath= newEntry.getPath();
 		boolean found= false;
-		for (int i= 0; i < nEntries; i++) {
+		for (int i= 0; i < nEntries; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= oldClasspath[i];
 			if (curr.getEntryKind() == entryKind && curr.getPath().equals(jarPath)) {
 				// add modified entry
@@ -280,7 +280,7 @@ public class BuildPathSupport {
 		}
 
 		final boolean[] result= new boolean[1];
-		shell.getDisplay().syncExec(() -> {
+		shell.getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			String title= NewWizardMessages.BuildPathSupport_putoncpdialog_title;
 			String message= NewWizardMessages.BuildPathSupport_putoncpdialog_message;
 			result[0]= MessageDialog.openQuestion(shell, title, message);
@@ -296,14 +296,14 @@ public class BuildPathSupport {
 	 * @param monitor the progress monitor to use
 	 * @throws CoreException if the update failed
 	 */
-	private static void updateReferencedClasspathEntry(IJavaProject jproject, IClasspathEntry newReferencedEntry, String[] changedAttributes, IProgressMonitor monitor) throws CoreException {
+	private static void updateReferencedClasspathEntry(IJavaProject jproject, IClasspathEntry newReferencedEntry, String[] changedAttributes, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IClasspathEntry[] oldReferencedClasspath= jproject.getReferencedClasspathEntries();
 		int nEntries= oldReferencedClasspath.length;
-		ArrayList<IClasspathEntry> newReferencedEntries= new ArrayList<>(nEntries + 1);
+		ArrayList<IClasspathEntry> newReferencedEntries= new ArrayList<>(nEntries + 1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int entryKind= newReferencedEntry.getEntryKind();
 		IPath jarPath= newReferencedEntry.getPath();
 		boolean found= false;
-		for (int i= 0; i < nEntries; i++) {
+		for (int i= 0; i < nEntries; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= oldReferencedClasspath[i];
 			if (curr.getEntryKind() == entryKind && curr.getPath().equals(jarPath)) {
 				// add modified entry
@@ -334,7 +334,7 @@ public class BuildPathSupport {
 	 * @since 3.5
 	 */
 	public static void setEEComplianceOptions(IJavaProject javaProject, List<CPListElement> modifiedClassPathEntries) {
-		for (CPListElement entry : modifiedClassPathEntries) {
+		for (CPListElement entry : modifiedClassPathEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 				IPath path= entry.getPath();
 				if (! path.equals(entry.getOrginalPath())) {
@@ -360,13 +360,13 @@ public class BuildPathSupport {
 	 *
 	 * @since 3.5
 	 */
-	public static void setEEComplianceOptions(IJavaProject javaProject, String eeID, String newProjectCompliance) {
+	public static void setEEComplianceOptions(IJavaProject javaProject, String eeID, String newProjectCompliance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExecutionEnvironment ee= JavaRuntime.getExecutionEnvironmentsManager().getEnvironment(eeID);
 		if (ee != null) {
 			Map<String, String> options= javaProject.getOptions(false);
 			Map<String, String> eeOptions= getEEOptions(ee);
 			if (eeOptions != null) {
-				for (String option : PREFS_COMPLIANCE) {
+				for (String option : PREFS_COMPLIANCE) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String val= eeOptions.get(option);
 					if (val != null) {
 						options.put(option, val);
@@ -417,7 +417,7 @@ public class BuildPathSupport {
 			return null;
 
 		// eeOptions can miss some options, make sure they are complete:
-		HashMap<String, String> options= new HashMap<>();
+		HashMap<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		JavaModelUtil.setComplianceOptions(options, complianceOption);
 		options.putAll(eeOptions);
 		return options;

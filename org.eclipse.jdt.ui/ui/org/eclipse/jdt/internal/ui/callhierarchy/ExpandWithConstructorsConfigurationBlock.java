@@ -127,7 +127,7 @@ public class ExpandWithConstructorsConfigurationBlock extends OptionsConfigurati
 		 * @param existingEntries the existing list of types and members
 		 * @param isEditingMember <code>true</code if its a member, <code>false</code> otherwise
 		 */
-		public CallHierarchyTypesOrMembersDialog(Shell parent, List<String> existingEntries, boolean isEditingMember) {
+		public CallHierarchyTypesOrMembersDialog(Shell parent, List<String> existingEntries, boolean isEditingMember) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(parent);
 			fIsEditingMember= isEditingMember;
 			fExistingEntries= existingEntries;
@@ -180,14 +180,14 @@ public class ExpandWithConstructorsConfigurationBlock extends OptionsConfigurati
 		public String getResult() {
 			String val= fNameDialogField.getText();
 			if (!fIsEditingMember)
-				val= val + WILDCARD;
+				val= val + WILDCARD; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return val;
 		}
 
 		/*
 		 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite)super.createDialogArea(parent);
 			initializeDialogUnits(composite);
@@ -240,7 +240,7 @@ public class ExpandWithConstructorsConfigurationBlock extends OptionsConfigurati
 		/**
 		 * Validates the entered type or member and updates the status.
 		 */
-		private void doValidation() {
+		private void doValidation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			StatusInfo status= new StatusInfo();
 			String newText= fNameDialogField.getText();
 			if (newText.length() == 0) {
@@ -438,7 +438,7 @@ public class ExpandWithConstructorsConfigurationBlock extends OptionsConfigurati
 	/*
 	 * @see org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock#createContents(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		Composite control= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -454,7 +454,7 @@ public class ExpandWithConstructorsConfigurationBlock extends OptionsConfigurati
 		fIsAnonymous= getBooleanValue(ANONYMOUS_EXPAND_WITH_CONSTRUCTORS);
 		fAnonymousButton.setSelection(fIsAnonymous);
 		fAnonymousButton.setLayoutData(new GridData(SWT.LEAD, SWT.TOP, false, false));
-		fAnonymousButton.addSelectionListener(new SelectionAdapter() {
+		fAnonymousButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fIsAnonymous= fAnonymousButton.getSelection();
@@ -474,7 +474,7 @@ public class ExpandWithConstructorsConfigurationBlock extends OptionsConfigurati
 	 *
 	 * @param parent the composite
 	 */
-	private void createPreferenceList(Composite parent) {
+	private void createPreferenceList(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] buttonLabels= new String[] {
 				CallHierarchyMessages.ExpandWithConstructorsConfigurationBlock_newType_button,
 				CallHierarchyMessages.ExpandWithConstructorsConfigurationBlock_newMember_button,
@@ -547,7 +547,7 @@ public class ExpandWithConstructorsConfigurationBlock extends OptionsConfigurati
 	 *
 	 * @param index the index of the button
 	 */
-	private void doButtonPressed(int index) {
+	private void doButtonPressed(int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (index) {
 		case IDX_NEW_TYPE:
 		case IDX_NEW_MEMBER:
@@ -618,7 +618,7 @@ public class ExpandWithConstructorsConfigurationBlock extends OptionsConfigurati
 	 * @return the array of types and/or methods
 	 */
 	private static String[] deserializeMembers(String str) {
-		return str.split(";"); //$NON-NLS-1$
+		return str.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	/**

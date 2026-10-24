@@ -55,7 +55,7 @@ public class SuperTypesSet extends TypeSet {
 		return fLowerBounds.lowerBound();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TypeSet specialCasesIntersectedWith(TypeSet s2) {
 		if (fLowerBounds.equals(s2))
 			return s2; // xsect(superTypes(A),A) = A
@@ -123,7 +123,7 @@ public class SuperTypesSet extends TypeSet {
 		return fLowerBounds.isEmpty();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean contains(TType t) {
 		if (fEnumCache != null) return fEnumCache.contains(t);
 
@@ -134,7 +134,7 @@ public class SuperTypesSet extends TypeSet {
 
 		// Find the "lower frontier", i.e. the lower bound, and see whether
 		// the given type is a supertype of any of those.
-		for(Iterator<TType> lbIter= fLowerBounds /*.lowerBound() */.iterator(); lbIter.hasNext(); ) {
+		for(Iterator<TType> lbIter= fLowerBounds /*.lowerBound() */.iterator(); lbIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType lb= lbIter.next();
 
 			if (TTypes.canAssignTo(lb, t))
@@ -143,7 +143,7 @@ public class SuperTypesSet extends TypeSet {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean containsAll(TypeSet s) {
 		if (fEnumCache != null) return fEnumCache.containsAll(s);
 
@@ -155,13 +155,13 @@ public class SuperTypesSet extends TypeSet {
 			return true;
 
 		// Make sure all elements of s are contained in this set
-		for(Iterator<TType> sIter= s.iterator(); sIter.hasNext(); ) {
+		for(Iterator<TType> sIter= s.iterator(); sIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType t= sIter.next();
 			boolean found= false;
 
 			// Scan the "lower frontier", i.e. the lower bound set, and see whether
 			// 't' is a supertype of any of those.
-			for(Iterator<TType> lbIter= fLowerBounds /*.lowerBound()*/.iterator(); lbIter.hasNext(); ) {
+			for(Iterator<TType> lbIter= fLowerBounds /*.lowerBound()*/.iterator(); lbIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType lb= lbIter.next();
 
 				if (TTypes.canAssignTo(lb, t)) {
@@ -212,7 +212,7 @@ public class SuperTypesSet extends TypeSet {
 
 	@Override
 	public String toString() {
-		return "<" + fID + ": superTypes(" + fLowerBounds + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "<" + fID + ": superTypes(" + fLowerBounds + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -237,23 +237,23 @@ public class SuperTypesSet extends TypeSet {
 
 	private EnumeratedTypeSet fEnumCache= null;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public EnumeratedTypeSet enumerate() {
 		if (fEnumCache == null) {
 			fEnumCache= new EnumeratedTypeSet(getTypeSetEnvironment());
 			boolean anyLBIsIntfOrArray= false;
 
-			for(Iterator<TType> iter= fLowerBounds.iterator(); iter.hasNext(); ) {
+			for(Iterator<TType> iter= fLowerBounds.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType lb= iter.next();
 
 				if (lb instanceof ArrayType) {
 					ArrayType at= (ArrayType) lb;
 					int numDims= at.getDimensions();
-					for(Iterator<TType> elemSuperIter=TTypes.getAllSuperTypesIterator(at.getElementType()); elemSuperIter.hasNext(); )
+					for(Iterator<TType> elemSuperIter=TTypes.getAllSuperTypesIterator(at.getElementType()); elemSuperIter.hasNext(); ) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fEnumCache.add(TTypes.createArrayType(elemSuperIter.next(), numDims));
 					anyLBIsIntfOrArray= true;
 				} else {
-					for (Iterator<TType> iterator= TTypes.getAllSuperTypesIterator(lb); iterator.hasNext(); )
+					for (Iterator<TType> iterator= TTypes.getAllSuperTypesIterator(lb); iterator.hasNext(); ) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fEnumCache.fMembers.add(iterator.next());
 				}
 				fEnumCache.add(lb);

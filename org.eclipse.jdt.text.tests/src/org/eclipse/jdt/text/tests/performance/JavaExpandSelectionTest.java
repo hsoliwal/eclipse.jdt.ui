@@ -82,10 +82,10 @@ public class JavaExpandSelectionTest extends TextPerformanceTestCase {
 	private void measure(PerformanceMeter performanceMeter, int runs) throws Exception {
 		IAction action= fEditor.getAction(StructureSelectionAction.ENCLOSING);
 		int offset= EditorTestHelper.getDocument(fEditor).getLineOffset(LINE) + COLUMN;
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fEditor.selectAndReveal(offset, 0);
 			performanceMeter.start();
-			for (int j= 0; j < REPEAT; j++)
+			for (int j= 0; j < REPEAT; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				runAction(action);
 			performanceMeter.stop();
 		}

@@ -75,10 +75,10 @@ import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
  */
 public class ClasspathFixSelectionDialog extends StatusDialog {
 
-	public static boolean openClasspathFixSelectionDialog(Shell parent, final IJavaProject project, final String missingType, IRunnableContext context) {
+	public static boolean openClasspathFixSelectionDialog(Shell parent, final IJavaProject project, final String missingType, IRunnableContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ClasspathFixProposal[][] classPathFixProposals= { null };
 		try {
-			context.run(true, true, unused -> {
+			context.run(true, true, unused -> { //FLLDCIM: MARK — T09  LAMBDA
 				MultiStatus status= new MultiStatus(JavaUI.ID_PLUGIN, IStatus.OK, NewWizardMessages.ClasspathFixSelectionDialog_eval_proposals_error_message, null);
 				classPathFixProposals[0]= ClasspathFixProcessorDescriptor.getProposals(project, missingType, status);
 				if (!status.isOK()) {
@@ -93,7 +93,7 @@ public class ClasspathFixSelectionDialog extends StatusDialog {
 		final ClasspathFixSelectionDialog dialog= new ClasspathFixSelectionDialog(parent, project, missingType, classPathFixProposals[0]);
 		if (dialog.open() == Window.OK) {
 			try {
-				context.run(false, true, monitor -> {
+				context.run(false, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 					if (monitor == null) {
 						monitor= new NullProgressMonitor();
 					}
@@ -155,12 +155,12 @@ public class ClasspathFixSelectionDialog extends StatusDialog {
 		GridData layoutData= new GridData(SWT.FILL, SWT.CENTER, true, false);
 		layoutData.widthHint= convertWidthInCharsToPixels(80);
 		link.setLayoutData(layoutData);
-		link.addSelectionListener(listener);
+		link.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return link;
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 
@@ -183,18 +183,18 @@ public class ClasspathFixSelectionDialog extends StatusDialog {
 
 			fFixSelectionTable= new TableViewer(composite, SWT.SINGLE | SWT.BORDER);
 			fFixSelectionTable.setContentProvider(ArrayContentProvider.getInstance());
-			fFixSelectionTable.setLabelProvider(new ClasspathFixLabelProvider());
+			fFixSelectionTable.setLabelProvider(new ClasspathFixLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			fFixSelectionTable.setComparator(new ViewerComparator() {
 				@Override
 				public int category(Object element) {
 					return - ((ClasspathFixProposal) element).getRelevance();
 				}
 			});
-			fFixSelectionTable.addDoubleClickListener(listener);
-			fFixSelectionTable.setInput(fClasspathFixProposals);
+			fFixSelectionTable.addDoubleClickListener(listener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
+			fFixSelectionTable.setInput(fClasspathFixProposals); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			Table table= fFixSelectionTable.getTable();
 			table.select(0);
-			fFixSelectionTable.addSelectionChangedListener(listener);
+			fFixSelectionTable.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 			Dialog.applyDialogFont(table);
 
@@ -218,7 +218,7 @@ public class ClasspathFixSelectionDialog extends StatusDialog {
 	protected final void configureBuildPathPressed() {
 		cancelPressed();
 		String id= BUILD_PATH_PAGE_ID;
-		Map<Object, Boolean> input= new HashMap<>();
+		Map<Object, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 		if (PreferencesUtil.createPropertyDialogOn(getShell(), fProject, id, new String[] { id }, input).open() != Window.OK) {
 			return;
@@ -248,7 +248,7 @@ public class ClasspathFixSelectionDialog extends StatusDialog {
 		return fSelectedFix;
 	}
 
-	private class ListenerMix implements IDoubleClickListener, ISelectionChangedListener, SelectionListener {
+	private class ListenerMix implements IDoubleClickListener, ISelectionChangedListener, SelectionListener { //FLLDCIM: MARK — T05  IMPLEMENTS
 
 		@Override
 		public void doubleClick(DoubleClickEvent event) {

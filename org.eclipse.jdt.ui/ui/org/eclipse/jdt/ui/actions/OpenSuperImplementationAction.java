@@ -58,7 +58,7 @@ import org.eclipse.jdt.internal.core.manipulation.util.BasicElementLabels;
  * @since 2.0
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenSuperImplementationAction extends SelectionDispatchAction {
+public class OpenSuperImplementationAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -143,7 +143,7 @@ public class OpenSuperImplementationAction extends SelectionDispatchAction {
 	 * No Javadoc since the method isn't meant to be public but is
 	 * since the beginning
 	 */
-	public void run(IMethod method) {
+	public void run(IMethod method) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (method == null)
 			return;
 		if (!ActionUtil.isProcessable(getShell(), method))
@@ -181,7 +181,7 @@ public class OpenSuperImplementationAction extends SelectionDispatchAction {
 		return null;
 	}
 
-	private boolean checkMethod(IMethod method) {
+	private boolean checkMethod(IMethod method) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			int flags= method.getFlags();
 			if (!Flags.isStatic(flags) && !Flags.isPrivate(flags)) {

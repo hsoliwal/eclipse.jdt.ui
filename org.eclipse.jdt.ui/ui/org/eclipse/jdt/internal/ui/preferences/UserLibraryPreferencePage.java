@@ -155,7 +155,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		private CPUserLibraryElement fElementToEdit;
 		private List<CPUserLibraryElement> fExistingLibraries;
 
-		public LibraryNameDialog(Shell parent, CPUserLibraryElement elementToEdit, List<CPUserLibraryElement> existingLibraries) {
+		public LibraryNameDialog(Shell parent, CPUserLibraryElement elementToEdit, List<CPUserLibraryElement> existingLibraries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(parent);
 			if (elementToEdit == null) {
 				setTitle(PreferencesMessages.UserLibraryPreferencePage_LibraryNameDialog_new_title);
@@ -207,7 +207,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			if (name.length() == 0) {
 				return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LibraryNameDialog_name_error_entername);
 			}
-			for (CPUserLibraryElement curr : fExistingLibraries) {
+			for (CPUserLibraryElement curr : fExistingLibraries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr != fElementToEdit && name.equals(curr.getName())) {
 					return new StatusInfo(IStatus.ERROR, Messages.format(PreferencesMessages.UserLibraryPreferencePage_LibraryNameDialog_name_error_exists, name));
 				}
@@ -251,7 +251,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		private static final String TAG_RULE_KIND= "kind"; //$NON-NLS-1$
 		private static final String TAG_RULE_PATTERN= "pattern"; //$NON-NLS-1$
 
-		private static final String PREF_LASTPATH= JavaUI.ID_PLUGIN + ".lastuserlibrary"; //$NON-NLS-1$
+		private static final String PREF_LASTPATH= JavaUI.ID_PLUGIN + ".lastuserlibrary"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		private static final String PREF_USER_LIBRARY_LOADSAVE_SIZE= "UserLibraryLoadSaveDialog.size"; //$NON-NLS-1$
 
 		private List<CPUserLibraryElement> fExistingLibraries;
@@ -264,7 +264,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		private Point fInitialSize;
 		private final boolean fIsSave;
 
-		public LoadSaveDialog(Shell shell, boolean isSave, List<CPUserLibraryElement> existingLibraries, IDialogSettings dialogSettings) {
+		public LoadSaveDialog(Shell shell, boolean isSave, List<CPUserLibraryElement> existingLibraries, IDialogSettings dialogSettings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(shell);
 			initializeDialogUnits(shell);
 
@@ -335,7 +335,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			return fIsSave;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite) super.createDialogArea(parent);
 			DialogField[] fields;
@@ -362,14 +362,14 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		}
 
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void changeControlPressed(DialogField field) {
 			String label= isSave() ? PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_filedialog_save_title : PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_filedialog_load_title;
 			FileDialog dialog= new FileDialog(getShell(), SWT.SHEET | (isSave() ? SWT.SAVE : SWT.OPEN));
 			dialog.setText(label);
 			dialog.setFilterExtensions(new String[] {"*.userlibraries", "*.*"}); //$NON-NLS-1$ //$NON-NLS-2$
 			String lastPath= fLocationField.getText();
-			if (lastPath.length() == 0 || !new File(lastPath).exists()) {
+			if (lastPath.length() == 0 || !new File(lastPath).exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				lastPath= fSettings.get(PREF_LASTPATH);
 			}
 			if (lastPath != null) {
@@ -382,7 +382,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			}
 		}
 
-		private IStatus updateShownLibraries(IStatus status) {
+		private IStatus updateShownLibraries(IStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!status.isOK()) {
 				fExportImportList.removeAllElements();
 				fExportImportList.setEnabled(false);
@@ -439,11 +439,11 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void okPressed() {
 			if (isSave()) {
 				final File file= new File(fLocationField.getText());
-				if (file.exists()) {
+				if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					String title= PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_overwrite_title;
 					String message= PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_overwrite_message;
 					if (!MessageDialog.openQuestion(getShell(), title, message)) {
@@ -452,7 +452,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 				}
 				try {
 					String encoding= "UTF-8"; //$NON-NLS-1$
-					IPath filePath= Path.fromOSString(file.getCanonicalPath());
+					IPath filePath= Path.fromOSString(file.getCanonicalPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					final IPath workspacePath= ResourcesPlugin.getWorkspace().getRoot().getLocation();
 					if (filePath.matchingFirstSegments(workspacePath) == workspacePath.segmentCount()) {
 						IPath path= filePath.removeFirstSegments(workspacePath.segmentCount());
@@ -469,7 +469,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 					final String charset= encoding;
 					IRunnableContext context= PlatformUI.getWorkbench().getProgressService();
 					try {
-						context.run(true, true, monitor -> {
+						context.run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 							try {
 								saveLibraries(elements, file, charset, monitor);
 							} catch (IOException e) {
@@ -493,13 +493,13 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 					JavaPlugin.log(exception);
 				}
 			} else {
-				HashSet<String> map= new HashSet<>(fExistingLibraries.size());
-				for (CPUserLibraryElement elem : fExistingLibraries) {
+				HashSet<String> map= new HashSet<>(fExistingLibraries.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (CPUserLibraryElement elem : fExistingLibraries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					map.add(elem.getName());
 				}
 				int nReplaced= 0;
 				List<CPUserLibraryElement> elements= getLoadedLibraries();
-				for (CPUserLibraryElement curr : elements) {
+				for (CPUserLibraryElement curr : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (map.contains(curr.getName())) {
 						nReplaced++;
 					}
@@ -527,7 +527,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			return super.close();
 		}
 
-		private IStatus validateSettings() {
+		private IStatus validateSettings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String name= fLocationField.getText();
 			fLastFile= null;
 			if (isSave()) {
@@ -535,7 +535,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 					return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_location_error_save_enterlocation);
 				}
 				File file= new File(name);
-				if (file.isDirectory()) {
+				if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_location_error_save_invalid);
 				}
 				if (fExportImportList.getCheckedSize() == 0) {
@@ -546,7 +546,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 				if (name.length() == 0) {
 					return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_location_error_load_enterlocation);
 				}
-				if (!new File(name).isFile()) {
+				if (!new File(name).isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return new StatusInfo(IStatus.ERROR, PreferencesMessages.UserLibraryPreferencePage_LoadSaveDialog_location_error_load_invalid);
 				}
 				if (fExportImportList.getSize() > 0 && fExportImportList.getCheckedSize() == 0) {
@@ -556,8 +556,8 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			return new StatusInfo();
 		}
 
-		protected static void saveLibraries(List<CPUserLibraryElement> libraries, File file, String encoding, IProgressMonitor monitor) throws IOException {
-			try (OutputStream stream= new FileOutputStream(file)) {
+		protected static void saveLibraries(List<CPUserLibraryElement> libraries, File file, String encoding, IProgressMonitor monitor) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			try (OutputStream stream= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
 				factory.setValidating(false);
 				DocumentBuilder docBuilder= factory.newDocumentBuilder();
@@ -569,14 +569,14 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 
 				rootElement.setAttribute(TAG_VERSION, CURRENT_VERSION);
 
-				for (CPUserLibraryElement curr : libraries) {
+				for (CPUserLibraryElement curr : libraries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Element libraryElement= document.createElement(TAG_LIBRARY);
 					rootElement.appendChild(libraryElement);
 
 					libraryElement.setAttribute(TAG_NAME, curr.getName());
 					libraryElement.setAttribute(TAG_SYSTEMLIBRARY, String.valueOf(curr.isSystemLibrary()));
 
-					for (CPListElement child : curr.getChildren()) {
+					for (CPListElement child : curr.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Element childElement= document.createElement(TAG_ARCHIVE);
 						libraryElement.appendChild(childElement);
 
@@ -601,7 +601,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 						if (accessRules != null && accessRules.length > 0) {
 							Element rulesElement= document.createElement(TAG_ACCESSRULES);
 							childElement.appendChild(rulesElement);
-							for (IAccessRule rule : accessRules) {
+							for (IAccessRule rule : accessRules) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Element ruleElement= document.createElement(TAG_ACCESSRULE);
 								rulesElement.appendChild(ruleElement);
 								ruleElement.setAttribute(TAG_RULE_KIND, String.valueOf(rule.getKind()));
@@ -630,9 +630,9 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			}
 		}
 
-		private static List<CPUserLibraryElement> loadLibraries(File file) throws IOException {
+		private static List<CPUserLibraryElement> loadLibraries(File file) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Element cpElement;
-			try (InputStream stream= new FileInputStream(file)) {
+			try (InputStream stream= new FileInputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				DocumentBuilder parser = XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE().newDocumentBuilder();
 				parser.setErrorHandler(new DefaultHandler());
 				cpElement = parser.parse(new InputSource(stream)).getDocumentElement();
@@ -651,8 +651,8 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 
 			IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 
-			ArrayList<CPUserLibraryElement> result= new ArrayList<>(length);
-			for (int i= 0; i < length; i++) {
+			ArrayList<CPUserLibraryElement> result= new ArrayList<>(length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Node lib= libList.item(i);
 				if (!(lib instanceof Element)) {
 					continue;
@@ -665,7 +665,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 				result.add(newLibrary);
 
 				NodeList archiveList= libElement.getElementsByTagName(TAG_ARCHIVE);
-				for (int k= 0; k < archiveList.getLength(); k++) {
+				for (int k= 0; k < archiveList.getLength(); k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Node archiveNode= archiveList.item(k);
 					if (!(archiveNode instanceof Element)) {
 						continue;
@@ -707,8 +707,8 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 						NodeList ruleElements= ruleParentElement.getElementsByTagName(TAG_ACCESSRULE);
 						int nRuleElements= ruleElements.getLength();
 						if (nRuleElements > 0) {
-							ArrayList<IAccessRule> resultingRules= new ArrayList<>(nRuleElements);
-							for (int n= 0; n < nRuleElements; n++) {
+							ArrayList<IAccessRule> resultingRules= new ArrayList<>(nRuleElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+							for (int n= 0; n < nRuleElements; n++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Node node= ruleElements.item(n);
 								if (node instanceof Element) {
 									Element ruleElement= (Element) node;
@@ -753,7 +753,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 	/**
 	 * Constructor for ClasspathVariablesPreferencePage
 	 */
-	public UserLibraryPreferencePage() {
+	public UserLibraryPreferencePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		setPreferenceStore(JavaPlugin.getDefault().getPreferenceStore());
 		fDummyProject= createPlaceholderProject();
 
@@ -785,9 +785,9 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		fLibraryList= new TreeListDialogField<>(adapter, buttonLabels, new CPListLabelProvider());
 		fLibraryList.setLabelText(PreferencesMessages.UserLibraryPreferencePage_libraries_label);
 
-		ArrayList<CPUserLibraryElement> elements= new ArrayList<>();
+		ArrayList<CPUserLibraryElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String name : JavaCore.getUserLibraryNames()) {
+		for (String name : JavaCore.getUserLibraryNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath path= new Path(JavaCore.USER_LIBRARY_CONTAINER_ID).append(name);
 			try {
 				IClasspathContainer container= JavaCore.getClasspathContainer(path, fDummyProject);
@@ -806,7 +806,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 	private static IJavaProject createPlaceholderProject() {
 		String name= "####internal"; //$NON-NLS-1$
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject project= root.getProject(name);
 			if (!project.exists()) {
 				return JavaCore.create(project);
@@ -816,7 +816,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void applyData(Object data) {
 		if (data instanceof Map) {
 			@SuppressWarnings("unchecked")
@@ -824,7 +824,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			Object selectedLibrary= map.get(DATA_LIBRARY_TO_SELECT);
 			boolean createIfNotExists= Boolean.TRUE.equals(map.get(DATA_DO_CREATE));
 			if (selectedLibrary instanceof String) {
-				for (CPUserLibraryElement curr : fLibraryList.getElements()) {
+				for (CPUserLibraryElement curr : fLibraryList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (curr.getName().equals(selectedLibrary)) {
 						fLibraryList.selectElements(new StructuredSelection(curr));
 						fLibraryList.expandElement(curr, 1);
@@ -879,10 +879,10 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 	/*
 	 * @see PreferencePage#performOk()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		try {
-			PlatformUI.getWorkbench().getProgressService().run(true, true, monitor -> {
+			PlatformUI.getWorkbench().getProgressService().run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					if (monitor == null) {
 						monitor= new NullProgressMonitor();
@@ -906,13 +906,13 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 	}
 
 
-	private void updateUserLibararies(IProgressMonitor monitor) throws CoreException {
+	private void updateUserLibararies(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<CPUserLibraryElement> list= fLibraryList.getElements();
-		HashSet<String> oldNames= new HashSet<>(Arrays.asList(JavaCore.getUserLibraryNames()));
+		HashSet<String> oldNames= new HashSet<>(Arrays.asList(JavaCore.getUserLibraryNames())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		int nExisting= list.size();
 
-		HashSet<CPUserLibraryElement> newEntries= new HashSet<>(list.size());
-		for (CPUserLibraryElement element : list) {
+		HashSet<CPUserLibraryElement> newEntries= new HashSet<>(list.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (CPUserLibraryElement element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean contained= oldNames.remove(element.getName());
 			if (!contained) {
 				newEntries.add(element);
@@ -926,7 +926,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		ClasspathContainerInitializer initializer= JavaCore.getClasspathContainerInitializer(JavaCore.USER_LIBRARY_CONTAINER_ID);
 		IJavaProject jproject= fDummyProject;
 
-		for (int i= 0; i < nExisting; i++) {
+		for (int i= 0; i < nExisting; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPUserLibraryElement element= list.get(i);
 			IPath path= element.getPath();
 			if (newEntries.contains(element) || element.hasChanges(JavaCore.getClasspathContainer(path, jproject))) {
@@ -941,7 +941,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		}
 
 		Iterator<String> iter= oldNames.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= iter.next();
 
 			IPath path= new Path(JavaCore.USER_LIBRARY_CONTAINER_ID).append(name);
@@ -965,13 +965,13 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		return null;
 	}
 
-	private void editAttributeEntry(CPListElementAttribute elem) {
+	private void editAttributeEntry(CPListElementAttribute elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String key= elem.getKey();
 		CPListElement selElement= elem.getParent();
 		Object parentContainer= selElement.getParentContainer();
 
 		boolean canEditEncoding= false;
-		for (CPListElementAttribute allAttribute : selElement.getAllAttributes()) {
+		for (CPListElementAttribute allAttribute : selElement.getAllAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (CPListElement.SOURCE_ATTACHMENT_ENCODING.equals(allAttribute.getKey())) {
 				canEditEncoding= !allAttribute.isNonModifiable() && !allAttribute.isNotSupported();
 			}
@@ -1008,7 +1008,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		}
 	}
 
-	protected void doSelectionChanged(TreeListDialogField<CPUserLibraryElement> field) {
+	protected void doSelectionChanged(TreeListDialogField<CPUserLibraryElement> field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Object> list= field.getSelectedElements();
 		String text;
 		if (list.size() == 1
@@ -1034,7 +1034,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		field.enableButton(IDX_SAVE, field.getSize() > 0);
 	}
 
-	protected void doCustomButtonPressed(TreeListDialogField<CPUserLibraryElement> field, int index) {
+	protected void doCustomButtonPressed(TreeListDialogField<CPUserLibraryElement> field, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (index) {
 		case IDX_NEW:
 			editUserLibraryElement(null);
@@ -1116,7 +1116,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 	private void editArchiveElement(CPListElement existingElement, CPUserLibraryElement parent) {
 		CPListElement[] elements= openJarFileDialog(existingElement, parent);
 		if (elements != null) {
-			for (CPListElement element : elements) {
+			for (CPListElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (existingElement != null) {
 					parent.replace(existingElement, element);
 				} else {
@@ -1130,9 +1130,9 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 	}
 
 
-	private void doRemove(List<Object> selected) {
+	private void doRemove(List<Object> selected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object selectionAfter= null;
-		for (Object curr : selected) {
+		for (Object curr : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof CPUserLibraryElement) {
 				fLibraryList.removeElement((CPUserLibraryElement) curr);
 			} else if (curr instanceof CPListElement) {
@@ -1177,7 +1177,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		}
 	}
 
-	private void doAdd(List<Object> list) {
+	private void doAdd(List<Object> list) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (canAdd(list)) {
 			CPUserLibraryElement parentLibrary = getSingleSelectedLibrary(list);
 
@@ -1186,8 +1186,8 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 			IPath selectedPaths[] = BuildPathDialogAccess.chooseJAREntries(this.getShell(), selection, new IPath[0]);
 
 			if (selectedPaths != null) {
-				List<CPListElement> elements = new ArrayList<>();
-				for (IPath selectedPath : selectedPaths) {
+				List<CPListElement> elements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IPath selectedPath : selectedPaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CPListElement cpElement = new CPListElement(parentLibrary, fDummyProject, IClasspathEntry.CPE_LIBRARY, selectedPath, null);
 					cpElement.setAttribute(CPListElement.SOURCEATTACHMENT, BuildPathSupport.guessSourceAttachment(cpElement));
 					cpElement.setAttribute(CPListElement.JAVADOC, BuildPathSupport.guessJavadocLocation(cpElement));
@@ -1203,7 +1203,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		}
 	}
 
-	private IPath getWorkbenchWindowSelection() {
+	private IPath getWorkbenchWindowSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchWindow window= fWorkbench.getActiveWorkbenchWindow();
 		if (window != null) {
 			ISelection selection= window.getSelectionService().getSelection();
@@ -1217,7 +1217,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 					}
 					if (structuredSelection instanceof ITreeSelection) {
 						TreePath treePath= ((ITreeSelection) structuredSelection).getPaths()[0];
-						while ((treePath = treePath.getParentPath()) != null) {
+						while ((treePath = treePath.getParentPath()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							element= treePath.getLastSegment();
 							resource= Platform.getAdapterManager().getAdapter(element, IResource.class);
 							if (resource != null) {
@@ -1239,17 +1239,17 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		}
 	}
 
-	private void doLoad() {
+	private void doLoad() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<CPUserLibraryElement> existing= fLibraryList.getElements();
 		LoadSaveDialog dialog= new LoadSaveDialog(getShell(), false, existing, fDialogSettings);
 		if (dialog.open() == Window.OK) {
-			HashMap<String, CPUserLibraryElement> map= new HashMap<>(existing.size());
-			for (CPUserLibraryElement elem : existing) {
+			HashMap<String, CPUserLibraryElement> map= new HashMap<>(existing.size()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (CPUserLibraryElement elem : existing) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				map.put(elem.getName(), elem);
 			}
 
 			List<CPUserLibraryElement> list= dialog.getLoadedLibraries();
-			for (int i= 0; i < list.size(); i++) {
+			for (int i= 0; i < list.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPUserLibraryElement elem= list.get(i);
 				CPUserLibraryElement found= map.get(elem.getName());
 				if (found == null) {
@@ -1290,11 +1290,11 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		return true;
 	}
 
-	private boolean canRemove(List<Object> list) {
+	private boolean canRemove(List<Object> list) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (list.isEmpty()) {
 			return false;
 		}
-		for (Object elem : list) {
+		for (Object elem : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem instanceof CPListElementAttribute) {
 				CPListElementAttribute attrib= (CPListElementAttribute) elem;
 				if (attrib.isNonModifiable()) {
@@ -1323,9 +1323,9 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		return true;
 	}
 
-	private CPUserLibraryElement getCommonParent(List<?> list) {
+	private CPUserLibraryElement getCommonParent(List<?> list) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPUserLibraryElement parent= null;
-		for (Object curr : list) {
+		for (Object curr : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof CPListElement) {
 				Object elemParent= ((CPListElement) curr).getParentContainer();
 				if (parent == null) {
@@ -1371,7 +1371,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		CPUserLibraryElement parent= getCommonParent(list);
 		if (parent != null) {
 			CPListElement[] children= parent.getChildren();
-			for (int i= 0, len= Math.min(list.size(), children.length); i < len ; i++) {
+			for (int i= 0, len= Math.min(list.size(), children.length); i < len ; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!list.contains(children[i])) {
 					return true;
 				}
@@ -1384,7 +1384,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		CPUserLibraryElement parent= getCommonParent(list);
 		if (parent != null) {
 			CPListElement[] children= parent.getChildren();
-			for (int i= children.length - 1, end= Math.max(0, children.length - list.size()); i >= end; i--) {
+			for (int i= children.length - 1, end= Math.max(0, children.length - list.size()); i >= end; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!list.contains(children[i])) {
 					return true;
 				}
@@ -1412,8 +1412,8 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		IPath selectedPaths[] = BuildPathDialogAccess.chooseJAREntries(this.getShell(), path, new IPath[0]);
 
 		if (selectedPaths != null) {
-			List<CPListElement> elements = new ArrayList<>();
-			for (IPath selectedPath : selectedPaths) {
+			List<CPListElement> elements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPath selectedPath : selectedPaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPListElement cpElement = new CPListElement(parent, fDummyProject, IClasspathEntry.CPE_LIBRARY, selectedPath, null);
 				cpElement.setAttribute(CPListElement.SOURCEATTACHMENT, BuildPathSupport.guessSourceAttachment(cpElement));
 				cpElement.setAttribute(CPListElement.JAVADOC, BuildPathSupport.guessJavadocLocation(cpElement));
@@ -1425,7 +1425,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 		return null;
 	}
 
-	private CPListElement[] doOpenExternalJarFileDialog(CPListElement existing, Object parent) {
+	private CPListElement[] doOpenExternalJarFileDialog(CPListElement existing, Object parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String lastUsedPath;
 		if (existing != null) {
 			lastUsedPath= existing.getPath().removeLastSegments(1).toOSString();
@@ -1456,7 +1456,7 @@ public class UserLibraryPreferencePage extends PreferencePage implements IWorkbe
 
 		IPath filterPath= Path.fromOSString(dialog.getFilterPath());
 		CPListElement[] elems= new CPListElement[nChosen];
-		for (int i= 0; i < nChosen; i++) {
+		for (int i= 0; i < nChosen; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath path= filterPath.append(fileNames[i]).makeAbsolute();
 
 			IFile file= root.getFileForLocation(path); // support internal JARs: bug 133191

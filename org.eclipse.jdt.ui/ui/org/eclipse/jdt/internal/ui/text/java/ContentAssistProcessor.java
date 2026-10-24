@@ -108,7 +108,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 		/*
 		 * @see org.eclipse.jface.text.contentassist.ICompletionListener#assistSessionStarted(org.eclipse.jface.text.contentassist.ContentAssistEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void assistSessionStarted(ContentAssistEvent event) {
 			if (event.processor != ContentAssistProcessor.this) {
 				return;
@@ -119,7 +119,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 
 			// This may show the warning dialog if all categories are disabled
 			setCategoryIteration();
-			for (CompletionProposalCategory cat : getCategoriesToNotify()) {
+			for (CompletionProposalCategory cat : getCategoriesToNotify()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				cat.sessionStarted();
 			}
 
@@ -150,19 +150,19 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 		 * @return the current categories
 		 * @since 3.8.1
 		 */
-		private Set<CompletionProposalCategory> getCategoriesToNotify() {
-			Set<CompletionProposalCategory> currentCategories= new HashSet<>(fCategories.size());
+		private Set<CompletionProposalCategory> getCategoriesToNotify() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			Set<CompletionProposalCategory> currentCategories= new HashSet<>(fCategories.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 			// Currently enabled categories for this session
 			if (fCategoryIteration != null) {
 				Iterator<List<CompletionProposalCategory>> it= fCategoryIteration.iterator();
-				while (it.hasNext()) {
+				while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					currentCategories.addAll(it.next());
 				}
 			}
 
 			// Backwards compatibility: notify all categories which have no enablement expression
-			for (CompletionProposalCategory cat : fCategories) {
+			for (CompletionProposalCategory cat : fCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (cat.getEnablementExpression() == null) {
 					currentCategories.add(cat);
 				}
@@ -174,13 +174,13 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 		/*
 		 * @see org.eclipse.jface.text.contentassist.ICompletionListener#assistSessionEnded(org.eclipse.jface.text.contentassist.ContentAssistEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void assistSessionEnded(ContentAssistEvent event) {
 			if (event.processor != ContentAssistProcessor.this) {
 				return;
 			}
 
-			for (CompletionProposalCategory cat : getCategoriesToNotify()) {
+			for (CompletionProposalCategory cat : getCategoriesToNotify()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				cat.sessionEnded();
 			}
 
@@ -272,7 +272,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 	/*
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		long start= JavaPlugin.DEBUG_RESULT_COLLECTOR ? System.currentTimeMillis() : 0;
 
@@ -301,10 +301,10 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 		monitor.done();
 
 		if (JavaPlugin.DEBUG_RESULT_COLLECTOR) {
-			System.err.println("Code Assist Stats (" + result.length + " proposals)"); //$NON-NLS-1$ //$NON-NLS-2$
-			System.err.println("Code Assist (setup):\t" + (setup - start) ); //$NON-NLS-1$
-			System.err.println("Code Assist (collect):\t" + (collect - setup) ); //$NON-NLS-1$
-			System.err.println("Code Assist (sort):\t" + (filter - collect) ); //$NON-NLS-1$
+			System.err.println("Code Assist Stats (" + result.length + " proposals)"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.err.println("Code Assist (setup):\t" + (setup - start) ); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.err.println("Code Assist (collect):\t" + (collect - setup) ); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.err.println("Code Assist (sort):\t" + (filter - collect) ); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return result;
@@ -324,11 +324,11 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 	 * @param context the code assist invocation context
 	 * @return the list of proposals
 	 */
-	private List<ICompletionProposal> collectProposals(ITextViewer viewer, int offset, IProgressMonitor monitor, ContentAssistInvocationContext context) {
+	private List<ICompletionProposal> collectProposals(ITextViewer viewer, int offset, IProgressMonitor monitor, ContentAssistInvocationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean needsSortingAfterFiltering= false;
-		List<ICompletionProposal> proposals= new ArrayList<>();
+		List<ICompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<CompletionProposalCategory> providers= getCategories();
-		for (CompletionProposalCategory cat : providers) {
+		for (CompletionProposalCategory cat : providers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<ICompletionProposal> computed= cat.computeCompletionProposals(context, fPartition, Progress.subMonitor(monitor, 1));
 			proposals.addAll(computed);
 			needsSortingAfterFiltering= needsSortingAfterFiltering || (cat.isSortingAfterFilteringNeeded() && !computed.isEmpty());
@@ -381,11 +381,11 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 	}
 
 	private List<IContextInformation> collectContextInformation(ITextViewer viewer, int offset, IProgressMonitor monitor) {
-		List<IContextInformation> proposals= new ArrayList<>();
+		List<IContextInformation> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ContentAssistInvocationContext context= createContext(viewer, offset);
 
 		List<CompletionProposalCategory> providers= getCategories();
-		for (CompletionProposalCategory cat : providers) {
+		for (CompletionProposalCategory cat : providers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<IContextInformation> computed= cat.computeContextInformation(context, fPartition, Progress.subMonitor(monitor, 1));
 			proposals.addAll(computed);
 			if (fErrorMessage == null) {
@@ -485,7 +485,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 		return new ContentAssistInvocationContext(viewer, offset);
 	}
 
-	private List<CompletionProposalCategory> getCategories() {
+	private List<CompletionProposalCategory> getCategories() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCategoryIteration == null) {
 			return fCategories;
 		}
@@ -495,7 +495,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 		if (Display.getCurrent() != null) {
 			fAssistant.setStatusMessage(iterationMessage);
 		} else {
-			Display.getDefault().asyncExec(() -> fAssistant.setStatusMessage(iterationMessage));
+			Display.getDefault().asyncExec(() -> fAssistant.setStatusMessage(iterationMessage)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 		fAssistant.setEmptyMessage(createEmptyMessage());
 		fRepetition++;
@@ -511,9 +511,9 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 	}
 
 	private List<List<CompletionProposalCategory>> getCategoryIteration() {
-		List<List<CompletionProposalCategory>> sequence= new ArrayList<>();
+		List<List<CompletionProposalCategory>> sequence= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		sequence.add(getDefaultCategories());
-		for (CompletionProposalCategory cat : getSeparateCategories()) {
+		for (CompletionProposalCategory cat : getSeparateCategories()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sequence.add(Collections.singletonList(cat));
 		}
 		return sequence;
@@ -535,8 +535,8 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 	}
 
 	private List<CompletionProposalCategory> getDefaultCategoriesUnchecked() {
-		List<CompletionProposalCategory> included= new ArrayList<>();
-		for (CompletionProposalCategory category : fCategories) {
+		List<CompletionProposalCategory> included= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CompletionProposalCategory category : fCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (checkDefaultEnablement(category)) {
 				included.add(category);
 			}
@@ -563,7 +563,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 	 * @return  <code>true</code> if the default should be restored
 	 * @since 3.3
 	 */
-	private boolean informUserAboutEmptyDefaultCategory() {
+	private boolean informUserAboutEmptyDefaultCategory() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (OptionalMessageDialog.isDialogEnabled(PREF_WARN_ABOUT_EMPTY_ASSIST_CATEGORY)) {
 			final Shell shell= JavaPlugin.getActiveWorkbenchShell();
 			String title= JavaTextMessages.ContentAssistProcessor_all_disabled_title;
@@ -577,7 +577,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 				/*
 				 * @see org.eclipse.jdt.internal.ui.dialogs.OptionalMessageDialog#createCustomArea(org.eclipse.swt.widgets.Composite)
 				 */
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected Control createCustomArea(Composite composite) {
 					// wrap link and checkbox in one composite without space
 					Composite parent= new Composite(composite, SWT.NONE);
@@ -596,7 +596,7 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 
 	        		Link link= new Link(linkComposite, SWT.NONE);
 	        		link.setText(linkMessage);
-	        		link.addSelectionListener(new SelectionAdapter() {
+	        		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	        			@Override
 						public void widgetSelected(SelectionEvent e) {
 	        				setReturnCode(settingsId);
@@ -642,13 +642,13 @@ public class ContentAssistProcessor implements IContentAssistProcessor {
 	}
 
 	private List<CompletionProposalCategory> getSeparateCategories() {
-		ArrayList<CompletionProposalCategory> sorted= new ArrayList<>();
-		for (CompletionProposalCategory category : fCategories) {
+		ArrayList<CompletionProposalCategory> sorted= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CompletionProposalCategory category : fCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (checkSeparateEnablement(category)) {
 				sorted.add(category);
 			}
 		}
-		Collections.sort(sorted, ORDER_COMPARATOR);
+		Collections.sort(sorted, ORDER_COMPARATOR); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		return sorted;
 	}
 

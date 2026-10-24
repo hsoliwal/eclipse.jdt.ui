@@ -95,7 +95,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.BindingLabelProvider;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAction {
+public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private CompilationUnitEditor fEditor;
 
@@ -146,7 +146,7 @@ public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAc
 
 	private boolean canRunOn(IField[] fields) throws JavaModelException {
 		if (fields != null && fields.length > 0) {
-			for (IField field : fields) {
+			for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (JdtFlags.isEnum(field)) {
 					MessageDialog.openInformation(getShell(), ActionMessages.GenerateConstructorUsingFieldsAction_error_title, ActionMessages.GenerateConstructorUsingFieldsAction_enum_not_applicable);
 					return false;
@@ -165,12 +165,12 @@ public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAc
 	 * Returns fields in the selection or <code>null</code> if the selection is empty or
 	 * not valid.
 	 */
-	private IField[] getSelectedFields(IStructuredSelection selection) {
+	private IField[] getSelectedFields(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<?> elements= selection.toList();
 		if (elements.size() > 0) {
 			IField[] fields= new IField[elements.size()];
 			ICompilationUnit unit= null;
-			for (int index= 0; index < elements.size(); index++) {
+			for (int index= 0; index < elements.size(); index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (elements.get(index) instanceof IField) {
 					IField field= (IField) elements.get(index);
 					if (index == 0) {
@@ -219,7 +219,7 @@ public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAc
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		try {
 			IType selectionType= getSelectedType(selection);
@@ -264,7 +264,7 @@ public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAc
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		if (!ActionUtil.isProcessable(fEditor)) {
 			notifyResult(false);
@@ -306,7 +306,7 @@ public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAc
 
 	// ---- Helpers -------------------------------------------------------------------
 
-	void run(IType type, IField[] selectedFields, boolean activated) throws CoreException {
+	void run(IType type, IField[] selectedFields, boolean activated) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!ElementValidator.check(type, getShell(), ActionMessages.GenerateConstructorUsingFieldsAction_error_title, activated)) {
 			notifyResult(false);
 			return;
@@ -334,10 +334,10 @@ public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAc
 			return;
 		}
 
-		HashMap<IJavaElement, IVariableBinding> fieldsToBindings= new HashMap<>();
-		ArrayList<IVariableBinding> selected= new ArrayList<>();
+		HashMap<IJavaElement, IVariableBinding> fieldsToBindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		ArrayList<IVariableBinding> selected= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IVariableBinding curr : typeBinding.getDeclaredFields()) {
+		for (IVariableBinding curr : typeBinding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isSynthetic()) {
 				continue;
 			}
@@ -357,8 +357,8 @@ public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAc
 			}
 		}
 
-		ArrayList<IVariableBinding> fields= new ArrayList<>();
-		for (IField field : type.getFields()) {
+		ArrayList<IVariableBinding> fields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IField field : type.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding fieldBinding= fieldsToBindings.remove(field);
 			if (fieldBinding != null) {
 				fields.add(fieldBinding);
@@ -402,8 +402,8 @@ public class GenerateNewConstructorUsingFieldsAction extends SelectionDispatchAc
 				notifyResult(false);
 				return;
 			}
-			ArrayList<IVariableBinding> result= new ArrayList<>(elements.length);
-			for (Object element : elements) {
+			ArrayList<IVariableBinding> result= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IVariableBinding) {
 					result.add((IVariableBinding) element);
 				}

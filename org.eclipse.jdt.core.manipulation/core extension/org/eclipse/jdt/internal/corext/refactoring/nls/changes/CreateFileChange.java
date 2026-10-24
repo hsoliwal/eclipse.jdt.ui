@@ -123,7 +123,7 @@ public class CreateFileChange extends ResourceChange {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(fPath);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus isValid(IProgressMonitor pm) throws CoreException {
 		RefactoringStatus result= new RefactoringStatus();
 		IFile file= ResourcesPlugin.getWorkspace().getRoot().getFile(fPath);
@@ -145,7 +145,7 @@ public class CreateFileChange extends ResourceChange {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change perform(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		try {
 			pm.beginTask(NLSChangesMessages.createFile_creating_resource, 3);
@@ -190,7 +190,7 @@ public class CreateFileChange extends ResourceChange {
 		}
 	}
 
-	private void initializeEncoding() {
+	private void initializeEncoding() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fEncoding == null) {
 			fExplicitEncoding= false;
 			IFile file= ResourcesPlugin.getWorkspace().getRoot().getFile(fPath);

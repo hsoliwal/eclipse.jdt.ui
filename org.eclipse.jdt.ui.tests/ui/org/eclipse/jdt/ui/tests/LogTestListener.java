@@ -25,12 +25,12 @@ public class LogTestListener implements TestExecutionListener {
     @Override
     public void executionStarted(TestIdentifier id) {
     	String name = id.getDisplayName();
-		JavaPlugin.log(Status.info(name + " STARTING"));
+		JavaPlugin.log(Status.info(name + " STARTING")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
 
     @Override
     public void executionFinished(TestIdentifier id, TestExecutionResult result) {
     	String name = id.getDisplayName();
-		JavaPlugin.log(Status.info(name + " DONE: " + result.getStatus()));
+		JavaPlugin.log(Status.info(name + " DONE: " + result.getStatus())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
 }

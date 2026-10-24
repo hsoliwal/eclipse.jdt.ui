@@ -36,7 +36,7 @@ public class RefactoringTestRepositoryProvider extends RepositoryProvider {
 
 	public static final String PROVIDER_ID= "org.eclipse.jdt.ui.tests.refactoring.refactoringTestRepositoryProvider";
 
-	private static HashMap<IProject, RefactoringTestFileModificationValidator> fgValidators= new HashMap<>();
+	private static HashMap<IProject, RefactoringTestFileModificationValidator> fgValidators= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public static Collection<IPath> getValidatedEditPaths(IProject project) {
 		RefactoringTestFileModificationValidator validator= fgValidators.get(project);
@@ -60,8 +60,8 @@ public class RefactoringTestRepositoryProvider extends RepositoryProvider {
 		private final ArrayList<IPath> fValidatedSavePaths;
 
 		public RefactoringTestFileModificationValidator() {
-			fValidatedEditPaths= new ArrayList<>();
-			fValidatedSavePaths= new ArrayList<>();
+			fValidatedEditPaths= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fValidatedSavePaths= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		public Collection<IPath> getValidatedEditPaths() {
@@ -74,7 +74,7 @@ public class RefactoringTestRepositoryProvider extends RepositoryProvider {
 
 		@Override
 		public IStatus validateEdit(IFile[] files, FileModificationValidationContext context) {
-			for (IFile file : files) {
+			for (IFile file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fValidatedEditPaths.add(file.getFullPath());
 			}
 			return makeWritable(files);
@@ -86,11 +86,11 @@ public class RefactoringTestRepositoryProvider extends RepositoryProvider {
 			return makeWritable(new IFile[] { file });
 		}
 
-		private IStatus makeWritable(final IFile[] resources) {
+		private IStatus makeWritable(final IFile[] resources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				ResourcesPlugin.getWorkspace().run(
-					(IWorkspaceRunnable) unused -> {
-						for (IFile resource : resources) {
+					(IWorkspaceRunnable) unused -> { //FLLDCIM: MARK — T09  LAMBDA
+						for (IFile resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ResourceAttributes resourceAttributes = resource.getResourceAttributes();
 							if (resourceAttributes != null) {
 								resourceAttributes.setReadOnly(false);

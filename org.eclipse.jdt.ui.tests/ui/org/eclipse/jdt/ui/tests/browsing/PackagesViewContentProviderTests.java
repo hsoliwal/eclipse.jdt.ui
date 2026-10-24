@@ -131,7 +131,7 @@ public class PackagesViewContentProviderTests {
 		assertTrue(compareArrays(actualChildren, expectedChildren), "Wrong children found for PackageFragment");//$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetChildrenLogicalPackage() throws Exception {
 		// Create a logical package for packages with name "pack3"
 		LogicalPackage cp= new LogicalPackage(fPack31);
@@ -156,7 +156,7 @@ public class PackagesViewContentProviderTests {
 		assertTrue(compareArrays(actualChildren, expectedChildren), "Wrong children found for project"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetChildrenLogicalPackage2() throws Exception {
 		// Create a logical package for packages with name "pack3.pack4"
 		LogicalPackage cp= new LogicalPackage(fPack41);
@@ -290,7 +290,7 @@ public class PackagesViewContentProviderTests {
 
 	@Test
 	public void testGetParentPFwithProjectFocus(){
-		for (Object object : fProvider.getChildren(fJProject2)) {
+		for (Object object : fProvider.getChildren(fJProject2)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fProvider.getChildren(object);
 		}
 
@@ -302,11 +302,11 @@ public class PackagesViewContentProviderTests {
 		assertEquals(cp, parent, "Wrong parent found for a mid level Fragment with Root Focus");		//$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetParentWithRootFocusAfterProjectFocus(){
 		//set up map with project focus
 		Object[] actualChildren= fProvider.getChildren(fJProject2);
-		for (Object object : actualChildren) {
+		for (Object object : actualChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fProvider.getChildren(object);
 		}
 
@@ -324,7 +324,7 @@ public class PackagesViewContentProviderTests {
 		assertTrue(compareArrays(actualChildren, expectedChildren), "expected children of project with focus");//$NON-NLS-1$
 
 		//set up map with root focus
-		for (Object object : fProvider.getChildren(fRoot1)) {
+		for (Object object : fProvider.getChildren(fRoot1)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fProvider.getChildren(object);
 		}//		Object parent= fProvider.getParent(fPack41);
 //		Object expectedParent= fPack31;
@@ -374,7 +374,7 @@ public class PackagesViewContentProviderTests {
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fWorkspace= ResourcesPlugin.getWorkspace();
 		assertNotNull(fWorkspace);
@@ -402,7 +402,7 @@ public class PackagesViewContentProviderTests {
 		java.io.File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 
 		assertNotNull(junitSrcArchive, "junit src not found");//$NON-NLS-1$
-		assertTrue(junitSrcArchive.exists(), "junit src not found");//$NON-NLS-1$
+		assertTrue(junitSrcArchive.exists(), "junit src not found");//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		fArchiveFragmentRoot= JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);//$NON-NLS-1$
 
@@ -426,7 +426,7 @@ public class PackagesViewContentProviderTests {
 		//----------------Set up internal jar----------------------------
 		File myInternalJar= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/compoundtest.jar"));//$NON-NLS-1$
 		assertNotNull(myInternalJar, "lib not found");//$NON-NLS-1$
-		assertTrue(myInternalJar.exists(), "lib not found");//$NON-NLS-1$
+		assertTrue(myInternalJar.exists(), "lib not found");//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		fInternalJarRoot= JavaProjectHelper.addLibraryWithImport(fJProject2, Path.fromOSString(myInternalJar.getPath()), null, null);
 
@@ -475,7 +475,7 @@ public class PackagesViewContentProviderTests {
 		setUpMockView();
 	}
 
-	public void setUpMockView() throws Exception {
+	public void setUpMockView() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fWorkbench= PlatformUI.getWorkbench();
 		assertNotNull(fWorkbench);
@@ -511,11 +511,11 @@ public class PackagesViewContentProviderTests {
 			CoreUtility.setAutoBuilding(true);
 	}
 
-	private boolean compareArrays(Object[] children, Object[] expectedChildren) {
+	private boolean compareArrays(Object[] children, Object[] expectedChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(children.length!=expectedChildren.length)
 			return false;
 
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IJavaElement) {
 				IJavaElement el= (IJavaElement) child;
 				if(!contains(el, expectedChildren))
@@ -535,7 +535,7 @@ public class PackagesViewContentProviderTests {
 	}
 
 	private boolean contains(IResource res, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource) {
 				IResource expres= (IResource) object;
 				if(expres.equals(res))
@@ -547,7 +547,7 @@ public class PackagesViewContentProviderTests {
 	}
 
 	private boolean contains(IJavaElement fragment, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IJavaElement) {
 				IJavaElement expfrag= (IJavaElement) object;
 				if(expfrag.equals(fragment))
@@ -559,7 +559,7 @@ public class PackagesViewContentProviderTests {
 	}
 
 	private boolean contains(LogicalPackage lp, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof LogicalPackage) {
 				LogicalPackage explp= (LogicalPackage) object;
 				if (explp.equals(lp))

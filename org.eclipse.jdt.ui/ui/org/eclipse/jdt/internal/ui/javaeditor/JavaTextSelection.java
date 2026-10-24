@@ -144,7 +144,7 @@ public class JavaTextSelection extends TextSelection {
 		return fCoveringNode;
 	}
 
-	public boolean resolveInMethodBody() {
+	public boolean resolveInMethodBody() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInMethodBodyRequested)
 			return fInMethodBody;
 		fInMethodBodyRequested= true;
@@ -153,7 +153,7 @@ public class JavaTextSelection extends TextSelection {
 		if (node == null) {
 			fInMethodBody= true;
 		} else {
-			while (node != null) {
+			while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int nodeType= node.getNodeType();
 				if (nodeType == ASTNode.BLOCK && node.getParent() instanceof BodyDeclaration) {
 					fInMethodBody= node.getParent().getNodeType() == ASTNode.METHOD_DECLARATION;
@@ -168,7 +168,7 @@ public class JavaTextSelection extends TextSelection {
 		return fInMethodBody;
 	}
 
-	public boolean resolveInClassInitializer() {
+	public boolean resolveInClassInitializer() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInClassInitializerRequested)
 			return fInClassInitializer;
 		fInClassInitializerRequested= true;
@@ -177,7 +177,7 @@ public class JavaTextSelection extends TextSelection {
 		if (node == null) {
 			fInClassInitializer= true;
 		} else {
-			while (node != null) {
+			while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int nodeType= node.getNodeType();
 				if ((node instanceof AbstractTypeDeclaration) || (nodeType == ASTNode.ANONYMOUS_CLASS_DECLARATION)) {
 					fInClassInitializer= false;
@@ -192,14 +192,14 @@ public class JavaTextSelection extends TextSelection {
 		return fInClassInitializer;
 	}
 
-	public boolean resolveInVariableInitializer() {
+	public boolean resolveInVariableInitializer() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInVariableInitializerRequested)
 			return fInVariableInitializer;
 		fInVariableInitializerRequested= true;
 		resolveSelectedNodes();
 		ASTNode node= getStartNode();
 		ASTNode last= null;
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int nodeType= node.getNodeType();
 			if (node instanceof AbstractTypeDeclaration
 					|| nodeType == ASTNode.ANONYMOUS_CLASS_DECLARATION) {
@@ -234,7 +234,7 @@ public class JavaTextSelection extends TextSelection {
 		fInAnnotationRequested= true;
 		resolveSelectedNodes();
 		ASTNode node= getStartNode();
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof Annotation) {
 				fInAnnotation= true;
 				break;

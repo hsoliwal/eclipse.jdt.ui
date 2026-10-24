@@ -114,7 +114,7 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 		private NameConventionEntry fEntry;
 		private DialogField fMessageField;
 
-		public NameConventionInputDialog(Shell parent, String title, String message, NameConventionEntry entry) {
+		public NameConventionInputDialog(Shell parent, String title, String message, NameConventionEntry entry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(parent);
 			fEntry= entry;
 
@@ -145,7 +145,7 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 			return res;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite) super.createDialogArea(parent);
 			Composite inner= new Composite(composite, SWT.NONE);
@@ -182,8 +182,8 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 			updateStatus(StatusUtil.getMoreSevere(suffixStatus, prefixStatus));
 		}
 
-		private IStatus validateIdentifiers(String[] values, boolean prefix) {
-			for (String val : values) {
+		private IStatus validateIdentifiers(String[] values, boolean prefix) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			for (String val : values) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (val.length() == 0) {
 					if (prefix) {
 						return new StatusInfo(IStatus.ERROR, PreferencesMessages.NameConventionConfigurationBlock_error_emptyprefix);
@@ -191,7 +191,7 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 						return new StatusInfo(IStatus.ERROR, PreferencesMessages.NameConventionConfigurationBlock_error_emptysuffix);
 					}
 				}
-				String name= prefix ? val + "x" : "x" + val; //$NON-NLS-2$ //$NON-NLS-1$
+				String name= prefix ? val + "x" : "x" + val; //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				IStatus status= JavaConventions.validateIdentifier(name, JavaCore.VERSION_1_8, JavaCore.VERSION_1_8);
 				if (status.matches(IStatus.ERROR)) {
 					if (prefix) {
@@ -226,7 +226,7 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 			return getColumnText(element, 0);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Image getColumnImage(Object element, int columnIndex) {
 			if (columnIndex != 0) {
 				return null;
@@ -246,7 +246,7 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 					return registry.get(JavaPluginImages.DESC_OBJS_LOCAL_VARIABLE);
 			}
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getColumnText(Object element, int columnIndex) {
 			NameConventionEntry entry= (NameConventionEntry) element;
 			switch (columnIndex) {
@@ -307,7 +307,7 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 	private StringDialogField fExceptionName;
 	private SelectionButtonDialogField fUseOverrideAnnotation;
 
-	public NameConventionConfigurationBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) {
+	public NameConventionConfigurationBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(context, project, getAllKeys(), container);
 
 		NameConventionAdapter adapter=  new NameConventionAdapter();
@@ -371,7 +371,7 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 		};
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		setShell(parent.getShell());
 
@@ -407,12 +407,12 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 		seeProblemSeverity.setLayoutData(data);
 		LayoutUtil.setHorizontalIndent(seeProblemSeverity);
 		seeProblemSeverity.setText(PreferencesMessages.NameConventionConfigurationBlock_override_link_label);
-		seeProblemSeverity.addSelectionListener(new SelectionAdapter() {
+		seeProblemSeverity.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IWorkbenchPreferenceContainer preferenceContainer= getPreferenceContainer();
 				if (preferenceContainer != null) {
-					HashMap<String, String> prefsData= new HashMap<>();
+					HashMap<String, String> prefsData= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					prefsData.put(ProblemSeveritiesPreferencePage.DATA_SELECT_OPTION_KEY, JavaCore.COMPILER_PB_MISSING_OVERRIDE_ANNOTATION_FOR_INTERFACE_METHOD_IMPLEMENTATION);
 					prefsData.put(ProblemSeveritiesPreferencePage.DATA_SELECT_OPTION_QUALIFIER, JavaCore.PLUGIN_ID);
 					String id= fProject == null ? ProblemSeveritiesPreferencePage.PREF_ID : ProblemSeveritiesPreferencePage.PROP_ID;
@@ -433,9 +433,9 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 		// no validation here
 	}
 
-	protected final void updateModel(DialogField field) {
+	protected final void updateModel(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (field == fNameConventionList) {
-			for (int i= 0; i < fNameConventionList.getSize(); i++) {
+			for (int i= 0; i < fNameConventionList.getSize(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				NameConventionEntry entry= fNameConventionList.getElement(i);
 				setValue(entry.suffixkey, entry.suffix);
 				setValue(entry.prefixkey, entry.prefix);
@@ -464,7 +464,7 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 
 	@Override
 	protected void updateControls() {
-		ArrayList<NameConventionEntry> list= new ArrayList<>(4);
+		ArrayList<NameConventionEntry> list= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		createEntry(list, PREF_FIELD_PREFIXES, PREF_FIELD_SUFFIXES, FIELD);
 		createEntry(list, PREF_STATIC_FIELD_PREFIXES, PREF_STATIC_FIELD_SUFFIXES, STATIC);
 		createEntry(list, PREF_STATIC_FINAL_FIELD_PREFIXES, PREF_STATIC_FINAL_FIELD_SUFFIXES, STATIC_FINAL);
@@ -497,12 +497,12 @@ public class NameConventionConfigurationBlock extends OptionsConfigurationBlock 
 		String value= getValue(key);
 		if (value == null) {
 			value= ""; //$NON-NLS-1$
-			JavaPlugin.logErrorMessage("JavaCore preference is null. Key:" + key); //$NON-NLS-1$
+			JavaPlugin.logErrorMessage("JavaCore preference is null. Key:" + key); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return value;
 	}
 
-	private void doEditButtonPressed() {
+	private void doEditButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		NameConventionEntry entry= fNameConventionList.getSelectedElements().get(0);
 
 		String title;

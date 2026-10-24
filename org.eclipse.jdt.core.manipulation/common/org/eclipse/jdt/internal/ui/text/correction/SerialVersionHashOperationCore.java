@@ -76,7 +76,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 
 	private static final String STATIC_CLASS_INITIALIZER= "<clinit>"; //$NON-NLS-1$
 
-	public static Long calculateSerialVersionId(ITypeBinding typeBinding, final IProgressMonitor monitor) throws CoreException, IOException {
+	public static Long calculateSerialVersionId(ITypeBinding typeBinding, final IProgressMonitor monitor) throws CoreException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IFile classfileResource= getClassfile(typeBinding);
 			if (classfileResource == null)
@@ -99,7 +99,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 		return new String(name).replace('/', '.');
 	}
 
-	private static Long calculateSerialVersionId(IClassFileReader cfReader) throws IOException {
+	private static Long calculateSerialVersionId(IClassFileReader cfReader) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// implementing algorithm specified on http://download.oracle.com/javase/6/docs/platform/serialization/spec/class.html#4100
 
 		ByteArrayOutputStream os= new ByteArrayOutputStream();
@@ -111,10 +111,10 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 		int classModifiers= mod & (Flags.AccPublic | Flags.AccFinal | Flags.AccInterface | Flags.AccAbstract);
 
 		doos.writeInt(classModifiers); // class modifiers
-		for (char[] interface1 : getSortedInterfacesNames(cfReader)) {
+		for (char[] interface1 : getSortedInterfacesNames(cfReader)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			doos.writeUTF(getClassName(interface1));
 		}
-		for (IFieldInfo curr : getSortedFields(cfReader)) {
+		for (IFieldInfo curr : getSortedFields(cfReader)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int flags= curr.getAccessFlags();
 			if (!Flags.isPrivate(flags) || (!Flags.isStatic(flags) && !Flags.isTransient(flags))) {
 				doos.writeUTF(new String(curr.getName()));
@@ -127,7 +127,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 			doos.writeInt(Flags.AccStatic);
 			doos.writeUTF("()V"); //$NON-NLS-1$
 		}
-		for (IMethodInfo curr : getSortedMethods(cfReader)) {
+		for (IMethodInfo curr : getSortedMethods(cfReader)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int flags= curr.getAccessFlags();
 			if (!Flags.isPrivate(flags) && !curr.isClinit()) {
 				doos.writeUTF(new String(curr.getName()));
@@ -142,7 +142,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 	private static int getClassModifiers(IClassFileReader cfReader) {
 		IInnerClassesAttribute innerClassesAttribute= cfReader.getInnerClassesAttribute();
 		if (innerClassesAttribute != null) {
-			for (IInnerClassesAttributeEntry entry : innerClassesAttribute.getInnerClassAttributesEntries()) {
+			for (IInnerClassesAttributeEntry entry : innerClassesAttribute.getInnerClassAttributesEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char[] innerClassName = entry.getInnerClassName();
 				if (innerClassName != null) {
 					if (CharOperation.equals(cfReader.getClassName(), innerClassName)) {
@@ -174,7 +174,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 			byte[] sha= MessageDigest.getInstance("SHA-1").digest(bytes); //$NON-NLS-1$
 			if (sha.length >= 8) {
 				long hash= 0;
-				for (int i= 7; i >= 0; i--) {
+				for (int i= 7; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					hash= (hash << 8) | (sha[i] & 0xFF);
 				}
 				return hash;
@@ -198,7 +198,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 	}
 
 	private static boolean hasStaticClassInitializer(IClassFileReader cfReader) {
-		for (IMethodInfo methodInfo : cfReader.getMethodInfos()) {
+		for (IMethodInfo methodInfo : cfReader.getMethodInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (methodInfo.isClinit()) {
 				return true;
 			}
@@ -223,7 +223,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 		return allMethods;
 	}
 
-	private static IFile getClassfile(ITypeBinding typeBinding) throws CoreException {
+	private static IFile getClassfile(ITypeBinding typeBinding) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// bug 191943
 		IType type= (IType) typeBinding.getJavaElement();
 		if (type == null || type.getCompilationUnit() == null) {
@@ -245,7 +245,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 
 		name += ".class"; //$NON-NLS-1$
 
-		for (IResource resource : JavaCore.getGeneratedResources(region, false)) {
+		for (IResource resource : JavaCore.getGeneratedResources(region, false)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.getType() == IResource.FILE && resource.getName().equals(name)) {
 				return (IFile) resource;
 			}
@@ -316,7 +316,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 		//Do nothing
 	}
 
-	private String computeId(final ASTNode declarationNode, final IProgressMonitor monitor) throws InterruptedException {
+	private String computeId(final ASTNode declarationNode, final IProgressMonitor monitor) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(monitor);
 		long serialVersionID= SERIAL_VALUE;
 		try {
@@ -355,7 +355,7 @@ public final class SerialVersionHashOperationCore extends AbstractSerialVersionO
 		} finally {
 			monitor.done();
 		}
-		return serialVersionID + LONG_SUFFIX;
+		return serialVersionID + LONG_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static ITypeBinding getTypeBinding(final ASTNode parent) {

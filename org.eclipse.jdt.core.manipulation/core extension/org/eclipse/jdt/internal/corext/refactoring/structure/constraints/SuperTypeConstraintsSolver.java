@@ -75,7 +75,7 @@ public class SuperTypeConstraintsSolver {
 	 */
 	private void computeConditionalTypeConstraints(final Collection<ITypeConstraint2> constraints, final int level) {
 		ITypeConstraint2 constraint= null;
-		for (final Iterator<ITypeConstraint2> iterator= constraints.iterator(); iterator.hasNext();) {
+		for (final Iterator<ITypeConstraint2> iterator= constraints.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			constraint= iterator.next();
 			if (constraint instanceof ConditionalTypeConstraint) {
 				final ConditionalTypeConstraint conditional= (ConditionalTypeConstraint) constraint;
@@ -95,7 +95,7 @@ public class SuperTypeConstraintsSolver {
 	private void computeNonCovariantConstraints(final Collection<ITypeConstraint2> constraints, final int level) {
 		if (level != 3) {
 			ITypeConstraint2 constraint= null;
-			for (final Iterator<ITypeConstraint2> iterator= constraints.iterator(); iterator.hasNext();) {
+			for (final Iterator<ITypeConstraint2> iterator= constraints.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				constraint= iterator.next();
 				if (constraint instanceof CovariantTypeConstraint)
 					fModel.createEqualityConstraint(constraint.getLeft(), constraint.getRight());
@@ -108,10 +108,10 @@ public class SuperTypeConstraintsSolver {
 	 *
 	 * @param variables the cast variables (element type: <code>CastVariable2</code>)
 	 */
-	private void computeObsoleteCasts(final Collection<CastVariable2> variables) {
-		fObsoleteCasts= new HashMap<>();
+	private void computeObsoleteCasts(final Collection<CastVariable2> variables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fObsoleteCasts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		CastVariable2 variable= null;
-		for (final Iterator<CastVariable2> iterator= variables.iterator(); iterator.hasNext();) {
+		for (final Iterator<CastVariable2> iterator= variables.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			variable= iterator.next();
 			final TType type= (TType) variable.getExpressionVariable().getData(DATA_TYPE_ESTIMATE);
 			if (type != null && type.canAssignTo(variable.getType())) {
@@ -120,7 +120,7 @@ public class SuperTypeConstraintsSolver {
 				if (casts != null)
 					casts.add(variable);
 				else {
-					casts= new ArrayList<>(1);
+					casts= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					casts.add(variable);
 					fObsoleteCasts.put(unit, casts);
 				}
@@ -146,9 +146,9 @@ public class SuperTypeConstraintsSolver {
 	 *
 	 * @param variables the constraint variables (element type: <code>ConstraintVariable2</code>)
 	 */
-	private void computeTypeEstimates(final Collection<ConstraintVariable2> variables) {
+	private void computeTypeEstimates(final Collection<ConstraintVariable2> variables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ConstraintVariable2 variable= null;
-		for (final Iterator<ConstraintVariable2> iterator= variables.iterator(); iterator.hasNext();) {
+		for (final Iterator<ConstraintVariable2> iterator= variables.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			variable= iterator.next();
 			TypeEquivalenceSet set= variable.getTypeEquivalenceSet();
 			if (set == null) {
@@ -159,7 +159,7 @@ public class SuperTypeConstraintsSolver {
 				ITypeSet estimate= variable.getTypeEstimate();
 				if (estimate == null) {
 					estimate= SuperTypeSet.getUniverse();
-					for (ConstraintVariable2 v : set.getContributingVariables()) {
+					for (ConstraintVariable2 v : set.getContributingVariables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						estimate= estimate.restrictedTo(computeTypeEstimate(v));
 					}
 					set.setTypeEstimate(estimate);
@@ -173,8 +173,8 @@ public class SuperTypeConstraintsSolver {
 	 *
 	 * @param variables the constraint variables (element type: <code>ConstraintVariable2</code>)
 	 */
-	private void computeTypeOccurrences(final Collection<ConstraintVariable2> variables) {
-		fTypeOccurrences= new HashMap<>();
+	private void computeTypeOccurrences(final Collection<ConstraintVariable2> variables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fTypeOccurrences= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final TType superErasure= fModel.getSuperType().getErasure();
 		TType estimatedType= null;
 		ITypeSet set= null;
@@ -182,7 +182,7 @@ public class SuperTypeConstraintsSolver {
 		ConstraintVariable2 variable= null;
 		ITypeConstraintVariable declaration= null;
 		TType variableType= null;
-		for (final Iterator<ConstraintVariable2> iterator= variables.iterator(); iterator.hasNext();) {
+		for (final Iterator<ConstraintVariable2> iterator= variables.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			variable= iterator.next();
 			if (variable instanceof ITypeConstraintVariable) {
 				declaration= (ITypeConstraintVariable) variable;
@@ -200,7 +200,7 @@ public class SuperTypeConstraintsSolver {
 								if (matches != null)
 									matches.add(declaration);
 								else {
-									matches= new ArrayList<>(1);
+									matches= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 									matches.add(declaration);
 									fTypeOccurrences.put(unit, matches);
 								}
@@ -238,7 +238,7 @@ public class SuperTypeConstraintsSolver {
 	private void processConstraints(final Collection<ITypeConstraint2> constraints) {
 		final int level= fModel.getCompliance();
 		ITypeConstraint2 constraint= null;
-		for (final Iterator<ITypeConstraint2> iterator= constraints.iterator(); iterator.hasNext();) {
+		for (final Iterator<ITypeConstraint2> iterator= constraints.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			constraint= iterator.next();
 			if ((level == 3 || !(constraint instanceof CovariantTypeConstraint)) && !(constraint instanceof ConditionalTypeConstraint)) {
 				final ConstraintVariable2 leftVariable= constraint.getLeft();
@@ -256,7 +256,7 @@ public class SuperTypeConstraintsSolver {
 	/**
 	 * Solves the constraints of the associated model.
 	 */
-	public final void solveConstraints() {
+	public final void solveConstraints() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fProcessable= new LinkedList<>();
 		final Collection<ConstraintVariable2> variables= fModel.getConstraintVariables();
 		final Collection<ITypeConstraint2> constraints= fModel.getTypeConstraints();
@@ -270,7 +270,7 @@ public class SuperTypeConstraintsSolver {
 		fProcessable.addAll(variables);
 		Collection<ITypeConstraint2> usage= null;
 		ConstraintVariable2 variable= null;
-		while (!fProcessable.isEmpty()) {
+		while (!fProcessable.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			variable= fProcessable.removeFirst();
 			usage= SuperTypeConstraintsModel.getVariableUsage(variable);
 			if (!usage.isEmpty())

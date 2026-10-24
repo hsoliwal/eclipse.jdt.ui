@@ -87,7 +87,7 @@ public class JavadocUtil {
 		if (methodDeclaration.parameters().size() == 0)
 			return true;
 		List<TagElement> tags= javadoc.tags();
-		for (TagElement element : tags) {
+		for (TagElement element : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (TagElement.TAG_PARAM.equals(element.getTagName()))
 				return true;
 		}
@@ -104,8 +104,8 @@ public class JavadocUtil {
 			return;
 
 		ListRewrite tagsRewrite= astRewrite.getListRewrite(methodDeclaration.getJavadoc(), Javadoc.TAGS_PROPERTY);
-		HashSet<String> leadingNames= new HashSet<>();
-		for (Iterator<SingleVariableDeclaration> iter= methodDeclaration.parameters().iterator(); iter.hasNext();) {
+		HashSet<String> leadingNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Iterator<SingleVariableDeclaration> iter= methodDeclaration.parameters().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration curr= iter.next();
 			leadingNames.add(curr.getName().getIdentifier());
 		}
@@ -127,7 +127,7 @@ public class JavadocUtil {
 		int goalOrdinal= tagOrder.indexOf(tagName);
 		if (goalOrdinal == -1) // unknown tag -> to end
 			return (tags.isEmpty()) ? null : (TagElement) tags.get(tags.size());
-		for (int i= 0; i < tags.size(); i++) {
+		for (int i= 0; i < tags.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int tagOrdinal= tagOrder.indexOf(tags.get(i).getTagName());
 			if (tagOrdinal >= goalOrdinal)
 				return (i == 0) ? null : (TagElement) tags.get(i - 1);
@@ -149,7 +149,7 @@ public class JavadocUtil {
 		int goalOrdinal= tagOrder.indexOf(tagName);
 		if (goalOrdinal == -1) // unknown tag -> to end
 			return (tags.isEmpty()) ? null : (TagElement) tags.get(tags.size());
-		for (int i= tags.size() - 1; i >= 0; i--) {
+		for (int i= tags.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int tagOrdinal= tagOrder.indexOf(tags.get(i).getTagName());
 			if (tagOrdinal <= goalOrdinal)
 				return (i == tags.size() - 1) ? null : (TagElement) tags.get(i + 1);

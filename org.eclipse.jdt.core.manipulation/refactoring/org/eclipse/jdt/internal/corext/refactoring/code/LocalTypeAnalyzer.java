@@ -34,8 +34,8 @@ import org.eclipse.jdt.internal.corext.refactoring.RefactoringCoreMessages;
 public class LocalTypeAnalyzer extends ASTVisitor {
 
 	private Selection fSelection;
-	private List<AbstractTypeDeclaration> fTypeDeclarationsBefore= new ArrayList<>(2);
-	private List<AbstractTypeDeclaration> fTypeDeclarationsSelected= new ArrayList<>(2);
+	private List<AbstractTypeDeclaration> fTypeDeclarationsBefore= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private List<AbstractTypeDeclaration> fTypeDeclarationsSelected= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private String fBeforeTypeReferenced;
 	private String fSelectedTypeReferenced;
 
@@ -110,7 +110,7 @@ public class LocalTypeAnalyzer extends ASTVisitor {
 	}
 
 	private boolean checkBinding(List<AbstractTypeDeclaration> declarations, ITypeBinding binding) {
-		for (AbstractTypeDeclaration declaration : declarations) {
+		for (AbstractTypeDeclaration declaration : declarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (declaration.resolveBinding() == binding) {
 				return true;
 			}

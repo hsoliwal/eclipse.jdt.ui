@@ -80,7 +80,7 @@ public class RenameMethodInInterfaceTests extends GenericRefactoringTest {
 		helper1_0("m", "k", NO_ARGUMENTS);
 	}
 
-	private void helper2_0(String methodName, String newMethodName, String[] signatures, boolean shouldPass, boolean updateReferences, boolean createDelegate) throws Exception{
+	private void helper2_0(String methodName, String newMethodName, String[] signatures, boolean shouldPass, boolean updateReferences, boolean createDelegate) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType interfaceI= getType(cu, "I");
 		IMethod method= interfaceI.getMethod(methodName, signatures);

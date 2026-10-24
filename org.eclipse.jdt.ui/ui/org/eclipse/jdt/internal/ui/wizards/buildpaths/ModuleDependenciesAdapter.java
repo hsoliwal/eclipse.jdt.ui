@@ -147,7 +147,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		}
 
 		public Object[] getChildren() {
-			List<Object> children= new ArrayList<>();
+			List<Object> children= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			getRequires(children);
 			getPackages(children);
 			return children.toArray();
@@ -156,7 +156,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			if (fFocusModule != null) {
 				if (!fFocusModule.isAutoModule()) {
 					try {
-						for (String required : fFocusModule.getRequiredModuleNames())
+						for (String required : fFocusModule.getRequiredModuleNames()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							children.add(new ReadModule(required, this));
 					} catch (JavaModelException e) {
 						JavaPlugin.log(e);
@@ -164,14 +164,14 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				}
 			}
 		}
-		private void getPackages(List<Object> result) {
+		private void getPackages(List<Object> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				if (fFocusModule != null) {
 					if (fFocusModule.isAutoModule()) {
 						IPackageFragmentRoot root= (IPackageFragmentRoot) fFocusModule.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 						if (root != null) {
 							// auto module exports all non-empty packages:
-							for (IJavaElement child : root.getChildren()) {
+							for (IJavaElement child : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (child instanceof IPackageFragment
 										&& !child.getElementName().isEmpty()
 										&& ((IPackageFragment) child).containsJavaResources())
@@ -183,11 +183,11 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 					} else {
 						IModuleDescription contextModule= getContextModule();
 						String[] exported= fFocusModule.getExportedPackageNames(contextModule);
-						for (String export : exported) {
+						for (String export : exported) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							result.add(new AccessiblePackage(export, AccessiblePackage.Kind.Exports, "", this)); //$NON-NLS-1$
 						}
 						String[] opened= fFocusModule.getOpenedPackageNames(contextModule);
-						for (String open : opened) {
+						for (String open : opened) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							result.add(new AccessiblePackage(open, AccessiblePackage.Kind.Opens, "", this)); //$NON-NLS-1$
 						}
 					}
@@ -209,7 +209,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			fDependenciesPage= dependenciesPage;
 		}
 
-		public Object[] getChildren() {
+		public Object[] getChildren() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// For containers like JRE / Libraries: aggregate attribute is in the parent
 			Object parent= fElem.getParentContainer();
 			if (parent instanceof CPListElement) {
@@ -228,9 +228,9 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			return fElem.getChildren(true);
 		}
 
-		private DetailNode<?>[] convertEncapsulationDetails(ModuleEncapsulationDetail[] attribute, String filterModule) {
-			List<DetailNode<?>> filteredDetails= new ArrayList<>();
-			for (ModuleEncapsulationDetail detail : attribute) {
+		private DetailNode<?>[] convertEncapsulationDetails(ModuleEncapsulationDetail[] attribute, String filterModule) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			List<DetailNode<?>> filteredDetails= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ModuleEncapsulationDetail detail : attribute) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (detail instanceof ModuleAddExpose) {
 					ModuleAddExpose moduleAddExpose= (ModuleAddExpose) detail;
 					if (filterModule == null || filterModule.equals(moduleAddExpose.fSourceModule)) {
@@ -246,7 +246,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 					ModulePatch modulePatch= (ModulePatch) detail;
 					if (filterModule == null || filterModule.equals(modulePatch.fModule)) {
 						if (modulePatch.fPaths != null) {
-							for (String path : modulePatch.getPathArray()) {
+							for (String path : modulePatch.getPathArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Path iPath= new Path(path);
 								if (iPath.segmentCount() == 1) { // is a project
 									IProject project= ResourcesPlugin.getWorkspace().getRoot().getProject(iPath.segment(0));
@@ -268,7 +268,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			}
 			return filteredDetails.toArray(new DetailNode<?>[filteredDetails.size()]);
 		}
-		public void removeAll() {
+		public void removeAll() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fKind == ModuleKind.System) {
 				// aggregate attribute is in the parent (corresponding to the JRE)
 				Object parent= fElem.getParentContainer();
@@ -290,7 +290,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				fElem.setAttribute(CPListElement.MODULE, new ModuleEncapsulationDetail[0]);
 			}
 		}
-		public boolean addOrEditAccessiblePackage(AccessiblePackage selectedPackage, Shell shell) {
+		public boolean addOrEditAccessiblePackage(AccessiblePackage selectedPackage, Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object container= fElem.getParentContainer();
 			CPListElement element= (container instanceof CPListElement) ? (CPListElement) container : fElem;
 			CPListElementAttribute moduleAttribute= element.findAttributeElement(CPListElement.MODULE);
@@ -312,13 +312,13 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				return false;
 			}
 
-			Set<String> possibleTargetModules= new HashSet<>(fDependenciesPage.getAllModules());
+			Set<String> possibleTargetModules= new HashSet<>(fDependenciesPage.getAllModules()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			possibleTargetModules.remove(fFocusModule.getElementName());
 			Object moduleAttributes= fElem.getAttribute(CPListElement.MODULE);
-			Set<String> alreadyExportedPackages= new HashSet<>();
+			Set<String> alreadyExportedPackages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			if (moduleAttributes instanceof ModuleEncapsulationDetail[]) {
 				ModuleEncapsulationDetail encapDetails[]= (ModuleEncapsulationDetail[]) moduleAttributes;
-				for (ModuleEncapsulationDetail moduleEncapsulationDetail : encapDetails) {
+				for (ModuleEncapsulationDetail moduleEncapsulationDetail : encapDetails) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (moduleEncapsulationDetail instanceof ModuleAddExport) {
 						alreadyExportedPackages.add(((ModuleAddExport) moduleEncapsulationDetail).fPackage);
 					}
@@ -340,7 +340,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 						arrayValue= (ModuleEncapsulationDetail[]) attribute;
 						if (selectedPackage != null) {
 							// editing: replace existing entry
-							for (int i= 0; i < arrayValue.length; i++) {
+							for (int i= 0; i < arrayValue.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								ModuleEncapsulationDetail detail= arrayValue[i];
 								if (detail.equals(initial)) {
 									arrayValue[i]= expose;
@@ -370,7 +370,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				return false;
 			}
 		}
-		private boolean internalRemove(List<Object> selectedElements) throws JavaModelException {
+		private boolean internalRemove(List<Object> selectedElements) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CPListElementAttribute moduleAttribute;
 			Object parentContainer= fElem.getParentContainer();
 			if (parentContainer instanceof CPListElement) {
@@ -379,16 +379,16 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				moduleAttribute= fElem.findAttributeElement(CPListElement.MODULE);
 			}
 			if (moduleAttribute == null) {
-				throwNewJavaModelException("module attribute is unexpectecly missing for : "+fElem); //$NON-NLS-1$
+				throwNewJavaModelException("module attribute is unexpectecly missing for : "+fElem); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return false; // not reached
 			}
 			Object value= moduleAttribute.getValue();
 			if (!(value instanceof ModuleEncapsulationDetail[])) {
-				throwNewJavaModelException("Value of module attribute has unexpected type: "+value); //$NON-NLS-1$
+				throwNewJavaModelException("Value of module attribute has unexpected type: "+value); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
-			List<ModuleEncapsulationDetail> details= new ArrayList<>(Arrays.asList((ModuleEncapsulationDetail[]) value));
+			List<ModuleEncapsulationDetail> details= new ArrayList<>(Arrays.asList((ModuleEncapsulationDetail[]) value)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			boolean patchUpdated= false;
-			for (Object node : selectedElements) {
+			for (Object node : selectedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (node instanceof DetailNode<?>) {
 					if (node instanceof PatchModule) {
 						// need to merge details:
@@ -402,7 +402,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 						ModuleEncapsulationDetail med= ((DetailNode<?>) node).convertToCP(moduleAttribute);
 						if (med != null) {
 							if (!details.remove(med)) {
-								throwNewJavaModelException("Detail "+med+" was not removed");  //$NON-NLS-1$//$NON-NLS-2$
+								throwNewJavaModelException("Detail "+med+" was not removed");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							}
 						}
 					}
@@ -410,7 +410,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 					TargetModule targetModule= (TargetModule) node;
 					AccessiblePackage parent= targetModule.fParent;
 					parent.removeTargetModule(targetModule.fName);
-					for (int i=0; i<details.size(); i++) {
+					for (int i=0; i<details.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ModuleEncapsulationDetail detail= details.get(i);
 						if (parent.matches(detail)) {
 							details.set(i, parent.convertToCP(moduleAttribute));
@@ -438,12 +438,12 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				return false;
 			}
 		}
-		boolean internalAddReads(Shell shell) throws JavaModelException {
+		boolean internalAddReads(Shell shell) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object container= fElem.getParentContainer();
 			CPListElement element= (container instanceof CPListElement) ? (CPListElement) container : fElem;
 			CPListElementAttribute moduleAttribute= element.findAttributeElement(CPListElement.MODULE);
 			if (moduleAttribute == null && fKind != ModuleKind.Focus) {
-				throwNewJavaModelException("module attribute is unexpectecly missing for : "+fElem); //$NON-NLS-1$
+				throwNewJavaModelException("module attribute is unexpectecly missing for : "+fElem); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return false; // not reached
 			}
 
@@ -454,7 +454,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				JavaPlugin.log(e); // not fatal
 				irrelevantModules= Collections.emptyList();
 			}
-			irrelevantModules= new ArrayList<>(irrelevantModules);
+			irrelevantModules= new ArrayList<>(irrelevantModules); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			irrelevantModules.add(fFocusModule.getElementName());
 
 			IClasspathEntry jreEntry= fDependenciesPage.findSystemLibraryElement().getClasspathEntry();
@@ -462,7 +462,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			Object moduleAttributes= fElem.getAttribute(CPListElement.MODULE);
 			if (moduleAttributes instanceof ModuleEncapsulationDetail[]) {
 				ModuleEncapsulationDetail encapDetails[]= (ModuleEncapsulationDetail[]) moduleAttributes;
-				for (ModuleEncapsulationDetail moduleEncapsulationDetail : encapDetails) {
+				for (ModuleEncapsulationDetail moduleEncapsulationDetail : encapDetails) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (moduleEncapsulationDetail instanceof ModuleAddReads) {
 						String fTargetModule= ((ModuleAddReads) moduleEncapsulationDetail).fTargetModule;
 						irrelevantModules.add(fTargetModule);
@@ -490,7 +490,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			} else {
 				arrayValue= new ModuleEncapsulationDetail[result.size()];
 			}
-			for (IModuleDescription module : result) {
+			for (IModuleDescription module : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				arrayValue[idx++]= new ModuleAddReads(fFocusModule.getElementName(), module.getElementName(), moduleAttribute);
 			}
 			element.setAttribute(CPListElement.MODULE, arrayValue);
@@ -506,12 +506,12 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				return false;
 			}
 		}
-		private boolean internalAddPatch(Shell shell, Map<String, String> patchMap) throws JavaModelException {
+		private boolean internalAddPatch(Shell shell, Map<String, String> patchMap) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object container= fElem.getParentContainer();
 			CPListElement element= (container instanceof CPListElement) ? (CPListElement) container : fElem;
 			CPListElementAttribute moduleAttribute= ensureModuleAttribute(element.findAttributeElement(CPListElement.MODULE));
 			if (!(moduleAttribute.getValue() instanceof ModuleEncapsulationDetail[])) {
-				throwNewJavaModelException("Value of module attribute has unexpected type: "+moduleAttribute.getValue()); //$NON-NLS-1$
+				throwNewJavaModelException("Value of module attribute has unexpected type: "+moduleAttribute.getValue()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return false;
 			}
 
@@ -521,7 +521,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				return false;
 			}
 			List<IJavaElement> result= dialog.getResult();
-			for (IJavaElement source : result) {
+			for (IJavaElement source : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPath sourcePath= source.getPath();
 				String sourcePathString= sourcePath.toString();
 				if (patchMap.containsKey(sourcePathString)) {
@@ -539,8 +539,8 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 							}
 						}
 					} else {
-						String pattern= sourcePathString+'/';
-						for (Entry<String, String> entry : patchMap.entrySet()) {
+						String pattern= sourcePathString+'/'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+						for (Entry<String, String> entry : patchMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (entry.getKey().startsWith(pattern)) {
 								// conflict folder (exist) vs. project (new)
 								if (!unpatchModule(shell, entry.getValue(), entry.getKey(), sourcePathString)) {
@@ -557,7 +557,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 					.collect(Collectors.joining(File.pathSeparator));
 
 			Object attribute= moduleAttribute.getValue();
-			List<ModuleEncapsulationDetail> detailList= new ArrayList<>(Arrays.asList((ModuleEncapsulationDetail[]) attribute));
+			List<ModuleEncapsulationDetail> detailList= new ArrayList<>(Arrays.asList((ModuleEncapsulationDetail[]) attribute)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			ModuleEncapsulationDetail.addPatchLocations(detailList, fFocusModule.getElementName(), newPaths, moduleAttribute);
 			element.setAttribute(CPListElement.MODULE, detailList.toArray(new ModuleEncapsulationDetail[detailList.size()]));
 			fDependenciesPage.buildPatchMap();
@@ -576,7 +576,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 
 			CPListElementAttribute otherAttribute= fDependenciesPage.findModuleAttribute(
 					d -> d instanceof ModulePatch && ((ModulePatch) d).affects(moduleToUnpatch));
-			List<ModuleEncapsulationDetail> otherDetailList= new ArrayList<>(Arrays.asList((ModuleEncapsulationDetail[]) otherAttribute.getValue()));
+			List<ModuleEncapsulationDetail> otherDetailList= new ArrayList<>(Arrays.asList((ModuleEncapsulationDetail[]) otherAttribute.getValue())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			ModuleEncapsulationDetail.removePatchLocation(otherDetailList, moduleToUnpatch, oldPath);
 			otherAttribute.setValue(otherDetailList.toArray(new ModuleEncapsulationDetail[otherDetailList.size()]));
 			return true;
@@ -588,7 +588,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				// initialize missing attribute for focus module (source folder)
 				return fElem.createAttributeElement(CPListElement.MODULE, new ModuleEncapsulationDetail[0], true);
 			} else {
-				throwNewJavaModelException("module attribute is unexpectecly missing for : "+fElem); //$NON-NLS-1$
+				throwNewJavaModelException("module attribute is unexpectecly missing for : "+fElem); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return null; // not reached
 			}
 		}
@@ -663,9 +663,9 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		}
 		public Object[] getTargetModules() {
 			if (fTargetModules != null && !fTargetModules.isEmpty()) {
-				String[] targets= fTargetModules.split(COMMA);
+				String[] targets= fTargetModules.split(COMMA); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				Object[] result= new Object[targets.length];
-				for (int i= 0; i < targets.length; i++) {
+				for (int i= 0; i < targets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result[i]= new TargetModule(this, targets[i]);
 				}
 				return result;
@@ -676,7 +676,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			if (fTargetModules == null) {
 				return false;
 			}
-			List<String> targets= new ArrayList<>(Arrays.asList(fTargetModules.split(COMMA)));
+			List<String> targets= new ArrayList<>(Arrays.asList(fTargetModules.split(COMMA))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			if (targets.remove(module)) {
 				fTargetModules= String.join(COMMA, targets);
 			}
@@ -696,7 +696,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 					}
 				}
 			}
-			throwNewJavaModelException("Failed to convert attribute "+attribElem+" with value "+attribElem.getValue());  //$NON-NLS-1$//$NON-NLS-2$
+			throwNewJavaModelException("Failed to convert attribute "+attribElem+" with value "+attribElem.getValue());  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null; // never reached
 		}
 	}
@@ -712,7 +712,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		}
 
 		public String getText() {
-			return "to "+fName; //$NON-NLS-1$ (don't translate this keyword)
+			return "to "+fName; //$NON-NLS-1$ (don't translate this keyword) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -732,7 +732,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			if (fParent instanceof ConfiguredDetails) {
 				return new ModuleAddReads(fParent.fFocusModule.getElementName(), fName, attribElem);
 			}
-			throw new JavaModelException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Failed to convert attribute "+attribElem+" with value "+attribElem.getValue()));  //$NON-NLS-1$//$NON-NLS-2$
+			throw new JavaModelException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Failed to convert attribute "+attribElem+" with value "+attribElem.getValue()));  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 	/** Declare that the selected focus module is patched by the content of the given java element
@@ -778,7 +778,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			}
 			return super.getText(element);
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Image getImage(Object element) {
 			if (element instanceof DeclaredDetails || element instanceof TargetModule) {
 				return fRegistry.get(JavaPluginImages.DESC_OBJS_MODULE);
@@ -837,10 +837,10 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		throw new JavaModelException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), message));
 	}
 
-	static boolean handleUnavailableModulesIfNeeded(Shell shell, List<IModuleDescription> result, ModuleDependenciesPage masterPage) {
-		List<IModuleDescription> unavailableSystemModules= new ArrayList<>();
+	static boolean handleUnavailableModulesIfNeeded(Shell shell, List<IModuleDescription> result, ModuleDependenciesPage masterPage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IModuleDescription> unavailableSystemModules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Collection<String> allModules= masterPage.getAllModules();
-		for (IModuleDescription module : result) {
+		for (IModuleDescription module : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!allModules.contains(module.getElementName())) {
 				if (module.isSystemModule()) {
 					unavailableSystemModules.add(module);
@@ -856,9 +856,9 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			}
 		}
 		if (!unavailableSystemModules.isEmpty()) {
-			StringBuilder message= new StringBuilder();
-			message.append(NewWizardMessages.ModuleDependenciesAdapter_addSystemModules_question);
-			message.append(unavailableSystemModules.stream()
+			StringBuilder message= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			message.append(NewWizardMessages.ModuleDependenciesAdapter_addSystemModules_question); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			message.append(unavailableSystemModules.stream() //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					.map(IJavaElement::getElementName)
 					.sorted()
 					.collect(Collectors.joining("\n\t", "\t", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -897,7 +897,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 	}
 
 	// -------- IListAdapter --------
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void customButtonPressed(TreeListDialogField<Object> field, int index) {
 		AccessiblePackage selectedPackage= null;
 		List<Object> selectedElements= field.getSelectedElements();
@@ -941,7 +941,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 				fModuleDependenciesPage.showJMPSOptionsDialog();
 				break;
 			default:
-				throw new IllegalArgumentException("Non-existent button index "+index); //$NON-NLS-1$
+				throw new IllegalArgumentException("Non-existent button index "+index); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		int newNum= countConfiguredDetails();
 		if ((numDetails == 0 || newNum == 0) && numDetails != newNum) {
@@ -950,7 +950,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 	}
 
 	int countConfiguredDetails() {
-		for (Object object : fDetailsList.getElements()) {
+		for (Object object : fDetailsList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof ConfiguredDetails)
 				return ((ConfiguredDetails) object).getChildren().length;
 		}
@@ -958,7 +958,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 	}
 
 	private ConfiguredDetails getConfiguredDetails(boolean failIfMissing) {
-		for (Object object : fDetailsList.getElements()) {
+		for (Object object : fDetailsList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof ConfiguredDetails)
 				return (ConfiguredDetails) object;
 		}
@@ -967,7 +967,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(TreeListDialogField<Object> field) {
 		List<Object> selected= fDetailsList.getSelectedElements();
 		boolean enable= false;
@@ -990,7 +990,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		fDetailsList.enableButton(IDX_PATCH, enable);
 		if (enable) {
 			enable &= selected.size() > 0;
-			for (Object sel : selected) {
+			for (Object sel : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (sel instanceof ConfiguredDetails) {
 					enable= false;
 					break;
@@ -1001,7 +1001,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 	}
 
 	private boolean allAreConfigurable(List<Object> selected) {
-		for (Object node : selected) {
+		for (Object node : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isConfigurableNode(node))
 				return false;
 		}
@@ -1024,7 +1024,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		return false; // no other nodes
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void doubleClicked(TreeListDialogField<Object> field) {
 		List<Object> selectedElements= fDetailsList.getSelectedElements();
 		if (selectedElements.size() == 1) {
@@ -1092,10 +1092,10 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		return children != null && children.length > 0;
 	}
 
-	void validate() {
+	void validate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspaceRoot wsRoot= ResourcesPlugin.getWorkspace().getRoot();
-		Map<IPath, Map<String,List<IResource>>> out2mod2src= new HashMap<>(); // output -> (module -> sources)
-		for (Entry<String, String> entry : fModuleDependenciesPage.fPatchMap.entrySet()) {
+		Map<IPath, Map<String,List<IResource>>> out2mod2src= new HashMap<>(); // output -> (module -> sources) //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Entry<String, String> entry : fModuleDependenciesPage.fPatchMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Path path= new Path(entry.getKey());
 			IResource resource= wsRoot.findMember(path);
 			IJavaProject javaProject= JavaCore.create(resource.getProject());
@@ -1103,16 +1103,16 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			if (output != null) {
 				Map<String, List<IResource>> module2source= out2mod2src.get(output);
 				if (module2source == null) {
-					out2mod2src.put(output, module2source= new HashMap<>());
+					out2mod2src.put(output, module2source= new HashMap<>()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				}
 				List<IResource> sources= module2source.get(entry.getValue());
 				if (sources == null) {
-					module2source.put(entry.getValue(), sources= new ArrayList<>());
+					module2source.put(entry.getValue(), sources= new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				sources.add(resource);
 			}
 		}
-		for (Map<String, List<IResource>> mod2src : out2mod2src.values()) {
+		for (Map<String, List<IResource>> mod2src : out2mod2src.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// does any output location map to more than one module?
 			if (mod2src.entrySet().size() > 1) {
 				fModuleDependenciesPage.setStatus(new StatusInfo(IStatus.ERROR,

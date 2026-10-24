@@ -56,7 +56,7 @@ import org.eclipse.jdt.internal.ui.workingsets.IWorkingSetIDs;
 import org.eclipse.jdt.internal.ui.workingsets.WorkingSetModel;
 
 
-public class DeleteAction extends SelectionDispatchAction {
+public class DeleteAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * 'Hide' button index.
@@ -105,7 +105,7 @@ public class DeleteAction extends SelectionDispatchAction {
 	 * @param selection the selected working sets
 	 * @since 3.5
 	 */
-	private void deleteWorkingSets(IStructuredSelection selection) {
+	private void deleteWorkingSets(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MessageDialog dialog;
 		if (selection.size() == 1) {
 			IWorkingSet workingSet= (IWorkingSet)selection.getFirstElement();
@@ -137,7 +137,7 @@ public class DeleteAction extends SelectionDispatchAction {
 		if (dialogResponse == REMOVE_BUTTON) {
 			Iterator<?> iter= selection.iterator();
 			IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkingSet workingSet= (IWorkingSet) iter.next();
 				if (isDefaultWorkingSet(workingSet.getId()))
 					hideWorkingSets(Collections.singletonList(workingSet));
@@ -164,7 +164,7 @@ public class DeleteAction extends SelectionDispatchAction {
 			if (activePart instanceof PackageExplorerPart) {
 				PackageExplorerPart packagePart= (PackageExplorerPart) activePart;
 				WorkingSetModel model= packagePart.getWorkingSetModel();
-				List<IWorkingSet> activeWorkingSets= new ArrayList<>(Arrays.asList(model.getActiveWorkingSets()));
+				List<IWorkingSet> activeWorkingSets= new ArrayList<>(Arrays.asList(model.getActiveWorkingSets())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				activeWorkingSets.removeAll(selection);
 				model.setActiveWorkingSets(activeWorkingSets.toArray(new IWorkingSet[activeWorkingSets.size()]));
 			}

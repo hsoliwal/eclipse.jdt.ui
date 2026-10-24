@@ -112,7 +112,7 @@ public abstract class TestElement implements ITestElement {
 				return OK;
 		}
 
-		private static Status combineProgressAndErrorStatus(Status progress, Status error) {
+		private static Status combineProgressAndErrorStatus(Status progress, Status error) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (progress.isDone()) {
 				if (error.isError())
 					return ERROR;
@@ -310,7 +310,7 @@ public abstract class TestElement implements ITestElement {
 	public void setStatus(Status status, String trace, String expected, String actual) {
 		if (trace != null && fTrace != null) {
 			//don't overwrite first trace if same test run logs multiple errors
-			fTrace= fTrace + trace;
+			fTrace= fTrace + trace; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			fTrace= trace;
 			fExpected= expected;
@@ -478,7 +478,7 @@ public abstract class TestElement implements ITestElement {
 
 	@Override
 	public String toString() {
-		return getProgressState() + " - " + getTestResult(true); //$NON-NLS-1$
+		return getProgressState() + " - " + getTestResult(true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**

@@ -72,7 +72,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 		fUndoManager.connect(fTextViewer);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTextViewerUndoManager() throws Exception{
 		// There is always a document instance around, hence a DocumentUndoManager.
 		// So count instances first.
@@ -109,7 +109,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 
 	private Class<?> getSharedUndoManagersInnerClass(String className) {
 		try {
-			return Class.forName("org.eclipse.jface.text.TextViewerUndoManager$" + className, true, getClass().getClassLoader());
+			return Class.forName("org.eclipse.jface.text.TextViewerUndoManager$" + className, true, getClass().getClassLoader()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (ClassNotFoundException e) {
 			fail();
 			return null;
@@ -118,7 +118,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 
 	private Class<?> getDocumentUndoManagersInnerClass(String className) {
 		try {
-			return Class.forName("org.eclipse.text.undo.DocumentUndoManager$" + className, true, getClass().getClassLoader());
+			return Class.forName("org.eclipse.text.undo.DocumentUndoManager$" + className, true, getClass().getClassLoader()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (ClassNotFoundException e) {
 			fail();
 			return null;
@@ -129,7 +129,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 	/**
 	 * Test for line delimiter conversion.
 	 */
-	private void internalTestConvertLineDelimiters() {
+	private void internalTestConvertLineDelimiters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String original= "a\r\nb\r\n";
 		final IDocument document= new Document(original);
 		fTextViewer.setDocument(document);
@@ -154,7 +154,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 	/**
 	 * Randomly applies document changes.
 	 */
-	private void internalTestRandomAccess() {
+	private void internalTestRandomAccess() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int RANDOM_STRING_LENGTH= 50;
 		final int RANDOM_REPLACE_COUNT= 100;
 
@@ -168,7 +168,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 		doChange(document, RANDOM_REPLACE_COUNT);
 
 		assertTrue(fUndoManager.undoable());
-		while (fUndoManager.undoable())
+		while (fUndoManager.undoable()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fUndoManager.undo();
 
 		final String reverted= document.get();
@@ -178,7 +178,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 
 	private void doChange(IDocument document, int count) {
 		try {
-			for (int i= 0; i < count; i++) {
+			for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Position position= createRandomPositionPoisson(document.getLength());
 				final String string= createRandomStringPoisson();
 				document.replace(position.getOffset(), position.getLength(), string);
@@ -188,7 +188,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 		}
 	}
 
-	private void internalTestRandomAccessAsCompound() {
+	private void internalTestRandomAccessAsCompound() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int RANDOM_STRING_LENGTH= 50;
 		final int RANDOM_REPLACE_COUNT= 100;
 
@@ -204,7 +204,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 		fUndoManager.endCompoundChange();
 
 		assertTrue(fUndoManager.undoable());
-		while (fUndoManager.undoable())
+		while (fUndoManager.undoable()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fUndoManager.undo();
 		assertFalse(fUndoManager.undoable());
 
@@ -214,10 +214,10 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 	}
 
 	private static String createRandomString(int length) {
-		final StringBuilder buffer= new StringBuilder();
+		final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		for (int i= 0; i < length; i++)
-			buffer.append(getRandomCharacter());
+		for (int i= 0; i < length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buffer.append(getRandomCharacter()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buffer.toString();
 	}
@@ -254,7 +254,7 @@ public class TextViewerUndoManagerLeakTest extends LeakTestCase {
 		final float random= (float) Math.random();
 		float probability= 0;
 		int i= 0;
-		while (probability < 1 && i < MAX_VALUE) {
+		while (probability < 1 && i < MAX_VALUE) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			probability += getPoissonDistribution(mean, i);
 			if (random <= probability)
 				break;

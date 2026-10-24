@@ -100,7 +100,7 @@ public class NlsRefactoringCheckFinalConditionsTest {
 	/*
 	 * substitution checks
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void checkInputWithSubstitutionPatterns() throws Exception {
 		ICompilationUnit cu= fHelper.getCu("/TestSetupProject/src1/p/WithStrings.java"); //$NON-NLS-1$
 		initDefaultValues();
@@ -162,7 +162,7 @@ public class NlsRefactoringCheckFinalConditionsTest {
 		NLSRefactoring refac= NLSRefactoring.create(cu);
 		NLSSubstitution[] subs= refac.getSubstitutions();
 		refac.setPrefix("");
-		for (NLSSubstitution sub : subs) {
+		for (NLSSubstitution sub : subs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sub.setState(NLSSubstitution.EXTERNALIZED);
 			sub.generateKey(subs, new Properties());
 		}

@@ -37,7 +37,7 @@ import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
 
 import org.eclipse.jdt.internal.ui.javaeditor.JavaTextSelection;
 
-public class OpenAndExpand extends SelectionDispatchAction {
+public class OpenAndExpand extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private OpenAction fOpenAction;
 	private TreeViewer fViewer;
@@ -91,7 +91,7 @@ public class OpenAndExpand extends SelectionDispatchAction {
 
 	@Override
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
-		fOpenAction.addPropertyChangeListener(listener);
+		fOpenAction.addPropertyChangeListener(listener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 	}
 
 	@Override

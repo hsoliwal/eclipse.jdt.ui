@@ -66,7 +66,7 @@ public class TaskMarkerProposalCore extends CUCorrectionProposalCore {
 		}
 	}
 
-	private Position getUpdatedPosition(IDocument document) throws BadLocationException {
+	private Position getUpdatedPosition(IDocument document) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IScanner scanner;
 		IJavaProject project = this.getCompilationUnit().getJavaProject();
         if (project != null) {
@@ -129,13 +129,13 @@ public class TaskMarkerProposalCore extends CUCorrectionProposalCore {
 		return new Position(start, end - start);
 	}
 
-	private int getSurroundingComment(IScanner scanner) {
+	private int getSurroundingComment(IScanner scanner) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			int start= fLocation.getOffset();
 			int end= start + fLocation.getLength();
 
 			int token= scanner.getNextToken();
-			while (token != ITerminalSymbols.TokenNameEOF) {
+			while (token != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (TokenScanner.isComment(token)) {
 					int currStart= scanner.getCurrentTokenStartPosition();
 					int currEnd= scanner.getCurrentTokenEndPosition() + 1;
@@ -153,7 +153,7 @@ public class TaskMarkerProposalCore extends CUCorrectionProposalCore {
 	}
 
 	private boolean hasContent(IDocument document, int start, int end) throws BadLocationException {
-		for (int i= start; i < end; i++) {
+		for (int i= start; i < end; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= document.getChar(i);
 			if (!Character.isWhitespace(ch)) {
 				return true;

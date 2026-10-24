@@ -167,12 +167,12 @@ public final class JarImportWizardPage extends WizardPage {
 	 * @param parent
 	 *            the parent control
 	 */
-	protected void createInputGroup(final Composite parent) {
+	protected void createInputGroup(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(parent);
 		new Label(parent, SWT.NONE);
 		final Label label= new Label(parent, SWT.NONE);
 		label.setText(JarImportMessages.JarImportWizardPage_import_message);
-		final StandardJavaElementContentProvider contentProvider= new StandardJavaElementContentProvider() {
+		final StandardJavaElementContentProvider contentProvider= new StandardJavaElementContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 
 			@Override
 			public Object[] getChildren(Object element) {
@@ -183,8 +183,8 @@ public final class JarImportWizardPage extends WizardPage {
 
 			@Override
 			protected Object[] getJavaProjects(final IJavaModel model) throws JavaModelException {
-				final Set<IJavaProject> set= new HashSet<>();
-				for (IJavaProject project : model.getJavaProjects()) {
+				final Set<IJavaProject> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (IJavaProject project : model.getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (JarImportWizard.isValidJavaProject(project)) {
 						final Object[] roots= getPackageFragmentRoots(project);
 						if (roots.length > 0) {
@@ -197,8 +197,8 @@ public final class JarImportWizardPage extends WizardPage {
 
 			@Override
 			protected Object[] getPackageFragmentRoots(final IJavaProject project) throws JavaModelException {
-				final Set<IPackageFragmentRoot> set= new HashSet<>();
-				for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+				final Set<IPackageFragmentRoot> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IClasspathEntry entry= root.getRawClasspathEntry();
 					if (JarImportWizard.isValidClassPathEntry(entry)
 						&& root.getResolvedClasspathEntry().getReferencingEntry() == null)
@@ -216,18 +216,18 @@ public final class JarImportWizardPage extends WizardPage {
 		final DecoratingLabelProvider labelProvider= new DecoratingLabelProvider(new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_BASICS | JavaElementLabelProvider.SHOW_OVERLAY_ICONS | JavaElementLabelProvider.SHOW_SMALL_ICONS), new ProblemsLabelDecorator(null));
 		fTreeViewer= new TreeViewer(parent, SWT.SINGLE | SWT.BORDER);
 		fTreeViewer.getTree().setLayoutData(createGridData(GridData.FILL_BOTH, 6, 0));
-		fTreeViewer.setLabelProvider(labelProvider);
+		fTreeViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTreeViewer.setContentProvider(contentProvider);
-		fTreeViewer.addFilter(new EmptyPackageFilter());
+		fTreeViewer.addFilter(new EmptyPackageFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		fTreeViewer.setComparator(new JavaElementComparator());
 		fTreeViewer.setAutoExpandLevel(2);
-		fTreeViewer.setInput(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()));
+		fTreeViewer.setInput(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot())); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		final IPackageFragmentRoot root= fWizard.getPackageFragmentRoot();
 		if (root != null) {
 			fTreeViewer.setSelection(new StructuredSelection(new Object[] { root}), true);
 			fTreeViewer.expandToLevel(root, 1);
 		}
-		fTreeViewer.addSelectionChangedListener(unused -> handleInputChanged());
+		fTreeViewer.addSelectionChangedListener(unused -> handleInputChanged()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		if (contentProvider.getChildren(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot())).length == 0) {
 			fTreeViewer.getControl().setEnabled(false);
 			label.setEnabled(false);
@@ -240,7 +240,7 @@ public final class JarImportWizardPage extends WizardPage {
 	 * @param parent
 	 *            the parent control
 	 */
-	protected void createLocationGroup(final Composite parent) {
+	protected void createLocationGroup(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(parent);
 		new Label(parent, SWT.NONE).setText(JarImportMessages.JarImportWizardPage_import_label);
 		final Composite composite= new Composite(parent, SWT.NONE);
@@ -252,8 +252,8 @@ public final class JarImportWizardPage extends WizardPage {
 		fLocationControl= new RefactoringLocationControl(fWizard, composite, SETTING_HISTORY);
 		fLocationControl.setLayoutData(createGridData(GridData.FILL_HORIZONTAL, 1, 0));
 		fLocationControl.loadHistory();
-		fLocationControl.getControl().addModifyListener(unused -> handleInputChanged());
-		fLocationControl.getControl().addSelectionListener(new SelectionAdapter() {
+		fLocationControl.getControl().addModifyListener(unused -> handleInputChanged()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+		fLocationControl.getControl().addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public final void widgetSelected(final SelectionEvent event) {
@@ -265,7 +265,7 @@ public final class JarImportWizardPage extends WizardPage {
 		button.setText(JarImportMessages.JarImportWizardPage_browse_button_label);
 		button.setLayoutData(createGridData(GridData.HORIZONTAL_ALIGN_FILL, 1, 0));
 		SWTUtil.setButtonDimensionHint(button);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public final void widgetSelected(final SelectionEvent event) {
@@ -280,13 +280,13 @@ public final class JarImportWizardPage extends WizardPage {
 	 * @param parent
 	 *            the parent control
 	 */
-	protected void createRenameGroup(final Composite parent) {
+	protected void createRenameGroup(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(parent);
 		final JarImportData data= fWizard.getImportData();
 		final Button button= new Button(parent, SWT.CHECK);
 		button.setText(JarImportMessages.JarImportWizardPage_replace_jar_file);
 		button.setSelection(!data.isRenameJarFile());
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
@@ -339,7 +339,7 @@ public final class JarImportWizardPage extends WizardPage {
 	/**
 	 * Handles the jar file changed event.
 	 */
-	protected void handleJarFileChanged() {
+	protected void handleJarFileChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fLocationControl != null) {
 			final String path= fLocationControl.getText();
 			if ("".equals(path)) { //$NON-NLS-1$
@@ -348,12 +348,12 @@ public final class JarImportWizardPage extends WizardPage {
 				return;
 			} else {
 				final File file= new File(path);
-				if (!file.exists()) {
+				if (!file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					setErrorMessage(JarImportMessages.JarImportWizardPage_invalid_location);
 					setPageComplete(false);
 					return;
 				}
-				try (ZipFile zip= new ZipFile(file, ZipFile.OPEN_READ)) {
+				try (ZipFile zip= new ZipFile(file, ZipFile.OPEN_READ)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 					final JarImportData data= fWizard.getImportData();
 					data.setRefactoringFileLocation(URIUtil.toURI(path));
 					ZipEntry entry= zip.getEntry(JarPackagerUtil.getRefactoringsEntry());
@@ -368,7 +368,7 @@ public final class JarImportWizardPage extends WizardPage {
 						setPageComplete(true);
 						return;
 					}
-					try (InputStream stream= zip.getInputStream(entry)) {
+					try (InputStream stream= zip.getInputStream(entry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 						data.setRefactoringHistory(
 								RefactoringCore.getHistoryService().readRefactoringHistory(stream, JavaRefactoringDescriptor.JAR_MIGRATION | JavaRefactoringDescriptor.JAR_REFACTORING));
 					} catch (IOException exception) {
@@ -393,7 +393,7 @@ public final class JarImportWizardPage extends WizardPage {
 	/**
 	 * Handles the package fragment root changed event.
 	 */
-	protected void handlePackageFragmentRootChanged() {
+	protected void handlePackageFragmentRootChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTreeViewer != null) {
 			final IStructuredSelection selection= (IStructuredSelection) fTreeViewer.getSelection();
 			final Object[] elements= selection.toArray();
@@ -419,15 +419,15 @@ public final class JarImportWizardPage extends WizardPage {
 	/**
 	 * Handles the time stamp changed event.
 	 */
-	protected void handleTimeStampChanged() {
+	protected void handleTimeStampChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IPackageFragmentRoot root= fWizard.getPackageFragmentRoot();
 		if (root != null) {
 			try {
 				final URI uri= BinaryRefactoringHistoryWizard.getLocationURI(root.getRawClasspathEntry());
 				if (uri != null) {
 					final File file= new File(uri);
-					if (file.exists()) {
-						try (ZipFile zip= new ZipFile(file, ZipFile.OPEN_READ)) {
+					if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+						try (ZipFile zip= new ZipFile(file, ZipFile.OPEN_READ)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 							ZipEntry entry= zip.getEntry(JarPackagerUtil.getRefactoringsEntry());
 							if (entry != null) {
 								fWizard.getImportData().setExistingTimeStamp(entry.getTime());

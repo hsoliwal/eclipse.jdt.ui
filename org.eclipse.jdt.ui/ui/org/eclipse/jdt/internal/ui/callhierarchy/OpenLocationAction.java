@@ -25,7 +25,7 @@ import org.eclipse.jdt.internal.corext.callhierarchy.MethodWrapper;
 
 import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
 
-class OpenLocationAction extends SelectionDispatchAction {
+class OpenLocationAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
     private CallHierarchyViewPart fPart;
 
     public OpenLocationAction(CallHierarchyViewPart part, IWorkbenchSite site) {
@@ -36,7 +36,7 @@ class OpenLocationAction extends SelectionDispatchAction {
         setToolTipText(CallHierarchyMessages.OpenLocationAction_tooltip);
 		setEnabled(!fPart.getSelection().isEmpty());
 
-		viewer.addSelectionChangedListener(event -> setEnabled(!event.getSelection().isEmpty()));
+		viewer.addSelectionChangedListener(event -> setEnabled(!event.getSelection().isEmpty())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
     private boolean checkEnabled(IStructuredSelection selection) {
@@ -44,7 +44,7 @@ class OpenLocationAction extends SelectionDispatchAction {
             return false;
         }
 
-        for (Object element : selection) {
+        for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (element instanceof MethodWrapper
                     || element instanceof CallLocation) {
                 continue;
@@ -66,7 +66,7 @@ class OpenLocationAction extends SelectionDispatchAction {
         if (!checkEnabled(selection))
             return;
 
-        for (Object name : selection) {
+        for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        boolean noError= CallHierarchyUI.openInEditor(name, getShell(), OpenStrategy.activateOnOpen());
 	        if (! noError)
 	        	return;

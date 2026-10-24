@@ -62,7 +62,7 @@ public class JUnitClasspathFixProcessor extends ClasspathFixProcessor {
 			return JUnitMessages.JUnitAddLibraryProposal_info;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Change createChange(IProgressMonitor monitor) throws CoreException {
 			if (monitor == null) {
 				monitor= new NullProgressMonitor();
@@ -85,9 +85,9 @@ public class JUnitClasspathFixProcessor extends ClasspathFixProcessor {
 					break;
 				}
 				IClasspathEntry[] oldEntries= fProject.getRawClasspath();
-				ArrayList<IClasspathEntry> newEntries= new ArrayList<>(oldEntries.length + 1);
+				ArrayList<IClasspathEntry> newEntries= new ArrayList<>(oldEntries.length + 1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				boolean added= false;
-				for (IClasspathEntry curr : oldEntries) {
+				for (IClasspathEntry curr : oldEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 						IPath path= curr.getPath();
 						if (path.equals(entry.getPath())) {
@@ -160,7 +160,7 @@ public class JUnitClasspathFixProcessor extends ClasspathFixProcessor {
 	private static final int JUNIT5= 4;
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ClasspathFixProposal[] getFixImportProposals(IJavaProject project, String missingType) throws CoreException {
 		String s= missingType;
 		int res= 0;
@@ -189,7 +189,7 @@ public class JUnitClasspathFixProcessor extends ClasspathFixProcessor {
 					break;
 			}
 		if (res != 0) {
-			ArrayList<JUnitClasspathFixProposal> proposals= new ArrayList<>();
+			ArrayList<JUnitClasspathFixProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if ((res & JUNIT5) != 0) {
 				proposals.add(new JUnitClasspathFixProposal(project, 5, 15));
 				proposals.add(new JUnitClasspathFixProposal(project, 6, 15));

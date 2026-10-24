@@ -114,7 +114,7 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 
 	private Menu fMenu;
 	private IPartService fPartService;
-	private IPartListener fPartListener= new IPartListener() {
+	private IPartListener fPartListener= new IPartListener() { //FLLDCIM: MARK — T20  ANONYMOUS
 
 		@Override
 		public void partActivated(IWorkbenchPart part) {
@@ -143,7 +143,7 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 		if (fMenu == null || fMenu.isDisposed()) {
 			return;
 		}
-		for (MenuItem menuItem : fMenu.getItems()) {
+		for (MenuItem menuItem : fMenu.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!menuItem.isDisposed()) {
 				menuItem.dispose();
 			}
@@ -166,7 +166,7 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 		return fMenu;
 	}
 
-	public static void fillMenu(IMenuManager menu, CompilationUnitEditor editor, SurroundWithTryCatchAction surroundWithTryCatchAction,
+	public static void fillMenu(IMenuManager menu, CompilationUnitEditor editor, SurroundWithTryCatchAction surroundWithTryCatchAction, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			SurroundWithTryMultiCatchAction surroundWithTryMultiCatchAction, SurroundWithTryWithResourcesAction surroundWithTryWithResourcesAction) {
 		IAction[] actions= getTemplateActions(editor);
 
@@ -190,7 +190,7 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 			}
 
 			menu.add(new Separator(TEMPLATE_GROUP));
-			for (int i= 0; actions != null && i < actions.length; i++)
+			for (int i= 0; actions != null && i < actions.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				menu.add(actions[i]);
 
 		}
@@ -252,7 +252,7 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 	 * The menu to show in the workbench menu
 	 * @param menu the menu to fill entries into it
 	 */
-	protected void fillMenu(Menu menu) {
+	protected void fillMenu(Menu menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IWorkbenchPart activePart= JavaPlugin.getActivePage().getActivePart();
 		if (!(activePart instanceof CompilationUnitEditor)) {
@@ -291,7 +291,7 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 				templateGroup.fill(menu, -1);
 			}
 
-			for (IAction action : actions) {
+			for (IAction action : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ActionContributionItem item= new ActionContributionItem(action);
 				item.fill(menu, -1);
 			}
@@ -309,11 +309,11 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 	}
 
 	protected void initMenu() {
-		fMenu.addMenuListener(new MenuAdapter() {
+		fMenu.addMenuListener(new MenuAdapter() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			@Override
 			public void menuShown(MenuEvent e) {
 				Menu m = (Menu)e.widget;
-				for (MenuItem item : m.getItems()) {
+				for (MenuItem item : m.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					item.dispose();
 				}
 				fillMenu(m);
@@ -328,7 +328,7 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 		fMenu = menu;
 	}
 
-	private static IAction[] getTemplateActions(JavaEditor editor) {
+	private static IAction[] getTemplateActions(JavaEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITextSelection textSelection= getTextSelection(editor);
 		if (textSelection == null || textSelection.getLength() == 0)
 			return null;
@@ -378,18 +378,18 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 		}
 	}
 
-	private static IAction[] getActionsFromProposals(IJavaCompletionProposal[] proposals, final int offset, final ITextViewer viewer) {
-		List<Action> result= new ArrayList<>();
+	private static IAction[] getActionsFromProposals(IJavaCompletionProposal[] proposals, final int offset, final ITextViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Action> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i= 0, j= 1; i < proposals.length; i++) {
+		for (int i= 0, j= 1; i < proposals.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (proposals[i] instanceof ICompletionProposalExtension2) {
 				final IJavaCompletionProposal proposal= proposals[i];
 
-				StringBuilder actionName= new StringBuilder();
+				StringBuilder actionName= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (j<10) {
-					actionName.append('&').append(j).append(' ');
+					actionName.append('&').append(j).append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				actionName.append(proposals[i].getDisplayString());
+				actionName.append(proposals[i].getDisplayString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 				Action action= new Action(actionName.toString()) {
 					@Override
@@ -409,7 +409,7 @@ public class SurroundWithTemplateMenuAction implements IWorkbenchWindowPulldownD
 		return result.toArray(new IAction[result.size()]);
 	}
 
-	private static void applyProposal(ICompletionProposal proposal, ITextViewer viewer, char trigger, int stateMask, final int offset) {
+	private static void applyProposal(ICompletionProposal proposal, ITextViewer viewer, char trigger, int stateMask, final int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(proposal instanceof ICompletionProposalExtension2);
 
 		IRewriteTarget target= null;

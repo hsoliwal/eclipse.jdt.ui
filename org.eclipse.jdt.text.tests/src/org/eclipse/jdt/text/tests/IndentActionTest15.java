@@ -115,8 +115,8 @@ public class IndentActionTest15 {
 
 	private String createFileName(String qualifier) {
 		String name= tn.getMethodName();
-		name= name.substring(4, 5).toLowerCase() + name.substring(5);
-		return "/" + PROJECT + "/src/" + name + "/" + qualifier + ".java";
+		name= name.substring(4, 5).toLowerCase() + name.substring(5); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		return "/" + PROJECT + "/src/" + name + "/" + qualifier + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void selectAll() {

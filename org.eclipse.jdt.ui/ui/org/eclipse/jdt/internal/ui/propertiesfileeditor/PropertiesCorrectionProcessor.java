@@ -65,7 +65,7 @@ public class PropertiesCorrectionProcessor implements org.eclipse.jface.text.qui
 	/*
 	 * @see IContentAssistProcessor#computeCompletionProposals(ITextViewer, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICompletionProposal[] computeQuickAssistProposals(IQuickAssistInvocationContext quickAssistContext) {
 
 		ISourceViewer viewer= quickAssistContext.getSourceViewer();
@@ -78,7 +78,7 @@ public class PropertiesCorrectionProcessor implements org.eclipse.jface.text.qui
 			res= fPreComputedProposals;
 		} else {
 			try {
-				List<ICompletionProposal> proposals= new ArrayList<>();
+				List<ICompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				ICompletionProposal[] spellingProposals= fSpellingCorrectionProcessor.computeQuickAssistProposals(quickAssistContext);
 				if (spellingProposals.length > 1) {
 					proposals.addAll(Arrays.asList(spellingProposals));

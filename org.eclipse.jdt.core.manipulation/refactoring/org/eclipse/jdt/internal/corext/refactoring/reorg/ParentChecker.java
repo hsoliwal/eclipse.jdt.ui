@@ -52,7 +52,7 @@ public class ParentChecker {
 		return getCommonParent() != null;
 	}
 
-	public Object getCommonParent(){
+	public Object getCommonParent(){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJavaElements.length == 0 && fResources.length == 0 && fJarResources.length == 0)
 			return null;
 		if (! resourcesHaveCommonParent() || ! javaElementsHaveCommonParent() || ! jarResourcesHaveCommonParent())
@@ -126,7 +126,7 @@ public class ParentChecker {
 			return true;
 		IJavaElement firstParent= fJavaElements[0].getParent();
 		Assert.isNotNull(firstParent); //this should never happen
-		for (int i= 1; i < fJavaElements.length; i++) {
+		for (int i= 1; i < fJavaElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! firstParent.equals(fJavaElements[i].getParent()))
 				return false;
 		}
@@ -138,7 +138,7 @@ public class ParentChecker {
 			return true;
 		IResource firstParent= fResources[0].getParent();
 		Assert.isNotNull(firstParent);
-		for (int i= 1; i < fResources.length; i++) {
+		for (int i= 1; i < fResources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! firstParent.equals(fResources[i].getParent()))
 				return false;
 		}
@@ -157,7 +157,7 @@ public class ParentChecker {
 			return true;
 		Object firstParent= fJarResources[0].getParent();
 		Assert.isNotNull(firstParent);
-		for (int i= 1; i < fJarResources.length; i++) {
+		for (int i= 1; i < fJarResources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! firstParent.equals(fJarResources[i].getParent()))
 				return false;
 		}
@@ -187,9 +187,9 @@ public class ParentChecker {
 	}
 
 	private static Set<IResource> filterDescendants(IResource[] resourcesToFilter, IJavaElement[] javaElements) {
-		List<IResource> descendants= new ArrayList<>();
-		Set<IJavaElement> elements= new HashSet<>(Arrays.asList(javaElements));
-		for (IResource currentResource : resourcesToFilter) {
+		List<IResource> descendants= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<IJavaElement> elements= new HashSet<>(Arrays.asList(javaElements)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IResource currentResource : resourcesToFilter) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasAncestor(currentResource, elements)) {
 				descendants.add(currentResource);
 			}
@@ -205,9 +205,9 @@ public class ParentChecker {
 	}
 
 	private static Set<IJavaElement> filterDescendants(IJavaElement[] elementsToFilter) {
-		List<IJavaElement> descendants= new ArrayList<>();
+		List<IJavaElement> descendants= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Set<IJavaElement> elements= new LinkedHashSet<>(Arrays.asList(elementsToFilter));
-		for (IJavaElement currentElement : elementsToFilter) {
+		for (IJavaElement currentElement : elementsToFilter) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasAncestor(currentElement, elements)) {
 				descendants.add(currentElement);
 			}
@@ -217,9 +217,9 @@ public class ParentChecker {
 	}
 
 	private void removeResourcesDescendantsOfResources() {
-		List<IResource> subResources= new ArrayList<>(3);
-		for (IResource subResource : fResources) {
-			for (IResource superResource : fResources) {
+		List<IResource> subResources= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource subResource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IResource superResource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isDescendantOf(subResource, superResource))
 					subResources.add(subResource);
 			}
@@ -228,7 +228,7 @@ public class ParentChecker {
 	}
 
 	private static boolean hasAncestor(IResource resource, Set<IJavaElement> elements) {
-		for (IResource parent= resource.getParent(); parent != null; parent= parent.getParent()) {
+		for (IResource parent= resource.getParent(); parent != null; parent= parent.getParent()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement parentElement= JavaCore.create(parent);
 			if (parentElement != null && parentElement.exists() && elements.contains(parentElement)) {
 				return true;
@@ -238,7 +238,7 @@ public class ParentChecker {
 	}
 
 	private static boolean hasAncestor(IJavaElement element, Set<IJavaElement> elements) {
-		for (IJavaElement parent= element.getParent(); parent != null; parent= parent.getParent()) {
+		for (IJavaElement parent= element.getParent(); parent != null; parent= parent.getParent()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elements.contains(parent)) {
 				return true;
 			}

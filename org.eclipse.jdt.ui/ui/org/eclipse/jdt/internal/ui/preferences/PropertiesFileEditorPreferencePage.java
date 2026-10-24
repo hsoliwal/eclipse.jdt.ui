@@ -98,27 +98,27 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 		 * @param configuration the configuration
 		 * @param preferenceStore the preference store
 		 */
-		SourcePreviewerUpdater(final SourceViewer viewer, final PropertiesFileSourceViewerConfiguration configuration, final IPreferenceStore preferenceStore) {
+		SourcePreviewerUpdater(final SourceViewer viewer, final PropertiesFileSourceViewerConfiguration configuration, final IPreferenceStore preferenceStore) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Assert.isNotNull(viewer);
 			Assert.isNotNull(configuration);
 			Assert.isNotNull(preferenceStore);
-			final IPropertyChangeListener fontChangeListener= event -> {
+			final IPropertyChangeListener fontChangeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 				if (PreferenceConstants.PROPERTIES_FILE_EDITOR_TEXT_FONT.equals(event.getProperty())) {
 					Font font= JFaceResources.getFont(PreferenceConstants.PROPERTIES_FILE_EDITOR_TEXT_FONT);
 					viewer.getTextWidget().setFont(font);
 				}
 			};
-			final IPropertyChangeListener propertyChangeListener= event -> {
+			final IPropertyChangeListener propertyChangeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 				if (configuration.affectsTextPresentation(event)) {
 					configuration.handlePropertyChangeEvent(event);
 					viewer.invalidateTextPresentation();
 				}
 			};
-			viewer.getTextWidget().addDisposeListener(unused -> {
+			viewer.getTextWidget().addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				preferenceStore.removePropertyChangeListener(propertyChangeListener);
 				JFaceResources.getFontRegistry().removeListener(fontChangeListener);
 			});
-			JFaceResources.getFontRegistry().addListener(fontChangeListener);
+			JFaceResources.getFontRegistry().addListener(fontChangeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			preferenceStore.addPropertyChangeListener(propertyChangeListener);
 		}
 	}
@@ -338,7 +338,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 	/**
 	 * Highlighting color list
 	 */
-	private final List<HighlightingColorListItem> fHighlightingColorList= new ArrayList<>();
+	private final List<HighlightingColorListItem> fHighlightingColorList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	/**
 	 * Highlighting color list viewer
 	 */
@@ -362,15 +362,15 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 
 	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() {
 
-		ArrayList<OverlayKey> overlayKeys= new ArrayList<>();
+		ArrayList<OverlayKey> overlayKeys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String[] c : fSyntaxColorListModel) {
+		for (String[] c : fSyntaxColorListModel) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String colorKey= c[1];
 			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, colorKey));
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, colorKey + BOLD));
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, colorKey + ITALIC));
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, colorKey + STRIKETHROUGH));
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, colorKey + UNDERLINE));
+			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, colorKey + BOLD)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, colorKey + ITALIC)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, colorKey + STRIKETHROUGH)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, colorKey + UNDERLINE)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		OverlayPreferenceStore.OverlayKey[] keys= new OverlayPreferenceStore.OverlayKey[overlayKeys.size()];
@@ -410,7 +410,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 		fUnderlineCheckBox.setEnabled(true);
 	}
 
-	private Control createSyntaxPage(Composite parent) {
+	private Control createSyntaxPage(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Label label= new Label(parent, SWT.LEFT);
 		label.setText(PreferencesMessages.PropertiesFileEditorPreferencePage_foreground);
@@ -426,7 +426,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 		editorComposite.setLayoutData(gd);
 
 		fHighlightingColorListViewer= new TableViewer(editorComposite, SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
-		fHighlightingColorListViewer.setLabelProvider(new ColorListLabelProvider());
+		fHighlightingColorListViewer.setLabelProvider(new ColorListLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fHighlightingColorListViewer.setContentProvider(new ColorListContentProvider());
 		fHighlightingColorListViewer.setComparator(new WorkbenchViewerComparator());
 		gd= new GridData(SWT.BEGINNING, SWT.FILL, false, true);
@@ -495,9 +495,9 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 		previewer.setLayoutData(gd);
 
 
-		fHighlightingColorListViewer.addSelectionChangedListener(unused -> handleSyntaxColorListSelection());
+		fHighlightingColorListViewer.addSelectionChangedListener(unused -> handleSyntaxColorListSelection()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		foregroundColorButton.addSelectionListener(new SelectionAdapter() {
+		foregroundColorButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				HighlightingColorListItem item= getHighlightingColorListItem();
@@ -505,7 +505,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 			}
 		});
 
-		fBoldCheckBox.addSelectionListener(new SelectionAdapter() {
+		fBoldCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				HighlightingColorListItem item= getHighlightingColorListItem();
@@ -513,7 +513,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 			}
 		});
 
-		fItalicCheckBox.addSelectionListener(new SelectionAdapter() {
+		fItalicCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				HighlightingColorListItem item= getHighlightingColorListItem();
@@ -521,7 +521,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 			}
 		});
 
-		fStrikethroughCheckBox.addSelectionListener(new SelectionAdapter() {
+		fStrikethroughCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				HighlightingColorListItem item= getHighlightingColorListItem();
@@ -529,7 +529,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 			}
 		});
 
-		fUnderlineCheckBox.addSelectionListener(new SelectionAdapter() {
+		fUnderlineCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				HighlightingColorListItem item= getHighlightingColorListItem();
@@ -542,7 +542,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 		return parent;
 	}
 
-	private Control createPreviewer(Composite parent) {
+	private Control createPreviewer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IPreferenceStore store= new ChainedPreferenceStore(new IPreferenceStore[] { fOverlayStore, JavaPlugin.getDefault().getCombinedPreferenceStore()});
 		fPreviewViewer= new JavaSourceViewer(parent, null, null, false, SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER, store);
@@ -565,7 +565,7 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 	/*
 	 * @see PreferencePage#createContents(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		fOverlayStore.load();
 		fOverlayStore.start();
@@ -587,11 +587,11 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 		return contents;
 	}
 
-	private void createHeader(Composite contents) {
+	private void createHeader(Composite contents) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String text= PreferencesMessages.PropertiesFileEditorPreferencePage_link;
 		Link link= new Link(contents, SWT.NONE);
 		link.setText(text);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if ("org.eclipse.ui.preferencePages.GeneralTextEditor".equals(e.text)) //$NON-NLS-1$
@@ -622,10 +622,10 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 
 		initializeFields();
 
-		for (String[] syntaxColor : fSyntaxColorListModel)
-			fHighlightingColorList.add(new HighlightingColorListItem (syntaxColor[0], syntaxColor[1], syntaxColor[1] + BOLD, syntaxColor[1] + ITALIC, syntaxColor[1] + STRIKETHROUGH, syntaxColor[1] + UNDERLINE, null));
+		for (String[] syntaxColor : fSyntaxColorListModel) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			fHighlightingColorList.add(new HighlightingColorListItem (syntaxColor[0], syntaxColor[1], syntaxColor[1] + BOLD, syntaxColor[1] + ITALIC, syntaxColor[1] + STRIKETHROUGH, syntaxColor[1] + UNDERLINE, null)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		fHighlightingColorListViewer.setInput(fHighlightingColorList);
+		fHighlightingColorListViewer.setInput(fHighlightingColorList); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fHighlightingColorListViewer.setSelection(new StructuredSelection(fHighlightingColorListViewer.getElementAt(0)));
 
 		// Make sure we propagate the colors to the shared color manager
@@ -684,16 +684,16 @@ public class PropertiesFileEditorPreferencePage extends PreferencePage implement
 		super.dispose();
 	}
 
-	private String loadPreviewContentFromFile(String filename) {
+	private String loadPreviewContentFromFile(String filename) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String line;
 		String separator= System.lineSeparator();
-		StringBuilder buffer= new StringBuilder(512);
+		StringBuilder buffer= new StringBuilder(512); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		BufferedReader reader= null;
 		try {
 			reader= new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename)));
-			while ((line= reader.readLine()) != null) {
-				buffer.append(line);
-				buffer.append(separator);
+			while ((line= reader.readLine()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buffer.append(line); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} catch (IOException io) {
 			JavaPlugin.log(io);

@@ -42,7 +42,7 @@ import org.eclipse.jdt.internal.ui.refactoring.actions.RenameResourceAction;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class RenameAction extends SelectionDispatchAction {
+public class RenameAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private RenameJavaElementAction fRenameJavaElement;
 	private RenameResourceAction fRenameResource;

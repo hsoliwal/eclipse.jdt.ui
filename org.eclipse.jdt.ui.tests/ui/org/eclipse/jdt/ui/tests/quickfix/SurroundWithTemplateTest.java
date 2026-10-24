@@ -63,7 +63,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 	private IJavaProject fJProject1;
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -93,7 +93,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	private static List<IJavaCompletionProposal> getRunnableProposal(AssistContext context) throws CoreException {
+	private static List<IJavaCompletionProposal> getRunnableProposal(AssistContext context) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String str= """
 			Runnable runnable = new Runnable() {
@@ -102,7 +102,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 			    }
 			};""";
 		TemplateStore templateStore= JavaPlugin.getDefault().getTemplateStore();
-		for (TemplatePersistenceData t : templateStore.getTemplateData(false)) {
+		for (TemplatePersistenceData t : templateStore.getTemplateData(false)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			templateStore.delete(t);
 		}
 		TemplatePersistenceData surroundWithRunnableTemplate= new TemplatePersistenceData(new Template("runnable", "surround with runnable", "java", str, false), true);
@@ -115,7 +115,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		return Arrays.asList(templateProposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable1() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -155,7 +155,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -215,7 +215,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable3() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -279,7 +279,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable4() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -326,7 +326,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable5() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -369,7 +369,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable6() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -415,7 +415,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable7() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -457,7 +457,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable8() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -511,7 +511,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable9() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -555,7 +555,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable10() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -603,7 +603,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable11() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -646,7 +646,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable12() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -687,7 +687,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable13() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -732,7 +732,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable14() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -775,7 +775,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable15() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -822,7 +822,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable16() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -866,7 +866,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable17() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -909,7 +909,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable18() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -952,7 +952,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable19() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -998,7 +998,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable20() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1042,7 +1042,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable21() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1087,7 +1087,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable22() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1140,7 +1140,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable23() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1184,7 +1184,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable24() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1337,7 +1337,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {expected1.toString()});
 	}*/
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable27() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1380,7 +1380,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable28() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1428,7 +1428,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable29() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1478,7 +1478,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnable30() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1519,7 +1519,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnableBug133560() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1561,7 +1561,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnableBug233278() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1615,7 +1615,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithRunnableBug138323() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1653,7 +1653,7 @@ public class SurroundWithTemplateTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] {str2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSurroundWithBug162549() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);

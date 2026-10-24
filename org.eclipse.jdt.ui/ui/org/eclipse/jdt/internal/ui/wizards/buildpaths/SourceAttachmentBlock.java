@@ -126,7 +126,7 @@ public class SourceAttachmentBlock {
 	 * @param entry The entry to edit
 	 * @param canEditEncoding whether the source attachment encoding can be edited
 	 */
-	public SourceAttachmentBlock(IStatusChangeListener context, IClasspathEntry entry, boolean canEditEncoding) {
+	public SourceAttachmentBlock(IStatusChangeListener context, IClasspathEntry entry, boolean canEditEncoding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(entry);
 
 		fContext= context;
@@ -195,7 +195,7 @@ public class SourceAttachmentBlock {
 		setDefaults();
 	}
 
-	public void setDefaults() {
+	public void setDefaults() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath sourceAttachmentPath= fEntry.getSourceAttachmentPath();
 		String encoding= getSourceAttachmentEncoding(fEntry);
 		String path= (sourceAttachmentPath == null) ? "" : sourceAttachmentPath.toString(); //$NON-NLS-1$
@@ -274,7 +274,7 @@ public class SourceAttachmentBlock {
 	 * @param parent the parent
 	 * @return the created control
 	 */
-	public Control createControl(Composite parent) {
+	public Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PixelConverter converter= new PixelConverter(parent);
 
 		fSWTWidget= parent;
@@ -388,7 +388,7 @@ public class SourceAttachmentBlock {
 		}
 	}
 
-	private void attachmentChangeControlPressed(DialogField field) {
+	private void attachmentChangeControlPressed(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (field == fWorkspaceFileNameField) {
 			IPath jarFilePath= chooseInternal();
 			if (jarFilePath != null) {
@@ -426,7 +426,7 @@ public class SourceAttachmentBlock {
 		doStatusLineUpdate();
 	}
 
-	private void doStatusLineUpdate() {
+	private void doStatusLineUpdate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus status;
 		if (isVariableEntry()) {
 			// set the resolved path for variable jars
@@ -454,7 +454,7 @@ public class SourceAttachmentBlock {
 		}
 		// to browse with a variable JAR, the variable name must point to a directory
 		if (fFileVariablePath != null) {
-			return fFileVariablePath.toFile().isDirectory();
+			return fFileVariablePath.toFile().isDirectory(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 		return false;
 	}
@@ -480,7 +480,7 @@ public class SourceAttachmentBlock {
 		return null;
 	}
 
-	private IStatus updateFileNameStatus(StringButtonDialogField field) {
+	private IStatus updateFileNameStatus(StringButtonDialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		fFileVariablePath= null;
 
@@ -517,7 +517,7 @@ public class SourceAttachmentBlock {
 					return status;
 				}
 				File file= resolvedPath.toFile();
-				if (!file.exists()) {
+				if (!file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					String message= Messages.format(NewWizardMessages.SourceAttachmentBlock_filename_error_filenotexists, BasicElementLabels.getPathLabel(resolvedPath, true));
 					status.setWarning(message);
 					return status;
@@ -543,12 +543,12 @@ public class SourceAttachmentBlock {
 				if (res != null) {
 					IPath location= res.getLocation();
 					if (location != null) {
-						exists= location.toFile().exists();
+						exists= location.toFile().exists(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					} else {
 						exists= res.exists();
 					}
 				} else {
-					exists= file.exists();
+					exists= file.exists(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				}
 				if (!exists) {
 					String message=  Messages.format(NewWizardMessages.SourceAttachmentBlock_filename_error_filenotexists, BasicElementLabels.getPathLabel(filePath, false));
@@ -571,7 +571,7 @@ public class SourceAttachmentBlock {
 		return Path.fromOSString(filePath).makeAbsolute();
 	}
 
-	private IPath chooseExtension() {
+	private IPath chooseExtension() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath currPath= getFilePath();
 		if (currPath.segmentCount() == 0) {
 			currPath= fEntry.getPath();
@@ -597,7 +597,7 @@ public class SourceAttachmentBlock {
 	/*
 	 * Opens a dialog to choose a jar from the file system.
 	 */
-	private IPath chooseExtJarFile() {
+	private IPath chooseExtJarFile() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath currPath= getFilePath();
 		if (currPath.segmentCount() == 0) {
 			currPath= fEntry.getPath();
@@ -618,7 +618,7 @@ public class SourceAttachmentBlock {
 		return null;
 	}
 
-	private IPath chooseExtFolder() {
+	private IPath chooseExtFolder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath currPath= getFilePath();
 		if (currPath.segmentCount() == 0) {
 			currPath= fEntry.getPath();
@@ -641,7 +641,7 @@ public class SourceAttachmentBlock {
 	/*
 	 * Opens a dialog to choose an internal jar.
 	 */
-	private IPath chooseInternal() {
+	private IPath chooseInternal() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String initSelection= fWorkspaceFileNameField.getText();
 
 		ViewerFilter filter= new ArchiveFileFilter((List<IResource>) null, false, false);
@@ -659,7 +659,7 @@ public class SourceAttachmentBlock {
 
 		FolderSelectionDialog dialog= new FolderSelectionDialog(getShell(), lp, cp);
 		dialog.setAllowMultiple(false);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setTitle(NewWizardMessages.SourceAttachmentBlock_intjardialog_title);
 		dialog.setMessage(NewWizardMessages.SourceAttachmentBlock_intjardialog_message);
 		dialog.setInput(fWorkspaceRoot);
@@ -685,7 +685,7 @@ public class SourceAttachmentBlock {
 	 * @param varName the variable
 	 * @return the modified path
 	 */
-	private IPath modifyPath(IPath path, String varName) {
+	private IPath modifyPath(IPath path, String varName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (varName == null || path == null) {
 			return null;
 		}
@@ -717,7 +717,7 @@ public class SourceAttachmentBlock {
 	 * @return return the runnable
 	 */
 	public static IRunnableWithProgress getRunnable(final Shell shell, final IClasspathEntry newEntry, final IJavaProject jproject, final IPath containerPath, final boolean isReferencedEntry) {
-		return monitor -> {
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				String[] changedAttributes= { CPListElement.SOURCEATTACHMENT, CPListElement.SOURCE_ATTACHMENT_ENCODING };
 				BuildPathSupport.modifyClasspathEntry(shell, newEntry, changedAttributes, jproject, containerPath, isReferencedEntry, monitor);
@@ -737,7 +737,7 @@ public class SourceAttachmentBlock {
 			throw new IllegalArgumentException("Entry must be of kind CPE_LIBRARY or CPE_VARIABLE"); //$NON-NLS-1$
 		}
 
-		for (IClasspathAttribute attrib : entry.getExtraAttributes()) {
+		for (IClasspathAttribute attrib : entry.getExtraAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (IClasspathAttribute.SOURCE_ATTACHMENT_ENCODING.equals(attrib.getName())) {
 				return attrib.getValue();
 			}

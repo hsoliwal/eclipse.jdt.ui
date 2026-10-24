@@ -77,7 +77,7 @@ public class AppearancePreferencePage extends PreferencePage implements IWorkben
 	private SelectionButtonDialogField fShowMethodTypeParameters;
 	private SelectionButtonDialogField fSortLibraryEntriesByName;
 
-	public AppearancePreferencePage() {
+	public AppearancePreferencePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		setPreferenceStore(JavaPlugin.getDefault().getPreferenceStore());
 		setDescription(PreferencesMessages.AppearancePreferencePage_description);
 
@@ -132,7 +132,7 @@ public class AppearancePreferencePage extends PreferencePage implements IWorkben
 		fAbbreviatePackageNamePattern.setLabelText(PreferencesMessages.AppearancePreferencePage_pkgNamePatternAbbreviate_label);
 	}
 
-	private void initFields() {
+	private void initFields() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore prefs= getPreferenceStore();
 		fShowMethodReturnType.setSelection(prefs.getBoolean(PREF_METHOD_RETURNTYPE));
 		fShowMethodTypeParameters.setSelection(prefs.getBoolean(PREF_METHOD_TYPEPARAMETERS));
@@ -163,7 +163,7 @@ public class AppearancePreferencePage extends PreferencePage implements IWorkben
 	/*
 	 * @see PreferencePage#createContents(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		initializeDialogUnits(parent);
 		int nColumns= 1;

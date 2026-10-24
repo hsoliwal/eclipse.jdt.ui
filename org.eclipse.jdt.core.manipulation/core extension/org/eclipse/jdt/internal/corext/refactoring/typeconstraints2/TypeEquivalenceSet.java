@@ -33,7 +33,7 @@ public class TypeEquivalenceSet {
 	}
 
 	public void add(ConstraintVariable2 variable) {
-		for (ConstraintVariable2 constraintVariable : fVariables) {
+		for (ConstraintVariable2 constraintVariable : fVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (constraintVariable == variable) {
 				return;
 			}
@@ -50,7 +50,7 @@ public class TypeEquivalenceSet {
 		return fVariables;
 	}
 
-	public void addAll(ConstraintVariable2[] variables) {
+	public void addAll(ConstraintVariable2[] variables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fVariables.length * variables.length > 100) {
 			LinkedHashSet<ConstraintVariable2> result= new LinkedHashSet<>(fVariables.length + variables.length);
 			result.addAll(Arrays.asList(fVariables));
@@ -59,9 +59,9 @@ public class TypeEquivalenceSet {
 
 		} else {
 			List<ConstraintVariable2> elements= Arrays.asList(fVariables);
-			ArrayList<ConstraintVariable2> result= new ArrayList<>(fVariables.length + variables.length);
+			ArrayList<ConstraintVariable2> result= new ArrayList<>(fVariables.length + variables.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			result.addAll(elements);
-			for (ConstraintVariable2 right : variables) {
+			for (ConstraintVariable2 right : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! result.contains(right))
 					result.add(right);
 			}
@@ -80,12 +80,12 @@ public class TypeEquivalenceSet {
 
 	@Override
 	public String toString() {
-		StringBuilder result= new StringBuilder();
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (fVariables.length > 0)
-			result.append(fVariables[0].toString());
-		for (int i= 1; i < fVariables.length; i++) {
-			result.append(" =^= \n"); //$NON-NLS-1$
-			result.append(fVariables[i].toString());
+			result.append(fVariables[0].toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 1; i < fVariables.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(" =^= \n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(fVariables[i].toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}

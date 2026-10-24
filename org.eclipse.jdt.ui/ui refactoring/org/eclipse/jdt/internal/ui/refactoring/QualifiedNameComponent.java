@@ -31,7 +31,7 @@ public class QualifiedNameComponent extends Composite {
 
 	private Text fPatterns;
 
-	public QualifiedNameComponent(Composite parent, int style, final IQualifiedNameUpdating refactoring, IDialogSettings settings) {
+	public QualifiedNameComponent(Composite parent, int style, final IQualifiedNameUpdating refactoring, IDialogSettings settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent, style);
 		GridLayout layout= new GridLayout();
 		layout.marginWidth=0; layout.marginHeight= 0;
@@ -54,13 +54,13 @@ public class QualifiedNameComponent extends Composite {
 		fPatterns.setText(text);
 		refactoring.setFilePatterns(text);
 
-		fPatterns.addModifyListener(unused -> refactoring.setFilePatterns(fPatterns.getText()));
+		fPatterns.addModifyListener(unused -> refactoring.setFilePatterns(fPatterns.getText())); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 	}
 
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
-		for (Control child : getChildren()) {
+		for (Control child : getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			child.setEnabled(enabled);
 		}
 	}

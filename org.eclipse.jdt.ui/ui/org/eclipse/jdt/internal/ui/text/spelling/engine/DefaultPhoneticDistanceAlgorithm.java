@@ -39,20 +39,20 @@ public final class DefaultPhoneticDistanceAlgorithm implements IPhoneticDistance
 	/** The swap characters cost */
 	public static final int COST_SWAP= 90;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int getDistance(final String from, final String to) {
 
-		final char[] first= (" " + from).toCharArray(); //$NON-NLS-1$
-		final char[] second= (" " + to).toCharArray(); //$NON-NLS-1$
+		final char[] first= (" " + from).toCharArray(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		final char[] second= (" " + to).toCharArray(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		final int rows= first.length;
 		final int columns= second.length;
 
 		final int[][] metric= new int[rows][columns];
-		for (int column= 1; column < columns; column++)
+		for (int column= 1; column < columns; column++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			metric[0][column]= metric[0][column - 1] + COST_REMOVE;
 
-		for (int row= 1; row < rows; row++)
+		for (int row= 1; row < rows; row++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			metric[row][0]= metric[row - 1][0] + COST_INSERT;
 
 		char source, target;
@@ -61,10 +61,10 @@ public final class DefaultPhoneticDistanceAlgorithm implements IPhoneticDistance
 		int change= Integer.MAX_VALUE;
 
 		int minimum, diagonal, insert, remove;
-		for (int row= 1; row < rows; row++) {
+		for (int row= 1; row < rows; row++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			source= first[row];
-			for (int column= 1; column < columns; column++) {
+			for (int column= 1; column < columns; column++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				target= second[column];
 				diagonal= metric[row - 1][column - 1];

@@ -44,7 +44,7 @@ import org.eclipse.jdt.internal.ui.refactoring.code.ExtractMethodWizard;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ExtractMethodAction extends SelectionDispatchAction {
+public class ExtractMethodAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final JavaEditor fEditor;
 

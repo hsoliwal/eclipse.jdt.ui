@@ -81,7 +81,7 @@ public class AddTestMarkersAction extends Action implements IActionDelegate {
 
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IAction action) {
 		try {
 			JavaUI.openInEditor(fCompilationUnit);
@@ -91,7 +91,7 @@ public class AddTestMarkersAction extends Action implements IActionDelegate {
 
 			int count= 0;
 			int tok;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tok= scanner.getNextToken();
 				if (isComment(tok)) {
 					int start= scanner.getCurrentTokenStartPosition();
@@ -102,7 +102,7 @@ public class AddTestMarkersAction extends Action implements IActionDelegate {
 				}
 			} while (tok != ITerminalSymbols.TokenNameEOF);
 
-			MessageDialog.openInformation(null, "Test Markers", count + " markers added");
+			MessageDialog.openInformation(null, "Test Markers", count + " markers added"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (Exception e) {
 			JavaTestPlugin.log(e);
 		}
@@ -128,7 +128,7 @@ public class AddTestMarkersAction extends Action implements IActionDelegate {
 
 
 	private void createMarker(ICompilationUnit cu, int line, int offset, int len) throws CoreException {
-		HashMap<String, Object> map= new HashMap<>();
+		HashMap<String, Object> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		map.put(IMarker.LOCATION, cu.getElementName());
 		map.put(IMarker.MESSAGE, "Test marker");
 		map.put(IMarker.SEVERITY, Integer.valueOf(IMarker.SEVERITY_ERROR));

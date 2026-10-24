@@ -88,7 +88,7 @@ public class ImportOrganizeInputDialog extends StatusDialog {
 	private List<ImportOrderEntry> fExistingEntries;
 	private final boolean fIsStatic;
 
-	public ImportOrganizeInputDialog(Shell parent, List<ImportOrderEntry> existingEntries, boolean isStatic) {
+	public ImportOrganizeInputDialog(Shell parent, List<ImportOrderEntry> existingEntries, boolean isStatic) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 		fIsStatic= isStatic;
 		fExistingEntries= existingEntries;
@@ -143,7 +143,7 @@ public class ImportOrganizeInputDialog extends StatusDialog {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 		initializeDialogUnits(parent);
@@ -213,7 +213,7 @@ public class ImportOrganizeInputDialog extends StatusDialog {
 	}
 
 
-	private void doValidation() {
+	private void doValidation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		String newText= fNameDialogField.getText();
 		if (newText.length() == 0) {
@@ -238,7 +238,7 @@ public class ImportOrganizeInputDialog extends StatusDialog {
 	}
 
 	private boolean doesExist(String name, boolean isStatic) {
-		for (ImportOrderEntry entry : fExistingEntries) {
+		for (ImportOrderEntry entry : fExistingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(entry.name) && isStatic == entry.isStatic) {
 				return true;
 			}

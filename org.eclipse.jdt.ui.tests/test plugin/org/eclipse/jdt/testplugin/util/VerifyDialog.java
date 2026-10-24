@@ -96,7 +96,7 @@ public class VerifyDialog extends TitleAreaDialog {
 			handleFailure();
 		}
 	}
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// top level composite
 		Composite parentComposite = (Composite)super.createDialogArea(parent);
@@ -127,18 +127,18 @@ public class VerifyDialog extends TitleAreaDialog {
 	/*
 	 * Group for selecting type of test.
 	 */
-	private void createTestSelectionGroup(Composite parent) {
+	private void createTestSelectionGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Group group = new Group(parent, SWT.SHADOW_NONE);
 		group.setText("Testing:");
 		group.setLayout( new GridLayout() );
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		group.setLayoutData(data);
 
-		for (IDialogTestPass dialogTest : _dialogTests) {
+		for (IDialogTestPass dialogTest : _dialogTests) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button radio = new Button(group, SWT.RADIO);
 			radio.setText(dialogTest.label());
 			final int testID = dialogTest.getID();
-			radio.addSelectionListener(new SelectionAdapter() {
+			radio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					TEST_TYPE = testID;
@@ -154,7 +154,7 @@ public class VerifyDialog extends TitleAreaDialog {
 	/*
 	 * Initializes the checklist with empty checks.
 	 */
-	private void createCheckListGroup(Composite parent) {
+	private void createCheckListGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Group group = new Group(parent, SWT.SHADOW_NONE);
 		group.setText("Verify that:");
 		group.setLayout( new GridLayout() );
@@ -162,7 +162,7 @@ public class VerifyDialog extends TitleAreaDialog {
 		group.setLayoutData(data);
 
 		int checkListSize = 0;
-		for (IDialogTestPass dialogTest : _dialogTests) {
+		for (IDialogTestPass dialogTest : _dialogTests) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int size = dialogTest.checkListTexts().size();
 			if (size > checkListSize) {
 				checkListSize = size;
@@ -175,9 +175,9 @@ public class VerifyDialog extends TitleAreaDialog {
 				checkYesEnable();
 			}
 		};
-		for (int i = 0; i < checkListSize; i++) {
+		for (int i = 0; i < checkListSize; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			_checkList[i] = new Button(group, SWT.CHECK);
-			_checkList[i].addSelectionListener(selectionAdapter);
+			_checkList[i].addSelectionListener(selectionAdapter); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 			data.grabExcessHorizontalSpace = true;
 			_checkList[i].setLayoutData(data);
@@ -189,7 +189,7 @@ public class VerifyDialog extends TitleAreaDialog {
 	 */
 	private void checkYesEnable() {
 		boolean enable = true;
-		for (Button b : _checkList) {
+		for (Button b : _checkList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!b.getSelection()) {
 				enable = false;
 			}
@@ -199,12 +199,12 @@ public class VerifyDialog extends TitleAreaDialog {
 	/*
 	 * Initializes the checklist, banner texts, and query label
 	 */
-	private void initializeTest() {
+	private void initializeTest() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogTestPass test = _dialogTests[TEST_TYPE];
 		setTitle( test.title() );
 		setMessage( test.description() );
 		Iterator<String> iterator = test.checkListTexts().iterator();
-		for (Button b : _checkList) {
+		for (Button b : _checkList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (iterator.hasNext()) {
 				b.setText(iterator.next().toString());
 				b.setVisible(true);
@@ -270,21 +270,21 @@ public class VerifyDialog extends TitleAreaDialog {
 	/*
 	 * The test dialog failed, open the failure dialog.
 	 */
-	private void handleFailure() {
+	private void handleFailure() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogTestPass test = _dialogTests[TEST_TYPE];
-		StringBuilder text = new StringBuilder();
+		StringBuilder text = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String label = test.label();
-		label = label.substring(0, label.indexOf("&")) +
+		label = label.substring(0, label.indexOf("&")) + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		        label.substring(label.indexOf("&") + 1);
-		text.append(label).
+		text.append(label). //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		     append(" failed on the ").
 		     append(SWT.getPlatform()).
 		     append(" platform:\n");
 
 		String failureMessages[] = test.failureTexts();
-		for (int i = 0; i < test.checkListTexts().size(); i++) {
+		for (int i = 0; i < test.checkListTexts().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ( !_checkList[i].getSelection() ) {
-				text.append("- ").append(failureMessages[i]).append("\n");
+				text.append("- ").append(failureMessages[i]).append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		FailureDialog dialog = new FailureDialog( getShell() );

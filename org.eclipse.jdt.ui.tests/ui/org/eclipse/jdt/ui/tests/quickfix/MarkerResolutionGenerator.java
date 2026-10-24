@@ -50,7 +50,7 @@ public class MarkerResolutionGenerator implements IMarkerResolutionGenerator {
 			return "Change to Uppercase";
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run(IMarker marker) {
 			FileEditorInput input= new FileEditorInput((IFile) marker.getResource());
 			IAnnotationModel model= JavaUI.getDocumentProvider().getAnnotationModel(input);
@@ -80,7 +80,7 @@ public class MarkerResolutionGenerator implements IMarkerResolutionGenerator {
 
 		private Position findProblemPosition(IAnnotationModel model, IMarker marker) {
 			Iterator<Annotation> iter= model.getAnnotationIterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object curr= iter.next();
 				if (curr instanceof SimpleMarkerAnnotation) {
 					SimpleMarkerAnnotation annot= (SimpleMarkerAnnotation) curr;

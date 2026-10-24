@@ -56,7 +56,7 @@ public class JUnitQuickAssistProcessor implements IQuickAssistProcessor {
 		return isJUnitTestMethod(methodDecl);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IJavaCompletionProposal[] getAssists(IInvocationContext context, IProblemLocation[] locations) throws CoreException {
 		ASTNode coveringNode = context.getCoveringNode();
 		if (coveringNode == null) {
@@ -73,7 +73,7 @@ public class JUnitQuickAssistProcessor implements IQuickAssistProcessor {
 		}
 
 
-		List<IJavaCompletionProposal> proposals = new ArrayList<>();
+		List<IJavaCompletionProposal> proposals = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		boolean hasDisabledAnnotation = hasAnnotation(methodDecl, JUNIT5_DISABLED_ANNOTATION);
 		boolean hasIgnoreAnnotation = hasAnnotation(methodDecl, JUNIT4_IGNORE_ANNOTATION);
@@ -87,7 +87,7 @@ public class JUnitQuickAssistProcessor implements IQuickAssistProcessor {
 			if (!hasDisabledAnnotation && !hasIgnoreAnnotation) {
 				int contextStart= context.getSelectionOffset();
 				int contextEnd= context.getSelectionOffset() + context.getSelectionLength();
-				for (IProblemLocation location : locations) {
+				for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int locationEnd= location.getOffset() + location.getLength();
 					if (location.getOffset() >= contextStart &&
 							locationEnd <= contextEnd) {
@@ -124,20 +124,20 @@ public class JUnitQuickAssistProcessor implements IQuickAssistProcessor {
 	}
 
 	private MethodDeclaration getMethodDeclaration(ASTNode node) {
-		while (node != null && !(node instanceof MethodDeclaration)) {
+		while (node != null && !(node instanceof MethodDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node = node.getParent();
 		}
 		return (MethodDeclaration) node;
 	}
 
-	private boolean isJUnitTestMethod(MethodDeclaration methodDecl) {
+	private boolean isJUnitTestMethod(MethodDeclaration methodDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding binding = methodDecl.resolveBinding();
 		if (binding == null) {
 			return false;
 		}
 
 		IAnnotationBinding[] annotations = binding.getAnnotations();
-		for (IAnnotationBinding annotation : annotations) {
+		for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding annotationType = annotation.getAnnotationType();
 			if (annotationType != null) {
 				String qualifiedName = annotationType.getQualifiedName();
@@ -151,14 +151,14 @@ public class JUnitQuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private boolean isJUnit5TestMethod(MethodDeclaration methodDecl) {
+	private boolean isJUnit5TestMethod(MethodDeclaration methodDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding binding = methodDecl.resolveBinding();
 		if (binding == null) {
 			return false;
 		}
 
 		IAnnotationBinding[] annotations = binding.getAnnotations();
-		for (IAnnotationBinding annotation : annotations) {
+		for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding annotationType = annotation.getAnnotationType();
 			if (annotationType != null) {
 				String qualifiedName = annotationType.getQualifiedName();
@@ -186,7 +186,7 @@ public class JUnitQuickAssistProcessor implements IQuickAssistProcessor {
 		}
 
 		IAnnotationBinding[] annotations = binding.getAnnotations();
-		for (IAnnotationBinding annotation : annotations) {
+		for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding annotationType = annotation.getAnnotationType();
 			if (annotationType != null && annotationQualifiedName.equals(annotationType.getQualifiedName())) {
 				return true;

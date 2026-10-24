@@ -60,7 +60,7 @@ public class GenerateDelegateMethodsTest16 extends SourceTestCase16 {
 	}
 
 
-	public void runOperation(IType type, IField[] fields, String[] methodNames, IJavaElement insertBefore, boolean createComments) throws CoreException {
+	public void runOperation(IType type, IField[] fields, String[] methodNames, IJavaElement insertBefore, boolean createComments) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		assertEquals(fields.length, methodNames.length);
 
@@ -70,7 +70,7 @@ public class GenerateDelegateMethodsTest16 extends SourceTestCase16 {
 
 		DelegateEntry[] entries= new DelegateEntry[fields.length];
 
-		for (int i= 0; i < fields.length; i++) {
+		for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			IField field= fields[i];
 			// Fields
@@ -80,7 +80,7 @@ public class GenerateDelegateMethodsTest16 extends SourceTestCase16 {
 			IMethodBinding[] methodBindings= typeBinding.getDeclaredMethods();
 			IMethodBinding methodBinding= null;
 
-			for (int j= 0; j < methodBindings.length; ++j) {
+			for (int j= 0; j < methodBindings.length; ++j) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (methodBindings[j].getName().equals(methodNames[i])) {
 					methodBinding= methodBindings[j];
 					break;
@@ -104,7 +104,7 @@ public class GenerateDelegateMethodsTest16 extends SourceTestCase16 {
 	/**
 	 * Test delegate generation for record component methods
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test13() throws Exception { //https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/2362
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +

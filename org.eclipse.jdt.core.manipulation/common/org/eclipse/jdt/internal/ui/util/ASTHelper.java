@@ -41,7 +41,7 @@ public class ASTHelper {
 	public static final int JLS23 = AST.JLS23;
 	public static final int JLS24 = AST.JLS24;
 
-	private static boolean isNodeTypeSupportedInAST(AST ast, int nodeType) {
+	private static boolean isNodeTypeSupportedInAST(AST ast, int nodeType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (nodeType) {
 			case ASTNode.SWITCH_CASE:
 			case ASTNode.SWITCH_EXPRESSION:

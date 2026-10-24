@@ -113,7 +113,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 			return super.visit(node);
 		}
 
-		private void handle(Statement body, ChildPropertyDescriptor bodyProperty) {
+		private void handle(Statement body, ChildPropertyDescriptor bodyProperty) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if ((body.getFlags() & ASTNode.RECOVERED) != 0)
 				return;
 			Statement parent= (Statement)body.getParent();
@@ -171,7 +171,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 		}
 
 		private IfStatement findStart(IfStatement item) {
-            while (item.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) {
+            while (item.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             	item= (IfStatement)item.getParent();
             }
             return item;
@@ -190,7 +190,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 			fControlStatement= controlStatement;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore model) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			String label;
@@ -223,21 +223,21 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 			}
 
 			TextEditGroup group= createTextEditGroup(label, cuRewrite);
-			List<Comment> commentsToPreserve= new ArrayList<>();
+			List<Comment> commentsToPreserve= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			int startPosition= expression == null ? defaultStartPosition : (expression.getStartPosition() + cuRoot.getExtendedLength(expression));
 			int controlStatementLine= cuRoot.getLineNumber(startPosition);
 			int bodyLine= cuRoot.getLineNumber(fBody.getStartPosition());
 			IBuffer cuBuffer= cuRewrite.getCu().getBuffer();
 			// Get extended body text and convert multiple indent tabs to be just one tab as they will be relative to control statement
-			String bodyString= cuBuffer.getText(cuRoot.getExtendedStartPosition(fBody), cuRoot.getExtendedLength(fBody))
-					.replaceAll("\\r\\n|\\r|\\n(\\t|\\s)*", System.lineSeparator() + "\t"); //$NON-NLS-1$ //$NON-NLS-2$
+			String bodyString= cuBuffer.getText(cuRoot.getExtendedStartPosition(fBody), cuRoot.getExtendedLength(fBody)) //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+					.replaceAll("\\r\\n|\\r|\\n(\\t|\\s)*", System.lineSeparator() + "\t"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String commentString= ""; //$NON-NLS-1$
 			boolean needToManuallyAddNLS= false;
 			// If single body statement is on next line, we need to preserve any comments pertaining to the
 			// control statement (e.g. NLS comment for if expression)
 			if (controlStatementLine != bodyLine) {
 				List<Comment> comments= cuRoot.getCommentList();
-				for (Comment comment : comments) {
+				for (Comment comment : comments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int commentLine= cuRoot.getLineNumber(comment.getStartPosition());
 					if ((commentLine == controlStatementLine ||
 							fBodyProperty == IfStatement.ELSE_STATEMENT_PROPERTY && commentLine >= controlStatementLine)
@@ -245,7 +245,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 							comment.getStartPosition() < fBody.getStartPosition()) {
 						commentsToPreserve.add(comment);
 						String commentText= cuBuffer.getText(comment.getStartPosition(), comment.getLength());
-						commentString += " " + commentText; //$NON-NLS-1$
+						commentString += " " + commentText; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			} else {
@@ -271,18 +271,18 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 						bodyString= cuBuffer.getText(cuRoot.getExtendedStartPosition(fBody),
 								fBody.getStartPosition() - cuRoot.getExtendedStartPosition(fBody) + fBody.getLength());
 						int lastNLSIndex= 0;
-						for (String nlsString : nlsList) {
+						for (String nlsString : nlsList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							int start= nlsString.indexOf("$NON-NLS-") + 9; //$NON-NLS-1$
 							int index= start;
-							while (Character.isDigit(nlsString.charAt(index))) {
+							while (Character.isDigit(nlsString.charAt(index))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								++index;
 							}
 							int nlsIndex= Integer.parseInt(nlsString.substring(start, index));
 							if (nlsIndex <= counter.count) {
-								commentString += " " + nlsString; //$NON-NLS-1$
+								commentString += " " + nlsString; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								lastNLSIndex= nlsIndex;
 							} else {
-								bodyString += " " + "//$NON-NLS-" + (nlsIndex - lastNLSIndex) + "$"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+								bodyString += " " + "//$NON-NLS-" + (nlsIndex - lastNLSIndex) + "$"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							}
 						}
 					}
@@ -298,23 +298,23 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 						if (commentString.contains("$NON-NLS-")) { //$NON-NLS-1$
 							return; // we cannot handle non-block-end-of-line and NLS comment on if
 						}
-						blockString= commentString.trim() + System.lineSeparator() + blockString + System.lineSeparator() + "\t" + bodyString + System.lineSeparator() + "}";  //$NON-NLS-1$ //$NON-NLS-2$
+						blockString= commentString.trim() + System.lineSeparator() + blockString + System.lineSeparator() + "\t" + bodyString + System.lineSeparator() + "}";  //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} else {
-						blockString += commentString + System.lineSeparator() + "\t" + bodyString + System.lineSeparator() + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+						blockString += commentString + System.lineSeparator() + "\t" + bodyString + System.lineSeparator() + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					replacingBody= (Block)rewrite.createStringPlaceholder(blockString, ASTNode.BLOCK);
 				} else {
 					String newControlStatement= ""; //$NON-NLS-1$
 					if (needToManuallyAddNLS) {
-						newControlStatement= cuBuffer.getText(cuRoot.getExtendedStartPosition(fControlStatement),
+						newControlStatement= cuBuffer.getText(cuRoot.getExtendedStartPosition(fControlStatement), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								fBody.getStartPosition() - cuRoot.getExtendedStartPosition(fControlStatement)) + commentString;
 					} else {
 						Comment lastComment= commentsToPreserve.get(commentsToPreserve.size()-1);
 						newControlStatement= cuBuffer.getText(cuRoot.getExtendedStartPosition(fControlStatement),
 								lastComment.getStartPosition() + lastComment.getLength() - cuRoot.getExtendedStartPosition(fControlStatement));
 					}
-					newControlStatement += System.lineSeparator() + "{" + System.lineSeparator(); //$NON-NLS-1$
-					newControlStatement += "\t" + bodyString + System.lineSeparator() + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+					newControlStatement += System.lineSeparator() + "{" + System.lineSeparator(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					newControlStatement += "\t" + bodyString + System.lineSeparator() + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					Statement newStatement= (Statement)rewrite.createStringPlaceholder(newControlStatement, statementType);
 					rewrite.replace(fControlStatement, newStatement, group);
 					return;
@@ -327,10 +327,10 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 			rewrite.set(fControlStatement, fBodyProperty, replacingBody, group);
 		}
 
-		private static Pattern nlsPattern= Pattern.compile("//\\s*\\$NON-NLS-(\\d+)\\$"); //$NON-NLS-1$
-		private List<String> getLineNLSComments(int start, ASTNode node) {
+		private static Pattern nlsPattern= Pattern.compile("//\\s*\\$NON-NLS-(\\d+)\\$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		private List<String> getLineNLSComments(int start, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode root= node.getRoot();
-			List<String> nlsList= new ArrayList<>();
+			List<String> nlsList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (root instanceof CompilationUnit) {
 				CompilationUnit unit= (CompilationUnit)root;
 				int line= unit.getLineNumber(start);
@@ -340,8 +340,8 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 				if (element != null && element instanceof ICompilationUnit icu) {
 					try {
 						String statement= icu.getBuffer().getText(start, length);
-						Matcher m= nlsPattern.matcher(statement);
-						while (m.find()) {
+						Matcher m= nlsPattern.matcher(statement); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+						while (m.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 							nlsList.add(m.group());
 						}
 					} catch (IndexOutOfBoundsException | JavaModelException e) {
@@ -385,7 +385,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 		}
 
 		//Can the block around child with childDescriptor of controlStatement be removed?
-        private static boolean satisfiesPrecondition(Statement controlStatement, ChildPropertyDescriptor childDescriptor, boolean onlyReturnAndThrows, boolean cleanUpCheck) {
+        private static boolean satisfiesPrecondition(Statement controlStatement, ChildPropertyDescriptor childDescriptor, boolean onlyReturnAndThrows, boolean cleanUpCheck) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         	Object child= controlStatement.getStructuralProperty(childDescriptor);
 
         	if (!(child instanceof Block))
@@ -431,7 +431,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 
         		ASTNode currentChild= controlStatement;
         		ASTNode parent= currentChild.getParent();
-        		while (true) {
+        		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         			Statement body= null;
         			if (parent instanceof IfStatement) {
         				body= ((IfStatement)parent).getThenStatement();
@@ -457,8 +457,8 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
         	}
         }
 
-		private static boolean hasUnblockedIf(Statement p, boolean onlyReturnAndThrows, boolean cleanUpCheck) {
-	        while (true) {
+		private static boolean hasUnblockedIf(Statement p, boolean onlyReturnAndThrows, boolean cleanUpCheck) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	        while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        	if (p instanceof IfStatement) {
 	        		return true;
 	        	} else {
@@ -494,7 +494,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 
 	}
 
-	public static ControlStatementsFix[] createRemoveBlockFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static ControlStatementsFix[] createRemoveBlockFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof Statement)) {
 			return null;
 		}
@@ -513,13 +513,13 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 		}
 
 		if (statement instanceof IfStatement) {
-			List<ControlStatementsFix> result= new ArrayList<>();
+			List<ControlStatementsFix> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			List<RemoveBlockOperation> removeAllList= new ArrayList<>();
+			List<RemoveBlockOperation> removeAllList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			IfElseIterator iter= new IfElseIterator((IfStatement)statement);
 			IfStatement item= null;
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item= iter.next();
 				if (RemoveBlockOperation.satisfiesQuickAssistPrecondition(item, IfStatement.THEN_STATEMENT_PROPERTY)) {
             		RemoveBlockOperation op= new RemoveBlockOperation(item, IfStatement.THEN_STATEMENT_PROPERTY);
@@ -575,7 +575,7 @@ public class ControlStatementsFix extends CompilationUnitRewriteOperationsFixCor
 		if (!convertSingleStatementToBlock && !removeUnnecessaryBlock && !removeUnnecessaryBlockContainingReturnOrThrow)
 			return null;
 
-		List<CompilationUnitRewriteOperationWithSourceRange> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperationWithSourceRange> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ControlStatementFinder finder= new ControlStatementFinder(convertSingleStatementToBlock, removeUnnecessaryBlock, removeUnnecessaryBlockContainingReturnOrThrow, operations);
 		compilationUnit.accept(finder);
 

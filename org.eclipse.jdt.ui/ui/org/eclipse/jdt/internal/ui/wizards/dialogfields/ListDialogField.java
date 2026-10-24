@@ -88,7 +88,7 @@ public class ListDialogField<E> extends DialogField {
 
 		private static ColumnLayoutData[] createColumnWeightData(int nColumns) {
 			ColumnLayoutData[] data= new ColumnLayoutData[nColumns];
-			for (int i= 0; i < nColumns; i++) {
+			for (int i= 0; i < nColumns; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				data[i]= new ColumnWeightData(1);
 			}
 			return data;
@@ -132,7 +132,7 @@ public class ListDialogField<E> extends DialogField {
 	 * marks a separator.
 	 * @param lprovider The label provider to render the table entries
 	 */
-	public ListDialogField(IListAdapter<E> adapter, String[] buttonLabels, ILabelProvider lprovider) {
+	public ListDialogField(IListAdapter<E> adapter, String[] buttonLabels, ILabelProvider lprovider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		fListAdapter= adapter;
 
@@ -140,13 +140,13 @@ public class ListDialogField<E> extends DialogField {
 		fListViewerAdapter= new ListViewerAdapter();
 		fParentElement= this;
 
-		fElements= new ArrayList<>(10);
+		fElements= new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fButtonLabels= buttonLabels;
 		if (fButtonLabels != null) {
 			int nButtons= fButtonLabels.length;
 			fButtonsEnabled= new boolean[nButtons];
-			for (int i= 0; i < nButtons; i++) {
+			for (int i= 0; i < nButtons; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fButtonsEnabled[i]= true;
 			}
 		}
@@ -217,7 +217,7 @@ public class ListDialogField<E> extends DialogField {
 	 * Checks if the button pressed is handled internally
 	 * @return Returns true if button has been handled.
 	 */
-	protected boolean managedButtonPressed(int index) {
+	protected boolean managedButtonPressed(int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (index == fRemoveButtonIndex) {
 			remove();
 		} else if (index == fUpButtonIndex) {
@@ -242,7 +242,7 @@ public class ListDialogField<E> extends DialogField {
 	/*
 	 * @see DialogField#doFillIntoGrid
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control[] doFillIntoGrid(Composite parent, int nColumns) {
 		PixelConverter converter= new PixelConverter(parent);
 
@@ -314,7 +314,7 @@ public class ListDialogField<E> extends DialogField {
 	 * @param parent The parent composite when called the first time, or <code>null</code>
 	 * after.
 	 */
-	public Control getListControl(Composite parent) {
+	public Control getListControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTableControl == null) {
 			assertCompositeNotNull(parent);
 
@@ -335,7 +335,7 @@ public class ListDialogField<E> extends DialogField {
 				tableControl.setHeaderVisible(fTableColumns.headers != null);
 				tableControl.setLinesVisible(fTableColumns.drawLines);
 				ColumnLayoutData[] columns= fTableColumns.columns;
-				for (int i= 0; i < columns.length; i++) {
+				for (int i= 0; i < columns.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					composite.addColumnData(columns[i]);
 					TableColumn column= new TableColumn(tableControl, SWT.NONE);
 					//tableLayout.addColumnData(columns[i]);
@@ -345,7 +345,7 @@ public class ListDialogField<E> extends DialogField {
 				}
 			}
 
-			fTable.getTable().addKeyListener(new KeyAdapter() {
+			fTable.getTable().addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				@Override
 				public void keyPressed(KeyEvent e) {
 					handleKeyPressed(e);
@@ -355,11 +355,11 @@ public class ListDialogField<E> extends DialogField {
 			//fTableControl.setLayout(tableLayout);
 
 			fTable.setContentProvider(fListViewerAdapter);
-			fTable.setLabelProvider(fLabelProvider);
-			fTable.addSelectionChangedListener(fListViewerAdapter);
-			fTable.addDoubleClickListener(fListViewerAdapter);
+			fTable.setLabelProvider(fLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+			fTable.addSelectionChangedListener(fListViewerAdapter); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			fTable.addDoubleClickListener(fListViewerAdapter); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 
-			fTable.setInput(fParentElement);
+			fTable.setInput(fParentElement); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 			if (fViewerComparator != null) {
 				fTable.setComparator(fViewerComparator);
@@ -401,7 +401,7 @@ public class ListDialogField<E> extends DialogField {
 		Button button= new Button(parent, SWT.PUSH);
 		button.setFont(parent.getFont());
 		button.setText(label);
-		button.addSelectionListener(listener);
+		button.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		GridData gd= new GridData();
 		gd.horizontalAlignment= GridData.FILL;
 		gd.grabExcessHorizontalSpace= true;
@@ -431,7 +431,7 @@ public class ListDialogField<E> extends DialogField {
 	 * @param parent The parent composite when called the first time, or <code>null</code>
 	 * after.
 	 */
-	public Composite getButtonBox(Composite parent) {
+	public Composite getButtonBox(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fButtonsControl == null) {
 			assertCompositeNotNull(parent);
 
@@ -455,7 +455,7 @@ public class ListDialogField<E> extends DialogField {
 
 			if (fButtonLabels != null) {
 				fButtonControls= new Button[fButtonLabels.length];
-				for (int i= 0; i < fButtonLabels.length; i++) {
+				for (int i= 0; i < fButtonLabels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String currLabel= fButtonLabels[i];
 					if (currLabel != null) {
 						fButtonControls[i]= createButton(contents, currLabel, listener);
@@ -478,7 +478,7 @@ public class ListDialogField<E> extends DialogField {
 
 	private void doButtonSelected(SelectionEvent e) {
 		if (fButtonControls != null) {
-			for (int i= 0; i < fButtonControls.length; i++) {
+			for (int i= 0; i < fButtonControls.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (e.widget == fButtonControls[i]) {
 					buttonPressed(i);
 					return;
@@ -516,7 +516,7 @@ public class ListDialogField<E> extends DialogField {
 	protected void updateButtonState() {
 		if (fButtonControls != null && isOkToUse(fTableControl) && fTableControl.isEnabled()) {
 			ISelection sel= fTable.getSelection();
-			for (int i= 0; i < fButtonControls.length; i++) {
+			for (int i= 0; i < fButtonControls.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Button button= fButtonControls[i];
 				if (isOkToUse(button)) {
 					button.setEnabled(isButtonEnabled(sel, i));
@@ -539,7 +539,7 @@ public class ListDialogField<E> extends DialogField {
 	/*
 	 * @see DialogField#updateEnableState
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updateEnableState() {
 		super.updateEnableState();
 
@@ -581,9 +581,9 @@ public class ListDialogField<E> extends DialogField {
 	 * Sets the elements shown in the list.
 	 */
 	public void setElements(Collection<E> elements) {
-		fElements= new ArrayList<>(elements);
+		fElements= new ArrayList<>(elements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isOkToUse(fTableControl)) {
-			fTable.refresh();
+			fTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 		dialogFieldChanged();
 	}
@@ -593,7 +593,7 @@ public class ListDialogField<E> extends DialogField {
 	 * The list returned is a copy, so it can be modified by the user.
 	 */
 	public List<E> getElements() {
-		return new ArrayList<>(fElements);
+		return new ArrayList<>(fElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -622,7 +622,7 @@ public class ListDialogField<E> extends DialogField {
 				if (selected.remove(oldElement)) {
 					selected.add(newElement);
 				}
-				fTable.refresh();
+				fTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				selectElements(new StructuredSelection(selected));
 			}
 			dialogFieldChanged();
@@ -661,7 +661,7 @@ public class ListDialogField<E> extends DialogField {
 		}
 		fElements.add(index, element);
 		if (isOkToUse(fTableControl)) {
-			fTable.refresh();
+			fTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fTable.setSelection(new StructuredSelection(element));
 		}
 
@@ -672,15 +672,15 @@ public class ListDialogField<E> extends DialogField {
 	/**
 	 * Adds elements at the given index
 	 */
-	public boolean addElements(List<E> elements, int index) {
+	public boolean addElements(List<E> elements, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int nElements= elements.size();
 
 		if (nElements > 0 && index >= 0 && index <= fElements.size()) {
 			// filter duplicated
-			ArrayList<E> elementsToAdd= new ArrayList<>(nElements);
+			ArrayList<E> elementsToAdd= new ArrayList<>(nElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (int i= 0; i < nElements; i++) {
+			for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				E elem= elements.get(i);
 				if (!fElements.contains(elem)) {
 					elementsToAdd.add(elem);
@@ -692,7 +692,7 @@ public class ListDialogField<E> extends DialogField {
 					if (index == fElements.size()) {
 						fTable.add(elementsToAdd.toArray());
 					} else {
-						for (int i= elementsToAdd.size() - 1; i >= 0 ; i--) {
+						for (int i= elementsToAdd.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fTable.insert(elementsToAdd.get(i), index);
 						}
 					}
@@ -721,7 +721,7 @@ public class ListDialogField<E> extends DialogField {
 		if (fElements.size() > 0) {
 			fElements.clear();
 			if (isOkToUse(fTableControl)) {
-				fTable.refresh();
+				fTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 			dialogFieldChanged();
 		}
@@ -789,7 +789,7 @@ public class ListDialogField<E> extends DialogField {
 
 	public void editElement(Object element) {
 		if (isOkToUse(fTableControl)) {
-			fTable.refresh(element);
+			fTable.refresh(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fTable.editElement(element, 0);
 		}
 	}
@@ -798,7 +798,7 @@ public class ListDialogField<E> extends DialogField {
 	public void postSetSelection(final ISelection selection) {
 		if (isOkToUse(fTableControl)) {
 			Display d= fTableControl.getDisplay();
-			d.asyncExec(() -> {
+			d.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (isOkToUse(fTableControl)) {
 					selectElements(selection);
 				}
@@ -813,17 +813,17 @@ public class ListDialogField<E> extends DialogField {
 	public void refresh() {
 		super.refresh();
 		if (isOkToUse(fTableControl)) {
-			fTable.refresh();
+			fTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
 	// ------- list maintenance
 
-	private List<E> moveUp(List<E> elements, List<E> move) {
+	private List<E> moveUp(List<E> elements, List<E> move) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nElements= elements.size();
-		List<E> res= new ArrayList<>(nElements);
+		List<E> res= new ArrayList<>(nElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		E floating= null;
-		for (int i= 0; i < nElements; i++) {
+		for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			E curr= elements.get(i);
 			if (move.contains(curr)) {
 				res.add(curr);
@@ -855,8 +855,8 @@ public class ListDialogField<E> extends DialogField {
 	}
 
 	private List<E> reverse(List<E> p) {
-		List<E> reverse= new ArrayList<>(p.size());
-		for (int i= p.size()-1; i >= 0; i--) {
+		List<E> reverse= new ArrayList<>(p.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= p.size()-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reverse.add(p.get(i));
 		}
 		return reverse;
@@ -878,7 +878,7 @@ public class ListDialogField<E> extends DialogField {
 	public boolean canMoveUp() {
 		if (isOkToUse(fTableControl)) {
 			int[] indc= fTable.getTable().getSelectionIndices();
-			for (int i= 0; i < indc.length; i++) {
+			for (int i= 0; i < indc.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (indc[i] != i) {
 					return true;
 				}
@@ -891,7 +891,7 @@ public class ListDialogField<E> extends DialogField {
 		if (isOkToUse(fTableControl)) {
 			int[] indc= fTable.getTable().getSelectionIndices();
 			int k= fElements.size() - 1;
-			for (int i= indc.length - 1; i >= 0 ; i--, k--) {
+			for (int i= indc.length - 1; i >= 0 ; i--, k--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (indc[i] != k) {
 					return true;
 				}
@@ -904,12 +904,12 @@ public class ListDialogField<E> extends DialogField {
 	 * Returns the selected elements.
 	 */
 	public List<E> getSelectedElements() {
-		List<E> result= new ArrayList<>();
+		List<E> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isOkToUse(fTableControl)) {
 			ISelection selection= fTable.getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Iterator<?> iter= ((IStructuredSelection)selection).iterator();
-				while (iter.hasNext()) {
+				while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					@SuppressWarnings("unchecked")
 					E element= (E) iter.next();
 					result.add(element);
@@ -921,7 +921,7 @@ public class ListDialogField<E> extends DialogField {
 
 	// ------- ListViewerAdapter
 
-	private class ListViewerAdapter implements IStructuredContentProvider, ISelectionChangedListener, IDoubleClickListener {
+	private class ListViewerAdapter implements IStructuredContentProvider, ISelectionChangedListener, IDoubleClickListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		// ------- ITableContentProvider Interface ------------
 

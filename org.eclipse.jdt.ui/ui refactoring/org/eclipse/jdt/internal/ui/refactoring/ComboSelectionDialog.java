@@ -54,7 +54,7 @@ class ComboSelectionDialog extends Dialog{
 		return fSelection;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		getShell().setText(fShellTitle);
 
@@ -71,7 +71,7 @@ class ComboSelectionDialog extends Dialog{
 
 		final Combo combo= new Combo(innerComposite, SWT.READ_ONLY);
 		SWTUtil.setDefaultVisibleItemCount(combo);
-		for (String allowedString : fAllowedStrings) {
+		for (String allowedString : fAllowedStrings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			combo.add(allowedString);
 		}
 		combo.select(fInitialSelectionIndex);
@@ -79,7 +79,7 @@ class ComboSelectionDialog extends Dialog{
 		GridData gd= new GridData();
 		gd.widthHint= convertWidthInCharsToPixels(getMaxStringLength());
 		combo.setLayoutData(gd);
-		combo.addSelectionListener(new SelectionAdapter(){
+		combo.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fSelection= combo.getItem(combo.getSelectionIndex());
@@ -91,7 +91,7 @@ class ComboSelectionDialog extends Dialog{
 
 	private int getMaxStringLength() {
 		int max= 0;
-		for (String allowedString : fAllowedStrings) {
+		for (String allowedString : fAllowedStrings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			max= Math.max(max, allowedString.length());
 		}
 		return max;

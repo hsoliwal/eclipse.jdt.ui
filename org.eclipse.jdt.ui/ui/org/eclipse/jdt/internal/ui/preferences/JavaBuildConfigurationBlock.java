@@ -107,7 +107,7 @@ public class JavaBuildConfigurationBlock extends OptionsConfigurationBlock {
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		fPixelConverter= new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -130,7 +130,7 @@ public class JavaBuildConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 
-	private Composite createBuildPathTabContent(Composite parent) {
+	private Composite createBuildPathTabContent(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] abortIgnoreValues= new String[] { ABORT, IGNORE };
 		String[] cleanIgnoreValues= new String[] { CLEAN, IGNORE };
 		String[] enableDisableValues= new String[] { ENABLED, DISABLED };
@@ -260,7 +260,7 @@ public class JavaBuildConfigurationBlock extends OptionsConfigurationBlock {
 	 * Update fields and validate.
 	 * @param changedKey Key that changed, or null, if all changed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void validateSettings(Key changedKey, String oldValue, String newValue) {
 		if (!areSettingsEnabled()) {
 			return;
@@ -316,12 +316,12 @@ public class JavaBuildConfigurationBlock extends OptionsConfigurationBlock {
 		return status;
 	}
 
-	private IStatus validateResourceFilters() {
+	private IStatus validateResourceFilters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String text= getValue(PREF_RESOURCE_FILTER);
 
 		IWorkspace workspace= ResourcesPlugin.getWorkspace();
 
-		for (String filter : getTokens(text, ",")) { //$NON-NLS-1$
+		for (String filter : getTokens(text, ",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String fileName= filter.replace('*', 'x');
 			int resourceType= IResource.FILE;
 			int lastCharacter= fileName.length() - 1;

@@ -64,7 +64,7 @@ public final class RawType extends HierarchyType {
 		return fTypeDeclaration;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		int targetType= lhs.getKind();
 		switch (targetType) {

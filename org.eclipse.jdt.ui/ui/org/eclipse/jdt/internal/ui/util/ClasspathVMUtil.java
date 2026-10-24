@@ -34,14 +34,14 @@ import org.eclipse.jdt.launching.environments.IExecutionEnvironmentsManager;
 
 public class ClasspathVMUtil {
 
-	public static IVMInstall findRequiredOrGreaterVMInstall(String requiredVersion, boolean allowNullCompliance, boolean getHighestVersion) {
+	public static IVMInstall findRequiredOrGreaterVMInstall(String requiredVersion, boolean allowNullCompliance, boolean getHighestVersion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (requiredVersion == null) {
 			return null;
 		}
 		String bestMatchingCompliance= null;
 		IVMInstall bestMatchingVMInstall= null;
-		for (IVMInstallType installType : JavaRuntime.getVMInstallTypes()) {
-			for (IVMInstall install : installType.getVMInstalls()) {
+		for (IVMInstallType installType : JavaRuntime.getVMInstallTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IVMInstall install : installType.getVMInstalls()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String vmInstallCompliance= getVMInstallCompliance(install, allowNullCompliance);
 				if (requiredVersion.equals(vmInstallCompliance)) {
 					if (!getHighestVersion) {
@@ -87,12 +87,12 @@ public class ClasspathVMUtil {
 		return defCompliance1;
 	}
 
-	public static IExecutionEnvironment findBestMatchingEE(String requiredVersion) {
+	public static IExecutionEnvironment findBestMatchingEE(String requiredVersion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExecutionEnvironmentsManager eeManager= JavaRuntime.getExecutionEnvironmentsManager();
 		IExecutionEnvironment bestEE= null;
 		String bestEECompliance= null;
 
-		for (IExecutionEnvironment ee : eeManager.getExecutionEnvironments()) {
+		for (IExecutionEnvironment ee : eeManager.getExecutionEnvironments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String eeCompliance= JavaModelUtil.getExecutionEnvironmentCompliance(ee);
 			String eeId= ee.getId();
 
@@ -122,12 +122,12 @@ public class ClasspathVMUtil {
 		return bestEE;
 	}
 
-	public static boolean updateClasspath(IPath newPath, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	public static boolean updateClasspath(IPath newPath, IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean updated= false;
 
 		IClasspathEntry[] classpath= project.getRawClasspath();
 		IPath jreContainerPath= new Path(JavaRuntime.JRE_CONTAINER);
-		for (int i= 0; i < classpath.length; i++) {
+		for (int i= 0; i < classpath.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= classpath[i];
 			if (curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER && curr.getPath().matchingFirstSegments(jreContainerPath) > 0) {
 				if (!newPath.equals(curr.getPath())) {

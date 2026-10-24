@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.corext.util.JavaElementResourceMapping;
 
 public class TestCopyParticipantSingle extends CopyParticipant {
 
-	static List<TestCopyParticipantSingle> fgInstances= new ArrayList<>();
+	static List<TestCopyParticipantSingle> fgInstances= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private Object fElement;
 	private String fHandle;
@@ -50,7 +50,7 @@ public class TestCopyParticipantSingle extends CopyParticipant {
 		} else if (fElement instanceof IResource) {
 			fHandle= ((IResource)fElement).getFullPath().toString();
 		} else if (element instanceof JavaElementResourceMapping) {
-			fHandle= ((JavaElementResourceMapping)element).
+			fHandle= ((JavaElementResourceMapping)element). //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				getJavaElement().getHandleIdentifier() + "_mapping";
 		}
 		return true;
@@ -77,15 +77,15 @@ public class TestCopyParticipantSingle extends CopyParticipant {
 
 	public static void testElements(String[] handles) {
 		testNumberOfInstances(handles.length);
-		List<String> l1= new ArrayList<>(Arrays.asList(handles));
-		for (int i= 0; i < l1.size(); i++) {
+		List<String> l1= new ArrayList<>(Arrays.asList(handles)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < l1.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.assertTrue(l1.contains(getInstance(i).fHandle));
 		}
 	}
 
 	public static void testArguments(CopyArguments[] args) {
 		testNumberOfInstances(args.length);
-		for (int i= 0; i < args.length; i++) {
+		for (int i= 0; i < args.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CopyArguments expected= args[i];
 			CopyArguments actual= getInstance(i).getArguments();
 			TestCopyParticipantShared.compareArguments(expected, actual);
@@ -93,7 +93,7 @@ public class TestCopyParticipantSingle extends CopyParticipant {
 	}
 
 	public static void reset() {
-		fgInstances= new ArrayList<>();
+		fgInstances= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private static TestCopyParticipantSingle getInstance(int i) {

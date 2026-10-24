@@ -34,7 +34,7 @@ import org.eclipse.jdt.core.IJavaElement;
 
 public class TestRenameParticipantSingle extends RenameParticipant {
 
-	private static List<TestRenameParticipantSingle> fgInstances= new ArrayList<>();
+	private static List<TestRenameParticipantSingle> fgInstances= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private Object fElement;
 	private String fHandle;
@@ -72,15 +72,15 @@ public class TestRenameParticipantSingle extends RenameParticipant {
 
 	public static void testElements(String[] handles) {
 		testNumberOfInstances(handles.length);
-		List<String> l1= new ArrayList<>(Arrays.asList(handles));
-		for (int i= 0; i < l1.size(); i++) {
+		List<String> l1= new ArrayList<>(Arrays.asList(handles)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < l1.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.assertTrue(l1.contains(getInstance(i).fHandle));
 		}
 	}
 
 	public static void testArguments(RenameArguments[] args) {
 		testNumberOfInstances(args.length);
-		for (int i= 0; i < args.length; i++) {
+		for (int i= 0; i < args.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			RenameArguments expected= args[i];
 			RenameArguments actual= getInstance(i).getArguments();
 			Assert.assertEquals(expected.getNewName(), actual.getNewName());
@@ -89,7 +89,7 @@ public class TestRenameParticipantSingle extends RenameParticipant {
 	}
 
 	public static void reset() {
-		fgInstances= new ArrayList<>();
+		fgInstances= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private static TestRenameParticipantSingle getInstance(int i) {

@@ -109,7 +109,7 @@ public class NLSHintHelper {
 	 * @return the accessor class reference or <code>null</code> if this element is not a nls'ed
 	 *         entry
 	 */
-	public static AccessorClassReference getAccessorClassReference(CompilationUnit astRoot, IRegion region, boolean usedFullyQualifiedName) {
+	public static AccessorClassReference getAccessorClassReference(CompilationUnit astRoot, IRegion region, boolean usedFullyQualifiedName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode nlsStringLiteral= NodeFinder.perform(astRoot, region.getOffset(), region.getLength());
 		if (nlsStringLiteral == null)
 			return null; // not found
@@ -215,18 +215,18 @@ public class NLSHintHelper {
 		return getResourceBundleName(SharedASTProviderCore.getAST(input, SharedASTProviderCore.WAIT_YES, null));
 	}
 
-	public static String getResourceBundleName(CompilationUnit astRoot) {
+	public static String getResourceBundleName(CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (astRoot == null)
 			return null;
 
-		final Map<Object, Object> resultCollector= new HashMap<>(5);
+		final Map<Object, Object> resultCollector= new HashMap<>(5); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final Object RESULT_KEY= new Object();
 		final Object FIELD_KEY= new Object();
 
 		astRoot.accept(new ASTVisitor() {
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(MethodInvocation node) {
 				IMethodBinding method= node.resolveMethodBinding();
 				if (method == null)
@@ -279,7 +279,7 @@ public class NLSHintHelper {
 				return true;
 			}
 
-			private String getBundleName(Expression initializer) {
+			private String getBundleName(Expression initializer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (initializer instanceof StringLiteral)
 					return ((StringLiteral)initializer).getLiteralValue();
 
@@ -290,10 +290,10 @@ public class NLSHintHelper {
 						String rightOperand = getBundleName(infix.getRightOperand());
 						String result= null;
 						if (leftOperand != null && rightOperand != null) {
-							result= leftOperand + rightOperand;
+							result= leftOperand + rightOperand; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							if (infix.hasExtendedOperands()) {
 								List<Expression> extendedOperands= infix.extendedOperands();
-								for (Expression extendedOperand : extendedOperands) {
+								for (Expression extendedOperand : extendedOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									String extendedString= getBundleName(extendedOperand);
 									if (extendedString != null) {
 										result += extendedString;
@@ -341,7 +341,7 @@ public class NLSHintHelper {
 
 		// Now try hard-coded bundle name String field names from NLS tooling:
 		Iterator<Object> iter= resultCollector.keySet().iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o= iter.next();
 			if (!(o instanceof IBinding))
 				continue;
@@ -365,12 +365,12 @@ public class NLSHintHelper {
 		return null;
 	}
 
-	public static IPackageFragment getResourceBundlePackage(IJavaProject javaProject, String packageName, String resourceName) throws JavaModelException {
-		for (IPackageFragmentRoot root : javaProject.getAllPackageFragmentRoots()) {
+	public static IPackageFragment getResourceBundlePackage(IJavaProject javaProject, String packageName, String resourceName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IPackageFragmentRoot root : javaProject.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
 				IPackageFragment packageFragment= root.getPackageFragment(packageName);
 				if (packageFragment.exists()) {
-					for (Object object : packageFragment.isDefaultPackage() ? root.getNonJavaResources() : packageFragment.getNonJavaResources()) {
+					for (Object object : packageFragment.isDefaultPackage() ? root.getNonJavaResources() : packageFragment.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (object instanceof IFile) {
 							IFile file= (IFile) object;
 							if (file.getName().equals(resourceName)) {
@@ -394,13 +394,13 @@ public class NLSHintHelper {
 			return null;
 
 		String packName= Signature.getQualifier(name);
-		String resourceName= Signature.getSimpleName(name) + NLSRefactoring.PROPERTY_FILE_EXT;
+		String resourceName= Signature.getSimpleName(name) + NLSRefactoring.PROPERTY_FILE_EXT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		return getResourceBundle(project, packName, resourceName);
 	}
 
 	public static IStorage getResourceBundle(IJavaProject javaProject, String packageName, String resourceName) throws JavaModelException {
-		for (IPackageFragmentRoot root : javaProject.getAllPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : javaProject.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
 				IStorage storage= getResourceBundle(root, packageName, resourceName);
 				if (storage != null)
@@ -413,7 +413,7 @@ public class NLSHintHelper {
 	public static IStorage getResourceBundle(IPackageFragmentRoot root, String packageName, String resourceName) throws JavaModelException {
 		IPackageFragment packageFragment= root.getPackageFragment(packageName);
 		if (packageFragment.exists()) {
-			for (Object object : packageFragment.isDefaultPackage() ? root.getNonJavaResources() : packageFragment.getNonJavaResources()) {
+			for (Object object : packageFragment.isDefaultPackage() ? root.getNonJavaResources() : packageFragment.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (JavaModelUtil.isOpenableStorage(object)) {
 					IStorage storage= (IStorage)object;
 					if (storage.getName().equals(resourceName)) {
@@ -430,7 +430,7 @@ public class NLSHintHelper {
 		if (resourceBundle == null)
 			return null;
 
-		String resourceName= Signature.getSimpleName(resourceBundle) + NLSRefactoring.PROPERTY_FILE_EXT;
+		String resourceName= Signature.getSimpleName(resourceBundle) + NLSRefactoring.PROPERTY_FILE_EXT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String packName= Signature.getQualifier(resourceBundle);
 		ITypeBinding accessorClass= accessorClassReference.getBinding();
 
@@ -467,7 +467,7 @@ public class NLSHintHelper {
 	 * @param storage the storage
 	 * @return the properties or <code>null</code> if it was not successfully read
 	 */
-	public static Properties getProperties(IStorage storage) {
+	public static Properties getProperties(IStorage storage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (storage == null)
 			return null;
 

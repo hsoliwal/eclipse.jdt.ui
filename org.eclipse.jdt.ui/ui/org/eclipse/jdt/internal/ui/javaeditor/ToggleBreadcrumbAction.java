@@ -35,7 +35,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
  * @since 3.4
  */
-public class ToggleBreadcrumbAction extends ResourceAction implements IPropertyChangeListener, IPerspectiveListener {
+public class ToggleBreadcrumbAction extends ResourceAction implements IPropertyChangeListener, IPerspectiveListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private IPreferenceStore fStore;
 	private IWorkbenchPage fPage;
@@ -123,7 +123,7 @@ public class ToggleBreadcrumbAction extends ResourceAction implements IPropertyC
 	private String getPreferenceKey() {
 		IPerspectiveDescriptor perspective= fPage.getPerspective();
 		String perspectiveID= perspective != null ? perspective.getId() : "<unknown>"; //$NON-NLS-1$
-		return JavaEditor.EDITOR_SHOW_BREADCRUMB + "." + perspectiveID; //$NON-NLS-1$
+		return JavaEditor.EDITOR_SHOW_BREADCRUMB + "." + perspectiveID; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/*

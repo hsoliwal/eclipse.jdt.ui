@@ -174,7 +174,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathsBlock;
 import org.eclipse.jdt.internal.ui.workingsets.IWorkingSetIDs;
 
 
-public class PasteAction extends SelectionDispatchAction{
+public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public static final String ID= "org.eclipse.jdt.internal.ui.refactoring.reorg.PasteAction.id"; //$NON-NLS-1$
 
@@ -204,10 +204,10 @@ public class PasteAction extends SelectionDispatchAction{
 		// Moved condition checking to run (see http://bugs.eclipse.org/bugs/show_bug.cgi?id=78450)
 	}
 
-	private Paster[] createEnabledPasters(TransferData[] availableDataTypes, Clipboard clipboard) {
+	private Paster[] createEnabledPasters(TransferData[] availableDataTypes, Clipboard clipboard) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Paster paster;
 		Shell shell = getShell();
-		List<Paster> result= new ArrayList<>(2);
+		List<Paster> result= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		paster= new ProjectPaster(shell, clipboard);
 		if (paster.canEnable(availableDataTypes))
 			result.add(paster);
@@ -237,12 +237,12 @@ public class PasteAction extends SelectionDispatchAction{
 	private static Object getContents(final Clipboard clipboard, final Transfer transfer, Shell shell) {
 		//see bug 33028 for explanation why we need this
 		final Object[] result= new Object[1];
-		shell.getDisplay().syncExec(() -> result[0]= clipboard.getContents(transfer));
+		shell.getDisplay().syncExec(() -> result[0]= clipboard.getContents(transfer)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		return result[0];
 	}
 
 	private static boolean isAvailable(Transfer transfer, TransferData[] availableDataTypes) {
-		for (TransferData availableDataType : availableDataTypes) {
+		for (TransferData availableDataType : availableDataTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (transfer.isSupportedType(availableDataType)) {
 				return true;
 			}
@@ -250,7 +250,7 @@ public class PasteAction extends SelectionDispatchAction{
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		Clipboard clipboard;
 		if (fClipboard != null)
@@ -263,7 +263,7 @@ public class PasteAction extends SelectionDispatchAction{
 			IResource[] resources= ReorgUtilsCore.getResources(elements);
 			IJavaElement[] javaElements= ReorgUtilsCore.getJavaElements(elements);
 			IWorkingSet[] workingSets= ReorgUtils.getWorkingSets(elements);
-			for (Paster paster : createEnabledPasters(availableTypes, clipboard)) {
+			for (Paster paster : createEnabledPasters(availableTypes, clipboard)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					if (paster.canPasteOn(javaElements, resources, workingSets, elements)) {
 						paster.paste(javaElements, resources, workingSets, availableTypes);
@@ -363,7 +363,7 @@ public class PasteAction extends SelectionDispatchAction{
 			private final String fPackageName;
 			private final boolean fIsModuleInfo;
 
-			public static List<ParsedCu> parseCus(IJavaProject javaProject, String compilerCompliance, String text) {
+			public static List<ParsedCu> parseCus(IJavaProject javaProject, String compilerCompliance, String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 				if (javaProject != null) {
 					parser.setProject(javaProject);
@@ -419,14 +419,14 @@ public class PasteAction extends SelectionDispatchAction{
 				return Collections.emptyList();
 			}
 
-			private static List<ParsedCu> parseAsTypes(String text, CompilationUnit unit) {
+			private static List<ParsedCu> parseAsTypes(String text, CompilationUnit unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				String packageName= IPackageFragment.DEFAULT_PACKAGE_NAME;
 				PackageDeclaration pack= unit.getPackage();
 				if (pack != null) {
 					packageName= pack.getName().getFullyQualifiedName();
 				}
 
-				ArrayList<ParsedCu> cus= new ArrayList<>();
+				ArrayList<ParsedCu> cus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				List<AbstractTypeDeclaration> types= unit.types();
 
 				int startOffset= 0;
@@ -434,7 +434,7 @@ public class PasteAction extends SelectionDispatchAction{
 				int maxVisibility= JdtFlags.VISIBILITY_CODE_INVALID;
 
 				// Public types must be in separate CUs:
-				for (AbstractTypeDeclaration type : types) {
+				for (AbstractTypeDeclaration type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (typeName == null) {
 						// first in group:
 						maxVisibility= JdtFlags.getVisibilityCode(type);
@@ -524,7 +524,7 @@ public class PasteAction extends SelectionDispatchAction{
 			return PasteAction.isAvailable(TextTransfer.getInstance(), availableTypes) && ! PasteAction.isAvailable(FileTransfer.getInstance(), availableTypes);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean canPasteOn(IJavaElement[] javaElements, IResource[] resources, IWorkingSet[] selectedWorkingSets, List<?> selectedElements) throws JavaModelException {
 			final String text= getClipboardText(fAvailableTypes);
 
@@ -606,7 +606,7 @@ public class PasteAction extends SelectionDispatchAction{
 			IJavaElement cu;
 			switch (destination.getElementType()) {
 				case IJavaElement.JAVA_PROJECT :
-					for (IPackageFragmentRoot fragmentroot : ((IJavaProject) destination).getPackageFragmentRoots()) {
+					for (IPackageFragmentRoot fragmentroot : ((IJavaProject) destination).getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						packageFragmentRoot= fragmentroot;
 						if (isWritable(packageFragmentRoot)) {
 							fDestination= packageFragmentRoot;
@@ -683,7 +683,7 @@ public class PasteAction extends SelectionDispatchAction{
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void paste(IJavaElement[] javaElements, IResource[] resources, final IWorkingSet[] selectedWorkingSets, TransferData[] availableTypes) throws JavaModelException, InterruptedException, InvocationTargetException{
 			if (fPatchStorage != null) {
 				IResource resource= null;
@@ -699,13 +699,13 @@ public class PasteAction extends SelectionDispatchAction{
 
 			final IEditorPart[] editorPart= new IEditorPart[1];
 
-			IRunnableWithProgress op= new IRunnableWithProgress() {
-				@Override
+			IRunnableWithProgress op= new IRunnableWithProgress() { //FLLDCIM: MARK — T09  ANONYMOUS
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void run(IProgressMonitor monitor) throws InvocationTargetException {
 
-					final ArrayList<ICompilationUnit> cus= new ArrayList<>();
+					final ArrayList<ICompilationUnit> cus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					try {
-						JavaCore.run(pm -> {
+						JavaCore.run(pm -> { //FLLDCIM: MARK — T09  LAMBDA
 							pm.beginTask("", 1 + fParsedCus.length); //$NON-NLS-1$
 
 							if (fDestination == null) {
@@ -714,7 +714,7 @@ public class PasteAction extends SelectionDispatchAction{
 								pm.worked(1);
 							}
 							IConfirmQuery confirmQuery= new ReorgQueries(getShell()).createYesYesToAllNoNoToAllQuery(ReorgMessages.PasteAction_TextPaster_confirmOverwriting, true, IReorgQueries.CONFIRM_OVERWRITING);
-							for (ParsedCu parsedCu : fParsedCus) {
+							for (ParsedCu parsedCu : fParsedCus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (pm.isCanceled())
 									break;
 								ICompilationUnit cu= pasteCU(parsedCu, Progress.subMonitor(pm, 1), confirmQuery);
@@ -725,7 +725,7 @@ public class PasteAction extends SelectionDispatchAction{
 							if (selectedWorkingSets.length == 1) {
 								IWorkingSet ws= selectedWorkingSets[0];
 								if (!IWorkingSetIDs.OTHERS.equals(ws.getId())) {
-									ArrayList<IAdaptable> newElements= new ArrayList<>(Arrays.asList(ws.getElements()));
+									ArrayList<IAdaptable> newElements= new ArrayList<>(Arrays.asList(ws.getElements())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 									newElements.addAll(Arrays.asList(ws.adaptElements(new IAdaptable[] { fDestination.getJavaProject() })));
 									ws.setElements(newElements.toArray(new IAdaptable[newElements.size()]));
 								}
@@ -742,7 +742,7 @@ public class PasteAction extends SelectionDispatchAction{
 					SelectionUtil.selectAndReveal(cuResources, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 				}
 
-				private ICompilationUnit pasteCU(ParsedCu parsedCu, IProgressMonitor pm, IConfirmQuery confirmQuery) throws CoreException, OperationCanceledException {
+				private ICompilationUnit pasteCU(ParsedCu parsedCu, IProgressMonitor pm, IConfirmQuery confirmQuery) throws CoreException, OperationCanceledException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					pm.beginTask("", 4); //$NON-NLS-1$
 					try {
 						IPackageFragment destinationPack;
@@ -779,7 +779,7 @@ public class PasteAction extends SelectionDispatchAction{
 							if (parsedCu.fIsModuleInfo) {
 								cuName= JavaModelUtil.MODULE_INFO_JAVA;
 							} else {
-								cuName= parsedCu.getTypeName() + JavaModelUtil.DEFAULT_CU_SUFFIX;
+								cuName= parsedCu.getTypeName() + JavaModelUtil.DEFAULT_CU_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							}
 							ICompilationUnit cu= destinationPack.getCompilationUnit(cuName);
 							boolean alreadyExists= cu.exists();
@@ -792,7 +792,7 @@ public class PasteAction extends SelectionDispatchAction{
 								editorPart[0]= openCu(cu); //Open editor before overwriting to allow undo to restore original package declaration
 							}
 
-							parsedText= parsedText.replaceAll("\r\n?|\n", StubUtility.getLineDelimiterUsed(cu)); //$NON-NLS-1$
+							parsedText= parsedText.replaceAll("\r\n?|\n", StubUtility.getLineDelimiterUsed(cu)); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 							destinationPack.createCompilationUnit(cuName, parsedText, true, Progress.subMonitor(pm, 1));
 
 							if (! alreadyExists) {
@@ -817,14 +817,14 @@ public class PasteAction extends SelectionDispatchAction{
 						} else if (kind == ASTParser.K_CLASS_BODY_DECLARATIONS || kind == ASTParser.K_STATEMENTS) {
 							return pasteBodyDeclsOrStatements(destinationPack, parsedText, kind, Progress.subMonitor(pm, 2));
 						} else {
-							throw new IllegalStateException("Unexpected kind: " + kind); //$NON-NLS-1$
+							throw new IllegalStateException("Unexpected kind: " + kind); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					} finally {
 						pm.done();
 					}
 				}
 
-				private ICompilationUnit pasteBodyDeclsOrStatements(IPackageFragment destinationPack, String parsedText, int kind, IProgressMonitor pm) throws CoreException, JavaModelException {
+				private ICompilationUnit pasteBodyDeclsOrStatements(IPackageFragment destinationPack, String parsedText, int kind, IProgressMonitor pm) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					ICompilationUnit cu;
 					IType type;
 					String typeName;
@@ -834,7 +834,7 @@ public class PasteAction extends SelectionDispatchAction{
 						typeName= fDestinationType.getElementName();
 					} else {
 						typeName= ReorgMessages.PasteAction_snippet_default_type_name;
-						cu= destinationPack.getCompilationUnit(typeName + JavaModelUtil.DEFAULT_CU_SUFFIX);
+						cu= destinationPack.getCompilationUnit(typeName + JavaModelUtil.DEFAULT_CU_SUFFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						type= cu.getType(typeName);
 					}
 					if (cu.exists()) {
@@ -884,7 +884,7 @@ public class PasteAction extends SelectionDispatchAction{
 					return cu;
 				}
 
-				private ITrackedNodePosition createOrFillTypeDeclaration(
+				private ITrackedNodePosition createOrFillTypeDeclaration( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						CompilationUnit cuNode,
 						IDocument document,
 						ICompilationUnit cu,
@@ -928,7 +928,7 @@ public class PasteAction extends SelectionDispatchAction{
 					} else { // kind == ASTParser.K_STATEMENTS
 						if (methodDecl == null || methodDecl.getBody() == null) {
 							methodDecl= ast.newMethodDeclaration();
-							String qualifiedtypeName= fDestinationType != null ? fDestinationType.getFullyQualifiedName('.') : cu.getParent().getElementName() + '.' + typeName;
+							String qualifiedtypeName= fDestinationType != null ? fDestinationType.getFullyQualifiedName('.') : cu.getParent().getElementName() + '.' + typeName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							if (StubUtility.doAddComments(cu.getJavaProject())) {
 								String methodComment= CodeGeneration.getMethodComment(cu, qualifiedtypeName, methodDecl, null, delim);
 								if (methodComment != null)
@@ -969,11 +969,11 @@ public class PasteAction extends SelectionDispatchAction{
 					return null;
 				}
 
-				private IPackageFragmentRoot createNewProject(IProgressMonitor pm) throws CoreException {
+				private IPackageFragmentRoot createNewProject(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					pm.beginTask("", 10); //$NON-NLS-1$
 					IProject project;
 					int i= 1;
-					do {
+					do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String name= Messages.format(ReorgMessages.PasteAction_projectName, i == 1 ? (Object) "" : Integer.valueOf(i)); //$NON-NLS-1$
 						project= JavaPlugin.getWorkspace().getRoot().getProject(name);
 						i++;
@@ -1048,7 +1048,7 @@ public class PasteAction extends SelectionDispatchAction{
 			}
 		}
 
-		private void parseCUs(IJavaProject javaProject, String text) {
+		private void parseCUs(IJavaProject javaProject, String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IScanner scanner;
 	        if (javaProject != null) {
 	            String sourceLevel = javaProject.getOption(JavaCore.COMPILER_SOURCE, true);
@@ -1059,12 +1059,12 @@ public class PasteAction extends SelectionDispatchAction{
 	        }
 			scanner.setSource(text.toCharArray());
 
-			ArrayList<ParsedCu> cus= new ArrayList<>();
+			ArrayList<ParsedCu> cus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			int start= 0;
 			boolean tokensScanned= false;
 			fPackageDeclCount= 0;
 			int tok;
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					tok= scanner.getNextToken();
 				} catch (InvalidInputException e) {
@@ -1094,14 +1094,14 @@ public class PasteAction extends SelectionDispatchAction{
 			fParsedCus= cus.toArray(new ParsedCu[cus.size()]);
 		}
 
-		private void computeLatestVM() {
+		private void computeLatestVM() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IVMInstall bestVM= JavaRuntime.getDefaultVMInstall();
 			String bestVersion= getVMVersion(bestVM);
 
 			IExecutionEnvironmentsManager eeManager= JavaRuntime.getExecutionEnvironmentsManager();
 			IExecutionEnvironment bestEE= null;
 
-			outer: for (IExecutionEnvironment ee : eeManager.getExecutionEnvironments()) {
+			outer: for (IExecutionEnvironment ee : eeManager.getExecutionEnvironments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IVMInstall vm= ee.getDefaultVM();
 				String ver= getVMVersion(vm);
 				if (ver != null) {
@@ -1111,7 +1111,7 @@ public class PasteAction extends SelectionDispatchAction{
 					}
 				} else {
 					String eeVer= JavaModelUtil.getExecutionEnvironmentCompliance(ee);
-					for (IVMInstall compatibleVM : ee.getCompatibleVMs()) {
+					for (IVMInstall compatibleVM : ee.getCompatibleVMs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						vm= compatibleVM;
 						ver= getVMVersion(vm);
 						if (!eeVer.equals(ver))
@@ -1125,8 +1125,8 @@ public class PasteAction extends SelectionDispatchAction{
 				}
 			}
 
-			for (IVMInstallType vmType : JavaRuntime.getVMInstallTypes()) {
-				for (IVMInstall vm : vmType.getVMInstalls()) {
+			for (IVMInstallType vmType : JavaRuntime.getVMInstallTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IVMInstall vm : vmType.getVMInstalls()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String ver= getVMVersion(vm);
 					if (ver != null && (bestVersion == null || JavaModelUtil.isVersionLessThan(bestVersion, ver))) {
 						bestVersion= ver;
@@ -1161,13 +1161,13 @@ public class PasteAction extends SelectionDispatchAction{
 		protected WorkingSetPaster(Shell shell, Clipboard clipboard) {
 			super(shell, clipboard);
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void paste(IJavaElement[] selectedJavaElements, IResource[] selectedResources, IWorkingSet[] selectedWorkingSets, TransferData[] availableTypes) throws JavaModelException, InterruptedException, InvocationTargetException {
 			IWorkingSet workingSet= selectedWorkingSets[0];
-			Set<IAdaptable> elements= new HashSet<>(Arrays.asList(workingSet.getElements()));
+			Set<IAdaptable> elements= new HashSet<>(Arrays.asList(workingSet.getElements())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			IJavaElement[] javaElements= getClipboardJavaElements(availableTypes);
 			if (javaElements != null) {
-				for (IJavaElement javaElement : javaElements) {
+				for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!ReorgUtilsCore.containsElementOrParent(elements, javaElement)) {
 						elements.add(javaElement);
 					}
@@ -1175,14 +1175,14 @@ public class PasteAction extends SelectionDispatchAction{
 			}
 			IResource[] resources= getClipboardResources(availableTypes);
 			if (resources != null) {
-				List<IJavaElement> realJavaElements= new ArrayList<>();
-				List<IResource> realResource= new ArrayList<>();
+				List<IJavaElement> realJavaElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<IResource> realResource= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				ReorgUtilsCore.splitIntoJavaElementsAndResources(resources, realJavaElements, realResource);
-				for (IJavaElement element : realJavaElements) {
+				for (IJavaElement element : realJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!ReorgUtilsCore.containsElementOrParent(elements, element))
 						elements.add(element);
 				}
-				for (IResource element : realResource) {
+				for (IResource element : realResource) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!ReorgUtilsCore.containsElementOrParent(elements, element))
 						elements.add(element);
 				}
@@ -1231,14 +1231,14 @@ public class PasteAction extends SelectionDispatchAction{
 
 		private void pasteProjects(IProject[] projects){
 			Shell shell= getShell();
-			for (IProject project : projects) {
+			for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				new CopyProjectOperation(shell).copyProject(project);
 			}
 		}
 		private IProject[] getProjectsToPaste(TransferData[] availableTypes) {
 			IResource[] resources= getClipboardResources(availableTypes);
 			IJavaElement[] javaElements= getClipboardJavaElements(availableTypes);
-			Set<IResource> result= new HashSet<>();
+			Set<IResource> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			if (resources != null)
 				result.addAll(Arrays.asList(resources));
 			if (javaElements != null)
@@ -1262,7 +1262,7 @@ public class PasteAction extends SelectionDispatchAction{
 		private boolean canPasteSimpleProjects(TransferData[] availableDataTypes) {
 			IResource[] resources= getClipboardResources(availableDataTypes);
 			if (resources == null || resources.length == 0) return false;
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resource.getType() != IResource.PROJECT || !((IProject) resource).isOpen()) {
 					return false;
 				}
@@ -1310,7 +1310,7 @@ public class PasteAction extends SelectionDispatchAction{
 			return isAvailable(FileTransfer.getInstance(), availableDataTypes);
 		}
 
-		private boolean canPasteFilesOn(Object target) {
+		private boolean canPasteFilesOn(Object target) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean isPackageFragment= target instanceof IPackageFragment;
 			boolean isJavaProject= target instanceof IJavaProject;
 			boolean isPackageFragmentRoot= target instanceof IPackageFragmentRoot;
@@ -1507,7 +1507,7 @@ public class PasteAction extends SelectionDispatchAction{
 				return new RefactoringStatus();
 			}
 			private boolean canPasteAll(IJavaElement destination) {
-				for (TypedSource source : fSources) {
+				for (TypedSource source : fSources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!canPaste(source.getType(), destination)) {
 						return false;
 					}
@@ -1553,14 +1553,14 @@ public class PasteAction extends SelectionDispatchAction{
 				return result;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public Change createChange(IProgressMonitor pm) throws CoreException {
 				ASTParser p= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 				p.setSource(getDestinationCu());
 				CompilationUnit cuNode= (CompilationUnit) p.createAST(pm);
 				ASTRewrite rewrite= ASTRewrite.create(cuNode.getAST());
 				TypedSource source= null;
-				for (int i= fSources.length - 1; i >= 0; i--) {
+				for (int i= fSources.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					source= fSources[i];
 					final ASTNode destination= getDestinationNodeForSourceElement(fDestination, source.getType(), cuNode);
 					if (destination != null) {
@@ -1599,7 +1599,7 @@ public class PasteAction extends SelectionDispatchAction{
 				}
 			}
 
-			private static void insertToCu(ASTRewrite rewrite, ASTNode node, CompilationUnit cuNode) {
+			private static void insertToCu(ASTRewrite rewrite, ASTNode node, CompilationUnit cuNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				switch (node.getNodeType()) {
 					case ASTNode.TYPE_DECLARATION:
 					case ASTNode.ENUM_DECLARATION:

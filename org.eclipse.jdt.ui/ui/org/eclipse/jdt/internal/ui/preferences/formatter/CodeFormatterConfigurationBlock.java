@@ -43,12 +43,12 @@ import org.eclipse.jdt.internal.ui.preferences.formatter.ProfileManager.Profile;
 @SuppressWarnings("deprecation") // java.util.Observable since 9;
 public class CodeFormatterConfigurationBlock extends ProfileConfigurationBlock {
 
-	private static final String DIALOGSTORE_LASTSAVELOADPATH= JavaUI.ID_PLUGIN + ".codeformatter"; //$NON-NLS-1$
+	private static final String DIALOGSTORE_LASTSAVELOADPATH= JavaUI.ID_PLUGIN + ".codeformatter"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
      * Some Java source code used for preview.
      */
-    protected final String PREVIEW= "/**\n* " + //$NON-NLS-1$
+    protected final String PREVIEW= "/**\n* " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     		FormatterMessages.CodingStyleConfigurationBlock_preview_title +
     		"\n*/\n\n" + //$NON-NLS-1$
     		"package mypackage; import java.util.LinkedList; public class MyIntStack {" + //$NON-NLS-1$
@@ -116,7 +116,7 @@ public class CodeFormatterConfigurationBlock extends ProfileConfigurationBlock {
 	    return new FormatterProfileManager(profiles, context, access, profileVersioner);
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void configurePreview(Composite composite, int numColumns, ProfileManager profileManager) {
 		fCustomCodeFormatterBlock.createContents(composite, numColumns);
 

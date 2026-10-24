@@ -31,7 +31,7 @@ import org.eclipse.ui.texteditor.IAbstractTextEditorHelpContextIds;
 
 import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
 
-class CopyToClipboardAction extends SelectionDispatchAction{
+class CopyToClipboardAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final static int MAX_REPEAT_COUNT= 10;
 

@@ -40,9 +40,9 @@ public class TestCopyParticipantShared extends CopyParticipant implements IShara
 
 	static TestCopyParticipantShared fgInstance;
 
-	List<Object> fElements= new ArrayList<>(3);
-	List<String> fHandles= new ArrayList<>(3);
-	List<RefactoringArguments> fArguments= new ArrayList<>(3);
+	List<Object> fElements= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<String> fHandles= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<RefactoringArguments> fArguments= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	@Override
 	public boolean initialize(Object element) {
@@ -54,7 +54,7 @@ public class TestCopyParticipantShared extends CopyParticipant implements IShara
 		} else if (element instanceof IResource) {
 			fHandles.add(((IResource)element).getFullPath().toString());
 		} else if (element instanceof JavaElementResourceMapping) {
-			fHandles.add(((JavaElementResourceMapping)element).
+			fHandles.add(((JavaElementResourceMapping)element). //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				getJavaElement().getHandleIdentifier() + "_mapping");
 		}
 		return true;
@@ -69,7 +69,7 @@ public class TestCopyParticipantShared extends CopyParticipant implements IShara
 		} else if (element instanceof IResource) {
 			fHandles.add(((IResource)element).getFullPath().toString());
 		} else if (element instanceof JavaElementResourceMapping) {
-			fHandles.add(((JavaElementResourceMapping)element).getJavaElement().getHandleIdentifier() + "_mapping");
+			fHandles.add(((JavaElementResourceMapping)element).getJavaElement().getHandleIdentifier() + "_mapping"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -99,7 +99,7 @@ public class TestCopyParticipantShared extends CopyParticipant implements IShara
 
 	public static void testArguments(CopyArguments[] args) {
 		testNumberOfElements(args.length);
-		for (int i= 0; i < args.length; i++) {
+		for (int i= 0; i < args.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CopyArguments expected= args[i];
 			CopyArguments actual= (CopyArguments)fgInstance.fArguments.get(i);
 			compareArguments(expected, actual);
@@ -116,13 +116,13 @@ public class TestCopyParticipantShared extends CopyParticipant implements IShara
 		Object[] expectedRenamed= expected.getRenamedElements();
 		Object[] actualRenamed= actual.getRenamedElements();
 		Assert.assertEquals(expectedRenamed.length, actualRenamed.length);
-		for (int j= 0; j < expectedRenamed.length; j++) {
+		for (int j= 0; j < expectedRenamed.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.assertEquals(expected.getNewName(expectedRenamed[j]), actual.getNewName(actualRenamed[j]));
 		}
 		Object[] expectedProcessed= expected.getProcessedElements();
 		Object[] actualProcessed= actual.getProcessedElements();
 		Assert.assertEquals(expectedProcessed.length, actualProcessed.length);
-		for (int j= 0; j < expectedProcessed.length; j++) {
+		for (int j= 0; j < expectedProcessed.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.assertEquals(expectedProcessed[j], actualProcessed[j]);
 		}
 	}

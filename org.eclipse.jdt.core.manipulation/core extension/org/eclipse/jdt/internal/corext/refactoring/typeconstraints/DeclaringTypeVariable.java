@@ -47,7 +47,7 @@ public class DeclaringTypeVariable extends ConstraintVariable{
 
 	@Override
 	public String toString() {
-		return "Decl(" + Bindings.asString(fMemberBinding) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "Decl(" + Bindings.asString(fMemberBinding) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public IBinding getMemberBinding() {

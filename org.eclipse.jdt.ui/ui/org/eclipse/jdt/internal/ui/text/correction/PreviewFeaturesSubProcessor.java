@@ -65,7 +65,7 @@ public class PreviewFeaturesSubProcessor {
 	private static final String CONFIGURE_COMPILER_PROBLEM_SEVERITY_DIALOG_ID= "configure_compiler_settings_dialog_id"; //$NON-NLS-1$
 	private static final String ENABLED= "enabled"; //$NON-NLS-1$
 
-	private static class EnablePreviewFeatureProposal extends ChangeCorrectionProposal implements IWorkspaceRunnable {
+	private static class EnablePreviewFeatureProposal extends ChangeCorrectionProposal implements IWorkspaceRunnable { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private final IJavaProject fJavaProject;
 		private IProject fProject;
@@ -89,7 +89,7 @@ public class PreviewFeaturesSubProcessor {
 			fUpdateJob= CoreUtility.getBuildJob(fChangeOnWorkspace ? null : fProject.getProject());
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void apply(IDocument document) {
 			if (fJavaProject == null) {
 				return;
@@ -127,7 +127,7 @@ public class PreviewFeaturesSubProcessor {
 		}
 	}
 
-	public static void getOpenCompliancePageToEnablePreviewFeaturesProposal(IInvocationContext context, Collection<ICommandAccess> proposals) {
+	public static void getOpenCompliancePageToEnablePreviewFeaturesProposal(IInvocationContext context, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IJavaProject javaProject= context.getCompilationUnit().getJavaProject();
 		boolean hasProjectSpecificOptions= hasProjectSpecificOptions(javaProject);
@@ -137,10 +137,10 @@ public class PreviewFeaturesSubProcessor {
 			label= CorrectionMessages.PreviewFeaturesSubProcessor_open_compliance_properties_page_enable_preview_features;
 		}
 
-		ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(label, null, IProposalRelevance.ENABLE_PREVIEW_FEATURES,
-				JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE)) {
+		ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(label, null, IProposalRelevance.ENABLE_PREVIEW_FEATURES, //FLLDCIM: MARK — T30  ANONYMOUS
+				JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE)) { //FLLDCIM: MARK — T30  IMPLEMENTS
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void apply(IDocument document) {
 
 				Shell shell= JavaPlugin.getActiveWorkbenchShell();
@@ -177,7 +177,7 @@ public class PreviewFeaturesSubProcessor {
 				}
 
 				String pageId;
-				Map<String, Object> data= new HashMap<>();
+				Map<String, Object> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 				if (usePropertyPage) {
 					pageId= CompliancePreferencePage.PROP_ID;
@@ -240,7 +240,7 @@ public class PreviewFeaturesSubProcessor {
 		return hasProjectSpecificOptions;
 	}
 
-	public static boolean isPreviewFeatureEnabled(IJavaProject javaProject) {
+	public static boolean isPreviewFeatureEnabled(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isPreviewFeatureEnabled= false;
 		if (javaProject != null && JavaModelUtil.isLatestOrHigherJavaVersion(javaProject)) {
 			IProject project= javaProject.getProject();

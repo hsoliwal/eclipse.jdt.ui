@@ -99,7 +99,7 @@ public class NLSSearchResultPage extends AbstractTextSearchViewPage  implements 
 				}
 			}
 		});
-		viewer.setLabelProvider(new ColoringLabelProvider(new NLSSearchResultLabelProvider2(this)));
+		viewer.setLabelProvider(new ColoringLabelProvider(new NLSSearchResultLabelProvider2(this))); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fContentProvider= new TextSearchTableContentProvider();
 		viewer.setContentProvider(fContentProvider);
 	}

@@ -89,7 +89,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.SelectionProviderMediator;
 
 
 public class TestViewer {
-	private final class TestSelectionListener implements ISelectionChangedListener {
+	private final class TestSelectionListener implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			handleSelected();
@@ -103,7 +103,7 @@ public class TestViewer {
 		}
 	}
 
-	private final class FailuresOnlyFilter extends ViewerFilter {
+	private final class FailuresOnlyFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			return select(((TestElement) element));
@@ -118,7 +118,7 @@ public class TestViewer {
 		}
 	}
 
-	private final class IgnoredOnlyFilter extends ViewerFilter {
+	private final class IgnoredOnlyFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			return select(((TestElement) element));
@@ -146,7 +146,7 @@ public class TestViewer {
 
 			if (testElement instanceof TestSuiteElement) {
 				ITestElement[] children= ((TestSuiteElement) testElement).getChildren();
-				for (ITestElement child : children) {
+				for (ITestElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					boolean hasIgnoredTestResult= hasIgnoredInTestResult((TestElement) child);
 					if (hasIgnoredTestResult) {
 						return true;
@@ -249,7 +249,7 @@ public class TestViewer {
 		initContextMenu();
 	}
 
-	private void createTestViewers(Composite parent) {
+	private void createTestViewers(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fViewerbook= new PageBook(parent, SWT.NULL);
 
 		fTreeViewer= new TreeViewer(fViewerbook, SWT.V_SCROLL | SWT.SINGLE);
@@ -258,20 +258,20 @@ public class TestViewer {
 		fTreeContentProvider= new TestSessionTreeContentProvider();
 		fTreeViewer.setContentProvider(fTreeContentProvider);
 		fTreeLabelProvider= new TestSessionLabelProvider(fTestRunnerPart, TestRunnerViewPart.LAYOUT_HIERARCHICAL);
-		fTreeViewer.setLabelProvider(new ColoringLabelProvider(fTreeLabelProvider));
+		fTreeViewer.setLabelProvider(new ColoringLabelProvider(fTreeLabelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		fTableViewer= new TableViewer(fViewerbook, SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE);
 		fTableViewer.setUseHashlookup(true);
 		fTableContentProvider= new TestSessionTableContentProvider();
 		fTableViewer.setContentProvider(fTableContentProvider);
 		fTableLabelProvider= new TestSessionLabelProvider(fTestRunnerPart, TestRunnerViewPart.LAYOUT_FLAT);
-		fTableViewer.setLabelProvider(new ColoringLabelProvider(fTableLabelProvider));
+		fTableViewer.setLabelProvider(new ColoringLabelProvider(fTableLabelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		fSelectionProvider= new SelectionProviderMediator(new StructuredViewer[] { fTreeViewer, fTableViewer }, fTreeViewer);
-		fSelectionProvider.addSelectionChangedListener(new TestSelectionListener());
+		fSelectionProvider.addSelectionChangedListener(new TestSelectionListener()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		TestOpenListener testOpenListener= new TestOpenListener();
-		fTreeViewer.getTree().addSelectionListener(testOpenListener);
-		fTableViewer.getTable().addSelectionListener(testOpenListener);
+		fTreeViewer.getTree().addSelectionListener(testOpenListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		fTableViewer.getTable().addSelectionListener(testOpenListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fTestRunnerPart.getSite().setSelectionProvider(fSelectionProvider);
 
@@ -281,7 +281,7 @@ public class TestViewer {
 	private void initContextMenu() {
 		MenuManager menuMgr= new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(this::handleMenuAboutToShow);
+		menuMgr.addMenuListener(this::handleMenuAboutToShow); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		fTestRunnerPart.getSite().registerContextMenu(menuMgr, fSelectionProvider);
 		Menu menu= menuMgr.createContextMenu(fViewerbook);
 		fTreeViewer.getTree().setMenu(menu);
@@ -289,7 +289,7 @@ public class TestViewer {
 	}
 
 
-	void handleMenuAboutToShow(IMenuManager manager) {
+	void handleMenuAboutToShow(IMenuManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStructuredSelection selection= (IStructuredSelection) fSelectionProvider.getSelection();
 		if (! selection.isEmpty()) {
 			TestElement testElement= (TestElement) selection.getFirstElement();
@@ -345,7 +345,7 @@ public class TestViewer {
 			manager.add(new CopyFailureListAction(fTestRunnerPart, fClipboard));
 		}
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS + "-end")); //$NON-NLS-1$
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS + "-end")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -355,7 +355,7 @@ public class TestViewer {
 	 * @param manager the context menu manager
 	 * @param testSuiteElement the selected test suite element
 	 */
-	private void addReincludeExcludedValuesSubmenu(IMenuManager manager, TestSuiteElement testSuiteElement) {
+	private void addReincludeExcludedValuesSubmenu(IMenuManager manager, TestSuiteElement testSuiteElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IMethod method= TestMethodFinder.findMethodForParameterizedTest(testSuiteElement);
 			if (method == null) {
@@ -371,7 +371,7 @@ public class TestViewer {
 			MenuManager submenu= new MenuManager(JUnitMessages.TestViewer_reinclude_submenu_label);
 			submenu.add(new ReincludeAllEnumValuesAction(method));
 			submenu.add(new Separator());
-			for (String name : excludedNames) {
+			for (String name : excludedNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				submenu.add(new ReincludeEnumValueAction(method, name));
 			}
 			manager.add(submenu);
@@ -386,7 +386,7 @@ public class TestViewer {
 		String[] parameterTypes= testCaseElement.getParameterTypes();
 		if (parameterTypes != null) {
 			String paramTypesStr= Arrays.stream(parameterTypes).collect(Collectors.joining(",")); //$NON-NLS-1$
-			testMethodName= testMethodName + "(" + paramTypesStr + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+			testMethodName= testMethodName + "(" + paramTypesStr + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (fTestRunnerPart.lastLaunchIsKeptAlive()) {
 			manager.add(new RerunAction(JUnitMessages.RerunAction_label_rerun, fTestRunnerPart, testCaseElement.getId(), className, testMethodName, testCaseElement.getDisplayName(), testCaseElement.getUniqueId(), ILaunchManager.RUN_MODE));
@@ -396,7 +396,7 @@ public class TestViewer {
 		}
 	}
 
-	private void addRerunActions(IMenuManager manager, TestSuiteElement testSuiteElement) {
+	private void addRerunActions(IMenuManager manager, TestSuiteElement testSuiteElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String qualifiedName= null;
 		String testMethodName= null; // test method name is null when re-running a regular test class
 
@@ -415,7 +415,7 @@ public class TestViewer {
 			String[] parameterTypes= testSuiteElement.getParameterTypes();
 			if (testMethodName != null && parameterTypes != null) {
 				String paramTypesStr= Arrays.stream(parameterTypes).collect(Collectors.joining(",")); //$NON-NLS-1$
-				testMethodName= testMethodName + "(" + paramTypesStr + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				testMethodName= testMethodName + "(" + paramTypesStr + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else {
 			// see bug 443498
@@ -438,7 +438,7 @@ public class TestViewer {
 	/*
 	 * Returns the element's test class or the next container's test class, which exists, and for which ITestFinder.isTest() is true.
 	 */
-	private IType findTestClass(ITestElement element, boolean checkOnlyCurrentElement) {
+	private IType findTestClass(ITestElement element, boolean checkOnlyCurrentElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITestFinder finder= ((TestRunSession)element.getTestRunSession()).getTestRunnerKind().getFinder();
 		if (ITestFinder.NULL.equals(finder)) {
 			return null;
@@ -447,7 +447,7 @@ public class TestViewer {
 		if (project == null)
 			return null;
 		ITestElement current= element;
-		while (current != null) {
+		while (current != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				String className= null;
 				if (current instanceof TestRoot) {
@@ -487,7 +487,7 @@ public class TestViewer {
 		registerViewersRefresh();
 	}
 
-	void handleDefaultSelected() {
+	void handleDefaultSelected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStructuredSelection selection= (IStructuredSelection) fSelectionProvider.getSelection();
 		if (selection.size() != 1)
 			return;
@@ -511,7 +511,7 @@ public class TestViewer {
 		return new OpenTestAction(fTestRunnerPart, testCase, testCase.getParameterTypes());
 	}
 
-	private OpenTestAction getOpenTestAction(TestSuiteElement testSuite) {
+	private OpenTestAction getOpenTestAction(TestSuiteElement testSuite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String testName= testSuite.getTestName();
 		ITestElement[] children= testSuite.getChildren();
 
@@ -559,7 +559,7 @@ public class TestViewer {
 		}
 	}
 
-	public synchronized void setSortingCriterion(SortingCriterion sortingCriterion) {
+	public synchronized void setSortingCriterion(SortingCriterion sortingCriterion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerComparator viewerComparator;
 		switch (sortingCriterion) {
 			case SORT_BY_EXECUTION_ORDER:
@@ -593,7 +593,7 @@ public class TestViewer {
 		}
 	}
 
-	private Comparator<ITestElement> getComparator() {
+	private Comparator<ITestElement> getComparator() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SortingCriterion sortingCriterion= fTestRunnerPart.getSortingCriterion();
 		Comparator<ITestElement> comparator;
 		switch (sortingCriterion) {
@@ -644,7 +644,7 @@ public class TestViewer {
 	 * @param ignoredOnly whether to show only skipped tests
 	 * @param layoutMode the layout mode
 	 */
-	public synchronized void setShowFailuresOrIgnoredOnly(boolean failuresOnly, boolean ignoredOnly, int layoutMode) {
+	public synchronized void setShowFailuresOrIgnoredOnly(boolean failuresOnly, boolean ignoredOnly, int layoutMode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Management of fTreeViewer and fTableViewer
 		 * ******************************************
@@ -681,20 +681,20 @@ public class TestViewer {
 					viewer.removeFilter(fIgnoredOnlyFilter);
 				}
 				setActiveViewerHasFilter(true);
-				viewer.setInput(null);
+				viewer.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				//Set either the failures or the skipped tests filter
 				ViewerFilter filter= fFailuresOnlyFilter;
 				if (ignoredOnly == true) {
 					filter= fIgnoredOnlyFilter;
 				}
-				viewer.addFilter(filter);
+				viewer.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 				setActiveViewerNeedsRefresh(true);
 
 			} else {
 				if (getActiveViewerHasFilter()) {
 					setActiveViewerNeedsRefresh(true);
 					setActiveViewerHasFilter(false);
-					viewer.setInput(null);
+					viewer.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					viewer.removeFilter(fIgnoredOnlyFilter);
 					viewer.removeFilter(fFailuresOnlyFilter);
 				}
@@ -751,14 +751,14 @@ public class TestViewer {
 	/**
 	 * To be called periodically by the TestRunnerViewPart (in the UI thread).
 	 */
-	public void processChangesInUI() {
+	public void processChangesInUI() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TestRoot testRoot;
 		if (fTestRunSession == null) {
 			registerViewersRefresh();
 			fTreeNeedsRefresh= false;
 			fTableNeedsRefresh= false;
-			fTreeViewer.setInput(null);
-			fTableViewer.setInput(null);
+			fTreeViewer.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+			fTableViewer.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			return;
 		}
 
@@ -768,7 +768,7 @@ public class TestViewer {
 		if (getActiveViewerNeedsRefresh()) {
 			clearUpdateAndExpansion();
 			setActiveViewerNeedsRefresh(false);
-			viewer.setInput(testRoot);
+			viewer.setInput(testRoot); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		} else {
 			Object[] toUpdate;
@@ -778,13 +778,13 @@ public class TestViewer {
 			}
 			if (! fTreeNeedsRefresh && toUpdate.length > 0) {
 				if (fTreeHasFilter)
-					for (Object element : toUpdate)
+					for (Object element : toUpdate) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						updateElementInTree((TestElement) element);
 				else {
-					HashSet<Object> toUpdateWithParents= new HashSet<>(Arrays.asList(toUpdate));
-					for (Object element : toUpdate) {
+					HashSet<Object> toUpdateWithParents= new HashSet<>(Arrays.asList(toUpdate)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+					for (Object element : toUpdate) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						TestElement parent= ((TestElement) element).getParent();
-						while (parent != null) {
+						while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							toUpdateWithParents.add(parent);
 							parent= parent.getParent();
 						}
@@ -794,7 +794,7 @@ public class TestViewer {
 			}
 			if (! fTableNeedsRefresh && toUpdate.length > 0) {
 				if (fTableHasFilter)
-					for (Object element : toUpdate)
+					for (Object element : toUpdate) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						updateElementInTable((TestElement) element);
 				else
 					fTableViewer.update(toUpdate, null);
@@ -808,13 +808,13 @@ public class TestViewer {
 			updateShownElementInTree(testElement);
 		} else {
 			TestElement current= testElement;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fTreeViewer.testFindItem(current) != null)
 					fTreeViewer.remove(current);
 				current= current.getParent();
 			} while (! (current instanceof TestRoot) && ! isShown(current));
 
-			while (current != null && ! (current instanceof TestRoot)) {
+			while (current != null && ! (current instanceof TestRoot)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fTreeViewer.update(current, null);
 				current= current.getParent();
 			}
@@ -835,7 +835,7 @@ public class TestViewer {
 		}
 	}
 
-	private void updateElementInTable(TestElement element) {
+	private void updateElementInTable(TestElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isShown(element)) {
 			if (fTableViewer.testFindItem(element) == null) {
 				TestElement previous= getNextFailure(element, false);
@@ -858,7 +858,7 @@ public class TestViewer {
 		return fFailuresOnlyFilter.select(current);
 	}
 
-	private void autoScrollInUI() {
+	private void autoScrollInUI() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (! fTestRunnerPart.isAutoScroll()) {
 			clearAutoExpand();
 			fAutoClose.clear();
@@ -872,7 +872,7 @@ public class TestViewer {
 		}
 
 		synchronized (this) {
-			for (TestSuiteElement suite : fAutoExpand) {
+			for (TestSuiteElement suite : fAutoExpand) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fTreeViewer.setExpandedState(suite, true);
 			}
 			clearAutoExpand();
@@ -884,7 +884,7 @@ public class TestViewer {
 		TestSuiteElement parent= current == null ? null : (TestSuiteElement) fTreeContentProvider.getParent(current);
 		if (fAutoClose.isEmpty() || ! fAutoClose.getLast().equals(parent)) {
 			// we're in a new branch, so let's close old OK branches:
-			for (ListIterator<TestSuiteElement> iter= fAutoClose.listIterator(fAutoClose.size()); iter.hasPrevious();) {
+			for (ListIterator<TestSuiteElement> iter= fAutoClose.listIterator(fAutoClose.size()); iter.hasPrevious();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TestSuiteElement previousAutoOpened= iter.previous();
 				if (previousAutoOpened.equals(parent))
 					break;
@@ -896,7 +896,7 @@ public class TestViewer {
 				}
 			}
 
-			while (parent != null && ! fTestRunSession.getTestRoot().equals(parent) && fTreeViewer.getExpandedState(parent) == false) {
+			while (parent != null && ! fTestRunSession.getTestRoot().equals(parent) && fTreeViewer.getExpandedState(parent) == false) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fAutoClose.add(parent); // add to auto-opened elements -> close later if STATUS_OK
 				parent= (TestSuiteElement) fTreeContentProvider.getParent(parent);
 			}
@@ -935,7 +935,7 @@ public class TestViewer {
 		return getNextFailureSibling(selected, showNext);
 	}
 
-	private TestElement getNextFailureSibling(TestElement current, boolean showNext) {
+	private TestElement getNextFailureSibling(TestElement current, boolean showNext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TestSuiteElement parent= current.getParent();
 		if (parent == null)
 			return null;
@@ -951,7 +951,7 @@ public class TestViewer {
 			siblings= new ReverseList<>(siblings);
 
 		int nextIndex= siblings.indexOf(current) + 1;
-		for (int i= nextIndex; i < siblings.size(); i++) {
+		for (int i= nextIndex; i < siblings.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TestElement sibling= (TestElement) siblings.get(i);
 			if (sibling.getStatus().isErrorOrFailure()) {
 				if (sibling instanceof TestCaseElement) {
@@ -968,7 +968,7 @@ public class TestViewer {
 		return getNextFailureSibling(parent, showNext);
 	}
 
-	private TestElement getNextChildFailure(TestSuiteElement root, boolean showNext) {
+	private TestElement getNextChildFailure(TestSuiteElement root, boolean showNext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITestElement[] elements= root.getChildren();
 		Comparator<ITestElement> comparator= getComparator();
 		if (comparator != null) {
@@ -977,7 +977,7 @@ public class TestViewer {
 		List<ITestElement> children= Arrays.asList(elements);
 		if (! showNext)
 			children= new ReverseList<>(children);
-		for (ITestElement element : children) {
+		for (ITestElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TestElement child= (TestElement) element;
 			if (child.getStatus().isErrorOrFailure()) {
 				if (child instanceof TestCaseElement) {
@@ -1003,7 +1003,7 @@ public class TestViewer {
 	private void clearUpdateAndExpansion() {
 		fNeedUpdate= new LinkedHashSet<>();
 		fAutoClose= new LinkedList<>();
-		fAutoExpand= new HashSet<>();
+		fAutoExpand= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class ElementTypeResolver extends TemplateVariableResolver {
 	 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#resolve(org.eclipse.jface.text.templates.TemplateVariable, org.eclipse.jface.text.templates.TemplateContext)
 	 * @since 3.3
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 		if (!(variable instanceof MultiVariable)) {
 			super.resolve(variable, context);
@@ -62,7 +62,7 @@ public class ElementTypeResolver extends TemplateVariableResolver {
 		Object[] choices= master.getChoices();
 		if (choices instanceof Variable[]) {
 
-			for (Variable variable2 : (Variable[]) choices)
+			for (Variable variable2 : (Variable[]) choices) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				variable.setChoices(variable2, variable2.getMemberTypeNames());
 
 			context.addDependency(master, variable);

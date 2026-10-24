@@ -53,7 +53,7 @@ public class JarEntryEditorInputFactory implements IElementFactory {
 	/*
 	 * @see org.eclipse.ui.IElementFactory#createElement(org.eclipse.ui.IMemento)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IAdaptable createElement(IMemento memento) {
 
 		String rootIdentifier= memento.getString(KEY_ELEMENT);
@@ -106,7 +106,7 @@ public class JarEntryEditorInputFactory implements IElementFactory {
 		if (versionSepIndex > 0) {
 			// try stripping plug-in version number
 			String prefix= rootName.substring(0, versionSepIndex);
-			for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+			for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root.getElementName().startsWith(prefix)) {
 					return root;
 				}
@@ -115,11 +115,11 @@ public class JarEntryEditorInputFactory implements IElementFactory {
 		return null;
 	}
 
-	private JarEntryEditorInput createEditorInput(String[] pathSegments, Object[] children) {
+	private JarEntryEditorInput createEditorInput(String[] pathSegments, Object[] children) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int depth= pathSegments.length;
-		segments: for (int i= 0; i < depth; i++) {
+		segments: for (int i= 0; i < depth; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= pathSegments[i];
-			for (Object child : children) {
+			for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof IJarEntryResource) {
 					IJarEntryResource jarEntryResource= (IJarEntryResource) child;
 					if (name.equals(jarEntryResource.getName())) {
@@ -145,12 +145,12 @@ public class JarEntryEditorInputFactory implements IElementFactory {
 	/*
 	 * @see IPersistableElement#saveState(IMemento)
 	 */
-	public static void saveState(IMemento memento, IJarEntryResource jarEntryResource) {
-		ArrayList<String> reversePath= new ArrayList<>();
+	public static void saveState(IMemento memento, IJarEntryResource jarEntryResource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<String> reversePath= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		reversePath.add(jarEntryResource.getName());
 
 		Object parent= jarEntryResource.getParent();
-		while (parent instanceof IJarEntryResource) {
+		while (parent instanceof IJarEntryResource) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			jarEntryResource= (IJarEntryResource) parent;
 			reversePath.add(jarEntryResource.getName());
 			parent= jarEntryResource.getParent();
@@ -158,7 +158,7 @@ public class JarEntryEditorInputFactory implements IElementFactory {
 		if (parent instanceof IPackageFragmentRoot || parent instanceof IPackageFragment) {
 			memento.putString(KEY_ELEMENT, ((IJavaElement) parent).getHandleIdentifier());
 			IPath path= new Path(reversePath.get(reversePath.size() - 1));
-			for (int i= reversePath.size() - 2; i >= 0; i--) {
+			for (int i= reversePath.size() - 2; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				path= path.append(reversePath.get(i));
 			}
 			memento.putString(KEY_PATH, path.toString());

@@ -85,7 +85,7 @@ public class ObjectsEqualsCleanUp extends AbstractMultiFix implements ICleanUpFi
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.USE_OBJECTS_EQUALS)) {
 			return """
@@ -110,17 +110,17 @@ public class ObjectsEqualsCleanUp extends AbstractMultiFix implements ICleanUpFi
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.USE_OBJECTS_EQUALS)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final IfStatement node) {
 				if (node.getElseStatement() != null) {
 					InfixExpression condition= ASTNodes.as(node.getExpression(), InfixExpression.class);
@@ -141,7 +141,7 @@ public class ObjectsEqualsCleanUp extends AbstractMultiFix implements ICleanUpFi
 				return true;
 			}
 
-			private boolean maybeReplaceCode(final IfStatement node, final InfixExpression condition,
+			private boolean maybeReplaceCode(final IfStatement node, final InfixExpression condition, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final List<Statement> thenStatements, final List<Statement> elseStatements, final Expression firstField) {
 				IfStatement checkNullityStatement;
 				IfStatement checkEqualsStatement;
@@ -174,7 +174,7 @@ public class ObjectsEqualsCleanUp extends AbstractMultiFix implements ICleanUpFi
 				return true;
 			}
 
-			private boolean maybeReplaceEquals(final IfStatement node, final Expression firstField,
+			private boolean maybeReplaceEquals(final IfStatement node, final Expression firstField, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final InfixExpression nullityCondition, final ReturnStatement returnStatement1,
 					final PrefixExpression equalsCondition, final ReturnStatement returnStatement2) {
 				OrderedInfixExpression<Expression, NullLiteral> nullityTypedCondition= ASTNodes.orderedInfix(nullityCondition, Expression.class, NullLiteral.class);
@@ -248,7 +248,7 @@ public class ObjectsEqualsCleanUp extends AbstractMultiFix implements ICleanUpFi
 			this.returnStatement= returnStatement;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -288,7 +288,7 @@ public class ObjectsEqualsCleanUp extends AbstractMultiFix implements ICleanUpFi
 		private Name newTypeName(final AST ast, final String objectNameText) {
 			Name qualifiedName= null;
 
-			for (String packageName : objectNameText.split("\\.")) { //$NON-NLS-1$
+			for (String packageName : objectNameText.split("\\.")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (qualifiedName == null) {
 					qualifiedName= ast.newSimpleName(packageName);
 				} else {

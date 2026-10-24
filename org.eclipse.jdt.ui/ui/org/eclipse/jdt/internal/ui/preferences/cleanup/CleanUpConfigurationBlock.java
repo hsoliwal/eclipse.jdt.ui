@@ -58,7 +58,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.SelectionButtonDialogFie
 public class CleanUpConfigurationBlock extends ProfileConfigurationBlock {
 
 	private static final String CLEANUP_PAGE_SETTINGS_KEY= "cleanup_page"; //$NON-NLS-1$
-	private static final String DIALOGSTORE_LASTSAVELOADPATH= JavaUI.ID_PLUGIN + ".cleanup"; //$NON-NLS-1$
+	private static final String DIALOGSTORE_LASTSAVELOADPATH= JavaUI.ID_PLUGIN + ".cleanup"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private final IScopeContext fCurrContext;
 	private SelectionButtonDialogField fShowCleanUpWizardDialogField;
@@ -93,7 +93,7 @@ public class CleanUpConfigurationBlock extends ProfileConfigurationBlock {
 		return fProfileManager;
     }
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void configurePreview(Composite composite, int numColumns, final ProfileManager profileManager) {
     	Map<String, String> settings= profileManager.getSelected().getSettings();
 		final Map<String, String> sharedSettings= new Hashtable<>();
@@ -101,7 +101,7 @@ public class CleanUpConfigurationBlock extends ProfileConfigurationBlock {
 
 		final ICleanUp[] cleanUps= JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps();
 		CleanUpOptions options= new MapCleanUpOptions(sharedSettings);
-		for (ICleanUp cleanUp : cleanUps) {
+		for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cleanUp.setOptions(options);
 		}
 
@@ -126,23 +126,23 @@ public class CleanUpConfigurationBlock extends ProfileConfigurationBlock {
 		});
     }
 
-    private String getSelectedCleanUpsInfo(ICleanUp[] cleanUps) {
+    private String getSelectedCleanUpsInfo(ICleanUp[] cleanUps) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	if (cleanUps.length == 0)
     		return ""; //$NON-NLS-1$
 
-    	StringBuilder buf= new StringBuilder();
+    	StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
     	boolean first= true;
-		for (ICleanUp cleanUp : cleanUps) {
+		for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] descriptions= cleanUp.getStepDescriptions();
 			if (descriptions != null) {
-				for (String description : descriptions) {
+				for (String description : descriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (first) {
 						first= false;
 					} else {
-						buf.append('\n');
+						buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					buf.append(description);
+					buf.append(description); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		}
@@ -160,7 +160,7 @@ public class CleanUpConfigurationBlock extends ProfileConfigurationBlock {
         return new CleanUpModifyDialog(shell, profile, profileManager, profileStore, newProfile, CLEANUP_PAGE_SETTINGS_KEY, DIALOGSTORE_LASTSAVELOADPATH);
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Composite createContents(Composite parent) {
 	    Composite composite= super.createContents(parent);
 
@@ -208,7 +208,7 @@ public class CleanUpConfigurationBlock extends ProfileConfigurationBlock {
 		fShowCleanUpWizardDialogField.setDialogFieldListener(unused -> doShowCleanUpWizard(fShowCleanUpWizardDialogField.isSelected()));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void preferenceChanged(PreferenceChangeEvent event) {
 		if (CleanUpConstants.CLEANUP_PROFILES.equals(event.getKey())) {
 			try {
@@ -218,14 +218,14 @@ public class CleanUpConfigurationBlock extends ProfileConfigurationBlock {
 
 				List<Profile> oldProfiles= fProfileManager.getSortedProfiles();
 				Profile[] oldProfilesArray= oldProfiles.toArray(new Profile[oldProfiles.size()]);
-				for (Profile oldProfile : oldProfilesArray) {
+				for (Profile oldProfile : oldProfilesArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (oldProfile instanceof CustomProfile) {
 						fProfileManager.deleteProfile((CustomProfile) oldProfile);
 					}
 				}
 
 				List<Profile> newProfiles= fProfileStore.readProfilesFromString((String)event.getNewValue());
-				for (Profile profile2 : newProfiles) {
+				for (Profile profile2 : newProfiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CustomProfile profile= (CustomProfile)profile2;
 					fProfileManager.addProfile(profile);
 				}

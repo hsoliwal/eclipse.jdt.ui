@@ -31,7 +31,7 @@ public class InstancesOfTypeCollector extends ReferenceVisitor {
 
 	public InstancesOfTypeCollector(String requestedTypeName, boolean includeSubtypes) {
 		fIncludeSubtypes= includeSubtypes;
-		fResults= new ArrayList<>();
+		fResults= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fRequestedTypeName= requestedTypeName;
 	}
 
@@ -41,10 +41,10 @@ public class InstancesOfTypeCollector extends ReferenceVisitor {
 
 	public String getResultString() {
 		int i= 0;
-		StringBuilder buf= new StringBuilder();
-		for (ReferenceInfo element : fResults) {
-			buf.append("Element ").append(i++).append('\n');
-			buf.append(element.toString()).append('\n');
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (ReferenceInfo element : fResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append("Element ").append(i++).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(element.toString()).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -72,7 +72,7 @@ public class InstancesOfTypeCollector extends ReferenceVisitor {
 			if (superclass != null && isMatchingType(superclass)) {
 				return true;
 			}
-			for (Class<?> intf : clazz.getInterfaces()) {
+			for (Class<?> intf : clazz.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isMatchingType(intf)) {
 					return true;
 				}

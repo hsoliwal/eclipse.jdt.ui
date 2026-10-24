@@ -81,7 +81,7 @@ public class AdvancedQuickAssistTest1d5 extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReplaceIfWithCondition1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -109,7 +109,7 @@ public class AdvancedQuickAssistTest1d5 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, CorrectionMessages.AdvancedQuickAssistProcessor_replaceIfWithConditional);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReplaceIfWithCondition2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """

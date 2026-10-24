@@ -53,7 +53,7 @@ public class NewFieldResolver extends TemplateVariableResolver {
 		this.defaultType= defaultType;
 	}
 
-	private int findAbsolutePositionOfFieldNameBeginning(IDocument doc, TextEdit te, String name) {
+	private int findAbsolutePositionOfFieldNameBeginning(IDocument doc, TextEdit te, String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			String temp= doc.get(te.getOffset(), te.getLength());
 			if (temp.contains(ASSIGNMENT_OPERATOR)) {
@@ -68,7 +68,7 @@ public class NewFieldResolver extends TemplateVariableResolver {
 			// This case should not happen but maybe it's not bad to have a fallback
 			int offset= temp.length();
 			boolean semicolonFound= false;
-			while (offset >= 0 && semicolonFound == false) {
+			while (offset >= 0 && semicolonFound == false) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (temp.charAt(offset) == ' ' && semicolonFound)
 					return te.getOffset() + offset;
 				if (temp.charAt(offset) == ';')
@@ -83,7 +83,7 @@ public class NewFieldResolver extends TemplateVariableResolver {
 	/*
 	 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#resolve(org.eclipse.jface.text.templates.TemplateVariable, org.eclipse.jface.text.templates.TemplateContext)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 		List<String> params= variable.getVariableType().getParams();
 		String param;
@@ -132,7 +132,7 @@ public class NewFieldResolver extends TemplateVariableResolver {
 	}
 
 	private String getValueFromVariable(JavaVariable var) {
-		for (String s : var.getValues()) {
+		for (String s : var.getValues()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (s != null && s.trim().length() > 0) {
 				return s;
 			}

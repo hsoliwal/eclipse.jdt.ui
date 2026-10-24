@@ -129,14 +129,14 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 	private boolean fSynchronized;
 	private Composite fInsertPositionComposite;
 	private boolean fHasUserChangedPositionIndex;
-	private List<Integer> fAllowedVisibilities;
+	private List<Integer> fAllowedVisibilities; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	public SourceActionDialog(Shell parent, ILabelProvider labelProvider, ITreeContentProvider contentProvider, CompilationUnitEditor editor,
 			IType type, boolean isConstructor) throws JavaModelException {
 		this(parent, labelProvider, contentProvider, editor, type, isConstructor, false);
 	}
 
-	public SourceActionDialog(Shell parent, ILabelProvider labelProvider, ITreeContentProvider contentProvider, CompilationUnitEditor editor,
+	public SourceActionDialog(Shell parent, ILabelProvider labelProvider, ITreeContentProvider contentProvider, CompilationUnitEditor editor, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IType type, boolean isConstructor, boolean allowEmptyTree) throws JavaModelException {
 		super(parent, labelProvider, contentProvider, allowEmptyTree);
 		fEditor= editor;
@@ -161,8 +161,8 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		fFinal= asBoolean(fSettings.get(SETTINGS_FINAL_MODIFIER), false);
 		fSynchronized= asBoolean(fSettings.get(SETTINGS_SYNCHRONIZED_MODIFIER), false);
 		fGenerateComment= asBoolean(fSettings.get(SETTINGS_COMMENTS), generateCommentsDefault);
-		fInsertPositions= new ArrayList<>();
-		fLabels= new ArrayList<>();
+		fInsertPositions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fLabels= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IJavaElement[] members= fType.getChildren();
 
@@ -172,7 +172,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		fLabels.add(ActionMessages.SourceActionDialog_first);
 		fLabels.add(ActionMessages.SourceActionDialog_last);
 
-		for (IJavaElement curr : members) {
+		for (IJavaElement curr : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String methodLabel= JavaElementLabels.getElementLabel(curr, JavaElementLabels.M_PARAMETER_TYPES);
 			fLabels.add(Messages.format(ActionMessages.SourceActionDialog_after, methodLabel));
 			fInsertPositions.add(findSibling(curr, members));
@@ -213,7 +213,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 	private IJavaElement findSibling(IJavaElement curr, IJavaElement[] members) throws JavaModelException {
 		IJavaElement res= null;
 		int methodStart= ((IMember) curr).getSourceRange().getOffset();
-		for (int i= members.length-1; i >= 0; i--) {
+		for (int i= members.length-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMember member= (IMember) members[i];
 			if (methodStart >= member.getSourceRange().getOffset()) {
 				return res;
@@ -229,7 +229,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		}
 		int offset= ((ITextSelection) editor.getSelectionProvider().getSelection()).getOffset();
 
-		for (int i= 0; i < members.length; i++) {
+		for (int i= 0; i < members.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMember curr= (IMember) members[i];
 			ISourceRange range= curr.getSourceRange();
 			if (offset < range.getOffset()) {
@@ -359,7 +359,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -444,13 +444,13 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 	}
 
 	protected void openCodeTempatePage(String id) {
-		HashMap<String, String> arg= new HashMap<>();
+		HashMap<String, String> arg= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		arg.put(CodeTemplatePreferencePage.DATA_SELECT_TEMPLATE, id);
 		PreferencesUtil.createPropertyDialogOn(getShell(), fType.getJavaProject().getProject(), CodeTemplatePreferencePage.PROP_ID, null, arg).open();
 	}
 
 
-	protected Composite createCommentSelection(Composite composite) {
+	protected Composite createCommentSelection(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite commentComposite = new Composite(composite, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.marginHeight= 0;
@@ -461,7 +461,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		Button commentButton= new Button(commentComposite, SWT.CHECK);
 		commentButton.setText(fCommentString);
 
-		commentButton.addSelectionListener(new SelectionListener() {
+		commentButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean isSelected= (((Button) e.widget).getSelection());
@@ -481,7 +481,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		return commentComposite;
 	}
 
-	protected Composite addVisibilityAndModifiersChoices(Composite buttonComposite) {
+	protected Composite addVisibilityAndModifiersChoices(Composite buttonComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Add visibility and modifiers buttons: http://bugs.eclipse.org/bugs/show_bug.cgi?id=35870
 		// Add persistence of options: http://bugs.eclipse.org/bugs/show_bug.cgi?id=38400
 		IVisibilityChangeListener visibilityChangeListener= new IVisibilityChangeListener(){
@@ -513,14 +513,14 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 	}
 
 	private List<Integer> convertToIntegerList(int[] array) {
-		List<Integer> result= new ArrayList<>(array.length);
-		for (int element : array) {
+		List<Integer> result= new ArrayList<>(array.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (int element : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(element);
 		}
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void create() {
 		super.create();
 
@@ -530,7 +530,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		if (items.length > 0) {
 			Object revealedElement= items[0];
 
-			for (TreeItem item : items) {
+			for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item.getChecked()) {
 					revealedElement= item.getData();
 					break;
@@ -541,7 +541,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		}
 	}
 
-	protected Composite createVisibilityControl(Composite parent, final IVisibilityChangeListener visibilityChangeListener, int[] availableVisibilities, int correctVisibility) {
+	protected Composite createVisibilityControl(Composite parent, final IVisibilityChangeListener visibilityChangeListener, int[] availableVisibilities, int correctVisibility) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fAllowedVisibilities= convertToIntegerList(availableVisibilities);
 		if (fAllowedVisibilities.size() == 1)
 			return null;
@@ -567,7 +567,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 					Modifier.NONE,
 					Modifier.PRIVATE};
 		Integer initialVisibility= correctVisibility;
-		for (int i= 0; i < labels.length; i++) {
+		for (int i= 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button radio= new Button(group, SWT.RADIO);
 			Integer visibilityCode= data[i];
 			radio.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
@@ -575,7 +575,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 			radio.setData(visibilityCode);
 			radio.setSelection(visibilityCode.equals(initialVisibility));
 			radio.setEnabled(fAllowedVisibilities.contains(visibilityCode));
-			radio.addSelectionListener(new SelectionAdapter() {
+			radio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent event) {
 					visibilityChangeListener.visibilityChanged(((Integer)event.widget.getData()));
@@ -585,7 +585,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		return group;
 	}
 
-	protected Composite createVisibilityControlAndModifiers(Composite parent, final IVisibilityChangeListener visibilityChangeListener, int[] availableVisibilities, int correctVisibility) {
+	protected Composite createVisibilityControlAndModifiers(Composite parent, final IVisibilityChangeListener visibilityChangeListener, int[] availableVisibilities, int correctVisibility) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite visibilityComposite= createVisibilityControl(parent, visibilityChangeListener, availableVisibilities, correctVisibility);
 
 		Button finalCheckboxButton= new Button(visibilityComposite, SWT.CHECK);
@@ -595,7 +595,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		finalCheckboxButton.setData(Integer.valueOf(Modifier.FINAL));
 		finalCheckboxButton.setEnabled(true);
 		finalCheckboxButton.setSelection(isFinal());
-		finalCheckboxButton.addSelectionListener(new SelectionListener() {
+		finalCheckboxButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				visibilityChangeListener.modifierChanged(((Integer)event.widget.getData()), ((Button) event.widget).getSelection());
@@ -614,7 +614,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		syncCheckboxButton.setData(Integer.valueOf(Modifier.SYNCHRONIZED));
 		syncCheckboxButton.setEnabled(true);
 		syncCheckboxButton.setSelection(isSynchronized());
-		syncCheckboxButton.addSelectionListener(new SelectionListener() {
+		syncCheckboxButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				visibilityChangeListener.modifierChanged(((Integer)event.widget.getData()), ((Button) event.widget).getSelection());
@@ -640,7 +640,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		return selectionComposite;
 	}
 
-	private Composite addOrderEntryChoices(Composite buttonComposite) {
+	private Composite addOrderEntryChoices(Composite buttonComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label enterLabel= new Label(buttonComposite, SWT.NONE);
 		enterLabel.setText(ActionMessages.SourceActionDialog_enterAt_label);
 		if (!fEnableInsertPosition)
@@ -657,7 +657,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 		gd= new GridData(GridData.FILL_BOTH);
 		gd.widthHint= convertWidthInCharsToPixels(fWidth);
 		enterCombo.setLayoutData(gd);
-		enterCombo.addSelectionListener(new SelectionAdapter(){
+		enterCombo.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int index= enterCombo.getSelectionIndex();
@@ -720,7 +720,7 @@ public class SourceActionDialog extends CheckedTreeSelectionDialog {
 
 	@Override
 	protected IDialogSettings getDialogBoundsSettings() {
-		return JavaPlugin.getDefault().getDialogSettingsSection("DialogBounds_" + getClass().getSimpleName()); //$NON-NLS-1$
+		return JavaPlugin.getDefault().getDialogSettingsSection("DialogBounds_" + getClass().getSimpleName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void addMethodSearchFilter(@SuppressWarnings("unused") Text filterText, @SuppressWarnings("unused") CheckboxTreeViewer treeViewer) {

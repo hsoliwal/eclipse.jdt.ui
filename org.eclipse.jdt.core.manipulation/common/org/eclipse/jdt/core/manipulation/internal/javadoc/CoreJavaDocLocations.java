@@ -115,7 +115,7 @@ public class CoreJavaDocLocations {
 			throw new IllegalArgumentException("Entry must be of kind CPE_LIBRARY or CPE_VARIABLE"); //$NON-NLS-1$
 		}
 
-		for (IClasspathAttribute attrib : entry.getExtraAttributes()) {
+		for (IClasspathAttribute attrib : entry.getExtraAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (IClasspathAttribute.JAVADOC_LOCATION_ATTRIBUTE_NAME.equals(attrib.getName())) {
 				return parseURL(attrib.getValue());
 			}
@@ -123,7 +123,7 @@ public class CoreJavaDocLocations {
 		return null;
 	}
 
-	public static URL getJavadocBaseLocation(IJavaElement element) throws JavaModelException {
+	public static URL getJavadocBaseLocation(IJavaElement element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element.getElementType() == IJavaElement.JAVA_PROJECT) {
 			return getProjectJavadocLocation((IJavaProject) element);
 		}
@@ -152,7 +152,7 @@ public class CoreJavaDocLocations {
 		}
 	}
 
-	public static URL getJavadocLocation(IJavaElement element, boolean includeMemberReference) throws JavaModelException {
+	public static URL getJavadocLocation(IJavaElement element, boolean includeMemberReference) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		URL baseLocation= getJavadocBaseLocation(element);
 		if (baseLocation == null) {
 			return null;
@@ -309,7 +309,7 @@ public class CoreJavaDocLocations {
 		}
 	}
 
-	private static IModuleDescription getModuleDescription(IPackageFragment pack) {
+	private static IModuleDescription getModuleDescription(IPackageFragment pack) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pack == null) {
 			return null;
 		}
@@ -396,7 +396,7 @@ public class CoreJavaDocLocations {
 	 * @return <i>true</i> if the jvm used is 1.8 or 9 (If no jvm is found then the source
 	 *         compliance is used) else returns <i>false</i>
 	 */
-	private static boolean is1d8Or9(IJavaProject javaProject) {
+	private static boolean is1d8Or9(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean is1d8Or9= false;
 		String compliance= JavaModelUtil.getSourceCompliance(javaProject);
 		if (javaProject != null) {
@@ -419,7 +419,7 @@ public class CoreJavaDocLocations {
 		buf.append(field.getElementName());
 	}
 
-	private static void appendMethodReference(IMethod meth, StringBuffer buf) throws JavaModelException {
+	private static void appendMethodReference(IMethod meth, StringBuffer buf) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		buf.append(meth.getElementName());
 
 		/*
@@ -435,7 +435,7 @@ public class CoreJavaDocLocations {
 		IType declaringType= meth.getDeclaringType();
 		boolean isVararg= Flags.isVarargs(meth.getFlags());
 		int lastParam= params.length - 1;
-		for (int i= 0; i <= lastParam; i++) {
+		for (int i= 0; i <= lastParam; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i != 0) {
 				String paramDelim;
 				if (is1d8Or9) {
@@ -458,7 +458,7 @@ public class CoreJavaDocLocations {
 				if (i == lastParam && isVararg) {
 					dim--;
 				}
-				while (dim > 0) {
+				while (dim > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					buf.append(is1d8Or9 ? ":A" : "[]"); //$NON-NLS-1$ //$NON-NLS-2$
 					dim--;
 				}
@@ -484,7 +484,7 @@ public class CoreJavaDocLocations {
 	 * @throws JavaModelException thrown when the Java element cannot be accessed
 	 * @since 3.9
 	 */
-	public static String getBaseURL(IJavaElement element, boolean isBinary, LocationResolver callback) throws JavaModelException {
+	public static String getBaseURL(IJavaElement element, boolean isBinary, LocationResolver callback) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isBinary) {
 			// Source attachment usually does not include Javadoc resources
 			// => Always use the Javadoc location as base:
@@ -526,7 +526,7 @@ public class CoreJavaDocLocations {
 	 *         <code>null</code> if the Java element is from a source container
 	 * @since 3.9
 	 */
-	public static String getExplanationForMissingJavadoc(IJavaElement element, IPackageFragmentRoot root) {
+	public static String getExplanationForMissingJavadoc(IJavaElement element, IPackageFragmentRoot root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String message= null;
 		try {
 			boolean isBinary= (root.exists() && root.getKind() == IPackageFragmentRoot.K_BINARY);
@@ -589,7 +589,7 @@ public class CoreJavaDocLocations {
 	 * @return the parsed URL or <code>null</code> if the URL couldn't be parsed
 	 * @since 3.9
 	 */
-	public static URL parseURL(String url) {
+	public static URL parseURL(String url) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			try {
 				return new URI(url).toURL();

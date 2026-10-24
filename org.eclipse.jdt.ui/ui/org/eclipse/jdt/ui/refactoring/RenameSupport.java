@@ -141,7 +141,7 @@ public class RenameSupport {
 	 * @see #openDialog(Shell)
 	 * @since 3.3
 	 */
-	public boolean openDialog(Shell parent, boolean showPreviewOnly) throws CoreException {
+	public boolean openDialog(Shell parent, boolean showPreviewOnly) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ensureChecked();
 		if (fPreCheckStatus.hasFatalError()) {
 			showInformation(parent, fPreCheckStatus);
@@ -185,7 +185,7 @@ public class RenameSupport {
 	 * @see #openDialog(Shell)
 	 * @see IRunnableContext#run(boolean, boolean, org.eclipse.jface.operation.IRunnableWithProgress)
 	 */
-	public void perform(Shell parent, IRunnableContext context) throws InterruptedException, InvocationTargetException {
+	public void perform(Shell parent, IRunnableContext context) throws InterruptedException, InvocationTargetException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ensureChecked();
 			if (fPreCheckStatus.hasFatalError()) {

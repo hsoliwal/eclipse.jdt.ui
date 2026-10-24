@@ -124,7 +124,7 @@ public class NewNameQueries implements INewNameQueries {
 		return () -> newName;
 	}
 
-	private static INewNameQuery createStaticQuery(final IInputValidator validator, final String message, final String initial, final boolean isFile, final Shell shell) {
+	private static INewNameQuery createStaticQuery(final IInputValidator validator, final String message, final String initial, final boolean isFile, final Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return () -> {
 			InputDialog dialog= new InputDialog(shell, ReorgMessages.ReorgQueries_nameConflictMessage, message, initial, validator) {
 				@Override
@@ -150,7 +150,7 @@ public class NewNameQueries implements INewNameQueries {
 		};
 	}
 
-	private static IInputValidator createResourceNameValidator(final IResource res){
+	private static IInputValidator createResourceNameValidator(final IResource res){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IInputValidator validator= newText -> {
 			if (newText == null || "".equals(newText) || res.getParent() == null) //$NON-NLS-1$
 				return INVALID_NAME_NO_MESSAGE;
@@ -170,7 +170,7 @@ public class NewNameQueries implements INewNameQueries {
 		return validator;
 	}
 
-	private static IInputValidator createCompilationUnitNameValidator(final ICompilationUnit cu) {
+	private static IInputValidator createCompilationUnitNameValidator(final ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IInputValidator validator= newText -> {
 			if (newText == null || "".equals(newText)) //$NON-NLS-1$
 				return INVALID_NAME_NO_MESSAGE;
@@ -202,7 +202,7 @@ public class NewNameQueries implements INewNameQueries {
 		};
 	}
 
-	private static IInputValidator createPackageNameValidator(final IPackageFragment pack) {
+	private static IInputValidator createPackageNameValidator(final IPackageFragment pack) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IInputValidator validator= newText -> {
 			if (newText == null || "".equals(newText)) //$NON-NLS-1$
 				return INVALID_NAME_NO_MESSAGE;

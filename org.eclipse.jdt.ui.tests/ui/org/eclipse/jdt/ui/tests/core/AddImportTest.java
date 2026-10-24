@@ -81,7 +81,7 @@ public class AddImportTest extends CoreTests {
 		JavaProjectHelper.clear(fJProject1, pts.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImports1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -131,7 +131,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImports2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -168,7 +168,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImports3() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -202,7 +202,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveImports1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -243,7 +243,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveImports2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -277,7 +277,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveImports3() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -335,7 +335,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cuT.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImports_bug23078() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -369,7 +369,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImports_bug25113() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -407,7 +407,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImports_bug42637() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -441,7 +441,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddStaticImports1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -479,7 +479,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddStaticImports2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -519,7 +519,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportStaticForSubclassReference() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -572,7 +572,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportStructureWithSignatures() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -649,7 +649,7 @@ public class AddImportTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddTypesWithCaptures1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -688,7 +688,7 @@ public class AddImportTest extends CoreTests {
 		assertEquals("Class<? extends E>", ASTNodes.asString(resNode2));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddTypesWithCaptures2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -728,7 +728,7 @@ public class AddImportTest extends CoreTests {
 		assertEquals("E<?>", ASTNodes.asString(resNode2));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddTypesWithCaptures3() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -769,7 +769,7 @@ public class AddImportTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportStructureWithSignatures2() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -826,7 +826,7 @@ public class AddImportTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddedRemovedImportsAPI() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -903,7 +903,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(imports.getRemovedStaticImports(), expectedRemovedStatic);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportAction1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -937,7 +937,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportAction2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -971,7 +971,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportAction3() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1005,7 +1005,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportAction4() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1039,7 +1039,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportAction5() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1084,7 +1084,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionBug_409594_test1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1123,7 +1123,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionBug_409594_test2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1162,7 +1162,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionBug_409594_test3() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1203,7 +1203,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionBug_409594_test4() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1246,7 +1246,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionBug_409594_test5() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1274,7 +1274,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), cu.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionBug_409594_test6() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1322,7 +1322,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cuB.getSource(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportAction_bug107206() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1355,7 +1355,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionStatic1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1390,7 +1390,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionStatic2() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/2043
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1418,7 +1418,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1); // no change
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionStaticWith14() throws Exception {
 		JavaProjectHelper.set18CompilerOptions(fJProject1);
 
@@ -1455,7 +1455,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionNestedType1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1484,7 +1484,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionNestedType2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1515,7 +1515,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionParameterizedType1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1546,7 +1546,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionParameterizedType2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1577,7 +1577,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionParameterizedType3() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1608,7 +1608,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionParameterizedType4() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1639,7 +1639,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionParameterizedType5() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1684,7 +1684,7 @@ public class AddImportTest extends CoreTests {
 	}
 
 	// Don't touch nested type if outer is parameterized.
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionParameterizedType6() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1726,7 +1726,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualString(cu.getSource(), str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionAnnotatedType1() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1765,7 +1765,7 @@ public class AddImportTest extends CoreTests {
 	}
 
 	// Don't touch nested type if outer is annotated.
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportActionAnnotatedType2() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1876,7 +1876,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(addedImports, new String[0]);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportContextSensitive05() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1897,7 +1897,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(addedImports, new String[] {"pack2.E1.E11.E12"});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportContextSensitive06() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1918,7 +1918,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(addedImports, new String[0]);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportContextSensitive07() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1941,7 +1941,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(addedImports, new String[0]);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportContextSensitive08() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1966,7 +1966,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(addedImports, new String[0]);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportContextSensitive09() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1993,7 +1993,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(addedImports, new String[] {"pack1.E1.E2.E22"});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportContextSensitive_Bug139000() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -2015,7 +2015,7 @@ public class AddImportTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(addedImports, new String[] {"pack1.E1.E2.E3"});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddImportContextSensitive10() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 

@@ -104,7 +104,7 @@ public abstract class JavadocWizardPage extends NewElementWizardPage {
 		String dirName= text.getText();
 		if (!dirName.isEmpty()) {
 			File path= new File(dirName);
-			if (path.exists())
+			if (path.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				dialog.setFilterPath(dirName);
 
 		}
@@ -121,7 +121,7 @@ public abstract class JavadocWizardPage extends NewElementWizardPage {
 		String res= dialog.open();
 		if (res != null) {
 			File file= new File(res);
-			if (file.isDirectory())
+			if (file.isDirectory()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return res;
 		}
 		return dir;
@@ -139,10 +139,10 @@ public abstract class JavadocWizardPage extends NewElementWizardPage {
 
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			for (Control en : fEnable) {
+			for (Control en : fEnable) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				en.setEnabled(true);
 			}
-			for (Control di : fDisable) {
+			for (Control di : fDisable) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				di.setEnabled(false);
 			}
 			validate();
@@ -163,7 +163,7 @@ public abstract class JavadocWizardPage extends NewElementWizardPage {
 		@Override
 		public void widgetSelected(SelectionEvent e) {
 
-			for (Control control : controls) {
+			for (Control control : controls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				control.setEnabled(!control.getEnabled());
 			}
 			validate();

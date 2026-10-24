@@ -37,7 +37,7 @@ class PackagesViewTableViewer extends ProblemTableViewer implements IPackagesVie
 	public void mapElement(Object element, Widget item) {
 		if (element instanceof LogicalPackage && item instanceof Item) {
 			LogicalPackage cp= (LogicalPackage) element;
-			for (IPackageFragment fragment : cp.getFragments()) {
+			for (IPackageFragment fragment : cp.getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fResourceToItemsMapper.addToMap(fragment, (Item)item);
 			}
 		}
@@ -48,7 +48,7 @@ class PackagesViewTableViewer extends ProblemTableViewer implements IPackagesVie
 	public void unmapElement(Object element, Widget item) {
 		if (element instanceof LogicalPackage && item instanceof Item) {
 			LogicalPackage cp= (LogicalPackage) element;
-			for (IPackageFragment fragment : cp.getFragments()) {
+			for (IPackageFragment fragment : cp.getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fResourceToItemsMapper.removeFromMap(fragment, (Item)item);
 			}
 		}
@@ -59,14 +59,14 @@ class PackagesViewTableViewer extends ProblemTableViewer implements IPackagesVie
 	 * @see org.eclipse.jface.viewers.StructuredViewer#getFilteredChildren(java.
 	 * lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object[] getFilteredChildren(Object parent) {
 
 		Object[] result= getRawChildren(parent);
-		List<Object> list= new ArrayList<>();
+		List<Object> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (result != null) {
 			Object[] toBeFiltered= new Object[1];
-			for (Object object : result) {
+			for (Object object : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if(object instanceof LogicalPackage) {
 					if(selectLogicalPackage((LogicalPackage)object))
 						list.add(object);

@@ -95,7 +95,7 @@ public class MarkOccurrenceTest1d7 {
 		assertEquals("number of selections", expected.length, selectedNodes.length);
 		sortByStartIndex(selectedNodes);
 		sortByStartIndex(expected);
-		for (int i= 0; i < selectedNodes.length; i++) {
+		for (int i= 0; i < selectedNodes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertEquals(expected[i].getOffset(), selectedNodes[i].getOffset());
 			assertEquals(expected[i].getLength(), selectedNodes[i].getLength());
 		}
@@ -108,22 +108,22 @@ public class MarkOccurrenceTest1d7 {
 	//pattern must be found - otherwise it's assumed to be an error
 	private OccurrenceLocation find(StringBuffer s, String pattern, int ithOccurrence) {
 		if (ithOccurrence < 1)
-			throw new IllegalStateException("ithOccurrence = " + ithOccurrence);
+			throw new IllegalStateException("ithOccurrence = " + ithOccurrence); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return find(s, pattern, ithOccurrence, 0);
 	}
 
 	private OccurrenceLocation find(StringBuffer s, String pattern, int ithOccurrence, int startIdx) {
 		if (startIdx < 0 || startIdx > s.length())
-			throw new IllegalStateException("startIdx = " + startIdx);
+			throw new IllegalStateException("startIdx = " + startIdx); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int idx= s.indexOf(pattern, startIdx);
 		if (idx == -1)
-			throw new IllegalStateException("not found \"" + pattern + "\" in \"" + s.substring(startIdx));
+			throw new IllegalStateException("not found \"" + pattern + "\" in \"" + s.substring(startIdx)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (ithOccurrence == 1)
 			return new OccurrenceLocation(idx, pattern.length(), 0, "");
 		return find(s, pattern, ithOccurrence - 1, idx + 1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkMethodExits1() throws Exception {
 		fFinder= new MethodExitsFinder();
 		StringBuffer s= new StringBuffer();
@@ -150,7 +150,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkMethodExits2() throws Exception {
 		fFinder= new MethodExitsFinder();
 		StringBuffer s= new StringBuffer();
@@ -175,7 +175,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkMethodExits3() throws Exception {
 		fFinder= new MethodExitsFinder();
 		StringBuffer s= new StringBuffer();
@@ -200,7 +200,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkMethodExits4() throws Exception {
 		fFinder= new MethodExitsFinder();
 		StringBuffer s= new StringBuffer();
@@ -228,7 +228,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkMethodExits5() throws Exception {
 		fFinder= new MethodExitsFinder();
 		StringBuffer s= new StringBuffer();
@@ -256,7 +256,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkMethodExits6() throws Exception {
 		fFinder= new MethodExitsFinder();
 		StringBuffer s= new StringBuffer();
@@ -284,7 +284,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkMethodExits7() throws Exception {
 		fFinder= new MethodExitsFinder();
 		StringBuffer s= new StringBuffer();
@@ -310,7 +310,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingException1() throws Exception {
 		fFinder= new ExceptionOccurrencesFinder();
 		StringBuffer s= new StringBuffer();
@@ -337,7 +337,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingException2() throws Exception {
 		fFinder= new ExceptionOccurrencesFinder();
 		StringBuffer s= new StringBuffer();
@@ -362,7 +362,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingException3() throws Exception {
 		fFinder= new ExceptionOccurrencesFinder();
 		StringBuffer s= new StringBuffer();
@@ -390,7 +390,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingException4() throws Exception {
 		fFinder= new ExceptionOccurrencesFinder();
 		StringBuffer s= new StringBuffer();
@@ -418,7 +418,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingException5() throws Exception {
 		fFinder= new ExceptionOccurrencesFinder();
 		StringBuffer s= new StringBuffer();
@@ -446,7 +446,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingException6() throws Exception {
 		fFinder= new ExceptionOccurrencesFinder();
 		StringBuffer s= new StringBuffer();
@@ -474,7 +474,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingException7() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=68305
 		fFinder= new ExceptionOccurrencesFinder();
@@ -502,7 +502,7 @@ public class MarkOccurrenceTest1d7 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingException8() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=68305
 		fFinder= new ExceptionOccurrencesFinder();

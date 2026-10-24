@@ -20,7 +20,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 /**
  * @since 3.14
  */
-public class JavaCodeMiningManager implements IPropertyChangeListener {
+public class JavaCodeMiningManager implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	/** The editor */
 	private JavaEditor fEditor;

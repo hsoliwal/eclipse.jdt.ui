@@ -22,7 +22,7 @@ import org.eclipse.jdt.internal.junit.model.TestRoot;
 import org.eclipse.jdt.internal.junit.model.TestSuiteElement;
 
 
-public class TestSessionTreeContentProvider implements ITreeContentProvider {
+public class TestSessionTreeContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	private final Object[] NO_CHILDREN= new Object[0];
 

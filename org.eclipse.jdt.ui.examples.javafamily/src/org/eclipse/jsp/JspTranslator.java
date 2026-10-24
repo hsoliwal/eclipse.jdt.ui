@@ -30,9 +30,9 @@ public class JspTranslator extends AbstractJspParser implements ITranslator {
 	private final StringBuffer fContent= new StringBuffer();
 	private final StringBuffer fLocalDeclarations= new StringBuffer();
 
-	private final ArrayList fContentLines= new ArrayList();
-	private final ArrayList fDeclarationLines= new ArrayList();
-	private final ArrayList fLocalDeclarationLines= new ArrayList();
+	private final ArrayList fContentLines= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final ArrayList fDeclarationLines= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final ArrayList fLocalDeclarationLines= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private int[] fSmap;
 
 	private ITagHandlerFactory fTagHandlerFactor;
@@ -71,7 +71,7 @@ public class JspTranslator extends AbstractJspParser implements ITranslator {
 			}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void java(char ch, String java, int line) {
 
 		if (ch == '!')
@@ -92,22 +92,22 @@ public class JspTranslator extends AbstractJspParser implements ITranslator {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void text(String t, int line) {
 		int i= 0;
-		StringBuilder out= new StringBuilder();
-		while (i < t.length()) {
+		StringBuilder out= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		while (i < t.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= t.charAt(i++);
 			if (c == '\n') {
-				fContent.append("    System.out.println(\"" + out.toString() + "\");  //$NON-NLS-1$\n");  //$NON-NLS-1$//$NON-NLS-2$
+				fContent.append("    System.out.println(\"" + out.toString() + "\");  //$NON-NLS-1$\n");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fContentLines.add(Integer.valueOf(line++));
 				out.setLength(0);
 			} else {
-				out.append(c);
+				out.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		if (out.length() > 0)  {
-			fContent.append("    System.out.print(\"" + out.toString() + "\");  //$NON-NLS-1$\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			fContent.append("    System.out.print(\"" + out.toString() + "\");  //$NON-NLS-1$\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fContentLines.add(Integer.valueOf(line));
 		}
 	}
@@ -123,10 +123,10 @@ public class JspTranslator extends AbstractJspParser implements ITranslator {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String translate(Reader reader, String name) throws IOException  {
 
-		StringBuilder buffer= new StringBuilder();
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		resetTranslator();
 		parse(reader);
@@ -136,49 +136,49 @@ public class JspTranslator extends AbstractJspParser implements ITranslator {
 		int line= 0;
 		fSmap[line++]= 1;
 
-		buffer.append("public class " + name + " {\n\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		buffer.append("public class " + name + " {\n\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		fSmap[line++]= 1;
 		fSmap[line++]= 1;
 
-		buffer.append(fDeclarations.toString() + "\n"); //$NON-NLS-1$
+		buffer.append(fDeclarations.toString() + "\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		System.out.println(fDeclarations.toString());
-		for (Object fDeclarationLine : fDeclarationLines) {
+		for (Object fDeclarationLine : fDeclarationLines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fSmap[line++]= ((Integer)fDeclarationLine).intValue();
-			System.out.println("" + ((Integer)fDeclarationLine).intValue()); //$NON-NLS-1$
+			System.out.println("" + ((Integer)fDeclarationLine).intValue()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fSmap[line]= fSmap[line - 1] + 1;
 		line++;
 
-		buffer.append("  public void out() {\n"); //$NON-NLS-1$
+		buffer.append("  public void out() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		fSmap[line]= fSmap[line - 1] + 1;
 		line++;
 
 		if (fLocalDeclarations.length() > 0)  {
-			buffer.append(fLocalDeclarations.toString());
+			buffer.append(fLocalDeclarations.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			System.out.println(fLocalDeclarations);
-			for (Object fLocalDeclarationLine : fLocalDeclarationLines) {
-				System.out.println("" + ((Integer)fLocalDeclarationLine).intValue()); //$NON-NLS-1$
+			for (Object fLocalDeclarationLine : fLocalDeclarationLines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				System.out.println("" + ((Integer)fLocalDeclarationLine).intValue()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fSmap[line++]= ((Integer)fLocalDeclarationLine).intValue();
 			}
 		}
 
-		buffer.append(fContent.toString());
+		buffer.append(fContent.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		System.out.println(fContent);
-		for (Object fContentLine : fContentLines) {
+		for (Object fContentLine : fContentLines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fSmap[line++]= ((Integer)fContentLine).intValue();
-			System.out.println("" + ((Integer)fContentLine).intValue()); //$NON-NLS-1$
+			System.out.println("" + ((Integer)fContentLine).intValue()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
-		buffer.append("  }\n"); //$NON-NLS-1$
+		buffer.append("  }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		fSmap[line]= fSmap[line - 1];
 
 		line++;
 
-		buffer.append("}\n"); //$NON-NLS-1$
+		buffer.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		fSmap[line]= fSmap[line - 2];
 
-		for (int i= 0; i < fSmap.length; i++)
-			System.out.println("" + i + " -> " + fSmap[i]); //$NON-NLS-1$ //$NON-NLS-2$
+		for (int i= 0; i < fSmap.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			System.out.println("" + i + " -> " + fSmap[i]); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		System.out.println(buffer.toString());
 

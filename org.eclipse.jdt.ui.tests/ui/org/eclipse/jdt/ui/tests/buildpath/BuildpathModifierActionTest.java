@@ -70,98 +70,98 @@ public class BuildpathModifierActionTest {
     }
 
 	private static void assertIsOnBuildpath(IClasspathEntry[] entries, IPath path) {
-		for (IClasspathEntry entry : entries) {
+		for (IClasspathEntry entry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.getPath().equals(path)) {
 				return;
 			}
 		}
-		fail("Element with location " + path + " is not on buildpath");
+		fail("Element with location " + path + " is not on buildpath"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
 
-    private static void assertDeltaResources(BuildpathDelta delta, IPath[] createdFolders, IPath[] removedFolders, IPath[] createdFiles, IPath[] removedFiles) {
+    private static void assertDeltaResources(BuildpathDelta delta, IPath[] createdFolders, IPath[] removedFolders, IPath[] createdFiles, IPath[] removedFiles) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	IResource[] createdResources= delta.getCreatedResources();
     	IPath[] createdPaths= new IPath[createdResources.length];
-    	for (int i= 0; i < createdResources.length; i++) {
+    	for (int i= 0; i < createdResources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        createdPaths[i]= createdResources[i].getFullPath();
         }
 
-    	for (int i= 0; i < createdPaths.length; i++) {
+    	for (int i= 0; i < createdPaths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        IPath path= createdPaths[i];
 			if (createdResources[i] instanceof IFile) {
-	        	assertTrue(contains(createdFiles, path), "File " + createdResources[i] + " is unexpected created");
+	        	assertTrue(contains(createdFiles, path), "File " + createdResources[i] + " is unexpected created"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	        } else if (createdResources[i] instanceof IFolder) {
-	        	assertTrue(contains(createdFolders, path), "Folder " + createdResources[i] + " is unexpected created");
+	        	assertTrue(contains(createdFolders, path), "Folder " + createdResources[i] + " is unexpected created"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	        } else {
-	        	fail("Resource " + createdResources[i] + " is nor file nor folder.");
+	        	fail("Resource " + createdResources[i] + " is nor file nor folder."); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	        }
         }
-		for (IPath createdFolder : createdFolders) {
-			assertTrue(contains(createdPaths, createdFolder), "Folder at " + createdFolder + " was not created");
+		for (IPath createdFolder : createdFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue(contains(createdPaths, createdFolder), "Folder at " + createdFolder + " was not created"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		for (IPath createdFile : createdFiles) {
-			assertTrue(contains(createdPaths, createdFile), "File at " + createdFile + " was not created");
+		for (IPath createdFile : createdFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue(contains(createdPaths, createdFile), "File at " + createdFile + " was not created"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
     	IResource[] deletedResources= delta.getDeletedResources();
     	IPath[] deletedPaths= new IPath[deletedResources.length];
-    	for (int i= 0; i < deletedResources.length; i++) {
+    	for (int i= 0; i < deletedResources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        deletedPaths[i]= deletedResources[i].getFullPath();
         }
 
-    	for (int i= 0; i < deletedPaths.length; i++) {
+    	for (int i= 0; i < deletedPaths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        IPath path= deletedPaths[i];
 			if (deletedResources[i] instanceof IFile) {
-	        	assertTrue(contains(removedFiles, path), "File " + deletedResources[i] + " is unexpected removed");
+	        	assertTrue(contains(removedFiles, path), "File " + deletedResources[i] + " is unexpected removed"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	        } else if (deletedResources[i] instanceof IFolder) {
-	        	assertTrue(contains(removedFolders, path), "Folder " + deletedResources[i] + " is unexpected removed");
+	        	assertTrue(contains(removedFolders, path), "Folder " + deletedResources[i] + " is unexpected removed"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	        } else {
-	        	fail("Resource " + deletedResources[i] + " is nor file nor folder.");
+	        	fail("Resource " + deletedResources[i] + " is nor file nor folder."); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	        }
         }
-		for (IPath removedFolder : removedFolders) {
-			assertTrue(contains(deletedPaths, removedFolder), "Folder at " + removedFolder + " was not removed");
+		for (IPath removedFolder : removedFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue(contains(deletedPaths, removedFolder), "Folder at " + removedFolder + " was not removed"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		for (IPath removedFile : removedFiles) {
-			assertTrue(contains(deletedPaths, removedFile), "File at " + removedFile + " was not removed");
+		for (IPath removedFile : removedFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue(contains(deletedPaths, removedFile), "File at " + removedFile + " was not removed"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
     }
 
     private static void assertDeltaRemovedEntries(BuildpathDelta delta, IPath[] paths) {
     	List<CPListElement> removedEntries= delta.getRemovedEntries();
-    	assertEquals(removedEntries.size(), paths.length, "Expected " + paths.length + " is " + removedEntries.size());
+    	assertEquals(removedEntries.size(), paths.length, "Expected " + paths.length + " is " + removedEntries.size()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     	IPath[] removed= new IPath[removedEntries.size()];
     	int i= 0;
-    	for (CPListElement element : removedEntries) {
+    	for (CPListElement element : removedEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        removed[i]= element.getPath();
 	        i++;
         }
-		for (IPath path : paths) {
-			assertTrue(contains(removed, path), "Entry " + path + " was not removed");
+		for (IPath path : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue(contains(removed, path), "Entry " + path + " was not removed"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		for (IPath removed1 : removed) {
-			assertTrue(contains(paths, removed1), "Entry " + removed1 + " was removed");
+		for (IPath removed1 : removed) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue(contains(paths, removed1), "Entry " + removed1 + " was removed"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
     }
 
     private static void assertDeltaAddedEntries(BuildpathDelta delta, IPath[] paths) {
     	List<CPListElement> addedEntries= delta.getAddedEntries();
-    	assertEquals(addedEntries.size(), paths.length, "Expected " + paths.length + " is " + addedEntries.size());
+    	assertEquals(addedEntries.size(), paths.length, "Expected " + paths.length + " is " + addedEntries.size()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     	IPath[] added= new IPath[addedEntries.size()];
     	int i= 0;
-    	for (CPListElement element : addedEntries) {
+    	for (CPListElement element : addedEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        added[i]= element.getPath();
 	        i++;
         }
-		for (IPath path : paths) {
-			assertTrue(contains(added, path), "Entry " + path + " was not added");
+		for (IPath path : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue(contains(added, path), "Entry " + path + " was not added"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		for (IPath add : added) {
-			assertTrue(contains(paths, add), "Entry " + add + " was added");
+		for (IPath add : added) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue(contains(paths, add), "Entry " + add + " was added"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
     }
 
     private static boolean contains(IPath[] paths, IPath path) {
-		for (IPath p : paths) {
+		for (IPath p : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (p.equals(path)) {
 				return true;
 			}
@@ -171,14 +171,14 @@ public class BuildpathModifierActionTest {
 
     private static void assertDeltaDefaultOutputFolder(BuildpathDelta delta, IPath expectedLocation) {
     	IPath location= delta.getDefaultOutputLocation();
-		assertTrue(location.equals(expectedLocation), "Default output location is " + location + " expected was " + expectedLocation);
+		assertTrue(location.equals(expectedLocation), "Default output location is " + location + " expected was " + expectedLocation); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
 
     private static void assertNumberOfEntries(IClasspathEntry[] entries, int expected) {
-    	assertEquals(expected, entries.length, "Expected count was " + expected + " is " + entries.length);
+    	assertEquals(expected, entries.length, "Expected count was " + expected + " is " + entries.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddExternalJar01AddMyLib() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 
@@ -201,7 +201,7 @@ public class BuildpathModifierActionTest {
 		assertIsOnBuildpath(classpathEntries, JavaProjectHelper.MYLIB.makeAbsolute());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddExternalJar02AddMuiltiLibs() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 
@@ -228,7 +228,7 @@ public class BuildpathModifierActionTest {
 		assertIsOnBuildpath(classpathEntries, JavaProjectHelper.NLS_LIB.makeAbsolute());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddExternalJar02AddMuiltiLibsTwice() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 
@@ -261,7 +261,7 @@ public class BuildpathModifierActionTest {
 		assertIsOnBuildpath(classpathEntries, JavaProjectHelper.NLS_LIB.makeAbsolute());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddExternalJarBug132827() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 
@@ -288,7 +288,7 @@ public class BuildpathModifierActionTest {
 		assertIsOnBuildpath(classpathEntries, JavaProjectHelper.MYLIB.makeAbsolute());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolder01SetOutputFolderForSourceFolder() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 		IPackageFragmentRoot src= JavaProjectHelper.addSourceContainer(fJavaProject, "src");
@@ -314,10 +314,10 @@ public class BuildpathModifierActionTest {
 		IClasspathEntry entry= classpathEntries[1];
 		assertSame(src.getRawClasspathEntry(), entry);
 		IPath location= entry.getOutputLocation();
-		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath);
+		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolder02RemoveProjectAsSourceFolder() throws Exception {
 		fJavaProject= createProject(null);
 
@@ -350,10 +350,10 @@ public class BuildpathModifierActionTest {
 		IClasspathEntry entry= classpathEntries[1];
 		assertSame(src.getRawClasspathEntry(), entry);
 		IPath location= entry.getOutputLocation();
-		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath);
+		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolder03ExcludeOutputFolderSelf() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 		IPackageFragmentRoot src1= JavaProjectHelper.addSourceContainer(fJavaProject, "src1");
@@ -379,13 +379,13 @@ public class BuildpathModifierActionTest {
 		IClasspathEntry entry= classpathEntries[1];
 		assertSame(src1.getRawClasspathEntry(), entry);
 		IPath location= entry.getOutputLocation();
-		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath);
+		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPath[] exclusionPatterns= entry.getExclusionPatterns();
 		assertEquals(1, exclusionPatterns.length);
 		assertEquals("bin/", exclusionPatterns[0].toString());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolder03ExcludeOutputFolderOther() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 		IPackageFragmentRoot src1= JavaProjectHelper.addSourceContainer(fJavaProject, "src1");
@@ -412,7 +412,7 @@ public class BuildpathModifierActionTest {
 		IClasspathEntry entry= classpathEntries[1];
 		assertSame(src1.getRawClasspathEntry(), entry);
 		IPath location= entry.getOutputLocation();
-		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath);
+		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		entry= classpathEntries[2];
 		assertSame(src2.getRawClasspathEntry(), entry);
@@ -421,7 +421,7 @@ public class BuildpathModifierActionTest {
 		assertEquals("bin/", exclusionPatterns[0].toString());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolder04RemoveProjectAndExcludeOutput() throws Exception {
 		fJavaProject= createProject(null);
 
@@ -455,7 +455,7 @@ public class BuildpathModifierActionTest {
 		IClasspathEntry entry= classpathEntries[1];
 		assertSame(src1.getRawClasspathEntry(), entry);
 		IPath location= entry.getOutputLocation();
-		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath);
+		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		entry= classpathEntries[2];
 		assertSame(src2.getRawClasspathEntry(), entry);
@@ -493,7 +493,7 @@ public class BuildpathModifierActionTest {
 		assertEquals(IStatus.ERROR, status.getSeverity(), status.getMessage());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolderBug154044() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 		IPackageFragmentRoot src1= JavaProjectHelper.addSourceContainer(fJavaProject, "src1");
@@ -526,13 +526,13 @@ public class BuildpathModifierActionTest {
 		IClasspathEntry entry= classpathEntries[1];
 		assertSame(src1.getRawClasspathEntry(), entry);
 		IPath location= entry.getOutputLocation();
-		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath);
+		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPath[] exclusionPatterns= entry.getExclusionPatterns();
 		assertEquals(1, exclusionPatterns.length);
 		assertEquals("sub/newBin/", exclusionPatterns[0].toString(), exclusionPatterns[0].toString());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolderBug154044OldIsProject() throws Exception {
 		fJavaProject= createProject(null);
 		IPackageFragmentRoot p01= JavaProjectHelper.addSourceContainer(fJavaProject, null);
@@ -564,13 +564,13 @@ public class BuildpathModifierActionTest {
 		IClasspathEntry entry= classpathEntries[1];
 		assertSame(p01.getRawClasspathEntry(), entry);
 		IPath location= entry.getOutputLocation();
-		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath);
+		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPath[] exclusionPatterns= entry.getExclusionPatterns();
 		assertEquals(1, exclusionPatterns.length);
 		assertEquals("bin/", exclusionPatterns[0].toString(), exclusionPatterns[0].toString());
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolderBug154044DonotDeleteDefaultOutputFolder() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 		IPackageFragmentRoot src1= JavaProjectHelper.addSourceContainer(fJavaProject, "src1");
@@ -603,12 +603,12 @@ public class BuildpathModifierActionTest {
 		IClasspathEntry entry= classpathEntries[1];
 		assertSame(src1.getRawClasspathEntry(), entry);
 		IPath location= entry.getOutputLocation();
-		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath);
+		assertTrue(outputPath.equals(location), "Output path is " + location + " expected was " + outputPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPath[] exclusionPatterns= entry.getExclusionPatterns();
 		assertEquals(0, exclusionPatterns.length);
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditOutputFolderBug154196() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 		IPackageFragmentRoot src1= JavaProjectHelper.addSourceContainer(fJavaProject, "src1");
@@ -644,7 +644,7 @@ public class BuildpathModifierActionTest {
 		assertEquals(0, exclusionPatterns.length);
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveFromBuildpath01() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 		IPackageFragmentRoot src1= JavaProjectHelper.addSourceContainer(fJavaProject, "src1");
@@ -686,7 +686,7 @@ public class BuildpathModifierActionTest {
 		assertNumberOfEntries(classpathEntries, 1);
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveFromBuildpath01RemoveLibs() throws Exception {
 		fJavaProject= createProject(DEFAULT_OUTPUT_FOLDER_NAME);
 
@@ -716,7 +716,7 @@ public class BuildpathModifierActionTest {
 		assertNumberOfEntries(classpathEntries, 1);
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveFromBuildpathBug153299Src() throws Exception {
 		fJavaProject= createProject(null);
 
@@ -740,7 +740,7 @@ public class BuildpathModifierActionTest {
 		assertNumberOfEntries(classpathEntries, 2);
 	}
 
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveFromBuildpathBug153299Lib() throws Exception {
 		fJavaProject= createProject(null);
 		IPackageFragmentRoot p01= JavaProjectHelper.addSourceContainer(fJavaProject, null, new IPath[] {new Path("src1/")});

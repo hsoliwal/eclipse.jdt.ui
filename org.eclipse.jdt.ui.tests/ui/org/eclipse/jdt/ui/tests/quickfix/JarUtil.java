@@ -113,21 +113,21 @@ public class JarUtil {
 
         // Get file for root directory
         if (Character.isLowerCase(container.charAt(0)) && container.charAt(1) == ':') {
-            container = Character.toUpperCase(container.charAt(0)) + container.substring(1);
+            container = Character.toUpperCase(container.charAt(0)) + container.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         }
         File dir = new File(new File(container), "comptest");
 
         // If root directory already exists, clean it
-        if (dir.exists()) {
+        if (dir.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
             long now = System.currentTimeMillis();
-            if ((now - dir.lastModified()) > delay) {
+            if ((now - dir.lastModified()) > delay) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
                 // remove all directory content
                 flushDirectoryContent(dir);
             } else {
                 // remove only old sub-dirs
-                for (File testDir : dir.listFiles()) {
-                    if (testDir.isDirectory()) {
-                        if ((now - testDir.lastModified()) > delay) {
+                for (File testDir : dir.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M31 M3FILE_IO CALL
+                    if (testDir.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+                        if ((now - testDir.lastModified()) > delay) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
                             delete(testDir);
                         }
                     }
@@ -136,10 +136,10 @@ public class JarUtil {
         }
 
         // Computed test run directory name based on current time
-        File dateDir = new File(dir, "run."+System.currentTimeMillis());
+        File dateDir = new File(dir, "run."+System.currentTimeMillis()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         String pathDir = null;
         try {
-        	pathDir = dateDir.getCanonicalPath();
+        	pathDir = dateDir.getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		} catch (IOException e) {
 			pathDir = dateDir.getAbsolutePath();
 		}
@@ -151,7 +151,7 @@ public static CompilationUnit[] compilationUnits(String[] testFiles) {
     int length = testFiles.length / 2;
     CompilationUnit[] result = new CompilationUnit[length];
     int index = 0;
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         result[i] = new CompilationUnit(testFiles[index + 1].toCharArray(), testFiles[index], null);
         index += 2;
     }
@@ -187,9 +187,9 @@ private static class Requestor implements ICompilerRequestor {
 	protected void outputClassFiles(CompilationResult unitResult) {
 		if (this.classFileFilter.include(unitResult)) {
 			if (this.outputPath != null) {
-				for (ClassFile classFile : unitResult.getClassFiles()) {
+				for (ClassFile classFile : unitResult.getClassFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String relativeName =
-						new String(classFile.fileName()).replace('/', File.separatorChar) + ".class";
+						new String(classFile.fileName()).replace('/', File.separatorChar) + ".class"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					try {
 						org.eclipse.jdt.internal.compiler.util.Util.writeToDisk(true, this.outputPath, relativeName, classFile);
 					} catch(IOException e) {
@@ -200,10 +200,10 @@ private static class Requestor implements ICompilerRequestor {
 		}
 	}
 }
-public static void compile(String[] pathsAndContents, Map<String, String> options, String[] classpath, String outputPath, ClassFileFilter classFileFilter) {
+public static void compile(String[] pathsAndContents, Map<String, String> options, String[] classpath, String outputPath, ClassFileFilter classFileFilter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         IProblemFactory problemFactory = new DefaultProblemFactory(Locale.getDefault());
         Requestor requestor = new Requestor(classFileFilter);
-        requestor.outputPath = outputPath.endsWith(File.separator) ? outputPath : outputPath + File.separator;
+        requestor.outputPath = outputPath.endsWith(File.separator) ? outputPath : outputPath + File.separator; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
         String[] classLibs = getJavaClassLibs();
         if (classpath != null) {
@@ -249,21 +249,21 @@ public static void compile(String[] pathsAndContents, Map<String, String> option
 	        System.err.print(requestor.problemLog); // problem log empty if no problems
 }
 public static void createFile(String path, String contents) throws IOException {
-    try (FileOutputStream output = new FileOutputStream(path)) {
+    try (FileOutputStream output = new FileOutputStream(path)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
         output.write(contents.getBytes());
     }
 }
 public static void createJar(String[] pathsAndContents, String[] extraPathsAndContents, Map<String, String> options, ClassFileFilter classFileFilter, String[] classpath, String jarPath) throws IOException {
-    String classesPath = getOutputDirectory() + File.separator + "classes";
+    String classesPath = getOutputDirectory() + File.separator + "classes"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     File classesDir = new File(classesPath);
     flushDirectoryContent(classesDir);
 	if (pathsAndContents != null) {
 		compile(pathsAndContents, options, classpath, classesPath, classFileFilter);
 	}
 	if (extraPathsAndContents != null) {
-		for (int i = 0, l = extraPathsAndContents.length; i < l; /* inc in loop */) {
+		for (int i = 0, l = extraPathsAndContents.length; i < l; /* inc in loop */) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			File  outputFile = new File(classesPath, extraPathsAndContents[i++]);
-			outputFile.getParentFile().mkdirs();
+			outputFile.getParentFile().mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			Files.writeString(outputFile.getAbsoluteFile().toPath(), extraPathsAndContents[i++], Charset.defaultCharset());
 		}
 	}
@@ -277,17 +277,17 @@ public static void createJar(String[] javaPathsAndContents, String[] extraPathsA
 	createJar(javaPathsAndContents, extraPathsAndContents, compileOptions, classFileFilter, classpath, jarPath);
 }
 public static void createSourceZip(String[] pathsAndContents, String zipPath) throws IOException {
-    String sourcesPath = getOutputDirectory() + File.separator + "sources";
+    String sourcesPath = getOutputDirectory() + File.separator + "sources"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     createSourceDir(pathsAndContents, sourcesPath);
     zip(new File(sourcesPath), zipPath);
 }
 
 public static void createSourceDir(String[] pathsAndContents, String sourcesPath) throws IOException {
 	flushDirectoryContent(new File(sourcesPath));
-    for (int i = 0, length = pathsAndContents.length; i < length; i+=2) {
-        String sourcePath = sourcesPath + File.separator + pathsAndContents[i];
+    for (int i = 0, length = pathsAndContents.length; i < length; i+=2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+        String sourcePath = sourcesPath + File.separator + pathsAndContents[i]; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         File sourceFile = new File(sourcePath);
-        sourceFile.getParentFile().mkdirs();
+        sourceFile.getParentFile().mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
         createFile(sourcePath, pathsAndContents[i+1]);
     }
 }
@@ -300,11 +300,11 @@ public static void createSourceDir(String[] pathsAndContents, String sourcesPath
  */
 public static boolean delete(File file) {
 	// flush all directory content
-	if (file.isDirectory()) {
+	if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		flushDirectoryContent(file);
 	}
 	// remove file
-	file.delete();
+	file.delete(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	if (isFileDeleted(file)) {
 		return true;
 	}
@@ -315,14 +315,14 @@ public static boolean delete(File file) {
  * no-op if not a directory.
  */
 public static void flushDirectoryContent(File dir) {
-    File[] files = dir.listFiles();
+    File[] files = dir.listFiles(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
     if (files == null) return;
-    for (File file : files) {
+    for (File file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         delete(file);
     }
 }
 private static Map<String, String> getCompileOptions(String compliance) {
-    Map<String, String> options = new HashMap<>();
+    Map<String, String> options = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
     options.put(CompilerOptions.OPTION_Compliance, compliance);
     options.put(CompilerOptions.OPTION_Source, compliance);
     options.put(CompilerOptions.OPTION_TargetPlatform, compliance);
@@ -332,7 +332,7 @@ private static Map<String, String> getCompileOptions(String compliance) {
  * Search the user hard-drive for a Java class library.
  * Returns null if none could be found.
 */
-public static String[] getJavaClassLibs() {
+public static String[] getJavaClassLibs() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	// check bootclasspath properties for Sun, JRockit and Harmony VMs
 	String bootclasspathProperty = System.getProperty("sun.boot.class.path"); //$NON-NLS-1$
 	if ((bootclasspathProperty == null) || (bootclasspathProperty.length() == 0)) {
@@ -349,9 +349,9 @@ public static String[] getJavaClassLibs() {
 		final int size = tokenizer.countTokens();
 		jars = new String[size];
 		int i = 0;
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String fileName = toNativePath(tokenizer.nextToken());
-			if (new File(fileName).exists()) {
+			if (new File(fileName).exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				jars[i] = fileName;
 				i++;
 			}
@@ -368,21 +368,21 @@ public static String[] getJavaClassLibs() {
 		}
 		if (osName.startsWith("Mac")) {
 			return new String[] {
-					toNativePath(jreDir + "/../Classes/classes.jar")
+					toNativePath(jreDir + "/../Classes/classes.jar") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			};
 		}
 		final String vmName = System.getProperty("java.vm.name");
 		if ("J9".equals(vmName)) {
 			return new String[] {
-					toNativePath(jreDir + "/lib/jclMax/classes.zip")
+					toNativePath(jreDir + "/lib/jclMax/classes.zip") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			};
 		}
 		String[] jarsNames = null;
-		ArrayList<String> paths = new ArrayList<>();
+		ArrayList<String> paths = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if ("DRLVM".equals(vmName)) {
 			FilenameFilter jarFilter = (unused, name) -> name.endsWith(".jar") & !name.endsWith("-src.jar");
-			jarsNames = new File(jreDir + "/lib/boot/").list(jarFilter);
-			addJarEntries(jreDir + "/lib/boot/", jarsNames, paths);
+			jarsNames = new File(jreDir + "/lib/boot/").list(jarFilter); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			addJarEntries(jreDir + "/lib/boot/", jarsNames, paths); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			jarsNames = new String[] {
 					"/lib/vm.jar",
@@ -400,10 +400,10 @@ public static String[] getJavaClassLibs() {
 	return jars;
 }
 private static void addJarEntries(String jreDir, String[] jarNames, ArrayList<String> paths) {
-	for (String jarName : jarNames) {
-		final String currentName = jreDir + jarName;
+	for (String jarName : jarNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+		final String currentName = jreDir + jarName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File f = new File(currentName);
-		if (f.exists()) {
+		if (f.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			paths.add(toNativePath(currentName));
 		}
 	}
@@ -434,11 +434,11 @@ public static String getOutputDirectory() {
  */
 private static File getParentChildFile(File file) {
     File parent = file.getParentFile();
-    if (parent == null || !parent.exists()) return null;
-    File[] files = parent.listFiles();
+    if (parent == null || !parent.exists()) return null; //FLLDCIM: MARK — M31 M3FILE_IO CALL
+    File[] files = parent.listFiles(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
     int length = files==null ? 0 : files.length;
     if (length > 0) {
-        for (int i=0; i<length; i++) {
+        for (int i=0; i<length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (files[i] == file
                     || files[i].equals(file)
                     || files[i].getPath().equals(file.getPath())) {
@@ -456,16 +456,16 @@ private static File getParentChildFile(File file) {
 private static String getTestName() {
     StackTraceElement[] elements = new Exception().getStackTrace();
     int idx = 0, length=elements.length;
-    while (idx<length && !elements[idx++].getClassName().startsWith("org.eclipse.jdt")) {
+    while (idx<length && !elements[idx++].getClassName().startsWith("org.eclipse.jdt")) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         // loop until JDT/Core class appears in the stack
     }
     if (idx<length) {
         StackTraceElement testElement = null;
-        while (idx<length && elements[idx].getClassName().startsWith("org.eclipse.jdt")) {
+        while (idx<length && elements[idx].getClassName().startsWith("org.eclipse.jdt")) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             testElement = elements[idx++];
         }
         if (testElement != null) {
-            return testElement.getClassName() + " - " + testElement.getMethodName();
+            return testElement.getClassName() + " - " + testElement.getMethodName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         }
     }
     return "?";
@@ -479,7 +479,7 @@ private static String getTestName() {
  * @return true if the file does not exist and was not found in its parent children.
  */
 public static boolean isFileDeleted(File file) {
-    return !file.exists() && getParentChildFile(file) == null;
+    return !file.exists() && getParentChildFile(file) == null; //FLLDCIM: MARK — M31 M3FILE_IO CALL
 }
 /**
  * Print given file information with specified indentation.
@@ -500,50 +500,50 @@ public static boolean isFileDeleted(File file) {
  * @param recurse Display also information on <code>recurse</code>th parents in hierarchy.
  * 	If negative then display children information instead.
  */
-private static void printFileInfo(File file, int indent, int recurse) {
+private static void printFileInfo(File file, int indent, int recurse) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     String tab = "";
-    for (int i=0; i<indent; i++) tab+="\t";
-    System.out.print(tab+"- "+file.getName()+" file info: ");
+    for (int i=0; i<indent; i++) tab+="\t"; //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+    System.out.print(tab+"- "+file.getName()+" file info: "); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     String sep = "";
-    if (file.canRead()) {
+    if (file.canRead()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
         System.out.print("read");
         sep = ", ";
     }
-    if (file.canWrite()) {
-        System.out.print(sep+"write");
+    if (file.canWrite()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+        System.out.print(sep+"write"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         sep = ", ";
     }
-    if (file.exists()) {
-        System.out.print(sep+"exist");
+    if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+        System.out.print(sep+"exist"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         sep = ", ";
     }
-    if (file.isDirectory()) {
-        System.out.print(sep+"dir");
+    if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+        System.out.print(sep+"dir"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         sep = ", ";
     }
-    if (file.isFile()) {
-        System.out.print(sep+"file");
+    if (file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+        System.out.print(sep+"file"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         sep = ", ";
     }
     if (file.isHidden()) {
-        System.out.print(sep+"hidden");
+        System.out.print(sep+"hidden"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         sep = ", ";
     }
     System.out.println();
-    File[] files = file.listFiles();
+    File[] files = file.listFiles(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
     int length = files==null ? 0 : files.length;
     if (length > 0) {
         boolean children = recurse < 0;
-        System.out.print(tab+"	+ children: ");
+        System.out.print(tab+"	+ children: "); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         if (children) System.out.println();
-        for (int i=0; i<length; i++) {
+        for (int i=0; i<length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (children) { // display children
                 printFileInfo(files[i], indent+2, -1);
             } else {
                 if (i>0) System.out.print(", ");
                 System.out.print(files[i].getName());
-                if (files[i].isDirectory()) System.out.print("[dir]");
-                else if (files[i].isFile()) System.out.print("[file]");
+                if (files[i].isDirectory()) System.out.print("[dir]"); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+                else if (files[i].isFile()) System.out.print("[file]"); //FLLDCIM: MARK — M31 M3FILE_IO CALL
                 else System.out.print("[?]");
             }
         }
@@ -560,23 +560,23 @@ private static void printFileInfo(File file, int indent, int recurse) {
  * @param exception Exception of the stack trace. May be null, then a fake exception is used.
  * @param indent Number of tab to display before the stack elements to display.
  */
-private static void printJdtStackTrace(Exception exception, int indent) {
+private static void printJdtStackTrace(Exception exception, int indent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     String tab = "";
-    for (int i=0; i<indent; i++) tab+="\t";
+    for (int i=0; i<indent; i++) tab+="\t"; //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     StackTraceElement[] elements = (exception==null?new Exception():exception).getStackTrace();
     int idx = 0, length=elements.length;
-    while (idx<length && !elements[idx++].getClassName().startsWith("org.eclipse.jdt")) {
+    while (idx<length && !elements[idx++].getClassName().startsWith("org.eclipse.jdt")) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         // loop until JDT/Core class appears in the stack
     }
     if (idx<length) {
-        System.out.print(tab+"- stack trace");
+        System.out.print(tab+"- stack trace"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         if (exception == null)
             System.out.println(":");
         else
-            System.out.println(" for exception "+exception+":");
-        while (idx<length && elements[idx].getClassName().startsWith("org.eclipse.jdt")) {
+            System.out.println(" for exception "+exception+":"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+        while (idx<length && elements[idx].getClassName().startsWith("org.eclipse.jdt")) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             StackTraceElement testElement = elements[idx++];
-            System.out.println(tab+"	-> "+testElement);
+            System.out.println(tab+"	-> "+testElement); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         }
     } else {
         exception.printStackTrace(System.out);
@@ -595,7 +595,7 @@ public static String toNativePath(String path) {
 }
 public static void waitAtLeast(int time) {
 	long start = System.currentTimeMillis();
-	do {
+	do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		try {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
@@ -609,32 +609,32 @@ public static void waitAtLeast(int time) {
  * @param file Deleted file
  * @return true if the file was finally deleted, false otherwise
  */
-private static boolean waitUntilFileDeleted(File file) {
+private static boolean waitUntilFileDeleted(File file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     if (DELETE_DEBUG) {
         System.out.println();
-        System.out.println("WARNING in test: "+getTestName());
-        System.out.println("	- problems occured while deleting "+file);
+        System.out.println("WARNING in test: "+getTestName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+        System.out.println("	- problems occured while deleting "+file); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         printJdtStackTrace(null, 1);
         printFileInfo(file.getParentFile(), 1, -1); // display parent with its children
-        System.out.print("	- wait for ("+DELETE_MAX_WAIT+"ms max): ");
+        System.out.print("	- wait for ("+DELETE_MAX_WAIT+"ms max): "); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
     int count = 0;
     int delay = 10; // ms
     int maxRetry = DELETE_MAX_WAIT / delay;
     int time = 0;
-    while (count < maxRetry) {
+    while (count < maxRetry) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         try {
             count++;
             Thread.sleep(delay);
             time += delay;
             if (time > DELETE_MAX_TIME) DELETE_MAX_TIME = time;
             if (DELETE_DEBUG) System.out.print('.');
-            if (file.exists()) {
-                if (file.delete()) {
+            if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+                if (file.delete()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
                     // SUCCESS
                     if (DELETE_DEBUG) {
                         System.out.println();
-                        System.out.println("	=> file really removed after "+time+"ms (max="+DELETE_MAX_TIME+"ms)");
+                        System.out.println("	=> file really removed after "+time+"ms (max="+DELETE_MAX_TIME+"ms)"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
                         System.out.println();
                     }
                     return true;
@@ -644,7 +644,7 @@ private static boolean waitUntilFileDeleted(File file) {
                 // SUCCESS
                 if (DELETE_DEBUG) {
                     System.out.println();
-                    System.out.println("	=> file disappeared after "+time+"ms (max="+DELETE_MAX_TIME+"ms)");
+                    System.out.println("	=> file disappeared after "+time+"ms (max="+DELETE_MAX_TIME+"ms)"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
                     System.out.println();
                 }
                 return true;
@@ -665,36 +665,36 @@ private static boolean waitUntilFileDeleted(File file) {
     }
     if (!DELETE_DEBUG) {
         System.out.println();
-        System.out.println("WARNING in test: "+getTestName());
-        System.out.println("	- problems occured while deleting "+file);
+        System.out.println("WARNING in test: "+getTestName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+        System.out.println("	- problems occured while deleting "+file); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
         printJdtStackTrace(null, 1);
         printFileInfo(file.getParentFile(), 1, -1); // display parent with its children
     }
     System.out.println();
-    System.out.println("	!!! ERROR: "+file+" was never deleted even after having waited "+DELETE_MAX_TIME+"ms!!!");
+    System.out.println("	!!! ERROR: "+file+" was never deleted even after having waited "+DELETE_MAX_TIME+"ms!!!"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     System.out.println();
     return false;
 }
 public static void zip(File rootDir, String zipPath) throws IOException {
 	File zipFile= new File(zipPath);
-	if (zipFile.exists()) {
+	if (zipFile.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		if (!delete(zipFile))
-			throw new IOException("Could not delete " + zipPath);
+			throw new IOException("Could not delete " + zipPath); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		// ensure the new zip file has a different timestamp than the previous one
 		int timeToWait= 1000; // some platform (like Linux) have a 1s granularity)
 		waitAtLeast(timeToWait);
 	} else {
-		zipFile.getParentFile().mkdirs();
+		zipFile.getParentFile().mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
-	try (ZipOutputStream zip= new ZipOutputStream(new FileOutputStream(zipFile))) {
+	try (ZipOutputStream zip= new ZipOutputStream(new FileOutputStream(zipFile))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 		zip(rootDir, zip, rootDir.getPath().length() + 1); // 1 for last slash
 	}
 }
 private static void zip(File dir, ZipOutputStream zip, int rootPathLength) throws IOException {
-    File[] files = dir.listFiles();
+    File[] files = dir.listFiles(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
     if (files != null) {
-        for (File file : files) {
-            if (file.isFile()) {
+        for (File file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+            if (file.isFile()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
                 String path = file.getPath();
                 path = path.substring(rootPathLength);
                 ZipEntry entry = new ZipEntry(path.replace('\\', '/'));

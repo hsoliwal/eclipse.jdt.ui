@@ -74,7 +74,7 @@ public class RenameFieldWizard extends RenameRefactoringWizard {
 			super(message, contextHelpId, true, initialValue);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			super.createControl(parent);
 			Composite parentComposite= (Composite)getControl();
@@ -98,7 +98,7 @@ public class RenameFieldWizard extends RenameRefactoringWizard {
 			fRenameGetter.setSelection(getterSelection);
 			getRenameFieldProcessor().setRenameGetter(getterSelection);
 			fRenameGetter.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			fRenameGetter.addSelectionListener(new SelectionAdapter(){
+			fRenameGetter.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					getRenameFieldProcessor().setRenameGetter(fRenameGetter.getSelection());
@@ -113,7 +113,7 @@ public class RenameFieldWizard extends RenameRefactoringWizard {
 			fRenameSetter.setSelection(setterSelection);
 			getRenameFieldProcessor().setRenameSetter(setterSelection);
 			fRenameSetter.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			fRenameSetter.addSelectionListener(new SelectionAdapter(){
+			fRenameSetter.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					getRenameFieldProcessor().setRenameSetter(fRenameSetter.getSelection());

@@ -118,10 +118,10 @@ public class TypedSource {
 	public static TypedSource[] createTypedSources(IJavaElement[] javaElements) throws CoreException {
 		//Map<ICompilationUnit, List<IJavaElement>>
 		Map<ICompilationUnit, List<IJavaElement>> grouped= ReorgUtilsCore.groupByCompilationUnit(Arrays.asList(javaElements));
-		List<TypedSource> result= new ArrayList<>(javaElements.length);
-		for (Map.Entry<ICompilationUnit, List<IJavaElement>> entry : grouped.entrySet()) {
+		List<TypedSource> result= new ArrayList<>(javaElements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Map.Entry<ICompilationUnit, List<IJavaElement>> entry : grouped.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= entry.getKey();
-			for (IJavaElement javaElement : entry.getValue()) {
+			for (IJavaElement javaElement : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SourceTuple tuple= new SourceTuple(cu);
 				TypedSource[] ts= createTypedSources(javaElement, tuple);
 				if (ts != null)
@@ -143,14 +143,14 @@ public class TypedSource {
 
 	private static TypedSource[] createTypedSourcesForImportContainer(SourceTuple tuple, IImportContainer container) throws JavaModelException, CoreException {
 		IJavaElement[] imports= container.getChildren();
-		List<TypedSource> result= new ArrayList<>(imports.length);
-		for (IJavaElement importedElement : imports) {
+		List<TypedSource> result= new ArrayList<>(imports.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement importedElement : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(createTypedSources(importedElement, tuple)));
 		}
 		return result.toArray(new TypedSource[result.size()]);
 	}
 
-	private static String getFieldSource(IField field, SourceTuple tuple) throws CoreException {
+	private static String getFieldSource(IField field, SourceTuple tuple) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Flags.isEnum(field.getFlags())) {
 			String source= field.getSource();
 			if (source != null)
@@ -166,10 +166,10 @@ public class TypedSource {
 				return getSourceOfDeclararationNode(field, tuple.unit);
 			VariableDeclarationFragment declarationFragment= ASTNodeSearchUtil.getFieldDeclarationFragmentNode(field, tuple.node);
 			IBuffer buffer= tuple.unit.getBuffer();
-			StringBuilder buff= new StringBuilder();
-			buff.append(buffer.getText(declaration.getStartPosition(), ((ASTNode) declaration.fragments().get(0)).getStartPosition() - declaration.getStartPosition()));
-			buff.append(buffer.getText(declarationFragment.getStartPosition(), declarationFragment.getLength()));
-			buff.append(";"); //$NON-NLS-1$
+			StringBuilder buff= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buff.append(buffer.getText(declaration.getStartPosition(), ((ASTNode) declaration.fragments().get(0)).getStartPosition() - declaration.getStartPosition())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buff.append(buffer.getText(declarationFragment.getStartPosition(), declarationFragment.getLength())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buff.append(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return buff.toString();
 		}
 		return ""; //$NON-NLS-1$

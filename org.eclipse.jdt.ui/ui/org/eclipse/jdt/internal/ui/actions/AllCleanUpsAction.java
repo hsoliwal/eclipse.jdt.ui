@@ -34,7 +34,7 @@ import org.eclipse.jdt.ui.cleanup.ICleanUp;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 
-public class AllCleanUpsAction extends CleanUpAction {
+public class AllCleanUpsAction extends CleanUpAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private IPreferenceChangeListener fPreferenceChangeListener;
 

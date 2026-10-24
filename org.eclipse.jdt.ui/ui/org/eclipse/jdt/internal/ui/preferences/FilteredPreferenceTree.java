@@ -157,15 +157,15 @@ public class FilteredPreferenceTree {
 
 		public void addChild(PreferenceTreeNode<?> node) {
 			if (fChildren == null)
-				fChildren= new ArrayList<>();
+				fChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fChildren.add(node);
 			node.fParent= this;
 		}
 
-		protected boolean filter(StringMatcher labelMatcher, String ancestorsLabel, StringMatcher valueMatcher) {
+		protected boolean filter(StringMatcher labelMatcher, String ancestorsLabel, StringMatcher valueMatcher) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String currentLabel= fLabel;
 			if (ancestorsLabel != null) {
-				ancestorsLabel+= ' ' + currentLabel;
+				ancestorsLabel+= ' ' + currentLabel; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				currentLabel= ancestorsLabel;
 			}
 
@@ -184,7 +184,7 @@ public class FilteredPreferenceTree {
 			}
 			//check children
 			if (fChildren != null) {
-				for (PreferenceTreeNode<?> child : fChildren)
+				for (PreferenceTreeNode<?> child : fChildren) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					matched|= child.filter(labelMatcher, ancestorsLabel, valueMatcher);
 			}
 			setVisible(matched, fShowAllChildren);
@@ -194,7 +194,7 @@ public class FilteredPreferenceTree {
 		private void setVisible(boolean visible, boolean recursive) {
 			fVisible= visible;
 			if (fChildren != null && recursive) {
-				for (PreferenceTreeNode<?> node : fChildren)
+				for (PreferenceTreeNode<?> node : fChildren) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					node.setVisible(visible, recursive);
 			}
 		}
@@ -202,7 +202,7 @@ public class FilteredPreferenceTree {
 		public void setEnabled(boolean enabled) {
 			fControl.setEnabled(enabled);
 			if (fChildren != null) {
-				for (PreferenceTreeNode<?> node : fChildren)
+				for (PreferenceTreeNode<?> node : fChildren) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					node.setEnabled(enabled);
 			}
 		}
@@ -309,7 +309,7 @@ public class FilteredPreferenceTree {
 
 		fRefreshJob= doCreateRefreshJob();
 		fRefreshJob.setSystem(true);
-		fParentComposite.addDisposeListener(unused -> fRefreshJob.cancel());
+		fParentComposite.addDisposeListener(unused -> fRefreshJob.cancel()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	private void createDescription(String label) {
@@ -322,7 +322,7 @@ public class FilteredPreferenceTree {
 		fDescription.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 	}
 
-	private void createFilterBox(String hint) {
+	private void createFilterBox(String hint) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite= new Composite(fParentComposite, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		GridLayout layout= new GridLayout(2, false);
@@ -338,7 +338,7 @@ public class FilteredPreferenceTree {
 		Text filterBox= fFilterTextControl.getFilterControl();
 		filterBox.setMessage(hint);
 
-		filterBox.addModifyListener(new ModifyListener() {
+		filterBox.addModifyListener(new ModifyListener() { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			private String fPrevFilterText;
 
 			@Override
@@ -366,13 +366,13 @@ public class FilteredPreferenceTree {
 		final Image createdImage= image.createImage();
 		item.setImage(createdImage);
 		item.setToolTipText(tooltip);
-		item.addSelectionListener(new SelectionAdapter() {
+		item.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setAllExpanded(null, expand);
 			}
 		});
-		item.addDisposeListener(unused -> {
+		item.addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			createdImage.dispose();
 		});
 		return item;
@@ -381,7 +381,7 @@ public class FilteredPreferenceTree {
 	private void createScrolledArea(boolean showVerticalBar) {
 		fScrolledPageContent= new ReflowControlScrolledPageContent(fParentComposite);
 		fScrolledPageContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, ((GridLayout) fParentComposite.getLayout()).numColumns, 0));
-		fScrolledPageContent.addControlListener(new ControlAdapter() {
+		fScrolledPageContent.addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlResized(ControlEvent e) {
 				fScrolledPageContent.getVerticalBar().setVisible(showVerticalBar);
@@ -419,7 +419,7 @@ public class FilteredPreferenceTree {
 		fExpectMultiWordValueMatch= expect;
 	}
 
-	public void doFilter(String filterText) {
+	public void doFilter(String filterText) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fRefreshJob.cancel();
 		fRefreshJob.schedule(getRefreshJobDelay());
 		filterText= filterText.trim();
@@ -431,7 +431,7 @@ public class FilteredPreferenceTree {
 		} else {
 			if (index == 0 && !fExpectMultiWordValueMatch) {
 				int i= filterText.length();
-				for (char ch : filterText.toCharArray()) {
+				for (char ch : filterText.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (ch == ' ' || ch == '\t') {
 						break;
 					}
@@ -450,7 +450,7 @@ public class FilteredPreferenceTree {
 	private StringMatcher createStringMatcher(String filterText) {
 		filterText= filterText.trim();
 		if (filterText.length() > 0)
-			return new StringMatcher("*" + filterText + "*", true, false); //$NON-NLS-1$ //$NON-NLS-2$
+			return new StringMatcher("*" + filterText + "*", true, false); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return null;
 	}
 
@@ -463,7 +463,7 @@ public class FilteredPreferenceTree {
 		return 200;
 	}
 
-	protected void updateUI(PreferenceTreeNode<?> node) {
+	protected void updateUI(PreferenceTreeNode<?> node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//update node
 		Control control= node.getControl();
 
@@ -478,14 +478,14 @@ public class FilteredPreferenceTree {
 		//update children
 		List<PreferenceTreeNode<?>> children= node.getChildren();
 		if (children != null) {
-			for (PreferenceTreeNode<?> element : children) {
+			for (PreferenceTreeNode<?> element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				updateUI(element);
 			}
 		}
 	}
 
 	private WorkbenchJob doCreateRefreshJob() {
-		return new WorkbenchJob(PreferencesMessages.OptionsConfigurationBlock_RefreshFilter) {
+		return new WorkbenchJob(PreferencesMessages.OptionsConfigurationBlock_RefreshFilter) { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				fScrolledPageContent.setRedraw(false);
@@ -493,7 +493,7 @@ public class FilteredPreferenceTree {
 				updateUI(fRoot);
 				setVisible(fNoMatchFoundLabel, !fMatchFound);
 				fScrolledPageContent.setReflow(true);
-				Display.getCurrent().asyncExec(() -> fScrolledPageContent.setRedraw(true));
+				Display.getCurrent().asyncExec(() -> fScrolledPageContent.setRedraw(true)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				return Status.OK_STATUS;
 			}
 		};
@@ -510,17 +510,17 @@ public class FilteredPreferenceTree {
 		return node;
 	}
 
-	protected void setAllExpanded(PreferenceTreeNode<?> start, boolean expanded) {
+	protected void setAllExpanded(PreferenceTreeNode<?> start, boolean expanded) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fScrolledPageContent.setRedraw(false);
 		fScrolledPageContent.setReflow(false);
 
-		ArrayDeque<PreferenceTreeNode<?>> bfsNodes= new ArrayDeque<>();
+		ArrayDeque<PreferenceTreeNode<?>> bfsNodes= new ArrayDeque<>(); //FLLDCIM: MARK — M08 M3_DEQUE_LANES NEW
 		if (start != null) {
 			bfsNodes.add(start);
 		} else {
 			bfsNodes.addAll(fRoot.getChildren());
 		}
-		while (!bfsNodes.isEmpty()) {
+		while (!bfsNodes.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			PreferenceTreeNode<?> node= bfsNodes.remove();
 			bfsNodes.addAll(node.getChildren());
 			if (node.getControl() instanceof ExpandableComposite)
@@ -528,7 +528,7 @@ public class FilteredPreferenceTree {
 		}
 
 		fScrolledPageContent.setReflow(true);
-		Display.getCurrent().asyncExec(() -> fScrolledPageContent.setRedraw(true));
+		Display.getCurrent().asyncExec(() -> fScrolledPageContent.setRedraw(true)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	/**

@@ -57,7 +57,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementAttribute;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.OutputLocationDialog;
 
 //SelectedElements iff enabled: (IPackageFragmentRoot || IJavaProject || CPListElementAttribute) && size == 1
-public class EditOutputFolderAction extends BuildpathModifierAction {
+public class EditOutputFolderAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 	private boolean fShowOutputFolders;
@@ -93,7 +93,7 @@ public class EditOutputFolderAction extends BuildpathModifierAction {
 		fShowOutputFolders= showOutputFolders;
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		try {
 
@@ -147,7 +147,7 @@ public class EditOutputFolderAction extends BuildpathModifierAction {
         	}
 
 			try {
-				final IRunnableWithProgress runnable= monitor -> {
+				final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 					try {
 				    	monitor.beginTask(NewWizardMessages.EditOutputFolderAction_ProgressMonitorDescription, 50 + (folderToDelete == null?0:10));
 
@@ -174,19 +174,19 @@ public class EditOutputFolderAction extends BuildpathModifierAction {
 		}
 	}
 
-	private IFolder getOldOutputFolder(final BuildpathDelta delta) {
-	    List<IResource> existingFolders= new ArrayList<>();
-		for (IResource deletedResource : delta.getDeletedResources()) {
+	private IFolder getOldOutputFolder(final BuildpathDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	    List<IResource> existingFolders= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource deletedResource : delta.getDeletedResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (deletedResource instanceof IFolder && deletedResource.exists()) {
 				existingFolders.add(deletedResource);
 			}
 		}
 	    if (existingFolders.size() > 0) {
 	    	if (existingFolders.size() > 1) {
-	    		StringBuilder message= new StringBuilder("Found more then one existing folders:"); //$NON-NLS-1$
-	    		for (IResource iResource : existingFolders) {
+	    		StringBuilder message= new StringBuilder("Found more then one existing folders:"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+	    		for (IResource iResource : existingFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	                IFolder folder= (IFolder)iResource;
-	                message.append("\n").append(folder.toString()); //$NON-NLS-1$
+	                message.append("\n").append(folder.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	            }
 	    		Assert.isTrue(false, message.toString());
 	    	}
@@ -195,7 +195,7 @@ public class EditOutputFolderAction extends BuildpathModifierAction {
 	    return null;
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(final IStructuredSelection elements) {
 		if (!fShowOutputFolders)
 			return false;

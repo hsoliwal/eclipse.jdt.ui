@@ -121,7 +121,7 @@ public class TestTestSearchEngine {
 		);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTwoPackageFragmentRoots() throws Exception {
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
 		ICompilationUnit test1= createCompilationUnit(p, 1);
@@ -143,7 +143,7 @@ public class TestTestSearchEngine {
 		);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTwoPackageFragmentRootsSearchingInOne() throws Exception {
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
 		createCompilationUnit(p, 1);
@@ -181,7 +181,7 @@ public class TestTestSearchEngine {
 		assertThat(result).containsExactlyInAnyOrder(testSub.getType("TestSub"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testProject() throws Exception {
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
 		ICompilationUnit test1= createCompilationUnit(p, 1);
@@ -219,22 +219,22 @@ public class TestTestSearchEngine {
 
 	private List<IType> findTests(IJavaElement element) throws InvocationTargetException, InterruptedException {
 		ITestKind testKind= TestKindRegistry.getContainerTestKind(fProject);
-		return new ArrayList<>(TestSearchEngine.findTests(new BusyIndicatorRunnableContext(), element, testKind));
+		return new ArrayList<>(TestSearchEngine.findTests(new BusyIndicatorRunnableContext(), element, testKind)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private List<IType> findTests(IJavaElement[] elements) throws InvocationTargetException, InterruptedException {
-		var set= new HashSet<IType>();
-		for (IJavaElement element : elements) {
+		var set= new HashSet<IType>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			var types= findTests(element);
 			set.addAll(types);
 		}
-		return new ArrayList<>(set);
+		return new ArrayList<>(set); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private ICompilationUnit createCompilationUnit(IPackageFragment pack, int number) throws JavaModelException {
 		return pack.createCompilationUnit(
-			"Test"+number+".java",
-			"package " + pack.getElementName() + "; import junit.framework.TestCase; public class Test" + number + " extends TestCase { }",
+			"Test"+number+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			"package " + pack.getElementName() + "; import junit.framework.TestCase; public class Test" + number + " extends TestCase { }", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			true, null);
 	}
 
@@ -293,7 +293,7 @@ public class TestTestSearchEngine {
 		assertThat(names).containsExactlyInAnyOrder("four", "testThree");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSuperMethods() throws Exception {
 		IPackageFragment pack= fRoot.createPackageFragment("p", true, null);
 		pack.createCompilationUnit("A.java",
@@ -344,7 +344,7 @@ public class TestTestSearchEngine {
 		assertThat(names).isEmpty();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLegacyMethods() throws Exception {
 		JavaProjectHelper.removeFromClasspath(fProject, JUnitCore.JUNIT4_CONTAINER_PATH);
 		JavaProjectHelper.addToClasspath(fProject, JavaCore.newContainerEntry(JUnitCore.JUNIT3_CONTAINER_PATH));
@@ -365,7 +365,7 @@ public class TestTestSearchEngine {
 		assertThat(names).containsExactlyInAnyOrder("testFoo", "testBar", "testBaz");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJupiterMethods() throws Exception {
 		JavaProjectHelper.removeFromClasspath(fProject, JUnitCore.JUNIT4_CONTAINER_PATH);
 		JavaProjectHelper.addToClasspath(fProject, JavaCore.newContainerEntry(JUnitCore.JUNIT5_CONTAINER_PATH));
@@ -406,7 +406,7 @@ public class TestTestSearchEngine {
 
 	private List<String> findTestMethods(IType type) throws InvocationTargetException, InterruptedException {
 		var testKind= (org.eclipse.jdt.internal.junit.launcher.TestKind) TestKindRegistry.getContainerTestKind(fProject);
-		return new ArrayList<>(TestSearchEngine.findTestMethods(new BusyIndicatorRunnableContext(), fProject, type, testKind));
+		return new ArrayList<>(TestSearchEngine.findTestMethods(new BusyIndicatorRunnableContext(), fProject, type, testKind)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	//--------------------------------------------------------------------------

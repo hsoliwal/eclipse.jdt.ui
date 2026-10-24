@@ -109,8 +109,8 @@ public class JavaSearchScopeFactory {
 		if (workingSets == null || workingSets.length < 1)
 			return EMPTY_SCOPE;
 
-		Set<IJavaElement> javaElements= new HashSet<>(workingSets.length * 10);
-		for (IWorkingSet workingSet : workingSets) {
+		Set<IJavaElement> javaElements= new HashSet<>(workingSets.length * 10); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (workingSet.isAggregateWorkingSet() && workingSet.isEmpty()) {
 				return createWorkspaceScope(includeMask);
 			}
@@ -124,7 +124,7 @@ public class JavaSearchScopeFactory {
 	}
 
 	public IJavaSearchScope createJavaSearchScope(IWorkingSet workingSet, int includeMask) {
-		Set<IJavaElement> javaElements= new HashSet<>(10);
+		Set<IJavaElement> javaElements= new HashSet<>(10); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (workingSet.isEmpty() && workingSet.isAggregateWorkingSet()) {
 			return createWorkspaceScope(includeMask);
 		}
@@ -139,7 +139,7 @@ public class JavaSearchScopeFactory {
 	public IJavaSearchScope createJavaSearchScope(IResource[] resources, int includeMask) {
 		if (resources == null)
 			return EMPTY_SCOPE;
-		Set<IJavaElement> javaElements= new HashSet<>(resources.length);
+		Set<IJavaElement> javaElements= new HashSet<>(resources.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		addJavaElements(javaElements, resources);
 		return createJavaSearchScope(javaElements, includeMask);
 	}
@@ -157,9 +157,9 @@ public class JavaSearchScopeFactory {
 	}
 
 	public IJavaSearchScope createJavaProjectSearchScope(String[] projectNames, int includeMask) {
-		ArrayList<IJavaElement> res= new ArrayList<>();
+		ArrayList<IJavaElement> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-		for (String projectName : projectNames) {
+		for (String projectName : projectNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject project= JavaCore.create(root.getProject(projectName));
 			if (project.exists()) {
 				res.add(project);
@@ -199,7 +199,7 @@ public class JavaSearchScopeFactory {
 		return getWorkspaceScopeDescription((includeMask & JRE) != 0);
 	}
 
-	public String getProjectScopeDescription(String[] projectNames, int includeMask) {
+	public String getProjectScopeDescription(String[] projectNames, int includeMask) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (projectNames.length == 0) {
 			return SearchMessages.JavaSearchScopeFactory_undefined_projects;
 		}
@@ -256,7 +256,7 @@ public class JavaSearchScopeFactory {
 	}
 
 
-	public String getSelectionScopeDescription(IJavaElement[] javaElements, boolean includeJRE) {
+	public String getSelectionScopeDescription(IJavaElement[] javaElements, boolean includeJRE) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (javaElements.length == 0) {
 			return SearchMessages.JavaSearchScopeFactory_undefined_selection;
 		}
@@ -306,8 +306,8 @@ public class JavaSearchScopeFactory {
 	}
 
 	public IProject[] getProjects(IJavaSearchScope scope) {
-		HashSet<IResource> temp= new HashSet<>();
-		for (IPath path : scope.enclosingProjectsAndJars()) {
+		HashSet<IResource> temp= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IPath path : scope.enclosingProjectsAndJars()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= ResourcesPlugin.getWorkspace().getRoot().findMember(path);
 			if (resource != null && resource.getType() == IResource.PROJECT)
 				temp.add(resource);
@@ -323,12 +323,12 @@ public class JavaSearchScopeFactory {
 		}
 	}
 
-	private IJavaElement[] getJavaElements(Object[] elements) {
+	private IJavaElement[] getJavaElements(Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements.length == 0)
 			return new IJavaElement[0];
 
-		Set<IJavaElement> result= new HashSet<>(elements.length);
-		for (Object selectedElement : elements) {
+		Set<IJavaElement> result= new HashSet<>(elements.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object selectedElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (selectedElement instanceof IJavaElement) {
 				addJavaElements(result, (IJavaElement) selectedElement);
 			} else if (selectedElement instanceof IResource) {
@@ -369,7 +369,7 @@ public class JavaSearchScopeFactory {
 	}
 
 	private void addJavaElements(Set<IJavaElement> javaElements, IResource[] resources) {
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addJavaElements(javaElements, resource);
 		}
 	}
@@ -396,7 +396,7 @@ public class JavaSearchScopeFactory {
 		javaElements.add(javaElement);
 	}
 
-	private void addJavaElements(Set<IJavaElement> javaElements, IWorkingSet workingSet) {
+	private void addJavaElements(Set<IJavaElement> javaElements, IWorkingSet workingSet) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (workingSet == null)
 			return;
 
@@ -410,7 +410,7 @@ public class JavaSearchScopeFactory {
 			return;
 		}
 
-		for (IAdaptable element : workingSet.getElements()) {
+		for (IAdaptable element : workingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement javaElement= element.getAdapter(IJavaElement.class);
 			if (javaElement != null) {
 				addJavaElements(javaElements, javaElement);
@@ -426,7 +426,7 @@ public class JavaSearchScopeFactory {
 	}
 
 	private void addJavaElements(Set<IJavaElement> javaElements, LogicalPackage selectedElement) {
-		for (IPackageFragment p : selectedElement.getFragments()) {
+		for (IPackageFragment p : selectedElement.getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addJavaElements(javaElements, p);
 		}
 	}

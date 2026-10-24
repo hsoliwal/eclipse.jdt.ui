@@ -23,7 +23,7 @@ import org.eclipse.jdt.internal.ui.filters.EmptyPackageFilter;
  *
  * This filter is only applicable to instances of the Common Navigator.
  */
-public class NonEssentialEmptyPackageFilter extends NonEssentialElementsFilter {
+public class NonEssentialEmptyPackageFilter extends NonEssentialElementsFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	public NonEssentialEmptyPackageFilter() {
 		super(new EmptyPackageFilter());

@@ -101,7 +101,7 @@ public class ClasspathVariablesPreferencePage extends PreferencePage implements 
 		return fVariableBlock.performOk();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setVisible(boolean visible) {
 		// check if the stored settings have changed
 		if (visible) {
@@ -123,14 +123,14 @@ public class ClasspathVariablesPreferencePage extends PreferencePage implements 
 	}
 
 	private String getCurrentSettings() {
-		StringBuilder buf= new StringBuilder();
-		for (String curr : JavaCore.getClasspathVariableNames()) {
-			buf.append(curr).append('\0');
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String curr : JavaCore.getClasspathVariableNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(curr).append('\0'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			IPath val= JavaCore.getClasspathVariable(curr);
 			if (val != null) {
-				buf.append(val.toString());
+				buf.append(val.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append('\0');
+			buf.append('\0'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

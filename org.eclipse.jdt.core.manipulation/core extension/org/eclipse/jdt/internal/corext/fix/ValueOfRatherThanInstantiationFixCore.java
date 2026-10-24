@@ -50,7 +50,7 @@ public class ValueOfRatherThanInstantiationFixCore extends CompilationUnitRewrit
 			fResult= ops;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final ClassInstanceCreation visited) {
 			ITypeBinding typeBinding= visited.getType().resolveBinding();
 			List<Expression> args= visited.arguments();
@@ -101,7 +101,7 @@ public class ValueOfRatherThanInstantiationFixCore extends CompilationUnitRewrit
 			this.arg0= arg0;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -123,7 +123,7 @@ public class ValueOfRatherThanInstantiationFixCore extends CompilationUnitRewrit
 
 			// remove all casts and parentheses from the argument
 			Expression newArgument= arg0;
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (newArgument instanceof CastExpression) {
 					newArgument= ((CastExpression) newArgument).getExpression();
 					continue;
@@ -168,7 +168,7 @@ public class ValueOfRatherThanInstantiationFixCore extends CompilationUnitRewrit
 			this.arg0= arg0;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -229,7 +229,7 @@ public class ValueOfRatherThanInstantiationFixCore extends CompilationUnitRewrit
 			this.arg0= arg0;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -255,7 +255,7 @@ public class ValueOfRatherThanInstantiationFixCore extends CompilationUnitRewrit
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ValueOfRatherThanInstantiationFinder finder= new ValueOfRatherThanInstantiationFinder(operations);
 		compilationUnit.accept(finder);
 

@@ -60,7 +60,7 @@ import org.eclipse.ui.dialogs.IWorkingSetPage;
  */
 public abstract class AbstractWorkingSetWizardPage extends WizardPage implements IWorkingSetPage {
 
-	private final class AddedElementsFilter extends ViewerFilter {
+	private final class AddedElementsFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -81,7 +81,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 	protected AbstractWorkingSetWizardPage(String pageName, String title, ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
 
-		fSelectedElements= new HashSet<>();
+		fSelectedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fFirstCheck= true;
 	}
 
@@ -147,7 +147,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 	/*
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -163,8 +163,8 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 
 		fWorkingSetName= new Text(composite, SWT.SINGLE | SWT.BORDER);
 		fWorkingSetName.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
-		fWorkingSetName.addModifyListener(
-			unused -> validateInput()
+		fWorkingSetName.addModifyListener( //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+			unused -> validateInput() //FLLDCIM: MARK — T02  LAMBDA
 		);
 
 		Composite leftCenterRightComposite= new Composite(composite, SWT.NONE);
@@ -210,9 +210,9 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		initializeSelectedElements();
 		validateInput();
 
-		fTable.setInput(fSelectedElements);
-		fTable.refresh(true);
-		fTree.refresh(true);
+		fTable.setInput(fSelectedElements); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		fTable.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		fTree.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		createButtonBar(centerComposite);
 
@@ -231,7 +231,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		fTree= new TreeViewer(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI);
 		fTree.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		fTree.addFilter(new AddedElementsFilter());
+		fTree.addFilter(new AddedElementsFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		fTree.setUseHashlookup(true);
 
 		configureTree(fTree);
@@ -239,7 +239,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		fTreeContentProvider= (ITreeContentProvider) fTree.getContentProvider();
 	}
 
-	private void createButtonBar(Composite parent) {
+	private void createButtonBar(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label spacer= new Label(parent, SWT.NONE);
 		spacer.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
@@ -263,9 +263,9 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		removeAllButton.setText(WorkingSetMessages.JavaWorkingSetPage_removeAll_button);
 		removeAllButton.setEnabled(!fSelectedElements.isEmpty());
 
-		fTree.addSelectionChangedListener(event -> addButton.setEnabled(!event.getSelection().isEmpty()));
+		fTree.addSelectionChangedListener(event -> addButton.setEnabled(!event.getSelection().isEmpty())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		addButton.addSelectionListener(new SelectionAdapter() {
+		addButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addTreeSelection();
@@ -275,16 +275,16 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 			}
 		});
 
-		fTree.addDoubleClickListener(unused -> {
+		fTree.addDoubleClickListener(unused -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			addTreeSelection();
 
 			removeAllButton.setEnabled(true);
 			addAllButton.setEnabled(fTree.getTree().getItems().length > 0);
 		});
 
-		fTable.addSelectionChangedListener(event -> removeButton.setEnabled(!event.getSelection().isEmpty()));
+		fTable.addSelectionChangedListener(event -> removeButton.setEnabled(!event.getSelection().isEmpty())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		removeButton.addSelectionListener(new SelectionAdapter() {
+		removeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeTableSelection();
@@ -294,34 +294,34 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 			}
 		});
 
-		fTable.addDoubleClickListener(unused -> {
+		fTable.addDoubleClickListener(unused -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			removeTableSelection();
 
 			addAllButton.setEnabled(true);
 			removeAllButton.setEnabled(!fSelectedElements.isEmpty());
 		});
 
-		addAllButton.addSelectionListener(new SelectionAdapter() {
+		addAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for (TreeItem item : fTree.getTree().getItems()) {
+				for (TreeItem item : fTree.getTree().getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fSelectedElements.add(item.getData());
 				}
-				fTable.refresh();
-				fTree.refresh();
+				fTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+				fTree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 				addAllButton.setEnabled(false);
 				removeAllButton.setEnabled(true);
 			}
 		});
 
-		removeAllButton.addSelectionListener(new SelectionAdapter() {
+		removeAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fSelectedElements.clear();
 
-				fTable.refresh();
-				fTree.refresh();
+				fTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+				fTree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 				removeAllButton.setEnabled(false);
 				addAllButton.setEnabled(true);
@@ -354,8 +354,8 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		fTable.remove(selectedElements);
 		try {
 			fTree.getTree().setRedraw(false);
-			for (Object selectedElement : selectedElements) {
-				fTree.refresh(fTreeContentProvider.getParent(selectedElement), true);
+			for (Object selectedElement : selectedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				fTree.refresh(fTreeContentProvider.getParent(selectedElement), true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		} finally {
 			fTree.getTree().setRedraw(true);
@@ -380,7 +380,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		configureTable(fTable);
 
 		fTable.setContentProvider(ArrayContentProvider.getInstance());
-		fTable.setInput(fSelectedElements);
+		fTable.setInput(fSelectedElements); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/*
@@ -409,7 +409,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 	/*
 	 * Implements method from IWorkingSetPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void finish() {
 		String workingSetName= fWorkingSetName.getText();
 		HashSet<Object> elements= fSelectedElements;
@@ -420,9 +420,9 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 			fWorkingSet.setId(getPageId());
 		} else {
 			// Add inaccessible resources
-			HashSet<IProject> closedProjectsToRetain= new HashSet<>(elements.size());
-			HashSet<IProject> closedProjectsToRemove= new HashSet<>(elements.size());
-			for (IAdaptable oldItem : fWorkingSet.getElements()) {
+			HashSet<IProject> closedProjectsToRetain= new HashSet<>(elements.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			HashSet<IProject> closedProjectsToRemove= new HashSet<>(elements.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IAdaptable oldItem : fWorkingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource oldResource= null;
 				if (oldItem instanceof IResource) {
 					oldResource= (IResource) oldItem;
@@ -447,7 +447,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		}
 	}
 
-	private void validateInput() {
+	private void validateInput() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String errorMessage= null;
 		String infoMessage= null;
 		String newText= fWorkingSetName.getText();
@@ -466,7 +466,7 @@ public abstract class AbstractWorkingSetWizardPage extends WizardPage implements
 		fFirstCheck= false;
 
 		if (errorMessage == null && (fWorkingSet == null || newText.equals(fWorkingSet.getName()) == false)) {
-			for (IWorkingSet workingSet : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()) {
+			for (IWorkingSet workingSet : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (newText.equals(workingSet.getName())) {
 					errorMessage= WorkingSetMessages.JavaWorkingSetPage_warning_workingSetExists;
 				}

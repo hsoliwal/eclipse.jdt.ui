@@ -55,7 +55,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  * @since 3.6
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenAttachedJavadocAction extends SelectionDispatchAction {
+public class OpenAttachedJavadocAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -111,7 +111,7 @@ public class OpenAttachedJavadocAction extends SelectionDispatchAction {
 		return selection.getFirstElement() instanceof IJavaElement;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		IJavaElement element= SelectionConverter.getInput(fEditor);
 		if (!ActionUtil.isProcessable(getShell(), element))
@@ -150,7 +150,7 @@ public class OpenAttachedJavadocAction extends SelectionDispatchAction {
 	 *
 	 * @param element the Java element
 	 */
-	protected void run(IJavaElement element) {
+	protected void run(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == null)
 			return;
 		Shell shell= getShell();
@@ -203,7 +203,7 @@ public class OpenAttachedJavadocAction extends SelectionDispatchAction {
 	}
 
 	private static void showMessage(final Shell shell, final String message, final boolean isError) {
-		Display.getDefault().asyncExec(() -> {
+		Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (isError) {
 				MessageDialog.openError(shell, getTitle(), message);
 			} else {

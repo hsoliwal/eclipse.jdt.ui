@@ -81,7 +81,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	private IPackageFragmentRoot fSourceFolder;
 	private String ANNOTATION_JAR_PATH;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -133,7 +133,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// ==== Fix:		extract field access to a fresh local variable and add a null-check
 
 	// basic case
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -175,7 +175,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// statement is not element of a block - need to create a new block - local name f2 already in use
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -222,7 +222,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// field name is part of a qualified field reference - inside a return statement (type: int)
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -267,7 +267,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// field name is part of a this-qualified field reference - inside a return statement (type: String)
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -312,7 +312,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// field referenced inside the rhs of an assignment-as-expression
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -360,7 +360,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// reference to field of array type - dereferenced by f[0] and f.length
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -430,7 +430,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// field has a generic type
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField7() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -474,7 +474,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// occurrences inside a class initializer
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField8() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -516,7 +516,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// field reference inside a local variable initialization - ensure correct scoping of this local
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractNullableField9() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -565,7 +565,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// ==== Fix:		extract field access to a fresh local variable and add a null-check
 
 	// return situation, field reference is this.f
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractPotentiallyNullField1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -626,7 +626,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// message send argument situation, field reference is local.f
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractPotentiallyNullField2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -673,7 +673,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 
 
 	// @Nullable argument is used where @NonNull is required -> change to @NonNull
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter1a() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -711,7 +711,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// unspec'ed argument is used where @NonNull is required -> change to @NonNull
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter1b() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -748,7 +748,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter1c() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -783,7 +783,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter1d() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -841,7 +841,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// Attempt to override a @Nullable argument with a @NonNull argument
 	// -> change to @Nullable
 	// -> change overridden to @NonNull
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter3a() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -904,7 +904,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 
 	// Attempt to override a @Nullable argument with an unspec'ed argument
 	// -> change to @Nullable
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter3b() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -952,7 +952,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 
 	// Attempt to override a @NonNull argument with an unspec'ed argument
 	// -> change to @NonNull
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter3c() throws Exception {
 		// quickfix only offered with this warning enabled, but no need to say, because default is already "warning"
 //		this.fJProject1.setOption(JavaCore.COMPILER_PB_NONNULL_PARAMETER_ANNOTATION_DROPPED, JavaCore.WARNING);
@@ -1003,7 +1003,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// http://bugs.eclipse.org/400668 - [quick fix] The fix change parameter type to @Nonnull generated a null change
 	// don't confuse changing arguments of current method and target method
 	// -> split into two proposals
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1070,7 +1070,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// don't confuse changing arguments of current method and target method
 	// -> split into two proposals
 	// variant with un-annotated parameter
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter4a() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1135,7 +1135,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// Bug 405086 - [quick fix] don't propose null annotations when those are disabled
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter5() throws Exception {
 		fJProject1.setOption(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.DISABLED);
 		try {
@@ -1182,7 +1182,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 
 	// Bug 405086 - [quick fix] don't propose null annotations when those are disabled
 	// positive case (redundant check)
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter7() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1220,7 +1220,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 
 	// Bug 405086 - [quick fix] don't propose null annotations when those are disabled
 	// positive case 2 (check always false)
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter8() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1259,7 +1259,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 
 	// http://bugs.eclipse.org/395555 - [quickfix] Update null annotation quick fixes for bug 388281
 	// conflict between inherited and default nullness
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParameter9() throws Exception {
 		fJProject1.setOption(JavaCore.COMPILER_INHERIT_NULL_ANNOTATIONS, JavaCore.ENABLED);
 		try {
@@ -1331,7 +1331,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	}
 
 	// returning @Nullable value from @NonNull method -> change to @Nullable return
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeReturn1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1365,7 +1365,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeReturn2a() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1428,7 +1428,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeReturn2b() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1475,7 +1475,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 
 	// https://bugs.eclipse.org/395555 - [quickfix] Update null annotation quick fixes for bug 388281
 	// conflict between nullness inherited from different parents
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeReturn3() throws Exception {
 		fJProject1.setOption(JavaCore.COMPILER_INHERIT_NULL_ANNOTATIONS, JavaCore.ENABLED);
 		try {
@@ -1559,7 +1559,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// https://bugs.eclipse.org/378724 - Null annotations are extremely hard to use in an existing project
 	// see comment 12
 	// remove @Nullable without adding redundant @NonNull (due to @NonNullByDefault)
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeReturn4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1629,7 +1629,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// see comment 12
 	// remove @Nullable without adding redundant @NonNull (due to @NonNullByDefault)
 	// variant: package-level default
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeReturn5() throws Exception {
 		String suppressOptionalErrors= fJProject1.getOption(JavaCore.COMPILER_PB_SUPPRESS_OPTIONAL_ERRORS, true);
 		try {
@@ -1711,7 +1711,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// see comment 12
 	// remove @Nullable without adding redundant @NonNull (due to @NonNullByDefault)
 	// variant: cancelled default
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeReturn6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 
@@ -1721,15 +1721,15 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			""";
 		pack1.createCompilationUnit("package-info.java", str, false, null);
 
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import org.eclipse.jdt.annotation.*;\n");
-		buf.append("@NonNullByDefault(false)\n"); // <- HERE
-		buf.append("public class E {\n");
-		buf.append("    @Nullable Object bar() {\n");
-		buf.append("        return new Object();\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import org.eclipse.jdt.annotation.*;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("@NonNullByDefault(false)\n"); // <- HERE //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    @Nullable Object bar() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return new Object();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		String str1= """
@@ -1784,7 +1784,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantAnnotation1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1816,7 +1816,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantAnnotation2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1851,7 +1851,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantAnnotation3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1886,7 +1886,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantAnnotation4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1919,7 +1919,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantAnnotation5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1952,7 +1952,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantAnnotation6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1989,7 +1989,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantAnnotation7() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2022,7 +2022,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantAnnotation8() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2058,7 +2058,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			""";
 		assertEqualString(preview, str2);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddNonNull() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2105,7 +2105,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 	// -> change to @Nullable
 	// -> change overridden to @NonNull
 	// Specific for this test: arg name is different in overridden method.
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug506108() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2165,7 +2165,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			""";
 		assertEqualString(preview, str3);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug525428a() throws Exception {
 		fJProject1.setOption(JavaCore.COMPILER_PB_MISSING_NONNULL_BY_DEFAULT_ANNOTATION, JavaCore.ERROR);
 		try {
@@ -2193,7 +2193,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			fJProject1.setOption(JavaCore.COMPILER_PB_MISSING_NONNULL_BY_DEFAULT_ANNOTATION, JavaCore.IGNORE);
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug525428b() throws Exception {
 		fJProject1.setOption(JavaCore.COMPILER_PB_MISSING_NONNULL_BY_DEFAULT_ANNOTATION, JavaCore.ERROR);
 		String typecomment= StubUtility.getCodeTemplate(CodeTemplateContextType.TYPECOMMENT_ID, null).getPattern();
@@ -2212,7 +2212,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			cu.getJavaProject().getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
 			IMarker[] markers= pack1.getResource().findMarkers(null, true, IResource.DEPTH_INFINITE);
 			assertEquals(1, markers.length);
-			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IInvocationContext context= new AssistContext(cu,  0, 0);
 			IEditorInput input= EditorUtility.getEditorInput(cu);
 			IProblemLocation location= CorrectionMarkerResolutionGenerator.findProblemLocation(input, markers[0]);
@@ -2248,7 +2248,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		}
 	}
 	// marker for same project in two source folders in same project: package-info.java must be created in first one (when comparing paths)
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug525428c() throws Exception {
 		fJProject1.setOption(JavaCore.COMPILER_PB_MISSING_NONNULL_BY_DEFAULT_ANNOTATION, JavaCore.ERROR);
 		String typecomment= StubUtility.getCodeTemplate(CodeTemplateContextType.TYPECOMMENT_ID, null).getPattern();
@@ -2287,7 +2287,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			assertEquals(1, markers2.length);
 
 
-			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IInvocationContext context= new AssistContext(cu, 0, 0);
 			IEditorInput input= EditorUtility.getEditorInput(cu);
 			IProblemLocation location= CorrectionMarkerResolutionGenerator.findProblemLocation(input, markers[0]);
@@ -2337,7 +2337,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		}
 	}
 	// marker for same project in two dependent projects: package-info.java must be created in the one that cannot see the other
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug525428d() throws Exception {
 		fJProject1.setOption(JavaCore.COMPILER_PB_MISSING_NONNULL_BY_DEFAULT_ANNOTATION, JavaCore.ERROR);
 		String typecomment= StubUtility.getCodeTemplate(CodeTemplateContextType.TYPECOMMENT_ID, null).getPattern();
@@ -2382,7 +2382,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			assertEquals(1, markers2.length);
 
 
-			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IInvocationContext context= new AssistContext(cu1, 0, 0);
 			IEditorInput input= EditorUtility.getEditorInput(cu1);
 			IProblemLocation location= CorrectionMarkerResolutionGenerator.findProblemLocation(input, markers[0]);
@@ -2437,7 +2437,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		}
 	}
 	// marker for same project in two independent projects: package-info.java must be created in both
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug525428e() throws Exception {
 		fJProject1.setOption(JavaCore.COMPILER_PB_MISSING_NONNULL_BY_DEFAULT_ANNOTATION, JavaCore.ERROR);
 		String typecomment= StubUtility.getCodeTemplate(CodeTemplateContextType.TYPECOMMENT_ID, null).getPattern();
@@ -2481,7 +2481,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			assertEquals(1, markers2.length);
 
 
-			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IInvocationContext context= new AssistContext(cu1, 0, 0);
 			IEditorInput input= EditorUtility.getEditorInput(cu1);
 			IProblemLocation location= CorrectionMarkerResolutionGenerator.findProblemLocation(input, markers[0]);
@@ -2535,7 +2535,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 			}
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug513423a() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2596,7 +2596,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug513423b() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str0= """
@@ -2677,7 +2677,7 @@ public class NullAnnotationsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGH1294() throws Exception {
 		IPackageFragment my= fSourceFolder.createPackageFragment("my", false, null);
 		ICompilationUnit cu= my.createCompilationUnit("Test.java",

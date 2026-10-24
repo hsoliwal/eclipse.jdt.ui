@@ -95,10 +95,10 @@ public class JavaPrecomputedNamesAssistProcessor implements ISubjectControlConte
 
 	@Override
 	public ICompletionProposal[] computeCompletionProposals(IContentAssistSubjectControl contentAssistSubjectControl, int documentOffset) {
-		ArrayList<JavaCompletionProposal> proposals= new ArrayList<>();
+		ArrayList<JavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String input= contentAssistSubjectControl.getDocument().get();
 		String prefix= input.substring(0, documentOffset).trim();
-		for (String name : fNames) {
+		for (String name : fNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (input.isEmpty() || name.startsWith(prefix)) {
 				JavaCompletionProposal proposal= new JavaCompletionProposal(name, 0, input.length(), fImage, name, 0);
 				proposals.add(proposal);

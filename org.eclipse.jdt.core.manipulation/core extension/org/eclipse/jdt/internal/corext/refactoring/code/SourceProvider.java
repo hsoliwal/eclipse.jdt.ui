@@ -153,13 +153,13 @@ public class SourceProvider {
 		fTypeRoot= typeRoot;
 		fDeclaration= declaration;
 		List<SingleVariableDeclaration> parameters= fDeclaration.parameters();
-		for (SingleVariableDeclaration element : parameters) {
+		for (SingleVariableDeclaration element : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ParameterData data= new ParameterData(element);
 			element.setProperty(ParameterData.PROPERTY, data);
 		}
 		fAnalyzer= new SourceAnalyzer(fTypeRoot, fDeclaration);
 		fReturnValueNeedsLocalVariable= true;
-		fReturnExpressions= new ArrayList<>();
+		fReturnExpressions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -270,14 +270,14 @@ public class SourceProvider {
 		return statements.get(statements.size() - 1) instanceof ReturnStatement;
 	}
 
-	public boolean isDangligIf() {
+	public boolean isDangligIf() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Statement> statements= fDeclaration.getBody().statements();
 		if (statements.size() != 1)
 			return false;
 
 		ASTNode p= statements.get(0);
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (p instanceof IfStatement) {
 				return ((IfStatement) p).getElseStatement() == null;
 			} else {
@@ -312,7 +312,7 @@ public class SourceProvider {
 
 	public boolean isSynchronized() {
 		List<IExtendedModifier> modifierList= fDeclaration.modifiers();
-		for (IExtendedModifier modifier : modifierList) {
+		for (IExtendedModifier modifier : modifierList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modifier instanceof Modifier m && m.isSynchronized()) {
 				return true;
 			}
@@ -322,7 +322,7 @@ public class SourceProvider {
 
 	public boolean isStatic() {
 		List<IExtendedModifier> modifierList= fDeclaration.modifiers();
-		for (IExtendedModifier modifier : modifierList) {
+		for (IExtendedModifier modifier : modifierList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modifier instanceof Modifier m && m.isStatic()) {
 				return true;
 			}
@@ -348,7 +348,7 @@ public class SourceProvider {
 
 	public boolean returnTypeMatchesReturnExpressions() {
 		ITypeBinding returnType= getReturnType();
-		for (Expression expression : fReturnExpressions) {
+		for (Expression expression : fReturnExpressions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Bindings.equals(returnType, expression.resolveTypeBinding()))
 				return false;
 		}
@@ -400,7 +400,7 @@ public class SourceProvider {
 		return rewriter.rewriteAST(fDocument, options);
 	}
 
-	public String[] getCodeBlocks(CallContext context, ImportRewrite importRewrite) throws CoreException {
+	public String[] getCodeBlocks(CallContext context, ImportRewrite importRewrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ASTRewrite rewriter= ASTRewrite.create(fDeclaration.getAST());
 		replaceParameterWithExpression(rewriter, context, importRewrite);
 		updateImplicitReceivers(rewriter, context);
@@ -433,7 +433,7 @@ public class SourceProvider {
 		final TextEdit dummy= rewriter.rewriteAST(fDocument, options);
 		int size= ranges.size();
 		RangeMarker[] markers= new RangeMarker[size];
-		for (int i= 0; i < markers.length; i++) {
+		for (int i= 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IRegion range= ranges.get(i);
 			markers[i]= new RangeMarker(range.getOffset(), range.getLength());
 		}
@@ -444,7 +444,7 @@ public class SourceProvider {
 			IRegion region= ranges.get(0);
 			split= region.getOffset() + region.getLength();
 		}
-		for (TextEdit edit : dummy.removeChildren()) {
+		for (TextEdit edit : dummy.removeChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int pos= edit.getOffset() >= split ? 1 : 0;
 			markers[pos].addChild(edit);
 		}
@@ -471,11 +471,11 @@ public class SourceProvider {
 		return parenthesized;
 	}
 
-	private void replaceParameterWithExpression(ASTRewrite rewriter, CallContext context, ImportRewrite importRewrite) throws CoreException {
+	private void replaceParameterWithExpression(ASTRewrite rewriter, CallContext context, ImportRewrite importRewrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression[] arguments= context.arguments;
 		try {
 			ITextFileBuffer buffer= RefactoringFileBuffers.acquire(context.compilationUnit);
-			for (int i= 0; i < arguments.length; i++) {
+			for (int i= 0; i < arguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression expression= arguments[i];
 				String expressionString= null;
 				if (expression instanceof SimpleName) {
@@ -490,7 +490,7 @@ public class SourceProvider {
 				}
 				ParameterData parameter= getParameterData(i);
 				List<SimpleName> references= parameter.references();
-				for (SimpleName simpleName : references) {
+				for (SimpleName simpleName : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode element= simpleName;
 					Expression newExpression= (Expression)rewriter.createStringPlaceholder(expressionString, expression.getNodeType());
 					AST ast= rewriter.getAST();
@@ -516,22 +516,22 @@ public class SourceProvider {
 		}
 	}
 
-	private void makeNamesUnique(ASTRewrite rewriter, CallContext context) {
+	private void makeNamesUnique(ASTRewrite rewriter, CallContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CodeScopeBuilder.Scope scope= context.scope;
 		boolean addName= context.callMode != ASTNode.EXPRESSION_METHOD_REFERENCE &&
 				context.callMode != ASTNode.SUPER_METHOD_REFERENCE &&
 				context.callMode != ASTNode.CREATION_REFERENCE &&
 				context.callMode != ASTNode.TYPE_METHOD_REFERENCE;
 		Collection<NameData> usedCalleeNames= fAnalyzer.getUsedNames();
-		for (NameData nd : usedCalleeNames) {
+		for (NameData nd : usedCalleeNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CodeScopeBuilder.Scope curScope= scope;
-			while (curScope != null && !curScope.isInUse(nd.getName())) {
+			while (curScope != null && !curScope.isInUse(nd.getName())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				curScope= curScope.getParent();
 			}
 			if (curScope != null && curScope.isInUse(nd.getName())) {
 				String newName= scope.createName(nd.getName(), addName);
 				List<SimpleName> references= nd.references();
-				for (SimpleName element : references) {
+				for (SimpleName element : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode newNode= rewriter.createStringPlaceholder(newName, ASTNode.SIMPLE_NAME);
 					rewriter.replace(element, newNode, null);
 				}
@@ -541,11 +541,11 @@ public class SourceProvider {
 		}
 	}
 
-	private void updateImplicitReceivers(ASTRewrite rewriter, CallContext context) {
+	private void updateImplicitReceivers(ASTRewrite rewriter, CallContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (context.receiver == null)
 			return;
 		List<Expression> implicitReceivers= fAnalyzer.getImplicitReceivers();
-		for (Expression expression : implicitReceivers) {
+		for (Expression expression : implicitReceivers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= expression;
 			ImportRewriteContext importRewriteContext= new ContextSensitiveImportRewriteContext(node, context.importer);
 			if (node instanceof MethodInvocation) {
@@ -577,9 +577,9 @@ public class SourceProvider {
 		}
 	}
 
-	private void updateTypeReferences(ASTRewrite rewriter, CallContext context) {
+	private void updateTypeReferences(ASTRewrite rewriter, CallContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImportRewrite importer= context.importer;
-		for (SimpleName simpleName : fAnalyzer.getTypesToImport()) {
+		for (SimpleName simpleName : fAnalyzer.getTypesToImport()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Name element= simpleName;
 			ITypeBinding binding= ASTNodes.getTypeBinding(element);
 			if (binding != null && !binding.isLocal()) {
@@ -593,9 +593,9 @@ public class SourceProvider {
 				String[] bindingNameComponents= Bindings.getNameComponents(binding);
 				try {
 					IType[] types= context.compilationUnit.getAllTypes();
-					for (IType type : types) {
+					for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String typeName= type.getFullyQualifiedName();
-						String[] typeNameComponents= typeName.split("\\.|\\$"); //$NON-NLS-1$
+						String[] typeNameComponents= typeName.split("\\.|\\$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						if (Arrays.equals(bindingNameComponents, typeNameComponents)) {
 							return;
 						}
@@ -613,7 +613,7 @@ public class SourceProvider {
 
 	private void updateStaticReferences(ASTRewrite rewriter, CallContext context) {
 		ImportRewrite importer= context.importer;
-		for (SimpleName simpleName : fAnalyzer.getStaticsToImport()) {
+		for (SimpleName simpleName : fAnalyzer.getStaticsToImport()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Name element= simpleName;
 			IBinding binding= element.resolveBinding();
 			if (binding != null) {
@@ -639,17 +639,17 @@ public class SourceProvider {
 			this.fQualifierNeeded= qualifierNeeded;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SimpleName name) {
 			if (name.getLocationInParent() == MethodInvocation.NAME_PROPERTY) {
 				MethodInvocation node= (MethodInvocation) name.getParent();
 				if (node.getExpression() == null) {
 					IMethodBinding binding= node.resolveMethodBinding();
 					if (Modifier.isStatic(binding.getModifiers())) {
-						for (IMethodBinding staticMethodBinding : fTargetStaticMethods) {
+						for (IMethodBinding staticMethodBinding : fTargetStaticMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (staticMethodBinding.getName().equals(binding.getName())) {
 								AST ast= fRewriter.getAST();
-								Name newName= ast.newName(fQualifierNeeded + "." + name.getFullyQualifiedName()); //$NON-NLS-1$
+								Name newName= ast.newName(fQualifierNeeded + "." + name.getFullyQualifiedName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								fRewriter.replace(name, newName, null);
 							}
 						}
@@ -658,10 +658,10 @@ public class SourceProvider {
 			} else {
 				IBinding binding= name.resolveBinding();
 				if (binding instanceof IVariableBinding varBinding && varBinding.isField()) {
-					for (IVariableBinding staticFieldBinding : fTargetStaticFields) {
+					for (IVariableBinding staticFieldBinding : fTargetStaticFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (staticFieldBinding.getName().equals(varBinding.getName())) {
 							AST ast= fRewriter.getAST();
-							Name newName= ast.newName(fQualifierNeeded + "." + name.getFullyQualifiedName()); //$NON-NLS-1$
+							Name newName= ast.newName(fQualifierNeeded + "." + name.getFullyQualifiedName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							fRewriter.replace(name, newName, null);
 						}
 					}
@@ -670,30 +670,30 @@ public class SourceProvider {
 			return false;
 		}
 	}
-	private void updateInnerStaticReferences(ASTRewrite rewriter, CallContext context) {
+	private void updateInnerStaticReferences(ASTRewrite rewriter, CallContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (context.invocation instanceof MethodInvocation invocation) {
 			AbstractTypeDeclaration typeDecl= ASTNodes.getFirstAncestorOrNull(invocation, AbstractTypeDeclaration.class);
 			AbstractTypeDeclaration sourceTypeDecl= ASTNodes.getFirstAncestorOrNull(fDeclaration, AbstractTypeDeclaration.class);
 			if (typeDecl != null && !typeDecl.isPackageMemberTypeDeclaration() && typeDecl != sourceTypeDecl) {
 				ITypeBinding typeDeclBinding= typeDecl.resolveBinding();
-				List<IVariableBinding> targetStaticFields= new ArrayList<>();
-				List<IMethodBinding> targetStaticMethods= new ArrayList<>();
+				List<IVariableBinding> targetStaticFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<IMethodBinding> targetStaticMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				if (typeDeclBinding != null) {
 					IVariableBinding[] fields= typeDeclBinding.getDeclaredFields();
 					IMethodBinding[] methods= typeDeclBinding.getDeclaredMethods();
-					for (IVariableBinding field : fields) {
+					for (IVariableBinding field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (Modifier.isStatic(field.getModifiers())) {
 							targetStaticFields.add(field);
 						}
 					}
-					for (IMethodBinding method : methods) {
+					for (IMethodBinding method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (Modifier.isStatic(method.getModifiers())) {
 							targetStaticMethods.add(method);
 						}
 					}
 					getAccessibleStaticFieldsAndMethods(typeDeclBinding.getSuperclass(), targetStaticFields, targetStaticMethods);
 					ITypeBinding[] typeInterfaces= typeDeclBinding.getInterfaces();
-					for (ITypeBinding typeInterface : typeInterfaces) {
+					for (ITypeBinding typeInterface : typeInterfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						getAccessibleStaticFieldsAndMethods(typeInterface, targetStaticFields, targetStaticMethods);
 					}
 					if (!targetStaticFields.isEmpty() || !targetStaticMethods.isEmpty()) {
@@ -711,19 +711,19 @@ public class SourceProvider {
 		}
 	}
 
-	private void getAccessibleStaticFieldsAndMethods(ITypeBinding typeBinding, List<IVariableBinding> fieldList, List<IMethodBinding> methodList) {
+	private void getAccessibleStaticFieldsAndMethods(ITypeBinding typeBinding, List<IVariableBinding> fieldList, List<IMethodBinding> methodList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (typeBinding == null) {
 			return;
 		}
 		IVariableBinding[] fields= typeBinding.getDeclaredFields();
 		IMethodBinding[] methods= typeBinding.getDeclaredMethods();
-		for (IVariableBinding field : fields) {
+		for (IVariableBinding field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int fieldModifiers= field.getModifiers();
 			if (Modifier.isStatic(fieldModifiers) && !Modifier.isPrivate(fieldModifiers)) {
 				fieldList.add(field);
 			}
 		}
-		for (IMethodBinding method : methods) {
+		for (IMethodBinding method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int methodModifiers= method.getModifiers();
 			if (Modifier.isStatic(methodModifiers) && !Modifier.isPrivate(methodModifiers)) {
 				methodList.add(method);
@@ -731,7 +731,7 @@ public class SourceProvider {
 		}
 		getAccessibleStaticFieldsAndMethods(typeBinding.getSuperclass(), fieldList, methodList);
 		ITypeBinding[] typeInterfaces= typeBinding.getInterfaces();
-		for (ITypeBinding typeInterface : typeInterfaces) {
+		for (ITypeBinding typeInterface : typeInterfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			getAccessibleStaticFieldsAndMethods(typeInterface, fieldList, methodList);
 		}
 	}
@@ -750,7 +750,7 @@ public class SourceProvider {
 		return (Expression)rewriter.createStringPlaceholder(receiver, ASTNode.SIMPLE_NAME);
 	}
 
-	private String getReceiver(CallContext context, int modifiers, ImportRewriteContext importRewriteContext) {
+	private String getReceiver(CallContext context, int modifiers, ImportRewriteContext importRewriteContext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String receiver= context.receiver;
 		ITypeBinding invocationType= ASTNodes.getEnclosingType(context.invocation);
 		ITypeBinding sourceType= fDeclaration.resolveBinding().getDeclaringClass();
@@ -804,11 +804,11 @@ public class SourceProvider {
 		if (typeArguments.length == 0)
 			return;
 		Assert.isTrue(typeArguments.length == typeParameterReferences.size());
-		for (int i= 0; i < typeArguments.length; i++) {
+		for (int i= 0; i < typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SourceAnalyzer.NameData refData= typeParameterReferences.get(i);
 			List<SimpleName> references= refData.references();
 			String newName= typeArguments[i].getName();
-			for (SimpleName name : references) {
+			for (SimpleName name : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewriter.replace(name, rewriter.createStringPlaceholder(newName, ASTNode.SIMPLE_NAME), null);
 			}
 		}
@@ -823,7 +823,7 @@ public class SourceProvider {
 
 	private List<IRegion> getReturnStatementRanges() {
 		fMarkerMode= RETURN_STATEMENT_MODE;
-		List<IRegion> result= new ArrayList<>(1);
+		List<IRegion> result= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<Statement> statements= fDeclaration.getBody().statements();
 		int size= statements.size();
 		if (size <= 1)
@@ -834,7 +834,7 @@ public class SourceProvider {
 
 	private List<IRegion> getStatementRanges() {
 		fMarkerMode= STATEMENT_MODE;
-		List<IRegion> result= new ArrayList<>(1);
+		List<IRegion> result= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<Statement> statements= fDeclaration.getBody().statements();
 		int size= statements.size();
 		if (size == 0)
@@ -843,9 +843,9 @@ public class SourceProvider {
 		return result;
 	}
 
-	private List<IRegion> getExpressionRanges() {
+	private List<IRegion> getExpressionRanges() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fMarkerMode= EXPRESSION_MODE;
-		List<IRegion> result= new ArrayList<>(2);
+		List<IRegion> result= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<Statement> statements= fDeclaration.getBody().statements();
 		ReturnStatement rs= null;
 		int size= statements.size();
@@ -883,7 +883,7 @@ public class SourceProvider {
 		return result;
 	}
 
-	private boolean hasNLS(Statement s) {
+	private boolean hasNLS(Statement s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode root= s.getRoot();
 		if (root instanceof CompilationUnit) {
 			CompilationUnit unit= (CompilationUnit)root;
@@ -893,7 +893,7 @@ public class SourceProvider {
 			if (element != null && element instanceof ICompilationUnit icu) {
 				try {
 					String statement= icu.getBuffer().getText(start, length);
-					if (statement.matches(".*?//\\s?\\$NON-NLS-\\d+\\$.*$")) { //$NON-NLS-1$
+					if (statement.matches(".*?//\\s?\\$NON-NLS-\\d+\\$.*$")) { //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						return true;
 					}
 				} catch (IndexOutOfBoundsException | JavaModelException e) {
@@ -926,11 +926,11 @@ public class SourceProvider {
 		}
 	}
 
-	private String[] getBlocks(RangeMarker[] markers) throws BadLocationException {
+	private String[] getBlocks(RangeMarker[] markers) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] result= new String[markers.length];
 		final ICompilationUnit cu= fTypeRoot instanceof ICompilationUnit ? (ICompilationUnit) fTypeRoot : null;
 		final IJavaProject project= fTypeRoot.getJavaProject();
-		for (int i= 0; i < markers.length; i++) {
+		for (int i= 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			RangeMarker marker= markers[i];
 			String content= fDocument.get(marker.getOffset(), marker.getLength());
 			String lines[]= Strings.convertIntoLines(content);
@@ -940,14 +940,14 @@ public class SourceProvider {
 				Strings.trimIndentation(lines, project, false);
 			}
 			if (fMarkerMode == STATEMENT_MODE && lines.length == 2 && isSingleControlStatementWithoutBlock()) {
-				lines[1]= cu != null ? CodeFormatterUtil.createIndentString(1, cu) + lines[1] : CodeFormatterUtil.createIndentString(1, project) + lines[1];
+				lines[1]= cu != null ? CodeFormatterUtil.createIndentString(1, cu) + lines[1] : CodeFormatterUtil.createIndentString(1, project) + lines[1]; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			result[i]= Strings.concatenate(lines, TextUtilities.getDefaultLineDelimiter(fDocument));
 		}
 		return result;
 	}
 
-	private boolean isSingleControlStatementWithoutBlock() {
+	private boolean isSingleControlStatementWithoutBlock() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Statement> statements= fDeclaration.getBody().statements();
 		int size= statements.size();
 		if (size != 1)
@@ -970,7 +970,7 @@ public class SourceProvider {
 		return false;
 	}
 
-	public RefactoringStatus checkAccessCompatible(ASTNode targetNode) throws JavaModelException {
+	public RefactoringStatus checkAccessCompatible(ASTNode targetNode) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		if (fAnalyzer.onlyAccessesPublic()) {
 			return result;

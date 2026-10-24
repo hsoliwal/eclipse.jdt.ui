@@ -52,7 +52,7 @@ public class CombinedWordRule implements IRule {
 	public static class WordMatcher {
 
 		/** The table of predefined words and token for this matcher */
-		private Map<CharacterBuffer, IToken> fWords= new HashMap<>();
+		private Map<CharacterBuffer, IToken> fWords= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		/**
 		 * Adds a word and the token to be returned if it is detected.
@@ -184,7 +184,7 @@ public class CombinedWordRule implements IRule {
 				return fHashCode;
 
 			int hash= 0;
-			for (int i= 0, n= fLength; i < n; i++)
+			for (int i= 0, n= fLength; i < n; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				hash= 29*hash + fContent[i];
 			fHashCode= hash;
 			fIsHashCached= true;
@@ -205,7 +205,7 @@ public class CombinedWordRule implements IRule {
 			int length= buffer.length();
 			if (length != fLength)
 				return false;
-			for (int i= 0; i < length; i++)
+			for (int i= 0; i < length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (buffer.charAt(i) != fContent[i])
 					return false;
 			return true;
@@ -221,7 +221,7 @@ public class CombinedWordRule implements IRule {
 			int length= string.length();
 			if (length != fLength)
 				return false;
-			for (int i= 0; i < length; i++)
+			for (int i= 0; i < length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (string.charAt(i) != fContent[i])
 					return false;
 			return true;
@@ -241,7 +241,7 @@ public class CombinedWordRule implements IRule {
 	private CharacterBuffer fBuffer= new CharacterBuffer(16);
 
 	/** List of word matchers */
-	private List<WordMatcher> fMatchers= new ArrayList<>();
+	private List<WordMatcher> fMatchers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Creates a rule which, with the help of an word detector, will return the token
@@ -337,20 +337,20 @@ public class CombinedWordRule implements IRule {
 	/*
 	 * @see IRule#evaluate(ICharacterScanner)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IToken evaluate(ICharacterScanner scanner) {
 		int c= scanner.read();
 		if (fDetector.isWordStart((char) c)) {
 			if (fColumn == UNDEFINED || (fColumn == scanner.getColumn() - 1)) {
 
 				fBuffer.clear();
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fBuffer.append((char) c);
 					c= scanner.read();
 				} while (c != ICharacterScanner.EOF && fDetector.isWordPart((char) c));
 				scanner.unread();
 
-				for (WordMatcher matcher : fMatchers) {
+				for (WordMatcher matcher : fMatchers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IToken token= matcher.evaluate(scanner, fBuffer);
 					if (!token.isUndefined())
 						return token;
@@ -373,7 +373,7 @@ public class CombinedWordRule implements IRule {
 	 * @param scanner the scanner to be used
 	 */
 	private void unreadBuffer(ICharacterScanner scanner) {
-		for (int i= fBuffer.length() - 1; i >= 0; i--)
+		for (int i= fBuffer.length() - 1; i >= 0; i--) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			scanner.unread();
 	}
 }

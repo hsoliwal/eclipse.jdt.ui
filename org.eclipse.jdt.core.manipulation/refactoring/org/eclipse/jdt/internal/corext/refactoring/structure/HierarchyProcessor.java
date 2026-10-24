@@ -141,19 +141,19 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 			fMapping= mapping;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(final SimpleName node) {
 			final ITypeBinding binding= node.resolveTypeBinding();
 			if (binding != null && binding.isTypeVariable()) {
 				String name= null;
-				for (TypeVariableMaplet mapping : fMapping) {
+				for (TypeVariableMaplet mapping : fMapping) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					name= binding.getName();
 					if (mapping.getSourceName().equals(name) && node.getIdentifier().equals(name)) {
 						final MethodDeclaration declaration= ASTNodes.getParent(node, MethodDeclaration.class);
 						if (declaration != null) {
 							final IMethodBinding method= declaration.resolveBinding();
 							if (method != null) {
-								for (ITypeBinding b : method.getTypeParameters()) {
+								for (ITypeBinding b : method.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (b.isEqualTo(binding)) {
 										return true;
 									}
@@ -179,21 +179,21 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 
 	protected static void copyExtraDimensions(final VariableDeclaration oldVarDeclaration, final VariableDeclaration newVarDeclaration) {
 		final AST ast= newVarDeclaration.getAST();
-		for (Object extraDimension : oldVarDeclaration.extraDimensions()) {
+		for (Object extraDimension : oldVarDeclaration.extraDimensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newVarDeclaration.extraDimensions().add(ASTNode.copySubtree(ast, (Dimension) extraDimension));
 		}
 	}
 
 	protected static void copyExtraDimensions(final MethodDeclaration oldMethod, final MethodDeclaration newMethod) {
 		final AST ast= newMethod.getAST();
-		for (Object extraDimension : oldMethod.extraDimensions()) {
+		for (Object extraDimension : oldMethod.extraDimensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newMethod.extraDimensions().add(ASTNode.copySubtree(ast, (Dimension) extraDimension));
 		}
 	}
 
 	protected static void copyAnnotations(final FieldDeclaration oldField, final FieldDeclaration newField) {
 		final AST ast= newField.getAST();
-		for (Object element : oldField.modifiers()) {
+		for (Object element : oldField.modifiers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IExtendedModifier modifier= (IExtendedModifier) element;
 			final List<IExtendedModifier> modifiers= newField.modifiers();
 			if (modifier.isAnnotation() && !modifiers.contains(modifier))
@@ -203,7 +203,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 
 	protected static void copyAnnotations(final MethodDeclaration oldMethod, final MethodDeclaration newMethod) {
 		final AST ast= newMethod.getAST();
-		for (Object element : oldMethod.modifiers()) {
+		for (Object element : oldMethod.modifiers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IExtendedModifier modifier= (IExtendedModifier) element;
 			final List<IExtendedModifier> modifiers= newMethod.modifiers();
 			if (modifier.isAnnotation() && !modifiers.contains(modifier))
@@ -223,14 +223,14 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 
 	protected static void copyThrownExceptions(final MethodDeclaration oldMethod, final MethodDeclaration newMethod) {
 		final AST ast= newMethod.getAST();
-		for (Object thrownExceptionType : oldMethod.thrownExceptionTypes()) {
+		for (Object thrownExceptionType : oldMethod.thrownExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newMethod.thrownExceptionTypes().add(ASTNode.copySubtree(ast, (Type) thrownExceptionType));
 		}
 	}
 
 	protected static void copyTypeParameters(final MethodDeclaration oldMethod, final MethodDeclaration newMethod) {
 		final AST ast= newMethod.getAST();
-		for (Object typeParameter : oldMethod.typeParameters()) {
+		for (Object typeParameter : oldMethod.typeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newMethod.typeParameters().add(ASTNode.copySubtree(ast, (TypeParameter) typeParameter));
 		}
 	}
@@ -246,7 +246,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 		return null;
 	}
 
-	protected static FieldDeclaration createNewFieldDeclarationNode(final ASTRewrite rewrite, final CompilationUnit unit, final IField field, final VariableDeclarationFragment oldFieldFragment, final TypeVariableMaplet[] mapping, final int modifiers) throws JavaModelException {
+	protected static FieldDeclaration createNewFieldDeclarationNode(final ASTRewrite rewrite, final CompilationUnit unit, final IField field, final VariableDeclarationFragment oldFieldFragment, final TypeVariableMaplet[] mapping, final int modifiers) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final VariableDeclarationFragment newFragment= rewrite.getAST().newVariableDeclarationFragment();
 		copyExtraDimensions(oldFieldFragment, newFragment);
 		if (oldFieldFragment.getInitializer() != null) {
@@ -364,9 +364,9 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 		return result;
 	}
 
-	protected static void deleteDeclarationNodes(final boolean sameCu, final CompilationUnitRewrite unitRewriter, final List<IMember> members, final GroupCategorySet set) throws JavaModelException {
+	protected static void deleteDeclarationNodes(final boolean sameCu, final CompilationUnitRewrite unitRewriter, final List<IMember> members, final GroupCategorySet set) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final List<ASTNode> declarationNodes= getDeclarationNodes(unitRewriter.getRoot(), members);
-		for (ASTNode node : declarationNodes) {
+		for (ASTNode node : declarationNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ASTRewrite rewriter= unitRewriter.getASTRewrite();
 			final ImportRemover remover= unitRewriter.getImportRemover();
 			if (node instanceof VariableDeclarationFragment) {
@@ -390,9 +390,9 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 		}
 	}
 
-	protected static List<ASTNode> getDeclarationNodes(final CompilationUnit cuNode, final List<IMember> members) throws JavaModelException {
-		final List<ASTNode> result= new ArrayList<>(members.size());
-		for (IMember member : members) {
+	protected static List<ASTNode> getDeclarationNodes(final CompilationUnit cuNode, final List<IMember> members) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<ASTNode> result= new ArrayList<>(members.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= null;
 			if (member instanceof IField) {
 				if (Flags.isEnum(member.getFlags()))
@@ -427,7 +427,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 	protected IType fCachedDeclaringType;
 
 	/** The cached member references */
-	protected final Map<IMember, Object[]> fCachedMembersReferences= new HashMap<>(2);
+	protected final Map<IMember, Object[]> fCachedMembersReferences= new HashMap<>(2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/** The cached type references */
 	protected IType[] fCachedReferencedTypes;
@@ -452,7 +452,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 	 *            <code>true</code> to create a working copy layer,
 	 *            <code>false</code> otherwise
 	 */
-	protected HierarchyProcessor(final IMember[] members, final CodeGenerationSettings settings, boolean layer) {
+	protected HierarchyProcessor(final IMember[] members, final CodeGenerationSettings settings, boolean layer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(settings);
 		fLayer= layer;
 		if (members != null) {
@@ -463,7 +463,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 					try {
 						final ICompilationUnit copy= getSharedWorkingCopy(original.getPrimary(), new NullProgressMonitor());
 						if (copy != null) {
-							for (int index= 0; index < fMembersToMove.length; index++) {
+							for (int index= 0; index < fMembersToMove.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								final IJavaElement[] elements= copy.findElements(fMembersToMove[index]);
 								if (elements != null && elements.length > 0 && elements[0] instanceof IMember) {
 									fMembersToMove[index]= (IMember) elements[0];
@@ -484,17 +484,17 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 		return member.exists();
 	}
 
-	protected RefactoringStatus checkConstructorCalls(final IType type, final IProgressMonitor monitor) throws JavaModelException {
+	protected RefactoringStatus checkConstructorCalls(final IType type, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(RefactoringCoreMessages.PullUpRefactoring_checking, 2);
 			final RefactoringStatus result= new RefactoringStatus();
 			final String message= Messages.format(RefactoringCoreMessages.HierarchyRefactoring_gets_instantiated, new Object[] { JavaElementLabelsCore.getTextLabel(type, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)});
 
-			for (SearchResultGroup group : ConstructorReferenceFinder.getConstructorReferences(type, fOwner, Progress.subMonitor(monitor, 1), result)) {
+			for (SearchResultGroup group : ConstructorReferenceFinder.getConstructorReferences(type, fOwner, Progress.subMonitor(monitor, 1), result)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit unit= group.getCompilationUnit();
 				if (unit != null) {
 					final CompilationUnit cuNode= RefactoringASTParser.parseWithASTProvider(unit, false, Progress.subMonitor(monitor, 1));
-					for (ASTNode node : ASTNodeSearchUtil.getAstNodes(group.getSearchResults(), cuNode)) {
+					for (ASTNode node : ASTNodeSearchUtil.getAstNodes(group.getSearchResults(), cuNode)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if ((node instanceof ClassInstanceCreation) || ConstructorReferenceFinder.isImplicitConstructorReferenceNodeInClassCreations(node)) {
 							final RefactoringStatusContext context= JavaStatusContext.create(unit, node);
 							result.addError(message, context);
@@ -508,7 +508,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 		}
 	}
 
-	protected RefactoringStatus checkDeclaringType(final IProgressMonitor monitor) throws JavaModelException {
+	protected RefactoringStatus checkDeclaringType(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			final IType type= getDeclaringType();
 			if (type.isEnum())
@@ -530,7 +530,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 
 	protected RefactoringStatus checkIfMembersExist() {
 		final RefactoringStatus result= new RefactoringStatus();
-		for (IMember member : fMembersToMove) {
+		for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member == null || !member.exists())
 				result.addFatalError(RefactoringCoreMessages.HierarchyRefactoring_does_not_exist);
 		}
@@ -544,7 +544,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 	protected void copyParameters(final ASTRewrite rewrite, final ICompilationUnit unit, final MethodDeclaration oldMethod, final MethodDeclaration newMethod,
 			final TypeVariableMaplet[] mapping) throws JavaModelException {
 		SingleVariableDeclaration newDeclaration= null;
-		for (Object parameter : oldMethod.parameters()) {
+		for (Object parameter : oldMethod.parameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final SingleVariableDeclaration oldDeclaration= (SingleVariableDeclaration) parameter;
 			if (mapping.length > 0)
 				newDeclaration= createPlaceholderForSingleVariableDeclaration(oldDeclaration, unit, mapping, rewrite);
@@ -596,9 +596,9 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 	protected IType[] getTypesReferencedInMovedMembers(final IProgressMonitor monitor) throws JavaModelException {
 		if (fCachedReferencedTypes == null) {
 			final IType[] types= ReferenceFinderUtil.getTypesReferencedIn(fMembersToMove, fOwner, monitor);
-			final List<IType> result= new ArrayList<>(types.length);
+			final List<IType> result= new ArrayList<>(types.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			final List<IMember> members= Arrays.asList(fMembersToMove);
-			for (IType type : types) {
+			for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!members.contains(type) && !type.equals(getDeclaringType())) {
 					result.add(type);
 				}
@@ -609,7 +609,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 		return fCachedReferencedTypes;
 	}
 
-	protected boolean hasNonMovedReferences(final IMember member, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException {
+	protected boolean hasNonMovedReferences(final IMember member, final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fCachedMembersReferences.containsKey(member)) {
 			SearchPattern pattern= SearchPattern.createPattern(member, IJavaSearchConstants.REFERENCES, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 			if (pattern == null) {
@@ -631,7 +631,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 		final ICompilationUnit unit= groups[0].getCompilationUnit();
 		if (!getDeclaringType().getCompilationUnit().equals(unit))
 			return true;
-		for (SearchMatch match : groups[0].getSearchResults()) {
+		for (SearchMatch match : groups[0].getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isMovedReference(match)) {
 				return true;
 			}
@@ -640,7 +640,7 @@ public abstract class HierarchyProcessor extends SuperTypeRefactoringProcessor {
 	}
 
 	protected boolean isMovedReference(final SearchMatch match) throws JavaModelException {
-		for (IMember m : fMembersToMove) {
+		for (IMember m : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ISourceRange range= m.getSourceRange();
 			if (range.getOffset() <= match.getOffset() && range.getOffset() + range.getLength() >= match.getOffset())
 				return true;

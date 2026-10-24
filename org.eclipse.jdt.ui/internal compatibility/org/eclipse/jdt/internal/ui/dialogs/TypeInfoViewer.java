@@ -109,7 +109,7 @@ public class TypeInfoViewer {
 
 		public SearchRequestor(TypeInfoFilter filter) {
 			super();
-			fResult= new ArrayList(2048);
+			fResult= new ArrayList(2048); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fFilter= filter;
 		}
 		public TypeNameMatch[] getResult() {
@@ -142,7 +142,7 @@ public class TypeInfoViewer {
 			fLabelProvider= labelProvider;
 			fFilter= filter;
 		}
-	    @Override
+	    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(Object left, Object right) {
 	    	TypeNameMatch leftInfo= (TypeNameMatch)left;
 	    	TypeNameMatch rightInfo= (TypeNameMatch)right;
@@ -220,7 +220,7 @@ public class TypeInfoViewer {
 		private ITypeInfoImageProvider fProviderExtension;
 		private TypeInfoRequestorAdapter fAdapter= new TypeInfoRequestorAdapter();
 
-		private Map fLib2Name= new HashMap();
+		private Map fLib2Name= new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		private String[] fInstallLocations;
 		private String[] fVMNames;
 
@@ -228,9 +228,9 @@ public class TypeInfoViewer {
 
 		public TypeInfoLabelProvider(ITypeInfoImageProvider extension) {
 			fProviderExtension= extension;
-			List locations= new ArrayList();
-			List labels= new ArrayList();
-			for (IVMInstallType install : JavaRuntime.getVMInstallTypes()) {
+			List locations= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List labels= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IVMInstallType install : JavaRuntime.getVMInstallTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				processVMInstallType(install, locations, labels);
 			}
 			fInstallLocations= (String[])locations.toArray(new String[locations.size()]);
@@ -240,11 +240,11 @@ public class TypeInfoViewer {
 		public void setFullyQualifyDuplicates(boolean value) {
 			fFullyQualifyDuplicates= value;
 		}
-		private void processVMInstallType(IVMInstallType installType, List locations, List labels) {
+		private void processVMInstallType(IVMInstallType installType, List locations, List labels) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (installType != null) {
 				boolean isMac= Platform.OS.isMac();
 				final String HOME_SUFFIX= "/Home"; //$NON-NLS-1$
-				for (IVMInstall install : installType.getVMInstalls()) {
+				for (IVMInstall install : installType.getVMInstalls()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String label= getFormattedLabel(install.getName());
 					LibraryLocation[] libLocations= install.getLibraryLocations();
 					if (libLocations != null) {
@@ -261,7 +261,7 @@ public class TypeInfoViewer {
 			}
 		}
 		private void processLibraryLocation(LibraryLocation[] libLocations, String label) {
-			for (LibraryLocation location : libLocations) {
+			for (LibraryLocation location : libLocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fLib2Name.put(location.getSystemLibraryPath().toString(), label);
 			}
 		}
@@ -272,44 +272,44 @@ public class TypeInfoViewer {
 			return ((TypeNameMatch)element).getSimpleTypeName();
 		}
 		public String getQualifiedText(TypeNameMatch type) {
-			StringBuilder result= new StringBuilder();
-			result.append(type.getSimpleTypeName());
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			result.append(type.getSimpleTypeName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String containerName= type.getTypeContainerName();
-			result.append(JavaElementLabels.CONCAT_STRING);
+			result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (containerName.length() > 0) {
-				result.append(containerName);
+				result.append(containerName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				result.append(JavaUIMessages.TypeInfoViewer_default_package);
+				result.append(JavaUIMessages.TypeInfoViewer_default_package); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			return result.toString();
 		}
 		public String getFullyQualifiedText(TypeNameMatch type) {
-			StringBuilder result= new StringBuilder();
-			result.append(type.getSimpleTypeName());
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			result.append(type.getSimpleTypeName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String containerName= type.getTypeContainerName();
 			if (containerName.length() > 0) {
-				result.append(JavaElementLabels.CONCAT_STRING);
-				result.append(containerName);
+				result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(containerName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			result.append(JavaElementLabels.CONCAT_STRING);
-			result.append(getContainerName(type));
+			result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(getContainerName(type)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return result.toString();
 		}
-		public String getText(TypeNameMatch last, TypeNameMatch current, TypeNameMatch next) {
-			StringBuilder result= new StringBuilder();
+		public String getText(TypeNameMatch last, TypeNameMatch current, TypeNameMatch next) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int qualifications= 0;
 			String currentTN= current.getSimpleTypeName();
-			result.append(currentTN);
+			result.append(currentTN); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String currentTCN= getTypeContainerName(current);
 			if (last != null) {
 				String lastTN= last.getSimpleTypeName();
 				String lastTCN= getTypeContainerName(last);
 				if (currentTCN.equals(lastTCN)) {
 					if (currentTN.equals(lastTN)) {
-						result.append(JavaElementLabels.CONCAT_STRING);
-						result.append(currentTCN);
-						result.append(JavaElementLabels.CONCAT_STRING);
-						result.append(getContainerName(current));
+						result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						result.append(currentTCN); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						result.append(getContainerName(current)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						return result.toString();
 					}
 				} else if (currentTN.equals(lastTN)) {
@@ -321,10 +321,10 @@ public class TypeInfoViewer {
 				String nextTCN= getTypeContainerName(next);
 				if (currentTCN.equals(nextTCN)) {
 					if (currentTN.equals(nextTN)) {
-						result.append(JavaElementLabels.CONCAT_STRING);
-						result.append(currentTCN);
-						result.append(JavaElementLabels.CONCAT_STRING);
-						result.append(getContainerName(current));
+						result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						result.append(currentTCN); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						result.append(getContainerName(current)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						return result.toString();
 					}
 				} else if (currentTN.equals(nextTN)) {
@@ -332,23 +332,23 @@ public class TypeInfoViewer {
 				}
 			}
 			if (qualifications > 0) {
-				result.append(JavaElementLabels.CONCAT_STRING);
-				result.append(currentTCN);
+				result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(currentTCN); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (fFullyQualifyDuplicates) {
-					result.append(JavaElementLabels.CONCAT_STRING);
-					result.append(getContainerName(current));
+					result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(getContainerName(current)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			return result.toString();
 		}
 		public String getQualificationText(TypeNameMatch type) {
-			StringBuilder result= new StringBuilder();
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			String containerName= type.getTypeContainerName();
 			if (containerName.length() > 0) {
-				result.append(containerName);
-				result.append(JavaElementLabels.CONCAT_STRING);
+				result.append(containerName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			result.append(getContainerName(type));
+			result.append(getContainerName(type)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return result.toString();
 		}
 
@@ -379,7 +379,7 @@ public class TypeInfoViewer {
 			IPackageFragmentRoot root= type.getPackageFragmentRoot();
 			if (root.isExternal()) {
 				String name= root.getPath().toOSString();
-				for (int i= 0; i < fInstallLocations.length; i++) {
+				for (int i= 0; i < fInstallLocations.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (name.startsWith(fInstallLocations[i])) {
 						return fVMNames[i];
 					}
@@ -394,7 +394,7 @@ public class TypeInfoViewer {
 		}
 	}
 
-	private static class ProgressUpdateJob extends UIJob {
+	private static class ProgressUpdateJob extends UIJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 		private TypeInfoViewer fViewer;
 		private boolean fStopped;
 		public ProgressUpdateJob(Display display, TypeInfoViewer viewer) {
@@ -512,7 +512,7 @@ public class TypeInfoViewer {
 		public void stop() {
 			cancel();
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected IStatus doRun(ProgressMonitor monitor) {
 			try {
 				if (VIRTUAL) {
@@ -533,7 +533,7 @@ public class TypeInfoViewer {
 		}
 		protected abstract TypeNameMatch[] getSearchResult(Set matchIdsInHistory, ProgressMonitor monitor) throws CoreException;
 
-		private void internalRun(ProgressMonitor monitor) throws CoreException, InterruptedException {
+		private void internalRun(ProgressMonitor monitor) throws CoreException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (monitor.isCanceled())
 				throw new OperationCanceledException();
 
@@ -543,17 +543,17 @@ public class TypeInfoViewer {
 			TypeNameMatch last= null;
 			TypeNameMatch type= null;
 			TypeNameMatch next= null;
-			List elements= new ArrayList();
-			List imageDescriptors= new ArrayList();
-			List labels= new ArrayList();
-			Set filteredMatches= new HashSet();
+			List elements= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List imageDescriptors= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List labels= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			Set filteredMatches= new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 			TypeNameMatch[] matchingTypes= fHistory.getFilteredTypeInfos(fFilter);
 			if (matchingTypes.length > 0) {
 				Arrays.sort(matchingTypes, new TypeInfoComparator(fLabelProvider, fFilter));
 				type= matchingTypes[0];
 				int i= 1;
-				while(type != null) {
+				while(type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					next= (i == matchingTypes.length) ? null : matchingTypes[i];
 					elements.add(type);
 					filteredMatches.add(type);
@@ -584,7 +584,7 @@ public class TypeInfoViewer {
 			if (!filteredMatches.isEmpty()) {
 				fViewer.addDashLineAndUpdateLastHistoryEntry(fTicket, type);
 			}
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				long startTime= System.currentTimeMillis();
 				elements.clear();
 				imageDescriptors.clear();
@@ -593,7 +593,7 @@ public class TypeInfoViewer {
 				if (delta == 0)
 					break;
 				processed= processed + delta;
-				while(delta > 0) {
+				while(delta > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					next= (nextIndex == result.length) ? null : result[nextIndex];
 					elements.add(type);
 					labels.add(fLabelProvider.getText(last, type, next));
@@ -613,7 +613,7 @@ public class TypeInfoViewer {
 					throw new OperationCanceledException();
 			}
 		}
-		private void internalRunVirtual(ProgressMonitor monitor) throws CoreException, InterruptedException {
+		private void internalRunVirtual(ProgressMonitor monitor) throws CoreException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (monitor.isCanceled())
 				throw new OperationCanceledException();
 
@@ -624,7 +624,7 @@ public class TypeInfoViewer {
 			if ((fMode & INDEX) == 0)
 				return;
 
-			Set filteredMatches= new HashSet(matchingTypes.length * 2);
+			Set filteredMatches= new HashSet(matchingTypes.length * 2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			filteredMatches.addAll(Arrays.asList(matchingTypes));
 
 			TypeNameMatch[] result= getSearchResult(filteredMatches, monitor);
@@ -659,7 +659,7 @@ public class TypeInfoViewer {
 			fReqestor.cancel();
 			super.stop();
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected TypeNameMatch[] getSearchResult(Set matchIdsInHistory, ProgressMonitor monitor) throws CoreException {
 			long start= System.currentTimeMillis();
 			fReqestor.setHistory(matchIdsInHistory);
@@ -678,11 +678,11 @@ public class TypeInfoViewer {
 				IJavaSearchConstants.WAIT_UNTIL_READY_TO_SEARCH,
 				monitor);
 			if (DEBUG)
-				System.out.println("Time needed until search has finished: " + (System.currentTimeMillis() - start)); //$NON-NLS-1$
+				System.out.println("Time needed until search has finished: " + (System.currentTimeMillis() - start)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			TypeNameMatch[] result= fReqestor.getResult();
 			Arrays.sort(result, new TypeInfoComparator(fLabelProvider, fFilter));
 			if (DEBUG)
-				System.out.println("Time needed until sort has finished: " + (System.currentTimeMillis() - start)); //$NON-NLS-1$
+				System.out.println("Time needed until sort has finished: " + (System.currentTimeMillis() - start)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fViewer.rememberResult(fTicket, result);
 			return result;
 		}
@@ -696,8 +696,8 @@ public class TypeInfoViewer {
 		}
 		@Override
 		protected TypeNameMatch[] getSearchResult(Set filteredHistory, ProgressMonitor monitor) throws CoreException {
-			List result= new ArrayList(2048);
-			for (TypeNameMatch type : fLastResult) {
+			List result= new ArrayList(2048); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (TypeNameMatch type : fLastResult) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (filteredHistory.contains(type))
 					continue;
 				if (fFilter.matchesCachedResult(type))
@@ -719,7 +719,7 @@ public class TypeInfoViewer {
 		public void stop() {
 			cancel();
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected IStatus doRun(ProgressMonitor monitor) {
 			try {
 				monitor.setTaskName(JavaUIMessages.TypeInfoViewer_syncJob_taskName);
@@ -751,26 +751,26 @@ public class TypeInfoViewer {
 		private String fMessage;
 		private int fMessageLength;
 		public String getText(int width) {
-			StringBuilder dashes= new StringBuilder();
+			StringBuilder dashes= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int chars= (((width - fMessageLength) / fSeparatorWidth) / 2) -2;
-			for (int i= 0; i < chars; i++) {
-				dashes.append(SEPARATOR);
+			for (int i= 0; i < chars; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				dashes.append(SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			StringBuilder result= new StringBuilder();
-			result.append(dashes);
-			result.append(fMessage);
-			result.append(dashes);
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			result.append(dashes); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(fMessage); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(dashes); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return result.toString();
 		}
 		public void initialize(GC gc) {
 			fSeparatorWidth= gc.getAdvanceWidth(SEPARATOR);
-			fMessage= " " + JavaUIMessages.TypeInfoViewer_separator_message + " ";  //$NON-NLS-1$ //$NON-NLS-2$
+			fMessage= " " + JavaUIMessages.TypeInfoViewer_separator_message + " ";  //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fMessageLength= gc.textExtent(fMessage).x;
 		}
 	}
 
 	private static class ImageManager {
-		private Map fImages= new HashMap(20);
+		private Map fImages= new HashMap(20); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		public Image get(ImageDescriptor descriptor) {
 			if (descriptor == null)
@@ -786,7 +786,7 @@ public class TypeInfoViewer {
 		}
 
 		public void dispose() {
-			for (Object element : fImages.values()) {
+			for (Object element : fImages.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Image image= (Image)element;
 				image.dispose();
 			}
@@ -858,7 +858,7 @@ public class TypeInfoViewer {
 	private static final TypeNameMatch DASH_LINE= SearchEngine.createTypeNameMatch(null, 0);
 
 
-	public TypeInfoViewer(Composite parent, int flags, Label progressLabel,
+	public TypeInfoViewer(Composite parent, int flags, Label progressLabel, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaSearchScope scope, int elementKind, String initialFilter,
 			ITypeInfoFilterExtension filterExtension, ITypeInfoImageProvider imageExtension) {
 		Assert.isNotNull(scope);
@@ -873,10 +873,10 @@ public class TypeInfoViewer {
 		fTable= new Table(parent, SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER | SWT.FLAT | flags);
 		fTable.setFont(parent.getFont());
 		fLabelProvider= new TypeInfoLabelProvider(imageExtension);
-		fItems= new ArrayList(500);
+		fItems= new ArrayList(500); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fTable.setHeaderVisible(false);
 		addPopupMenu();
-		fTable.addControlListener(new ControlAdapter() {
+		fTable.addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlResized(ControlEvent event) {
 				int itemHeight= fTable.getItemHeight();
@@ -884,8 +884,8 @@ public class TypeInfoViewer {
 				fNumberOfVisibleItems= (clientArea.height / itemHeight) + 1;
 			}
 		});
-		fTable.addKeyListener(new KeyAdapter() {
-			@Override
+		fTable.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyPressed(KeyEvent e) {
 				switch (e.keyCode) {
 					case SWT.DEL:
@@ -912,11 +912,11 @@ public class TypeInfoViewer {
 				}
 			}
 		});
-		fTable.addSelectionListener(new SelectionAdapter() {
-			@Override
+		fTable.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				if (fLastSelection != null) {
-					for (int i= 0; i < fLastSelection.length; i++) {
+					for (int i= 0; i < fLastSelection.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						TableItem item= fLastSelection[i];
 						// could be disposed by deleting element from
 						// type info history
@@ -927,7 +927,7 @@ public class TypeInfoViewer {
 				TableItem[] items= fTable.getSelection();
 				fLastSelection= new TableItem[items.length];
 				fLastLabels= new String[items.length];
-				for (int i= 0; i < items.length; i++) {
+				for (int i= 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TableItem item= items[i];
 					fLastSelection[i]= item;
 					fLastLabels[i]= item.getText();
@@ -940,7 +940,7 @@ public class TypeInfoViewer {
 				}
 			}
 		});
-		fTable.addDisposeListener(event -> {
+		fTable.addDisposeListener(event -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			stop(true, true);
 			fSeparatorIcon.dispose();
 			fImageManager.dispose();
@@ -952,7 +952,7 @@ public class TypeInfoViewer {
 		if (VIRTUAL) {
 			fHistoryMatches= EMTPY_TYPE_INFO_ARRAY;
 			fSearchMatches= EMTPY_TYPE_INFO_ARRAY;
-			fTable.addListener(SWT.SetData, event -> {
+			fTable.addListener(SWT.SetData, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				TableItem item= (TableItem)event.item;
 				setData(item);
 			});
@@ -1016,7 +1016,7 @@ public class TypeInfoViewer {
 			return;
 		fFullyQualifySelection= value;
 		if (fLastSelection != null) {
-			for (TableItem item : fLastSelection) {
+			for (TableItem item : fLastSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object data= item.getData();
 				if (data instanceof TypeNameMatch) {
 					item.setText(getQualifiedText((TypeNameMatch)data));
@@ -1027,8 +1027,8 @@ public class TypeInfoViewer {
 
 	public TypeNameMatch[] getSelection() {
 		TableItem[] items= fTable.getSelection();
-		List result= new ArrayList(items.length);
-		for (TableItem item : items) {
+		List result= new ArrayList(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data= item.getData();
 			if (data instanceof TypeNameMatch) {
 				result.add(data);
@@ -1101,7 +1101,7 @@ public class TypeInfoViewer {
 		}
 	}
 
-	public void reset() {
+	public void reset() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fLastSelection= null;
 		fLastLabels= null;
 		fExpectedItemCount= 0;
@@ -1129,7 +1129,7 @@ public class TypeInfoViewer {
 			int lastIndex= historyItems.length - 1;
 			TypeNameMatch last= null;
 			TypeNameMatch type= historyItems[0];
-			for (int i= 0; i < historyItems.length; i++) {
+			for (int i= 0; i < historyItems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeNameMatch next= i == lastIndex ? null : historyItems[i + 1];
 				addSingleElement(type,
 					fLabelProvider.getImageDescriptor(type),
@@ -1147,19 +1147,19 @@ public class TypeInfoViewer {
 		return new TypeInfoFilter(text, fSearchScope, fElementKind, fFilterExtension);
 	}
 
-	private void addPopupMenu() {
+	private void addPopupMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Menu menu= new Menu(fTable.getShell(), SWT.POP_UP);
 		fTable.setMenu(menu);
 		final MenuItem remove= new MenuItem(menu, SWT.NONE);
 		remove.setText(JavaUIMessages.TypeInfoViewer_remove_from_history);
-		menu.addMenuListener(new MenuAdapter() {
+		menu.addMenuListener(new MenuAdapter() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			@Override
 			public void menuShown(MenuEvent e) {
 				TableItem[] selection= fTable.getSelection();
 				remove.setEnabled(canEnable(selection));
 			}
 		});
-		remove.addSelectionListener(new SelectionAdapter() {
+		remove.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				deleteHistoryEntry();
@@ -1170,7 +1170,7 @@ public class TypeInfoViewer {
 	private boolean canEnable(TableItem[] selection) {
 		if (selection.length == 0)
 			return false;
-		for (TableItem item : selection) {
+		for (TableItem item : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data= item.getData();
 			if (!(data instanceof TypeNameMatch))
 				return false;
@@ -1182,7 +1182,7 @@ public class TypeInfoViewer {
 
 	//---- History management -------------------------------------------------------
 
-	private void deleteHistoryEntry() {
+	private void deleteHistoryEntry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int index= fTable.getSelectionIndex();
 		if (index == -1)
 			return;
@@ -1244,7 +1244,7 @@ public class TypeInfoViewer {
 	private void addAll(int ticket, final List elements, final List imageDescriptors, final List labels) {
 		syncExec(ticket, () -> {
 			int size= elements.size();
-			for(int i= 0; i < size; i++) {
+			for(int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addSingleElement(elements.get(i),
 					(ImageDescriptor)imageDescriptors.get(i),
 					(String)labels.get(i));
@@ -1252,7 +1252,7 @@ public class TypeInfoViewer {
 		});
 	}
 
-	private void addDashLineAndUpdateLastHistoryEntry(int ticket, final TypeNameMatch next) {
+	private void addDashLineAndUpdateLastHistoryEntry(int ticket, final TypeNameMatch next) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		syncExec(ticket, () -> {
 			if (fNextElement > 0) {
 				TableItem item= fTable.getItem(fNextElement - 1);
@@ -1284,7 +1284,7 @@ public class TypeInfoViewer {
 		fNextElement++;
 	}
 
-	private void addSingleElement(Object element, ImageDescriptor imageDescriptor, String label) {
+	private void addSingleElement(Object element, ImageDescriptor imageDescriptor, String label) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TableItem item= null;
 		Object old= null;
 		if (fItems.size() > fNextElement) {
@@ -1364,7 +1364,7 @@ public class TypeInfoViewer {
 
 	//-- virtual table support -------------------------------------------------------
 
-	private void setHistoryResult(int ticket, final TypeNameMatch[] types) {
+	private void setHistoryResult(int ticket, final TypeNameMatch[] types) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		syncExec(ticket, () -> {
 			fExpectedItemCount= types.length;
 			int lastHistoryLength= fHistoryMatches.length;
@@ -1384,7 +1384,7 @@ public class TypeInfoViewer {
 		});
 	}
 
-	private void setSearchResult(int ticket, final TypeNameMatch[] types) {
+	private void setSearchResult(int ticket, final TypeNameMatch[] types) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		syncExec(ticket, () -> {
 			fExpectedItemCount+= types.length;
 			fSearchMatches= types;
@@ -1499,7 +1499,7 @@ public class TypeInfoViewer {
 	private void syncExec(final Runnable runnable) {
 		if (fDisplay.isDisposed())
 			return;
-		fDisplay.syncExec(() -> {
+		fDisplay.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (fTable.isDisposed())
 				return;
 			runnable.run();
@@ -1509,7 +1509,7 @@ public class TypeInfoViewer {
 	private void syncExec(final int ticket, final Runnable runnable) {
 		if (fDisplay.isDisposed())
 			return;
-		fDisplay.syncExec(() -> {
+		fDisplay.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (fTable.isDisposed() || ticket != fSearchJobTicket)
 				return;
 			runnable.run();
@@ -1535,7 +1535,7 @@ public class TypeInfoViewer {
             fTable.remove(fNextElement, fItems.size() - 1);
             fTable.setRedraw(true);
         }
-		for (int i= fItems.size() - 1; i >= fNextElement; i--) {
+		for (int i= fItems.size() - 1; i >= fNextElement; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fItems.remove(i);
 		}
 	}

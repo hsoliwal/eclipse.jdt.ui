@@ -89,15 +89,15 @@ public class TypeCompletionTest1d7 extends TypeCompletionTest {
 		IPackageFragmentRoot src= (IPackageFragmentRoot)cts1d7.getTestPackage().getParent();
 
 		IPackageFragment package1= src.createPackageFragment("package1", true, null);
-		package1.createCompilationUnit("AClass.java", "package " + package1.getElementName() + "; public class AClass {}", true, null);
+		package1.createCompilationUnit("AClass.java", "package " + package1.getElementName() + "; public class AClass {}", true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IPackageFragment package2= src.createPackageFragment("package2", true, null);
-		package1.createCompilationUnit("AClass.java", "package " + package2.getElementName() + "; public class AClass {}", true, null);
+		package1.createCompilationUnit("AClass.java", "package " + package2.getElementName() + "; public class AClass {}", true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		waitBeforeCompleting(true);
 
-		addImport(package1.getElementName() + ".AClass");
-		expectImport(package1.getElementName() + ".AClass");
-		assertMethodBodyProposal("new AClass|", "AClass() - " + package2.getElementName(), "new " + package2.getElementName() + ".AClass()");
+		addImport(package1.getElementName() + ".AClass"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		expectImport(package1.getElementName() + ".AClass"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertMethodBodyProposal("new AClass|", "AClass() - " + package2.getElementName(), "new " + package2.getElementName() + ".AClass()"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

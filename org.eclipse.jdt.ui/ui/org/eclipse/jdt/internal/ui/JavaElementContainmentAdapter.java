@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.JavaCore;
 
 public class JavaElementContainmentAdapter implements IContainmentAdapter {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean contains(Object workingSetElement, Object element, int flags) {
 		if (!(workingSetElement instanceof IJavaElement) || element == null)
 			return false;
@@ -87,7 +87,7 @@ public class JavaElementContainmentAdapter implements IContainmentAdapter {
 
 	private boolean check(IJavaElement ancestor, IJavaElement descendent) {
 		descendent= descendent.getParent();
-		while (descendent != null) {
+		while (descendent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ancestor.equals(descendent))
 				return true;
 			descendent= descendent.getParent();
@@ -102,7 +102,7 @@ public class JavaElementContainmentAdapter implements IContainmentAdapter {
 		return check(element, resource);
 	}
 
-	private boolean contains(IJavaElement workingSetElement, IResource element, int flags) {
+	private boolean contains(IJavaElement workingSetElement, IResource element, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource workingSetResource= workingSetElement.getResource();
 		if (workingSetResource == null)
 			return false;
@@ -123,7 +123,7 @@ public class JavaElementContainmentAdapter implements IContainmentAdapter {
 
 	private boolean check(IResource ancestor, IResource descendent) {
 		descendent= descendent.getParent();
-		while(descendent != null) {
+		while(descendent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ancestor.equals(descendent))
 				return true;
 			descendent= descendent.getParent();

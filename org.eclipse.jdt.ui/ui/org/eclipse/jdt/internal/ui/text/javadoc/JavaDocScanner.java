@@ -86,9 +86,9 @@ public final class JavaDocScanner extends JavaCommentScanner {
 			super("<", ">", token, escapeCharacter); //$NON-NLS-2$ //$NON-NLS-1$
 		}
 
-		private IToken evaluateToken() {
+		private IToken evaluateToken() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
-				final String token= getDocument().get(getTokenOffset(), getTokenLength()) + "."; //$NON-NLS-1$
+				final String token= getDocument().get(getTokenOffset(), getTokenLength()) + "."; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				int offset= 0;
 				char character= token.charAt(++offset);
@@ -96,13 +96,13 @@ public final class JavaDocScanner extends JavaCommentScanner {
 				if (character == '/')
 					character= token.charAt(++offset);
 
-				while (Character.isWhitespace(character))
+				while (Character.isWhitespace(character)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					character= token.charAt(++offset);
 
-				while (Character.isLetterOrDigit(character))
+				while (Character.isLetterOrDigit(character)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					character= token.charAt(++offset);
 
-				while (Character.isWhitespace(character))
+				while (Character.isWhitespace(character)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					character= token.charAt(++offset);
 
 				if (offset >= 2 && token.charAt(offset) == fEndSequence[0])
@@ -157,10 +157,10 @@ public final class JavaDocScanner extends JavaCommentScanner {
 	/*
 	 * @see AbstractJavaScanner#createRules()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected List<IRule> createRules() {
 
-		List<IRule> list= new ArrayList<>();
+		List<IRule> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Add rule for tags
 		Token token= getToken(IJavaColorConstants.JAVADOC_TAG);
@@ -199,20 +199,20 @@ public final class JavaDocScanner extends JavaCommentScanner {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.JavaCommentScanner#createMatchers()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected List<WordMatcher> createMatchers() {
 		List<WordMatcher> list= super.createMatchers();
 
 		// Add word rule for keywords.
 		final IToken token= getToken(IJavaColorConstants.JAVADOC_KEYWORD);
 		WordMatcher matcher= new CombinedWordRule.WordMatcher() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IToken evaluate(ICharacterScanner scanner, CharacterBuffer word) {
 				int length= word.length();
 				if (length > 1 && word.charAt(0) == '@') {
 					int i= 0;
 					try {
-						for (; i <= length; i++)
+						for (; i <= length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							scanner.unread();
 						int c= scanner.read();
 						i--;
@@ -222,7 +222,7 @@ public final class JavaDocScanner extends JavaCommentScanner {
 							return token;
 						}
 					} finally {
-						for (; i > 0; i--)
+						for (; i > 0; i--) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							scanner.read();
 					}
 				}

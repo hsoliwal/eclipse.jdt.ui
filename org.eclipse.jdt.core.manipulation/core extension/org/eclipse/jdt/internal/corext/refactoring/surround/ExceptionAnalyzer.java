@@ -67,7 +67,7 @@ public class ExceptionAnalyzer extends AbstractExceptionAnalyzer {
 		}
 		private int getDepth(ITypeBinding binding) {
 			int result= 0;
-			while (binding != null) {
+			while (binding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				binding= binding.getSuperclass();
 				result++;
 			}
@@ -91,13 +91,13 @@ public class ExceptionAnalyzer extends AbstractExceptionAnalyzer {
 	 * @param forceRemove <code>true</code> to remove exception if enclosed method throws same exception
 	 * @return Array of ITypeBinding representing the uncaught exceptions
 	 */
-	public static ITypeBinding[] perform(ASTNode enclosingNode, Selection selection, boolean forceRemove) {
+	public static ITypeBinding[] perform(ASTNode enclosingNode, Selection selection, boolean forceRemove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ExceptionAnalyzer analyzer= new ExceptionAnalyzer(enclosingNode, selection);
 		enclosingNode.accept(analyzer);
 		List<ITypeBinding> exceptions= analyzer.getCurrentExceptions();
 		if (enclosingNode.getNodeType() == ASTNode.METHOD_DECLARATION) {
 			List<Type> thrownExceptions= ((MethodDeclaration) enclosingNode).thrownExceptionTypes();
-			for (Type type : thrownExceptions) {
+			for (Type type : thrownExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding thrownException= type.resolveBinding();
 				if (thrownException != null && forceRemove) {
 					updateExceptionsList(exceptions, thrownException);
@@ -113,18 +113,18 @@ public class ExceptionAnalyzer extends AbstractExceptionAnalyzer {
 			if (typeBinding != null) {
 				IMethodBinding methodBinding= typeBinding.getFunctionalInterfaceMethod();
 				if (methodBinding != null) {
-					for (ITypeBinding thrownException : methodBinding.getExceptionTypes()) {
+					for (ITypeBinding thrownException : methodBinding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						updateExceptionsList(exceptions, thrownException);
 					}
 				}
 			}
 		}
-		Collections.sort(exceptions, new ExceptionComparator());
+		Collections.sort(exceptions, new ExceptionComparator()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		return exceptions.toArray(new ITypeBinding[exceptions.size()]);
 	}
 
 	private static void updateExceptionsList(List<ITypeBinding> exceptions, ITypeBinding thrownException) {
-		for (Iterator<ITypeBinding> excep= exceptions.iterator(); excep.hasNext();) {
+		for (Iterator<ITypeBinding> excep= exceptions.iterator(); excep.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding exception= excep.next();
 			if (exception.isAssignmentCompatible(thrownException))
 				excep.remove();
@@ -221,7 +221,7 @@ public class ExceptionAnalyzer extends AbstractExceptionAnalyzer {
 	private boolean handleExceptions(IMethodBinding binding, ASTNode node) {
 		if (binding == null)
 			return true;
-		for (ITypeBinding exception : binding.getExceptionTypes()) {
+		for (ITypeBinding exception : binding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addException(exception, node.getAST());
 		}
 		return true;

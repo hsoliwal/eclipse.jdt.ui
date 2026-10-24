@@ -201,7 +201,7 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 	/* non Java-doc
 	 * @see IRefactoring#createChange(IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		final String NN= ""; //$NON-NLS-1$
 		if (pm == null) pm= new NullProgressMonitor();
@@ -253,13 +253,13 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 		return fRootNode.getAST();
 	}
 
-	private void createTryCatchStatement(org.eclipse.jdt.core.IBuffer buffer, String lineDelimiter) throws CoreException {
-		List<Statement> result= new ArrayList<>(1);
+	private void createTryCatchStatement(org.eclipse.jdt.core.IBuffer buffer, String lineDelimiter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Statement> result= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		TryStatement tryStatement= getAST().newTryStatement();
 		ITypeBinding[] exceptions= fAnalyzer.getExceptions();
 		ImportRewriteContext context= new ContextSensitiveImportRewriteContext(fAnalyzer.getEnclosingBodyDeclaration(), fImportRewrite);
 		if (!fIsMultiCatch) {
-			for (int i= 0; i < exceptions.length; i++) {
+			for (int i= 0; i < exceptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding exception= exceptions[i];
 				CatchClause catchClause= getAST().newCatchClause();
 				tryStatement.catchClauses().add(catchClause);
@@ -275,8 +275,8 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 				if (st != null) {
 					catchClause.getBody().statements().add(st);
 				}
-				fLinkedProposalModel.getPositionGroup(GROUP_EXC_TYPE + i, true).addPosition(fRewriter.track(decl.getType()), i == 0);
-				fLinkedProposalModel.getPositionGroup(GROUP_EXC_NAME + i, true).addPosition(fRewriter.track(decl.getName()), false);
+				fLinkedProposalModel.getPositionGroup(GROUP_EXC_TYPE + i, true).addPosition(fRewriter.track(decl.getType()), i == 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				fLinkedProposalModel.getPositionGroup(GROUP_EXC_NAME + i, true).addPosition(fRewriter.track(decl.getName()), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else {
 			List<ITypeBinding> filteredExceptions= filterSubtypeExceptions(exceptions);
@@ -289,16 +289,16 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 			UnionType unionType= getAST().newUnionType();
 			List<Type> types= unionType.types();
 			int i=0;
-			for (ITypeBinding exception : filteredExceptions) {
+			for (ITypeBinding exception : filteredExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type type= fImportRewrite.addImport(exception, getAST(), context, TypeLocation.EXCEPTION);
 				types.add(type);
-				fLinkedProposalModel.getPositionGroup(GROUP_EXC_TYPE + i, true).addPosition(fRewriter.track(type), i == 0);
+				fLinkedProposalModel.getPositionGroup(GROUP_EXC_TYPE + i, true).addPosition(fRewriter.track(type), i == 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				i++;
 			}
 
 			decl.setType(unionType);
 			catchClause.setException(decl);
-			fLinkedProposalModel.getPositionGroup(GROUP_EXC_NAME + 0, true).addPosition(fRewriter.track(decl.getName()), false);
+			fLinkedProposalModel.getPositionGroup(GROUP_EXC_NAME + 0, true).addPosition(fRewriter.track(decl.getName()), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Statement st= getCatchBody("Exception", name, lineDelimiter); //$NON-NLS-1$
 			if (st != null) {
 				catchClause.getBody().statements().add(st);
@@ -309,21 +309,21 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 		ListRewrite statements= fRewriter.getListRewrite(tryStatement.getBody(), Block.STATEMENTS_PROPERTY);
 		boolean selectedNodeRemoved= false;
 		ASTNode expressionStatement= null;
-		for (ASTNode node : fSelectedNodes) {
+		for (ASTNode node : fSelectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof VariableDeclarationStatement && variableDeclarations.contains(node)) {
 				AST ast= getAST();
 				VariableDeclarationStatement statement= (VariableDeclarationStatement)node;
 				// Create a copy and remove the initializer
 				VariableDeclarationStatement copy= (VariableDeclarationStatement)ASTNode.copySubtree(ast, statement);
 				List<IExtendedModifier> modifiers= copy.modifiers();
-				for (Iterator<IExtendedModifier> iter= modifiers.iterator(); iter.hasNext();) {
+				for (Iterator<IExtendedModifier> iter= modifiers.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IExtendedModifier modifier= iter.next();
 					if (modifier.isModifier() && Modifier.isFinal(((Modifier)modifier).getKeyword().toFlagValue())) {
 						iter.remove();
 					}
 				}
 				List<VariableDeclarationFragment> fragments= copy.fragments();
-				for (VariableDeclarationFragment fragment : fragments) {
+				for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fragment.setInitializer(null);
 				}
 
@@ -344,14 +344,14 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 					commentToken= Strings.trimTrailingTabsAndSpaces(commentToken);
 					Type type= statement.getType();
 					String typeName= buffer.getText(type.getStartPosition(), type.getLength());
-					copy.setType((Type)fRewriter.createStringPlaceholder(commentToken + typeName, type.getNodeType()));
+					copy.setType((Type)fRewriter.createStringPlaceholder(commentToken + typeName, type.getNodeType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				result.add(copy);
 				// convert the fragments into expression statements
 				fragments= statement.fragments();
 				if (!fragments.isEmpty()) {
-					List<ExpressionStatement> newExpressionStatements= new ArrayList<>();
-					for (VariableDeclarationFragment fragment : fragments) {
+					List<ExpressionStatement> newExpressionStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Expression initializer= fragment.getInitializer();
 						if (initializer != null) {
 							Assignment assignment= ast.newAssignment();
@@ -387,7 +387,7 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 			replacementNode= fRewriter.createGroupNode(result.toArray(new ASTNode[result.size()]));
 		}
 		ASTNode node= fSelectedNodes[0];
-		List<ASTNode> nodesInRange= new ArrayList<>();
+		List<ASTNode> nodesInRange= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// for JVM 16 or higher, check if we have any variables declared via Pattern instanceof that
 		// need references added inside try/catch statement
@@ -399,7 +399,7 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 				ASTNode lastSelectedNode= fSelectedNodes[fSelectedNodes.length - 1];
 				int end= lastSelectedNode.getStartPosition() + lastSelectedNode.getLength();
 
-				for (ASTNode astNode : fSelectedNodes) {
+				for (ASTNode astNode : fSelectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!variableDeclarations.contains(astNode)) {
 						int endPosition= findEndPosition(astNode);
 						end= Math.max(end, endPosition);
@@ -410,9 +410,9 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 				nodesInRange= findNodesInRange(parentBodyDeclaration, start, end);
 				int oldEnd= end;
 				int newEnd= end;
-				while (true) {
+				while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newEnd= oldEnd;
-					for (ASTNode astNode : nodesInRange) {
+					for (ASTNode astNode : nodesInRange) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!variableDeclarations.contains(astNode)) {
 							int endPosition= findEndPosition(astNode);
 							newEnd= Math.max(newEnd, endPosition);
@@ -475,7 +475,7 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 	private int findEndPosition(ASTNode node) {
 		int end= node.getStartPosition() + node.getLength();
 		Map<SimpleName, IVariableBinding> nodeSimpleNameBindings= fAnalyzer.getVariableStatementBinding(node);
-		List<SimpleName> nodeNames= new ArrayList<>(nodeSimpleNameBindings.keySet());
+		List<SimpleName> nodeNames= new ArrayList<>(nodeSimpleNameBindings.keySet()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (nodeNames.isEmpty()) {
 			return -1;
 		}
@@ -484,15 +484,15 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 		if (coveredNodeBindings.length == 0) {
 			return -1;
 		}
-		for (ASTNode astNode : coveredNodeBindings) {
+		for (ASTNode astNode : coveredNodeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			end= Math.max(end, (astNode.getStartPosition() + astNode.getLength()));
 		}
 		return end;
 	}
 
 	// find all nodes (statements) that are within the start/end positions
-	public static List<ASTNode> findNodesInRange(ASTNode astNode, final int start, final int end) {
-		List<ASTNode> nodesInRange= new ArrayList<>();
+	public static List<ASTNode> findNodesInRange(ASTNode astNode, final int start, final int end) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ASTNode> nodesInRange= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		astNode.accept(new ASTVisitor() {
 			int pre= start;
 
@@ -507,7 +507,7 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 				int post= postNode.getStartPosition() + postNode.getLength();
 				if (pre >= start && post <= end) {
 					Statement statement= ASTResolving.findParentStatement(postNode);
-					while (statement != null && statement.getParent() != astNode) {
+					while (statement != null && statement.getParent() != astNode) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ASTNode parent= statement.getParent();
 						if (parent == null) {
 							return;
@@ -525,10 +525,10 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 	}
 
 	public static List<ITypeBinding> filterSubtypeExceptions(ITypeBinding[] exceptions) {
-		List<ITypeBinding> filteredExceptions= new ArrayList<>(Arrays.asList(exceptions));
-		for (Iterator<ITypeBinding> subtypeIterator= filteredExceptions.iterator(); subtypeIterator.hasNext();) {
+		List<ITypeBinding> filteredExceptions= new ArrayList<>(Arrays.asList(exceptions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<ITypeBinding> subtypeIterator= filteredExceptions.iterator(); subtypeIterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding iTypeBinding= subtypeIterator.next();
-			for (ITypeBinding superTypeBinding : filteredExceptions) {
+			for (ITypeBinding superTypeBinding : filteredExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!iTypeBinding.equals(superTypeBinding) && iTypeBinding.isSubTypeCompatible(superTypeBinding)) {
 					subtypeIterator.remove();
 					break;
@@ -539,8 +539,8 @@ public class SurroundWithTryCatchRefactoring extends Refactoring {
 	}
 
 	private List<ASTNode> getSpecialVariableDeclarationStatements() {
-		List<ASTNode> result= new ArrayList<>(3);
-		for (VariableDeclaration local : fAnalyzer.getAffectedLocals()) {
+		List<ASTNode> result= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (VariableDeclaration local : fAnalyzer.getAffectedLocals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode parent= local.getParent();
 			if (parent instanceof VariableDeclarationStatement && !result.contains(parent))
 				result.add(parent);

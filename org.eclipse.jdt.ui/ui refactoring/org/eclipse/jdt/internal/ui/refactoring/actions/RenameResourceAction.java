@@ -25,7 +25,7 @@ import org.eclipse.jdt.internal.corext.refactoring.RefactoringExecutionStarter;
 
 import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
 
-public class RenameResourceAction extends SelectionDispatchAction {
+public class RenameResourceAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public RenameResourceAction(IWorkbenchSite site) {
 		super(site);

@@ -123,12 +123,12 @@ public class ConvertToRecordRefactoring extends Refactoring {
 	private MethodDeclaration fConstructor;
 	private TypeDeclaration fTypeDeclaration;
 	private ITypeBinding fTypeBinding;
-	Map<IVariableBinding, IMethodBinding> fGetterMap= new HashMap<>();
+	Map<IVariableBinding, IMethodBinding> fGetterMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	TextChangeManager fChangeManager;
 	CompilationUnitRewrite fBaseCURewrite;
-	List<MethodDeclaration> fMethodsToCopy= new ArrayList<>();
-	List<FieldDeclaration> fFieldsToCopy= new ArrayList<>();
-	List<Initializer> fInitializersToCopy= new ArrayList<>();
+	List<MethodDeclaration> fMethodsToCopy= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<FieldDeclaration> fFieldsToCopy= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<Initializer> fInitializersToCopy= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 
 	public ConvertToRecordRefactoring(ICompilationUnit unit, CompilationUnit node, int selectionStart, int selectionLength) {
@@ -170,7 +170,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 		return "class"; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		try {
 			pm.beginTask("", 1); //$NON-NLS-1$
@@ -215,9 +215,9 @@ public class ConvertToRecordRefactoring extends Refactoring {
 				return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.ConvertToRecordRefactoring_not_simple_case);
 			}
 
-			List<IVariableBinding> fieldsToSet= new ArrayList<>();
-			List<IVariableBinding> fieldsToCheck= new ArrayList<>();
-			for (IVariableBinding field : fields) {
+			List<IVariableBinding> fieldsToSet= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<IVariableBinding> fieldsToCheck= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IVariableBinding field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int modifiers= field.getModifiers();
 				if (!Modifier.isPrivate(modifiers) && !Modifier.isStatic(modifiers)) {
 					return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.ConvertToRecordRefactoring_not_private);
@@ -232,7 +232,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 
 			IMethodBinding[] methodBindings= fTypeBinding.getDeclaredMethods();
 			int constructorCount= 0;
-			for (IMethodBinding method : methodBindings) {
+			for (IMethodBinding method : methodBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (method.isConstructor()) {
 					++constructorCount;
 				}
@@ -243,7 +243,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 
 			if (fTypeBinding.getJavaElement() instanceof IType sourceType) {
 				IMethod[] methods= sourceType.getMethods();
-				for (IVariableBinding field : fields) {
+				for (IVariableBinding field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!Modifier.isStatic(field.getModifiers())) {
 						IMethodBinding getter= findGetter(fTypeBinding, field);
 						if (getter != null) {
@@ -290,7 +290,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 						private void checkForFieldChange(ASTNode node, IVariableBinding nodeBinding) {
 							if (Modifier.isPrivate(nodeBinding.getModifiers())) {
 								boolean found= false;
-								for (IVariableBinding field : fieldsToCheck) {
+								for (IVariableBinding field : fieldsToCheck) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (field.isEqualTo(nodeBinding)) {
 										found= true;
 										break;
@@ -339,7 +339,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 								fFieldsToCopy.add(node);
 							} else {
 								List<VariableDeclarationFragment> fragments= node.fragments();
-								for (VariableDeclarationFragment fragment : fragments) {
+								for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (fragment.getInitializer() != null) {
 										throw new VisitException(RefactoringCoreMessages.ConvertToRecordRefactoring_fields_initialized);
 									}
@@ -347,7 +347,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 							}
 							return false;
 						}
-						@Override
+						@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						public boolean visit(MethodDeclaration node) {
 							List<Statement> statements= ASTNodes.asList(node.getBody());
 							if (node.isConstructor()) {
@@ -370,9 +370,9 @@ public class ConvertToRecordRefactoring extends Refactoring {
 								final Toggle needToCopy= new Toggle(false);
 								fConstructor= node;
 								List<SingleVariableDeclaration> parameters= node.parameters();
-								for (IVariableBinding fieldToSet : fieldsToSet) {
+								for (IVariableBinding fieldToSet : fieldsToSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									boolean found= false;
-									for (SingleVariableDeclaration parameter : parameters) {
+									for (SingleVariableDeclaration parameter : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										String parameterName= parameter.getName().getFullyQualifiedName();
 										if (fieldToSet.getName().equals(parameterName)) {
 											found= true;
@@ -383,12 +383,12 @@ public class ConvertToRecordRefactoring extends Refactoring {
 										throw new VisitException(RefactoringCoreMessages.ConvertToRecordRefactoring_nonstandard_constructor);
 									}
 								}
-								Set<IVariableBinding> assignedFieldBindings= new HashSet<>();
+								Set<IVariableBinding> assignedFieldBindings= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 								ASTVisitor checkFields= new ASTVisitor() {
 									Statement thenStatement;
 									Statement elseStatement;
-									Set<IVariableBinding> thenFields= new HashSet<>();
-									@Override
+									Set<IVariableBinding> thenFields= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+									@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 									public boolean preVisit2(ASTNode preVisitNode) {
 										if (preVisitNode instanceof Statement) {
 											int nodeType= preVisitNode.getNodeType();
@@ -408,7 +408,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 										}
 										return true;
 									}
-									@Override
+									@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 									public boolean visit(Assignment assignment) {
 										Expression leftHandSide= assignment.getLeftHandSide();
 										IVariableBinding fieldBinding= getFieldBinding(leftHandSide);
@@ -599,19 +599,19 @@ public class ConvertToRecordRefactoring extends Refactoring {
 		return status;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		pm.beginTask(RefactoringCoreMessages.ExtractClassRefactoring_progress_create_change, 10);
 		try {
 			ICompilationUnit typeCU= fCu;
-			ArrayList<Change> changes= new ArrayList<>();
+			ArrayList<Change> changes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			createNewRecord();
 			updateReferences(pm);
 
 			CompilationUnitChange rewriteChange= fBaseCURewrite.createChange(true, pm);
 			fChangeManager.manage(typeCU, rewriteChange);
 			changes.addAll(Arrays.asList(fChangeManager.getAllChanges()));
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			String project= null;
 			IJavaProject javaProject= fCu.getJavaProject();
 			if (javaProject != null)
@@ -623,7 +623,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 			comment.addSetting(Messages.format(RefactoringCoreMessages.InlineMethodRefactoring_original_pattern, BindingLabelProviderCore.getBindingLabel(fTypeBinding, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)));
 			final ConvertToRecordDescriptor descriptor= RefactoringSignatureDescriptorFactory.createConvertToRecordDescriptor(project, description, comment.asString(), arguments, flags);
 			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fCu));
-			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			DynamicValidationRefactoringChange change= new DynamicValidationRefactoringChange(descriptor, RefactoringCoreMessages.ConvertToRecordRefactoring_name, changes
 					.toArray(new Change[changes.size()]));
 			return change;
@@ -632,7 +632,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 		}
 	}
 
-	private void createNewRecord() {
+	private void createNewRecord() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= fBaseCURewrite.getAST();
 		ASTRewrite rewrite= fBaseCURewrite.getASTRewrite();
 		rewrite.setTargetSourceRangeComputer(new TargetSourceRangeComputer() {
@@ -655,20 +655,20 @@ public class ConvertToRecordRefactoring extends Refactoring {
 		}
 		List<IExtendedModifier> modifiers= fTypeDeclaration.modifiers();
 		List<IExtendedModifier> recordModifiers= newRecordDeclaration.modifiers();
-		for (IExtendedModifier modifier : modifiers) {
+		for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(modifier instanceof Modifier mod) || (!mod.isFinal() && !mod.isNonSealed())) {
 				IExtendedModifier newModifier= (IExtendedModifier) rewrite.createCopyTarget((ASTNode)modifier);
 				recordModifiers.add(newModifier);
 			}
 		}
 		FieldDeclaration[] fieldDecls= fTypeDeclaration.getFields();
-		Map<String, Set<Annotation>> fieldAnnotationMap= new LinkedHashMap<>();
-		for (FieldDeclaration field : fieldDecls) {
+		Map<String, Set<Annotation>> fieldAnnotationMap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		for (FieldDeclaration field : fieldDecls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<IExtendedModifier> fieldModifiers= field.modifiers();
-			for (IExtendedModifier fieldModifier : fieldModifiers) {
+			for (IExtendedModifier fieldModifier : fieldModifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fieldModifier.isAnnotation()) {
 					List<VariableDeclarationFragment> fragments= field.fragments();
-					for (VariableDeclarationFragment fragment : fragments) {
+					for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String fieldName= fragment.getName().getFullyQualifiedName();
 						Set<Annotation> annotations= fieldAnnotationMap.get(fieldName);
 						if (annotations == null) {
@@ -682,44 +682,44 @@ public class ConvertToRecordRefactoring extends Refactoring {
 		}
 		List<TypeParameter> typeParameters= fTypeDeclaration.typeParameters();
 		List<TypeParameter>	recordTypeParameters= newRecordDeclaration.typeParameters();
-		for (TypeParameter typeParameter : typeParameters) {
+		for (TypeParameter typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter newTypeParameter= (TypeParameter) rewrite.createCopyTarget(typeParameter);
 			recordTypeParameters.add(newTypeParameter);
 		}
 		createComponents(ast, rewrite, newRecordDeclaration, fieldAnnotationMap);
 		List<Type> interfaces= fTypeDeclaration.superInterfaceTypes();
 		List<Type> interfaceTypes= newRecordDeclaration.superInterfaceTypes();
-		for (Type interfaceType : interfaces) {
+		for (Type interfaceType : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type newType= (Type) rewrite.createCopyTarget(interfaceType);
 			interfaceTypes.add(newType);
 		}
 		List<BodyDeclaration> bodyDeclarations= newRecordDeclaration.bodyDeclarations();
-		for (Initializer initializer : fInitializersToCopy) {
+		for (Initializer initializer : fInitializersToCopy) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Initializer newInitializer= (Initializer) rewrite.createCopyTarget(initializer);
 			bodyDeclarations.add(newInitializer);
 		}
-		for (FieldDeclaration fieldDeclaration : fFieldsToCopy) {
+		for (FieldDeclaration fieldDeclaration : fFieldsToCopy) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FieldDeclaration newFieldDeclaration= (FieldDeclaration) rewrite.createCopyTarget(fieldDeclaration);
 			bodyDeclarations.add(newFieldDeclaration);
 		}
-		for (MethodDeclaration methodDecl : fMethodsToCopy) {
+		for (MethodDeclaration methodDecl : fMethodsToCopy) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MethodDeclaration newMethodDeclaration= (MethodDeclaration) rewrite.createCopyTarget(methodDecl);
 			bodyDeclarations.add(newMethodDeclaration);
 		}
 		ASTNodes.replaceButKeepComment(rewrite, fTypeDeclaration, newRecordDeclaration, null);
 	}
 
-	private void createComponents(AST ast, ASTRewrite rewrite, RecordDeclaration newRecordDeclaration, Map<String, Set<Annotation>> fieldAnnotationMap) {
+	private void createComponents(AST ast, ASTRewrite rewrite, RecordDeclaration newRecordDeclaration, Map<String, Set<Annotation>> fieldAnnotationMap) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<SingleVariableDeclaration> components= newRecordDeclaration.recordComponents();
 		List<SingleVariableDeclaration> parameters= fConstructor.parameters();
-		for (SingleVariableDeclaration parameter : parameters) {
+		for (SingleVariableDeclaration parameter : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Set<Annotation> annotationSet= fieldAnnotationMap.get(parameter.getName().getFullyQualifiedName());
 			List<IExtendedModifier> parameterAnnotations= parameter.modifiers();
 			if (annotationSet != null) {
-				for (IExtendedModifier parameterAnnotation : parameterAnnotations) {
+				for (IExtendedModifier parameterAnnotation : parameterAnnotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parameterAnnotation.isAnnotation()) {
 						Annotation[] annotationArray= annotationSet.toArray(new Annotation[0]);
-						for (Annotation annotation : annotationArray) {
+						for (Annotation annotation : annotationArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (((Annotation)parameterAnnotation).getTypeName().getFullyQualifiedName().equals(annotation.getTypeName().getFullyQualifiedName())) {
 								annotationSet.remove(annotation);
 							}
@@ -733,37 +733,37 @@ public class ConvertToRecordRefactoring extends Refactoring {
 			newSingleVariableDeclaration.setVarargs(parameter.isVarargs());
 			List<IExtendedModifier> svdModifiers= newSingleVariableDeclaration.modifiers();
 			List<IExtendedModifier> oldModifiers= parameter.modifiers();
-			for (IExtendedModifier oldModifier : oldModifiers) {
+			for (IExtendedModifier oldModifier : oldModifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				svdModifiers.add((IExtendedModifier) rewrite.createCopyTarget((ASTNode) oldModifier));
 			}
 			if (annotationSet != null) {
-				for (IExtendedModifier annotation : annotationSet) {
+				for (IExtendedModifier annotation : annotationSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					svdModifiers.add((IExtendedModifier) rewrite.createCopyTarget((ASTNode) annotation));
 				}
 			}
 			List<Dimension> oldExtraDimensions= parameter.extraDimensions();
 			List<Dimension> svdDimensions= newSingleVariableDeclaration.extraDimensions();
-			for (Dimension oldExtraDimension : oldExtraDimensions) {
+			for (Dimension oldExtraDimension : oldExtraDimensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				svdDimensions.add((Dimension) rewrite.createCopyTarget(oldExtraDimension));
 			}
 			List<Annotation> oldVarargAnnotations= parameter.varargsAnnotations();
 			List<Annotation> svdVarargAnnotations= newSingleVariableDeclaration.varargsAnnotations();
-			for (Annotation annotation : oldVarargAnnotations) {
+			for (Annotation annotation : oldVarargAnnotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				svdVarargAnnotations.add((Annotation) rewrite.createCopyTarget(annotation));
 			}
 			components.add(newSingleVariableDeclaration);
 		}
 	}
 
-	private RefactoringStatus updateReferences(IProgressMonitor pm) throws CoreException {
+	private RefactoringStatus updateReferences(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus status= new RefactoringStatus();
 		pm.beginTask(RefactoringCoreMessages.ConvertToRecordRefactoring_progress_updating_references, 100);
 		try {
 			pm.worked(10);
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
-			List<IMethod> methods= new ArrayList<>();
-			for (Entry<IVariableBinding, IMethodBinding> entry : fGetterMap.entrySet()) {
+			List<IMethod> methods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Entry<IVariableBinding, IMethodBinding> entry : fGetterMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethodBinding methodBinding= entry.getValue();
 				IMethod method= (IMethod) methodBinding.getJavaElement();
 				if (method != null) {
@@ -778,7 +778,7 @@ public class ConvertToRecordRefactoring extends Refactoring {
 			IProgressMonitor spm= Progress.subMonitor(pm, 90);
 			spm.beginTask(RefactoringCoreMessages.ConvertToRecordRefactoring_progress_updating_references, results.length * 10);
 			try {
-				for (SearchResultGroup group : results) {
+				for (SearchResultGroup group : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ICompilationUnit unit= group.getCompilationUnit();
 
 					CompilationUnitRewrite cuRewrite;
@@ -803,19 +803,19 @@ public class ConvertToRecordRefactoring extends Refactoring {
 		return status;
 	}
 
-	private RefactoringStatus replaceReferences(SearchResultGroup group, CompilationUnitRewrite cuRewrite) {
+	private RefactoringStatus replaceReferences(SearchResultGroup group, CompilationUnitRewrite cuRewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TextEditGroup editGroup= cuRewrite.createGroupDescription(RefactoringCoreMessages.ConvertToRecordRefactoring_group_replace_getters);
 		AST ast= cuRewrite.getAST();
 		ASTRewrite rewrite= cuRewrite.getASTRewrite();
 
 		RefactoringStatus status= new RefactoringStatus();
 
-		for (SearchMatch searchMatch : group.getSearchResults()) {
+		for (SearchMatch searchMatch : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= NodeFinder.perform(cuRewrite.getRoot(), searchMatch.getOffset(), searchMatch.getLength());
 			if (node instanceof MethodInvocation methodInvocation) {
 				SimpleName methodName= methodInvocation.getName();
 				String newName= methodName.getFullyQualifiedName();
-				for (Entry<IVariableBinding, IMethodBinding> entry : fGetterMap.entrySet()) {
+				for (Entry<IVariableBinding, IMethodBinding> entry : fGetterMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (entry.getValue().getName().equals(methodName.getFullyQualifiedName())) {
 						newName= entry.getKey().getName();
 						break;

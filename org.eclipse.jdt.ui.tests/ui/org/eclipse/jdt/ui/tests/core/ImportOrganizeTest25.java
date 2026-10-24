@@ -89,25 +89,25 @@ public class ImportOrganizeTest25 extends CoreTests {
 		JavaProjectHelper.clear(fJProject3, proj3.getDefaultClasspath());
 	}
 
-	protected IChooseImportQuery createQuery(final String name, final String[] choices, final int[] nEntries) {
+	protected IChooseImportQuery createQuery(final String name, final String[] choices, final int[] nEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return (openChoices, unused) -> {
-			assertEquals(name + "-query-nchoices1", choices.length, openChoices.length);
-			assertEquals(name + "-query-nchoices2", nEntries.length, openChoices.length);
-			for (int i1= 0; i1 < nEntries.length; i1++) {
-				assertEquals(name + "-query-cnt" + i1, openChoices[i1].length, nEntries[i1]);
+			assertEquals(name + "-query-nchoices1", choices.length, openChoices.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertEquals(name + "-query-nchoices2", nEntries.length, openChoices.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			for (int i1= 0; i1 < nEntries.length; i1++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				assertEquals(name + "-query-cnt" + i1, openChoices[i1].length, nEntries[i1]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			TypeNameMatch[] res= new TypeNameMatch[openChoices.length];
-			for (int i2= 0; i2 < openChoices.length; i2++) {
+			for (int i2= 0; i2 < openChoices.length; i2++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeNameMatch[] selection= openChoices[i2];
-				assertNotNull(name + "-query-setset" + i2, selection);
-				assertTrue(name + "-query-setlen" + i2, selection.length > 0);
+				assertNotNull(name + "-query-setset" + i2, selection); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				assertTrue(name + "-query-setlen" + i2, selection.length > 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				TypeNameMatch found= null;
-				for (TypeNameMatch s : selection) {
+				for (TypeNameMatch s : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (s.getFullyQualifiedName().equals(choices[i2])) {
 						found= s;
 					}
 				}
-				assertNotNull(name + "-query-notfound" + i2, found);
+				assertNotNull(name + "-query-notfound" + i2, found); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				res[i2]= found;
 			}
 			return res;
@@ -130,10 +130,10 @@ public class ImportOrganizeTest25 extends CoreTests {
 			scope.remove(PreferenceConstants.ORGIMPORTS_IMPORTORDER);
 			scope.remove(PreferenceConstants.ORGIMPORTS_ONDEMANDTHRESHOLD);
 		} else {
-			StringBuilder buf= new StringBuilder();
-			for (String o : order) {
-				buf.append(o);
-				buf.append(';');
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (String o : order) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(o); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			scope.put(PreferenceConstants.ORGIMPORTS_IMPORTORDER, buf.toString());
 			scope.put(PreferenceConstants.ORGIMPORTS_ONDEMANDTHRESHOLD, String.valueOf(threshold));
@@ -143,17 +143,17 @@ public class ImportOrganizeTest25 extends CoreTests {
 
 	protected void assertImports(ICompilationUnit cu, String[] imports) throws Exception {
 		IImportDeclaration[] desc= cu.getImports();
-		assertEquals(cu.getElementName() + "-count", imports.length, desc.length);
-		for (int i= 0; i < imports.length; i++) {
+		assertEquals(cu.getElementName() + "-count", imports.length, desc.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (int i= 0; i < imports.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String elementName= desc[i].getElementName();
 			if (elementName.endsWith(".*") && Flags.isModule(desc[i].getFlags())) {
 				elementName= elementName.substring(0, elementName.length() - 2);
 			}
-			assertEquals(cu.getElementName() + "-cmpentries" + i, imports[i], elementName);
+			assertEquals(cu.getElementName() + "-cmpentries" + i, imports[i], elementName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimpleBaseUse() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -166,7 +166,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 			}
 			""";
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", str, false, null);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_25);
 		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_25);
 		cu.setOptions(options);
@@ -182,7 +182,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededImportFromBase() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -196,7 +196,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 			}
 			""";
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", str, false, null);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_25);
 		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_25);
 		cu.setOptions(options);
@@ -212,7 +212,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNeededImportOutsideBase() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -234,7 +234,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 			}
 			""";
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", str, false, null);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_25);
 		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_25);
 		cu.setOptions(options);
@@ -251,7 +251,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImplicitBase() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -262,7 +262,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 			}
 			""";
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", str, false, null);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_25);
 		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_25);
 		cu.setOptions(options);
@@ -277,7 +277,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAmbigousClassNeeded() throws Exception {
 		IPackageFragmentRoot sourceFolder2= JavaProjectHelper.addSourceContainer(fJProject2, "src");
 
@@ -327,7 +327,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 			}
 			""";
 		ICompilationUnit cu= pack1.createCompilationUnit("X.java", str, false, null);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_25);
 		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_25);
 		cu.setOptions(options);
@@ -345,7 +345,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImplicitClass() throws Exception {
 		IPackageFragmentRoot sourceFolder2= JavaProjectHelper.addSourceContainer(fJProject2, "src");
 
@@ -363,7 +363,7 @@ public class ImportOrganizeTest25 extends CoreTests {
 			""";
 		ICompilationUnit cu= defaultPkg.createCompilationUnit("MyClass.java", code, false, null);
 
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_25);
 		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_25);
 		cu.setOptions(options);

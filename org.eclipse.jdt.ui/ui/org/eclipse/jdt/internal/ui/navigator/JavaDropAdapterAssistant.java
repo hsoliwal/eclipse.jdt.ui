@@ -65,7 +65,7 @@ public class JavaDropAdapterAssistant extends CommonDropAdapterAssistant {
 	private JavaCopyProcessor fCopyProcessor;
 	private int fCanCopyElements;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus handleDrop(CommonDropAdapter dropAdapter, DropTargetEvent dropTargetEvent, Object target) {
 		int currentOperation= dropAdapter.getCurrentOperation();
 		if (LocalSelectionTransfer.getTransfer().isSupportedType(dropAdapter.getCurrentTransfer())) {
@@ -108,7 +108,7 @@ public class JavaDropAdapterAssistant extends CommonDropAdapterAssistant {
 		return Status.CANCEL_STATUS;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus validateDrop(Object target, int operation, TransferData transferType) {
 		IStatus result = Status.OK_STATUS;
 		if (LocalSelectionTransfer.getTransfer().isSupportedType(transferType)) {
@@ -243,7 +243,7 @@ public class JavaDropAdapterAssistant extends CommonDropAdapterAssistant {
 		return handleValidateMove(target);
 	}
 
-	private int handleValidateMove(Object target) throws JavaModelException {
+	private int handleValidateMove(Object target) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (target == null)
 			return DND.DROP_NONE;
 

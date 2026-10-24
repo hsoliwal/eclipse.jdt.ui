@@ -44,7 +44,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaTextSelection;
 import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
-public final class MoveInstanceMethodAction extends SelectionDispatchAction {
+public final class MoveInstanceMethodAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 

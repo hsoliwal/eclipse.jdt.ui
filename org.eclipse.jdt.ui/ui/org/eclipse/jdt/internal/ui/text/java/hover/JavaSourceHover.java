@@ -119,7 +119,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 	private ISourceRange fNodeRange;
 
 	/** Lines of bracket-type node's content to keep not skipped in hover viewer */
-	private List<Integer> fKeptLines;
+	private List<Integer> fKeptLines; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	static class JavaSourceInformationInput {
 		private IJavaElement fElement;
@@ -185,23 +185,23 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 			super(javaElement, hoverInfo, rootElement, fullContent, visibleRange);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		void setVisibleRegion(SourceViewer sourceViewer) {
 			super.setVisibleRegion(sourceViewer);
 
 			// prepare lines trimming in visible region
-			fTrimRegions= new ArrayList<>(0);
+			fTrimRegions= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			try {
 				IDocument document= sourceViewer.getDocument();
 				IRegion visibleRegion= sourceViewer.getVisibleRegion(); // fVisibleRange extended to start of first line
 				String hoverElementSource= document.get(visibleRegion.getOffset(), visibleRegion.getLength());
 				String[] sourceLines= Strings.convertIntoLines(hoverElementSource);
-				fTrimRegions= new ArrayList<>(sourceLines.length);
+				fTrimRegions= new ArrayList<>(sourceLines.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				String[] trimmedLines= sourceLines.clone();
 				Strings.trimIndentation(trimmedLines, fRootElement.getJavaProject());
 				int line= document.getLineOfOffset(visibleRegion.getOffset());
 				int offsetShift= 0;
-				for (int i= 0; i < sourceLines.length; i++) {
+				for (int i= 0; i < sourceLines.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int trimChars= sourceLines[i].indexOf(trimmedLines[i]);
 					if (trimChars > 0) {
 						fTrimRegions.add(new Region(document.getLineOffset(line) - offsetShift, trimChars));
@@ -222,7 +222,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		void doLineTrimming(SourceViewer sourceViewer) {
 			// apply lines trimming in visible region
 			try {
-				for (IRegion trimRegion : fTrimRegions) {
+				for (IRegion trimRegion : fTrimRegions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					sourceViewer.getDocument().replace(trimRegion.getOffset(), trimRegion.getLength(), ""); //$NON-NLS-1$
 				}
 			} catch (BadLocationException e) {
@@ -246,7 +246,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 
 		private static ITypeRoot findRootElement(IJavaElement javaElement) {
 			IJavaElement parent= javaElement;
-			while (parent != null && !(parent instanceof ITypeRoot)) {
+			while (parent != null && !(parent instanceof ITypeRoot)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent= parent.getParent();
 			}
 			if (!(parent instanceof ITypeRoot)) {
@@ -255,7 +255,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 			return (ITypeRoot) parent;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		void setVisibleRegion(SourceViewer sourceViewer) {
 			if (fVisibleRange == null) {
 				// should never happen since javaElement should always be ISourceReference
@@ -268,7 +268,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 			try {
 				ITypedRegion partition= null;
 				int endOffset= offset + lenght;
-				while (offset < endOffset) { // we should never reach end of visible range
+				while (offset < endOffset) { // we should never reach end of visible range //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					partition= doc.getPartition(IJavaPartitions.JAVA_PARTITIONING, offset, false);
 					switch (partition.getType()) {
 						case IJavaPartitions.JAVA_DOC:
@@ -283,7 +283,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 							break;
 					}
 				}
-				while (Character.isWhitespace(doc.getChar(offset))) {
+				while (Character.isWhitespace(doc.getChar(offset))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					offset++;
 					lenght--;
 				}
@@ -302,15 +302,15 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 	 * Java source information input supporting semantic coloring for bracket nodes hover
 	 */
 	static class JavaBracketSourceInformationInput extends JavaSourceLineTrimmingInformationInput {
-		private final List<Integer> fKeptLines;
+		private final List<Integer> fKeptLines; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
-		JavaBracketSourceInformationInput(String hoverInfo, ITypeRoot rootElement, IDocument document, ISourceRange nodeRange, List<Integer> keptLines) {
+		JavaBracketSourceInformationInput(String hoverInfo, ITypeRoot rootElement, IDocument document, ISourceRange nodeRange, List<Integer> keptLines) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			super(null, hoverInfo, rootElement, document.get(), adjustVisibleRange(document, nodeRange, keptLines));
-			fKeptLines= new ArrayList<>(keptLines);
+			fKeptLines= new ArrayList<>(keptLines); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		// handles case when visible area should end with last kept line (no following JavaSourceHover_skippedLinesSymbol)
-		private static ISourceRange adjustVisibleRange(IDocument document, ISourceRange nodeRange, List<Integer> keptLines) {
+		private static ISourceRange adjustVisibleRange(IDocument document, ISourceRange nodeRange, List<Integer> keptLines) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 			try {
 				int lastNodeRangeLine= document.getLineOfOffset(nodeRange.getOffset() + nodeRange.getLength());
 				boolean noLinesAfterLastKept= keptLines.get(keptLines.size() - 1).intValue() == lastNodeRangeLine - 1;
@@ -323,7 +323,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 			return nodeRange;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void postSemanticColoring(SourceViewer sourceViewer) {
 			try {
 				IDocument document= sourceViewer.getDocument();
@@ -335,12 +335,12 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 				doLineTrimming(sourceViewer);
 
 				// apply skipped lines substitutions
-				List<Integer> keptLines= new ArrayList<>(fKeptLines);
+				List<Integer> keptLines= new ArrayList<>(fKeptLines); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 				int currentLine= firstLine;
 				int replaceStartOffset= -1;
 				int linesToRemove= 0;
 				int lineShift= 0;
-				for (; currentLine <= lastLine; currentLine++) {
+				for (; currentLine <= lastLine; currentLine++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!keptLines.remove(Integer.valueOf(currentLine))) { // line to be replaced
 						if (replaceStartOffset == -1) {
 							replaceStartOffset= document.getLineOffset(currentLine - lineShift);
@@ -377,7 +377,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		JavaTextBlockSourceInformationInput(String hoverInfo) {
 			super(null, hoverInfo, null,
 				// add new lines with 3 quote characters as first and last line (out of visible region) to have text rendered with text block color
-				"\"\"\"\n" + hoverInfo + "\n\"\"\"",  //$NON-NLS-1$//$NON-NLS-2$
+				"\"\"\"\n" + hoverInfo + "\n\"\"\"",  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				new SourceRange(4, hoverInfo.length())); // hide first line (3 quote characters + 1 new line character) and last line
 		}
 
@@ -394,7 +394,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getHoverInfo2(ITextViewer textViewer, IRegion hoverRegion) {
 		String hoverInfoString= getHoverInfo(textViewer, hoverRegion);
 		if (hoverInfoString == null) {
@@ -422,7 +422,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Deprecated
 	public String getHoverInfo(ITextViewer textViewer, IRegion region) {
 		IJavaElement[] result= getJavaElementsAt(textViewer, region);
@@ -431,7 +431,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		fUpwardShiftInLines= 0;
 		fBracketHoverStatus= null;
 		fNodeRange= null;
-		fKeptLines= new ArrayList<>(16);
+		fKeptLines= new ArrayList<>(16); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (result == null || result.length == 0) {
 			String val= getBracketHoverInfo(textViewer, region);
@@ -453,7 +453,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 				int offset= elementRange.getOffset() - 1;
 				int trimmingOffset= 0;
 				if (offset >= 0 && elementOriginBuffer.getChar(offset) != '\n') {
-					while(offset >= 0 && elementOriginBuffer.getChar(--offset) != '\n') {
+					while(offset >= 0 && elementOriginBuffer.getChar(--offset) != '\n') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						// no-op
 					}
 					trimmingOffset= elementRange.getOffset() - ++offset;
@@ -476,7 +476,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		return null;
 	}
 
-	private String getBracketHoverInfo(final ITextViewer textViewer, IRegion region) {
+	private String getBracketHoverInfo(final ITextViewer textViewer, IRegion region) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isElsePart= false;
 		IEditorPart editor= getEditor();
 		ITypeRoot editorInput= getEditorInputJavaElement();
@@ -515,7 +515,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 				if ((parentIfStmt.getElseStatement() != null && ASTNodes.getInclusiveEnd(parentIfStmt.getElseStatement()) == offset) // if [else if]* else
 						|| (parentIfStmt.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY && ASTNodes.getInclusiveEnd(parentIfStmt.getThenStatement()) == offset)) { // if [else if]+ else?
 					isElsePart= true;
-					while (parent.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) {
+					while (parent.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						parent= parent.getParent();
 					}
 				}
@@ -563,7 +563,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 					throw ex;
 			}
 
-			display.syncExec(() -> topIndex[0]= textViewer.getTopIndex());
+			display.syncExec(() -> topIndex[0]= textViewer.getTopIndex()); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 			int topVisibleLine= topIndex[0];
 			if (topVisibleLine == -1)
@@ -639,13 +639,13 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 	 *             position in the document
 	 * @since 3.9
 	 */
-	private String getBracketHoverInfo(IfStatement ifNode, ASTNode bracketNode, final IDocument document, final ITypeRoot editorInput, final String delim) throws BadLocationException {
+	private String getBracketHoverInfo(IfStatement ifNode, ASTNode bracketNode, final IDocument document, final ITypeRoot editorInput, final String delim) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int totalSkippedLines= 0;
 		String hoverText= null;
 
 		Statement currentStatement= ifNode.getThenStatement();
 		int nodeStart= ifNode.getStartPosition();
-		while (currentStatement != null) {
+		while (currentStatement != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int nodeLength= ASTNodes.getExclusiveEnd(currentStatement) - nodeStart;
 			int nodeStartLine= document.getLineOfOffset(nodeStart);
 			int startLineOffset= document.getLineOffset(nodeStartLine);
@@ -723,7 +723,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		return hoverText;
 	}
 
-	private String getTextBlockHoverInfo(final ITextViewer textViewer, IRegion region) {
+	private String getTextBlockHoverInfo(final ITextViewer textViewer, IRegion region) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String hoverText= null;
 		IEditorPart editor= getEditor();
 		ITypeRoot input= getEditorInputJavaElement();
@@ -817,12 +817,12 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		return sourceLines;
 	}
 
-	private String removeLeadingComments(String source, int offset) {
+	private String removeLeadingComments(String source, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try (JavaCodeReader reader= new JavaCodeReader()) {
 			IDocument document= new Document(source);
 			reader.configureForwardReader(document, offset, document.getLength() - offset, true, false);
 			int c= reader.read();
-			while (c != -1 && (c == '\r' || c == '\n')) {
+			while (c != -1 && (c == '\r' || c == '\n')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				c= reader.read();
 			}
 			int i= reader.getOffset();
@@ -884,8 +884,8 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 		};
 	}
 
-	private IInformationControl createControl(final Shell parent, final IEditorPart editor, final boolean isResizable, final int orientation, final String statusFieldText, final boolean doShiftUp, final ISourceViewer mimicSourceViewer) {
-		return new SourceViewerInformationControl(parent, editor, isResizable, orientation, statusFieldText) {
+	private IInformationControl createControl(final Shell parent, final IEditorPart editor, final boolean isResizable, final int orientation, final String statusFieldText, final boolean doShiftUp, final ISourceViewer mimicSourceViewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return new SourceViewerInformationControl(parent, editor, isResizable, orientation, statusFieldText) { //FLLDCIM: MARK — T01  ANONYMOUS
 
 			{
 				// Just re-use content of displayed hover viewer when 'entering into' it
@@ -936,7 +936,7 @@ public class JavaSourceHover extends AbstractJavaEditorTextHover {
 					// Hack: We don't wan't to have auto-enrichment when the mouse moves into the hover,
 					// but we do want F2 to persist the hover. The framework has no way to distinguish the
 					// two requests, so we have to implement this aspect.
-					for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+					for (StackTraceElement element : Thread.currentThread().getStackTrace()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if ("canMoveIntoInformationControl".equals(element.getMethodName()) //$NON-NLS-1$
 								&& "org.eclipse.jface.text.AbstractHoverInformationControlManager".equals(element.getClassName())) //$NON-NLS-1$
 							return null; //do not enrich bracket hover

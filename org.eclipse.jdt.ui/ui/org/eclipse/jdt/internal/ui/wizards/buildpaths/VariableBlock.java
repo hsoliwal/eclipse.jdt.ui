@@ -78,9 +78,9 @@ public class VariableBlock {
 	private final boolean fEditOnDoubleclick;
 
 
-	public VariableBlock(boolean inPreferencePage, String initSelection) {
+	public VariableBlock(boolean inPreferencePage, String initSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		fSelectedElements= new ArrayList<>(0);
+		fSelectedElements= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fEditOnDoubleclick= inPreferencePage;
 		fAskToBuild= true;
 
@@ -138,11 +138,11 @@ public class VariableBlock {
 	}
 
 	public void addDoubleClickListener(IDoubleClickListener listener) {
-		fVariablesList.getTableViewer().addDoubleClickListener(listener);
+		fVariablesList.getTableViewer().addDoubleClickListener(listener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 	}
 
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		fVariablesList.getTableViewer().addSelectionChangedListener(listener);
+		fVariablesList.getTableViewer().addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 
@@ -194,7 +194,7 @@ public class VariableBlock {
 	}
 
 	private boolean containsReadOnly(List<CPVariableElement> selected) {
-		for (int i= selected.size()-1; i >= 0; i--) {
+		for (int i= selected.size()-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (selected.get(i).isReadOnly()) {
 				return true;
 			}
@@ -226,7 +226,7 @@ public class VariableBlock {
 		if (fWarning == null || fWarning.isDisposed())
 			return;
 
-		for (CPVariableElement element : fSelectedElements) {
+		for (CPVariableElement element : fSelectedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String deprecationMessage= element.getDeprecationMessage();
 			if (deprecationMessage != null) {
 				fWarning.setText(deprecationMessage);
@@ -238,7 +238,7 @@ public class VariableBlock {
 		fWarning.setImage(null);
 	}
 
-	private void editEntries(CPVariableElement entry) {
+	private void editEntries(CPVariableElement entry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<CPVariableElement> existingEntries= fVariablesList.getElements();
 
 		VariableCreationDialog dialog= new VariableCreationDialog(getShell(), entry, existingEntries);
@@ -267,14 +267,14 @@ public class VariableBlock {
 		return fSelectedElements;
 	}
 
-	public boolean performOk() {
-		ArrayList<String> removedVariables= new ArrayList<>();
-		ArrayList<String> changedVariables= new ArrayList<>();
+	public boolean performOk() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<String> removedVariables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<String> changedVariables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		removedVariables.addAll(Arrays.asList(JavaCore.getClasspathVariableNames()));
 
 		// remove all unchanged
 		List<CPVariableElement> changedElements= fVariablesList.getElements();
-		for (int i= changedElements.size()-1; i >= 0; i--) {
+		for (int i= changedElements.size()-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPVariableElement curr= changedElements.get(i);
 			if (curr.isReadOnly()) {
 				changedElements.remove(curr);
@@ -323,11 +323,11 @@ public class VariableBlock {
 		return true;
 	}
 
-	private boolean doesChangeRequireFullBuild(List<String> removed, List<String> changed) {
+	private boolean doesChangeRequireFullBuild(List<String> removed, List<String> changed) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IJavaModel model= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
-			for (IJavaProject project : model.getJavaProjects()) {
-				for (IClasspathEntry curr : project.getRawClasspath()) {
+			for (IJavaProject project : model.getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IClasspathEntry curr : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (curr.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
 						String var= curr.getPath().segment(0);
 						if (removed.contains(var) || changed.contains(var)) {
@@ -342,7 +342,7 @@ public class VariableBlock {
 		return false;
 	}
 
-	private static class VariableBlockRunnable implements IRunnableWithProgress {
+	private static class VariableBlockRunnable implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 		private final List<String> fToRemove;
 		private final List<CPVariableElement> fToChange;
 
@@ -369,19 +369,19 @@ public class VariableBlock {
 			}
 		}
 
-		public void setVariables(IProgressMonitor monitor) throws JavaModelException, CoreException {
+		public void setVariables(IProgressMonitor monitor) throws JavaModelException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int nVariables= fToChange.size() + fToRemove.size();
 
 			String[] names= new String[nVariables];
 			IPath[] paths= new IPath[nVariables];
 			int k= 0;
 
-			for (CPVariableElement curr : fToChange) {
+			for (CPVariableElement curr : fToChange) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				names[k]= curr.getName();
 				paths[k]= curr.getPath();
 				k++;
 			}
-			for (String element : fToRemove) {
+			for (String element : fToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				names[k]= element;
 				paths[k]= null;
 				k++;
@@ -401,12 +401,12 @@ public class VariableBlock {
 	/**
 	 * @param initSelection the initial selection
 	 */
-	public void refresh(String initSelection) {
+	public void refresh(String initSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPVariableElement initSelectedElement= null;
 
 		String[] entries= JavaCore.getClasspathVariableNames();
-		ArrayList<CPVariableElement> elements= new ArrayList<>(entries.length);
-		for (String name : entries) {
+		ArrayList<CPVariableElement> elements= new ArrayList<>(entries.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String name : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPVariableElement elem;
 			IPath entryPath= JavaCore.getClasspathVariable(name);
 			if (entryPath != null) {
@@ -431,7 +431,7 @@ public class VariableBlock {
 	}
 
 	public void setSelection(String elementName) {
-		for (int i= 0; i < fVariablesList.getSize(); i++) {
+		for (int i= 0; i < fVariablesList.getSize(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPVariableElement elem= fVariablesList.getElement(i);
 			if (elem.getName().equals(elementName)) {
 				fVariablesList.selectElements(new StructuredSelection(elem));

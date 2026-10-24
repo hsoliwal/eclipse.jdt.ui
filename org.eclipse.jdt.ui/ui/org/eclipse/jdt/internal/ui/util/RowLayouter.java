@@ -75,12 +75,12 @@ public class RowLayouter {
 		perform(new Control[] {c1, c2, c3}, span);
 	}
 
-	public void perform(Control[] controls, int spanColumn) {
+	public void perform(Control[] controls, int spanColumn) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int numColumns= numColumns();
 		Assert.isTrue(controls.length <= numColumns);
 		order(controls);
 		int gridIndex= 0;
-		for (int i= 0; i < controls.length; i++) {
+		for (int i= 0; i < controls.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control control= controls[i];
 			GridData gd= (GridData)control.getLayoutData();
 			if (gd == null)
@@ -100,7 +100,7 @@ public class RowLayouter {
 		}
 	}
 
-	private void applyDelta(GridData gd) {
+	private void applyDelta(GridData gd) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (spanHorizontalAlignment != -1)
 			gd.horizontalAlignment= spanHorizontalAlignment;
 
@@ -161,7 +161,7 @@ public class RowLayouter {
 		if (!fOrder)
 			return;
 
-		for (Control control : controls) {
+		for (Control control : controls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			control.moveBelow(fLastControl);
 			fLastControl= control;
 		}

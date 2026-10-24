@@ -92,12 +92,12 @@ public class MarkOccurrenceTest {
 	@RegisterExtension
 	public JUnitProjectTestSetup jpts=new JUnitProjectTestSetup();
 
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		assertNotNull(fgHighlightRGB);
 		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.EDITOR_MARK_OCCURRENCES, true);
 		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.EDITOR_MARK_IMPLEMENTORS, true);
-		fEditor= openJavaEditor(new Path("/" + JUnitProjectTestSetup.getProject().getElementName() + "/src/junit/framework/TestCase.java"));
+		fEditor= openJavaEditor(new Path("/" + JUnitProjectTestSetup.getProject().getElementName() + "/src/junit/framework/TestCase.java")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull(fEditor);
 		fTextWidget= fEditor.getViewer().getTextWidget();
 		assertNotNull(fTextWidget);
@@ -122,7 +122,7 @@ public class MarkOccurrenceTest {
 				synchronized (MarkOccurrenceTest.this) {
 					int occurrences= 0;
 					Iterator<Annotation> iter= fAnnotationModel.getAnnotationIterator();
-					while (iter.hasNext()) {
+					while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Annotation annotation= iter.next();
 						if (OCCURRENCE_ANNOTATION.equals(annotation.getType()))
 							occurrences++;
@@ -171,7 +171,7 @@ public class MarkOccurrenceTest {
 		assertOccurrencesInWidget();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void markOccurrencesAfterEditorReuse() throws BadLocationException {
 		IPreferenceStore store= getPlatformUIStore();
 		store.setValue("REUSE_OPEN_EDITORS_BOOLEAN", true);
@@ -182,7 +182,7 @@ public class MarkOccurrenceTest {
 		try {
 			SelectionListenerWithASTManager.getDefault().removeListener(fEditor, fSelWASTListener);
 
-			JavaEditor newEditor= openJavaEditor(new Path("/" + JUnitProjectTestSetup.getProject().getElementName() + "/src/junit/framework/Test.java"));
+			JavaEditor newEditor= openJavaEditor(new Path("/" + JUnitProjectTestSetup.getProject().getElementName() + "/src/junit/framework/Test.java")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertEquals(fEditor, newEditor);
 			SelectionListenerWithASTManager.getDefault().addListener(fEditor, fSelWASTListener);
 			fDocument= fEditor.getDocumentProvider().getDocument(fEditor.getEditorInput());
@@ -325,7 +325,7 @@ public class MarkOccurrenceTest {
 		EditorTestHelper.runEventQueue(500);
 
 		Iterator<Annotation> iter= fAnnotationModel.getAnnotationIterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation annotation= iter.next();
 			if (OCCURRENCE_ANNOTATION.equals(annotation.getType()))
 				assertOccurrenceInWidget(fAnnotationModel.getPosition(annotation));
@@ -333,14 +333,14 @@ public class MarkOccurrenceTest {
 	}
 
 	private void assertOccurrenceInWidget(Position position) {
-		for (StyleRange styleRange : fTextWidget.getStyleRanges(position.offset, position.length)) {
+		for (StyleRange styleRange : fTextWidget.getStyleRanges(position.offset, position.length)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (styleRange.background != null) {
 				RGB rgb= styleRange.background.getRGB();
 				if (fgHighlightRGB.equals(rgb))
 					return;
 			}
 		}
-		fail("No StyleRange with expected highlight RGB for given position(" + position.offset + "," + position.length + ")");
+		fail("No StyleRange with expected highlight RGB for given position(" + position.offset + "," + position.length + ")"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**

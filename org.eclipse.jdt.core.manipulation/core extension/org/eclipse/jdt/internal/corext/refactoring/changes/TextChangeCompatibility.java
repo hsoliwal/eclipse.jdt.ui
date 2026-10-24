@@ -61,14 +61,14 @@ public class TextChangeCompatibility {
 			new CategorizedTextEditGroup(name, edit, groupCategories)));
 	}
 
-	public static void insert(TextEdit parent, TextEdit edit) throws MalformedTreeException {
+	public static void insert(TextEdit parent, TextEdit edit) throws MalformedTreeException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!parent.hasChildren()) {
 			parent.addChild(edit);
 			return;
 		}
 		TextEdit[] children= parent.getChildren();
 		// First dive down to find the right parent.
-		for (TextEdit child : children) {
+		for (TextEdit child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (covers(child, edit)) {
 				insert(child, edit);
 				return;
@@ -77,7 +77,7 @@ public class TextChangeCompatibility {
 		// We have the right parent. Now check if some of the children have to
 		// be moved under the new edit since it is covering it.
 		int removed= 0;
-		for (int i= 0; i < children.length; i++) {
+		for (int i= 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TextEdit child= children[i];
 			if (covers(edit, child)) {
 				parent.removeChild(i - removed++);

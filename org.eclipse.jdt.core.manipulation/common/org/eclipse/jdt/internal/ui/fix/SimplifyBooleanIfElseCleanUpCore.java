@@ -73,15 +73,15 @@ public class SimplifyBooleanIfElseCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (isEnabled(CleanUpConstants.SIMPLIFY_BOOLEAN_IF_ELSE)) {
-			bld.append("return i > 0;\n"); //$NON-NLS-1$
+			bld.append("return i > 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("if (i > 0) {\n"); //$NON-NLS-1$
-			bld.append("    return true;\n"); //$NON-NLS-1$
-			bld.append("} else {\n"); //$NON-NLS-1$
-			bld.append("    return false;\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
+			bld.append("if (i > 0) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    return true;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("} else {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    return false;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
@@ -97,7 +97,7 @@ public class SimplifyBooleanIfElseCleanUpCore extends AbstractMultiFix {
 		INVALID, VALID_THEN_TRUE, VALID_ELSE_TRUE
 	}
 
-	public static SimplifyStatus verifyBooleanIfElse(final IfStatement ifStatement) {
+	public static SimplifyStatus verifyBooleanIfElse(final IfStatement ifStatement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (ifStatement.getElseStatement() == null || ifStatement.getExpression() instanceof PatternInstanceofExpression) {
 			return SimplifyStatus.INVALID;
 		}
@@ -144,13 +144,13 @@ public class SimplifyBooleanIfElseCleanUpCore extends AbstractMultiFix {
 		return thenValue == true ? SimplifyStatus.VALID_THEN_TRUE : SimplifyStatus.VALID_ELSE_TRUE;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.SIMPLIFY_BOOLEAN_IF_ELSE)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -186,7 +186,7 @@ public class SimplifyBooleanIfElseCleanUpCore extends AbstractMultiFix {
 			this.status= status;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.CodeStyleCleanUp_SimplifyBooleanIfElse_description, cuRewrite);
@@ -194,22 +194,22 @@ public class SimplifyBooleanIfElseCleanUpCore extends AbstractMultiFix {
 			CompilationUnit cu= (CompilationUnit) visited.getRoot();
 			ICompilationUnit icu= (ICompilationUnit) cu.getJavaElement();
 			NLSLine nlsLine= CleanUpNLSUtils.scanCurrentLine(icu, visited.getExpression());
-			StringBuilder nlsBuffer= new StringBuilder();
+			StringBuilder nlsBuffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (nlsLine != null) {
 				NLSElement[] nlsElements= nlsLine.getElements();
-				for (int i= 0; i < nlsElements.length; ++i) {
+				for (int i= 0; i < nlsElements.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					NLSElement element= nlsElements[i];
 					if (element.hasTag()) {
-						nlsBuffer.append(" //$NON-NLS-" + (i + 1) + "$"); //$NON-NLS-1$ //$NON-NLS-2$
+						nlsBuffer.append(" //$NON-NLS-" + (i + 1) + "$"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 			}
 			ReturnStatement newReturn= null;
 			String ifExpression= icu.getBuffer().getText(visited.getExpression().getStartPosition(), visited.getExpression().getLength());
 			if (status == SimplifyStatus.VALID_THEN_TRUE) {
-				newReturn= (ReturnStatement) rewrite.createStringPlaceholder("return " + ifExpression + ";" + nlsBuffer.toString(), ASTNode.RETURN_STATEMENT); //$NON-NLS-1$ //$NON-NLS-2$
+				newReturn= (ReturnStatement) rewrite.createStringPlaceholder("return " + ifExpression + ";" + nlsBuffer.toString(), ASTNode.RETURN_STATEMENT); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else { // otherwise we need to reverse the if expression so it returns the right value
-				newReturn= (ReturnStatement) rewrite.createStringPlaceholder("return !(" + ifExpression + ");" + //$NON-NLS-1$ //$NON-NLS-2$
+				newReturn= (ReturnStatement) rewrite.createStringPlaceholder("return !(" + ifExpression + ");" + //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						nlsBuffer.toString(), ASTNode.RETURN_STATEMENT);
 			}
 			rewrite.replace(visited, newReturn, group);

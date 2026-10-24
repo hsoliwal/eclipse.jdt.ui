@@ -158,7 +158,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object getValue(Object element, String property) {
 			if (element instanceof NLSSubstitution) {
 				NLSSubstitution substitution= (NLSSubstitution) element;
@@ -178,7 +178,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 			return ""; //$NON-NLS-1$
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void modify(Object element, String property, Object value) {
 			if (element instanceof TableItem) {
 				Object data= ((TableItem) element).getData();
@@ -307,11 +307,11 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 
 	private static String getEscapedAsciiString(String s) {
 		if (s != null) {
-			StringBuilder sb= new StringBuilder(s.length());
+			StringBuilder sb= new StringBuilder(s.length()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int length= s.length();
-			for (int i= 0; i < length; i++) {
+			for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char c= s.charAt(i);
-				sb.append(getEscapedAsciiString(c));
+				sb.append(getEscapedAsciiString(c)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			return sb.toString();
 		}
@@ -342,7 +342,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		private DialogField fMessageField;
 		private NLSSubstitution fSubstitution;
 
-		public NLSInputDialog(Shell parent, NLSSubstitution substitution) {
+		public NLSInputDialog(Shell parent, NLSSubstitution substitution) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(parent);
 
 			setTitle(NLSUIMessages.ExternalizeWizardPage_NLSInputDialog_Title);
@@ -378,7 +378,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 			return res;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite) super.createDialogArea(parent);
 
@@ -418,7 +418,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		}
 
 
-		private IStatus validateKey(String val) {
+		private IStatus validateKey(String val) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fSubstitution.getState() != NLSSubstitution.EXTERNALIZED) {
 				return StatusInfo.OK_STATUS;
 			}
@@ -431,13 +431,13 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 				if (!Character.isJavaIdentifierStart(val.charAt(0)))
 					return new StatusInfo(IStatus.ERROR, NLSUIMessages.ExternalizeWizardPage_NLSInputDialog_Error_invalid_EclipseNLS_key);
 
-				for (int i= 1, length= val.length(); i < length; i++) {
+				for (int i= 1, length= val.length(); i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!Character.isJavaIdentifierPart(val.charAt(i)))
 						return new StatusInfo(IStatus.ERROR, NLSUIMessages.ExternalizeWizardPage_NLSInputDialog_Error_invalid_EclipseNLS_key);
 				}
 			} else {
 				// validation so keys don't contain spaces
-				for (int i= 0; i < val.length(); i++) {
+				for (int i= 0; i < val.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (Character.isWhitespace(val.charAt(i))) {
 						return new StatusInfo(IStatus.ERROR, NLSUIMessages.ExternalizeWizardPage_NLSInputDialog_Error_invalid_key);
 					}
@@ -481,7 +481,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		createDefaultExternalization(fSubstitutions);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -493,7 +493,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 
 		createKeyPrefixField(supercomposite);
 
-		SashForm composite= new SashForm(supercomposite, SWT.VERTICAL);
+		SashForm composite= new SashForm(supercomposite, SWT.VERTICAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		composite.setFont(supercomposite.getFont());
 
 		GridData data= new GridData(GridData.FILL_BOTH);
@@ -515,7 +515,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(supercomposite, IJavaHelpContextIds.EXTERNALIZE_WIZARD_KEYVALUE_PAGE);
 	}
 
-	private void createAccessorInfoComposite(Composite supercomposite) {
+	private void createAccessorInfoComposite(Composite supercomposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite accessorComposite= new Composite(supercomposite, SWT.NONE);
 		accessorComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		GridLayout layout= new GridLayout(2, false);
@@ -553,7 +553,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		fAccessorClassField= new Combo(composite, SWT.READ_ONLY);
 		SWTUtil.setDefaultVisibleItemCount(fAccessorClassField);
 		fAccessorClassField.setLayoutData(data);
-		fAccessorClassField.addSelectionListener(listener);
+		fAccessorClassField.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 
 		//new Label(composite, SWT.NONE); // placeholder
@@ -564,13 +564,13 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		data.widthHint= SWTUtil.getButtonWidthHint(configure);
 		configure.setLayoutData(data);
 
-		configure.addSelectionListener(listener);
+		configure.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		updateAccessorChoices();
 
 	}
 
-	protected void doAccessorSelectionChanged() {
+	protected void doAccessorSelectionChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int selectionIndex= fAccessorClassField.getSelectionIndex();
 		if (fAccessorChoices != null && selectionIndex < fAccessorChoices.length) {
 			AccessorDescription selected= fAccessorChoices[selectionIndex];
@@ -598,7 +598,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		}
 	}
 
-	private void updateAccessorChoices() {
+	private void updateAccessorChoices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		AccessorDescription configured= new AccessorDescription(
 				fNLSRefactoring.getAccessorClassName(),
@@ -606,8 +606,8 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 				fNLSRefactoring.getResourceBundleName(),
 				fNLSRefactoring.getResourceBundlePackage());
 
-		ArrayList<AccessorDescription> currChoices= new ArrayList<>();
-		ArrayList<String> currLabels= new ArrayList<>();
+		ArrayList<AccessorDescription> currChoices= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<String> currLabels= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		currChoices.add(configured);
 		currLabels.add(configured.getLabel());
@@ -617,7 +617,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 			choices= loadAccessorDescriptions();
 		}
 
-		for (AccessorDescription curr : choices) {
+		for (AccessorDescription curr : choices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!curr.equals(configured)) {
 				currChoices.add(curr);
 				currLabels.add(curr.getLabel());
@@ -637,8 +637,8 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		if (section == null) {
 			return new AccessorDescription[0];
 		}
-		ArrayList<AccessorDescription> res= new ArrayList<>();
-		for (int i= 0; i < SETTINGS_MAX_ENTRIES; i++) {
+		ArrayList<AccessorDescription> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < SETTINGS_MAX_ENTRIES; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IDialogSettings serializedDesc= section.getSection(String.valueOf(i));
 			if (serializedDesc != null) {
 				AccessorDescription accessor= AccessorDescription.deserialize(serializedDesc);
@@ -662,7 +662,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 			nlsSection= dialogSettings.addNewSection(SETTINGS_NLS_ACCESSORS);
 		}
 		int nEntries= Math.min(SETTINGS_MAX_ENTRIES, fAccessorChoices.length);
-		for (int i= 0; i < nEntries; i++) {
+		for (int i= 0; i < nEntries; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IDialogSettings serializedDesc= nlsSection.addNewSection(String.valueOf(i));
 			fAccessorChoices[i].serialize(serializedDesc);
 		}
@@ -696,7 +696,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		return props;
 	}
 
-	private void createTableViewer(Composite composite) {
+	private void createTableViewer(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		createTableComposite(composite);
 
 		/*
@@ -705,10 +705,10 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		 * behavior.
 		 */
 		fTableViewer= new TableViewer(fTable) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected void hookControl(Control control) {
 				super.hookControl(control);
-				control.addMouseListener(new MouseAdapter() {
+				control.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 					@Override
 					public void mouseDoubleClick(MouseEvent e) {
 						if (getTable().getSelection().length == 0)
@@ -736,7 +736,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		fTableViewer.setCellModifier(new CellModifier());
 
 		fTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-		fTableViewer.addFilter(new ViewerFilter() {
+		fTableViewer.addFilter(new ViewerFilter() { //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				if (!fFilterCheckBox.getSelection()) {
@@ -748,14 +748,14 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		});
 
 
-		fTableViewer.setLabelProvider(new NLSSubstitutionLabelProvider());
-		fTableViewer.setInput(fSubstitutions);
+		fTableViewer.setLabelProvider(new NLSSubstitutionLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fTableViewer.setInput(fSubstitutions); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
-		fTableViewer.addSelectionChangedListener(ExternalizeWizardPage.this::selectionChanged);
+		fTableViewer.addSelectionChangedListener(ExternalizeWizardPage.this::selectionChanged); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	private void createDefaultExternalization(NLSSubstitution[] substitutions) {
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (substitution.getState() == NLSSubstitution.INTERNALIZED) {
 				substitution.setState(NLSSubstitution.EXTERNALIZED);
 				substitution.generateKey(substitutions, getProperties(fNLSRefactoring.getPropertyFileHandle()));
@@ -771,7 +771,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		return editors;
 	}
 
-	private void createSourceViewer(Composite parent) {
+	private void createSourceViewer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite c= new Composite(parent, SWT.NONE);
 		c.setLayoutData(new GridData(GridData.FILL_BOTH));
 		GridLayout gl= new GridLayout();
@@ -810,7 +810,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		}
 	}
 
-	private void createKeyPrefixField(Composite parent) {
+	private void createKeyPrefixField(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite= new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		GridLayout gl= new GridLayout();
@@ -827,20 +827,20 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		fPrefixField.setText(fNLSRefactoring.getPrefix());
 		fPrefixField.selectAll();
 
-		fPrefixField.addModifyListener(unused -> {
+		fPrefixField.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			fNLSRefactoring.setPrefix(fPrefixField.getText());
 			validateKeys(true);
 		});
 	}
 
-	private void createIsEclipseNLSCheckbox(Composite parent) {
+	private void createIsEclipseNLSCheckbox(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fNLSRefactoring.isEclipseNLS() || fNLSRefactoring.isEclipseNLSAvailable()) {
 			fIsEclipseNLS= new Button(parent, SWT.CHECK);
 			fIsEclipseNLS.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			fIsEclipseNLS.setText(NLSUIMessages.ExternalizeWizardPage_isEclipseNLSCheckbox);
 			fIsEclipseNLS.setSelection(fNLSRefactoring.isEclipseNLS());
 			fIsEclipseNLS.setEnabled(willCreateAccessorClass());
-			fIsEclipseNLS.addSelectionListener(new SelectionAdapter() {
+			fIsEclipseNLS.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					super.widgetDefaultSelected(e);
@@ -859,18 +859,18 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		checkMissingKeys(status);
 		setPageComplete(status);
 		if (refreshTable)
-			fTableViewer.refresh(true);
+			fTableViewer.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	private void checkInvalidKeys(RefactoringStatus status) {
-		for (NLSSubstitution substitution : fSubstitutions) {
+		for (NLSSubstitution substitution : fSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isKeyValid(substitution, status)) {
 				return;
 			}
 		}
 	}
 
-	private boolean isKeyValid(NLSSubstitution substitution, RefactoringStatus status) {
+	private boolean isKeyValid(NLSSubstitution substitution, RefactoringStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (substitution == null)
 			return false;
 
@@ -885,7 +885,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 					status.addFatalError(NLSUIMessages.ExternalizeWizardPage_warning_EclipseNLS_keyInvalid);
 				return false;
 			}
-			for (int i= 1, length= key.length(); i < length; i++) {
+			for (int i= 1, length= key.length(); i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Character.isJavaIdentifierPart(key.charAt(i))) {
 					if (status != null)
 						status.addFatalError(NLSUIMessages.ExternalizeWizardPage_warning_EclipseNLS_keyInvalid);
@@ -899,7 +899,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 				return false;
 			}
 			// validation so keys don't contain spaces
-			for (int i= 0; i < key.length(); i++) {
+			for (int i= 0; i < key.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Character.isWhitespace(key.charAt(i))) {
 					if (status != null)
 						status.addFatalError(NLSUIMessages.ExternalizeWizardPage_warning_keyInvalid);
@@ -912,7 +912,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 	}
 
 	private void checkDuplicateKeys(RefactoringStatus status) {
-		for (NLSSubstitution substitution : fSubstitutions) {
+		for (NLSSubstitution substitution : fSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (conflictingKeys(substitution)) {
 				status.addFatalError(NLSUIMessages.ExternalizeWizardPage_warning_conflicting);
 				return;
@@ -921,7 +921,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 	}
 
 	private void checkMissingKeys(RefactoringStatus status) {
-		for (NLSSubstitution substitution : fSubstitutions) {
+		for (NLSSubstitution substitution : fSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((substitution.getValue() == null) && (substitution.getKey() != null)) {
 				status.addWarning(NLSUIMessages.ExternalizeWizardPage_warning_keymissing);
 				return;
@@ -936,7 +936,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		return false;
 	}
 
-	private void createTableComposite(Composite parent) {
+	private void createTableComposite(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite comp= new Composite(parent, SWT.NONE);
 		comp.setFont(parent.getFont());
 
@@ -966,7 +966,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		formData = new FormData();
 		formData.right = new FormAttachment(100,0);
 		fFilterCheckBox.setLayoutData(formData);
-		fFilterCheckBox.addSelectionListener(new SelectionListener() {
+		fFilterCheckBox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doFilterCheckBoxPressed();
@@ -980,7 +980,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 	}
 
 	private boolean hasNewOrMissingSubstitutions() {
-		for (NLSSubstitution substitution : fSubstitutions) {
+		for (NLSSubstitution substitution : fSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (substitution.getInitialState() == NLSSubstitution.INTERNALIZED) {
 				return true;
 			}
@@ -992,10 +992,10 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 	}
 
 	protected void doFilterCheckBoxPressed() {
-		fTableViewer.refresh();
+		fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
-	private Control createTable(Composite parent) {
+	private Control createTable(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite c= new Composite(parent, SWT.NONE);
 		GridLayout gl= new GridLayout();
 		gl.numColumns= 2;
@@ -1023,7 +1023,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		columnLayoutData[KEY_PROP]= new ColumnWeightData(40, true);
 		columnLayoutData[VAL_PROP]= new ColumnWeightData(40, true);
 
-		for (int i= 0; i < fgTitles.length; i++) {
+		for (int i= 0; i < fgTitles.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TableColumn tc= new TableColumn(fTable, SWT.NONE, i);
 			tc.setText(fgTitles[i]);
 			layout.addColumnData(columnLayoutData[i]);
@@ -1034,7 +1034,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		return c;
 	}
 
-	private void createButtonComposite(Composite parent) {
+	private void createButtonComposite(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttonComp= new Composite(parent, SWT.NONE);
 		GridLayout gl= new GridLayout();
 		gl.marginHeight= 0;
@@ -1086,17 +1086,17 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		List<NLSSubstitution> elementsToRename= getExternalizedElements(sel);
 		RenameKeysDialog dialog= new RenameKeysDialog(getShell(), elementsToRename);
 		if (dialog.open() == Window.OK) {
-			fTableViewer.refresh();
+			fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			updateButtonStates((IStructuredSelection) fTableViewer.getSelection());
 		}
 	}
 
 	private void revertStateOfSelection() {
-		for (Object name : getSelectedTableEntries()) {
+		for (Object name : getSelectedTableEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NLSSubstitution substitution= (NLSSubstitution) name;
 			substitution.revert();
 		}
-		fTableViewer.refresh();
+		fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		updateButtonStates((IStructuredSelection) fTableViewer.getSelection());
 	}
 
@@ -1105,11 +1105,11 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		button.setText(label);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(button);
-		button.addSelectionListener(adapter);
+		button.addSelectionListener(adapter); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return button;
 	}
 
-	private void openEditButton(ISelection selection) {
+	private void openEditButton(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IStructuredSelection sel= (IStructuredSelection) fTableViewer.getSelection();
 			NLSSubstitution substitution= (NLSSubstitution) sel.getFirstElement();
@@ -1127,7 +1127,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 			substitution.setValue(kvPair.getValue());
 			validateKeys(false);
 		} finally {
-			fTableViewer.refresh();
+			fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fTableViewer.getControl().setFocus();
 			fTableViewer.setSelection(selection);
 		}
@@ -1145,7 +1145,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		Assert.isTrue(state == NLSSubstitution.EXTERNALIZED || state == NLSSubstitution.IGNORED || state == NLSSubstitution.INTERNALIZED);
 		List<?> selected= getSelectedTableEntries();
 		String[] props= new String[]{PROPERTIES[STATE_PROP]};
-		for (Object name : selected) {
+		for (Object name : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NLSSubstitution substitution= (NLSSubstitution) name;
 			substitution.setState(state);
 			if ((substitution.getState() == NLSSubstitution.EXTERNALIZED) && substitution.hasStateChanged()) {
@@ -1172,7 +1172,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 		}
 	}
 
-	private void updateButtonStates(IStructuredSelection selection) {
+	private void updateButtonStates(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fExternalizeButton.setEnabled(true);
 		fIgnoreButton.setEnabled(true);
 		fInternalizeButton.setEnabled(true);
@@ -1199,7 +1199,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 	}
 
 	private boolean containsElementsWithChange(IStructuredSelection selection) {
-		for (Object name : selection) {
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NLSSubstitution substitution= (NLSSubstitution) name;
 			if (substitution.hasPropertyFileChange() || substitution.hasSourceChange()) {
 				return true;
@@ -1209,8 +1209,8 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 	}
 
 	private List<NLSSubstitution> getExternalizedElements(IStructuredSelection selection) {
-		ArrayList<NLSSubstitution> res= new ArrayList<>();
-		for (Object name : selection) {
+		ArrayList<NLSSubstitution> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NLSSubstitution substitution= (NLSSubstitution) name;
 			if (substitution.getState() == NLSSubstitution.EXTERNALIZED && !substitution.hasStateChanged()) {
 				res.add(substitution);
@@ -1220,7 +1220,7 @@ class ExternalizeWizardPage extends UserInputWizardPage {
 	}
 
 	private boolean containsOnlyElementsOfSameState(int state, IStructuredSelection selection) {
-		for (Object name : selection) {
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NLSSubstitution substitution= (NLSSubstitution) name;
 			if (substitution.getState() != state) {
 				return false;

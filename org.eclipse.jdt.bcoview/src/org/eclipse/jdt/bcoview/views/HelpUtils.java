@@ -30,13 +30,13 @@ import org.eclipse.jdt.core.dom.AST;
  * Fetches latest supported JLS spec and provides help for bytecode opcodes.
  */
 public class HelpUtils {
-	static final String SPECS_HTML = "https://docs.oracle.com/javase/specs/jvms/se" + AST.getJLSLatest() + "/html/jvms-6.html"; //$NON-NLS-1$ //$NON-NLS-2$
+	static final String SPECS_HTML = "https://docs.oracle.com/javase/specs/jvms/se" + AST.getJLSLatest() + "/html/jvms-6.html"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static String fullSpec;
 
 	private static String htmlHead;
 
-	private static String checkOpcodeName(String opcodeName) {
+	private static String checkOpcodeName(String opcodeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		opcodeName = opcodeName.toLowerCase();
 		/*
 		 * we need an additional check for DCONST_1...5, FCONST_1...5 etc case
@@ -102,32 +102,32 @@ public class HelpUtils {
 		return toUrl(SPECS_HTML);
 	}
 
-	private static String readFullSpec() {
+	private static String readFullSpec() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// The anchor where the real content starts. We have to ignore content before
 		// that contains TOC with same anchors we want search later in content
 		String firstInterestingLine = "<a name=\"jvms-6-100\">"; //$NON-NLS-1$
 		URL helpResource = toUrl(SPECS_HTML);
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean foundContentStart = false;
 		try (BufferedReader in = new BufferedReader(new InputStreamReader(helpResource.openStream(), StandardCharsets.UTF_8))) {
 			String line;
-			while ((line = in.readLine()) != null) {
+			while ((line = in.readLine()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!foundContentStart) {
 					if (line.contains(firstInterestingLine)) {
 						foundContentStart = true;
 						// that was enough from head
 						htmlHead = readHtmlHead(sb.toString());
 						// from here on we read opcodes
-						sb = new StringBuilder();
+						sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					}
 				}
-				sb.append(line).append('\n');
+				sb.append(line).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} catch (IOException e) {
-			sb.append("Error trying access JVM specification at ").append(SPECS_HTML); //$NON-NLS-1$
-			sb.append(":"); //$NON-NLS-1$
-			sb.append(e);
+			sb.append("Error trying access JVM specification at ").append(SPECS_HTML); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(":"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(e); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return sb.toString();
 	}
@@ -136,7 +136,7 @@ public class HelpUtils {
 		if (fullSpec == null) {
 			fullSpec = readFullSpec();
 		}
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String opcodeName = getOpcodeName(opcode);
 		if (opcodeName == null) {
 			return sb;
@@ -144,25 +144,25 @@ public class HelpUtils {
 		return getOpcodeHelpFor(opcodeName);
 	}
 
-	public static StringBuilder getOpcodeHelpFor(String opcodeName) {
+	public static StringBuilder getOpcodeHelpFor(String opcodeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fullSpec == null) {
 			fullSpec = readFullSpec();
 		}
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (opcodeName != null) {
 			opcodeName = checkOpcodeName(opcodeName);
 		}
-		sb.append(htmlHead);
+		sb.append(htmlHead); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		// Extract only important part related to the given opcode
-		String patternStart = "jvms-6.5." + opcodeName + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+		String patternStart = "jvms-6.5." + opcodeName + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String patternEnd = "<div class=\"section-execution\""; //$NON-NLS-1$
 		String startSection = "<div class=\"section-execution\"><div class=\"titlepage\"><div><div>"; //$NON-NLS-1$
 		try (Scanner in = new Scanner(fullSpec)) {
 			String line;
 			boolean foundStart = false;
 			boolean checkEnd = false;
-			while (in.hasNextLine()) {
+			while (in.hasNextLine()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				line = in.nextLine();
 				if (checkEnd && line.contains(patternEnd)) {
 					break;
@@ -170,10 +170,10 @@ public class HelpUtils {
 				if (!foundStart && line.contains(patternStart)) {
 					foundStart = true;
 					checkEnd = true;
-					sb.append(startSection);
+					sb.append(startSection); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				if (foundStart) {
-					sb.append(line);
+					sb.append(line); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		}
@@ -181,23 +181,23 @@ public class HelpUtils {
 		// Allow navigation relative to the document
 		int endHeadIdx = sb.indexOf("</head>"); //$NON-NLS-1$
 		if (endHeadIdx > 0) {
-			sb.insert(endHeadIdx, "\n<base href='" + SPECS_HTML + "'>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.insert(endHeadIdx, "\n<base href='" + SPECS_HTML + "'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		sb.append("</body></html>"); //$NON-NLS-1$
+		sb.append("</body></html>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return sb;
 	}
 
 	private static String readHtmlHead(String head) {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try (Scanner in = new Scanner(head)) {
 			String line;
-			while (in.hasNextLine()) {
+			while (in.hasNextLine()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				line = in.nextLine();
 				if (line.contains("<body")) { //$NON-NLS-1$
-					sb.append(line.substring(0, line.indexOf("<body"))); //$NON-NLS-1$
+					sb.append(line.substring(0, line.indexOf("<body"))); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				}
-				sb.append(line);
+				sb.append(line); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return sb.toString();

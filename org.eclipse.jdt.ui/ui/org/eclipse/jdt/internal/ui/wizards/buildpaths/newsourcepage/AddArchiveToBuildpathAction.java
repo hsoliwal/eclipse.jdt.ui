@@ -52,7 +52,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 
 //SelectedElements iff enabled: IJavaProject && size==1
-public class AddArchiveToBuildpathAction extends BuildpathModifierAction {
+public class AddArchiveToBuildpathAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 
@@ -79,7 +79,7 @@ public class AddArchiveToBuildpathAction extends BuildpathModifierAction {
 		return NewWizardMessages.PackageExplorerActionGroup_FormText_Default_toBuildpath_archives;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 
 		final Shell shell= getShell();
@@ -99,7 +99,7 @@ public class AddArchiveToBuildpathAction extends BuildpathModifierAction {
             	MessageDialog.openWarning(getShell(), NewWizardMessages.AddArchiveToBuildpathAction_InfoTitle, status.getMessage());
             }
 
-        	final IRunnableWithProgress runnable= monitor -> {
+        	final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					List<IJavaElement> result= addExternalJars(selected, javaProject, monitor);
 					if (result.size() > 0)
@@ -122,7 +122,7 @@ public class AddArchiveToBuildpathAction extends BuildpathModifierAction {
         }
 	}
 
-	private List<IJavaElement> addExternalJars(IPath[] jarPaths, IJavaProject project, IProgressMonitor monitor) throws CoreException {
+	private List<IJavaElement> addExternalJars(IPath[] jarPaths, IJavaProject project, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		try {
@@ -135,8 +135,8 @@ public class AddArchiveToBuildpathAction extends BuildpathModifierAction {
     		informListeners(delta);
 
     		List<CPListElement> addedEntries= delta.getAddedEntries();
-			List<IJavaElement> result= new ArrayList<>(addedEntries.size());
-			for (CPListElement addedEntrie : addedEntries) {
+			List<IJavaElement> result= new ArrayList<>(addedEntries.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (CPListElement addedEntrie : addedEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IClasspathEntry entry= addedEntrie.getClasspathEntry();
 				IJavaElement elem= project.findPackageFragmentRoot(entry.getPath());
 				if (elem != null) {

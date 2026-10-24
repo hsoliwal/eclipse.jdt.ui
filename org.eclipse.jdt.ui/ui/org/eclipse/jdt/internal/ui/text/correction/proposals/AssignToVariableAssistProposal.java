@@ -31,7 +31,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
  * Proposals for 'Assign to variable' quick assist - Assign an expression from an
  * ExpressionStatement to a local or field - Assign single or all parameter(s) to field(s)
  */
-public class AssignToVariableAssistProposal extends LinkedCorrectionProposal {
+public class AssignToVariableAssistProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public static final int LOCAL= 1;
 

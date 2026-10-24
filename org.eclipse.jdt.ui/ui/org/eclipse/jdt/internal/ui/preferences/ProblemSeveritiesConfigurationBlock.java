@@ -176,7 +176,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			}
 		}
 
-		protected class FieldListener implements ModifyListener {
+		protected class FieldListener implements ModifyListener { //FLLDCIM: MARK — T02  IMPLEMENTS
 			AnnotationDialogField fField;
 			FieldListener(AnnotationDialogField field) {
 				fField= field;
@@ -199,7 +199,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 		protected abstract IStatus doValidation(IAnnotationDialogField dialogField, AnnotationWrapper element, String newValue, boolean isTypeMandatory);
 
 
-		protected Group createAnnotationGroup(AnnotationDialogField primaryField, Composite parent, String[] texts, int fieldWidthHint) {
+		protected Group createAnnotationGroup(AnnotationDialogField primaryField, Composite parent, String[] texts, int fieldWidthHint) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Group group= new Group(parent, SWT.NONE);
 			GridLayout layout= new GridLayout(3, false);
 			layout.marginLeft= convertWidthInCharsToPixels(2);
@@ -228,7 +228,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 
 			Text text= primaryField.getTextControl(null);
 			((GridData)text.getLayoutData()).grabExcessHorizontalSpace= true;
-			text.addModifyListener(new FieldListener(primaryField));
+			text.addModifyListener(new FieldListener(primaryField)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			TextFieldNavigationHandler.install(text);
 			BidiUtils.applyBidiProcessing(text, StructuredTextTypeHandlerFactory.JAVA);
 
@@ -270,7 +270,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			StringDialogField firstErrorField= null;
 			IStatus firstError= null;
 			AnnotationDialogField[] primaryFields= getPrimaryFields();
-			for (AnnotationDialogField field : primaryFields) {
+			for (AnnotationDialogField field : primaryFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IStatus status= field.doValidation();
 				if (status.getSeverity() == IStatus.ERROR && firstError == null) {
 					firstErrorField= field;
@@ -302,7 +302,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 				value= value.trim();
 				if (value.isEmpty())
 					return;
-				for (String string : value.split(",")) { //$NON-NLS-1$
+				for (String string : value.split(",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					addElement(new AnnotationWrapper(string.trim()));
 				}
 			}
@@ -310,13 +310,13 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			public String getCommaSeparatedElements() {
 				List<AnnotationWrapper> elements= getElements();
 				if (elements.isEmpty()) return EMPTY_STRING;
-				StringBuilder buf= new StringBuilder();
-				for (int i= 0; i < elements.size(); i++) {
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				for (int i= 0; i < elements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String annotationName= elements.get(i).annotationName;
 					if (annotationName.isEmpty())
 						continue;
-					if (i > 0) buf.append(',');
-					buf.append(annotationName);
+					if (i > 0) buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(annotationName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				return buf.toString();
 			}
@@ -335,7 +335,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 				if (elements.isEmpty())
 					return new StatusInfo();
 				IStatus[] all= new IStatus[elements.size()];
-				for (int i= 0; i < elements.size(); i++) {
+				for (int i= 0; i < elements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					all[i]= elements.get(i).status;
 					if (all[i] == null)
 						all[i]= new StatusInfo();
@@ -383,7 +383,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 				return BasicElementLabels.getJavaElementName(((AnnotationWrapper) element).annotationName);
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public Image getImage(Object element) {
 				if (element instanceof AnnotationWrapper) {
 					AnnotationWrapper annotationWrapper= (AnnotationWrapper) element;
@@ -449,7 +449,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			return field;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite) super.createDialogArea(parent);
 			initializeDialogUnits(parent);
@@ -483,7 +483,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			return composite;
 		}
 
-		private void createNullAnnotationGroup(AnnotationDialogField primaryField, final AnnotationListDialogField secondaryList, Composite parent, String[] texts, int fieldWidthHint) {
+		private void createNullAnnotationGroup(AnnotationDialogField primaryField, final AnnotationListDialogField secondaryList, Composite parent, String[] texts, int fieldWidthHint) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Group group= createAnnotationGroup(primaryField, parent, texts, fieldWidthHint);
 
 			secondaryList.doFillIntoGrid(group, 3);
@@ -500,7 +500,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 				@Override
 			    protected void keyReleaseOccured(KeyEvent event) {
 					if (event.keyCode == SWT.F2 && event.stateMask == 0) {
-						tableViewer.refresh(); // ensure icon is updated on F2
+						tableViewer.refresh(); // ensure icon is updated on F2 //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					}
 			    	super.keyReleaseOccured(event);
 			    }
@@ -535,7 +535,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 					return true;
 				}
 			});
-			tableViewer.getTable().addKeyListener(new KeyAdapter() {
+			tableViewer.getTable().addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				@Override
 				public void keyPressed(KeyEvent event) {
 					if (event.keyCode == SWT.F2 && event.stateMask == 0) {
@@ -574,7 +574,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			return new StatusInfo();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void buttonPressed(int buttonId) {
 			if (buttonId == RESTORE_DEFAULTS_BUTTON_ID) {
 				fNullableAnnotationDialogField.setText(NULL_ANNOTATIONS_DEFAULTS[0]);
@@ -584,7 +584,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 				fOtherNonNullAnnotationsDialogField.removeAllElements();
 				fOtherNonNullByDefaultAnnotationsDialogField.removeAllElements();
 			} else if (buttonId == IDialogConstants.OK_ID) {
-				Map<AnnotationTarget,List<String>> namesPerTarget= new HashMap<>();
+				Map<AnnotationTarget,List<String>> namesPerTarget= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				detectedAnnotationTargets(fNullableAnnotationDialogField, fOtherNullableAnnotationsDialogField, namesPerTarget);
 				detectedAnnotationTargets(fNonNullAnnotationDialogField, fOtherNonNullAnnotationsDialogField, namesPerTarget);
 				if (!Collections.disjoint(namesPerTarget.keySet(), AnnotationTarget.problemKinds)) {
@@ -613,14 +613,14 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 
 		enum AnnotationTarget { NONE, DECLARATIONS, TYPE_USE, BOTH, NOT_FOUND, AMBIGUOS;
 			static EnumSet<AnnotationTarget> problemKinds= EnumSet.of(NOT_FOUND, AMBIGUOS);
-			static AnnotationTarget forMemberValuePairs(IMemberValuePair[] pairs) {
+			static AnnotationTarget forMemberValuePairs(IMemberValuePair[] pairs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				AnnotationTarget result= NONE;
-				for (IMemberValuePair pair : pairs) {
+				for (IMemberValuePair pair : pairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int kind= pair.getValueKind();
 					if (kind == IMemberValuePair.K_QUALIFIED_NAME || kind == IMemberValuePair.K_SIMPLE_NAME) {
 						Object value= pair.getValue();
 						if (value instanceof Object[] vals) {
-							for (Object val : vals) {
+							for (Object val : vals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								AnnotationTarget current= forName((String) val);
 								if (result == NONE)
 									result= current;
@@ -636,8 +636,8 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			}
 			private static AnnotationTarget forName(String name) {
 				if (name.equals(ElementType.TYPE_USE.name())
-						|| name.equals(ElementType.class.getSimpleName()+'.'+ElementType.TYPE_USE.name())
-						|| name.equals(ElementType.class.getName()+'.'+ElementType.TYPE_USE.name()))
+						|| name.equals(ElementType.class.getSimpleName()+'.'+ElementType.TYPE_USE.name()) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+						|| name.equals(ElementType.class.getName()+'.'+ElementType.TYPE_USE.name())) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					return AnnotationTarget.TYPE_USE;
 				else
 					return AnnotationTarget.DECLARATIONS;
@@ -656,19 +656,19 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 		private void detectedAnnotationTargets(AnnotationDialogField field, AnnotationListDialogField list, Map<AnnotationTarget, List<String>> namesPerTarget) {
 			String name1= field.getText();
 			AnnotationTarget target1= getAnnotationKind(name1);
-			List<String> perTarget= namesPerTarget.computeIfAbsent(target1, unused -> new ArrayList<>());
+			List<String> perTarget= namesPerTarget.computeIfAbsent(target1, unused -> new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			perTarget.add(name1);
-			for (AnnotationWrapper otherWrapper : list.getElements()) {
+			for (AnnotationWrapper otherWrapper : list.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String otherName= otherWrapper.annotationName;
 				if (otherName.isBlank()) continue;
 				AnnotationTarget other= getAnnotationKind(otherName);
-				perTarget= namesPerTarget.computeIfAbsent(other, unused -> new ArrayList<>());
+				perTarget= namesPerTarget.computeIfAbsent(other, unused -> new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				perTarget.add(otherName);
 			}
 		}
-		private AnnotationTarget getAnnotationKind(String name) {
+		private AnnotationTarget getAnnotationKind(String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fProject == null) {
-				Set<AnnotationTarget> kinds= new HashSet<>();
+				Set<AnnotationTarget> kinds= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				int matchMode= SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE;
 				SearchPattern pattern= SearchPattern.createPattern(name, IJavaSearchConstants.ANNOTATION_TYPE, IJavaSearchConstants.DECLARATIONS, matchMode);
 				SearchParticipant[] participants= { SearchEngine.getDefaultSearchParticipant() };
@@ -706,7 +706,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 
 		private AnnotationTarget annotationKindOfType(IType annotationType) throws JavaModelException {
 			if (annotationType != null && annotationType.exists()) {
-				for (IAnnotation metaAnn : annotationType.getAnnotations()) {
+				for (IAnnotation metaAnn : annotationType.getAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isTargetMetaAnnotation(metaAnn, annotationType)) {
 						return AnnotationTarget.forMemberValuePairs(metaAnn.getMemberValuePairs());
 					}
@@ -731,18 +731,18 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			}
 			return false;
 		}
-		private int warnProblemAnnotations(Map<AnnotationTarget,List<String>> namesPerTarget, Set<AnnotationTarget> filter,
+		private int warnProblemAnnotations(Map<AnnotationTarget,List<String>> namesPerTarget, Set<AnnotationTarget> filter, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				String dialogTitle, String dialogMessage) {
-			StringBuilder message= new StringBuilder(dialogMessage);
-			for (Entry<AnnotationTarget, List<String>> entry : namesPerTarget.entrySet()) {
+			StringBuilder message= new StringBuilder(dialogMessage); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (Entry<AnnotationTarget, List<String>> entry : namesPerTarget.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (filter != null && !filter.contains(entry.getKey()))
 					continue;
-				message.append("\n\n\t").append(entry.getKey().displayString()).append(':'); //$NON-NLS-1$
-				for (String name : entry.getValue()) {
-					message.append("\n\t\t").append(name); //$NON-NLS-1$
+				message.append("\n\n\t").append(entry.getKey().displayString()).append(':'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				for (String name : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					message.append("\n\t\t").append(name); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
-			message.append(PreferencesMessages.NullAnnotationsConfigurationDialog_problemDialogQuestion);
+			message.append(PreferencesMessages.NullAnnotationsConfigurationDialog_problemDialogQuestion); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			MessageDialog messageDialog= new MessageDialog(
 					getShell(),
 					dialogTitle,
@@ -792,7 +792,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 			return field;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite) super.createDialogArea(parent);
 			initializeDialogUnits(parent);
@@ -1033,7 +1033,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 		}
 	}
 
-	public static Key[] getKeys() {
+	public static Key[] getKeys() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new Key[] {
 				PREF_PB_OVERRIDING_PACKAGE_DEFAULT_METHOD,
 				PREF_PB_METHOD_WITH_CONSTRUCTOR_NAME, PREF_PB_DEPRECATION, PREF_PB_TERMINAL_DEPRECATION, PREF_PB_HIDDEN_CATCH_BLOCK, PREF_PB_UNUSED_LOCAL,
@@ -1103,7 +1103,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		fPixelConverter= new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -1130,7 +1130,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 		return mainComp;
 	}
 
-	private Composite createStyleTabContent(Composite folder) {
+	private Composite createStyleTabContent(Composite folder) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] errorWarningInfoIgnore= new String[] { ERROR, WARNING, INFO, IGNORE };
 		String[] errorWarningInfoIgnoreLabels= new String[] {
 			PreferencesMessages.ProblemSeveritiesConfigurationBlock_error,
@@ -1633,7 +1633,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 	 * Update fields and validate.
 	 * @param changedKey Key that changed, or null, if all changed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void validateSettings(Key changedKey, String oldValue, String newValue) {
 		if (!areSettingsEnabled()) {
 			return;
@@ -1670,7 +1670,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 					final Combo comboBoxPotNullRef= getComboBox(PREF_PB_POTENTIAL_NULL_REFERENCE);
 					final PreferenceHighlight highlightPotNullRef= (PreferenceHighlight) fLabels.get(comboBoxPotNullRef).getData(DATA_PREF_HIGHLIGHT);
 
-					getShell().getDisplay().asyncExec(() -> {
+					getShell().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						highlightNullRef.setFocus(true);
 						highlightPotNullRef.setFocus(true);
 					});
@@ -1765,7 +1765,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 		updateCheckBox(getCheckBox(INTR_DEFAULT_OWNING_ANNOTATIONS));
 	}
 
-	private void updateEnableStates() {
+	private void updateEnableStates() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean enableUnusedParams= !checkValue(PREF_PB_UNUSED_PARAMETER, IGNORE);
 		getCheckBox(PREF_PB_SIGNAL_PARAMETER_IN_OVERRIDING).setEnabled(enableUnusedParams);
 
@@ -1812,7 +1812,7 @@ public class ProblemSeveritiesConfigurationBlock extends OptionsConfigurationBlo
 		setComboEnabled(PREF_PB_RECOMMENDED_RESOURCE_MANAGEMENT, enableAnnotationResourceAnalysis);
 	}
 
-	private IStatus validateAnnotation(String value, String errorMessage, boolean isTypeMandatory) {
+	private IStatus validateAnnotation(String value, String errorMessage, boolean isTypeMandatory) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		if (value.isEmpty() && !isTypeMandatory)
 			return status;

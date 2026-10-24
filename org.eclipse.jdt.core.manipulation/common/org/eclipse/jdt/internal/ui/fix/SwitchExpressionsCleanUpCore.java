@@ -61,14 +61,14 @@ public class SwitchExpressionsCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.CONTROL_STATEMENTS_CONVERT_TO_SWITCH_EXPRESSIONS))
 			result.add(MultiFixMessages.SwitchExpressionsCleanUp_ConvertToSwitchExpressions_description);
 
 		return result.toArray(new String[0]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.CONTROL_STATEMENTS_CONVERT_TO_SWITCH_EXPRESSIONS)) {
 			return """

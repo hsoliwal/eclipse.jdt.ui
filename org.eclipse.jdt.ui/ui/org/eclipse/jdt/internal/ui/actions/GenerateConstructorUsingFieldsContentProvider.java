@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
-public class GenerateConstructorUsingFieldsContentProvider implements ITreeContentProvider {
+public class GenerateConstructorUsingFieldsContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	private static final Object[] EMPTY= new Object[0];
 
@@ -37,7 +37,7 @@ public class GenerateConstructorUsingFieldsContentProvider implements ITreeConte
 
 	public boolean canMoveDown(List<?> selectedElements) {
 		int nSelected= selectedElements.size();
-		for (int index= fFields.size() - 1; index >= 0 && nSelected > 0; index--) {
+		for (int index= fFields.size() - 1; index >= 0 && nSelected > 0; index--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!selectedElements.contains(fFields.get(index))) {
 				return true;
 			}
@@ -48,7 +48,7 @@ public class GenerateConstructorUsingFieldsContentProvider implements ITreeConte
 
 	public boolean canMoveUp(List<?> selected) {
 		int nSelected= selected.size();
-		for (int index= 0; index < fFields.size() && nSelected > 0; index++) {
+		for (int index= 0; index < fFields.size() && nSelected > 0; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!selected.contains(fFields.get(index))) {
 				return true;
 			}
@@ -121,10 +121,10 @@ public class GenerateConstructorUsingFieldsContentProvider implements ITreeConte
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 
-	private List<IVariableBinding> moveUp(List<IVariableBinding> elements, List<?> move) {
-		List<IVariableBinding> result= new ArrayList<>(elements.size());
+	private List<IVariableBinding> moveUp(List<IVariableBinding> elements, List<?> move) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IVariableBinding> result= new ArrayList<>(elements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IVariableBinding floating= null;
-		for (int index= 0; index < elements.size(); index++) {
+		for (int index= 0; index < elements.size(); index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding current= elements.get(index);
 			if (move.contains(current)) {
 				result.add(current);
@@ -142,17 +142,17 @@ public class GenerateConstructorUsingFieldsContentProvider implements ITreeConte
 	}
 
 	private List<IVariableBinding> reverse(List<IVariableBinding> list) {
-		List<IVariableBinding> reverse= new ArrayList<>(list.size());
-		for (int index= list.size() - 1; index >= 0; index--) {
+		List<IVariableBinding> reverse= new ArrayList<>(list.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int index= list.size() - 1; index >= 0; index--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reverse.add(list.get(index));
 		}
 		return reverse;
 	}
 
 	public void setElements(List<IVariableBinding> elements, CheckboxTreeViewer tree) {
-		fFields= new ArrayList<>(elements);
+		fFields= new ArrayList<>(elements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (tree != null)
-			tree.refresh();
+			tree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	public void up(List<?> checked, CheckboxTreeViewer tree) {

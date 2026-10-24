@@ -170,9 +170,9 @@ public final class ReorgPolicyFactory {
 			fResources= resources;
 		}
 
-		public IJavaElement[] getActualJavaElementsToReorg() throws JavaModelException {
-			List<IJavaElement> result= new ArrayList<>();
-			for (IJavaElement element : fJavaElements) {
+		public IJavaElement[] getActualJavaElementsToReorg() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			List<IJavaElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IJavaElement element : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element == null)
 					continue;
 				if (element instanceof IType) {
@@ -190,9 +190,9 @@ public final class ReorgPolicyFactory {
 		}
 
 		public IResource[] getActualResourcesToReorg() {
-			Set<IJavaElement> javaElementSet= new HashSet<>(Arrays.asList(fJavaElements));
-			List<IResource> result= new ArrayList<>();
-			for (IResource resource : fResources) {
+			Set<IJavaElement> javaElementSet= new HashSet<>(Arrays.asList(fJavaElements)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			List<IResource> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resource == null) {
 					continue;
 				}
@@ -212,7 +212,7 @@ public final class ReorgPolicyFactory {
 
 		private static final String POLICY_COPY_RESOURCE= "org.eclipse.jdt.ui.copyResources"; //$NON-NLS-1$
 
-		private static Change copyCuToPackage(ICompilationUnit cu, IPackageFragment dest, NewNameProposer nameProposer, INewNameQueries copyQueries) {
+		private static Change copyCuToPackage(ICompilationUnit cu, IPackageFragment dest, NewNameProposer nameProposer, INewNameQueries copyQueries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// XXX workaround for bug 31998 we will have to disable renaming of
 			// linked packages (and cus)
 			IResource res= ReorgUtilsCore.getResource(cu);
@@ -269,7 +269,7 @@ public final class ReorgPolicyFactory {
 			return copyFileToContainer(unit, container, nameProposer, copyQueries);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Change createChange(IProgressMonitor pm, INewNameQueries copyQueries) {
 			IFile[] file= getFiles();
 			IFolder[] folders= getFolders();
@@ -278,19 +278,19 @@ public final class ReorgPolicyFactory {
 			NewNameProposer nameProposer= new NewNameProposer();
 			CompositeChange composite= new DynamicValidationStateChange(RefactoringCoreMessages.ReorgPolicy_copy);
 			composite.markAsSynthetic();
-			for (ICompilationUnit cu : cus) {
+			for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				composite.add(createChange(cu, nameProposer, copyQueries));
 				pm.worked(1);
 			}
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
-			for (IFile f : file) {
+			for (IFile f : file) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				composite.add(createChange(f, nameProposer, copyQueries));
 				pm.worked(1);
 			}
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
-			for (IFolder folder : folders) {
+			for (IFolder folder : folders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				composite.add(createChange(folder, nameProposer, copyQueries));
 				pm.worked(1);
 			}
@@ -363,10 +363,10 @@ public final class ReorgPolicyFactory {
 			fReorgExecutionLog= new ReorgExecutionLog();
 			CopyArguments jArgs= new CopyArguments(getDestination(), fReorgExecutionLog);
 			CopyArguments rArgs= new CopyArguments(getDestinationAsContainer(), fReorgExecutionLog);
-			for (ICompilationUnit cu : getCus()) {
+			for (ICompilationUnit cu : getCus()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fModifications.copy(cu, jArgs, rArgs);
 			}
-			for (IResource resource : ReorgUtilsCore.union(getFiles(), getFolders())) {
+			for (IResource resource : ReorgUtilsCore.union(getFiles(), getFolders())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fModifications.copy(resource, rArgs);
 			}
 			return fModifications;
@@ -432,7 +432,7 @@ public final class ReorgPolicyFactory {
 			return new CopyResourceChange(res, destination, nameQuery);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Change createChange(IProgressMonitor pm, INewNameQueries copyQueries) {
 			NewNameProposer nameProposer= new NewNameProposer();
 			IPackageFragmentRoot[] roots= getPackageFragmentRoots();
@@ -440,7 +440,7 @@ public final class ReorgPolicyFactory {
 			CompositeChange composite= new DynamicValidationStateChange(RefactoringCoreMessages.ReorgPolicy_copy_source_folder);
 			composite.markAsSynthetic();
 			IJavaProject destination= getDestinationJavaProject();
-			for (IPackageFragmentRoot root : roots) {
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (destination == null) {
 					composite.add(createChange(root, (IContainer) getResourceDestination(), nameProposer, copyQueries));
 				} else {
@@ -479,7 +479,7 @@ public final class ReorgPolicyFactory {
 			return RefactoringCoreMessages.ReorgPolicyFactory_copy_roots_header_plural;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringModifications getModifications() throws CoreException {
 			if (fModifications != null)
 				return fModifications;
@@ -488,13 +488,13 @@ public final class ReorgPolicyFactory {
 			fReorgExecutionLog= new ReorgExecutionLog();
 			IJavaProject destination= getDestinationJavaProject();
 			if (destination == null) {
-				for (IPackageFragmentRoot root : getRoots()) {
+				for (IPackageFragmentRoot root : getRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.copy(root.getResource(), new CopyArguments(getResourceDestination(), fReorgExecutionLog));
 				}
 			} else {
 				CopyArguments javaArgs= new CopyArguments(destination, fReorgExecutionLog);
 				CopyArguments resourceArgs= new CopyArguments(destination.getProject(), fReorgExecutionLog);
-				for (IPackageFragmentRoot root : getRoots()) {
+				for (IPackageFragmentRoot root : getRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.copy(root, javaArgs, resourceArgs);
 				}
 			}
@@ -534,7 +534,7 @@ public final class ReorgPolicyFactory {
 			super(packageFragments);
 		}
 
-		private Change createChange(IPackageFragment pack, IPackageFragmentRoot destination, NewNameProposer nameProposer, INewNameQueries copyQueries) {
+		private Change createChange(IPackageFragment pack, IPackageFragmentRoot destination, NewNameProposer nameProposer, INewNameQueries copyQueries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String newName= nameProposer.createNewName(pack, destination);
 			if (newName == null || JavaConventionsUtil.validatePackageName(newName, destination).getSeverity() < IStatus.ERROR) {
 				INewNameQuery nameQuery;
@@ -566,7 +566,7 @@ public final class ReorgPolicyFactory {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Change createChange(IProgressMonitor pm, INewNameQueries newNameQueries) throws JavaModelException {
 			NewNameProposer nameProposer= new NewNameProposer();
 			IPackageFragment[] fragments= getPackages();
@@ -574,7 +574,7 @@ public final class ReorgPolicyFactory {
 			CompositeChange composite= new DynamicValidationStateChange(RefactoringCoreMessages.ReorgPolicy_copy_package);
 			composite.markAsSynthetic();
 			IPackageFragmentRoot root= getDestinationAsPackageFragmentRoot();
-			for (IPackageFragment fragment : fragments) {
+			for (IPackageFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root == null) {
 					composite.add(createChange(fragment, (IContainer) getResourceDestination(), nameProposer, newNameQueries));
 				} else {
@@ -613,7 +613,7 @@ public final class ReorgPolicyFactory {
 			return RefactoringCoreMessages.ReorgPolicyFactory_copy_packages_header_plural;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringModifications getModifications() throws CoreException {
 			if (fModifications != null)
 				return fModifications;
@@ -622,13 +622,13 @@ public final class ReorgPolicyFactory {
 			fReorgExecutionLog= new ReorgExecutionLog();
 			IPackageFragmentRoot destination= getDestinationAsPackageFragmentRoot();
 			if (destination == null) {
-				for (IPackageFragment p : getPackages()) {
+				for (IPackageFragment p : getPackages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.copy(p.getResource(), new CopyArguments(getResourceDestination(), fReorgExecutionLog));
 				}
 			} else {
 				CopyArguments javaArgs= new CopyArguments(destination, fReorgExecutionLog);
 				CopyArguments resourceArgs= new CopyArguments(destination.getResource(), fReorgExecutionLog);
-				for (IPackageFragment p : getPackages()) {
+				for (IPackageFragment p : getPackages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.copy(p, javaArgs, resourceArgs);
 				}
 			}
@@ -679,7 +679,7 @@ public final class ReorgPolicyFactory {
 				CompilationUnit sourceCuNode= createSourceCuNode();
 				ICompilationUnit targetCu= getEnclosingCompilationUnit(getJavaElementDestination());
 				CompilationUnitRewrite targetRewriter= new CompilationUnitRewrite(targetCu);
-				for (IJavaElement javaElement : getJavaElements()) {
+				for (IJavaElement javaElement : getJavaElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					copyToDestination(javaElement, targetRewriter, sourceCuNode, targetRewriter.getRoot());
 				}
 				return createCompilationUnitChange(targetRewriter);
@@ -715,7 +715,7 @@ public final class ReorgPolicyFactory {
 			return ReorgUtilsCore.getFiles(new IResource[] { ReorgUtilsCore.getResource(getEnclosingCompilationUnit(getJavaElementDestination()))});
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected String getDescriptionPlural() {
 			if (!ReorgUtilsCore.hasElementsNotOfType(getJavaElements(), IJavaElement.TYPE)) {
 				return RefactoringCoreMessages.ReorgPolicyFactory_copy_types;
@@ -736,7 +736,7 @@ public final class ReorgPolicyFactory {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected String getDescriptionSingular() {
 			if (!ReorgUtilsCore.hasElementsNotOfType(getJavaElements(), IJavaElement.TYPE)) {
 				return RefactoringCoreMessages.ReorgPolicyFactory_copy_type;
@@ -775,7 +775,7 @@ public final class ReorgPolicyFactory {
 			fModifications= new CopyModifications();
 			fReorgExecutionLog= new ReorgExecutionLog();
 			CopyArguments args= new CopyArguments(getJavaElementDestination(), fReorgExecutionLog);
-			for (IJavaElement javaElement : getJavaElements()) {
+			for (IJavaElement javaElement : getJavaElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fModifications.copy(javaElement, args, null);
 			}
 			return fModifications;
@@ -928,9 +928,9 @@ public final class ReorgPolicyFactory {
 			return null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final ChangeDescriptor getDescriptor() {
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			final int length= fFiles.length + fFolders.length + fCus.length;
 			final String description= length == 1 ? getDescriptionSingular() : getDescriptionPlural();
 			final IProject resource= getSingleProject();
@@ -942,14 +942,14 @@ public final class ReorgPolicyFactory {
 			final JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(project, this, header);
 			arguments.put(ATTRIBUTE_POLICY, getPolicyId());
 			arguments.put(ATTRIBUTE_FILES, Integer.toString(fFiles.length));
-			for (int offset= 0; offset < fFiles.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.resourceToHandle(project, fFiles[offset]));
+			for (int offset= 0; offset < fFiles.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.resourceToHandle(project, fFiles[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.put(ATTRIBUTE_FOLDERS, Integer.toString(fFolders.length));
-			for (int offset= 0; offset < fFolders.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fFiles.length + 1), JavaRefactoringDescriptorUtil.resourceToHandle(project, fFolders[offset]));
+			for (int offset= 0; offset < fFolders.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fFiles.length + 1), JavaRefactoringDescriptorUtil.resourceToHandle(project, fFolders[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.put(ATTRIBUTE_UNITS, Integer.toString(fCus.length));
-			for (int offset= 0; offset < fCus.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fFolders.length + fFiles.length + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fCus[offset]));
+			for (int offset= 0; offset < fCus.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fFolders.length + fFiles.length + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fCus[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.putAll(getRefactoringArguments(project));
 			final JavaRefactoringDescriptor descriptor= createRefactoringDescriptor(comment, arguments, description, project, flags);
 			return new RefactoringChangeDescriptor(descriptor);
@@ -964,7 +964,7 @@ public final class ReorgPolicyFactory {
 			return getAsContainer(ReorgUtilsCore.getResource(jelDest));
 		}
 
-		protected IPackageFragment getDestinationAsPackageFragment() {
+		protected IPackageFragment getDestinationAsPackageFragment() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPackageFragment javaAsPackage= getJavaDestinationAsPackageFragment(getJavaElementDestination());
 			boolean copyFilesToDefaultPackage= true;
 			if (javaAsPackage != null) {
@@ -1008,7 +1008,7 @@ public final class ReorgPolicyFactory {
 			return fFolders;
 		}
 
-		private IPackageFragment getJavaDestinationAsPackageFragment(IJavaElement javaDest) {
+		private IPackageFragment getJavaDestinationAsPackageFragment(IJavaElement javaDest) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (javaDest == null || fCheckDestination && !javaDest.exists())
 				return null;
 			if (javaDest instanceof IPackageFragment)
@@ -1043,23 +1043,23 @@ public final class ReorgPolicyFactory {
 			return ReorgUtilsCore.union(fFiles, fFolders);
 		}
 
-		private IProject getSingleProject() {
+		private IProject getSingleProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IProject result= null;
-			for (IFile file : fFiles) {
+			for (IFile file : fFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result == null) {
 					result= file.getProject();
 				} else if (!result.equals(file.getProject())) {
 					return null;
 				}
 			}
-			for (IFolder folder : fFolders) {
+			for (IFolder folder : fFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result == null) {
 					result= folder.getProject();
 				} else if (!result.equals(folder.getProject())) {
 					return null;
 				}
 			}
-			for (ICompilationUnit cu : fCus) {
+			for (ICompilationUnit cu : fCus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result == null) {
 					result= cu.getJavaProject().getProject();
 				} else if (!result.equals(cu.getJavaProject().getProject())) {
@@ -1069,7 +1069,7 @@ public final class ReorgPolicyFactory {
 			return result;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringStatus initialize(JavaRefactoringArguments arguments) {
 			RefactoringStatus status= new RefactoringStatus();
 			int fileCount= 0;
@@ -1103,9 +1103,9 @@ public final class ReorgPolicyFactory {
 			} else
 				return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, ATTRIBUTE_UNITS));
 			String handle= null;
-			List<IAdaptable> elements= new ArrayList<>();
-			for (int index= 0; index < fileCount; index++) {
-				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1);
+			List<IAdaptable> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int index= 0; index < fileCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				handle= arguments.getAttribute(attribute);
 				if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 					final IResource resource= JavaRefactoringDescriptorUtil.handleToResource(arguments.getProject(), handle);
@@ -1117,9 +1117,9 @@ public final class ReorgPolicyFactory {
 					return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, attribute));
 			}
 			fFiles= elements.toArray(new IFile[elements.size()]);
-			elements= new ArrayList<>();
-			for (int index= 0; index < folderCount; index++) {
-				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (fileCount + index + 1);
+			elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int index= 0; index < folderCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (fileCount + index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				handle= arguments.getAttribute(attribute);
 				if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 					final IResource resource= JavaRefactoringDescriptorUtil.handleToResource(arguments.getProject(), handle);
@@ -1131,9 +1131,9 @@ public final class ReorgPolicyFactory {
 					return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, attribute));
 			}
 			fFolders= elements.toArray(new IFolder[elements.size()]);
-			elements= new ArrayList<>();
-			for (int index= 0; index < unitCount; index++) {
-				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (folderCount + fileCount + index + 1);
+			elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int index= 0; index < unitCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (folderCount + fileCount + index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				handle= arguments.getAttribute(attribute);
 				if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 					final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
@@ -1150,14 +1150,14 @@ public final class ReorgPolicyFactory {
 		}
 
 		private boolean isChildOfOrEqualToAnyFolder(IResource resource) {
-			for (IFolder folder : fFolders) {
+			for (IFolder folder : fFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (folder.equals(resource) || ParentChecker.isDescendantOf(resource, folder))
 					return true;
 			}
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringStatus verifyDestination(IJavaElement javaElement) throws JavaModelException {
 			Assert.isNotNull(javaElement);
 			if (!fCheckDestination)
@@ -1200,7 +1200,7 @@ public final class ReorgPolicyFactory {
 			return new RefactoringStatus();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringStatus verifyDestination(IResource resource) throws JavaModelException {
 			Assert.isNotNull(resource);
 			if (!resource.exists() || resource.isPhantom())
@@ -1270,7 +1270,7 @@ public final class ReorgPolicyFactory {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean canUpdateQualifiedNames() {
 			if (!canEnableQualifiedNameUpdating())
 				return false;
@@ -1310,7 +1310,7 @@ public final class ReorgPolicyFactory {
 			return JavaElementUtil.isDefaultPackage(commonParent);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringStatus checkFinalConditions(IProgressMonitor pm, CheckConditionsContext context, IReorgQueries reorgQueries) throws CoreException {
 			try {
 				pm.beginTask("", fUpdateQualifiedNames ? 7 : 3); //$NON-NLS-1$
@@ -1341,7 +1341,7 @@ public final class ReorgPolicyFactory {
 			return super.getDestinationAsPackageFragment();
 		}
 
-		private void computeQualifiedNameMatches(IProgressMonitor pm) throws JavaModelException {
+		private void computeQualifiedNameMatches(IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!fUpdateQualifiedNames)
 				return;
 			IPackageFragment destination= getDestinationAsPackageFragment();
@@ -1349,11 +1349,11 @@ public final class ReorgPolicyFactory {
 				ICompilationUnit[] cus= getCus();
 				pm.beginTask("", cus.length); //$NON-NLS-1$
 				pm.subTask(RefactoringCoreMessages.MoveRefactoring_scanning_qualified_names);
-				for (ICompilationUnit cu : cus) {
+				for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IType[] types= cu.getTypes();
 					IProgressMonitor typesMonitor= Progress.subMonitor(pm, 1);
 					typesMonitor.beginTask("", types.length); //$NON-NLS-1$
-					for (IType type : types) {
+					for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						handleType(type, destination, Progress.subMonitor(typesMonitor, 1));
 						if (typesMonitor.isCanceled())
 							throw new OperationCanceledException();
@@ -1419,7 +1419,7 @@ public final class ReorgPolicyFactory {
 			return RefactoringSignatureDescriptorFactory.createMoveDescriptor(project, description, comment.asString(), arguments, flags);
 		}
 
-		private Change createReferenceUpdatingMoveChange(IProgressMonitor pm) throws JavaModelException {
+		private Change createReferenceUpdatingMoveChange(IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			pm.beginTask("", 2 + (fUpdateQualifiedNames ? 1 : 0)); //$NON-NLS-1$
 			try {
 				CompositeChange composite= new DynamicValidationStateChange(RefactoringCoreMessages.ReorgPolicy_move);
@@ -1454,26 +1454,26 @@ public final class ReorgPolicyFactory {
 			}
 		}
 
-		private Change createSimpleMoveChange(IProgressMonitor pm) {
+		private Change createSimpleMoveChange(IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CompositeChange result= new DynamicValidationStateChange(RefactoringCoreMessages.ReorgPolicy_move);
 			result.markAsSynthetic();
 			IFile[] files= getFiles();
 			IFolder[] folders= getFolders();
 			ICompilationUnit[] cus= getCus();
 			pm.beginTask("", files.length + folders.length + cus.length); //$NON-NLS-1$
-			for (IFile file : files) {
+			for (IFile file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(createChange(file));
 				pm.worked(1);
 			}
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
-			for (IFolder folder : folders) {
+			for (IFolder folder : folders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(createChange(folder));
 				pm.worked(1);
 			}
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
-			for (ICompilationUnit cu : cus) {
+			for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(createChange(cu));
 				pm.worked(1);
 			}
@@ -1483,7 +1483,7 @@ public final class ReorgPolicyFactory {
 
 		@Override
 		public IFile[] getAllModifiedFiles() {
-			Set<IFile> result= new HashSet<>(Arrays.asList(ResourceUtil.getFiles(fChangeManager.getAllCompilationUnits())));
+			Set<IFile> result= new HashSet<>(Arrays.asList(ResourceUtil.getFiles(fChangeManager.getAllCompilationUnits()))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			result.addAll(Arrays.asList(fQualifiedNameSearchResult.getAllFiles()));
 			if (!(getJavaElementDestination() instanceof IPackageFragmentRoot) && getDestinationAsPackageFragment() != null && getUpdateReferences())
 				result.addAll(Arrays.asList(ResourceUtil.getFiles(getCus())));
@@ -1547,7 +1547,7 @@ public final class ReorgPolicyFactory {
 			return RefactoringCoreMessages.ReorgPolicyFactory_move_header_plural;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringModifications getModifications() throws CoreException {
 			if (fModifications != null)
 				return fModifications;
@@ -1563,15 +1563,15 @@ public final class ReorgPolicyFactory {
 
 			boolean updateReferenes= getUpdateReferences();
 			if (unitDestination != null) {
-				for (ICompilationUnit unit : getCus()) {
+				for (ICompilationUnit unit : getCus()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.move(unit, new MoveArguments(unitDestination, updateReferenes));
 				}
 			}
 			if (container != null) {
-				for (IFile file : getFiles()) {
+				for (IFile file : getFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.move(file, new MoveArguments(container, updateReferenes));
 				}
-				for (IFolder folder : getFolders()) {
+				for (IFolder folder : getFolders()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.move(folder, new MoveArguments(container, updateReferenes));
 				}
 			}
@@ -1590,7 +1590,7 @@ public final class ReorgPolicyFactory {
 
 		@Override
 		protected Map<String, String> getRefactoringArguments(String project) {
-			final Map<String, String> arguments= new HashMap<>(super.getRefactoringArguments(project));
+			final Map<String, String> arguments= new HashMap<>(super.getRefactoringArguments(project)); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			if (fFilePatterns != null && !"".equals(fFilePatterns)) //$NON-NLS-1$
 				arguments.put(ATTRIBUTE_PATTERNS, fFilePatterns);
 			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_REFERENCES, Boolean.toString(fUpdateReferences));
@@ -1614,7 +1614,7 @@ public final class ReorgPolicyFactory {
 		}
 
 		private void handleType(IType type, IPackageFragment destination, IProgressMonitor pm) {
-			QualifiedNameFinder.process(fQualifiedNameSearchResult, type.getFullyQualifiedName(), destination.getElementName() + "." + type.getTypeQualifiedName(), //$NON-NLS-1$
+			QualifiedNameFinder.process(fQualifiedNameSearchResult, type.getFullyQualifiedName(), destination.getElementName() + "." + type.getTypeQualifiedName(), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fFilePatterns, type.getJavaProject().getProject(), pm);
 		}
 
@@ -1628,7 +1628,7 @@ public final class ReorgPolicyFactory {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringStatus initialize(JavaRefactoringArguments arguments) {
 			final String patterns= arguments.getAttribute(ATTRIBUTE_PATTERNS);
 			if (patterns != null && !"".equals(patterns)) //$NON-NLS-1$
@@ -1683,7 +1683,7 @@ public final class ReorgPolicyFactory {
 			fUpdateReferences= update;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringStatus verifyDestination(IJavaElement destination) throws JavaModelException {
 			RefactoringStatus superStatus= super.verifyDestination(destination);
 			if (superStatus.hasFatalError())
@@ -1706,7 +1706,7 @@ public final class ReorgPolicyFactory {
 			return superStatus;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringStatus verifyDestination(IResource destination) throws JavaModelException {
 			RefactoringStatus superStatus= super.verifyDestination(destination);
 			if (superStatus.hasFatalError())
@@ -1734,7 +1734,7 @@ public final class ReorgPolicyFactory {
 		private static final String POLICY_MOVE_ROOTS= "org.eclipse.jdt.ui.moveRoots"; //$NON-NLS-1$
 
 		private static boolean isParentOfAny(IJavaProject javaProject, IPackageFragmentRoot[] roots) {
-			for (IPackageFragmentRoot root : roots) {
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ReorgUtilsCore.isParentInWorkspaceOrOnDisk(root, javaProject)) {
 					return true;
 				}
@@ -1757,7 +1757,7 @@ public final class ReorgPolicyFactory {
 			if (!super.canEnable())
 				return false;
 			IPackageFragmentRoot[] roots= getPackageFragmentRoots();
-			for (IPackageFragmentRoot root : roots) {
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root.isReadOnly() && !root.isArchive() && !root.isExternal()) {
 					final ResourceAttributes attributes= root.getResource().getResourceAttributes();
 					if (attributes == null || attributes.isReadOnly())
@@ -1797,7 +1797,7 @@ public final class ReorgPolicyFactory {
 			CompositeChange composite= new DynamicValidationStateChange(RefactoringCoreMessages.ReorgPolicy_move_source_folder);
 			composite.markAsSynthetic();
 			IJavaProject destination= getDestinationJavaProject();
-			for (IPackageFragmentRoot root : roots) {
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (destination == null) {
 					composite.add(new MovePackageFragmentRootChange(root, (IContainer) getResourceDestination(), null));
 				} else {
@@ -1846,7 +1846,7 @@ public final class ReorgPolicyFactory {
 			return RefactoringCoreMessages.ReorgPolicyFactory_move_roots_header_plural;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringModifications getModifications() throws CoreException {
 			if (fModifications != null)
 				return fModifications;
@@ -1855,11 +1855,11 @@ public final class ReorgPolicyFactory {
 			IJavaProject destination= getDestinationJavaProject();
 			boolean updateReferences= getUpdateReferences();
 			if (destination != null) {
-				for (IPackageFragmentRoot root : getPackageFragmentRoots()) {
+				for (IPackageFragmentRoot root : getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.move(root, new MoveArguments(destination, updateReferences));
 				}
 			} else {
-				for (IPackageFragmentRoot root : getPackageFragmentRoots()) {
+				for (IPackageFragmentRoot root : getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fModifications.move(root, new MoveArguments(getResourceDestination(), updateReferences));
 				}
 			}
@@ -1974,7 +1974,7 @@ public final class ReorgPolicyFactory {
 		private static final String POLICY_MOVE_PACKAGES= "org.eclipse.jdt.ui.movePackages"; //$NON-NLS-1$
 
 		private static boolean isParentOfAny(IPackageFragmentRoot root, IPackageFragment[] fragments) {
-			for (IPackageFragment fragment : fragments) {
+			for (IPackageFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ReorgUtilsCore.isParentInWorkspaceOrOnDisk(fragment, root))
 					return true;
 			}
@@ -2017,14 +2017,14 @@ public final class ReorgPolicyFactory {
 			return new MoveResourceChange(pack.getResource(), destination);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Change createChange(IProgressMonitor pm) throws JavaModelException {
 			IPackageFragment[] fragments= getPackages();
 			pm.beginTask("", fragments.length); //$NON-NLS-1$
 			CompositeChange result= new DynamicValidationStateChange(RefactoringCoreMessages.ReorgPolicy_move_package);
 			result.markAsSynthetic();
 			IPackageFragmentRoot root= getDestinationAsPackageFragmentRoot();
-			for (IPackageFragment fragment : fragments) {
+			for (IPackageFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root == null) {
 					result.add(createChange(fragment, (IContainer)getResourceDestination()));
 				} else {
@@ -2084,7 +2084,7 @@ public final class ReorgPolicyFactory {
 			fModifications= new MoveModifications();
 			boolean updateReferences= getUpdateReferences();
 			IPackageFragmentRoot javaDestination= getDestinationAsPackageFragmentRoot();
-			for (IPackageFragment p : getPackages()) {
+			for (IPackageFragment p : getPackages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (javaDestination == null) {
 					fModifications.move(p.getResource(), new MoveArguments(getResourceDestination(), updateReferences));
 				} else {
@@ -2213,7 +2213,7 @@ public final class ReorgPolicyFactory {
 			return super.canEnable() && getSourceCu() != null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Change createChange(IProgressMonitor pm) throws JavaModelException {
 			pm.beginTask("", 3); //$NON-NLS-1$
 			try {
@@ -2230,7 +2230,7 @@ public final class ReorgPolicyFactory {
 					targetRewriter= new CompilationUnitRewrite(destinationCu, destinationCuNode);
 				}
 				IJavaElement[] javaElements= getJavaElements();
-				for (IJavaElement javaElement : javaElements) {
+				for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					copyToDestination(javaElement, targetRewriter, sourceRewriter.getRoot(), targetRewriter.getRoot());
 				}
 				ASTNodeDeleteUtil.markAsDeleted(javaElements, sourceRewriter, null);
@@ -2279,7 +2279,7 @@ public final class ReorgPolicyFactory {
 			return null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected String getDescriptionPlural() {
 			if (!ReorgUtilsCore.hasElementsNotOfType(getJavaElements(), IJavaElement.TYPE)) {
 				return RefactoringCoreMessages.ReorgPolicyFactory_move_types;
@@ -2300,7 +2300,7 @@ public final class ReorgPolicyFactory {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected String getDescriptionSingular() {
 			if (!ReorgUtilsCore.hasElementsNotOfType(getJavaElements(), IJavaElement.TYPE)) {
 				return RefactoringCoreMessages.ReorgPolicyFactory_move_type;
@@ -2356,12 +2356,12 @@ public final class ReorgPolicyFactory {
 			fCheckDestination= check;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringStatus verifyDestination(IJavaElement destination, int location) throws JavaModelException {
 			IJavaElement[] elements= getJavaElements();
-			for (IJavaElement element : elements) {
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement parent= destination.getParent();
-				while (parent != null) {
+				while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parent.equals(element)) {
 						return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.ReorgPolicyFactory_cannot);
 					}
@@ -2399,7 +2399,7 @@ public final class ReorgPolicyFactory {
 
 				int destinationIndex= sortedChildren.indexOf(destination);
 
-				for (IJavaElement element : elements) {
+				for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int elementIndex= sortedChildren.indexOf(element);
 					if (location == IReorgDestination.LOCATION_AFTER && elementIndex == destinationIndex + 1)
 						return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.ReorgPolicyFactory_cannot);
@@ -2411,10 +2411,10 @@ public final class ReorgPolicyFactory {
 			}
 		}
 
-		private ArrayList<IJavaElement> getSortedChildren(IType parent) throws JavaModelException {
+		private ArrayList<IJavaElement> getSortedChildren(IType parent) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement[] children= parent.getChildren();
-			ArrayList<IJavaElement> sortedChildren= new ArrayList<>(Arrays.asList(children));
-			Collections.sort(sortedChildren, (e1, e2) -> {
+			ArrayList<IJavaElement> sortedChildren= new ArrayList<>(Arrays.asList(children)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			Collections.sort(sortedChildren, (e1, e2) -> { //FLLDCIM: MARK — M16 SORT_LANE CALL
 				if (!(e1 instanceof ISourceReference))
 					return 0;
 				if (!(e2 instanceof ISourceReference))
@@ -2436,7 +2436,7 @@ public final class ReorgPolicyFactory {
 		}
 
 		private boolean contains(IJavaElement[] elements, IJavaElement element) {
-			for (IJavaElement e : elements) {
+			for (IJavaElement e : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.equals(e)) {
 					return true;
 				}
@@ -2446,7 +2446,7 @@ public final class ReorgPolicyFactory {
 		}
 
 		private boolean allInSameParent(IJavaElement[] elements, IJavaElement parent) {
-			for (IJavaElement element : elements) {
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!element.getParent().equals(parent)) {
 					return false;
 				}
@@ -2548,9 +2548,9 @@ public final class ReorgPolicyFactory {
 			return !root.getPackageFragment(newName).exists();
 		}
 
-		private final Set<String> fAutoGeneratedNewNames= new HashSet<>(2);
+		private final Set<String> fAutoGeneratedNewNames= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		private String computeNewName(String str, int resourceType) {
+		private String computeNewName(String str, int resourceType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int lastIndexOfDot= str.lastIndexOf('.');
 			String fileExtension= ""; //$NON-NLS-1$
 			String fileNameNoExtension= str;
@@ -2558,9 +2558,9 @@ public final class ReorgPolicyFactory {
 				fileExtension= str.substring(lastIndexOfDot);
 				fileNameNoExtension= str.substring(0, lastIndexOfDot);
 			}
-			Pattern p= Pattern.compile("[0-9]+$"); //$NON-NLS-1$
-			Matcher m= p.matcher(fileNameNoExtension);
-			if (m.find()) {
+			Pattern p= Pattern.compile("[0-9]+$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			Matcher m= p.matcher(fileNameNoExtension); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			if (m.find()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				// String ends with a number: increment it by 1
 				String numberStr;
 				BigDecimal newNumber = null;
@@ -2570,13 +2570,13 @@ public final class ReorgPolicyFactory {
 				} catch (NumberFormatException e) {
 					numberStr = m.replaceFirst("2"); //$NON-NLS-1$
 				}
-				return numberStr + fileExtension;
+				return numberStr + fileExtension; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				return fileNameNoExtension + "2" + fileExtension; //$NON-NLS-1$
+				return fileNameNoExtension + "2" + fileExtension; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
-		public String createNewName(ICompilationUnit cu, IPackageFragment destination) {
+		public String createNewName(ICompilationUnit cu, IPackageFragment destination) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (isNewNameOk(destination, cu.getElementName()))
 				return null;
 			if (!ReorgUtilsCore.isParentInWorkspaceOrOnDisk(cu, destination))
@@ -2585,7 +2585,7 @@ public final class ReorgPolicyFactory {
 			int resourceType= cu.getResource().getType();
 			String newName= computeNewName(cu.getElementName(), resourceType);
 
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isNewNameOk(destination, newName) && !fAutoGeneratedNewNames.contains(newName)) {
 					fAutoGeneratedNewNames.add(newName);
 					return JavaCore.removeJavaLikeExtension(newName);
@@ -2595,13 +2595,13 @@ public final class ReorgPolicyFactory {
 			}
 		}
 
-		public String createNewName(IPackageFragment pack, IPackageFragmentRoot destination) {
+		public String createNewName(IPackageFragment pack, IPackageFragmentRoot destination) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (isNewNameOk(destination, pack.getElementName()))
 				return null;
 			if (!ReorgUtilsCore.isParentInWorkspaceOrOnDisk(pack, destination))
 				return null;
 			int i= 1;
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String newName;
 				if (i == 1)
 					newName= Messages.format(RefactoringCoreMessages.CopyRefactoring_package_copyOf1, pack.getElementName()); // Don't use BasicElementLabels! No RTL!
@@ -2615,7 +2615,7 @@ public final class ReorgPolicyFactory {
 			}
 		}
 
-		public String createNewName(IResource res, IContainer destination) {
+		public String createNewName(IResource res, IContainer destination) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (isNewNameOk(destination, res.getName()))
 				return null;
 			if (!ReorgUtilsCore.isParentInWorkspaceOrOnDisk(res, destination))
@@ -2624,7 +2624,7 @@ public final class ReorgPolicyFactory {
 			int resourceType= res.getType();
 			String newName= computeNewName(res.getName(), resourceType);
 
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isNewNameOk(destination, newName) && !fAutoGeneratedNewNames.contains(newName)) {
 					fAutoGeneratedNewNames.add(newName);
 					return newName;
@@ -2906,7 +2906,7 @@ public final class ReorgPolicyFactory {
 		public boolean canEnable() throws JavaModelException {
 			if (!super.canEnable() || fPackageFragmentRoots.length == 0)
 				return false;
-			for (IPackageFragmentRoot root : fPackageFragmentRoots) {
+			for (IPackageFragmentRoot root : fPackageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!ReorgUtilsCore.isSourceFolder(root) && (!root.isArchive() || root.isExternal()))
 					return false;
 			}
@@ -2936,9 +2936,9 @@ public final class ReorgPolicyFactory {
 
 		protected abstract JavaRefactoringDescriptor createRefactoringDescriptor(final JDTRefactoringDescriptorComment comment, final Map<String, String> arguments, final String description, final String project, int flags);
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final ChangeDescriptor getDescriptor() {
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			final int length= fPackageFragmentRoots.length;
 			final String description= length == 1 ? getDescriptionSingular() : getDescriptionPlural();
 			final IProject resource= getSingleProject();
@@ -2949,8 +2949,8 @@ public final class ReorgPolicyFactory {
 			final JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(project, this, header);
 			arguments.put(ATTRIBUTE_POLICY, getPolicyId());
 			arguments.put(ATTRIBUTE_ROOTS, Integer.toString(fPackageFragmentRoots.length));
-			for (int offset= 0; offset < fPackageFragmentRoots.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fPackageFragmentRoots[offset]));
+			for (int offset= 0; offset < fPackageFragmentRoots.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fPackageFragmentRoots[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.putAll(getRefactoringArguments(project));
 			final JavaRefactoringDescriptor descriptor= createRefactoringDescriptor(comment, arguments, description, project, flags);
 			return new RefactoringChangeDescriptor(descriptor);
@@ -2987,7 +2987,7 @@ public final class ReorgPolicyFactory {
 
 		private IProject getSingleProject() {
 			IProject result= null;
-			for (IPackageFragmentRoot root : fPackageFragmentRoots) {
+			for (IPackageFragmentRoot root : fPackageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result == null) {
 					result= root.getJavaProject().getProject();
 				} else if (!result.equals(root.getJavaProject().getProject())) {
@@ -2997,7 +2997,7 @@ public final class ReorgPolicyFactory {
 			return result;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringStatus initialize(JavaRefactoringArguments arguments) {
 			final RefactoringStatus status= new RefactoringStatus();
 			int rootCount= 0;
@@ -3011,9 +3011,9 @@ public final class ReorgPolicyFactory {
 			} else
 				return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, ATTRIBUTE_ROOTS));
 			String handle= null;
-			List<IJavaElement> elements= new ArrayList<>();
-			for (int index= 0; index < rootCount; index++) {
-				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1);
+			List<IJavaElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int index= 0; index < rootCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				handle= arguments.getAttribute(attribute);
 				if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 					final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
@@ -3047,7 +3047,7 @@ public final class ReorgPolicyFactory {
 			return new RefactoringStatus();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringStatus verifyDestination(IResource resource) {
 			Assert.isNotNull(resource);
 			if (!resource.exists() || resource.isPhantom())
@@ -3071,7 +3071,7 @@ public final class ReorgPolicyFactory {
 		}
 
 		private boolean isChildOfOrEqualToAnyFolder(IResource resource) {
-			for (IPackageFragmentRoot root : fPackageFragmentRoots) {
+			for (IPackageFragmentRoot root : fPackageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource fragmentRootResource= root.getResource();
 				if (fragmentRootResource.equals(resource) || ParentChecker.isDescendantOf(resource, fragmentRootResource))
 					return true;
@@ -3080,7 +3080,7 @@ public final class ReorgPolicyFactory {
 		}
 
 		protected boolean containsLinkedResources() {
-			for (IPackageFragmentRoot root : fPackageFragmentRoots) {
+			for (IPackageFragmentRoot root : fPackageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root.getResource().isLinked()) {
 					return true;
 				}
@@ -3141,7 +3141,7 @@ public final class ReorgPolicyFactory {
 		public boolean canEnable() throws JavaModelException {
 			if (fPackageFragments.length == 0)
 				return false;
-			for (IPackageFragment pack : fPackageFragments) {
+			for (IPackageFragment pack : fPackageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (JavaElementUtil.isDefaultPackage(pack) || pack.isReadOnly()) {
 					return false;
 				}
@@ -3172,9 +3172,9 @@ public final class ReorgPolicyFactory {
 
 		protected abstract JavaRefactoringDescriptor createRefactoringDescriptor(final JDTRefactoringDescriptorComment comment, final Map<String, String> arguments, final String description, final String project, int flags);
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final ChangeDescriptor getDescriptor() {
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			final int length= fPackageFragments.length;
 			final String description= length == 1 ? getDescriptionSingular() : getDescriptionPlural();
 			final IProject resource= getSingleProject();
@@ -3186,8 +3186,8 @@ public final class ReorgPolicyFactory {
 			final JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(project, this, header);
 			arguments.put(ATTRIBUTE_POLICY, getPolicyId());
 			arguments.put(ATTRIBUTE_FRAGMENTS, Integer.toString(fPackageFragments.length));
-			for (int offset= 0; offset < fPackageFragments.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fPackageFragments[offset]));
+			for (int offset= 0; offset < fPackageFragments.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fPackageFragments[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.putAll(getRefactoringArguments(project));
 			final JavaRefactoringDescriptor descriptor= createRefactoringDescriptor(comment, arguments, description, project, flags);
 			return new RefactoringChangeDescriptor(descriptor);
@@ -3231,7 +3231,7 @@ public final class ReorgPolicyFactory {
 
 		private IProject getSingleProject() {
 			IProject result= null;
-			for (IPackageFragment pack : fPackageFragments) {
+			for (IPackageFragment pack : fPackageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result == null) {
 					result= pack.getJavaProject().getProject();
 				} else if (!result.equals(pack.getJavaProject().getProject())) {
@@ -3241,7 +3241,7 @@ public final class ReorgPolicyFactory {
 			return result;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringStatus initialize(JavaRefactoringArguments arguments) {
 			final RefactoringStatus status= new RefactoringStatus();
 			int fragmentCount= 0;
@@ -3255,9 +3255,9 @@ public final class ReorgPolicyFactory {
 			} else
 				return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, ATTRIBUTE_FRAGMENTS));
 			String handle= null;
-			List<IJavaElement> elements= new ArrayList<>();
-			for (int index= 0; index < fragmentCount; index++) {
-				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1);
+			List<IJavaElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int index= 0; index < fragmentCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				handle= arguments.getAttribute(attribute);
 				if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 					final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
@@ -3288,7 +3288,7 @@ public final class ReorgPolicyFactory {
 			return new RefactoringStatus();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected RefactoringStatus verifyDestination(IResource resource) {
 			Assert.isNotNull(resource);
 			if (!resource.exists() || resource.isPhantom())
@@ -3312,7 +3312,7 @@ public final class ReorgPolicyFactory {
 		}
 
 		private boolean isChildOfOrEqualToAnyFolder(IResource resource) {
-			for (IPackageFragment pack : fPackageFragments) {
+			for (IPackageFragment pack : fPackageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IFolder folder= (IFolder) pack.getResource();
 				if (folder.equals(resource) || ParentChecker.isDescendantOf(resource, folder))
 					return true;
@@ -3321,7 +3321,7 @@ public final class ReorgPolicyFactory {
 		}
 
 		protected boolean containsLinkedResources() {
-			for (IPackageFragment pack : fPackageFragments) {
+			for (IPackageFragment pack : fPackageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (pack.getResource().isLinked()) {
 					return true;
 				}
@@ -3413,13 +3413,13 @@ public final class ReorgPolicyFactory {
 		@Override
 		public boolean canEnable() throws JavaModelException {
 			IResource[] resources= getResources();
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!resource.exists() || resource.isPhantom() || !resource.isAccessible())
 					return false;
 			}
 
 			IJavaElement[] javaElements= getJavaElements();
-			for (IJavaElement element : javaElements) {
+			for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!element.exists())
 					return false;
 			}
@@ -3437,7 +3437,7 @@ public final class ReorgPolicyFactory {
 			ResourceChangeChecker checker= context.getChecker(ResourceChangeChecker.class);
 			RefactoringModifications modifications= getModifications();
 			IResourceChangeDescriptionFactory deltaFactory= checker.getDeltaFactory();
-			for (IFile file : getAllModifiedFiles()) {
+			for (IFile file : getAllModifiedFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				deltaFactory.change(file);
 			}
 			if (modifications != null) {
@@ -3493,7 +3493,7 @@ public final class ReorgPolicyFactory {
 		protected abstract String getProcessorId();
 
 		protected Map<String, String> getRefactoringArguments(String project) {
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			final IJavaElement element= getJavaElementDestination();
 			if (element != null)
 				arguments.put(ATTRIBUTE_DESTINATION, JavaRefactoringDescriptorUtil.elementToHandle(project, element));
@@ -3517,7 +3517,7 @@ public final class ReorgPolicyFactory {
 			return resourceDestination.getResource();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringStatus initialize(JavaRefactoringArguments arguments) {
 			String handle= arguments.getAttribute(ATTRIBUTE_DESTINATION);
 			if (handle != null) {
@@ -3679,7 +3679,7 @@ public final class ReorgPolicyFactory {
 			if (!super.canEnable() || fJavaElements.length == 0)
 				return false;
 
-			for (IJavaElement javaElement : fJavaElements) {
+			for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (javaElement instanceof IMember) {
 					IMember member= (IMember) javaElement;
 					// we can copy some binary members, but not all
@@ -3699,7 +3699,7 @@ public final class ReorgPolicyFactory {
 		private void copyImportsToDestination(IImportContainer container, ASTRewrite rewrite, CompilationUnit sourceCuNode, CompilationUnit destinationCuNode) throws JavaModelException {
 			ListRewrite listRewrite= rewrite.getListRewrite(destinationCuNode, CompilationUnit.IMPORTS_PROPERTY);
 
-			for (IJavaElement importDeclaration : container.getChildren()) {
+			for (IJavaElement importDeclaration : container.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IImportDeclaration declaration= (IImportDeclaration) importDeclaration;
 				ImportDeclaration sourceNode= ASTNodeSearchUtil.getImportDeclarationNode(declaration, sourceCuNode);
 				ImportDeclaration copiedNode= (ImportDeclaration) ASTNode.copySubtree(rewrite.getAST(), sourceNode);
@@ -3730,7 +3730,7 @@ public final class ReorgPolicyFactory {
 			copyMemberToDestination(initializer, targetRewriter, sourceCuNode, targetCuNode, newInitializer);
 		}
 
-		private void copyMemberToDestination(IMember member, CompilationUnitRewrite targetRewriter, CompilationUnit sourceCuNode, CompilationUnit targetCuNode, BodyDeclaration newMember) throws JavaModelException {
+		private void copyMemberToDestination(IMember member, CompilationUnitRewrite targetRewriter, CompilationUnit sourceCuNode, CompilationUnit targetCuNode, BodyDeclaration newMember) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement javaElementDestination= getJavaElementDestination();
 			ASTNode nodeDestination= getDestinationNode(javaElementDestination, targetCuNode);
 			ASTNode destinationContainer;
@@ -3773,14 +3773,14 @@ public final class ReorgPolicyFactory {
 			}
 			if (decl != null) {
 				ImportRewriteContext context= new ContextSensitiveImportRewriteContext(destinationContainer, targetRewriter.getImportRewrite());
-				ImportRewriteUtil.addImports(targetRewriter, context, decl, new HashMap<>(), new HashMap<>(), false);
+				ImportRewriteUtil.addImports(targetRewriter, context, decl, new HashMap<>(), new HashMap<>(), false); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			}
 		}
 
 		/*
 		 * Get the 'destination' in 'target' as ASTNode or 'null'
 		 */
-		private ASTNode getDestinationNode(IJavaElement destination, CompilationUnit target) throws JavaModelException {
+		private ASTNode getDestinationNode(IJavaElement destination, CompilationUnit target) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			switch (destination.getElementType()) {
 				case IJavaElement.INITIALIZER:
 					return ASTNodeSearchUtil.getInitializerNode((IInitializer) destination, target);
@@ -3833,7 +3833,7 @@ public final class ReorgPolicyFactory {
 			targetRewrite.set(destinationCuNode, CompilationUnit.PACKAGE_PROPERTY, copiedNode, null);
 		}
 
-		protected void copyToDestination(IJavaElement element, CompilationUnitRewrite targetRewriter, CompilationUnit sourceCuNode, CompilationUnit targetCuNode) throws CoreException {
+		protected void copyToDestination(IJavaElement element, CompilationUnitRewrite targetRewriter, CompilationUnit sourceCuNode, CompilationUnit targetCuNode) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ASTRewrite rewrite= targetRewriter.getASTRewrite();
 			switch (element.getElementType()) {
 				case IJavaElement.FIELD:
@@ -3873,7 +3873,7 @@ public final class ReorgPolicyFactory {
 			}
 		}
 
-		private BodyDeclaration createNewFieldDeclarationNode(IField field, ASTRewrite rewrite, CompilationUnit sourceCuNode) throws CoreException {
+		private BodyDeclaration createNewFieldDeclarationNode(IField field, ASTRewrite rewrite, CompilationUnit sourceCuNode) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			AST targetAst= rewrite.getAST();
 			BodyDeclaration newDeclaration= null;
 
@@ -3916,9 +3916,9 @@ public final class ReorgPolicyFactory {
 
 		protected abstract JavaRefactoringDescriptor createRefactoringDescriptor(final JDTRefactoringDescriptorComment comment, final Map<String, String> arguments, final String description, final String project, int flags);
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final ChangeDescriptor getDescriptor() {
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			final int length= fJavaElements.length;
 			final String description= length == 1 ? getDescriptionSingular() : getDescriptionPlural();
 			final IProject resource= getSingleProject();
@@ -3930,8 +3930,8 @@ public final class ReorgPolicyFactory {
 			final JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(project, this, header);
 			arguments.put(ATTRIBUTE_POLICY, getPolicyId());
 			arguments.put(ATTRIBUTE_MEMBERS, Integer.toString(fJavaElements.length));
-			for (int offset= 0; offset < fJavaElements.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fJavaElements[offset]));
+			for (int offset= 0; offset < fJavaElements.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fJavaElements[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.putAll(getRefactoringArguments(project));
 			final JavaRefactoringDescriptor descriptor= createRefactoringDescriptor(comment, arguments, description, project, flags);
 			return new RefactoringChangeDescriptor(descriptor);
@@ -3949,7 +3949,7 @@ public final class ReorgPolicyFactory {
 
 		private IProject getSingleProject() {
 			IProject result= null;
-			for (IJavaElement javaElement : fJavaElements) {
+			for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result == null) {
 					result= javaElement.getJavaProject().getProject();
 				} else if (!result.equals(javaElement.getJavaProject().getProject())) {
@@ -3965,7 +3965,7 @@ public final class ReorgPolicyFactory {
 			return getEnclosingCompilationUnit(fJavaElements[0]);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringStatus initialize(JavaRefactoringArguments arguments) {
 			final RefactoringStatus status= new RefactoringStatus();
 			int memberCount= 0;
@@ -3979,9 +3979,9 @@ public final class ReorgPolicyFactory {
 			} else
 				return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, ATTRIBUTE_MEMBERS));
 			String handle= null;
-			List<IJavaElement> elements= new ArrayList<>();
-			for (int index= 0; index < memberCount; index++) {
-				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1);
+			List<IJavaElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int index= 0; index < memberCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				handle= arguments.getAttribute(attribute);
 				if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 					final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
@@ -4005,7 +4005,7 @@ public final class ReorgPolicyFactory {
 		 * @return returns the status
 		 * @throws JavaModelException should not happen
 		 */
-		protected RefactoringStatus verifyDestination(IJavaElement destination, int location) throws JavaModelException {
+		protected RefactoringStatus verifyDestination(IJavaElement destination, int location) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Assert.isNotNull(destination);
 			if (!fCheckDestination)
 				return new RefactoringStatus();
@@ -4132,7 +4132,7 @@ public final class ReorgPolicyFactory {
 	private static final String UNUSED_STRING= "unused"; //$NON-NLS-1$
 
 	private static boolean containsNull(Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object == null) {
 				return true;
 			}
@@ -4144,7 +4144,7 @@ public final class ReorgPolicyFactory {
 		return (ICopyPolicy) createReorgPolicy(true, resources, javaElements);
 	}
 
-	public static ICopyPolicy createCopyPolicy(RefactoringStatus status, JavaRefactoringArguments arguments) {
+	public static ICopyPolicy createCopyPolicy(RefactoringStatus status, JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String policy= arguments.getAttribute(ATTRIBUTE_POLICY);
 		if (policy != null && !"".equals(policy)) { //$NON-NLS-1$
 			switch (policy) {
@@ -4169,7 +4169,7 @@ public final class ReorgPolicyFactory {
 		return (IMovePolicy) createReorgPolicy(false, resources, javaElements);
 	}
 
-	public static IMovePolicy createMovePolicy(RefactoringStatus status, JavaRefactoringArguments arguments) {
+	public static IMovePolicy createMovePolicy(RefactoringStatus status, JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String policy= arguments.getAttribute(ATTRIBUTE_POLICY);
 			if (policy != null && !"".equals(policy)) { //$NON-NLS-1$
 				switch (policy) {
@@ -4192,7 +4192,7 @@ public final class ReorgPolicyFactory {
 		return null;
 	}
 
-	private static IReorgPolicy createReorgPolicy(boolean copy, IResource[] selectedResources, IJavaElement[] selectedJavaElements) throws JavaModelException {
+	private static IReorgPolicy createReorgPolicy(boolean copy, IResource[] selectedResources, IJavaElement[] selectedJavaElements) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IReorgPolicy NO;
 		if (copy)
 			NO= new NoCopyPolicy();
@@ -4292,7 +4292,7 @@ public final class ReorgPolicyFactory {
 	}
 
 	private static boolean hasAnonymousClassDeclarations(IJavaElement[] javaElements) throws JavaModelException {
-		for (IJavaElement javaElement : javaElements) {
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (javaElement instanceof IType) {
 				IType type= (IType) javaElement;
 				if (type.isAnonymous())
@@ -4303,7 +4303,7 @@ public final class ReorgPolicyFactory {
 	}
 
 	private static boolean hasElementsSmallerThanCuOrClassFile(IJavaElement[] javaElements) {
-		for (IJavaElement javaElement : javaElements) {
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ReorgUtilsCore.isInsideCompilationUnit(javaElement)) {
 				return true;
 			}
@@ -4315,7 +4315,7 @@ public final class ReorgPolicyFactory {
 	}
 
 	private static boolean hasOnlyImportDeclarations(IJavaElement[] javaElements) {
-		for (IJavaElement javaElement : javaElements) {
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (javaElement.getElementType() != IJavaElement.IMPORT_DECLARATION) {
 				return false;
 			}
@@ -4324,7 +4324,7 @@ public final class ReorgPolicyFactory {
 	}
 
 	private static boolean hasOnlyMembers(IJavaElement[] javaElements) {
-		for (IJavaElement javaElement : javaElements) {
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(javaElement instanceof IMember)) {
 				return false;
 			}
@@ -4337,7 +4337,7 @@ public final class ReorgPolicyFactory {
 		final String value= arguments.getAttribute(ATTRIBUTE_LOG);
 		if (value != null) {
 			final StringTokenizer tokenizer= new StringTokenizer(value, DELIMITER_RECORD, false);
-			while (tokenizer.hasMoreTokens()) {
+			while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final String token= tokenizer.nextToken();
 				processCreateTargetExecutionRecord(log, arguments, token);
 			}
@@ -4350,7 +4350,7 @@ public final class ReorgPolicyFactory {
 		final String value= arguments.getAttribute(ATTRIBUTE_LOG);
 		if (value != null) {
 			final StringTokenizer tokenizer= new StringTokenizer(value, DELIMITER_RECORD, false);
-			while (tokenizer.hasMoreTokens()) {
+			while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final String token= tokenizer.nextToken();
 				processReorgExecutionRecord(log, arguments, token);
 			}
@@ -4358,7 +4358,7 @@ public final class ReorgPolicyFactory {
 		return log;
 	}
 
-	private static void processCreateTargetExecutionRecord(CreateTargetExecutionLog log, JavaRefactoringArguments arguments, String token) {
+	private static void processCreateTargetExecutionRecord(CreateTargetExecutionLog log, JavaRefactoringArguments arguments, String token) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final StringTokenizer tokenizer= new StringTokenizer(token, DELIMITER_ELEMENT, false);
 		String value= null;
 		if (tokenizer.hasMoreTokens()) {
@@ -4377,7 +4377,7 @@ public final class ReorgPolicyFactory {
 		}
 	}
 
-	private static void processReorgExecutionRecord(ReorgExecutionLog log, JavaRefactoringArguments arguments, String token) {
+	private static void processReorgExecutionRecord(ReorgExecutionLog log, JavaRefactoringArguments arguments, String token) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final StringTokenizer tokenizer= new StringTokenizer(token, DELIMITER_ELEMENT, false);
 		String value= null;
 		if (tokenizer.hasMoreTokens()) {
@@ -4405,17 +4405,17 @@ public final class ReorgPolicyFactory {
 		}
 	}
 
-	public static void storeCreateTargetExecutionLog(String project, Map<String, String> arguments, CreateTargetExecutionLog log) {
+	public static void storeCreateTargetExecutionLog(String project, Map<String, String> arguments, CreateTargetExecutionLog log) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (log != null) {
-			final StringBuilder buffer= new StringBuilder(64);
-			for (Object selection : log.getSelectedElements()) {
+			final StringBuilder buffer= new StringBuilder(64); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (Object selection : log.getSelectedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (selection != null) {
 					final Object created= log.getCreatedElement(selection);
 					if (created != null) {
 						storeLogElement(buffer, project, selection);
-						buffer.append(DELIMITER_ELEMENT);
+						buffer.append(DELIMITER_ELEMENT); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						storeLogElement(buffer, project, created);
-						buffer.append(DELIMITER_RECORD);
+						buffer.append(DELIMITER_RECORD); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 
 				}
@@ -4429,33 +4429,33 @@ public final class ReorgPolicyFactory {
 	private static boolean storeLogElement(StringBuilder buffer, String project, Object object) {
 		if (object instanceof IJavaElement) {
 			final IJavaElement element= (IJavaElement) object;
-			buffer.append(JavaRefactoringDescriptorUtil.elementToHandle(project, element));
+			buffer.append(JavaRefactoringDescriptorUtil.elementToHandle(project, element)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return true;
 		} else if (object instanceof IResource) {
 			final IResource resource= (IResource) object;
-			buffer.append(JavaRefactoringDescriptorUtil.resourceToHandle(project, resource));
+			buffer.append(JavaRefactoringDescriptorUtil.resourceToHandle(project, resource)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return true;
 		}
 		return false;
 	}
 
-	public static void storeReorgExecutionLog(String project, Map<String, String> arguments, ReorgExecutionLog log) {
+	public static void storeReorgExecutionLog(String project, Map<String, String> arguments, ReorgExecutionLog log) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (log != null) {
-			final Set<Object> set= new HashSet<>(Arrays.asList(log.getProcessedElements()));
+			final Set<Object> set= new HashSet<>(Arrays.asList(log.getProcessedElements())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			set.addAll(Arrays.asList(log.getRenamedElements()));
-			final StringBuilder buffer= new StringBuilder(64);
-			for (Object object : set) {
+			final StringBuilder buffer= new StringBuilder(64); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (Object object : set) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (storeLogElement(buffer, project, object)) {
-					buffer.append(DELIMITER_ELEMENT);
-					buffer.append(log.isProcessed(object));
-					buffer.append(DELIMITER_ELEMENT);
+					buffer.append(DELIMITER_ELEMENT); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buffer.append(log.isProcessed(object)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buffer.append(DELIMITER_ELEMENT); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					final boolean renamed= log.isRenamed(object);
-					buffer.append(renamed);
+					buffer.append(renamed); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (renamed) {
-						buffer.append(DELIMITER_ELEMENT);
-						buffer.append(log.getNewName(object));
+						buffer.append(DELIMITER_ELEMENT); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						buffer.append(log.getNewName(object)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					buffer.append(DELIMITER_RECORD);
+					buffer.append(DELIMITER_RECORD); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			final String value= buffer.toString().trim();

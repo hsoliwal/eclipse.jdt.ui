@@ -207,7 +207,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 	 *
 	 * @return the adornment flags
 	 */
-	protected int computeAdornmentFlags(Object obj) {
+	protected int computeAdornmentFlags(Object obj) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (obj instanceof IJavaElement) {
 				IJavaElement element= (IJavaElement) obj;
@@ -297,7 +297,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 		return 0;
 	}
 
-	final class AdornmentUpdateJob extends WorkbenchJob {
+	final class AdornmentUpdateJob extends WorkbenchJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 		private final Set<IResource> queue;
 
@@ -313,16 +313,16 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 			return ProblemsLabelDecorator.class == family;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus runInUIThread(IProgressMonitor monitor) {
-			List<IResource> changed = new ArrayList<>(queue);
+			List<IResource> changed = new ArrayList<>(queue); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			queue.removeAll(changed);
 			IResource[] changes = changed.toArray(IResource[]::new);
 			if (changes.length > 0 && !monitor.isCanceled()) {
 				if (DEBUG) {
 					String prefix = ProblemsLabelDecorator.this.toString();
 					prefix = prefix.substring(prefix.lastIndexOf('.') + 1);
-					System.err.println(prefix + " : " + " :show: " + Arrays.toString(changes)); //$NON-NLS-1$ //$NON-NLS-2$
+					System.err.println(prefix + " : " + " :show: " + Arrays.toString(changes)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				fireProblemsChanged(changes, true);
 			}
@@ -349,7 +349,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 		/**
 		 * Cache for projects and source folders status, key is resource, value is known adornment flags
 		 */
-		final Map<IResource, Integer> adornmentCache;
+		final Map<IResource, Integer> adornmentCache; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 		/** Job to compute adornments for container resources in background */
 		final AdornmentCalculationJob adornmentJob;
@@ -391,7 +391,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 
 		public AdornmentCalculationJob() {
 			super("Java problems decoration calculation..."); //$NON-NLS-1$
-			this.queue = new LinkedHashMap<>();
+			this.queue = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 			setSystem(true);
 			setPriority(DECORATE);
 		}
@@ -401,21 +401,21 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 			return ProblemsLabelDecorator.class == family;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected IStatus run(IProgressMonitor monitor) {
-			Map<AdornmentUpdateJob, Set<IResource>> changed = new LinkedHashMap<>();
+			Map<AdornmentUpdateJob, Set<IResource>> changed = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 			Entry<AdornmentTask, Set<AdornmentUpdateJob>> next;
-			while ((next = poll()) != null && !monitor.isCanceled()) {
+			while ((next = poll()) != null && !monitor.isCanceled()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				AdornmentTask task = next.getKey();
 				task.run();
 				if (DEBUG) {
-					System.out.println("calc : " + AdornmentCacheManager.instance.adornmentCache.size() + " : " + task.resource); //$NON-NLS-1$ //$NON-NLS-2$
+					System.out.println("calc : " + AdornmentCacheManager.instance.adornmentCache.size() + " : " + task.resource); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 
 				if (task.isAdornmentChanged()) {
 					final IResource resource = task.resource;
 					Set<AdornmentUpdateJob> jobs = next.getValue();
-					for (AdornmentUpdateJob job : jobs) {
+					for (AdornmentUpdateJob job : jobs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						changed.compute(job, (unused, v) -> {
 							if(v == null) {
 								v = new LinkedHashSet<>();
@@ -427,7 +427,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 				}
 			}
 			if (!changed.isEmpty() && !monitor.isCanceled()) {
-				for (Entry<AdornmentUpdateJob, Set<IResource>> entry : changed.entrySet()) {
+				for (Entry<AdornmentUpdateJob, Set<IResource>> entry : changed.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					AdornmentUpdateJob job = entry.getKey();
 					Set<IResource> resources = entry.getValue();
 					job.schedule(resources);
@@ -500,7 +500,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 			return resource.equals(other.resource);
 		}
 
-		void run() {
+		void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				newAdornment = getErrorTicksFromMarkers(resource, IResource.DEPTH_INFINITE);
 			} catch (CoreException e) {
@@ -535,18 +535,18 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 
 		@Override
 		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			builder.append("AdornmentTask ["); //$NON-NLS-1$
+			StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			builder.append("AdornmentTask ["); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (resource != null) {
-				builder.append("resource="); //$NON-NLS-1$
-				builder.append(resource);
-				builder.append(", "); //$NON-NLS-1$
+				builder.append("resource="); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				builder.append(resource); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				builder.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			builder.append("newAdornment="); //$NON-NLS-1$
-			builder.append(newAdornment);
-			builder.append(", oldAdornment="); //$NON-NLS-1$
-			builder.append(oldAdornment);
-			builder.append("]"); //$NON-NLS-1$
+			builder.append("newAdornment="); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			builder.append(newAdornment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			builder.append(", oldAdornment="); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			builder.append(oldAdornment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			builder.append("]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return builder.toString();
 		}
 	}
@@ -563,7 +563,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 
 	private boolean isIgnoringOptionalProblems(IClasspathEntry entry) {
 		if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-			for (IClasspathAttribute attrib : entry.getExtraAttributes()) {
+			for (IClasspathAttribute attrib : entry.getExtraAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (IClasspathAttribute.IGNORE_OPTIONAL_PROBLEMS.equals(attrib.getName())) {
 					return "true".equals(attrib.getValue()); //$NON-NLS-1$
 				}
@@ -575,14 +575,14 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 	private boolean isIgnoringOptionalProblems(IJavaProject project) throws JavaModelException {
 		IPath projectPath= project.getPath();
 		IClasspathEntry[] rawClasspath= project.getRawClasspath();
-		for (IClasspathEntry entry : rawClasspath) {
+		for (IClasspathEntry entry : rawClasspath) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE && projectPath.equals(entry.getPath()) && isIgnoringOptionalProblems(entry))
 				return true;
 		}
 		return false;
 	}
 
-	private static int getErrorTicksFromMarkers(IResource res, int depth) throws CoreException {
+	private static int getErrorTicksFromMarkers(IResource res, int depth) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (res == null || !res.isAccessible()) {
 			return 0;
 		}
@@ -601,14 +601,14 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 		return convertToTick(severity);
 	}
 
-	private int getErrorTicksFromMarkers(IResource res, int depth, ISourceReference sourceElement) throws CoreException {
+	private int getErrorTicksFromMarkers(IResource res, int depth, ISourceReference sourceElement) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (res == null || !res.isAccessible()) {
 			return 0;
 		}
 		int severity= -1;
 		IMarker[] markers= res.findMarkers(IMarker.PROBLEM, true, depth);
 		if (markers != null && markers.length > 0) {
-			for (int i= 0; i < markers.length && (severity != IMarker.SEVERITY_ERROR); i++) {
+			for (int i= 0; i < markers.length && (severity != IMarker.SEVERITY_ERROR); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMarker curr= markers[i];
 				if (isMarkerInRange(curr, sourceElement)) {
 					int val= curr.getAttribute(IMarker.SEVERITY, -1);
@@ -634,7 +634,7 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 		}
 	}
 
-	private int getPackageErrorTicksFromMarkers(IPackageFragment pack) throws CoreException {
+	private int getPackageErrorTicksFromMarkers(IPackageFragment pack) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Packages are special: They must not consider markers on subpackages.
 
 		IResource res= pack.getResource();
@@ -648,14 +648,14 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 			return ERRORTICK_ERROR;
 
 		// markers on CUs
-		for (ICompilationUnit cu : pack.getCompilationUnits()) {
+		for (ICompilationUnit cu : pack.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			severity= Math.max(severity, findMaxProblemSeverity(cu.getResource(), IMarker.PROBLEM, true, IResource.DEPTH_ZERO));
 			if (severity == IMarker.SEVERITY_ERROR)
 				return ERRORTICK_ERROR;
 		}
 
 		// markers on files and folders
-		for (Object object : pack.getNonJavaResources()) {
+		for (Object object : pack.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource) {
 				IResource resource= (IResource) object;
 				severity= Math.max(severity, findMaxProblemSeverity(resource, IMarker.PROBLEM, true, IResource.DEPTH_INFINITE));
@@ -703,11 +703,11 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 	}
 
 
-	private int getErrorTicksFromAnnotationModel(IAnnotationModel model, ISourceReference sourceElement) throws CoreException {
+	private int getErrorTicksFromAnnotationModel(IAnnotationModel model, ISourceReference sourceElement) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int info= 0;
 		int priority= -1;
 		Iterator<Annotation> iter= model.getAnnotationIterator();
-		while ((info != ERRORTICK_ERROR) && iter.hasNext()) {
+		while ((info != ERRORTICK_ERROR) && iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation annot= iter.next();
 			IMarker marker= isAnnotationInRange(model, annot, sourceElement);
 			if (marker != null) {
@@ -814,13 +814,13 @@ public class ProblemsLabelDecorator implements ILabelDecorator, ILightweightLabe
 	private void fireProblemsChanged(IResource[] changedResources, boolean isMarkerChange) {
 		if (fListeners != null && !fListeners.isEmpty()) {
 			LabelProviderChangedEvent event= new ProblemsLabelChangedEvent(this, changedResources, isMarkerChange);
-			for (ILabelProviderListener listener : fListeners) {
-				listener.labelProviderChanged(event);
+			for (ILabelProviderListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				listener.labelProviderChanged(event); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			}
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void decorate(Object element, IDecoration decoration) {
 		int adornmentFlags= computeAdornmentFlags(element);
 		switch (adornmentFlags) {

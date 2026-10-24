@@ -65,13 +65,13 @@ public final class ImportRewriteUtil {
 	 * @param excludeBindings the set of bindings to exclude (element type: {@code Set <IBinding>}).
 	 * @param declarations <code>true</code> if method declarations are treated as abstract, <code>false</code> otherwise
 	 */
-	public static void addImports(final CompilationUnitRewrite rewrite, ImportRewriteContext context, final ASTNode node, final Map<Name, String> typeImports, final Map<Name, String> staticImports, final Collection<IBinding> excludeBindings, final boolean declarations) {
+	public static void addImports(final CompilationUnitRewrite rewrite, ImportRewriteContext context, final ASTNode node, final Map<Name, String> typeImports, final Map<Name, String> staticImports, final Collection<IBinding> excludeBindings, final boolean declarations) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(rewrite);
 		Assert.isNotNull(node);
 		Assert.isNotNull(typeImports);
 		Assert.isNotNull(staticImports);
-		final Set<SimpleName> types= new HashSet<>();
-		final Set<SimpleName> members= new HashSet<>();
+		final Set<SimpleName> types= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final Set<SimpleName> members= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		ImportReferencesCollector.collect(node, rewrite.getCu().getJavaProject(), null, declarations, types, members);
 
@@ -79,7 +79,7 @@ public final class ImportRewriteUtil {
 		final ImportRemover remover= rewrite.getImportRemover();
 		Name name= null;
 		IBinding binding= null;
-		for (SimpleName simpleName : types) {
+		for (SimpleName simpleName : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			name= simpleName;
 			binding= name.resolveBinding();
 			if (binding instanceof ITypeBinding) {
@@ -90,7 +90,7 @@ public final class ImportRewriteUtil {
 				}
 			}
 		}
-		for (SimpleName simpleName : members) {
+		for (SimpleName simpleName : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			name= simpleName;
 			binding= name.resolveBinding();
 			if (binding instanceof IVariableBinding) {
@@ -134,19 +134,19 @@ public final class ImportRewriteUtil {
 	 * @param excludeBindings the set of bindings to exclude (element type: {@code Set <IBinding>}).
 	 * @param declarations <code>true</code> if method declarations are treated as abstract, <code>false</code> otherwise
 	 */
-	public static void collectImports(final IJavaProject project, final ASTNode node, final Collection<ITypeBinding> typeBindings, final Collection<IBinding> staticBindings, final Collection<IBinding> excludeBindings, final boolean declarations) {
+	public static void collectImports(final IJavaProject project, final ASTNode node, final Collection<ITypeBinding> typeBindings, final Collection<IBinding> staticBindings, final Collection<IBinding> excludeBindings, final boolean declarations) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(project);
 		Assert.isNotNull(node);
 		Assert.isNotNull(typeBindings);
 		Assert.isNotNull(staticBindings);
-		final Set<SimpleName> types= new HashSet<>();
-		final Set<SimpleName> members= new HashSet<>();
+		final Set<SimpleName> types= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final Set<SimpleName> members= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		ImportReferencesCollector.collect(node, project, null, declarations, types, members);
 
 		Name name= null;
 		IBinding binding= null;
-		for (SimpleName simpleName : types) {
+		for (SimpleName simpleName : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			name= simpleName;
 			binding= name.resolveBinding();
 			if (binding instanceof ITypeBinding) {
@@ -155,7 +155,7 @@ public final class ImportRewriteUtil {
 					typeBindings.add(type);
 			}
 		}
-		for (SimpleName simpleName : members) {
+		for (SimpleName simpleName : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			name= simpleName;
 			binding= name.resolveBinding();
 			if (binding != null && (excludeBindings == null || !excludeBindings.contains(binding)))

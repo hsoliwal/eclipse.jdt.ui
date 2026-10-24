@@ -67,14 +67,14 @@ public class MethodsViewer extends ProblemTableViewer {
 	private ShowInheritedMembersAction fShowInheritedMembersAction;
 	private SortByDefiningTypeAction fSortByDefiningTypeAction;
 
-	public MethodsViewer(Composite parent, final TypeHierarchyLifeCycle lifeCycle) {
+	public MethodsViewer(Composite parent, final TypeHierarchyLifeCycle lifeCycle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(new Table(parent, SWT.MULTI));
 
-		addFilter(new SyntheticMembersFilter());
+		addFilter(new SyntheticMembersFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		fLabelProvider= new MethodsLabelProvider(lifeCycle, this);
 
-		setLabelProvider(new DecoratingJavaLabelProvider(fLabelProvider, true));
+		setLabelProvider(new DecoratingJavaLabelProvider(fLabelProvider, true)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		setContentProvider(new MethodsContentProvider(lifeCycle));
 
 		HierarchyViewerSorter sorter= new HierarchyViewerSorter(lifeCycle);
@@ -119,7 +119,7 @@ public class MethodsViewer extends ProblemTableViewer {
 		try {
 			getTable().setRedraw(false);
 			showInheritedMethodsNoRedraw(on);
-			refresh();
+			refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		} finally {
 			getTable().setRedraw(true);
 		}
@@ -142,7 +142,7 @@ public class MethodsViewer extends ProblemTableViewer {
 		try {
 			getTable().setRedraw(false);
 			sortByDefiningTypeNoRedraw(on);
-			refresh();
+			refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		} finally {
 			getTable().setRedraw(true);
 		}
@@ -191,10 +191,10 @@ public class MethodsViewer extends ProblemTableViewer {
 	 * Restores the state of the filter actions
 	 * @param memento the memento
 	 */
-	public void restoreState(IMemento memento) {
+	public void restoreState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fMemberFilterActionGroup.restoreState(memento);
 		getControl().setRedraw(false);
-		refresh();
+		refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		getControl().setRedraw(true);
 
 		boolean showInherited= Boolean.parseBoolean(memento.getString(TAG_SHOWINHERITED));
@@ -221,7 +221,7 @@ public class MethodsViewer extends ProblemTableViewer {
 	public void initContextMenu(IMenuListener menuListener, String popupId, IWorkbenchPartSite viewSite) {
 		MenuManager menuMgr= new MenuManager();
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(menuListener);
+		menuMgr.addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		Menu menu= menuMgr.createContextMenu(getTable());
 		getTable().setMenu(menu);
 		viewSite.registerContextMenu(popupId, menuMgr, this);
@@ -258,17 +258,17 @@ public class MethodsViewer extends ProblemTableViewer {
 	/*
 	 * @see StructuredViewer#handleInvalidSelection(ISelection, ISelection)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handleInvalidSelection(ISelection invalidSelection, ISelection newSelection) {
 		// on change of input, try to keep selected methods stable by selecting a method with the same
 		// signature: See #5466
 		List<?> oldSelections= SelectionUtil.toList(invalidSelection);
 		List<?> newSelections= SelectionUtil.toList(newSelection);
 		if (!oldSelections.isEmpty()) {
-			ArrayList<Object> newSelectionElements= new ArrayList<>(newSelections);
+			ArrayList<Object> newSelectionElements= new ArrayList<>(newSelections); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			try {
 				Object[] currElements= getFilteredChildren(getInput());
-				for (int i= 0; i < oldSelections.size(); i++) {
+				for (int i= 0; i < oldSelections.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object curr= oldSelections.get(i);
 					if (curr instanceof IMethod && !newSelections.contains(curr)) {
 						IMethod method= (IMethod) curr;
@@ -298,7 +298,7 @@ public class MethodsViewer extends ProblemTableViewer {
 		String[] paramTypes= meth.getParameterTypes();
 		boolean isConstructor= meth.isConstructor();
 
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IMethod && JavaModelUtil.isSameMethodSignature(name, paramTypes, isConstructor, (IMethod) element)) {
 				return (IMethod) element;
 			}

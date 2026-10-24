@@ -66,7 +66,7 @@ public class TypeRules {
 	 * @param bindingToCast The binding ef the expression to cast.
 	 * @return boolean Returns true if (castType) bindingToCast is a valid cast expression (can be unnecessary, but not invalid).
 	 */
-	public static boolean canCast(ITypeBinding castType, ITypeBinding bindingToCast) {
+	public static boolean canCast(ITypeBinding castType, ITypeBinding bindingToCast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//see bug 80715
 
 		String voidName= PrimitiveType.VOID.toString();

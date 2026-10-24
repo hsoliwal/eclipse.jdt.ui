@@ -50,7 +50,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class RemoveFromClasspathAction extends SelectionDispatchAction {
+public class RemoveFromClasspathAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * Creates a new <code>RemoveFromClasspathAction</code>. The action requires
@@ -74,21 +74,21 @@ public class RemoveFromClasspathAction extends SelectionDispatchAction {
 	private static boolean checkEnabled(IStructuredSelection selection) {
 		if (selection.isEmpty())
 			return false;
-		for (Object name : selection) {
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! canRemove(name))
 				return false;
 		}
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(final IStructuredSelection selection) {
 		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(true, true, new WorkbenchRunnableAdapter(pm -> {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(true, true, new WorkbenchRunnableAdapter(pm -> { //FLLDCIM: MARK — T09  LAMBDA
 				try{
 					IPackageFragmentRoot[] roots= getRootsToRemove(selection);
 					pm.beginTask(ActionMessages.RemoveFromClasspathAction_Removing, roots.length);
-					for (IPackageFragmentRoot root : roots) {
+					for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int jCoreFlags= IPackageFragmentRoot.NO_RESOURCE_MODIFICATION | IPackageFragmentRoot.ORIGINATING_PROJECT_CLASSPATH;
 						root.delete(IResource.NONE, jCoreFlags, Progress.subMonitor(pm, 1));
 					}
@@ -106,8 +106,8 @@ public class RemoveFromClasspathAction extends SelectionDispatchAction {
 	}
 
 	private static IPackageFragmentRoot[] getRootsToRemove(IStructuredSelection selection){
-		List<Object> result= new ArrayList<>(selection.size());
-		for (Object element : selection) {
+		List<Object> result= new ArrayList<>(selection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (canRemove(element))
 				result.add(element);
 		}

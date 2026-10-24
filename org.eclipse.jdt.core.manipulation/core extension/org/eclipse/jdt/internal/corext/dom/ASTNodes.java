@@ -269,12 +269,12 @@ public class ASTNodes {
 			return interruptVisit();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(InfixExpression node) {
 			if (hasOperator(node, InfixExpression.Operator.DIVIDE)) {
 				setActivityLevel(ExprActivity.PASSIVE);
 			} else {
-				for (Expression operand : allOperands(node)) {
+				for (Expression operand : allOperands(node)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (hasType(operand, Object.class.getCanonicalName())) {
 						setActivityLevel(ExprActivity.PASSIVE);
 						break;
@@ -294,7 +294,7 @@ public class ASTNodes {
 
 		private boolean mayCallActiveToString(List<Expression> extendedOperands) {
 			if (extendedOperands != null) {
-				for (Expression expression : extendedOperands) {
+				for (Expression expression : extendedOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (mayCallActiveToString(expression)) {
 						return true;
 					}
@@ -304,7 +304,7 @@ public class ASTNodes {
 			return false;
 		}
 
-		private boolean mayCallActiveToString(Expression expression) {
+		private boolean mayCallActiveToString(Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return !hasType(expression,
 					String.class.getCanonicalName(),
 					boolean.class.getSimpleName(),
@@ -391,7 +391,7 @@ public class ASTNodes {
 	 * @param removeIndent if set, the indentation is removed.
 	 * @return return the source for the given node or null if accessing the source failed.
 	 */
-	public static String getNodeSource(ASTNode node, boolean extendedRange, boolean removeIndent) {
+	public static String getNodeSource(ASTNode node, boolean extendedRange, boolean removeIndent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode root= node.getRoot();
 		if (root instanceof CompilationUnit) {
 			CompilationUnit astRoot= (CompilationUnit) root;
@@ -419,7 +419,7 @@ public class ASTNodes {
 	private static int getIndentUsed(IBuffer buffer, int offset, IJavaProject project) {
 		int i= offset;
 		// find beginning of line
-		while (i > 0 && !IndentManipulation.isLineDelimiterChar(buffer.getChar(i - 1))) {
+		while (i > 0 && !IndentManipulation.isLineDelimiterChar(buffer.getChar(i - 1))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i--;
 		}
 		return Strings.computeIndentUnits(buffer.getText(i, offset - i), project);
@@ -479,7 +479,7 @@ public class ASTNodes {
 		@Override
 		protected boolean visitNode(ASTNode node) {
 			if (result == null) { // first visitNode: on the node's parent: do nothing, return true
-				result= new ArrayList<>();
+				result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				return true;
 			}
 			result.add(node);
@@ -518,10 +518,10 @@ public class ASTNodes {
 	 * @return updated list of ITypeBinding
 	 */
 	public static List<ITypeBinding> filterSubtypes(List<ITypeBinding> typeBindings) {
-		List<ITypeBinding> filteredBindings= new ArrayList<>(typeBindings);
-		for (Iterator<ITypeBinding> subtypeIterator= filteredBindings.iterator(); subtypeIterator.hasNext();) {
+		List<ITypeBinding> filteredBindings= new ArrayList<>(typeBindings); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<ITypeBinding> subtypeIterator= filteredBindings.iterator(); subtypeIterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding iTypeBinding= subtypeIterator.next();
-			for (ITypeBinding superTypeBinding : filteredBindings) {
+			for (ITypeBinding superTypeBinding : filteredBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!iTypeBinding.equals(superTypeBinding) && iTypeBinding.isSubTypeCompatible(superTypeBinding)) {
 					subtypeIterator.remove();
 					break;
@@ -574,7 +574,7 @@ public class ASTNodes {
 		return null;
 	}
 
-	public static int getDimensions(VariableDeclaration declaration) {
+	public static int getDimensions(VariableDeclaration declaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int dim= declaration.getExtraDimensions();
 		if (declaration instanceof VariableDeclarationFragment && declaration.getParent() instanceof LambdaExpression) {
 			LambdaExpression lambda= (LambdaExpression) declaration.getParent();
@@ -605,7 +605,7 @@ public class ASTNodes {
 			else if (parent instanceof VariableDeclarationStatement)
 				return ((VariableDeclarationStatement)parent).modifiers();
 		}
-		return new ArrayList<>(0);
+		return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public static boolean isSingleDeclaration(VariableDeclaration declaration) {
@@ -682,7 +682,7 @@ public class ASTNodes {
 	 * @return true if the provided expression is hard-coded as a literal in the
 	 *         byte code ignoring parentheses, false otherwise
 	 */
-	public static boolean isHardCoded(final Expression expression) {
+	public static boolean isHardCoded(final Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (expression == null) {
 			return false;
 		}
@@ -696,7 +696,7 @@ public class ASTNodes {
 			return true;
 
 		case ASTNode.INFIX_EXPRESSION:
-			for (Expression operand : allOperands((InfixExpression) expression)) {
+			for (Expression operand : allOperands((InfixExpression) expression)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isHardCoded(operand)) {
 					return false;
 				}
@@ -729,7 +729,7 @@ public class ASTNodes {
 	 * @param input The input
 	 * @return Integer literal.
 	 */
-	public static Long getIntegerLiteral(final Expression input) {
+	public static Long getIntegerLiteral(final Expression input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (input == null) {
 			return null;
 		}
@@ -773,7 +773,7 @@ public class ASTNodes {
 
 			long result= leftValue;
 
-			for (Expression operand : operands) {
+			for (Expression operand : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Long newObject= getIntegerLiteral(operand);
 
 				if (newObject == null) {
@@ -831,7 +831,7 @@ public class ASTNodes {
 	 * @param peremptoryExpression A possible peremptory expression
 	 * @return A peremptory value, if any
 	 */
-	public static Object peremptoryValue(final Expression peremptoryExpression) {
+	public static Object peremptoryValue(final Expression peremptoryExpression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object constantExpression= peremptoryExpression.resolveConstantExpressionValue();
 
 		if (constantExpression != null) {
@@ -862,7 +862,7 @@ public class ASTNodes {
 	 *
 	 * @return the field simple name
 	 */
-	public static SimpleName getField(final Expression expression) {
+	public static SimpleName getField(final Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SimpleName simpleName= as(expression, SimpleName.class);
 
 		if (simpleName != null) {
@@ -1002,7 +1002,7 @@ public class ASTNodes {
 	 * @param statement the statement
 	 * @return true if the statement falls through.
 	 */
-	public static boolean fallsThrough(final Statement statement) {
+	public static boolean fallsThrough(final Statement statement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Statement> statements= asList(statement);
 
 		if (statements.isEmpty()) {
@@ -1036,7 +1036,7 @@ public class ASTNodes {
 			}
 
 			if (tryStatement.catchClauses() != null) {
-				for (Object catchClause : tryStatement.catchClauses()) {
+				for (Object catchClause : tryStatement.catchClauses()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!fallsThrough(((CatchClause) catchClause).getBody())) {
 						return false;
 					}
@@ -1090,27 +1090,27 @@ public class ASTNodes {
 	 * @see #getSimpleNameIdentifier(Name)
 	 * @since 3.10
 	 */
-	public static String getTypeName(Type type) {
-		final StringBuilder buffer= new StringBuilder();
+	public static String getTypeName(Type type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		ASTVisitor visitor= new ASTVisitor() {
 			@Override
 			public boolean visit(PrimitiveType node) {
-				buffer.append(node.getPrimitiveTypeCode().toString());
+				buffer.append(node.getPrimitiveTypeCode().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return false;
 			}
 			@Override
 			public boolean visit(SimpleType node) {
-				buffer.append(getSimpleNameIdentifier(node.getName()));
+				buffer.append(getSimpleNameIdentifier(node.getName())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return false;
 			}
 			@Override
 			public boolean visit(QualifiedType node) {
-				buffer.append(node.getName().getIdentifier());
+				buffer.append(node.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return false;
 			}
 			@Override
 			public boolean visit(NameQualifiedType node) {
-				buffer.append(node.getName().getIdentifier());
+				buffer.append(node.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return false;
 			}
 			@Override
@@ -1120,8 +1120,8 @@ public class ASTNodes {
 			}
 			@Override
 			public void endVisit(ArrayType node) {
-				for (int i= 0; i < node.dimensions().size(); i++) {
-					buffer.append("[]"); //$NON-NLS-1$
+				for (int i= 0; i < node.dimensions().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buffer.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		};
@@ -1137,26 +1137,26 @@ public class ASTNodes {
 	 * @return the name, followed by array dimensions
 	 * @since 3.10
 	 */
-	public static String getQualifiedTypeName(Type type) {
-		final StringBuilder buffer= new StringBuilder();
+	public static String getQualifiedTypeName(Type type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		ASTVisitor visitor= new ASTVisitor() {
 			@Override
 			public boolean visit(SimpleType node) {
-				buffer.append(node.getName().getFullyQualifiedName());
+				buffer.append(node.getName().getFullyQualifiedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return false;
 			}
 			@Override
 			public boolean visit(QualifiedType node) {
 				node.getQualifier().accept(this);
-				buffer.append('.');
-				buffer.append(node.getName().getIdentifier());
+				buffer.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(node.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return false;
 			}
 			@Override
 			public boolean visit(NameQualifiedType node) {
-				buffer.append(node.getQualifier().getFullyQualifiedName());
-				buffer.append('.');
-				buffer.append(node.getName().getIdentifier());
+				buffer.append(node.getQualifier().getFullyQualifiedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(node.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return false;
 			}
 			@Override
@@ -1166,8 +1166,8 @@ public class ASTNodes {
 			}
 			@Override
 			public void endVisit(ArrayType node) {
-				for (int i= 0; i < node.dimensions().size(); i++) {
-					buffer.append("[]"); //$NON-NLS-1$
+				for (int i= 0; i < node.dimensions().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buffer.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		};
@@ -1183,7 +1183,7 @@ public class ASTNodes {
 	 * @return the {@link Boolean} object value if the provided expression
 	 *         represents one, null otherwise
 	 */
-	public static Boolean getBooleanLiteral(final ASTNode node) {
+	public static Boolean getBooleanLiteral(final ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof Expression)) {
 			return null;
 		}
@@ -1332,7 +1332,7 @@ public class ASTNodes {
 	 * @param secondClass  the class representing the required expression type
 	 * @return the items of an infix expression in the order it is specified. It reverses the operator if needed.
 	 */
-	public static <F extends Expression, S extends Expression> OrderedInfixExpression<F, S> orderedInfix(final Expression node, final Class<F> firstClass, final Class<S> secondClass) {
+	public static <F extends Expression, S extends Expression> OrderedInfixExpression<F, S> orderedInfix(final Expression node, final Class<F> firstClass, final Class<S> secondClass) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InfixExpression expression= as(node, InfixExpression.class);
 
 		if (expression == null || expression.hasExtendedOperands()) {
@@ -1369,7 +1369,7 @@ public class ASTNodes {
 		return null;
 	}
 
-	private static InfixExpression.Operator mirrorOperator(final InfixExpression expression) {
+	private static InfixExpression.Operator mirrorOperator(final InfixExpression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Arrays.asList(
 				InfixExpression.Operator.AND,
 				InfixExpression.Operator.CONDITIONAL_AND,
@@ -1436,16 +1436,16 @@ public class ASTNodes {
 	 * @param node the infix expression
 	 * @return a List of expressions
 	 */
-	public static List<Expression> allOperands(InfixExpression node) {
+	public static List<Expression> allOperands(InfixExpression node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Expression> extOps= node.extendedOperands();
-		List<Expression> operands= new ArrayList<>(2 + extOps.size());
+		List<Expression> operands= new ArrayList<>(2 + extOps.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		operands.add(node.getLeftOperand());
 		operands.add(node.getRightOperand());
 		operands.addAll(extOps);
 
-		List<Expression> optimizedOperands= new ArrayList<>();
+		List<Expression> optimizedOperands= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Expression expression : operands) {
+		for (Expression expression : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (expression instanceof InfixExpression && hasOperator((InfixExpression) expression, node.getOperator())) {
 				optimizedOperands.addAll(allOperands((InfixExpression) expression));
 			} else {
@@ -1466,7 +1466,7 @@ public class ASTNodes {
 	public static boolean hasVariableConflict(final Statement node, final Statement statementInBlock) {
 		Set<SimpleName> existingVariableNames= getLocalVariableIdentifiers(statementInBlock, false);
 
-		for (Statement statement : getNextSiblings(node)) {
+		for (Statement statement : getNextSiblings(node)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VarConflictVisitor varOccurrenceVisitor= new VarConflictVisitor(existingVariableNames, true);
 			varOccurrenceVisitor.traverseNodeInterruptibly(statement);
 
@@ -1484,7 +1484,7 @@ public class ASTNodes {
 	 * @param node The expression
 	 * @return the number of logical operands in the expression
 	 */
-	public static int getNbOperands(final Expression node) {
+	public static int getNbOperands(final Expression node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InfixExpression infixExpression= as(node, InfixExpression.class);
 
 		if (infixExpression == null
@@ -1496,7 +1496,7 @@ public class ASTNodes {
 
 		int nbOperands= 0;
 
-		for (Expression operand : allOperands(infixExpression)) {
+		for (Expression operand : allOperands(infixExpression)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nbOperands+= getNbOperands(operand);
 		}
 
@@ -1616,7 +1616,7 @@ public class ASTNodes {
 	public static boolean hasType(final ITypeBinding typeBinding, String... oneOfQualifiedTypeNames) {
 		if (typeBinding != null) {
 			final String qualifiedName= typeBinding.getErasure().getQualifiedName();
-			for (String qualifiedTypeName : oneOfQualifiedTypeNames) {
+			for (String qualifiedTypeName : oneOfQualifiedTypeNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (qualifiedTypeName.equals(qualifiedName)) {
 					return true;
 				}
@@ -1632,7 +1632,7 @@ public class ASTNodes {
 	 * @param operator the infix operator
 	 * @return the opposite infix operator
 	 */
-	public static InfixExpression.Operator negatedInfixOperator(InfixExpression.Operator operator) {
+	public static InfixExpression.Operator negatedInfixOperator(InfixExpression.Operator operator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (InfixExpression.Operator.LESS.equals(operator))
 			return InfixExpression.Operator.GREATER_EQUALS;
 
@@ -1660,7 +1660,7 @@ public class ASTNodes {
 		return null;
 	}
 
-	public static InfixExpression.Operator convertToInfixOperator(Assignment.Operator operator) {
+	public static InfixExpression.Operator convertToInfixOperator(Assignment.Operator operator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (operator.equals(Assignment.Operator.PLUS_ASSIGN))
 			return InfixExpression.Operator.PLUS;
 
@@ -1724,7 +1724,7 @@ public class ASTNodes {
 	 * @return a type binding to which the initializer should be cast, or <code>null</code> iff no cast is necessary
 	 * @since 3.6
 	 */
-	public static ITypeBinding getExplicitCast(Expression initializer, Expression reference) {
+	public static ITypeBinding getExplicitCast(Expression initializer, Expression reference) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding initializerType= initializer.resolveTypeBinding();
 		ITypeBinding referenceType= reference.resolveTypeBinding();
 		if (initializerType == null || referenceType == null)
@@ -1784,7 +1784,7 @@ public class ASTNodes {
 	 *
 	 * @since 3.10
 	 */
-	public static boolean isTargetAmbiguous(Expression expression, boolean expressionIsExplicitlyTyped) {
+	public static boolean isTargetAmbiguous(Expression expression, boolean expressionIsExplicitlyTyped) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParentSummary targetSummary= getParentSummary(expression);
 		if (targetSummary == null) {
 			return false;
@@ -1814,7 +1814,7 @@ public class ASTNodes {
 	 *
 	 * @since 3.19
 	 */
-	public static boolean isTargetAmbiguous(Expression expression, ITypeBinding initializerType) {
+	public static boolean isTargetAmbiguous(Expression expression, ITypeBinding initializerType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParentSummary parentSummary= getParentSummary(expression);
 		if (parentSummary == null) {
 			return false;
@@ -1850,10 +1850,10 @@ public class ASTNodes {
 		return true;
 	}
 
-	private static ParentSummary getParentSummary(Expression expression) {
+	private static ParentSummary getParentSummary(Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StructuralPropertyDescriptor locationInParent= expression.getLocationInParent();
 
-		while (locationInParent == ParenthesizedExpression.EXPRESSION_PROPERTY
+		while (locationInParent == ParenthesizedExpression.EXPRESSION_PROPERTY //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				|| locationInParent == ConditionalExpression.THEN_EXPRESSION_PROPERTY
 				|| locationInParent == ConditionalExpression.ELSE_EXPRESSION_PROPERTY) {
 			expression= (Expression) expression.getParent();
@@ -1932,7 +1932,7 @@ public class ASTNodes {
 	 * @return the binding of the type which declares the method being invoked, or <code>null</code>
 	 *         if the type cannot be resolved
 	 */
-	public static ITypeBinding getInvocationType(ASTNode invocationNode, IMethodBinding methodBinding, Expression invocationQualifier) {
+	public static ITypeBinding getInvocationType(ASTNode invocationNode, IMethodBinding methodBinding, Expression invocationQualifier) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding invocationType;
 		if (invocationNode instanceof MethodInvocation || invocationNode instanceof SuperMethodInvocation) {
 			if (invocationQualifier != null) {
@@ -1977,7 +1977,7 @@ public class ASTNodes {
 		@Override
 		public boolean visit(ITypeBinding node) {
 			IMethodBinding[] methods= node.getDeclaredMethods();
-			for (IMethodBinding candidate : methods) {
+			for (IMethodBinding candidate : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (candidate == fOriginal) {
 					continue;
 				}
@@ -2002,7 +2002,7 @@ public class ASTNodes {
 			if (parameters.length != fTypes.length) {
 				return false;
 			}
-			for (int i= 0; i < parameters.length; i++) {
+			for (int i= 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!fTypes[i].canAssignTo(fTypeEnvironment.create(parameters[i]))) {
 					return false;
 				}
@@ -2035,9 +2035,9 @@ public class ASTNodes {
 			fExpressionIsExplicitlyTyped= expressionIsExplicitlyTyped;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(ITypeBinding type) {
-			for (IMethodBinding candidate : type.getDeclaredMethods()) {
+			for (IMethodBinding candidate : type.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (candidate.getMethodDeclaration() == fOriginalMethod.getMethodDeclaration()) {
 					continue;
 				}
@@ -2108,7 +2108,7 @@ public class ASTNodes {
 	 *
 	 * @since 3.10
 	 */
-	public static ITypeBinding getTargetType(Expression expression) {
+	public static ITypeBinding getTargetType(Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= expression.getParent();
 		StructuralPropertyDescriptor locationInParent= expression.getLocationInParent();
 
@@ -2213,7 +2213,7 @@ public class ASTNodes {
 
 	private static ITypeBinding getTargetTypeForArrayInitializer(ArrayInitializer arrayInitializer) {
 		ASTNode initializerParent= arrayInitializer.getParent();
-		while (initializerParent instanceof ArrayInitializer) {
+		while (initializerParent instanceof ArrayInitializer) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			initializerParent= initializerParent.getParent();
 		}
 		if (initializerParent instanceof ArrayCreation) {
@@ -2318,7 +2318,7 @@ public class ASTNodes {
 		return getSiblings(startNode, false);
 	}
 
-	private static List<Statement> getSiblings(final Statement startNode, final boolean isForward) {
+	private static List<Statement> getSiblings(final Statement startNode, final boolean isForward) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Statement statementAtLevel= statementAtLevel(startNode);
 
 		if (canHaveSiblings(statementAtLevel)) {
@@ -2514,7 +2514,7 @@ public class ASTNodes {
 	 * @return the closest ancestor of <code>node</code> that is an instance of <code>parentClass</code>, or <code>null</code> if none
 	 */
 	public static <T extends ASTNode> T getParent(ASTNode node, Class<T> parentClass) {
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 		} while (node != null && !parentClass.isInstance(node));
 		return parentClass.cast(node);
@@ -2532,7 +2532,7 @@ public class ASTNodes {
 			result= (AbstractTypeDeclaration) node;
 		}
 		ASTNode parent= node.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent instanceof AbstractTypeDeclaration) {
 				result= (AbstractTypeDeclaration) parent;
 			}
@@ -2553,17 +2553,17 @@ public class ASTNodes {
 	 * @return the closest ancestor of <code>node</code> whose type is <code>nodeType</code>, or <code>null</code> if none
 	 */
 	public static ASTNode getParent(ASTNode node, int nodeType) {
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 		} while (node != null && node.getNodeType() != nodeType);
 		return node;
 	}
 
 	public static ASTNode findParent(ASTNode node, StructuralPropertyDescriptor[][] pathes) {
-		for (StructuralPropertyDescriptor[] path : pathes) {
+		for (StructuralPropertyDescriptor[] path : pathes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode current= node;
 			int d= path.length - 1;
-			for (; d >= 0 && current != null; d--) {
+			for (; d >= 0 && current != null; d--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				StructuralPropertyDescriptor descriptor= path[d];
 				if (!descriptor.equals(current.getLocationInParent()))
 					break;
@@ -2601,7 +2601,7 @@ public class ASTNodes {
 			return false;
 		}
 
-		for (Class<? extends ASTNode> clazz : classes) {
+		for (Class<? extends ASTNode> clazz : classes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (clazz.isAssignableFrom(node.getClass())) {
 				return true;
 			}
@@ -2617,7 +2617,7 @@ public class ASTNodes {
 	 * @param node an ASTNode
 	 * @return the normalized {@link Type} node or the original node
 	 */
-	public static ASTNode getNormalizedNode(ASTNode node) {
+	public static ASTNode getNormalizedNode(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode current= node;
 		// normalize name
 		if (QualifiedName.NAME_PROPERTY.equals(current.getLocationInParent())) {
@@ -2645,7 +2645,7 @@ public class ASTNodes {
 	 *         provided method binding
 	 */
 	public static Set<IMethodBinding> getOverridenMethods(final IMethodBinding overridingMethod) {
-		Set<IMethodBinding> results= new HashSet<>();
+		Set<IMethodBinding> results= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		findOverridenMethods(overridingMethod, results, overridingMethod.getDeclaringClass());
 		return results;
 	}
@@ -2657,7 +2657,7 @@ public class ASTNodes {
 			findOverridenMethods(overridingMethod, results, superclass);
 		}
 
-		for (ITypeBinding itf : declaringClass.getInterfaces()) {
+		for (ITypeBinding itf : declaringClass.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!addOverridenMethods(overridingMethod, itf, results)) {
 				findOverridenMethods(overridingMethod, results, itf);
 			}
@@ -2666,7 +2666,7 @@ public class ASTNodes {
 
 	private static boolean addOverridenMethods(final IMethodBinding overridingMethod, final ITypeBinding superType,
 			final Set<IMethodBinding> results) {
-		for (IMethodBinding methodFromType : superType.getDeclaredMethods()) {
+		for (IMethodBinding methodFromType : superType.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (overridingMethod.overrides(methodFromType) && !results.add(methodFromType)) {
 				// Type has already been visited
 				return true;
@@ -2743,7 +2743,7 @@ public class ASTNodes {
      *         returned
      */
     public static Expression getUnparenthesedExpression(Expression expression) {
-		while (expression != null && expression.getNodeType() == ASTNode.PARENTHESIZED_EXPRESSION) {
+		while (expression != null && expression.getNodeType() == ASTNode.PARENTHESIZED_EXPRESSION) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expression= ((ParenthesizedExpression) expression).getExpression();
         }
         return expression;
@@ -2759,7 +2759,7 @@ public class ASTNodes {
 	 */
 	public static boolean isParent(ASTNode node, ASTNode parent) {
 		Assert.isNotNull(parent);
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 			if (node == parent)
 				return true;
@@ -2840,7 +2840,7 @@ public class ASTNodes {
 		return ast1 != null && ast2 != null && ast1.isEqualTo(ast2);
 	}
 
-	private static IBinding varBinding(final ASTNode node) {
+	private static IBinding varBinding(final ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (node.getNodeType()) {
 		case ASTNode.THIS_EXPRESSION:
 			return ((ThisExpression) node).resolveTypeBinding();
@@ -2931,7 +2931,7 @@ public class ASTNodes {
 	 *         otherwise
 	 */
 	public static boolean areSameVariables(final ASTNode node0, final ASTNode... otherNodes) {
-		for (ASTNode nodeN : otherNodes) {
+		for (ASTNode nodeN : otherNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isSameVariable(node0, nodeN)) {
 				return false;
 			}
@@ -2948,7 +2948,7 @@ public class ASTNodes {
 	 * @return true if the two provided nodes represent the same variable, false
 	 *         otherwise
 	 */
-	public static boolean isSameVariable(ASTNode node1, ASTNode node2) {
+	public static boolean isSameVariable(ASTNode node1, ASTNode node2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		node1= getUnparenthesedExpression(node1);
 		node2= getUnparenthesedExpression(node2);
 
@@ -3094,7 +3094,7 @@ public class ASTNodes {
 	}
 
 	public static ITypeBinding getEnclosingType(ASTNode node) {
-		while(node != null) {
+		while(node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof AbstractTypeDeclaration) {
 				return ((AbstractTypeDeclaration)node).resolveBinding();
 			} else if (node instanceof AnonymousClassDeclaration) {
@@ -3105,7 +3105,7 @@ public class ASTNodes {
 		return null;
 	}
 
-	public static IProblem[] getProblems(ASTNode node, int scope, int severity) {
+	public static IProblem[] getProblems(ASTNode node, int scope, int severity) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode root= node.getRoot();
 		if (!(root instanceof CompilationUnit))
 			return EMPTY_PROBLEMS;
@@ -3113,8 +3113,8 @@ public class ASTNodes {
 		if (root == node)
 			return problems;
 		final int iterations= computeIterations(scope);
-		List<IProblem> result= new ArrayList<>(5);
-		for (IProblem problem : problems) {
+		List<IProblem> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean consider= false;
 			if ((severity & PROBLEMS) == PROBLEMS)
 				consider= true;
@@ -3127,7 +3127,7 @@ public class ASTNodes {
 			if (consider) {
 				ASTNode temp= node;
 				int count= iterations;
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int nodeOffset= temp.getStartPosition();
 					int problemOffset= problem.getSourceStart();
 					if (nodeOffset <= problemOffset && problemOffset < nodeOffset + temp.getLength()) {
@@ -3142,7 +3142,7 @@ public class ASTNodes {
 		return result.toArray(new IProblem[result.size()]);
 	}
 
-	public static Message[] getMessages(ASTNode node, int flags) {
+	public static Message[] getMessages(ASTNode node, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode root= node.getRoot();
 		if (!(root instanceof CompilationUnit))
 			return EMPTY_MESSAGES;
@@ -3150,11 +3150,11 @@ public class ASTNodes {
 		if (root == node)
 			return messages;
 		final int iterations= computeIterations(flags);
-		List<Message> result= new ArrayList<>(5);
-		for (Message message : messages) {
+		List<Message> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Message message : messages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode temp= node;
 			int count= iterations;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int nodeOffset= temp.getStartPosition();
 				int messageOffset= message.getStartPosition();
 				if (nodeOffset <= messageOffset && messageOffset < nodeOffset + temp.getLength()) {
@@ -3181,7 +3181,7 @@ public class ASTNodes {
 		}
 	}
 
-	public static SimpleName getLeftMostSimpleName(Name name) {
+	public static SimpleName getLeftMostSimpleName(Name name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (name instanceof SimpleName) {
 			return (SimpleName)name;
 		} else {
@@ -3213,7 +3213,7 @@ public class ASTNodes {
 	 */
 	public static Name getTopMostName(Name name) {
 		Name result= name;
-		while(result.getParent() instanceof Name) {
+		while(result.getParent() instanceof Name) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result= (Name)result.getParent();
 		}
 		return result;
@@ -3230,7 +3230,7 @@ public class ASTNodes {
 	 */
 	public static Type getTopMostType(ASTNode node) {
 		ASTNode result= null;
-		while (node instanceof Type && !(node instanceof UnionType)
+		while (node instanceof Type && !(node instanceof UnionType) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				|| node instanceof Name
 				|| node instanceof Annotation || node instanceof MemberValuePair
 				|| node instanceof Expression) { // Expression could maybe be reduced to expression node types that can appear in an annotation
@@ -3307,14 +3307,14 @@ public class ASTNodes {
 	 * @param node the node
 	 * @return true if a checked exception is supposed to be caught.
 	 */
-	public static boolean isExceptionExpected(final ASTNode node) {
+	public static boolean isExceptionExpected(final ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parentNode= getFirstAncestorOrNull(node, TryStatement.class, BodyDeclaration.class);
 
-		while (parentNode instanceof TryStatement) {
+		while (parentNode instanceof TryStatement) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TryStatement tryStatement= (TryStatement) parentNode;
 			List<CatchClause> catchClauses= tryStatement.catchClauses();
 
-			for (CatchClause catchClause : catchClauses) {
+			for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (catchClause.getException().getType() != null
 						&& !instanceOf(catchClause.getException().getType().resolveBinding(),
 								RuntimeException.class.getCanonicalName())) {
@@ -3338,7 +3338,7 @@ public class ASTNodes {
 	 * @param expectedArgumentTypes The argument types that should match
 	 * @return True if another method or constructor has the given signature
 	 */
-	public static boolean hasConflictingMethodOrConstructor(
+	public static boolean hasConflictingMethodOrConstructor( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ASTNode methodOrConstructor,
 			final IMethodBinding methodOrConstructorBinding,
 			final ITypeBinding[] expectedArgumentTypes) {
@@ -3379,7 +3379,7 @@ public class ASTNodes {
 						localPackage= compilationUnit.getPackage().getName().getFullyQualifiedName();
 					}
 
-					for (ImportDeclaration oneImport : imports) {
+					for (ImportDeclaration oneImport : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (oneImport.isStatic()
 								&& !oneImport.isOnDemand()
 								&& oneImport.getName() instanceof QualifiedName) {
@@ -3399,7 +3399,7 @@ public class ASTNodes {
 
 							boolean inSamePackage= Objects.equals(localPackage, importPackage);
 
-							for (IMethodBinding declaredMethod : conflictingType.getDeclaredMethods()) {
+							for (IMethodBinding declaredMethod : conflictingType.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (methodIdentifier.equals(declaredMethod.getName())
 										&& isMethodMatching(expectedArgumentTypes, methodOrConstructorBinding, false, inSamePackage, declaredMethod)) {
 									return true;
@@ -3431,7 +3431,7 @@ public class ASTNodes {
 		return hasEquivalentMethodForInheritedTypes(expectedArgumentTypes, methodOrConstructorBinding, type, type, inSameClass);
 	}
 
-	private static boolean hasEquivalentMethodForInheritedTypes(
+	private static boolean hasEquivalentMethodForInheritedTypes( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ITypeBinding[] parameterTypesForConflictingMethod,
 			final IMethodBinding binding,
 			final ITypeBinding type,
@@ -3440,7 +3440,7 @@ public class ASTNodes {
 		ITypeBinding superType= type;
 		boolean inSameClass= wasInSameClass;
 
-		while (superType != null) {
+		while (superType != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageBinding packageBinding= superType.getPackage();
 			boolean inSamePackage= packageBinding.isEqualTo(origType.getPackage());
 
@@ -3470,7 +3470,7 @@ public class ASTNodes {
 			final ITypeBinding type,
 			final boolean inSameClass,
 			final boolean inSamePackage) {
-		for (IMethodBinding method : type.getDeclaredMethods()) {
+		for (IMethodBinding method : type.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isMethodMatching(parameterTypesForConflictingMethod, binding, inSameClass, inSamePackage, method)) {
 				return true;
 			}
@@ -3479,7 +3479,7 @@ public class ASTNodes {
 		return false;
 	}
 
-	private static boolean isMethodMatching(
+	private static boolean isMethodMatching( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ITypeBinding[] parameterTypesForConflictingMethod,
 			final IMethodBinding binding,
 			final boolean inSameClass,
@@ -3496,7 +3496,7 @@ public class ASTNodes {
 				&& (parameterTypesForConflictingMethod.length == parameterTypes.length
 						|| parameterTypes.length < parameterTypesForConflictingMethod.length &&
 							testedMethod.isVarargs())) {
-			for (int i= 0; i < parameterTypesForConflictingMethod.length; i++) {
+			for (int i= 0; i < parameterTypesForConflictingMethod.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding parameterType=
 						(testedMethod.isVarargs() && i > parameterTypes.length - 1) ? parameterTypes[parameterTypes.length - 1].getComponentType() : parameterTypes[i];
 				if (parameterTypesForConflictingMethod[i] == null || parameterType == null) {
@@ -3525,7 +3525,7 @@ public class ASTNodes {
 			ITypeBinding[] bindingParamTypes= binding.getParameterTypes();
 			ITypeBinding[] testedMethodParamTypes= testedMethod.getParameterTypes();
 			if (bindingParamTypes.length == testedMethodParamTypes.length) {
-				for (int i= 0; i < bindingParamTypes.length; ++i) {
+				for (int i= 0; i < bindingParamTypes.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!bindingParamTypes[i].isEqualTo(testedMethodParamTypes[i])) {
 						return false;
 					}
@@ -3587,7 +3587,7 @@ public class ASTNodes {
 	 * @return true if the provided method invocation matches the provided method signature, false
 	 *         otherwise
 	 */
-	public static boolean usesGivenSignature(final IMethodBinding methodBinding, final String typeQualifiedName, final String methodName,
+	public static boolean usesGivenSignature(final IMethodBinding methodBinding, final String typeQualifiedName, final String methodName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String... parameterTypesQualifiedNames) {
 		// Let's do the fast checks first
 		if (methodBinding == null || !methodName.equals(methodBinding.getName())
@@ -3629,7 +3629,7 @@ public class ASTNodes {
 		return implementedType != null && concreteTypesMatch(methodBinding.getParameterTypes(), parameterTypesQualifiedNames);
 	}
 
-	private static IMethodBinding findOverridenMethod(final ITypeBinding typeBinding, final String typeQualifiedName,
+	private static IMethodBinding findOverridenMethod(final ITypeBinding typeBinding, final String typeQualifiedName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String methodName, final String[] parameterTypesQualifiedNames) {
 		// Superclass
 		ITypeBinding superclassBinding= typeBinding.getSuperclass();
@@ -3652,7 +3652,7 @@ public class ASTNodes {
 		}
 
 		// Interfaces
-		for (ITypeBinding itfBinding : typeBinding.getInterfaces()) {
+		for (ITypeBinding itfBinding : typeBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			itfBinding= itfBinding.getErasure();
 
 			if (typeQualifiedName.equals(itfBinding.getQualifiedName())) {
@@ -3673,7 +3673,7 @@ public class ASTNodes {
 
 	private static IMethodBinding findOverridenMethod(final String methodName, final String[] parameterTypesQualifiedNames,
 			final IMethodBinding[] declaredMethods) {
-		for (IMethodBinding methodBinding : declaredMethods) {
+		for (IMethodBinding methodBinding : declaredMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding methodDecl= methodBinding.getMethodDeclaration();
 
 			if (methodBinding.getName().equals(methodName) && methodDecl != null
@@ -3690,7 +3690,7 @@ public class ASTNodes {
 			return false;
 		}
 
-		for (int i= 0; i < typesQualifiedNames.length; i++) {
+		for (int i= 0; i < typesQualifiedNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!typesQualifiedNames[i].equals(typeBindings[i].getQualifiedName())
 					&& !typesQualifiedNames[i].equals(Bindings.getBoxedTypeName(typeBindings[i].getQualifiedName()))
 					&& !typesQualifiedNames[i].equals(Bindings.getUnboxedTypeName(typeBindings[i].getQualifiedName()))) {
@@ -3701,13 +3701,13 @@ public class ASTNodes {
 		return true;
 	}
 
-	private static boolean parameterizedTypesMatch(final ITypeBinding clazz, final ITypeBinding clazzErasure,
+	private static boolean parameterizedTypesMatch(final ITypeBinding clazz, final ITypeBinding clazzErasure, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IMethodBinding methodBinding) {
 		if (clazz.isParameterizedType() && !clazz.equals(clazzErasure)) {
 			Map<ITypeBinding, ITypeBinding> genericToConcreteTypeParamsFromClass= getGenericToConcreteTypeParamsMap(
 					clazz, clazzErasure);
 
-			for (IMethodBinding declaredMethod : clazzErasure.getDeclaredMethods()) {
+			for (IMethodBinding declaredMethod : clazzErasure.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (declaredMethod.getName().equals(methodBinding.getName())) {
 					Map<ITypeBinding, ITypeBinding> genericToConcreteTypeParams= getGenericToConcreteTypeParamsMap(
 							methodBinding, declaredMethod);
@@ -3735,14 +3735,14 @@ public class ASTNodes {
 
 	private static Map<ITypeBinding, ITypeBinding> getGenericToConcreteTypeParamsMap(final ITypeBinding[] typeParams,
 			final ITypeBinding[] genericTypeParams) {
-		final Map<ITypeBinding, ITypeBinding> results= new HashMap<>();
-		for (int i= 0; i < genericTypeParams.length && i < typeParams.length; i++) {
+		final Map<ITypeBinding, ITypeBinding> results= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (int i= 0; i < genericTypeParams.length && i < typeParams.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			results.put(genericTypeParams[i], typeParams[i]);
 		}
 		return results;
 	}
 
-	private static boolean parameterizedTypesMatch(final Map<ITypeBinding, ITypeBinding> genericToConcreteTypeParams,
+	private static boolean parameterizedTypesMatch(final Map<ITypeBinding, ITypeBinding> genericToConcreteTypeParams, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IMethodBinding parameterizedMethod, final IMethodBinding genericMethod) {
 		ITypeBinding[] paramTypes= parameterizedMethod.getParameterTypes();
 		ITypeBinding[] genericParamTypes= genericMethod.getParameterTypes();
@@ -3751,7 +3751,7 @@ public class ASTNodes {
 			return false;
 		}
 
-		for (int i= 0; i < genericParamTypes.length; i++) {
+		for (int i= 0; i < genericParamTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding genericParamType= genericParamTypes[i];
 			ITypeBinding concreteParamType= null;
 
@@ -3817,7 +3817,7 @@ public class ASTNodes {
 		return findImplementedType2(typeBinding, qualifiedTypeName);
 	}
 
-	private static ITypeBinding findImplementedType2(final ITypeBinding typeBinding, final String qualifiedTypeName) {
+	private static ITypeBinding findImplementedType2(final ITypeBinding typeBinding, final String qualifiedTypeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ITypeBinding superclass= typeBinding.getSuperclass();
 
 		if (superclass != null) {
@@ -3834,7 +3834,7 @@ public class ASTNodes {
 			}
 		}
 
-		for (ITypeBinding itfBinding : typeBinding.getInterfaces()) {
+		for (ITypeBinding itfBinding : typeBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String itfQualifiedName= itfBinding.getErasure().getQualifiedName();
 
 			if (qualifiedTypeName.equals(itfQualifiedName)) {
@@ -3852,7 +3852,7 @@ public class ASTNodes {
 	}
 
 	public static Modifier findModifierNode(int flag, List<IExtendedModifier> modifiers) {
-		for (IExtendedModifier curr : modifiers) {
+		for (IExtendedModifier curr : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof Modifier && ((Modifier) curr).getKeyword().toFlagValue() == flag) {
 				return (Modifier) curr;
 			}
@@ -3884,7 +3884,7 @@ public class ASTNodes {
 			return false;
 		}
 
-		for (int codeLine= 0; codeLine < referenceStatements.size(); codeLine++) {
+		for (int codeLine= 0; codeLine < referenceStatements.size(); codeLine++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!match(matcher, referenceStatements.get(codeLine), comparedStatements.get(codeLine))) {
 				return false;
 			}
@@ -3916,7 +3916,7 @@ public class ASTNodes {
 		return matcher.safeSubtreeMatch(node1, node2);
 	}
 
-	public static ITypeBinding getTypeBinding(CompilationUnit root, IType type) throws JavaModelException {
+	public static ITypeBinding getTypeBinding(CompilationUnit root, IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.isAnonymous()) {
 			final IJavaElement parent= type.getParent();
 			if (parent instanceof IField && Flags.isEnum(((IMember) parent).getFlags())) {
@@ -3999,9 +3999,9 @@ public class ASTNodes {
 	@SuppressWarnings("unchecked")
 	public static <T extends ASTNode> List<T> createMoveTarget(final ASTRewrite rewrite, final Collection<T> nodes) {
 		if (nodes != null) {
-			List<T> newNodes= new ArrayList<>(nodes.size());
+			List<T> newNodes= new ArrayList<>(nodes.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (T node : nodes) {
+			for (T node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newNodes.add((T) rewrite.createMoveTarget(node));
 			}
 
@@ -4069,17 +4069,17 @@ public class ASTNodes {
 	/**
 	 * Should match the last NLS comment before end of the line
 	 */
-	static final Pattern comment= Pattern.compile("([ ]*\\/\\/\\$NON-NLS-[0-9]\\$) *$"); //$NON-NLS-1$
+	static final Pattern comment= Pattern.compile("([ ]*\\/\\/\\$NON-NLS-[0-9]\\$) *$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * Should match leading whitespaces - not sure why eclipse does not allow to use \h instead of [ \t]
 	 */
-	static final Pattern leadingspaces_start= Pattern.compile("^[ \t]*"); //$NON-NLS-1$
+	static final Pattern leadingspaces_start= Pattern.compile("^[ \t]*"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	/**
 	 * Should match all leading whitespaces at each start of a line
 	 * We have to eat them otherwise formatting is broken
 	 */
-	static final Pattern leadingspaces= Pattern.compile("\n[ \t]*"); //$NON-NLS-1$
+	static final Pattern leadingspaces= Pattern.compile("\n[ \t]*"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * Replaces the provided node from the AST with the provided replacement node.
@@ -4092,7 +4092,7 @@ public class ASTNodes {
 	 * @param cuRewrite	The cu rewrite
 	 * @throws CoreException Exception to be thrown to allow error handling in case of problem to compute the replacement
 	 */
-	public static void replaceAndRemoveNLS(final ASTRewrite rewrite, final ASTNode visited, final ASTNode replace_with_Call, final TextEditGroup editGroup, final CompilationUnitRewrite cuRewrite) throws CoreException {
+	public static void replaceAndRemoveNLS(final ASTRewrite rewrite, final ASTNode visited, final ASTNode replace_with_Call, final TextEditGroup editGroup, final CompilationUnitRewrite cuRewrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String original= null;
 		ASTNode replacement= null;
 		try {
@@ -4102,13 +4102,13 @@ public class ASTNodes {
 			int origStart= cu.getExtendedStartPosition(st);
 			int origLength= cu.getExtendedLength(st);
 			original= buffer.substring(origStart, origStart + origLength);
-			original= comment.matcher(original).replaceFirst(""); //$NON-NLS-1$
-			original= leadingspaces_start.matcher(original).replaceAll(""); //$NON-NLS-1$
-			original= leadingspaces.matcher(original).replaceAll("\n"); //$NON-NLS-1$
+			original= comment.matcher(original).replaceFirst(""); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			original= leadingspaces_start.matcher(original).replaceAll(""); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			original= leadingspaces.matcher(original).replaceAll("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			String visitedString= buffer.substring(visited.getStartPosition(), visited.getStartPosition() + visited.getLength());
 			// we are using the toString() method to get string representation of replace_with_Call so tweak string to
 			// add spaces between parameters
-			String replacementCallString= replace_with_Call.toString().replaceAll(",", ", "); //$NON-NLS-1$ //$NON-NLS-2$
+			String replacementCallString= replace_with_Call.toString().replaceAll(",", ", "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			String originalmodified= original.replace(visitedString, replacementCallString);
 			replacement= rewrite.createStringPlaceholder(originalmodified, st.getNodeType());
 			rewrite.replace(st, replacement, editGroup);
@@ -4129,7 +4129,7 @@ public class ASTNodes {
 	 * @param cuRewrite	The cu rewrite
 	 * @throws CoreException Exception to be thrown to allow error handling in case of problem to compute the replacement
 	 */
-	public static void replaceAndRemoveNLSByCount(final ASTRewrite rewrite, final ASTNode visited, final String replace_with_Call, final int count, final TextEditGroup editGroup, final CompilationUnitRewrite cuRewrite) throws CoreException {
+	public static void replaceAndRemoveNLSByCount(final ASTRewrite rewrite, final ASTNode visited, final String replace_with_Call, final int count, final TextEditGroup editGroup, final CompilationUnitRewrite cuRewrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String original= null;
 		ASTNode replacement= null;
 		try {
@@ -4139,14 +4139,14 @@ public class ASTNodes {
 			int origStart= cu.getExtendedStartPosition(st);
 			int origLength= cu.getExtendedLength(st);
 			original= buffer.substring(origStart, origStart + origLength);
-			Matcher commentMatcher= comment.matcher(original);
+			Matcher commentMatcher= comment.matcher(original); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			int i= count;
-			while (i-- > 0) {
+			while (i-- > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				original= commentMatcher.replaceFirst(""); //$NON-NLS-1$
-				commentMatcher= comment.matcher(original);
+				commentMatcher= comment.matcher(original); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
-			original= leadingspaces_start.matcher(original).replaceAll(""); //$NON-NLS-1$
-			original= leadingspaces.matcher(original).replaceAll("\n"); //$NON-NLS-1$
+			original= leadingspaces_start.matcher(original).replaceAll(""); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			original= leadingspaces.matcher(original).replaceAll("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			String visitedString= buffer.substring(visited.getStartPosition(), visited.getStartPosition() + visited.getLength());
 			// we are using the toString() method to get string representation of replace_with_Call so tweak string to
 			// add spaces between parameters
@@ -4167,11 +4167,11 @@ public class ASTNodes {
 	 * @since 3.10
 	 */
 	public static List<String> getVisibleLocalVariablesInScope(ASTNode node) {
-		List<String> variableNames= new ArrayList<>();
+		List<String> variableNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CompilationUnit root= (CompilationUnit) node.getRoot();
 		IBinding[] bindings= new ScopeAnalyzer(root).
 				getDeclarationsInScope(node.getStartPosition(), ScopeAnalyzer.VARIABLES | ScopeAnalyzer.NO_FIELDS | ScopeAnalyzer.CHECK_VISIBILITY);
-		for (IBinding binding : bindings) {
+		for (IBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			variableNames.add(binding.getName());
 		}
 		return variableNames;
@@ -4185,7 +4185,7 @@ public class ASTNodes {
 	 * @see ScopeAnalyzer#getUsedVariableNames(int, int)
 	 */
 	public static List<String> getAllLocalVariablesInBlock(ASTNode node) {
-		List<String> variableNames= new ArrayList<>();
+		List<String> variableNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CompilationUnit root= (CompilationUnit) node.getRoot();
 		Block block= ASTNodes.getFirstAncestorOrNull(node, Block.class);
 		if (block != null) {
@@ -4228,7 +4228,7 @@ public class ASTNodes {
 	 * {@link SimpleName} or {@link VariableDeclarationStatement} that has a 'var' type
 	 * and <code>false</code> otherwise.
 	 */
-	public static boolean isVarType(ASTNode node, CompilationUnit astRoot) {
+	public static boolean isVarType(ASTNode node, CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement root= astRoot.getJavaElement();
 		if (root == null) {
 			return false;
@@ -4290,10 +4290,10 @@ public class ASTNodes {
 	 * @return list of Comment nodes
 	 */
 	public static List<Comment> getLeadingComments(ASTNode node) {
-		List<Comment> comments= new ArrayList<>();
+		List<Comment> comments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CompilationUnit cu= (CompilationUnit)node.getRoot();
 		List<Comment> commentList= cu.getCommentList();
-		for (Comment commentFromList : commentList) {
+		for (Comment commentFromList : commentList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commentFromList.getStartPosition() >= cu.getExtendedStartPosition(node)
 					&& commentFromList.getStartPosition() + commentFromList.getLength() < node.getStartPosition()) {
 				comments.add(commentFromList);
@@ -4309,11 +4309,11 @@ public class ASTNodes {
 	 * @return list of Comment nodes
 	 */
 	public static List<Comment> getTrailingLineComments(ASTNode node, int offset) {
-		List<Comment> comments= new ArrayList<>();
+		List<Comment> comments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CompilationUnit cu= (CompilationUnit)node.getRoot();
 		List<Comment> commentList= cu.getCommentList();
 		int nodeLine= cu.getLineNumber(node.getStartPosition() + offset);
-		for (Comment commentFromList : commentList) {
+		for (Comment commentFromList : commentList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commentFromList.getStartPosition() >= (node.getStartPosition() + offset) &&
 			    cu.getLineNumber(commentFromList.getStartPosition()) == nodeLine) {
 				comments.add(commentFromList);
@@ -4330,12 +4330,12 @@ public class ASTNodes {
 	 * @return list of Comment nodes
 	 */
 	public static List<Comment> getTrailingComments(ASTNode node) {
-		List<Comment> comments= new ArrayList<>();
+		List<Comment> comments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CompilationUnit cu= (CompilationUnit)node.getRoot();
 		List<Comment> commentList= cu.getCommentList();
 		int extendedStart= cu.getExtendedStartPosition(node);
 		int extendedLength= cu.getExtendedLength(node);
-		for (Comment commentFromList : commentList) {
+		for (Comment commentFromList : commentList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commentFromList.getStartPosition() > node.getStartPosition()
 					&& commentFromList.getStartPosition() < extendedStart + extendedLength) {
 				comments.add(commentFromList);
@@ -4353,9 +4353,9 @@ public class ASTNodes {
 	 * @return list of Comment nodes
 	 */
 	public static List<Comment> getCommentsForRegion(CompilationUnit cu, int start, int length) {
-		List<Comment> comments= new ArrayList<>();
+		List<Comment> comments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<Comment> commentList= cu.getCommentList();
-		for (Comment commentFromList : commentList) {
+		for (Comment commentFromList : commentList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commentFromList.getStartPosition() > start
 					&& commentFromList.getStartPosition() < start + length) {
 				comments.add(commentFromList);
@@ -4372,7 +4372,7 @@ public class ASTNodes {
 	 * @param cu - compilation unit
 	 * @return integer count of times type is referenced (may be 0 if bindings cannot be resolved)
 	 */
-	public static int getNumberOfTypeReferences(ITypeBinding typeBinding, CompilationUnit cu) {
+	public static int getNumberOfTypeReferences(ITypeBinding typeBinding, CompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class CounterVisitor extends ASTVisitor {
 			private int counter= 0;
 			private void checkType(Type type) {
@@ -4402,7 +4402,7 @@ public class ASTNodes {
 				Type type= node.getReturnType2();
 				checkType(type);
 				List<Type> exceptions= node.thrownExceptionTypes();
-				for (Type t : exceptions) {
+				for (Type t : exceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkType(t);
 				}
 				return true;
@@ -4448,7 +4448,7 @@ public class ASTNodes {
 				Type type= node.getType();
 				checkType(type);
 				List<Type> types= node.typeArguments();
-				for (Type t : types) {
+				for (Type t : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkType(t);
 				}
 				return true;
@@ -4456,7 +4456,7 @@ public class ASTNodes {
 			@Override
 			public boolean visit(TypeDeclaration node) {
 				List<Type> types= node.typeParameters();
-				for (Type t : types) {
+				for (Type t : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkType(t);
 				}
 				return true;
@@ -4464,7 +4464,7 @@ public class ASTNodes {
 			@Override
 			public boolean visit(RecordDeclaration node) {
 				List<Type> types= node.typeParameters();
-				for (Type t : types) {
+				for (Type t : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkType(t);
 				}
 				return true;

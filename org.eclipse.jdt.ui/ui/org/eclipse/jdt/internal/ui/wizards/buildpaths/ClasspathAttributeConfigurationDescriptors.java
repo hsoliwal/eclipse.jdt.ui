@@ -50,7 +50,7 @@ public class ClasspathAttributeConfigurationDescriptors {
 				throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (missing attributeName)", null)); //$NON-NLS-1$
 			}
 			if (pageClassName == null) {
-				throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (missing class name): " + name, null)); //$NON-NLS-1$
+				throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (missing class name): " + name, null)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -60,7 +60,7 @@ public class ClasspathAttributeConfigurationDescriptors {
 				if (elem instanceof ClasspathAttributeConfiguration) {
 					fInstance= (ClasspathAttributeConfiguration) elem;
 				} else {
-					throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (page not of type IClasspathContainerPage): " + getKey(), null)); //$NON-NLS-1$
+					throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (page not of type IClasspathContainerPage): " + getKey(), null)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			return fInstance;
@@ -90,7 +90,7 @@ public class ClasspathAttributeConfigurationDescriptors {
 		return getDescriptors().containsKey(attributeKey);
 	}
 
-	public ClasspathAttributeConfiguration get(final String attributeKey) {
+	public ClasspathAttributeConfiguration get(final String attributeKey) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Descriptor desc= getDescriptors().get(attributeKey);
 		if (desc == null) {
 			return null;
@@ -114,8 +114,8 @@ public class ClasspathAttributeConfigurationDescriptors {
 
 	private static HashMap<String, Descriptor> readExtensions() {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(JavaUI.ID_PLUGIN, ATT_EXTENSION);
-		HashMap<String, Descriptor> descriptors= new HashMap<>(elements.length * 2);
-		for (IConfigurationElement element : elements) {
+		HashMap<String, Descriptor> descriptors= new HashMap<>(elements.length * 2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Descriptor curr= new Descriptor(element);
 				descriptors.put(curr.getKey(), curr);

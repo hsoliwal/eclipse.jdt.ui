@@ -47,7 +47,7 @@ import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 
 public class ImportsFix extends TextEditFix {
 
-	public static ICleanUpFix createCleanUp(final CompilationUnit cu, CodeGenerationSettings settings, boolean organizeImports, RefactoringStatus status) throws CoreException {
+	public static ICleanUpFix createCleanUp(final CompilationUnit cu, CodeGenerationSettings settings, boolean organizeImports, RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!organizeImports)
 			return null;
 
@@ -77,7 +77,7 @@ public class ImportsFix extends TextEditFix {
 		return new ImportsFix(edit, unit, FixMessages.ImportsFix_OrganizeImports_Description);
     }
 
-	private static TextEdit runUsingProgressService(OrganizeImportsOperation op) throws CoreException {
+	private static TextEdit runUsingProgressService(OrganizeImportsOperation op) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final AtomicReference<TextEdit> edit= new AtomicReference<>();
 		IWorkbenchSiteProgressService progressService= null;
@@ -90,7 +90,7 @@ public class ImportsFix extends TextEditFix {
 		}
 
 		try {
-			progressService.run(true, true, new IRunnableWithProgress() {
+			progressService.run(true, true, new IRunnableWithProgress() { //FLLDCIM: MARK — T09  ANONYMOUS
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					try {

@@ -106,7 +106,7 @@ public class JavaSmartPasteTest extends TextPerformanceTestCase {
 		IDocument document= EditorTestHelper.getDocument(fEditor);
 		int destOffset= document.getLineOffset(destLine);
 		IAction paste= fEditor.getAction(ITextEditorActionConstants.PASTE);
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dirty(document);
 			fEditor.selectAndReveal(destOffset, 0);
 			EditorTestHelper.joinReconciler(EditorTestHelper.getSourceViewer(fEditor), 0, 10000, 100);

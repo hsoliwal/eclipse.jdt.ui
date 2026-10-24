@@ -138,7 +138,7 @@ public class QuickAssistLightBulbUpdater {
 			installSelectionListener();
 		}
 		if (fPropertyChangeListener == null) {
-			fPropertyChangeListener= event -> doPropertyChanged(event.getProperty());
+			fPropertyChangeListener= event -> doPropertyChanged(event.getProperty()); //FLLDCIM: MARK — T06  LAMBDA
 			PreferenceConstants.getPreferenceStore().addPropertyChangeListener(fPropertyChangeListener);
 		}
 	}
@@ -186,7 +186,7 @@ public class QuickAssistLightBulbUpdater {
 	}
 
 
-	private void doSelectionChanged(int offset, int length, CompilationUnit astRoot) {
+	private void doSelectionChanged(int offset, int length, CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final IAnnotationModel model= getAnnotationModel();
 		final ICompilationUnit cu= getCompilationUnit();
@@ -232,7 +232,7 @@ public class QuickAssistLightBulbUpdater {
 	/*
 	 * Tests if there is already a quick fix light bulb on the current line
 	 */
-	private boolean hasQuickFixLightBulb(IAnnotationModel model, int offset) {
+	private boolean hasQuickFixLightBulb(IAnnotationModel model, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IDocument document= getDocument();
 			if (document == null) {
@@ -248,7 +248,7 @@ public class QuickAssistLightBulbUpdater {
 
 			// this iterator is not protected, it may throw ConcurrentModificationExceptions
 			Iterator<Annotation> iter= model.getAnnotationIterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Annotation annot= iter.next();
 				if (JavaCorrectionProcessor.isQuickFixableType(annot)) {
 					// may throw an IndexOutOfBoundsException upon concurrent annotation model changes

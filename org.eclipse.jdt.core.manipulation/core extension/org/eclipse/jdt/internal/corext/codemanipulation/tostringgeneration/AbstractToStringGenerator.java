@@ -177,22 +177,22 @@ public abstract class AbstractToStringGenerator {
 	 * @return declaration of the generated <code>toString()</code> method
 	 * @throws CoreException if creation failed
 	 */
-	public MethodDeclaration generateToStringMethod() throws CoreException {
+	public MethodDeclaration generateToStringMethod() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		initialize();
 
-		for (String element : fContext.getTemplateParser().getBeginning()) {
+		for (String element : fContext.getTemplateParser().getBeginning()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addElement(processElement(element, null));
 		}
 
 		Object[] members= fContext.getSelectedMembers();
-		for (int i= 0; i < members.length; i++) {
+		for (int i= 0; i < members.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!fContext.isSkipNulls() || getMemberType(members[i]).isPrimitive())
 				addMember(members[i], i != members.length - 1);
 			else
 				addMemberCheckNull(members[i], i != members.length - 1);
 		}
 
-		for (String element : fContext.getTemplateParser().getEnding()) {
+		for (String element : fContext.getTemplateParser().getEnding()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addElement(processElement(element, null));
 		}
 
@@ -202,7 +202,7 @@ public abstract class AbstractToStringGenerator {
 	}
 
 	public List<MethodDeclaration> generateHelperMethods() {
-		List<MethodDeclaration> result= new ArrayList<>();
+		List<MethodDeclaration> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (needCollectionToStringMethod)
 			result.add(createHelperToStringMethod(false));
 
@@ -218,10 +218,10 @@ public abstract class AbstractToStringGenerator {
 	 *
 	 * @throws CoreException if creation failed
 	 */
-	protected void createMethodComment() throws CoreException {
+	protected void createMethodComment() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding object= fAst.resolveWellKnownType("java.lang.Object"); //$NON-NLS-1$
 		IMethodBinding objectMethod= null;
-		for (IMethodBinding objm : object.getDeclaredMethods()) {
+		for (IMethodBinding objm : object.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (METHODNAME_TO_STRING.equals(objm.getName()) && objm.getParameterTypes().length == 0) {
 				objectMethod= objm;
 			}
@@ -247,7 +247,7 @@ public abstract class AbstractToStringGenerator {
 	 * @return <code>arrayToString(Object[] array)</code> or <code>collectionToString(Collection
 	 *         collection)</code> method
 	 */
-	protected MethodDeclaration createHelperToStringMethod(boolean array) {
+	protected MethodDeclaration createHelperToStringMethod(boolean array) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String iteratorName= createNameSuggestion("iterator", NamingConventions.VK_LOCAL); //$NON-NLS-1$
 		final String appendMethodName= "append"; //$NON-NLS-1$
 		final String indexName= createNameSuggestion("i", NamingConventions.VK_LOCAL); //$NON-NLS-1$
@@ -354,7 +354,7 @@ public abstract class AbstractToStringGenerator {
 			// i < length;
 			forStatement.setExpression(createInfixExpression(fAst.newSimpleName(indexName), Operator.LESS, fAst.newSimpleName(lengthParamName)));
 
-			for (ITypeBinding typeBinding : typesThatNeedArrayToStringMethod) {
+			for (ITypeBinding typeBinding : typesThatNeedArrayToStringMethod) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				//if (array instanceof int[]) {
 				String typeName= typeBinding.getName();
 				PrimitiveType.Code code= null;
@@ -434,10 +434,10 @@ public abstract class AbstractToStringGenerator {
 	 * This method initializes all variables used in the process of generating <code>toString</code>
 	 * method.
 	 */
-	protected void initialize() {
+	protected void initialize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		needMaxLenVariable= false;
 		needCollectionToStringMethod= false;
-		typesThatNeedArrayToStringMethod= new ArrayList<>();
+		typesThatNeedArrayToStringMethod= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		checkNeedForHelperMethods();
 
@@ -470,12 +470,12 @@ public abstract class AbstractToStringGenerator {
 	/**
 	 * Iterates over selected members to determine whether helper methods will be needed.
 	 */
-	protected void checkNeedForHelperMethods() {
+	protected void checkNeedForHelperMethods() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((!fContext.isLimitItems() && !fContext.isCustomArray()) || (fContext.isLimitItems() && fContext.getLimitItemsValue() == 0))
 			return;
 
 		boolean isNonPrimitive= false;
-		for (Object selectedMember : fContext.getSelectedMembers()) {
+		for (Object selectedMember : fContext.getSelectedMembers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding memberType= getMemberType(selectedMember);
 			boolean[] implementsInterfaces= implementsInterfaces(memberType.getErasure(), new String[] { "java.util.Collection", "java.util.List", "java.util.Map" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			boolean isCollection= implementsInterfaces[0];
@@ -500,7 +500,7 @@ public abstract class AbstractToStringGenerator {
 	 * @param member the member
 	 * @return <code>String</code> or <code>Expression</code> switching
 	 */
-	protected Object processElement(String templateElement, Object member) {
+	protected Object processElement(String templateElement, Object member) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object result= templateElement;
 		if (ToStringTemplateParser.OBJECT_NAME_VARIABLE.equals(templateElement)) {
 			result= fContext.getTypeBinding().getName();
@@ -564,7 +564,7 @@ public abstract class AbstractToStringGenerator {
 	 *            last member)
 	 */
 	protected void addMember(Object member, boolean addSeparator) {
-		for (String element : fContext.getTemplateParser().getBody()) {
+		for (String element : fContext.getTemplateParser().getBody()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addElement(processElement(element, member));
 		}
 		if (addSeparator)
@@ -659,7 +659,7 @@ public abstract class AbstractToStringGenerator {
 	 * @param ignoreNulls if false, method will add checking for nulls when using custom methods
 	 * @return an expression that accesses given member
 	 */
-	protected Expression createMemberAccessExpression(Object member, boolean ignoreArraysCollections, boolean ignoreNulls) {
+	protected Expression createMemberAccessExpression(Object member, boolean ignoreArraysCollections, boolean ignoreNulls) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!ignoreArraysCollections) {
 			ITypeBinding memberType= getMemberType(member);
 
@@ -795,27 +795,27 @@ public abstract class AbstractToStringGenerator {
 	}
 
 	private Set<String> excluded;
-	protected String createNameSuggestion(String baseName, int variableKind) {
+	protected String createNameSuggestion(String baseName, int variableKind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (excluded == null) {
-			excluded= new HashSet<>();
-			for (IVariableBinding field : fContext.getTypeBinding().getDeclaredFields()) {
+			excluded= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IVariableBinding field : fContext.getTypeBinding().getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				excluded.add(field.getName());
 			}
 			ITypeBinding superType= fContext.getTypeBinding().getSuperclass();
-			while (superType != null) {
-				for (IVariableBinding field : superType.getDeclaredFields()) {
+			while (superType != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IVariableBinding field : superType.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!Modifier.isPrivate(field.getModifiers())) {
 						excluded.add(field.getName());
 					}
 				}
 				superType= superType.getSuperclass();
 			}
-			for (ITypeBinding type : fContext.getTypeBinding().getDeclaredTypes()) {
+			for (ITypeBinding type : fContext.getTypeBinding().getDeclaredTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				excluded.add(type.getName());
 			}
 			superType= fContext.getTypeBinding().getSuperclass();
-			while (superType != null) {
-				for (ITypeBinding type : superType.getDeclaredTypes()) {
+			while (superType != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (ITypeBinding type : superType.getDeclaredTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!Modifier.isPrivate(type.getModifiers())) {
 						excluded.add(type.getName());
 					}
@@ -836,13 +836,13 @@ public abstract class AbstractToStringGenerator {
 	 */
 	protected boolean[] implementsInterfaces(ITypeBinding memberType, String[] interfaceNames) {
 		boolean[] result= new boolean[interfaceNames.length];
-		for (int i= 0; i < interfaceNames.length; i++) {
+		for (int i= 0; i < interfaceNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (memberType.getQualifiedName().equals(interfaceNames[i]))
 				result[i]= true;
 		}
-		for (ITypeBinding intf : memberType.getInterfaces()) {
+		for (ITypeBinding intf : memberType.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean[] deeper= implementsInterfaces(intf.getErasure(), interfaceNames);
-			for (int j= 0; j < interfaceNames.length; j++) {
+			for (int j= 0; j < interfaceNames.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[j]= result[j] || deeper[j];
 			}
 		}

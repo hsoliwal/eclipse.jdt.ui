@@ -75,7 +75,7 @@ import org.eclipse.jdt.internal.corext.util.JdtFlags;
 public final class RefactoringAvailabilityTesterCore  {
 
 
-	public static boolean isDeleteAvailable(final IJavaElement element) {
+	public static boolean isDeleteAvailable(final IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!element.exists())
 			return false;
 		if (element instanceof IJavaModel || element instanceof IJavaProject)
@@ -113,14 +113,14 @@ public final class RefactoringAvailabilityTesterCore  {
 	}
 
 	public static boolean isMoveStaticAvailable(final IMember[] members) throws JavaModelException {
-		for (IMember member : members) {
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isMoveStaticAvailable(member))
 				return false;
 		}
 		return true;
 	}
 
-	public static boolean isMoveStaticAvailable(final IMember member) throws JavaModelException {
+	public static boolean isMoveStaticAvailable(final IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!member.exists())
 			return false;
 		final int type= member.getElementType();
@@ -154,7 +154,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		final IType type= members[0].getDeclaringType();
 		if (type == null)
 			return false;
-		for (IMember member : members) {
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!type.equals(member.getDeclaringType()))
 				return false;
 		}
@@ -202,7 +202,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		return getInlineableMethodNode(NodeFinder.perform(root, offset, length), typeRoot);
 	}
 
-	private static ASTNode getInlineableMethodNode(ASTNode node, IJavaElement unit) {
+	private static ASTNode getInlineableMethodNode(ASTNode node, IJavaElement unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node == null)
 			return null;
 		switch (node.getNodeType()) {
@@ -246,8 +246,8 @@ public final class RefactoringAvailabilityTesterCore  {
 	}
 
 	public static IJavaElement[] getJavaElements(final Object[] elements) {
-		List<IJavaElement> result= new ArrayList<>();
-		for (Object element : elements) {
+		List<IJavaElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJavaElement) {
 				result.add((IJavaElement) element);
 			}
@@ -255,20 +255,20 @@ public final class RefactoringAvailabilityTesterCore  {
 		return result.toArray(new IJavaElement[result.size()]);
 	}
 
-	public static IMember[] getPullUpMembers(final IType type) throws JavaModelException {
-		final List<IMember> list= new ArrayList<>(3);
+	public static IMember[] getPullUpMembers(final IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<IMember> list= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (type.exists()) {
-			for (IMember member : type.getFields()) {
+			for (IMember member : type.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isPullUpAvailable(member)) {
 					list.add(member);
 				}
 			}
-			for (IMember member : type.getMethods()) {
+			for (IMember member : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isPullUpAvailable(member)) {
 					list.add(member);
 				}
 			}
-			for (IMember member : type.getTypes()) {
+			for (IMember member : type.getTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isPullUpAvailable(member)) {
 					list.add(member);
 				}
@@ -278,14 +278,14 @@ public final class RefactoringAvailabilityTesterCore  {
 	}
 
 	public static IMember[] getPushDownMembers(final IType type) throws JavaModelException {
-		final List<IMember> list= new ArrayList<>(3);
+		final List<IMember> list= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (type.exists()) {
-			for (IMember member : type.getFields()) {
+			for (IMember member : type.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isPushDownAvailable(member)) {
 					list.add(member);
 				}
 			}
-			for (IMember member : type.getMethods()) {
+			for (IMember member : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isPushDownAvailable(member)) {
 					list.add(member);
 				}
@@ -295,8 +295,8 @@ public final class RefactoringAvailabilityTesterCore  {
 	}
 
 	public static IResource[] getResources(final Object[] elements) {
-		List<IResource> result= new ArrayList<>();
-		for (Object element : elements) {
+		List<IResource> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource) {
 				result.add((IResource) element);
 			}
@@ -310,7 +310,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		return null;
 	}
 
-	public static boolean isCanonicalConstructor(IMethod method) {
+	public static boolean isCanonicalConstructor(IMethod method) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isCanonicalConstructor = false;
 		try {
 			if (method != null && method.isConstructor()) {
@@ -341,7 +341,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		return false;
 	}
 
-	public static boolean isConvertToRecordAvailable(final IType type) throws JavaModelException {
+	public static boolean isConvertToRecordAvailable(final IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Checks.isAvailable(type)) {
 			if (type.isImplicitlyDeclared() || type.isBinary() || type.isLambda() || type.isAnnotation()) {
 				return false;
@@ -355,7 +355,7 @@ public final class RefactoringAvailabilityTesterCore  {
 					return false;
 				}
 				int privateFieldCount= 0;
-				for (IField field : fields) {
+				for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!(Flags.isPrivate(field.getFlags()))
 							&& !Flags.isStatic(field.getFlags())) {
 						return false;
@@ -366,7 +366,7 @@ public final class RefactoringAvailabilityTesterCore  {
 				}
 				IMethod[] methods= type.getMethods();
 				boolean hasConstructor= false;
-				for (IMethod method : methods) {
+				for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (method.isConstructor()) {
 						if (method.getNumberOfParameters() == privateFieldCount) {
 							hasConstructor= true;
@@ -399,7 +399,7 @@ public final class RefactoringAvailabilityTesterCore  {
 			if (nodes.length == 1)
 				return nodes[0] instanceof Statement || Checks.isExtractableExpression(nodes[0]);
 			else {
-				for (ASTNode node : nodes) {
+				for (ASTNode node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!(node instanceof Statement)) {
 						return false;
 					}
@@ -410,7 +410,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		return false;
 	}
 
-	public static boolean isExtractSupertypeAvailable(IMember member) throws JavaModelException {
+	public static boolean isExtractSupertypeAvailable(IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!member.exists())
 			return false;
 		final int type= member.getElementType();
@@ -448,7 +448,7 @@ public final class RefactoringAvailabilityTesterCore  {
 			final IType type= getTopLevelType(members);
 			if (type != null && !type.isClass())
 				return false;
-			for (IMember member : members) {
+			for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isExtractSupertypeAvailable(member)) {
 					return false;
 				}
@@ -458,7 +458,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		return false;
 	}
 
-	public static boolean isGeneralizeTypeAvailable(final IJavaElement element) throws JavaModelException {
+	public static boolean isGeneralizeTypeAvailable(final IJavaElement element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element != null && element.exists()) {
 			String type= null;
 			if (element instanceof IMethod)
@@ -483,12 +483,12 @@ public final class RefactoringAvailabilityTesterCore  {
 		return false;
 	}
 
-	public static boolean isInferTypeArgumentsAvailable(final IJavaElement element) throws JavaModelException {
+	public static boolean isInferTypeArgumentsAvailable(final IJavaElement element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!Checks.isAvailable(element)) {
 			return false;
 		} else if (element instanceof IJavaProject) {
 			IJavaProject project= (IJavaProject) element;
-			for (IClasspathEntry classpathEntry : project.getRawClasspath()) {
+			for (IClasspathEntry classpathEntry : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					return true;
 				}
@@ -510,7 +510,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		if (elements.length == 0)
 			return false;
 
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(isInferTypeArgumentsAvailable(element))) {
 				return false;
 			}
@@ -555,7 +555,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		return Checks.isAvailable(variable);
 	}
 
-	public static boolean isPullUpAvailable(IMember member) throws JavaModelException {
+	public static boolean isPullUpAvailable(IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!member.exists())
 			return false;
 		final int type= member.getElementType();
@@ -587,7 +587,7 @@ public final class RefactoringAvailabilityTesterCore  {
 			final IType type= getTopLevelType(members);
 			if (type != null && getPullUpMembers(type).length != 0)
 				return true;
-			for (IMember member : members) {
+			for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isPullUpAvailable(member)) {
 					return false;
 				}
@@ -597,7 +597,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		return false;
 	}
 
-	public static boolean isPushDownAvailable(final IMember member) throws JavaModelException {
+	public static boolean isPushDownAvailable(final IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!member.exists())
 			return false;
 		final int type= member.getElementType();
@@ -629,7 +629,7 @@ public final class RefactoringAvailabilityTesterCore  {
 				return true;
 			if (type != null && JdtFlags.isEnum(type))
 				return false;
-			for (IMember member : members) {
+			for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isPushDownAvailable(member)) {
 					return false;
 				}
@@ -768,7 +768,7 @@ public final class RefactoringAvailabilityTesterCore  {
 		return isRenameAvailable(method) && MethodChecks.isVirtual(method);
 	}
 
-	public static boolean isRenameElementAvailable(IJavaElement element) throws CoreException {
+	public static boolean isRenameElementAvailable(IJavaElement element) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element != null) {
 			switch (element.getElementType()) {
 				case IJavaElement.JAVA_PROJECT:

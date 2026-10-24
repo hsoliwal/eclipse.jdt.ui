@@ -49,7 +49,7 @@ public abstract class OpenEditorTest extends TextPerformanceTestCase {
 	}
 
 	protected void measureOpenInEditor(IFile[] files, PerformanceMeter performanceMeter, boolean closeEach) throws PartInitException {
-		for (IFile file : files) {
+		for (IFile file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			performanceMeter.start();
 			AbstractTextEditor editor= (AbstractTextEditor) EditorTestHelper.openInEditor(file, true);
 			performanceMeter.stop();

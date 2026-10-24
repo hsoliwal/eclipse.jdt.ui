@@ -63,31 +63,31 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughCleanUpCore extends Ab
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.ONE_IF_RATHER_THAN_DUPLICATE_BLOCKS_THAT_FALL_THROUGH)) {
-			bld.append("if (isActive || isValid) {\n"); //$NON-NLS-1$
+			bld.append("if (isActive || isValid) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("if (isActive) {\n"); //$NON-NLS-1$
+			bld.append("if (isActive) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("    System.out.println(\"The same code\");\n"); //$NON-NLS-1$
-		bld.append("    throw new NullPointerException();\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("    System.out.println(\"The same code\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    throw new NullPointerException();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (!isEnabled(CleanUpConstants.ONE_IF_RATHER_THAN_DUPLICATE_BLOCKS_THAT_FALL_THROUGH)) {
-			bld.append("if (isValid) {\n"); //$NON-NLS-1$
-			bld.append("    System.out.println(\"The same code\");\n"); //$NON-NLS-1$
-			bld.append("    throw new NullPointerException();\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
+			bld.append("if (isValid) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    System.out.println(\"The same code\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    throw new NullPointerException();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("System.out.println(\"Next code\");\n"); //$NON-NLS-1$
+		bld.append("System.out.println(\"Next code\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.ONE_IF_RATHER_THAN_DUPLICATE_BLOCKS_THAT_FALL_THROUGH)) {
-			bld.append("\n\n\n\n"); //$NON-NLS-1$
+			bld.append("\n\n\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();

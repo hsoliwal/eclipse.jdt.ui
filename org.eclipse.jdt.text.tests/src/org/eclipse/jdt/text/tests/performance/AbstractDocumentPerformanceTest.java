@@ -45,14 +45,14 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 	protected static final String FAUST1;
 	protected static final String FAUST100;
 	protected static final String FAUST500;
-	protected static final Map<String, String> LOCAL_FINGERPRINTS= new HashMap<>();
-	protected static final Map<String, String> DEGRADATION_COMMENTS= new HashMap<>();
+	protected static final Map<String, String> LOCAL_FINGERPRINTS= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	protected static final Map<String, String> DEGRADATION_COMMENTS= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 
 	static {
 		FAUST1 = AbstractDocumentLineDifferTest.getFaust();
-		FAUST100 = FAUST1.substring(0, 100).intern();
-		FAUST500 = FAUST1.substring(0, 500).intern();
+		FAUST100 = FAUST1.substring(0, 100).intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
+		FAUST500 = FAUST1.substring(0, 500).intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
 
 		// Set local fingerprints
 		LOCAL_FINGERPRINTS.put("measureDeleteInsert", "Document: delete and insert");
@@ -100,7 +100,7 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 
 	public void measureSet(PerformanceMeter meter) {
 		meter.start();
-		for (int accumulated = 0; accumulated < 30; accumulated++)
+		for (int accumulated = 0; accumulated < 30; accumulated++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fDocument.set(FAUST1);
 		meter.stop();
 	}
@@ -110,7 +110,7 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		int OFFSET = 12;
 		int REPLACE_LENGTH = FAUST100.length();
 		meter.start();
-		for (int times = 0; times < 30000; times++)
+		for (int times = 0; times < 30000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fDocument.replace(OFFSET, REPLACE_LENGTH, FAUST100);
 		meter.stop();
 	}
@@ -119,8 +119,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int offset = 12;
 		meter.start();
-		for (int times = 0; times < 54000000; times++)
-			while (offset++ < 400)
+		for (int times = 0; times < 54000000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (offset++ < 400) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.replace(offset, 0, ";");
 		meter.stop();
 	}
@@ -129,8 +129,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST500);
 		int offset = 12;
 		meter.start();
-		for (int times = 0; times < 54000000; times++)
-			while (offset++ < 400)
+		for (int times = 0; times < 54000000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (offset++ < 400) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.replace(offset, 0, ";");
 		meter.stop();
 	}
@@ -138,7 +138,7 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 	public void measureInsertAtStart(PerformanceMeter meter) throws BadLocationException {
 		fDocument.set(FAUST1);
 		meter.start();
-		for (int times = 0; times < 3000; times++)
+		for (int times = 0; times < 3000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fDocument.replace(0, 0, FAUST100);
 		meter.stop();
 	}
@@ -148,7 +148,7 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		int offset = fDocument.getLength();
 		int length = FAUST100.length();
 		meter.start();
-		for (int times = 0; times < 3000; times++) {
+		for (int times = 0; times < 3000; times++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fDocument.replace(offset, 0, FAUST100);
 			offset += length;
 		}
@@ -160,30 +160,30 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		int OFFSET = 12;
 		int REPLACE_LENGTH = 100;
 		meter.start();
-		for (int times = 0; times < 1000; times++)
+		for (int times = 0; times < 1000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// delete phase
 			fDocument.replace(OFFSET, REPLACE_LENGTH, null);
-		for (int times = 0; times < 1000; times++)
+		for (int times = 0; times < 1000; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// insert phase
 			fDocument.replace(OFFSET, 0, FAUST100);
 		meter.stop();
 	}
 
-	public void measureRandomReplace(PerformanceMeter meter) throws BadLocationException {
+	public void measureRandomReplace(PerformanceMeter meter) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fDocument.set(FAUST1);
 
 		Random rand = new Random(132498029834234L);
 		int[] indices = new int[1000];
 		int REPLACE_LENGTH = 100; // chosen to fit in the gap text store size
-		for (int i = 0; i < indices.length; i++)
+		for (int i = 0; i < indices.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			indices[i] = rand.nextInt(FAUST1.length() - REPLACE_LENGTH);
 		char[] replacement = new char[REPLACE_LENGTH];
 		Arrays.fill(replacement, ' ');
 		String replace = new String(replacement);
 
 		meter.start();
-		for (int times = 0; times < 4; times++)
-			for (int index : indices) {
+		for (int times = 0; times < 4; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int index : indices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.replace(index, REPLACE_LENGTH, null);
 				fDocument.replace(index, 0, replace);
 			}
@@ -196,8 +196,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int length = fDocument.getLength();
 		meter.start();
-		for (int times = 0; times < 8; times++)
-			for (int offset = 0; offset < length; offset++)
+		for (int times = 0; times < 8; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int offset = 0; offset < length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getChar(offset);
 		meter.stop();
 	}
@@ -218,8 +218,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int lines = fDocument.getNumberOfLines();
 		meter.start();
-		for (int times = 0; times < 30; times++) {
-			for (int line = 0; line < lines; line++) {
+		for (int times = 0; times < 30; times++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int line = 0; line < lines; line++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IRegion lineInfo = fDocument.getLineInformation(line);
 				fDocument.get(lineInfo.getOffset(), lineInfo.getLength());
 			}
@@ -231,8 +231,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int lines= fDocument.getNumberOfLines();
 		meter.start();
-		for (int times= 0; times < 500; times++)
-			for (int line= 0; line < lines; line++)
+		for (int times= 0; times < 500; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int line= 0; line < lines; line++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getLength();
 		meter.stop();
 	}
@@ -243,8 +243,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int chars= FAUST1.length();
 		meter.start();
-		for (int times= 0; times < 2; times++)
-			for (int offset= 0; offset <= chars; offset++)
+		for (int times= 0; times < 2; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int offset= 0; offset <= chars; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getLineOfOffset(offset);
 		meter.stop();
 	}
@@ -253,8 +253,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int chars= FAUST1.length();
 		meter.start();
-		for (int times= 0; times < 2; times++)
-			for (int offset= 0; offset <= chars; offset++)
+		for (int times= 0; times < 2; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int offset= 0; offset <= chars; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getLineInformationOfOffset(offset);
 		meter.stop();
 	}
@@ -263,8 +263,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int lines= fDocument.getNumberOfLines();
 		meter.start();
-		for (int times= 0; times < 250; times++)
-			for (int line= 0; line < lines; line++)
+		for (int times= 0; times < 250; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int line= 0; line < lines; line++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getLineOffset(line);
 		meter.stop();
 	}
@@ -273,8 +273,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int lines= fDocument.getNumberOfLines();
 		meter.start();
-		for (int times= 0; times < 250; times++)
-			for (int line= 0; line < lines; line++)
+		for (int times= 0; times < 250; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int line= 0; line < lines; line++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getLineInformation(line);
 		meter.stop();
 	}
@@ -283,8 +283,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int lines= fDocument.getNumberOfLines();
 		meter.start();
-		for (int times= 0; times < 250; times++)
-			for (int line= 0; line < lines; line++)
+		for (int times= 0; times < 250; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int line= 0; line < lines; line++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getLineLength(line);
 		meter.stop();
 	}
@@ -293,8 +293,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int lines= fDocument.getNumberOfLines();
 		meter.start();
-		for (int times= 0; times < 250; times++)
-			for (int line= 0; line < lines; line++)
+		for (int times= 0; times < 250; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int line= 0; line < lines; line++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getLineDelimiter(line);
 		meter.stop();
 	}
@@ -303,8 +303,8 @@ public abstract class AbstractDocumentPerformanceTest extends TextPerformanceTes
 		fDocument.set(FAUST1);
 		int lines= fDocument.getNumberOfLines();
 		meter.start();
-		for (int times= 0; times < 250; times++)
-			for (int line= 0; line < lines; line++)
+		for (int times= 0; times < 250; times++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int line= 0; line < lines; line++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDocument.getNumberOfLines();
 		meter.stop();
 	}

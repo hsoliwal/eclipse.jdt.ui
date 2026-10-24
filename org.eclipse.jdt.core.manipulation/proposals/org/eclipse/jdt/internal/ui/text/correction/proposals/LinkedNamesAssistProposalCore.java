@@ -84,7 +84,7 @@ public class LinkedNamesAssistProposalCore extends CUCorrectionProposalCore {
 		return fValueSuggestion;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addEdits(IDocument document, TextEdit rootEdit) throws CoreException {
 		try {
 //			Point seletion= viewer.getSelectedRange();
@@ -128,7 +128,7 @@ public class LinkedNamesAssistProposalCore extends CUCorrectionProposalCore {
 			});
 
 			LinkedPositionGroup group= new LinkedPositionGroup();
-			for (int i= 0; i < sameNodes.length; i++) {
+			for (int i= 0; i < sameNodes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode elem= sameNodes[i];
 				group.addPosition(new LinkedPosition(document, elem.getStartPosition(), elem.getLength(), i));
 			}
@@ -139,7 +139,7 @@ public class LinkedNamesAssistProposalCore extends CUCorrectionProposalCore {
 
 			if (fValueSuggestion != null) {
 				ReplaceEdit edit= new ReplaceEdit(nameNode.getStartPosition(), nameNode.getLength(), fValueSuggestion);
-				for (ASTNode sameNode : sameNodes) {
+				for (ASTNode sameNode : sameNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					edit= new ReplaceEdit(sameNode.getStartPosition(), sameNode.getLength(), fValueSuggestion);
 					rootEdit.addChild(edit);
 				}

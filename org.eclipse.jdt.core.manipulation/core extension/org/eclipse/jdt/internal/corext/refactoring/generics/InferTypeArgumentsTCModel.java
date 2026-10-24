@@ -95,11 +95,11 @@ public class InferTypeArgumentsTCModel {
 
 
 	public InferTypeArgumentsTCModel() {
-		fTypeConstraints= new HashMap<>();
-		fConstraintVariables= new LinkedHashMap<>(); // make iteration independent of hashCode() implementation
-		fCastVariables= new ArrayList<>();
+		fTypeConstraints= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fConstraintVariables= new LinkedHashMap<>(); // make iteration independent of hashCode() implementation //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		fCastVariables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		fCuScopedConstraintVariables= new HashSet<>();
+		fCuScopedConstraintVariables= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		fTypeEnvironment= new TypeEnvironment(true);
 	}
@@ -111,7 +111,7 @@ public class InferTypeArgumentsTCModel {
 	 *
 	 * @return <code>true</code> iff the type constraint should really be created
 	 */
-	protected boolean keep(ConstraintVariable2 cv1, ConstraintVariable2 cv2) {
+	protected boolean keep(ConstraintVariable2 cv1, ConstraintVariable2 cv2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((cv1 == null || cv2 == null))
 			return false;
 
@@ -158,12 +158,12 @@ public class InferTypeArgumentsTCModel {
 	}
 
 	private void pruneUnusedCuScopedCvs() {
-		for (ConstraintVariable2 cv : fCuScopedConstraintVariables) {
+		for (ConstraintVariable2 cv : fCuScopedConstraintVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pruneCvIfUnused(cv);
 		}
 	}
 
-	private boolean pruneCvIfUnused(ConstraintVariable2 cv) {
+	private boolean pruneCvIfUnused(ConstraintVariable2 cv) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!getUsedIn(cv).isEmpty())
 			return false;
 
@@ -177,7 +177,7 @@ public class InferTypeArgumentsTCModel {
 			return false;
 
 		Map<String, CollectionElementVariable2> elementVariables= getElementVariables(cv);
-		for (CollectionElementVariable2 elementVariable : elementVariables.values()) {
+		for (CollectionElementVariable2 elementVariable : elementVariables.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! pruneCvIfUnused(elementVariable))
 				return false;
 		}
@@ -189,7 +189,7 @@ public class InferTypeArgumentsTCModel {
 	public ConstraintVariable2[] getAllConstraintVariables() {
 		ConstraintVariable2[] result= new ConstraintVariable2[fConstraintVariables.size()];
 		int i= 0;
-		for (Iterator<ConstraintVariable2> iter= fConstraintVariables.keySet().iterator(); iter.hasNext(); i++)
+		for (Iterator<ConstraintVariable2> iter= fConstraintVariables.keySet().iterator(); iter.hasNext(); i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= iter.next();
 		return result;
 	}
@@ -203,7 +203,7 @@ public class InferTypeArgumentsTCModel {
 		return fCastVariables.toArray(new CastVariable2[fCastVariables.size()]);
 	}
 
-	public void createSubtypeConstraint(ConstraintVariable2 cv1, ConstraintVariable2 cv2) {
+	public void createSubtypeConstraint(ConstraintVariable2 cv1, ConstraintVariable2 cv2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (! keep(cv1, cv2))
 			return;
 
@@ -241,14 +241,14 @@ public class InferTypeArgumentsTCModel {
 			ArrayList<ITypeConstraint2> usedInList= (ArrayList<ITypeConstraint2>) usedIn;
 			usedInList.add(typeConstraint);
 		} else {
-			ArrayList<ITypeConstraint2> usedInList= new ArrayList<>(2);
+			ArrayList<ITypeConstraint2> usedInList= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			usedInList.add((ITypeConstraint2) usedIn);
 			usedInList.add(typeConstraint);
 			storedCv.setData(USED_IN, usedInList);
 		}
 	}
 
-	public void createEqualsConstraint(ConstraintVariable2 leftElement, ConstraintVariable2 rightElement) {
+	public void createEqualsConstraint(ConstraintVariable2 leftElement, ConstraintVariable2 rightElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (leftElement == null || rightElement == null)
 			return;
 
@@ -272,7 +272,7 @@ public class InferTypeArgumentsTCModel {
 			} else {
 				ConstraintVariable2[] cvs= rightSet.getContributingVariables();
 				leftSet.addAll(cvs);
-				for (ConstraintVariable2 cv : cvs) {
+				for (ConstraintVariable2 cv : cvs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					cv.setTypeEquivalenceSet(leftSet);
 				}
 			}
@@ -303,7 +303,7 @@ public class InferTypeArgumentsTCModel {
 		return createTType(boxed);
 	}
 
-	public VariableVariable2 makeVariableVariable(IVariableBinding variableBinding) {
+	public VariableVariable2 makeVariableVariable(IVariableBinding variableBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (variableBinding == null)
 			return null;
 		TType type= getBoxedType(variableBinding.getType(), /*no boxing*/null);
@@ -317,7 +317,7 @@ public class InferTypeArgumentsTCModel {
 			makeElementVariables(storedCv, type);
 			makeArrayElementVariable(storedCv);
 			if (JavaManipulationPlugin.DEBUG_TYPE_CONSTRAINTS)
-				storedCv.setData(ConstraintVariable2.TO_STRING, '[' + variableBinding.getName() + ']');
+				storedCv.setData(ConstraintVariable2.TO_STRING, '[' + variableBinding.getName() + ']'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return storedCv;
 	}
@@ -330,7 +330,7 @@ public class InferTypeArgumentsTCModel {
 		return cv;
 	}
 
-	public TypeVariable2 makeTypeVariable(Type type) {
+	public TypeVariable2 makeTypeVariable(Type type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= RefactoringASTParser.getCompilationUnit(type);
 		TType ttype= getBoxedType(type.resolveBinding(), /*no boxing*/null);
 		if (ttype == null)
@@ -358,7 +358,7 @@ public class InferTypeArgumentsTCModel {
 //			if (isAGenericType(typeBinding)) // would lead to infinite recursion!
 //				makeElementVariables(storedCv, typeBinding);
 			if (JavaManipulationPlugin.DEBUG_TYPE_CONSTRAINTS)
-				storedCv.setData(ConstraintVariable2.TO_STRING, "IndependentType(" + type.getPrettySignature() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				storedCv.setData(ConstraintVariable2.TO_STRING, "IndependentType(" + type.getPrettySignature() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return storedCv;
 	}
@@ -379,7 +379,7 @@ public class InferTypeArgumentsTCModel {
 			fCuScopedConstraintVariables.add(storedCv);
 			makeElementVariables(storedCv, type);
 			if (JavaManipulationPlugin.DEBUG_TYPE_CONSTRAINTS)
-				storedCv.setData(ConstraintVariable2.TO_STRING, "ParameterizedType(" + type.getPrettySignature() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				storedCv.setData(ConstraintVariable2.TO_STRING, "ParameterizedType(" + type.getPrettySignature() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return storedCv;
 	}
@@ -398,12 +398,12 @@ public class InferTypeArgumentsTCModel {
 			fCuScopedConstraintVariables.add(storedCv);
 			makeArrayElementVariable(storedCv);
 			if (JavaManipulationPlugin.DEBUG_TYPE_CONSTRAINTS)
-				storedCv.setData(ConstraintVariable2.TO_STRING, "ArrayType(" + type.getPrettySignature() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				storedCv.setData(ConstraintVariable2.TO_STRING, "ArrayType(" + type.getPrettySignature() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return storedCv;
 	}
 
-	public ParameterTypeVariable2 makeParameterTypeVariable(IMethodBinding methodBinding, int parameterIndex) {
+	public ParameterTypeVariable2 makeParameterTypeVariable(IMethodBinding methodBinding, int parameterIndex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (methodBinding == null)
 			return null;
 		TType type= getBoxedType(methodBinding.getParameterTypes() [parameterIndex], /*no boxing*/null);
@@ -418,7 +418,7 @@ public class InferTypeArgumentsTCModel {
 			makeElementVariables(storedCv, type);
 			makeArrayElementVariable(storedCv);
 			if (JavaManipulationPlugin.DEBUG_TYPE_CONSTRAINTS)
-				storedCv.setData(ConstraintVariable2.TO_STRING, "[Parameter(" + parameterIndex + "," + Bindings.asString(methodBinding) + ")]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				storedCv.setData(ConstraintVariable2.TO_STRING, "[Parameter(" + parameterIndex + "," + Bindings.asString(methodBinding) + ")]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return storedCv;
 	}
@@ -451,7 +451,7 @@ public class InferTypeArgumentsTCModel {
 			makeElementVariables(storedCv, returnType);
 			makeArrayElementVariable(storedCv);
 			if (JavaManipulationPlugin.DEBUG_TYPE_CONSTRAINTS)
-				storedCv.setData(ConstraintVariable2.TO_STRING, "[ReturnType(" + Bindings.asString(methodBinding) + ")]"); //$NON-NLS-1$ //$NON-NLS-2$
+				storedCv.setData(ConstraintVariable2.TO_STRING, "[ReturnType(" + Bindings.asString(methodBinding) + ")]"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return storedCv;
 	}
@@ -555,7 +555,7 @@ public class InferTypeArgumentsTCModel {
 		if (isAGenericType(type)) {
 			GenericType genericType= (GenericType) type.getTypeDeclaration();
 			TType[] typeParameters= genericType.getTypeParameters();
-			for (int i= 0; i < typeParameters.length; i++) {
+			for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeVariable typeVariable= (TypeVariable) typeParameters[i];
 				makeElementVariable(expressionCv, typeVariable, i);
 				if (typeVariable.getBounds().length != 0) {
@@ -572,20 +572,20 @@ public class InferTypeArgumentsTCModel {
 			makeSupertypeElementVariables(expressionCv, superclass);
 		}
 
-		for (TType intf : type.getInterfaces()) {
+		for (TType intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			makeSupertypeElementVariables(expressionCv, intf);
 		}
 
 	}
 
-	private void makeSupertypeElementVariables(ConstraintVariable2 expressionCv, TType supertype) {
+	private void makeSupertypeElementVariables(ConstraintVariable2 expressionCv, TType supertype) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (supertype.isParameterizedType() || supertype.isRawType()) {
 			TType[] typeArguments= null;
 			if (supertype.isParameterizedType()) {
 				typeArguments= ((ParameterizedType) supertype).getTypeArguments();
 			}
 			TypeVariable[] typeParameters= ((GenericType) supertype.getTypeDeclaration()).getTypeParameters();
-			for (int i= 0; i < typeParameters.length; i++) {
+			for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeVariable typeParameter= typeParameters[i];
 				TType referenceTypeArgument;
 				if (typeArguments == null) { // raw type
@@ -606,7 +606,7 @@ public class InferTypeArgumentsTCModel {
 		makeElementVariablesFromSupertypes(expressionCv, supertype);
 	}
 
-	public void makeFixedElementVariables(ConstraintVariable2 expressionCv, TType type) {
+	public void makeFixedElementVariables(ConstraintVariable2 expressionCv, TType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isAGenericType(type)) {
 			GenericType genericType= (GenericType) type.getTypeDeclaration();
 			TType[] typeParameters= genericType.getTypeParameters();
@@ -614,7 +614,7 @@ public class InferTypeArgumentsTCModel {
 			if (type.isParameterizedType())
 				typeArguments= ((ParameterizedType) type).getTypeArguments();
 
-			for (int i= 0; i < typeParameters.length; i++) {
+			for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeVariable typeVariable= (TypeVariable) typeParameters[i];
 				CollectionElementVariable2 elementCv= makeElementVariable(expressionCv, typeVariable, i);
 				TType referenceTypeArgument;
@@ -637,19 +637,19 @@ public class InferTypeArgumentsTCModel {
 		if (superclass != null)
 			makeFixedSupertypeElementVariables(expressionCv, superclass);
 
-		for (TType intf : type.getInterfaces()) {
+		for (TType intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			makeFixedSupertypeElementVariables(expressionCv, intf);
 		}
 	}
 
-	private void makeFixedSupertypeElementVariables(ConstraintVariable2 expressionCv, TType supertype) {
+	private void makeFixedSupertypeElementVariables(ConstraintVariable2 expressionCv, TType supertype) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (supertype.isParameterizedType() || supertype.isRawType()) {
 			TType[] typeArguments= null;
 			if (supertype.isParameterizedType())
 				typeArguments= ((ParameterizedType) supertype).getTypeArguments();
 
 			TypeVariable[] typeParameters= ((GenericType) supertype.getTypeDeclaration()).getTypeParameters();
-			for (int i= 0; i < typeParameters.length; i++) {
+			for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeVariable typeParameter= typeParameters[i];
 				TType referenceTypeArgument;
 				if (typeArguments == null) { // raw type
@@ -685,14 +685,14 @@ public class InferTypeArgumentsTCModel {
 	 * @param referenceCv the type constraint variable of a type reference
 	 * @param reference the declared type reference
 	 */
-	public void createTypeVariablesEqualityConstraints(ConstraintVariable2 expressionCv, Map<String, IndependentTypeVariable2> methodTypeVariables, ConstraintVariable2 referenceCv, TType reference) {
+	public void createTypeVariablesEqualityConstraints(ConstraintVariable2 expressionCv, Map<String, IndependentTypeVariable2> methodTypeVariables, ConstraintVariable2 referenceCv, TType reference) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (reference.isParameterizedType() || reference.isRawType()) {
 			TType[] referenceTypeArguments= null;
 			if (reference.isParameterizedType()) {
 				referenceTypeArguments= ((ParameterizedType) reference).getTypeArguments();
 			}
 			TType[] referenceTypeParameters= ((GenericType) reference.getTypeDeclaration()).getTypeParameters();
-			for (int i= 0; i < referenceTypeParameters.length; i++) {
+			for (int i= 0; i < referenceTypeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeVariable referenceTypeParameter= (TypeVariable) referenceTypeParameters[i];
 				TType referenceTypeArgument;
 				if (referenceTypeArguments == null)
@@ -777,7 +777,7 @@ public class InferTypeArgumentsTCModel {
 		HashMap<String, CollectionElementVariable2> keyToElementVar= getIndexedCollectionElements(typeConstraintVariable);
 		String key= typeVariable.getBindingKey();
 		if (keyToElementVar == null) {
-			keyToElementVar= new HashMap<>();
+			keyToElementVar= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			typeConstraintVariable.setData(INDEXED_COLLECTION_ELEMENTS, keyToElementVar);
 		} else {
 			Object existingElementVar= keyToElementVar.get(key);
@@ -804,13 +804,13 @@ public class InferTypeArgumentsTCModel {
 		internalCreateElementEqualsConstraints(cv, initializerCv, true);
 	}
 
-	private void internalCreateElementEqualsConstraints(ConstraintVariable2 cv, ConstraintVariable2 initializerCv, boolean isAssignment) {
+	private void internalCreateElementEqualsConstraints(ConstraintVariable2 cv, ConstraintVariable2 initializerCv, boolean isAssignment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (cv == null || initializerCv == null)
 			return;
 
 		Map<String, CollectionElementVariable2> leftElements= getElementVariables(cv);
 		Map<String, CollectionElementVariable2> rightElements= getElementVariables(initializerCv);
-		for (Entry<String, CollectionElementVariable2> leftEntry : leftElements.entrySet()) {
+		for (Entry<String, CollectionElementVariable2> leftEntry : leftElements.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String leftTypeVariableKey= leftEntry.getKey();
 			CollectionElementVariable2 rightElementVariable= rightElements.get(leftTypeVariableKey);
 			if (rightElementVariable != null) {

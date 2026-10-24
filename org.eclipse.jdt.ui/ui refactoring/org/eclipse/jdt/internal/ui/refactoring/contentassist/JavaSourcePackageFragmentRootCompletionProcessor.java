@@ -116,11 +116,11 @@ public class JavaSourcePackageFragmentRootCompletionProcessor implements ISubjec
 	 * @param replacementLength length of the text to replace
 	 * @return array with sourcepackagefragmentroots
 	 */
-	private ICompletionProposal[] createSourcePackageFragmentRootProposals(String prefix, int replacementLength) {
-		List<JavaCompletionProposal> proposals= new ArrayList<>();
+	private ICompletionProposal[] createSourcePackageFragmentRootProposals(String prefix, int replacementLength) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<JavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
-			for (IJavaProject project : fRoot.getJavaProjects()) {
-				for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+			for (IJavaProject project : fRoot.getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (root.exists() && (root.getKind() == IPackageFragmentRoot.K_SOURCE)) {
 						String name= root.getPath().toString();
 						if (name.length() > 1) {

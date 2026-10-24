@@ -49,7 +49,7 @@ public abstract class RevertEditorTest extends TextPerformanceTestCase {
 		int warmUpRuns= getWarmUpRuns();
 		int measuredRuns= getMeasuredRuns();
 		ITextEditor part= (ITextEditor) EditorTestHelper.openInEditor(file, true);
-		for (int i= 0; i < warmUpRuns + measuredRuns; i++) {
+		for (int i= 0; i < warmUpRuns + measuredRuns; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dirtyEditor(part);
 			if (i >= warmUpRuns)
 				fPerformanceMeter.start();

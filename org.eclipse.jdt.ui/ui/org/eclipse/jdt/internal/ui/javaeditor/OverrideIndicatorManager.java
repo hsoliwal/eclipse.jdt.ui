@@ -99,7 +99,7 @@ class OverrideIndicatorManager implements IJavaReconcilingListener {
 		/**
 		 * Opens and reveals the defining method.
 		 */
-		public void open() {
+		public void open() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CompilationUnit ast= SharedASTProviderCore.getAST(fJavaElement, SharedASTProviderCore.WAIT_ACTIVE_ONLY, null);
 			if (ast != null) {
 				ASTNode node= ast.findDeclaringNode(fAstNodeKey);
@@ -169,18 +169,18 @@ class OverrideIndicatorManager implements IJavaReconcilingListener {
 	 * @param progressMonitor the progress monitor
 	 * @since 3.0
 	 */
-	protected void updateAnnotations(CompilationUnit ast, IProgressMonitor progressMonitor) {
+	protected void updateAnnotations(CompilationUnit ast, IProgressMonitor progressMonitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (ast == null || progressMonitor.isCanceled())
 			return;
 
-		final Map<Annotation, Position> annotationMap= new HashMap<>(50);
+		final Map<Annotation, Position> annotationMap= new HashMap<>(50); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		ast.accept(new ASTVisitor(false) {
 			/*
 			 * @see org.eclipse.jdt.core.dom.ASTVisitor#visit(org.eclipse.jdt.core.dom.MethodDeclaration)
 			 */
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(MethodDeclaration node) {
 				IMethodBinding binding= node.resolveBinding();
 				if (binding != null) {
@@ -188,7 +188,7 @@ class OverrideIndicatorManager implements IJavaReconcilingListener {
 					if (definingMethod != null) {
 
 						ITypeBinding definingType= definingMethod.getDeclaringClass();
-						String qualifiedMethodName= definingType.getQualifiedName() + "." + binding.getName(); //$NON-NLS-1$
+						String qualifiedMethodName= definingType.getQualifiedName() + "." + binding.getName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 						boolean isImplements= JdtFlags.isAbstract(definingMethod);
 						String text;
@@ -219,7 +219,7 @@ class OverrideIndicatorManager implements IJavaReconcilingListener {
 			} else {
 				removeAnnotations();
 				Iterator<Entry<Annotation, Position>> iter= annotationMap.entrySet().iterator();
-				while (iter.hasNext()) {
+				while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Entry<Annotation, Position> mapEntry= iter.next();
 					fAnnotationModel.addAnnotation(mapEntry.getKey(), mapEntry.getValue());
 				}
@@ -239,7 +239,7 @@ class OverrideIndicatorManager implements IJavaReconcilingListener {
 			if (fAnnotationModel instanceof IAnnotationModelExtension) {
 				((IAnnotationModelExtension)fAnnotationModel).replaceAnnotations(fOverrideAnnotations, null);
 			} else {
-				for (Annotation fOverrideAnnotation : fOverrideAnnotations)
+				for (Annotation fOverrideAnnotation : fOverrideAnnotations) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fAnnotationModel.removeAnnotation(fOverrideAnnotation);
 			}
 			fOverrideAnnotations= null;

@@ -62,7 +62,7 @@ import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
 
-public class CopyToClipboardAction extends SelectionDispatchAction{
+public class CopyToClipboardAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final Clipboard fClipboard;
 	private boolean fAutoRepeatOnFailure= false;
@@ -160,7 +160,7 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 			fAutoRepeatOnFailure= autoRepeatOnFailure;
 		}
 
-		public void copyToClipboard(Clipboard clipboard) throws CoreException {
+		public void copyToClipboard(Clipboard clipboard) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			StringBuffer namesBuf= new StringBuffer();
 			int countOfNonJarResources= fResources.length + fJavaElements.length;
 
@@ -169,7 +169,7 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 				copyToClipboard(fResources, new String[0], namesBuf.toString(), fJavaElements, new TypedSource[0], 0, clipboard);
 			} else {
 				//Set<String> fileNames
-				Set<String> fileNames= new HashSet<>(countOfNonJarResources);
+				Set<String> fileNames= new HashSet<>(countOfNonJarResources); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				processResources(fileNames, namesBuf);
 				processJavaElements(fileNames, namesBuf);
 
@@ -196,7 +196,7 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 		}
 
 		private void processResources(Set<String> fileNames, StringBuffer namesBuf) {
-			for (int i= 0; i < fResources.length; i++) {
+			for (int i= 0; i < fResources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource resource= fResources[i];
 				addFileName(fileNames, resource);
 
@@ -206,8 +206,8 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 			}
 		}
 
-		private void processJavaElements(Set<String> fileNames, StringBuffer namesBuf) {
-			for (int i= 0; i < fJavaElements.length; i++) {
+		private void processJavaElements(Set<String> fileNames, StringBuffer namesBuf) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			for (int i= 0; i < fJavaElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement element= fJavaElements[i];
 				switch (element.getElementType()) {
 					case IJavaElement.JAVA_PROJECT :
@@ -234,7 +234,7 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 		 * @since 3.6
 		 */
 		private void processJarEntryResources(StringBuffer namesBuf) {
-			for (int i= 0; i < fJarEntryResources.length; i++) {
+			for (int i= 0; i < fJarEntryResources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (namesBuf.length() > 0 || i > 0)
 					namesBuf.append(System.lineSeparator());
 				namesBuf.append(getName(fJarEntryResources[i]));
@@ -242,7 +242,7 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 		}
 
 		private static void addFileNames(Set<String> fileName, IResource[] resources) {
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addFileName(fileName, resource);
 			}
 		}
@@ -258,7 +258,7 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 			}
 		}
 
-		private void copyToClipboard(IResource[] resources, String[] fileNames, String names, IJavaElement[] javaElements, TypedSource[] typedSources, int repeat, Clipboard clipboard) {
+		private void copyToClipboard(IResource[] resources, String[] fileNames, String names, IJavaElement[] javaElements, TypedSource[] typedSources, int repeat, Clipboard clipboard) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int repeat_max_count= 10;
 			try{
 				clipboard.setContents(createDataArray(resources, javaElements, fileNames, names, typedSources),
@@ -279,7 +279,7 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 		}
 
 		private static Transfer[] createDataTypeArray(IResource[] resources, IJavaElement[] javaElements, String[] fileNames, TypedSource[] typedSources) {
-			List<ByteArrayTransfer> result= new ArrayList<>(4);
+			List<ByteArrayTransfer> result= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (resources.length != 0)
 				result.add(ResourceTransfer.getInstance());
 			if (javaElements.length != 0)
@@ -293,7 +293,7 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 		}
 
 		private static Object[] createDataArray(IResource[] resources, IJavaElement[] javaElements, String[] fileNames, String names, TypedSource[] typedSources) {
-			List<Object> result= new ArrayList<>(4);
+			List<Object> result= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (resources.length != 0)
 				result.add(resources);
 			if (javaElements.length != 0)
@@ -356,18 +356,18 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 			return true;
 		}
 
-		private boolean canCopyAllToClipboard() {
-			for (IResource resource : fResources) {
+		private boolean canCopyAllToClipboard() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!canCopyToClipboard(resource)) {
 					return false;
 				}
 			}
-			for (IJavaElement javaElement : fJavaElements) {
+			for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!canCopyToClipboard(javaElement)) {
 					return false;
 				}
 			}
-			for (IJarEntryResource jarEntryResource : fJarEntryResources) {
+			for (IJarEntryResource jarEntryResource : fJarEntryResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (jarEntryResource == null) {
 					return false;
 				}
@@ -393,12 +393,12 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 		}
 
 		private boolean hasProjects() {
-			for (IResource resource : fResources) {
+			for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ReorgUtilsCore.isProject(resource)) {
 					return true;
 				}
 			}
-			for (IJavaElement javaElement : fJavaElements) {
+			for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ReorgUtilsCore.isProject(javaElement)) {
 					return true;
 				}
@@ -407,12 +407,12 @@ public class CopyToClipboardAction extends SelectionDispatchAction{
 		}
 
 		private boolean hasNonProjects() {
-			for (IResource resource : fResources) {
+			for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!ReorgUtilsCore.isProject(resource)) {
 					return true;
 				}
 			}
-			for (IJavaElement javaElement : fJavaElements) {
+			for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!ReorgUtilsCore.isProject(javaElement)) {
 					return true;
 				}

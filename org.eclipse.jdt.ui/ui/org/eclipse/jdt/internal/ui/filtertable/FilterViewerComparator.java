@@ -26,7 +26,7 @@ import org.eclipse.ui.model.WorkbenchViewerComparator;
  * @since 3.26
  */
 public class FilterViewerComparator extends WorkbenchViewerComparator {
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compare(Viewer viewer, Object e1, Object e2) {
 		ILabelProvider lprov =
 			(ILabelProvider) ((ContentViewer) viewer).getLabelProvider();

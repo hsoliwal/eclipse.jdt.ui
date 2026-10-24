@@ -44,7 +44,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 	private final List<Expression> fOperands;
 	private final InfixExpression fGroupRoot;
 
-	public static IExpressionFragment createSubPartFragmentBySourceRange(InfixExpression node, ISourceRange range, ICompilationUnit cu) throws JavaModelException {
+	public static IExpressionFragment createSubPartFragmentBySourceRange(InfixExpression node, ISourceRange range, ICompilationUnit cu) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(node);
 		Assert.isNotNull(range);
 		Assert.isTrue(!Util.covers(range, node));
@@ -81,7 +81,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 	private static InfixExpression findGroupRoot(InfixExpression node) {
 		Assert.isTrue(isAssociativeInfix(node));
 
-		while(!isAGroupRoot(node)) {
+		while(!isAGroupRoot(node)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode parent= node.getParent();
 
 			Assert.isNotNull(parent);
@@ -94,15 +94,15 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 		return node;
 	}
 
-	private static List<Expression> findSubGroupForSourceRange(List<Expression> group, ISourceRange range) {
+	private static List<Expression> findSubGroupForSourceRange(List<Expression> group, ISourceRange range) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(!group.isEmpty());
 
-		List<Expression> subGroup= new ArrayList<>();
+		List<Expression> subGroup= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		boolean entered= false, exited= false;
 		if(range.getOffset() == group.get(0).getStartPosition())
 			entered= true;
-		for(int i= 0; i < group.size() - 1; i++) {
+		for(int i= 0; i < group.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression member= group.get(i);
 			Expression nextMember= group.get(i + 1);
 
@@ -125,7 +125,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 		}
 
 		if(!exited)
-			return new ArrayList<>(0);
+			return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return subGroup;
 	}
 
@@ -173,9 +173,9 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 	private static List<List<Expression>> getMatchingContiguousNodeSubsequences(List<Expression> source, List<Expression> toMatch) {
 		//naive implementation:
 
-		List<List<Expression>> subsequences= new ArrayList<>();
+		List<List<Expression>> subsequences= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for(int i= 0; i < source.size();) {
+		for(int i= 0; i < source.size();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(matchesAt(i, source, toMatch)) {
 				subsequences.add(source.subList(i, i + toMatch.size()));
 				i += toMatch.size();
@@ -189,7 +189,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 	private static boolean matchesAt(int index, List<Expression> subject, List<Expression> toMatch) {
 		if(index + toMatch.size() > subject.size())
 			return false;
-		for(int i= 0; i < toMatch.size(); i++, index++) {
+		for(int i= 0; i < toMatch.size(); i++, index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(!JdtASTMatcher.doNodesMatch(
 			        subject.get(index), toMatch.get(i)
 			    )
@@ -249,7 +249,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 		Iterator<Expression> myOperands= getOperands().iterator();
 		Iterator<Expression> othersOperands= other.getOperands().iterator();
 
-		while (myOperands.hasNext() && othersOperands.hasNext()) {
+		while (myOperands.hasNext() && othersOperands.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression myOperand= myOperands.next();
 			Expression othersOperand= othersOperands.next();
 
@@ -268,7 +268,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 		             );
 	}
 
-	private IASTFragment[] getSubFragmentsWithMyNodeMatching(IASTFragment toMatch) {
+	private IASTFragment[] getSubFragmentsWithMyNodeMatching(IASTFragment toMatch) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(toMatch.getClass() != getClass())
 			return new IASTFragment[0];
 
@@ -283,7 +283,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 			);
 
 		IASTFragment[] matches= new IASTFragment[matchingSubsequences.size()];
-		for(int i= 0; i < matchingSubsequences.size(); i++) {
+		for(int i= 0; i < matchingSubsequences.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IASTFragment match= new AssociativeInfixExpressionFragment(
 		                           fGroupRoot,
 		                           matchingSubsequences.get(i)
@@ -296,7 +296,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 
 	private IASTFragment[] getSubFragmentsWithAnotherNodeMatching(IASTFragment toMatch) {
 		IASTFragment[] result= new IASTFragment[0];
-		for (Expression expression : getOperands()) {
+		for (Expression expression : getOperands()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode operand= expression;
 			result= union(result, ASTMatchingFragmentFinder.findMatchingFragments(operand, (ASTFragment)toMatch));
 		}
@@ -371,7 +371,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 		return fGroupRoot.getOperator();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Expression createCopyTarget(ASTRewrite rewrite, boolean removeSurroundingParenthesis) throws JavaModelException {
 		List<Expression> allOperands= findGroupMembersInOrderFor(fGroupRoot);
 		if (allOperands.size() == fOperands.size()) {
@@ -398,7 +398,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 //		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void replace(ASTRewrite rewrite, ASTNode replacement, TextEditGroup textEditGroup) {
 		ASTNode groupNode= getGroupRoot();
 
@@ -416,7 +416,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 		rewrite.replace(fOperands.get(0), replacement, textEditGroup);
 		int first= allOperands.indexOf(fOperands.get(0));
 		int after= first + fOperands.size();
-		for (int i= first + 1; i < after; i++) {
+		for (int i= first + 1; i < after; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rewrite.remove(allOperands.get(i), textEditGroup);
 		}
 	}
@@ -426,7 +426,7 @@ class AssociativeInfixExpressionFragment extends ASTFragment implements IExpress
 	}
 
 	private static class GroupMemberFinder extends GenericVisitor {
-		private ArrayList<Expression> fMembersInOrder= new ArrayList<>();
+		private ArrayList<Expression> fMembersInOrder= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private InfixExpression fGroupRoot;
 
 		public GroupMemberFinder(InfixExpression groupRoot) {

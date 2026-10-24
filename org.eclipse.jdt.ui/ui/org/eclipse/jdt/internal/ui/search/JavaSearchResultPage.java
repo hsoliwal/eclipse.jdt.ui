@@ -192,7 +192,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 		fActionGroup= new NewSearchViewActionGroup(part);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void showMatch(Match match, int offset, int length, boolean activate) throws PartInitException {
 		IEditorPart editor= fEditorOpener.openMatch(match);
 
@@ -218,7 +218,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 	private void showWithMarker(IEditorPart editor, IFile file, int offset, int length) throws PartInitException {
 		try {
 			IMarker marker= file.createMarker(NewSearchUI.SEARCH_MARKER);
-			HashMap<String, Integer> attributes= new HashMap<>(4);
+			HashMap<String, Integer> attributes= new HashMap<>(4); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			attributes.put(IMarker.CHAR_START, offset);
 			attributes.put(IMarker.CHAR_END, offset + length);
 			marker.setAttributes(attributes);
@@ -328,7 +328,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 	protected void configureTableViewer(TableViewer viewer) {
 		viewer.setUseHashlookup(true);
 		fSortingLabelProvider= new SortingLabelProvider(this);
-		viewer.setLabelProvider(new DecoratingJavaLabelProvider(fSortingLabelProvider, false));
+		viewer.setLabelProvider(new DecoratingJavaLabelProvider(fSortingLabelProvider, false)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fContentProvider=new JavaSearchTableContentProvider(this);
 		viewer.setContentProvider(fContentProvider);
 		viewer.setComparator(new DecoratorIgnoringViewerSorter(fSortingLabelProvider));
@@ -341,7 +341,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 		PostfixLabelProvider postfixLabelProvider= new PostfixLabelProvider(this);
 		viewer.setUseHashlookup(true);
 		viewer.setComparator(new DecoratorIgnoringViewerSorter(postfixLabelProvider));
-		viewer.setLabelProvider(new DecoratingJavaLabelProvider(postfixLabelProvider, false));
+		viewer.setLabelProvider(new DecoratingJavaLabelProvider(postfixLabelProvider, false)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fContentProvider= new LevelTreeContentProvider(this, fCurrentGrouping);
 		viewer.setContentProvider(fContentProvider);
 		addDragAdapters(viewer);
@@ -364,7 +364,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 			//viewer.getControl().setRedraw(false);
 			fSortingLabelProvider.setOrder(order);
 			//viewer.getControl().setRedraw(true);
-			viewer.refresh();
+			viewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			getSettings().put(KEY_SORTING, fCurrentSortOrder);
 		}
 	}
@@ -410,7 +410,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 		return super.getViewer();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void restoreState(IMemento memento) {
 		super.restoreState(memento);
 
@@ -505,7 +505,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 		Tree t= viewer.getTree();
 		Item[] roots= t.getItems();
 		Object[] elements= new Object[roots.length];
-		for (int i = 0; i < elements.length; i++) {
+		for (int i = 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			elements[i]= roots[i].getData();
 		}
 		return elements;
@@ -515,7 +515,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 		Table t= viewer.getTable();
 		Item[] roots= t.getItems();
 		Object[] elements= new Object[roots.length];
-		for (int i = 0; i < elements.length; i++) {
+		for (int i = 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			elements[i]= roots[i].getData();
 		}
 		return elements;
@@ -524,7 +524,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 
 	private int getMatchCount(ITreeContentProvider cp, Object[] elements) {
 		int count= 0;
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			count+= getDisplayedMatchCount(element);
 			Object[] children = cp.getChildren(element);
 			count+= getMatchCount(cp, children);
@@ -534,7 +534,7 @@ public class JavaSearchResultPage extends AbstractTextSearchViewPage implements 
 
 	private int getMatchCount(TableViewer viewer) {
 		int count= 0;
-		for (Object element : getRootElements(viewer)) {
+		for (Object element : getRootElements(viewer)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			count+= getDisplayedMatchCount(element);
 		}
 		return count;

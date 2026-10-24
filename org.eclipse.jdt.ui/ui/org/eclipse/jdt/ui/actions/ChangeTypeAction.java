@@ -56,7 +56,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ChangeTypeAction extends SelectionDispatchAction {
+public class ChangeTypeAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -114,7 +114,7 @@ public class ChangeTypeAction extends SelectionDispatchAction {
 		}
 	}
 
-	private static IMember getMember(IStructuredSelection selection) throws JavaModelException {
+	private static IMember getMember(IStructuredSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.size() != 1)
 			return null;
 

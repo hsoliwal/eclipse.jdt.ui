@@ -51,7 +51,7 @@ public final class ProposalSorterHandle {
 	/** The extension schema name of the requiresUIThread attribute. */
 	private static final String REQUIRES_UI_THREAD= "requiresUIThread"; //$NON-NLS-1$
 	/** The name of the performance event used to trace extensions. */
-	private static final String PERFORMANCE_EVENT= JavaPlugin.getPluginId() + "/perf/content_assist_sorters/extensions"; //$NON-NLS-1$
+	private static final String PERFORMANCE_EVENT= JavaPlugin.getPluginId() + "/perf/content_assist_sorters/extensions"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/**
 	 * If <code>true</code>, execution time of extensions is measured and extensions may be
 	 * disabled if execution takes too long.
@@ -80,7 +80,7 @@ public final class ProposalSorterHandle {
 	 * @throws InvalidRegistryObjectException if the configuration element is not valid any longer
 	 * @throws CoreException if the configuration does not contain mandatory attributes
 	 */
-	ProposalSorterHandle(IConfigurationElement element) throws InvalidRegistryObjectException, CoreException {
+	ProposalSorterHandle(IConfigurationElement element) throws InvalidRegistryObjectException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(element != null);
 
 		fElement= element;
@@ -183,7 +183,7 @@ public final class ProposalSorterHandle {
 	 * @param proposals the list of computed completion proposals to be sorted (element type:
 	 *        {@link org.eclipse.jface.text.contentassist.ICompletionProposal}), must be writable
 	 */
-	public void sortProposals(ContentAssistInvocationContext context, List<ICompletionProposal> proposals) {
+	public void sortProposals(ContentAssistInvocationContext context, List<ICompletionProposal> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus status;
 		try {
 			AbstractProposalSorter sorter= getSorter();
@@ -191,7 +191,7 @@ public final class ProposalSorterHandle {
 			PerformanceStats stats= startMeter(SORT, sorter);
 
 			sorter.beginSorting(context);
-			Collections.sort(proposals, sorter);
+			Collections.sort(proposals, sorter); //FLLDCIM: MARK — M16 SORT_LANE CALL
 			sorter.endSorting();
 
 			status= stopMeter(stats, SORT);
@@ -238,35 +238,35 @@ public final class ProposalSorterHandle {
 		// extension has become invalid - log & disable
 		String disable= createBlameMessage();
 		String reason= JavaTextMessages.CompletionProposalComputerDescriptor_reason_invalid;
-		return new Status(IStatus.INFO, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, x); //$NON-NLS-1$
+		return new Status(IStatus.INFO, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, x); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	Status createExceptionStatus(CoreException x) {
 		// unable to instantiate the extension - log & disable
 		String disable= createBlameMessage();
 		String reason= JavaTextMessages.CompletionProposalComputerDescriptor_reason_instantiation;
-		return new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, x); //$NON-NLS-1$
+		return new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, x); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	Status createExceptionStatus(RuntimeException x) {
 		// misbehaving extension - log & disable
 		String disable= createBlameMessage();
 		String reason= JavaTextMessages.CompletionProposalComputerDescriptor_reason_runtime_ex;
-		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, x); //$NON-NLS-1$
+		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, x); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private Status createAPIViolationStatus(String operation) {
 		String disable= createBlameMessage();
 		Object[] args= {operation};
 		String reason= Messages.format(JavaTextMessages.CompletionProposalComputerDescriptor_reason_API, args);
-		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, null); //$NON-NLS-1$
+		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private Status createPerformanceStatus(String operation) {
 		String disable= createBlameMessage();
 		Object[] args= {operation};
 		String reason= Messages.format(JavaTextMessages.CompletionProposalComputerDescriptor_reason_performance, args);
-		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, null); //$NON-NLS-1$
+		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, disable + " " + reason, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String createBlameMessage() {

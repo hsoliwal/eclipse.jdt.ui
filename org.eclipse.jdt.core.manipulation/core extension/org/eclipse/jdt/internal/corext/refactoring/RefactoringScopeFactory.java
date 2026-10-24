@@ -46,7 +46,7 @@ public class RefactoringScopeFactory {
 	 * Adds to <code> projects </code> IJavaProject objects for all projects directly or indirectly referencing focus. @param projects IJavaProjects will be added to this set
 	 */
 	private static void addReferencingProjects(IJavaProject focus, Set<IJavaProject> projects) throws JavaModelException {
-		for (IProject referencingProject : focus.getProject().getReferencingProjects()) {
+		for (IProject referencingProject : focus.getProject().getReferencingProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject candidate= JavaCore.create(referencingProject);
 			if (candidate == null || projects.contains(candidate) || !candidate.exists())
 				continue; // break cycle
@@ -60,7 +60,7 @@ public class RefactoringScopeFactory {
 	}
 
 	private static void addRelatedReferencing(IJavaProject focus, Set<IJavaProject> projects) throws CoreException {
-		for (IProject referencingProject : focus.getProject().getReferencingProjects()) {
+		for (IProject referencingProject : focus.getProject().getReferencingProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject candidate= JavaCore.create(referencingProject);
 			if (candidate == null || projects.contains(candidate) || !candidate.exists())
 				continue; // break cycle
@@ -76,7 +76,7 @@ public class RefactoringScopeFactory {
 	}
 
 	private static void addRelatedReferenced(IJavaProject focus, Set<IJavaProject> projects) throws CoreException {
-		for (IProject referencedProject : focus.getProject().getReferencedProjects()) {
+		for (IProject referencedProject : focus.getProject().getReferencedProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject candidate= JavaCore.create(referencedProject);
 			if (candidate == null || projects.contains(candidate) || !candidate.exists())
 				continue; // break cycle
@@ -126,7 +126,7 @@ public class RefactoringScopeFactory {
 	 * @return the search scope
 	 * @throws JavaModelException if an error occurs
 	 */
-	public static IJavaSearchScope create(IJavaElement javaElement, boolean considerVisibility, boolean sourceReferencesOnly) throws JavaModelException {
+	public static IJavaSearchScope create(IJavaElement javaElement, boolean considerVisibility, boolean sourceReferencesOnly) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (considerVisibility && javaElement instanceof IMember) {
 			IMember member= (IMember) javaElement;
 			if (JdtFlags.isPrivate(member)) {
@@ -168,7 +168,7 @@ public class RefactoringScopeFactory {
 		Assert.isTrue(members != null && members.length > 0);
 		IMember candidate= members[0];
 		int visibility= getVisibility(candidate);
-		for (int i= 1; i < members.length; i++) {
+		for (int i= 1; i < members.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mv= getVisibility(members[i]);
 			if (mv > visibility) {
 				visibility= mv;
@@ -190,7 +190,7 @@ public class RefactoringScopeFactory {
 	public static IJavaSearchScope createProjectsScope(IMember[] members, boolean sourceReferencesOnly) throws JavaModelException {
 		Assert.isTrue(members != null && members.length > 0);
 		Set<IJavaElement> scopeElements = new LinkedHashSet<>();
-		for (IMember member : members) {
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject javaProject= member.getJavaProject();
 			IJavaElement[] projectScopeElements = getAllScopeElements(javaProject, sourceReferencesOnly);
 			scopeElements.addAll(Arrays.asList(projectScopeElements));
@@ -206,8 +206,8 @@ public class RefactoringScopeFactory {
 	 * @return the search scope
 	 */
 	public static IJavaSearchScope createReferencedScope(IJavaElement[] javaElements) {
-		Set<IJavaProject> projects= new HashSet<>();
-		for (IJavaElement javaElement : javaElements) {
+		Set<IJavaProject> projects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			projects.add(javaElement.getJavaProject());
 		}
 		IJavaProject[] prj= projects.toArray(new IJavaProject[projects.size()]);
@@ -223,8 +223,8 @@ public class RefactoringScopeFactory {
 	 * @return the search scope
 	 */
 	public static IJavaSearchScope createReferencedScope(IJavaElement[] javaElements, int includeMask) {
-		Set<IJavaProject> projects= new HashSet<>();
-		for (IJavaElement javaElement : javaElements) {
+		Set<IJavaProject> projects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			projects.add(javaElement.getJavaProject());
 		}
 		IJavaProject[] prj= projects.toArray(new IJavaProject[projects.size()]);
@@ -249,10 +249,10 @@ public class RefactoringScopeFactory {
 	 * @return Array of IPackageFragmentRoot, one element for each packageFragmentRoot which lies within a project in <code> projects </code> .
 	 */
 	private static IPackageFragmentRoot[] getAllScopeElements(IJavaProject project, boolean onlySourceRoots) throws JavaModelException {
-		List<IPackageFragmentRoot> result= new ArrayList<>();
-		for (IJavaProject javaProject : getReferencingProjects(project)) {
+		List<IPackageFragmentRoot> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaProject javaProject : getReferencingProjects(project)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Add all package fragment roots except archives
-			for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) {
+			for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!onlySourceRoots || root.getKind() == IPackageFragmentRoot.K_SOURCE)
 					result.add(root);
 			}
@@ -266,7 +266,7 @@ public class RefactoringScopeFactory {
 	private static IClasspathEntry getReferencingClassPathEntry(IJavaProject referencingProject, IJavaProject referencedProject) throws JavaModelException {
 		IClasspathEntry result= null;
 		IPath path= referencedProject.getProject().getFullPath();
-		for (IClasspathEntry entry : referencingProject.getResolvedClasspath(true)) {
+		for (IClasspathEntry entry : referencingProject.getResolvedClasspath(true)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.getEntryKind() == IClasspathEntry.CPE_PROJECT && path.equals(entry.getPath())) {
 				if (entry.isExported())
 					return entry;
@@ -279,7 +279,7 @@ public class RefactoringScopeFactory {
 	}
 
 	private static IJavaProject[] getRelatedProjects(IJavaProject focus) throws CoreException {
-		final Set<IJavaProject> projects= new HashSet<>();
+		final Set<IJavaProject> projects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		addRelatedReferencing(focus, projects);
 		addRelatedReferenced(focus, projects);
@@ -289,7 +289,7 @@ public class RefactoringScopeFactory {
 	}
 
 	private static Collection<IJavaProject> getReferencingProjects(IJavaProject focus) throws JavaModelException {
-		Set<IJavaProject> projects= new HashSet<>();
+		Set<IJavaProject> projects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		addReferencingProjects(focus, projects);
 		projects.add(focus);

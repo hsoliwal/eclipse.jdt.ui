@@ -109,7 +109,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 	private static final String EMPTY_STRING= ""; //$NON-NLS-1$
 
 	// see org.junit.runner.Description.METHOD_AND_CLASS_NAME_PATTERN
-	private static final Pattern METHOD_AND_CLASS_NAME_PATTERN= Pattern.compile("(.*)\\((.*)\\)"); //$NON-NLS-1$
+	private static final Pattern METHOD_AND_CLASS_NAME_PATTERN= Pattern.compile("(.*)\\((.*)\\)"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * Default constructor.
@@ -133,7 +133,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 		}
 	}
 
-	private IMember resolveSelectedMemberName(IEditorPart editor, ITypeRoot element) {
+	private IMember resolveSelectedMemberName(IEditorPart editor, ITypeRoot element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ISelectionProvider selectionProvider= editor.getSite().getSelectionProvider();
 			if (selectionProvider == null)
@@ -170,7 +170,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 		}
 	}
 
-	private void launch(Object[] elements, String mode) {
+	private void launch(Object[] elements, String mode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IJavaElement elementToLaunch= null;
 
@@ -242,17 +242,17 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 		DebugUITools.launch(config, mode);
 	}
 
-	static class TreeProvider implements ITreeContentProvider {
+	static class TreeProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		private final static Object ROOT= new Object();
 
-		private final Map<Object, List<IType>> tree= new HashMap<>();
+		private final Map<Object, List<IType>> tree= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		public TreeProvider(Set<IType> types) {
-			for (var type : types) {
+			for (var type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				var parent= type.getParent();
 				var parentInTree= types.contains(parent) ? parent : ROOT;
 				tree.compute(parentInTree, (unused, value) -> {
-					var list= value != null ? value : new ArrayList<IType>();
+					var list= value != null ? value : new ArrayList<IType>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					list.add(type);
 					return list;
 				});
@@ -282,7 +282,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 		}
 	}
 
-	private IType chooseType(Set<IType> types, String mode) throws InterruptedException {
+	private IType chooseType(Set<IType> types, String mode) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		var dialog= new ElementTreeSelectionDialog(getShell(), new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_POST_QUALIFIED), new TreeProvider(types)) {
 			@Override
 			protected TreeViewer createTreeViewer(Composite parent) {
@@ -394,7 +394,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 	 * @throws CoreException if creation failed
 	 * @since 3.8
 	 */
-	protected ILaunchConfigurationWorkingCopy createLaunchConfiguration(IJavaElement element, String testName) throws CoreException {
+	protected ILaunchConfigurationWorkingCopy createLaunchConfiguration(IJavaElement element, String testName) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String mainTypeQualifiedName;
 		final String containerHandleId;
 
@@ -421,7 +421,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 				break;
 			}
 			default:
-				throw new IllegalArgumentException("Invalid element type to create a launch configuration: " + element.getClass().getName()); //$NON-NLS-1$
+				throw new IllegalArgumentException("Invalid element type to create a launch configuration: " + element.getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		String testKindId= TestKindRegistry.getContainerTestKindId(element);
@@ -458,7 +458,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 	 * @return The suggested name for the launch configuration.
 	 * @since 3.8
 	 */
-	protected String suggestLaunchConfigurationName(IJavaElement element, String fullTestName) {
+	protected String suggestLaunchConfigurationName(IJavaElement element, String fullTestName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore preferenceStore= JavaPlugin.getDefault().getPreferenceStore();
 		boolean useQualification= preferenceStore.getBoolean(PreferenceConstants.LAUNCH_NAME_FULLY_QUALIFIED_FOR_JUNIT_TEST);
 		switch (element.getElementType()) {
@@ -469,24 +469,24 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 				return name.substring(name.lastIndexOf(IPath.SEPARATOR) + 1);
 			case IJavaElement.TYPE:
 				if (fullTestName != null) {
-					Matcher matcher= METHOD_AND_CLASS_NAME_PATTERN.matcher(fullTestName);
-					if (matcher.matches()) {
+					Matcher matcher= METHOD_AND_CLASS_NAME_PATTERN.matcher(fullTestName); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+					if (matcher.matches()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						String typeFQN= matcher.group(2);
 						String testName= matcher.group(1);
 						int typeFQNDot= typeFQN.lastIndexOf('.');
 						String typeName= typeFQNDot >= 0 ? typeFQN.substring(typeFQNDot + 1) : typeFQN;
-						return typeName + " " + testName; //$NON-NLS-1$
+						return typeName + " " + testName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
-					return (useQualification ? ((IType) element).getFullyQualifiedName('.') : element.getElementName()) + " " + fullTestName;//$NON-NLS-1$
+					return (useQualification ? ((IType) element).getFullyQualifiedName('.') : element.getElementName()) + " " + fullTestName;//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				return useQualification ? ((IType) element).getFullyQualifiedName('.') : element.getElementName();
 			case IJavaElement.METHOD:
 				IMethod method= (IMethod) element;
 				String methodName= method.getElementName();
 				methodName+= JUnitStubUtility.getParameterTypes(method, true); // use simple names of parameter types
-				return useQualification ? method.getDeclaringType().getFullyQualifiedName('.') : method.getDeclaringType().getElementName() + '.' + methodName;
+				return useQualification ? method.getDeclaringType().getFullyQualifiedName('.') : method.getDeclaringType().getElementName() + '.' + methodName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			default:
-				throw new IllegalArgumentException("Invalid element type to create a launch configuration: " + element.getClass().getName()); //$NON-NLS-1$
+				throw new IllegalArgumentException("Invalid element type to create a launch configuration: " + element.getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -505,7 +505,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 
 	private static boolean hasSameAttributes(ILaunchConfiguration config1, ILaunchConfiguration config2, String[] attributeToCompare) {
 		try {
-			for (String element : attributeToCompare) {
+			for (String element : attributeToCompare) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String val1= config1.getAttribute(element, EMPTY_STRING);
 				String val2= config2.getAttribute(element, EMPTY_STRING);
 				if (!val1.equals(val2)) {
@@ -520,7 +520,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 	}
 
 
-	private ILaunchConfiguration findExistingLaunchConfiguration(ILaunchConfigurationWorkingCopy temporary, String mode) throws InterruptedException, CoreException {
+	private ILaunchConfiguration findExistingLaunchConfiguration(ILaunchConfigurationWorkingCopy temporary, String mode) throws InterruptedException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<ILaunchConfiguration> candidateConfigs= findExistingLaunchConfigurations(temporary);
 
 		// If there are no existing configs associated with the IType, create
@@ -555,8 +555,8 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 		ILaunchConfiguration[] configs= getLaunchManager().getLaunchConfigurations(configType);
 		String[] attributeToCompare= getAttributeNamesToCompare();
 
-		ArrayList<ILaunchConfiguration> candidateConfigs= new ArrayList<>(configs.length);
-		for (ILaunchConfiguration config : configs) {
+		ArrayList<ILaunchConfiguration> candidateConfigs= new ArrayList<>(configs.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ILaunchConfiguration config : configs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasSameAttributes(config, temporary, attributeToCompare)) {
 				candidateConfigs.add(config);
 			}
@@ -585,7 +585,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 	 *
 	 * @since 3.4
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ILaunchConfiguration[] getLaunchConfigurations(final IEditorPart editor) {
 		final ITypeRoot element= JavaUI.getEditorInputTypeRoot(editor.getEditorInput());
 		if (element != null) {
@@ -593,7 +593,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 			if (Display.getCurrent() == null) {
 				final AtomicReference<IMember> temp= new AtomicReference<>();
 				Runnable runnable= () -> temp.set(resolveSelectedMemberName(editor, element));
-				Display.getDefault().syncExec(runnable);
+				Display.getDefault().syncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				selectedMember= temp.get();
 			} else {
 				selectedMember= resolveSelectedMemberName(editor, element);
@@ -607,7 +607,7 @@ public class JUnitLaunchShortcut implements ILaunchShortcut2 {
 		return null;
 	}
 
-	private ILaunchConfiguration[] findExistingLaunchConfigurations(Object candidate) {
+	private ILaunchConfiguration[] findExistingLaunchConfigurations(Object candidate) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(candidate instanceof IJavaElement) && candidate instanceof IAdaptable) {
 			candidate= ((IAdaptable) candidate).getAdapter(IJavaElement.class);
 		}

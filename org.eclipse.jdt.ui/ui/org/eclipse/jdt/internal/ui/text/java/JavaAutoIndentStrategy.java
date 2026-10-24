@@ -119,10 +119,10 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		fViewer= viewer;
  	}
 
-	private int getBracketCount(IDocument d, int startOffset, int endOffset, boolean ignoreCloseBrackets) throws BadLocationException {
+	private int getBracketCount(IDocument d, int startOffset, int endOffset, boolean ignoreCloseBrackets) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int bracketCount= 0;
-		while (startOffset < endOffset) {
+		while (startOffset < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char curr= d.getChar(startOffset);
 			startOffset++;
 			switch (curr) {
@@ -170,7 +170,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	// ----------- bracket counting ------------------------------------------------------
 
 	private int getCommentEnd(IDocument d, int offset, int endOffset) throws BadLocationException {
-		while (offset < endOffset) {
+		while (offset < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char curr= d.getChar(offset);
 			offset++;
 			if (curr == '*') {
@@ -194,7 +194,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	}
 
 	private int getStringEnd(IDocument d, int offset, int endOffset, char ch) throws BadLocationException {
-		while (offset < endOffset) {
+		while (offset < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char curr= d.getChar(offset);
 			offset++;
 			if (curr == '\\') {
@@ -207,7 +207,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		return endOffset;
 	}
 
-	private void smartIndentAfterClosingBracket(IDocument d, DocumentCommand c) {
+	private void smartIndentAfterClosingBracket(IDocument d, DocumentCommand c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (c.offset == -1 || d.getLength() == 0)
 			return;
 
@@ -227,10 +227,10 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 				int indLine= d.getLineOfOffset(reference);
 				if (indLine != -1 && indLine != line) {
 					// take the indent of the found line
-					StringBuilder replaceText= new StringBuilder(getIndentOfLine(d, indLine));
+					StringBuilder replaceText= new StringBuilder(getIndentOfLine(d, indLine)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					// add the rest of the current line including the just added close bracket
-					replaceText.append(d.get(whiteend, c.offset - whiteend));
-					replaceText.append(c.text);
+					replaceText.append(d.get(whiteend, c.offset - whiteend)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					replaceText.append(c.text); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					// modify document command
 					c.length += c.offset - start;
 					c.offset= start;
@@ -242,7 +242,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		}
 	}
 
-	private void smartIndentAfterOpeningBracket(IDocument d, DocumentCommand c) {
+	private void smartIndentAfterOpeningBracket(IDocument d, DocumentCommand c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (c.offset < 1 || d.getLength() == 0)
 			return;
 
@@ -284,7 +284,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 
 	}
 
-	private void smartIndentAfterNewLine(IDocument d, DocumentCommand c) {
+	private void smartIndentAfterNewLine(IDocument d, DocumentCommand c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavaHeuristicScanner scanner= new JavaHeuristicScanner(d);
 		JavaIndenter indenter= new JavaIndenter(d, scanner, fProject);
 		StringBuffer indent= indenter.computeIndentation(c.offset);
@@ -299,7 +299,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 			int p= (c.offset == docLength ? c.offset - 1 : c.offset);
 			int line= d.getLineOfOffset(p);
 
-			StringBuilder buf= new StringBuilder(c.text + indent);
+			StringBuilder buf= new StringBuilder(c.text + indent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 
 			IRegion reg= d.getLineInformation(line);
@@ -320,7 +320,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 
 				int pos= c.offset - 1;
 				char ch= d.getChar(pos);
-				while (ch == ' ' || ch == '\t') {
+				while (ch == ' ' || ch == '\t') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pos--;
 					ch= d.getChar(pos);
 				}
@@ -330,11 +330,11 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 				if (c.offset == 0 || copyContent(d, pos + 1, fPartitioning, lineEnd)) {
 					if (lineEnd - contentStart > 0) {
 						c.length=  lineEnd - c.offset;
-						buf.append(d.get(contentStart, lineEnd - contentStart).toCharArray());
+						buf.append(d.get(contentStart, lineEnd - contentStart).toCharArray()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 
-				buf.append(TextUtilities.getDefaultLineDelimiter(d));
+				buf.append(TextUtilities.getDefaultLineDelimiter(d)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				StringBuffer reference= null;
 				int nonWS= findEndOfWhiteSpace(d, start, lineEnd);
 				if (nonWS < c.offset && d.getChar(nonWS) == '{')
@@ -342,8 +342,8 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 				else
 					reference= indenter.getReferenceIndentation(c.offset);
 				if (reference != null)
-					buf.append(reference);
-				buf.append('}');
+					buf.append(reference); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('}'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			// insert extra line upon new line between two braces
 			else if (c.offset > start && contentStart < lineEnd && d.getChar(contentStart) == '}') {
@@ -359,10 +359,10 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 					else
 						reference= indenter.getReferenceIndentation(c.offset);
 
-					buf.append(TextUtilities.getDefaultLineDelimiter(d));
+					buf.append(TextUtilities.getDefaultLineDelimiter(d)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 					if (reference != null)
-						buf.append(reference);
+						buf.append(reference); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			c.text= buf.toString();
@@ -383,7 +383,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	 * @return <code>true</code> if the old content of the line after caret position has to be
 	 *         copied to new line before inserting the closing brace, <code>false</code> otherwise
 	 */
-	private boolean copyContent(IDocument document, int offset, String partitioning, int max) {
+	private boolean copyContent(IDocument document, int offset, String partitioning, int max) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// find the opening parenthesis for every closing parenthesis on the current line after offset
 		// return true if it looks like a method declaration
 		// or an expression for an if, while, for, catch statement
@@ -397,7 +397,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 
 		int closingParen= findClosingParenToLeft(scanner, pos) - 1;
 		int openingParen= -1;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int startScan= closingParen + 1;
 			closingParen= scanner.scanForward(startScan, scanTo, ')');
 			if (closingParen == -1) {
@@ -460,7 +460,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	 * @param partitioning the document partitioning
 	 * @return <code>true</code> if the specified character range contains a <code>new</code> keyword, <code>false</code> otherwise.
 	 */
-	private static boolean isNewMatch(IDocument document, int offset, int length, String partitioning) {
+	private static boolean isNewMatch(IDocument document, int offset, int length, String partitioning) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(length >= 0);
 		Assert.isTrue(offset >= 0);
 		Assert.isTrue(offset + length < document.getLength() + 1);
@@ -469,7 +469,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 			String text= document.get(offset, length);
 			int pos= text.indexOf("new"); //$NON-NLS-1$
 
-			while (pos != -1 && !isDefaultPartition(document, pos + offset, partitioning))
+			while (pos != -1 && !isDefaultPartition(document, pos + offset, partitioning)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pos= text.indexOf("new", pos + 2); //$NON-NLS-1$
 
 			if (pos < 0)
@@ -532,7 +532,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		return false;
 	}
 
-	private boolean isClosed(IDocument document, int offset, int length) {
+	private boolean isClosed(IDocument document, int offset, int length) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		CompilationUnitInfo info= getCompilationUnitForMethod(document, offset);
 		if (info == null)
@@ -549,7 +549,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		}
 
 		IProblem[] problems= compilationUnit.getProblems();
-		for (IProblem problem : problems) {
+		for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem.getID() == IProblem.UnmatchedBracket)
 				return true;
 		}
@@ -559,7 +559,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		ASTNode node= NodeFinder.perform(compilationUnit, relativeOffset, length);
 
 		if (length == 0) {
-			while (node != null && (relativeOffset == node.getStartPosition() || relativeOffset == node.getStartPosition() + node.getLength()))
+			while (node != null && (relativeOffset == node.getStartPosition() || relativeOffset == node.getStartPosition() + node.getLength())) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 		}
 
@@ -654,7 +654,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		document.setDocumentPartitioner(IJavaPartitions.JAVA_PARTITIONING, null);
 	}
 
-	private void smartPaste(IDocument document, DocumentCommand command) {
+	private void smartPaste(IDocument document, DocumentCommand command) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int newOffset= command.offset;
 		int newLength= command.length;
 		String newText= command.text;
@@ -688,7 +688,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 			String prefix= document.get(refLine.getOffset(), newOffset - refLine.getOffset());
 
 			// handle the indentation computation inside a temporary document
-			Document temp= new Document(prefix + newText);
+			Document temp= new Document(prefix + newText); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			DocumentRewriteSession session= temp.startRewriteSession(DocumentRewriteSessionType.STRICTLY_SEQUENTIAL);
 			scanner= new JavaHeuristicScanner(temp);
 			indenter= new JavaIndenter(temp, scanner, fProject);
@@ -707,7 +707,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 			int lines= temp.getNumberOfLines();
 			int tabLength= getVisualTabLengthPreference();
 			boolean changed= false;
-			for (int l= first; l < lines; l++) { // we don't change the number of lines while adding indents
+			for (int l= first; l < lines; l++) { // we don't change the number of lines while adding indents //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				IRegion r= temp.getLineInformation(l);
 				int lineOffset= r.getOffset();
@@ -782,17 +782,17 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	 * @return the indentation of <code>line</code> in <code>document</code>
 	 * @throws BadLocationException if the document is changed concurrently
 	 */
-	private static String getCurrentIndent(Document document, int line) throws BadLocationException {
+	private static String getCurrentIndent(Document document, int line) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion region= document.getLineInformation(line);
 		int from= region.getOffset();
 		int endOffset= region.getOffset() + region.getLength();
 
 		// go behind line comments
 		int to= from;
-		while (to < endOffset - 2 && LINE_COMMENT.equals(document.get(to, 2)))
+		while (to < endOffset - 2 && LINE_COMMENT.equals(document.get(to, 2))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			to += 2;
 
-		while (to < endOffset) {
+		while (to < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= document.getChar(to);
 			if (!Character.isWhitespace(ch))
 				break;
@@ -822,7 +822,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	 * @param tabLength the length of a tab
 	 * @return the difference in length of <code>correct</code> and <code>current</code>
 	 */
-	private int subtractIndent(CharSequence correct, CharSequence current, StringBuffer difference, int tabLength) {
+	private int subtractIndent(CharSequence correct, CharSequence current, StringBuffer difference, int tabLength) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int c1= computeVisualLength(correct, tabLength);
 		int c2= computeVisualLength(current, tabLength);
 		int diff= c1 - c2;
@@ -831,7 +831,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 
 		difference.setLength(0);
 		int len= 0, i= 0;
-		while (len < diff) {
+		while (len < diff) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= correct.charAt(i++);
 			difference.append(c);
 			len += computeVisualLength(c, tabLength);
@@ -851,21 +851,21 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	 * @param tabLength the length of a tab
 	 * @throws BadLocationException on concurrent document modification
 	 */
-	private void addIndent(Document document, int line, CharSequence indent, int tabLength) throws BadLocationException {
+	private void addIndent(Document document, int line, CharSequence indent, int tabLength) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion region= document.getLineInformation(line);
 		int insert= region.getOffset();
 		int endOffset= region.getOffset() + region.getLength();
 
 		// Compute insert after all leading line comment markers
 		int newInsert= insert;
-		while (newInsert < endOffset - 2 && LINE_COMMENT.equals(document.get(newInsert, 2)))
+		while (newInsert < endOffset - 2 && LINE_COMMENT.equals(document.get(newInsert, 2))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newInsert += 2;
 
 		// Heuristic to check whether it is commented code or just a comment
 		if (newInsert > insert) {
 			int whitespaceCount= 0;
 			int i= newInsert;
-			while (i < endOffset - 1) {
+			while (i < endOffset - 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				 char ch= document.get(i, 1).charAt(0);
 				 if (!Character.isWhitespace(ch))
 					 break;
@@ -892,17 +892,17 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	 * @param tabLength the length of a tab
 	 * @throws BadLocationException on concurrent document modification
 	 */
-	private void cutIndent(Document document, int line, int toDelete, int tabLength) throws BadLocationException {
+	private void cutIndent(Document document, int line, int toDelete, int tabLength) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion region= document.getLineInformation(line);
 		int from= region.getOffset();
 		int endOffset= region.getOffset() + region.getLength();
 
 		// go behind line comments
-		while (from < endOffset - 2 && LINE_COMMENT.equals(document.get(from, 2)))
+		while (from < endOffset - 2 && LINE_COMMENT.equals(document.get(from, 2))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			from += 2;
 
 		int to= from;
-		while (toDelete > 0 && to < endOffset) {
+		while (toDelete > 0 && to < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= document.getChar(to);
 			if (!Character.isWhitespace(ch))
 				break;
@@ -927,7 +927,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	private int computeVisualLength(CharSequence seq, int tabLength) {
 		int size= 0;
 
-		for (int i= 0; i < seq.length(); i++) {
+		for (int i= 0; i < seq.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= seq.charAt(i);
 			if (ch == '\t') {
 				if (tabLength != 0)
@@ -990,7 +990,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		return project.getOption(key, true);
 	}
 
-	private int getPeerPosition(IDocument document, DocumentCommand command) {
+	private int getPeerPosition(IDocument document, DocumentCommand command) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (document.getLength() == 0)
 			return 0;
     	/*
@@ -1025,7 +1025,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 
     	int pPos= 0; // paste text position (increasing from 0)
     	int dPos= Math.max(0, command.offset - 1); // document position (decreasing from paste offset)
-    	while (true) {
+    	while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     		int token= pScanner.nextToken(pPos, JavaHeuristicScanner.UNBOUND);
    			pPos= pScanner.getPosition();
     		switch (token) {
@@ -1082,7 +1082,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
      * @param token the token
      * @return the position after the scope or <code>JavaHeuristicScanner.NOT_FOUND</code>
      */
-    private static int skipScope(JavaHeuristicScanner scanner, int start, int token) {
+    private static int skipScope(JavaHeuristicScanner scanner, int start, int token) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	int openToken= token;
     	int closeToken;
     	switch (token) {
@@ -1103,7 +1103,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
     	int depth= 1;
     	int p= start;
 
-    	while (true) {
+    	while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     		int tok= scanner.nextToken(p, JavaHeuristicScanner.UNBOUND);
     		p= scanner.getPosition();
 
@@ -1140,7 +1140,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		}
 	}
 
-	private void smartIndentUponE(IDocument d, DocumentCommand c) {
+	private void smartIndentUponE(IDocument d, DocumentCommand c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (c.offset < 4 || d.getLength() == 0)
 			return;
 
@@ -1175,7 +1175,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 					String indent= getIndentOfLine(d, refLine);
 
 					if (indent != null) {
-						c.text= indent.toString() + "else"; //$NON-NLS-1$
+						c.text= indent.toString() + "else"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						c.length += c.offset - lineOffset;
 						c.offset= lineOffset;
 					}
@@ -1218,7 +1218,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 						indent= indenter.computeIndentation(p).toString();
 
 					if (indent != null) {
-						c.text= indent.toString() + "case"; //$NON-NLS-1$
+						c.text= indent.toString() + "case"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						c.length += c.offset - lineOffset;
 						c.offset= lineOffset;
 					}
@@ -1235,7 +1235,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	/*
 	 * @see org.eclipse.jface.text.IAutoIndentStrategy#customizeDocumentCommand(org.eclipse.jface.text.IDocument, org.eclipse.jface.text.DocumentCommand)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void customizeDocumentCommand(IDocument d, DocumentCommand c) {
 		if (c.doit == false)
 			return;
@@ -1278,7 +1278,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		if (isInsertingSpacesForTab()) {
 			if (text.length() == 0 || text.length() > getVisualTabLengthPreference())
 				return false;
-			for (int i= 0; i < text.length(); i++) {
+			for (int i= 0; i < text.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (text.charAt(i) != ' ')
 					return false;
 			}
@@ -1319,7 +1319,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		return false;
 	}
 
-	private static CompilationUnitInfo getCompilationUnitForMethod(IDocument document, int offset) {
+	private static CompilationUnitInfo getCompilationUnitForMethod(IDocument document, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			JavaHeuristicScanner scanner= new JavaHeuristicScanner(document);
 
@@ -1328,11 +1328,11 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 				return null;
 			String source= document.get(sourceRange.getOffset(), sourceRange.getLength());
 
-			StringBuilder contents= new StringBuilder();
-			contents.append("class ____C{void ____m()"); //$NON-NLS-1$
+			StringBuilder contents= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			contents.append("class ____C{void ____m()"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			final int methodOffset= contents.length();
-			contents.append(source);
-			contents.append('}');
+			contents.append(source); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			contents.append('}'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			char[] buffer= contents.toString().toCharArray();
 
@@ -1355,7 +1355,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 	 * @param partitioning the partitioning
 	 * @return the block balance
 	 */
-	private static int getBlockBalance(IDocument document, int offset, String partitioning) {
+	private static int getBlockBalance(IDocument document, int offset, String partitioning) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (offset < 1)
 			return -1;
 		if (offset >= document.getLength())
@@ -1366,7 +1366,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 
 		JavaHeuristicScanner scanner= new JavaHeuristicScanner(document);
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			begin= scanner.findOpeningPeer(begin - 1, '{', '}');
 			end= scanner.findClosingPeer(end + 1, '{', '}');
 			if (begin == -1 && end == -1)
@@ -1382,7 +1382,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 		return node == null ? null : new Region(node.getStartPosition() + delta, node.getLength());
 	}
 
-	private static IRegion getToken(IDocument document, IRegion scanRegion, int tokenId)  {
+	private static IRegion getToken(IDocument document, IRegion scanRegion, int tokenId)  { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
 
@@ -1391,7 +1391,7 @@ public class JavaAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
 			fgScanner.setSource(source.toCharArray());
 
 			int id= fgScanner.getNextToken();
-			while (id != ITerminalSymbols.TokenNameEOF && id != tokenId)
+			while (id != ITerminalSymbols.TokenNameEOF && id != tokenId) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				id= fgScanner.getNextToken();
 
 			if (id == ITerminalSymbols.TokenNameEOF)

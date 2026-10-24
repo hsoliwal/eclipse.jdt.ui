@@ -59,7 +59,7 @@ final class JavaEditorBreadcrumbActionGroup extends CompositeActionGroup	 {
 			fSelectionProvider= selectionProvider;
 			fAssignWorkingSetAction= new ConfigureWorkingSetAssignementAction(site);
 			fAssignWorkingSetAction.setSpecialSelectionProvider(selectionProvider);
-			selectionProvider.addSelectionChangedListener(fAssignWorkingSetAction);
+			selectionProvider.addSelectionChangedListener(fAssignWorkingSetAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 
 		@Override

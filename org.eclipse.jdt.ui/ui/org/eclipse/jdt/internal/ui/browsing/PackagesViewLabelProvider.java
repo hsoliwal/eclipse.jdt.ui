@@ -38,7 +38,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.TreeHierarchyLayoutProblemsDecora
 /**
  * Label provider for the Packages view.
  */
-class PackagesViewLabelProvider extends AppearanceAwareLabelProvider {
+class PackagesViewLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	static final int HIERARCHICAL_VIEW_STATE= 0;
 	static final int FLAT_VIEW_STATE= 1;
@@ -83,7 +83,7 @@ class PackagesViewLabelProvider extends AppearanceAwareLabelProvider {
 	 * Decoration is only concerned with error ticks
 	 */
 	private Image getLogicalPackageImage(LogicalPackage cp) {
-		for (IPackageFragment fragment : cp.getFragments()) {
+		for (IPackageFragment fragment : cp.getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(!isEmpty(fragment)) {
 				return decorateCompoundElement(JavaPluginImages.DESC_OBJS_LOGICAL_PACKAGE, cp);
 			}

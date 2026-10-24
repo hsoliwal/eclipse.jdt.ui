@@ -36,10 +36,10 @@ public class ChangeTypeRefactoringTests1d7 extends ChangeTypeRefactoringTests {
 	}
 	@Override
 	protected String getTestFileName(boolean positive, boolean input) {
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		fileName.append(positive ? "positive17/" : "negative17/");
-		fileName.append(getSimpleTestFileName(input));
+		fileName.append(positive ? "positive17/" : "negative17/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(getSimpleTestFileName(input)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return fileName.toString();
 	}
 

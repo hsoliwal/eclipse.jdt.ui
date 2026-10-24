@@ -73,7 +73,7 @@ public class ContentProviderTests6 {
 	private IJavaProject fJProject;
 	private IPackageFragmentRoot classFolder;
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddFileToClassFolder() throws Exception {
 		IFile file= ((IFolder)classFolder.getResource()).getFile("testFile.class"); //$NON-NLS-1$
 		if (!file.exists()) {
@@ -87,14 +87,14 @@ public class ContentProviderTests6 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		//force events from display
-		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {
+		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		}
 
 		assertFalse(fMyPart.hasAddHappened(), "No add happened"); //$NON-NLS-1$
 		assertions();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddFolderToClassFolder() throws Exception {
 		IFolder folder= ((IFolder)classFolder.getResource()).getFolder("testFolder"); //$NON-NLS-1$
 		if (!folder.exists()) {
@@ -108,14 +108,14 @@ public class ContentProviderTests6 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		//force events from display
-		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {
+		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		}
 
 		assertFalse(fMyPart.hasAddHappened(), "No add happened"); //$NON-NLS-1$
 		assertions();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveFileFromClassFolder() throws Exception {
 		IFile file= ((IFolder)classFolder.getResource()).getFile("testFile.class"); //$NON-NLS-1$
 		if (!file.exists()) {
@@ -130,14 +130,14 @@ public class ContentProviderTests6 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		//force events from display
-		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {
+		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		}
 
 		assertFalse(fMyPart.hasRemoveHappened(), "No remove happened"); //$NON-NLS-1$
 		assertions();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveFolderFromClassFolder() throws Exception {
 		IFolder folder= ((IFolder)classFolder.getResource()).getFolder("testFolder"); //$NON-NLS-1$
 		if (!folder.exists()) {
@@ -152,14 +152,14 @@ public class ContentProviderTests6 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		//force events from display
-		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {
+		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		}
 
 		assertFalse(fMyPart.hasRemoveHappened(), "No remove happened"); //$NON-NLS-1$
 		assertions();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeClassInProject() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("pack1", false, null);
@@ -172,7 +172,7 @@ public class ContentProviderTests6 {
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		//force events from display
-		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {
+		while (fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		}
 
 		assertTrue(fMyPart.hasRefreshHappened(), "Refresh happened"); //$NON-NLS-1$

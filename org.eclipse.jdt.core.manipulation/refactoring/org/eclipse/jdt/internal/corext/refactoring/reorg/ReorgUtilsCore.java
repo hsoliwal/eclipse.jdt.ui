@@ -67,7 +67,7 @@ public class ReorgUtilsCore {
 	}
 
 	public static boolean isArchiveOrExternalMember(IJavaElement[] elements) {
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragmentRoot root= (IPackageFragmentRoot)element.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 			if (root != null && (root.isArchive() || root.isExternal()))
 				return true;
@@ -78,7 +78,7 @@ public class ReorgUtilsCore {
 	public static boolean containsOnlyProjects(List<?> elements){
 		if (elements.isEmpty())
 			return false;
-		for (Object name : elements) {
+		for (Object name : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! isProject(name))
 				return false;
 		}
@@ -118,7 +118,7 @@ public class ReorgUtilsCore {
 	 */
 	public static ICompilationUnit[] getCompilationUnits(IJavaElement[] javaElements){
 		ICompilationUnit[] result= new ICompilationUnit[javaElements.length];
-		for (int i= 0; i < javaElements.length; i++) {
+		for (int i= 0; i < javaElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= getCompilationUnit(javaElements[i]);
 		}
 		return result;
@@ -133,7 +133,7 @@ public class ReorgUtilsCore {
 
 	public static IResource[] getResources(IJavaElement[] elements) {
 		IResource[] result= new IResource[elements.length];
-		for (int i= 0; i < elements.length; i++) {
+		for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= ReorgUtilsCore.getResource(elements[i]);
 		}
 		return result;
@@ -160,7 +160,7 @@ public class ReorgUtilsCore {
 		return Messages.format(pattern, arg);
 	}
 
-	private static String createNamePattern(IJavaElement element) throws JavaModelException {
+	private static String createNamePattern(IJavaElement element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch(element.getElementType()){
 			case IJavaElement.CLASS_FILE:
 				return RefactoringCoreMessages.ReorgUtils_3;
@@ -208,8 +208,8 @@ public class ReorgUtilsCore {
 	}
 
 	public static IResource[] getResources(List<?> elements) {
-		List<IResource> resources= new ArrayList<>(elements.size());
-		for (Object element : elements) {
+		List<IResource> resources= new ArrayList<>(elements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource)
 				resources.add((IResource) element);
 		}
@@ -217,8 +217,8 @@ public class ReorgUtilsCore {
 	}
 
 	public static IJavaElement[] getJavaElements(List<?> elements) {
-		List<IJavaElement> resources= new ArrayList<>(elements.size());
-		for (Object element : elements) {
+		List<IJavaElement> resources= new ArrayList<>(elements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJavaElement)
 				resources.add((IJavaElement) element);
 		}
@@ -233,8 +233,8 @@ public class ReorgUtilsCore {
 	 * @since 3.6
 	 */
 	public static IJarEntryResource[] getJarEntryResources(List<?> elements) {
-		List<IJarEntryResource> resources= new ArrayList<>(elements.size());
-		for (Object element : elements) {
+		List<IJarEntryResource> resources= new ArrayList<>(elements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJarEntryResource)
 				resources.add((IJarEntryResource) element);
 		}
@@ -247,14 +247,14 @@ public class ReorgUtilsCore {
 	}
 
 	public static IResource[] setMinus(IResource[] setToRemoveFrom, IResource[] elementsToRemove) {
-		Set<IResource> setMinus= new HashSet<>(setToRemoveFrom.length - setToRemoveFrom.length);
+		Set<IResource> setMinus= new HashSet<>(setToRemoveFrom.length - setToRemoveFrom.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		setMinus.addAll(Arrays.asList(setToRemoveFrom));
 		setMinus.removeAll(Arrays.asList(elementsToRemove));
 		return setMinus.toArray(new IResource[setMinus.size()]);
 	}
 
 	public static IJavaElement[] setMinus(IJavaElement[] setToRemoveFrom, IJavaElement[] elementsToRemove) {
-		Set<IJavaElement> setMinus= new HashSet<>(setToRemoveFrom.length - setToRemoveFrom.length);
+		Set<IJavaElement> setMinus= new HashSet<>(setToRemoveFrom.length - setToRemoveFrom.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		setMinus.addAll(Arrays.asList(setToRemoveFrom));
 		setMinus.removeAll(Arrays.asList(elementsToRemove));
 		return setMinus.toArray(new IJavaElement[setMinus.size()]);
@@ -277,8 +277,8 @@ public class ReorgUtilsCore {
 	}
 
 	public static IType[] getMainTypes(IJavaElement[] javaElements) throws JavaModelException {
-		List<IJavaElement> result= new ArrayList<>();
-		for (IJavaElement element : javaElements) {
+		List<IJavaElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IType && JavaElementUtil.isMainType((IType)element))
 				result.add(element);
 		}
@@ -297,8 +297,8 @@ public class ReorgUtilsCore {
 
 	//the result can be cast down to the requested type array
 	public static Set<IResource> getResourcesOfType(IResource[] resources, int typeMask){
-		Set<IResource> result= new HashSet<>(resources.length);
-		for (IResource resource : resources) {
+		Set<IResource> result= new HashSet<>(resources.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isOfType(resource, typeMask)) {
 				result.add(resource);
 			}
@@ -309,8 +309,8 @@ public class ReorgUtilsCore {
 	//the result can be cast down to the requested type array
 	//type is _not_ a mask
 	public static List<?> getElementsOfType(IJavaElement[] javaElements, int type){
-		List<IJavaElement> result= new ArrayList<>(javaElements.length);
-		for (IJavaElement javaElement : javaElements) {
+		List<IJavaElement> result= new ArrayList<>(javaElements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isOfType(javaElement, type)) {
 				result.add(javaElement);
 			}
@@ -319,7 +319,7 @@ public class ReorgUtilsCore {
 	}
 
 	public static boolean hasElementsNotOfType(IResource[] resources, int typeMask) {
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource != null && ! isOfType(resource, typeMask))
 				return true;
 		}
@@ -328,7 +328,7 @@ public class ReorgUtilsCore {
 
 	//type is _not_ a mask
 	public static boolean hasElementsNotOfType(IJavaElement[] javaElements, int type) {
-		for (IJavaElement element : javaElements) {
+		for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element != null && ! isOfType(element, type))
 				return true;
 		}
@@ -337,7 +337,7 @@ public class ReorgUtilsCore {
 
 	//type is _not_ a mask
 	public static boolean hasElementsOfType(IJavaElement[] javaElements, int type) {
-		for (IJavaElement element : javaElements) {
+		for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element != null && isOfType(element, type))
 				return true;
 		}
@@ -345,7 +345,7 @@ public class ReorgUtilsCore {
 	}
 
 	public static boolean hasElementsOfType(IJavaElement[] javaElements, int[] types) {
-		for (int type : types) {
+		for (int type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasElementsOfType(javaElements, type)) return true;
 		}
 		return false;
@@ -353,9 +353,9 @@ public class ReorgUtilsCore {
 
 
 	public static boolean hasOnlyElementsOfType(IJavaElement[] javaElements, int[] types) {
-		for (IJavaElement element : javaElements) {
+		for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean found= false;
-			for (int j= 0; j < types.length && !found; j++) {
+			for (int j= 0; j < types.length && !found; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isOfType(element, types[j]))
 					found= true;
 			}
@@ -367,7 +367,7 @@ public class ReorgUtilsCore {
 	}
 
 	public static boolean hasElementsOfType(IResource[] resources, int typeMask) {
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource != null && isOfType(resource, typeMask))
 				return true;
 		}
@@ -405,7 +405,7 @@ public class ReorgUtilsCore {
 	}
 
 	public static IPackageFragmentRoot getCorrespondingPackageFragmentRoot(IJavaProject p) throws JavaModelException {
-		for (IPackageFragmentRoot root : p.getPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : p.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isPackageFragmentRootCorrespondingToProject(root)) {
 				return root;
 			}
@@ -414,7 +414,7 @@ public class ReorgUtilsCore {
 	}
 
 	public static boolean containsLinkedResources(IResource[] resources){
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource != null && resource.isLinked()) {
 				return true;
 			}
@@ -423,7 +423,7 @@ public class ReorgUtilsCore {
 	}
 
 	public static boolean containsLinkedResources(IJavaElement[] javaElements){
-		for (IJavaElement javaElement : javaElements) {
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource res= getResource(javaElement);
 			if (res != null && res.isLinked()) return true;
 		}
@@ -501,7 +501,7 @@ public class ReorgUtilsCore {
 
 	public static IResource[] getNotNulls(IResource[] resources) {
 		Set<IResource> result= new LinkedHashSet<>(resources.length);
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource != null)
 				result.add(resource);
 		}
@@ -510,7 +510,7 @@ public class ReorgUtilsCore {
 
 	public static IResource[] getNotLinked(IResource[] resources) {
 		Collection<IResource> result= new LinkedHashSet<>(resources.length);
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource != null && ! result.contains(resource) && ! resource.isLinked())
 				result.add(resource);
 		}
@@ -521,12 +521,12 @@ public class ReorgUtilsCore {
 	 * return ICompilationUnit -> List<IJavaElement>
 	 */
 	public static Map<ICompilationUnit, List<IJavaElement>> groupByCompilationUnit(List<IJavaElement> javaElements){
-		Map<ICompilationUnit, List<IJavaElement>> result= new HashMap<>();
-		for (IJavaElement element : javaElements) {
+		Map<ICompilationUnit, List<IJavaElement>> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= ReorgUtilsCore.getCompilationUnit(element);
 			if (cu != null){
 				if (! result.containsKey(cu))
-					result.put(cu, new ArrayList<>(1));
+					result.put(cu, new ArrayList<>(1)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				result.get(cu).add(element);
 			}
 		}
@@ -534,7 +534,7 @@ public class ReorgUtilsCore {
 	}
 
 	public static void splitIntoJavaElementsAndResources(Object[] elements, List<? super IJavaElement> javaElementResult, List<? super IResource> resourceResult) {
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJavaElement) {
 				javaElementResult.add((IJavaElement) element);
 			} else if (element instanceof IResource) {
@@ -550,7 +550,7 @@ public class ReorgUtilsCore {
 
 	public static boolean containsElementOrParent(Set<IAdaptable> elements, IJavaElement element) {
 		IJavaElement curr= element;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elements.contains(curr))
 				return true;
 			curr= curr.getParent();
@@ -560,7 +560,7 @@ public class ReorgUtilsCore {
 
 	public static boolean containsElementOrParent(Set<IAdaptable> elements, IResource element) {
 		IResource curr= element;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elements.contains(curr))
 				return true;
 			IJavaElement jElement= JavaCore.create(curr);

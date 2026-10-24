@@ -124,16 +124,16 @@ public class StringDialogField extends DialogField {
 	 * already been created.
 	 * @return the text control
 	 */
-	public Text getTextControl(Composite parent) {
+	public Text getTextControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTextControl == null) {
 			assertCompositeNotNull(parent);
-			fModifyListener= unused -> doModifyText();
+			fModifyListener= unused -> doModifyText(); //FLLDCIM: MARK — T02  LAMBDA
 
 			fTextControl= createTextControl(parent);
 			// moved up due to 1GEUNW2
 			fTextControl.setText(fText);
 			fTextControl.setFont(parent.getFont());
-			fTextControl.addModifyListener(fModifyListener);
+			fTextControl.addModifyListener(fModifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 			fTextControl.setEnabled(isEnabled());
 			if (fContentAssistProcessor != null) {
@@ -205,7 +205,7 @@ public class StringDialogField extends DialogField {
 		if (isOkToUse(fTextControl)) {
 			fTextControl.removeModifyListener(fModifyListener);
 			fTextControl.setText(text);
-			fTextControl.addModifyListener(fModifyListener);
+			fTextControl.addModifyListener(fModifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		}
 	}
 

@@ -162,7 +162,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public TextEdit computeEdits(int offset, LinkedPosition currentPosition, char trigger, int stateMask, LinkedModeModel model) throws CoreException {
 			try {
 				IDocument document= currentPosition.getDocument();
@@ -171,7 +171,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 				if (fModifier == 0) {
 					int end= currentPosition.offset + currentPosition.length; // current end position
 					int k= end;
-					while (k < documentLen && IndentManipulation.isIndentChar(document.getChar(k))) {
+					while (k < documentLen && IndentManipulation.isIndentChar(document.getChar(k))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						k++;
 					}
 					// first remove space then replace range (remove space can destroy empty position)
@@ -192,7 +192,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		}
 	}
 
-	public static void installLinkedVisibilityProposals(LinkedProposalModelCore linkedProposalModel, ASTRewrite rewrite, List<IExtendedModifier> modifiers, boolean inInterface, String groupId) {
+	public static void installLinkedVisibilityProposals(LinkedProposalModelCore linkedProposalModel, ASTRewrite rewrite, List<IExtendedModifier> modifiers, boolean inInterface, String groupId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode modifier= findVisibilityModifier(modifiers);
 		if (modifier != null) {
 			int selected= ((Modifier) modifier).getKeyword().toFlagValue();
@@ -203,7 +203,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 
 			// add all others
 			int[] flagValues= inInterface ? new int[] { Modifier.PUBLIC, 0 } : new int[] { Modifier.PUBLIC, 0, Modifier.PROTECTED, Modifier.PRIVATE };
-			for (int i= 0; i < flagValues.length; i++) {
+			for (int i= 0; i < flagValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (flagValues[i] != selected) {
 					positionGroup.addProposal(new ModifierLinkedModeProposal(flagValues[i], 9 - i));
 				}
@@ -216,7 +216,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 	}
 
 	private static Modifier findVisibilityModifier(List<IExtendedModifier> modifiers) {
-		for (IExtendedModifier curr : modifiers) {
+		for (IExtendedModifier curr : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof Modifier) {
 				Modifier modifier= (Modifier) curr;
 				ModifierKeyword keyword= modifier.getKeyword();
@@ -228,7 +228,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		return null;
 	}
 
-	public void getMethodRequiresBodyProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getMethodRequiresBodyProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		AST ast= context.getASTRoot().getAST();
 
@@ -276,7 +276,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		}
 	}
 
-	public void getNonAccessibleReferenceProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, int kind, int relevance) throws CoreException {
+	public void getNonAccessibleReferenceProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, int kind, int relevance) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -337,7 +337,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 			}
 			bindingDecl= methodDecl.getMethodDeclaration();
 			typeBinding= methodDecl.getDeclaringClass();
-			name= BasicElementLabels.getJavaElementName(methodDecl.getName() + "()"); //$NON-NLS-1$
+			name= BasicElementLabels.getJavaElementName(methodDecl.getName() + "()"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (binding instanceof IVariableBinding) {
 			IVariableBinding varDecl= (IVariableBinding) binding;
 			typeBinding= varDecl.getDeclaringClass();
@@ -413,7 +413,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		}
 	}
 
-	public void getOverridingDeprecatedMethodProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getOverridingDeprecatedMethodProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -438,7 +438,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		proposals.add(astRewriteCorrectionProposalToT(proposal, MAKE_DEPRECATED));
 	}
 
-	public void getRemoveOverrideAnnotationProposal (IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void getRemoveOverrideAnnotationProposal (IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -461,7 +461,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 	public boolean getCreateInSuperClassProposals(IInvocationContext context, ASTNode node, Collection<T> resultingCollections) throws CoreException {
 		Collection<Object> newResults = new LinkedList<>();
 		boolean result = QuickAssistProcessorUtil.getCreateInSuperClassProposals(context, node, newResults);
-		for (Object res : newResults) {
+		for (Object res : newResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (res instanceof NewDefiningMethodProposalCore proposal) {
 				resultingCollections.add(newDefiningMethodProposalCoreToT(proposal, CREATE_METHOD_IN_SUPER));
 			}
@@ -469,7 +469,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		return result;
 	}
 
-	public void getAddMethodModifierProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, int modifier, String label) {
+	public void getAddMethodModifierProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, int modifier, String label) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -480,7 +480,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		if (modifier == Modifier.STATIC) {
 			MethodDeclaration methodDeclaration= (MethodDeclaration)selectedNode;
 			List<IExtendedModifier> modifiers= methodDeclaration.modifiers();
-			for (IExtendedModifier declModifier : modifiers) {
+			for (IExtendedModifier declModifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (declModifier instanceof Annotation annotation) {
 					switch (annotation.getTypeName().getFullyQualifiedName()) {
 						case "BeforeEach": //$NON-NLS-1$
@@ -519,7 +519,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		}
 	}
 
-	public void getChangeOverriddenModifierProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, int kind) throws JavaModelException {
+	public void getChangeOverriddenModifierProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, int kind) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -536,7 +536,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 			List<IMethodBinding> methods= Bindings.findOverriddenMethods(method, false, false);
 			if (!methods.isEmpty()) {
 				int includedModifiers= 0;
-				for (IMethodBinding binding : methods) {
+				for (IMethodBinding binding : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int temp= JdtFlags.getVisibilityCode(binding);
 					includedModifiers= JdtFlags.getHigherVisibility(temp, includedModifiers);
 				}
@@ -548,8 +548,8 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		}
 
 		IMethodBinding overriddenInClass= null;
-		List<ITypeBinding> motherClasses= new ArrayList<>();
-		while (overriddenInClass == null && curr.getSuperclass() != null) {
+		List<ITypeBinding> motherClasses= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (overriddenInClass == null && curr.getSuperclass() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			curr= curr.getSuperclass();
 			motherClasses.add(curr);
 			overriddenInClass= Bindings.findOverriddenMethodInType(curr, method);
@@ -558,16 +558,16 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		if (overriddenInClass == null) {
 			motherClasses.add(0, method.getDeclaringClass());
 
-			Set<IMethodBinding> methodBindings= new HashSet<>();
+			Set<IMethodBinding> methodBindings= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-			for (ITypeBinding motherClass : motherClasses) {
+			for (ITypeBinding motherClass : motherClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				findOverriddenMethodInType(motherClass, method, methodBindings);
 			}
 
 			if (!methodBindings.isEmpty()) {
 				overriddenInClass= methodBindings.iterator().next();
 
-				for (IMethodBinding methodBinding : methodBindings) {
+				for (IMethodBinding methodBinding : methodBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!Bindings.equalDeclarations(overriddenInClass, methodBinding)) {
 						overriddenInClass= null;
 						break;
@@ -660,7 +660,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		}
 	}
 
-	public void getRemoveInvalidModifiersProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, int relevance) {
+	public void getRemoveInvalidModifiersProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -792,7 +792,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		}
 	}
 
-	public void getAbstractMethodProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getAbstractMethodProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		CompilationUnit astRoot= context.getASTRoot();
@@ -898,7 +898,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 
 	}
 
-	public void getAbstractTypeProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getAbstractTypeProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= context.getASTRoot();
 
 		ASTNode selectedNode= problem.getCoveringNode(astRoot);
@@ -923,7 +923,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		addMakeTypeAbstractProposal(context, parentTypeDecl, proposals);
 	}
 
-	public void getNativeMethodProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getNativeMethodProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		CompilationUnit astRoot= context.getASTRoot();
@@ -1004,7 +1004,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		proposals.add(fixCorrectionProposalCoreToT(proposal, CHANGE_TO_ABSTRACT));
 	}
 
-	public void getSealedMissingModifierProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getSealedMissingModifierProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (proposals == null) {
 			return;
 		}
@@ -1065,7 +1065,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		}
 	}
 
-	static int getNeededVisibility(ASTNode currNode, ITypeBinding targetType, IBinding binding) {
+	static int getNeededVisibility(ASTNode currNode, ITypeBinding targetType, IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding currNodeBinding= Bindings.getBindingOfParentType(currNode);
 		if (currNodeBinding == null) { // import
 			return Modifier.PUBLIC;
@@ -1101,7 +1101,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 		ITypeBinding[] interfaces= currentType.getInterfaces();
 		IMethodBinding overriddenInInterface;
 
-		for (ITypeBinding interface0 : interfaces) {
+		for (ITypeBinding interface0 : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			overriddenInInterface= Bindings.findOverriddenMethodInType(interface0, method);
 
 			if (overriddenInInterface != null) {
@@ -1121,7 +1121,7 @@ public abstract class ModifierCorrectionSubProcessorCore<T> {
 	}
 
 	public static String getMethodLabel(IMethodBinding targetMethod) {
-		return BasicElementLabels.getJavaElementName(targetMethod.getDeclaringClass().getName() + '.' + targetMethod.getName());
+		return BasicElementLabels.getJavaElementName(targetMethod.getDeclaringClass().getName() + '.' + targetMethod.getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public ModifierCorrectionSubProcessorCore() {

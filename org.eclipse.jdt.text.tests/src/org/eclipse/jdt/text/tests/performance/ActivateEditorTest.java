@@ -38,7 +38,7 @@ public abstract class ActivateEditorTest extends TextPerformanceTestCase {
 
 	private static final String FILE_PREFIX= "TextLayout";
 
-	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/" + FILE_PREFIX;
+	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/" + FILE_PREFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String FILE_SUFFIX= ".java";
 
@@ -66,7 +66,7 @@ public abstract class ActivateEditorTest extends TextPerformanceTestCase {
 		super.setUp();
 		setWarmUpRuns(WARM_UP_RUNS);
 		setMeasuredRuns(MEASURED_RUNS);
-		ResourceTestHelper.replicate(PREFIX + FILE_SUFFIX, PREFIX, FILE_SUFFIX, getNumberOfEditors(), FILE_PREFIX, FILE_PREFIX, ResourceTestHelper.SKIP_IF_EXISTS);
+		ResourceTestHelper.replicate(PREFIX + FILE_SUFFIX, PREFIX, FILE_SUFFIX, getNumberOfEditors(), FILE_PREFIX, FILE_PREFIX, ResourceTestHelper.SKIP_IF_EXISTS); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fEditors= EditorTestHelper.openInEditor(ResourceTestHelper.findFiles(PREFIX, FILE_SUFFIX, 0, getNumberOfEditors()), getEditorId());
 	}
 
@@ -100,16 +100,16 @@ public abstract class ActivateEditorTest extends TextPerformanceTestCase {
 
 	protected void measureActivateEditor(AbstractTextEditor[] editors, int runs, PerformanceMeter performanceMeter) {
 		IWorkbenchPage page= EditorTestHelper.getActivePage();
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(editors.length == 0 || editors[0] != page.getActivePart());
 			performanceMeter.start();
-			for (AbstractTextEditor editor : editors) {
+			for (AbstractTextEditor editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				page.activate(editor);
 				waitUntilReady(editor);
 				EditorTestHelper.runEventQueue(editor);
 			}
 			performanceMeter.stop();
-			for (AbstractTextEditor editor : editors)
+			for (AbstractTextEditor editor : editors) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				EditorTestHelper.joinReconciler(EditorTestHelper.getSourceViewer(editor), 100, 10000, 100);
 		}
 	}

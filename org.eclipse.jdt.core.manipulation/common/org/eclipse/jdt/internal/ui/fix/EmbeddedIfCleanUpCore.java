@@ -84,7 +84,7 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.RAISE_EMBEDDED_IF)) {
 			return """
@@ -105,16 +105,16 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.RAISE_EMBEDDED_IF)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final IfStatement visited) {
 				if (visited.getElseStatement() == null) {
 					IfStatement innerIf= ASTNodes.as(visited.getThenStatement(), IfStatement.class);
@@ -170,7 +170,7 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 			this.innerIf= innerIf;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -187,12 +187,12 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 				ASTNode innerNode= innerIf.getThenStatement() instanceof Block ? innerIf.getThenStatement() : innerIf.getExpression();
 				int innerOffset= innerIf.getThenStatement() instanceof Block ? 1 : visited.getExpression().getLength();
 				List<Comment> innerComments= ASTNodes.getTrailingLineComments(innerNode, innerOffset);
-				StringBuilder blockBuilder= new StringBuilder("{"); //$NON-NLS-1$
+				StringBuilder blockBuilder= new StringBuilder("{"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				CompilationUnit root= cuRewrite.getRoot();
 				IBuffer buffer= cuRewrite.getCu().getBuffer();
 				appendComments(innerComments, blockBuilder, buffer);
 				appendComments(visitedLineComments, blockBuilder, buffer);
-				blockBuilder.append("\n"); //$NON-NLS-1$
+				blockBuilder.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				String fIndent= "\t"; //$NON-NLS-1$
 				IJavaElement rootElement= root.getJavaElement();
 				if (rootElement != null) {
@@ -201,7 +201,7 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 						String tab_option= project.getOption(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, true);
 						if (JavaCore.SPACE.equals(tab_option)) {
 							fIndent= ""; //$NON-NLS-1$
-							for (int i= 0; i < CodeFormatterUtil.getTabWidth(project); ++i) {
+							for (int i= 0; i < CodeFormatterUtil.getTabWidth(project); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								fIndent += " "; //$NON-NLS-1$
 							}
 						}
@@ -210,25 +210,25 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 				if (innerIf.getThenStatement() instanceof Block innerBlock) {
 					ListRewrite innerBlockStmts= rewrite.getListRewrite(innerBlock, Block.STATEMENTS_PROPERTY);
 					List<Statement> originalList= innerBlockStmts.getOriginalList();
-					for (Statement stmt : originalList) {
+					for (Statement stmt : originalList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int startOffset= root.getExtendedStartPosition(stmt);
 						int endLength= root.getExtendedLength(stmt);
 						String text= buffer.getText(startOffset,  endLength);
-						String[] textLines= text.split("\n"); //$NON-NLS-1$
-						for (String textLine : textLines) {
-							blockBuilder.append(fIndent + textLine.trim() + "\n"); //$NON-NLS-1$
+						String[] textLines= text.split("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+						for (String textLine : textLines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							blockBuilder.append(fIndent + textLine.trim() + "\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 				} else {
 					int startOffset= root.getExtendedStartPosition(innerIf.getThenStatement());
 					int endLength= root.getExtendedLength(innerIf.getThenStatement());
 					String text= buffer.getText(startOffset,  endLength);
-					String[] textLines= text.split("\n"); //$NON-NLS-1$
-					for (String textLine : textLines) {
-						blockBuilder.append(fIndent + textLine.trim() + "\n"); //$NON-NLS-1$
+					String[] textLines= text.split("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+					for (String textLine : textLines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						blockBuilder.append(fIndent + textLine.trim() + "\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
-				blockBuilder.append("}"); //$NON-NLS-1$
+				blockBuilder.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				Block newBlock= (Block) rewrite.createStringPlaceholder(blockBuilder.toString(), ASTNode.BLOCK);
 				rewrite.replace(innerIf.getThenStatement(), newBlock, group);
 			}
@@ -237,13 +237,13 @@ public class EmbeddedIfCleanUpCore extends AbstractMultiFix implements ICleanUpF
 		}
 
 		private void appendComments(List<Comment> commentList, StringBuilder buffer, IBuffer cuBuffer) {
-			for (Comment innerComment : commentList) {
+			for (Comment innerComment : commentList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (innerComment instanceof LineComment lineComment) {
-					buffer.append(" "); //$NON-NLS-1$
-					buffer.append(cuBuffer.getText(lineComment.getStartPosition(), lineComment.getLength()));
+					buffer.append(" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buffer.append(cuBuffer.getText(lineComment.getStartPosition(), lineComment.getLength())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else if (innerComment instanceof BlockComment blockComment) {
-					buffer.append(" //"); //$NON-NLS-1$
-					buffer.append(cuBuffer.getText(blockComment.getStartPosition(), blockComment.getLength() - 2));
+					buffer.append(" //"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buffer.append(cuBuffer.getText(blockComment.getStartPosition(), blockComment.getLength() - 2)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		}

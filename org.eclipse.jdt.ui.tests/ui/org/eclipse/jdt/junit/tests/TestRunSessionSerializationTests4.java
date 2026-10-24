@@ -51,7 +51,7 @@ public class TestRunSessionSerializationTests4 extends AbstractTestRunSessionSer
 		runCUTest(test);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFailures() throws Exception {
 		String test= "Failures";
 
@@ -61,30 +61,30 @@ public class TestRunSessionSerializationTests4 extends AbstractTestRunSessionSer
 		try {
 			runCUTest(test);
 			String[] expectedSequence= new String[] {
-					"sessionStarted-" + TestRunListeners.sessionAsString("Failures", ProgressState.RUNNING, Result.UNDEFINED, 0),
+					"sessionStarted-" + TestRunListeners.sessionAsString("Failures", ProgressState.RUNNING, Result.UNDEFINED, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-					"testCaseStarted-"  + TestRunListeners.testCaseAsString("testNasty", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-					"testCaseFinished-" + TestRunListeners.testCaseAsString("testNasty", "pack.Failures", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("java.lang.AssertionError", null, null), 0),
+					"testCaseStarted-"  + TestRunListeners.testCaseAsString("testNasty", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					"testCaseFinished-" + TestRunListeners.testCaseAsString("testNasty", "pack.Failures", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("java.lang.AssertionError", null, null), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-					"testCaseStarted-"  + TestRunListeners.testCaseAsString("ignored", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-					"testCaseFinished-" + TestRunListeners.testCaseAsString("ignored", "pack.Failures", ProgressState.COMPLETED, Result.IGNORED, null, 0),
+					"testCaseStarted-"  + TestRunListeners.testCaseAsString("ignored", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					"testCaseFinished-" + TestRunListeners.testCaseAsString("ignored", "pack.Failures", ProgressState.COMPLETED, Result.IGNORED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-					"testCaseStarted-"  + TestRunListeners.testCaseAsString("testError", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-					"testCaseFinished-" + TestRunListeners.testCaseAsString("testError", "pack.Failures", ProgressState.COMPLETED, Result.ERROR, new FailureTrace("java.lang.IllegalStateException", null, null), 0),
+					"testCaseStarted-"  + TestRunListeners.testCaseAsString("testError", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					"testCaseFinished-" + TestRunListeners.testCaseAsString("testError", "pack.Failures", ProgressState.COMPLETED, Result.ERROR, new FailureTrace("java.lang.IllegalStateException", null, null), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-					"testCaseStarted-"  + TestRunListeners.testCaseAsString("errorExpected", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-					"testCaseFinished-" + TestRunListeners.testCaseAsString("errorExpected", "pack.Failures", ProgressState.COMPLETED, Result.OK, null, 0),
+					"testCaseStarted-"  + TestRunListeners.testCaseAsString("errorExpected", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					"testCaseFinished-" + TestRunListeners.testCaseAsString("errorExpected", "pack.Failures", ProgressState.COMPLETED, Result.OK, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-					"testCaseStarted-"  + TestRunListeners.testCaseAsString("errorExpectedOther", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-					"testCaseFinished-" + TestRunListeners.testCaseAsString("errorExpectedOther", "pack.Failures", ProgressState.COMPLETED, Result.ERROR, new FailureTrace("java.lang.Exception", null, null), 0),
+					"testCaseStarted-"  + TestRunListeners.testCaseAsString("errorExpectedOther", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					"testCaseFinished-" + TestRunListeners.testCaseAsString("errorExpectedOther", "pack.Failures", ProgressState.COMPLETED, Result.ERROR, new FailureTrace("java.lang.Exception", null, null), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-					"testCaseStarted-"  + TestRunListeners.testCaseAsString("compareTheStuff", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-					"testCaseFinished-" + TestRunListeners.testCaseAsString("compareTheStuff", "pack.Failures", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("org.junit.ComparisonFailure", "\nHello World.\n\n", "\n\nHello my friend."), 0),
+					"testCaseStarted-"  + TestRunListeners.testCaseAsString("compareTheStuff", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					"testCaseFinished-" + TestRunListeners.testCaseAsString("compareTheStuff", "pack.Failures", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("org.junit.ComparisonFailure", "\nHello World.\n\n", "\n\nHello my friend."), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-					"testCaseStarted-"  + TestRunListeners.testCaseAsString("testCompareNull", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0),
-					"testCaseFinished-" + TestRunListeners.testCaseAsString("testCompareNull", "pack.Failures", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("java.lang.AssertionError", null, null), 0),
+					"testCaseStarted-"  + TestRunListeners.testCaseAsString("testCompareNull", "pack.Failures", ProgressState.RUNNING, Result.UNDEFINED, null, 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					"testCaseFinished-" + TestRunListeners.testCaseAsString("testCompareNull", "pack.Failures", ProgressState.COMPLETED, Result.FAILURE, new FailureTrace("java.lang.AssertionError", null, null), 0), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-					"sessionFinished-" + TestRunListeners.sessionAsString("Failures", ProgressState.COMPLETED, Result.ERROR, 0)
+					"sessionFinished-" + TestRunListeners.sessionAsString("Failures", ProgressState.COMPLETED, Result.ERROR, 0) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				};
 			String[] actual= log.getLog();
 			AbstractTestRunListenerTest.assertEqualLog(expectedSequence, actual);
@@ -101,7 +101,7 @@ public class TestRunSessionSerializationTests4 extends AbstractTestRunSessionSer
 
 	@Test
 	public void testImportAntSuite() throws Exception {
-		Path testsPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "ant/result/TESTS-TestSuites.xml");
+		Path testsPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "ant/result/TESTS-TestSuites.xml"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File testsFile= JavaTestPlugin.getDefault().getFileInPlugin(testsPath);
 		JUnitModel.importTestRunSession(testsFile); // no contents check for now...
 	}

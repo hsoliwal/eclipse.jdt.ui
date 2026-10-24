@@ -56,12 +56,12 @@ public class StubCreator {
 
 	protected void appendEnumConstants(final IType type) throws JavaModelException {
 		final IField[] fields= type.getFields();
-		final List<IField> list= new ArrayList<>(fields.length);
-		for (IField field : fields) {
+		final List<IField> list= new ArrayList<>(fields.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Flags.isEnum(field.getFlags()))
 				list.add(field);
 		}
-		for (int index= 0; index < list.size(); index++) {
+		for (int index= 0; index < list.size(); index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (index > 0)
 				fBuffer.append(","); //$NON-NLS-1$
 			fBuffer.append(list.get(index).getElementName());
@@ -73,7 +73,7 @@ public class StubCreator {
 		appendExpression(signature, false);
 	}
 
-	protected void appendExpression(String signature, boolean castNull) {
+	protected void appendExpression(String signature, boolean castNull) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (signature.charAt(0)) {
 			case Signature.C_BOOLEAN:
 				fBuffer.append("false"); //$NON-NLS-1$
@@ -112,11 +112,11 @@ public class StubCreator {
 		fBuffer.append(";"); //$NON-NLS-1$
 	}
 
-	protected void appendFlags(final IMember member) throws JavaModelException {
+	protected void appendFlags(final IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (member instanceof IAnnotatable) {
 			IAnnotation[] annotations= ((IAnnotatable) member).getAnnotations();
-			Set<IAnnotation> annotationSet= new HashSet<>();
-			for (IAnnotation annotation : annotations) {
+			Set<IAnnotation> annotationSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IAnnotation annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!annotationSet.contains(annotation)) {
 					appendAnnotation(annotation);
 					annotationSet.add(annotation);
@@ -146,7 +146,7 @@ public class StubCreator {
 			fBuffer.append(Flags.toString(flags));
 	}
 
-	private void appendAnnotation(IAnnotation annotation) throws JavaModelException {
+	private void appendAnnotation(IAnnotation annotation) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= annotation.getElementName();
 		if (!fStubInvisible && name.startsWith("sun.") || name.startsWith("jdk.internal.")) //$NON-NLS-1$ //$NON-NLS-2$
 			return; // skip Sun-internal annotations
@@ -156,7 +156,7 @@ public class StubCreator {
 		fBuffer.append('(');
 
 		IMemberValuePair[] memberValuePairs= annotation.getMemberValuePairs();
-		for (IMemberValuePair pair : memberValuePairs) {
+		for (IMemberValuePair pair : memberValuePairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fBuffer.append(pair.getMemberName());
 			fBuffer.append('=');
 			appendAnnotationValue(pair.getValue(), pair.getValueKind());
@@ -168,11 +168,11 @@ public class StubCreator {
 		fBuffer.append(')').append('\n');
 	}
 
-	private void appendAnnotationValue(Object value, int valueKind) throws JavaModelException {
+	private void appendAnnotationValue(Object value, int valueKind) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (value instanceof Object[]) {
 			Object[] objects= (Object[]) value;
 			fBuffer.append('{');
-			for (Object object : objects) {
+			for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				appendAnnotationValue(object, valueKind);
 				fBuffer.append(',');
 			}
@@ -196,10 +196,10 @@ public class StubCreator {
 		}
 	}
 
-	protected void appendMembers(final IType type, final IProgressMonitor monitor) throws JavaModelException {
+	protected void appendMembers(final IType type, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(RefactoringCoreMessages.StubCreationOperation_creating_type_stubs, 1);
-			for (IJavaElement childJavaElement : type.getChildren()) {
+			for (IJavaElement childJavaElement : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IMember child= (IMember) childJavaElement;
 				final int flags= child.getFlags();
 				final boolean isPrivate= Flags.isPrivate(flags);
@@ -238,7 +238,7 @@ public class StubCreator {
 		}
 	}
 
-	protected void appendMethodBody(final IMethod method) throws JavaModelException {
+	protected void appendMethodBody(final IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (method.isConstructor()) {
 			final IType declaringType= method.getDeclaringType();
 			String superSignature= declaringType.getSuperclassTypeSignature();
@@ -249,10 +249,10 @@ public class StubCreator {
 					final IMethod[] superMethods= superclass.getMethods();
 
 					// collect super constructors by parameter count
-					Map<Integer, List<IMethod>> superConstructorsByParamCount= new TreeMap<>();
+					Map<Integer, List<IMethod>> superConstructorsByParamCount= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					boolean multi= false;
 					IMethod superConstructor= null;
-					for (IMethod superMethod : superMethods) {
+					for (IMethod superMethod : superMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (superMethod.isConstructor()
 							&& !Flags.isPrivate(superMethod.getFlags())
 							&& (!Flags.isPackageDefault(superMethod.getFlags()) || declaringType.getPackageFragment().equals(superclass.getPackageFragment()))
@@ -264,7 +264,7 @@ public class StubCreator {
 							}
 							List<IMethod> constructors= superConstructorsByParamCount.get(paramCount);
 							if (constructors == null) {
-								constructors= new ArrayList<>();
+								constructors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 								superConstructorsByParamCount.put(paramCount, constructors);
 							}
 							constructors.add(superMethod);
@@ -272,8 +272,8 @@ public class StubCreator {
 					}
 					if (superConstructor == null && superConstructorsByParamCount.size() > 0) {
 						// look for constructors without exceptions and without parameters
-						done: for (List<IMethod> constructors : superConstructorsByParamCount.values()) {
-							for (IMethod constructor : constructors) {
+						done: for (List<IMethod> constructors : superConstructorsByParamCount.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							for (IMethod constructor : constructors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (constructor.getExceptionTypes().length == 0) {
 									superConstructor= constructor;
 									multi= constructors.size() != 1;
@@ -299,7 +299,7 @@ public class StubCreator {
 						final int paramLength= superParameters.length;
 						fBuffer.append("super("); //$NON-NLS-1$
 						if (paramLength != 0) {
-							for (int index= 0; index < paramLength; index++) {
+							for (int index= 0; index < paramLength; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (index > 0)
 									fBuffer.append(","); //$NON-NLS-1$
 								appendExpression(superParameters[index], multi);
@@ -319,7 +319,7 @@ public class StubCreator {
 		}
 	}
 
-	protected void appendMethodDeclaration(final IMethod method) throws JavaModelException {
+	protected void appendMethodDeclaration(final IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		appendFlags(method);
 		fBuffer.append(" "); //$NON-NLS-1$
 		final ITypeParameter[] parameters= method.getTypeParameters();
@@ -338,7 +338,7 @@ public class StubCreator {
 		final int flags= method.getFlags();
 		final boolean varargs= Flags.isVarargs(flags);
 		final int parameterLength= parameterTypes.length;
-		for (int index= 0; index < parameterLength; index++) {
+		for (int index= 0; index < parameterLength; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (index > 0)
 				fBuffer.append(","); //$NON-NLS-1$
 			fBuffer.append(Signature.toString(parameterTypes[index]));
@@ -356,7 +356,7 @@ public class StubCreator {
 		final int exceptionLength= exceptionTypes.length;
 		if (exceptionLength > 0)
 			fBuffer.append(" throws "); //$NON-NLS-1$
-		for (int index= 0; index < exceptionLength; index++) {
+		for (int index= 0; index < exceptionLength; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (index > 0)
 				fBuffer.append(","); //$NON-NLS-1$
 			fBuffer.append(Signature.toString(exceptionTypes[index]));
@@ -394,7 +394,7 @@ public class StubCreator {
 			else
 				fBuffer.append(" implements "); //$NON-NLS-1$
 		}
-		for (int index= 0; index < signatures.length; index++) {
+		for (int index= 0; index < signatures.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (index > 0)
 				fBuffer.append(","); //$NON-NLS-1$
 			fBuffer.append(Signature.toString(signatures[index]));
@@ -411,7 +411,7 @@ public class StubCreator {
 		appendTypeDeclaration(type, subProgressMonitor);
 	}
 
-	protected void appendTypeDeclaration(final IType type, final IProgressMonitor monitor) throws JavaModelException {
+	protected void appendTypeDeclaration(final IType type, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(RefactoringCoreMessages.StubCreationOperation_creating_type_stubs, 1);
 			if (type.isAnnotation()) {
@@ -459,11 +459,11 @@ public class StubCreator {
 		}
 	}
 
-	protected void appendTypeParameters(final ITypeParameter[] parameters) throws JavaModelException {
+	protected void appendTypeParameters(final ITypeParameter[] parameters) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int length= parameters.length;
 		if (length > 0)
 			fBuffer.append("<"); //$NON-NLS-1$
-		for (int index= 0; index < length; index++) {
+		for (int index= 0; index < length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (index > 0)
 				fBuffer.append(","); //$NON-NLS-1$
 			final ITypeParameter parameter= parameters[index];
@@ -472,7 +472,7 @@ public class StubCreator {
 			final int size= bounds.length;
 			if (size > 0)
 				fBuffer.append(" extends "); //$NON-NLS-1$
-			for (int offset= 0; offset < size; offset++) {
+			for (int offset= 0; offset < size; offset++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (offset > 0)
 					fBuffer.append(" & "); //$NON-NLS-1$
 				fBuffer.append(bounds[offset]);

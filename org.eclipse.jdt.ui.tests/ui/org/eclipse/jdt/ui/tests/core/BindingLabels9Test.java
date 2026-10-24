@@ -64,7 +64,7 @@ public class BindingLabels9Test extends AbstractBindingLabelsTest {
 		assertEquals("mymod", lab); // category not shown in binding labels
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModuleWithAnnotation() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -83,6 +83,6 @@ public class BindingLabels9Test extends AbstractBindingLabelsTest {
 		IJavaElement link= JavaElementLinks.parseURI(extractURI(lab));
 		String linkID= link.getHandleIdentifier();
 		String jreBaseID= fJProject1.findModule("java.base", null).getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT).getHandleIdentifier();
-		assertEquals("Linked element", jreBaseID+"<java.lang(Deprecated.class[Deprecated", linkID);
+		assertEquals("Linked element", jreBaseID+"<java.lang(Deprecated.class[Deprecated", linkID); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

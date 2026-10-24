@@ -50,10 +50,10 @@ import org.eclipse.jdt.internal.ui.preferences.formatter.FormatterProfileManager
 /**
  * Record accessor declaration proposal.
  */
-public class RecordAccessorCompletionProposal extends JavaTypeCompletionProposal {
+public class RecordAccessorCompletionProposal extends JavaTypeCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 
-	public static void evaluateProposals(IType type, String prefix, int offset, int length, int relevance, Set<String> suggestedMethods, Collection<IJavaCompletionProposal> result) throws CoreException {
+	public static void evaluateProposals(IType type, String prefix, int offset, int length, int relevance, Set<String> suggestedMethods, Collection<IJavaCompletionProposal> result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethod[] methods= type.getMethods();
 		if (!type.isRecord()) {
 			return;
@@ -61,7 +61,7 @@ public class RecordAccessorCompletionProposal extends JavaTypeCompletionProposal
 		if (prefix.length() > 0 && !hasMethod(methods, prefix)) {
 			if (!JavaConventionsUtil.validateMethodName(prefix, type).matches(IStatus.ERROR)) {
 				IField[] fields= type.getRecordComponents();
-				for (IField field : fields) {
+				for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (field.getElementName().startsWith(prefix)) {
 						if (suggestedMethods.add(field.getElementName())) {
 							result.add(new RecordAccessorCompletionProposal(type, field.getElementName(), field.getTypeSignature(), offset, length, relevance + 1));
@@ -73,7 +73,7 @@ public class RecordAccessorCompletionProposal extends JavaTypeCompletionProposal
 	}
 
 	private static boolean hasMethod(IMethod[] methods, String name) {
-		for (IMethod curr : methods) {
+		for (IMethod curr : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getElementName().equals(name) && curr.getParameterTypes().length == 0) {
 				return true;
 			}
@@ -110,7 +110,7 @@ public class RecordAccessorCompletionProposal extends JavaTypeCompletionProposal
 		return buf;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateReplacementString(IDocument document, char trigger, int offset, ImportRewrite impRewrite) throws CoreException, BadLocationException {
 
 		CodeGenerationSettings settings= JavaPreferencesSettings.getCodeGenerationSettings(fType.getJavaProject());
@@ -120,29 +120,29 @@ public class RecordAccessorCompletionProposal extends JavaTypeCompletionProposal
 		String lineDelim= TextUtilities.getDefaultLineDelimiter(document);
 		String declTypeName= fType.getTypeQualifiedName('.');
 
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (addComments) {
 			String comment= CodeGeneration.getMethodComment(fType.getCompilationUnit(), declTypeName, fMethodName, empty, empty, fReturnTypeSig, empty, null, lineDelim);
 			if (comment != null) {
-				buf.append(comment);
-				buf.append(lineDelim);
+				buf.append(comment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
-		buf.append("public "); //$NON-NLS-1$
+		buf.append("public "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (fReturnTypeSig != null) {
-			buf.append(Signature.toString(fReturnTypeSig));
+			buf.append(Signature.toString(fReturnTypeSig)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(' ');
-		buf.append(fMethodName);
-		buf.append("() {"); //$NON-NLS-1$
-		buf.append(lineDelim);
+		buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(fMethodName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("() {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		String returnStatement= "return " + fMethodName + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-		buf.append(returnStatement);
-		buf.append(lineDelim);
-		buf.append("}"); //$NON-NLS-1$
-		buf.append(lineDelim);
+		String returnStatement= "return " + fMethodName + ";"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		buf.append(returnStatement); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String stub=  buf.toString();
 
 		// use the code formatter

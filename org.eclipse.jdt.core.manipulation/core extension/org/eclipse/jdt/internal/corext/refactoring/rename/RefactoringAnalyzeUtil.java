@@ -64,7 +64,7 @@ public class RefactoringAnalyzeUtil {
 
 	public static IRegion[] getNewRanges(TextEdit[] edits, TextChange change){
 		IRegion[] result= new IRegion[edits.length];
-		for (int i= 0; i < edits.length; i++) {
+		for (int i= 0; i < edits.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= RefactoringAnalyzeUtil.getNewTextRange(edits[i], change);
 		}
 		return result;
@@ -72,7 +72,7 @@ public class RefactoringAnalyzeUtil {
 
 	public static RefactoringStatus reportProblemNodes(String modifiedWorkingCopySource, SimpleName[] problemNodes) {
 		RefactoringStatus result= new RefactoringStatus();
-		for (SimpleName problemNode : problemNodes) {
+		for (SimpleName problemNode : problemNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			RefactoringStatusContext context= new JavaStringStatusContext(modifiedWorkingCopySource, SourceRangeFactory.create(problemNode));
 			result.addError(Messages.format(RefactoringCoreMessages.RefactoringAnalyzeUtil_name_collision, BasicElementLabels.getJavaElementName(problemNode.getIdentifier())), context);
 		}
@@ -107,7 +107,7 @@ public class RefactoringAnalyzeUtil {
 		MethodDeclaration compConst= null;
 		if (recDecl != null) {
 			MethodDeclaration[] decls= recDecl.getMethods();
-			for (MethodDeclaration mDecl : decls) {
+			for (MethodDeclaration mDecl : decls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethodBinding mBinding= mDecl.resolveBinding();
 				if (mBinding != null && mBinding.isCompactConstructor()) {
 					compConst= mDecl;
@@ -119,10 +119,10 @@ public class RefactoringAnalyzeUtil {
 	}
 
 	public static IProblem[] getIntroducedCompileProblems(CompilationUnit newCUNode, CompilationUnit oldCuNode) {
-		Set<IProblem> subResult= new HashSet<>();
+		Set<IProblem> subResult= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Set<IProblem> oldProblems= getOldProblems(oldCuNode);
 		IProblem[] newProblems= ASTNodes.getProblems(newCUNode, ASTNodes.INCLUDE_ALL_PARENTS, ASTNodes.PROBLEMS);
-		for (IProblem newProblem : newProblems) {
+		for (IProblem newProblem : newProblems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblem correspondingOld= findCorrespondingProblem(oldProblems, newProblem);
 			if (correspondingOld == null)
 				subResult.add(newProblem);
@@ -135,7 +135,7 @@ public class RefactoringAnalyzeUtil {
 		String newCuSource= change.getPreviewContent(new NullProgressMonitor());
 		CompilationUnit newCuNode= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(newCuSource, originalCu, true, true, pm);
 		IProblem[] newProblems= getIntroducedCompileProblems(newCuNode, oldCuNode);
-		for (IProblem problem : newProblems) {
+		for (IProblem problem : newProblems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem.isError())
 				result.addEntry(new RefactoringStatusEntry(RefactoringStatus.ERROR, problem.getMessage(), new JavaStringStatusContext(newCuSource, SourceRangeFactory.create(problem))));
 		}
@@ -147,7 +147,7 @@ public class RefactoringAnalyzeUtil {
 		String newCuSource= change.get();
 		CompilationUnit newCuNode= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(newCuSource, originalCu, true, true, pm);
 		IProblem[] newProblems= getIntroducedCompileProblems(newCuNode, oldCuNode);
-		for (IProblem problem : newProblems) {
+		for (IProblem problem : newProblems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem.isError())
 				result.addEntry(new RefactoringStatusEntry(RefactoringStatus.ERROR, problem.getMessage(), new JavaStringStatusContext(newCuSource, SourceRangeFactory.create(problem))));
 		}
@@ -159,7 +159,7 @@ public class RefactoringAnalyzeUtil {
 	}
 
 	private static IProblem findCorrespondingProblem(Set<IProblem> oldProblems, IProblem iProblem) {
-		for (IProblem oldProblem : oldProblems) {
+		for (IProblem oldProblem : oldProblems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isCorresponding(oldProblem, iProblem))
 				return oldProblem;
 		}
@@ -188,6 +188,6 @@ public class RefactoringAnalyzeUtil {
 	}
 
 	private static Set<IProblem> getOldProblems(CompilationUnit oldCuNode) {
-		return new HashSet<>(Arrays.asList(ASTNodes.getProblems(oldCuNode, ASTNodes.INCLUDE_ALL_PARENTS, ASTNodes.PROBLEMS)));
+		return new HashSet<>(Arrays.asList(ASTNodes.getProblems(oldCuNode, ASTNodes.INCLUDE_ALL_PARENTS, ASTNodes.PROBLEMS))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 }

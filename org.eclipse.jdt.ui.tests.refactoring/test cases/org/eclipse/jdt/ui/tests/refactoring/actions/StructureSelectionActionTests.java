@@ -47,14 +47,14 @@ public class StructureSelectionActionTests extends GenericRefactoringTest {
 	}
 
 	private String getSimpleTestFileName(boolean input){
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
-		fileName.append(input ? "": "_out");
-		fileName.append(input ? ".java": ".txt");
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(input ? "": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(input ? ".java": ".txt"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return fileName.toString();
 	}
 
 	private String getTestFileName(boolean input){
-		return TEST_PATH_PREFIX + getRefactoringPath() + getSimpleTestFileName(input);
+		return TEST_PATH_PREFIX + getRefactoringPath() + getSimpleTestFileName(input); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	//------------
@@ -124,7 +124,7 @@ public class StructureSelectionActionTests extends GenericRefactoringTest {
 	}
 
 	private void offsetTest(int line, int column, int expected) throws Exception {
-		String filePath= TEST_PATH_PREFIX + getRefactoringPath() + "OffsetTest.java";
+		String filePath= TEST_PATH_PREFIX + getRefactoringPath() + "OffsetTest.java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ICompilationUnit cu= createCU(getPackageP(), "OffsetTest.java", getFileContents(filePath));
 		assertEquals("incorrect offset", expected, TextRangeUtil.getOffset(cu, line, column));
 	}

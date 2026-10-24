@@ -48,7 +48,7 @@ public class FailureTrace implements IMenuListener {
 	/**
 	 * Internal property change listener for handling workbench font changes.
 	 */
-	private class FontPropertyChangeListener implements IPropertyChangeListener {
+	private class FontPropertyChangeListener implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 		/*
 		 * @see IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
 		 */
@@ -78,7 +78,7 @@ public class FailureTrace implements IMenuListener {
 	private IPropertyChangeListener fFontPropertyChangeListener;
 	private ShowStackTraceInConsoleViewAction fShowTraceInConsoleAction;
 
-	public FailureTrace(Composite parent, Clipboard clipboard, TestRunnerViewPart testRunner, ToolBar toolBar) {
+	public FailureTrace(Composite parent, Clipboard clipboard, TestRunnerViewPart testRunner, ToolBar toolBar) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(clipboard);
 
 		// fill the failure trace viewer toolbar
@@ -98,7 +98,7 @@ public class FailureTrace implements IMenuListener {
 		fClipboard= clipboard;
 
 		OpenStrategy handler = new OpenStrategy(fTable);
-		handler.addOpenListener(unused -> {
+		handler.addOpenListener(unused -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			if (fTable.getSelectionIndex() == 0 && fFailure.isComparisonFailure()) {
 				fCompareAction.run();
 			}
@@ -110,7 +110,7 @@ public class FailureTrace implements IMenuListener {
 		});
 
 		fFontPropertyChangeListener = new FontPropertyChangeListener();
-		JFaceResources.getFontRegistry().addListener(fFontPropertyChangeListener);
+		JFaceResources.getFontRegistry().addListener(fFontPropertyChangeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		initMenu();
 
@@ -120,7 +120,7 @@ public class FailureTrace implements IMenuListener {
 	private void initMenu() {
 		MenuManager menuMgr= new MenuManager();
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(this);
+		menuMgr.addMenuListener(this); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		Menu menu= menuMgr.createContextMenu(fTable);
 		fTable.setMenu(menu);
 	}
@@ -146,7 +146,7 @@ public class FailureTrace implements IMenuListener {
 		return fTable.getSelection()[0].getText();
 	}
 
-	private Action createOpenEditorAction(String traceLine) {
+	private Action createOpenEditorAction(String traceLine) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			String testName= traceLine;
 			int indexOfFramePrefix= testName.indexOf(FRAME_PREFIX);

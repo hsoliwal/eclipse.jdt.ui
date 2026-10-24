@@ -66,18 +66,18 @@ public class ReplaceDeprecatedFieldCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("Class E {\n"); //$NON-NLS-1$
-		bld.append("  /**\n"); //$NON-NLS-1$
-		bld.append("   * @deprecated use {@link K#field2} instead\n"); //$NON-NLS-1$
-		bld.append("   */\n"); //$NON-NLS-1$
-		bld.append("  @Deprecated\n"); //$NON-NLS-1$
-		bld.append("  public int field1;\n"); //$NON-NLS-1$
-		bld.append("}\n\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("Class E {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  /**\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("   * @deprecated use {@link K#field2} instead\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("   */\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  @Deprecated\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  public int field1;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.REPLACE_DEPRECATED_FIELDS)) {
-			bld.append("return K.field2;\n"); //$NON-NLS-1$
+			bld.append("return K.field2;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("return E.field1;\n"); //$NON-NLS-1$
+			bld.append("return E.field1;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return bld.toString();
 	}
@@ -87,7 +87,7 @@ public class ReplaceDeprecatedFieldCleanUpCore extends AbstractMultiFix {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit compilationUnit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.REPLACE_DEPRECATED_FIELDS)) {
 			return null;
@@ -95,7 +95,7 @@ public class ReplaceDeprecatedFieldCleanUpCore extends AbstractMultiFix {
 		if (compilationUnit == null)
 			return null;
 
-		final List<ReplaceDeprecatedFieldFixCore.ReplaceDeprecatedFieldProposalOperation> deprecatedFields= new ArrayList<>();
+		final List<ReplaceDeprecatedFieldFixCore.ReplaceDeprecatedFieldProposalOperation> deprecatedFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ASTVisitor visitor= new ASTVisitor() {
 			@Override
 			public boolean visit(QualifiedName node) {
@@ -140,7 +140,7 @@ public class ReplaceDeprecatedFieldCleanUpCore extends AbstractMultiFix {
 		return new ReplaceDeprecatedFieldFixCore(getPreview(), compilationUnit, deprecatedFields.toArray(new CompilationUnitRewriteOperation[0]));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int computeNumberOfFixes(CompilationUnit compilationUnit) {
 		if (!isEnabled(CleanUpConstants.REPLACE_DEPRECATED_FIELDS)) {
 			return 0;
@@ -148,7 +148,7 @@ public class ReplaceDeprecatedFieldCleanUpCore extends AbstractMultiFix {
 		if (compilationUnit == null)
 			return 0;
 
-		final List<ASTNode> deprecatedFields= new ArrayList<>();
+		final List<ASTNode> deprecatedFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ASTVisitor visitor= new ASTVisitor() {
 			@Override
 			public boolean visit(QualifiedName node) {

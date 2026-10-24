@@ -22,7 +22,7 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * Filters annotations.
  */
-public class AnnotationFilter extends ViewerFilter {
+public class AnnotationFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

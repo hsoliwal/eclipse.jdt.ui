@@ -34,13 +34,13 @@ public final class GenerateLeakTestVmArguments {
 		Path output= Path.of(args[0]).toAbsolutePath();
 		Path parent= output.getParent();
 		if (parent != null) {
-			Files.createDirectories(parent);
+			Files.createDirectories(parent); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
-		Files.write(output, createVmArguments(), StandardCharsets.UTF_8);
+		Files.write(output, createVmArguments(), StandardCharsets.UTF_8); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	static List<String> createVmArguments() {
-		List<String> vmArguments= new ArrayList<>();
+		List<String> vmArguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		vmArguments.add(ADD_MODULES_ALL_SYSTEM);
 		ModuleFinder.ofSystem().findAll().stream()
 				.sorted(Comparator.comparing(reference -> reference.descriptor().name()))
@@ -48,7 +48,7 @@ public final class GenerateLeakTestVmArguments {
 					String moduleName= reference.descriptor().name();
 					reference.descriptor().packages().stream()
 							.sorted()
-							.map(packageName -> "--add-opens=" + moduleName + "/" + packageName + "=ALL-UNNAMED")
+							.map(packageName -> "--add-opens=" + moduleName + "/" + packageName + "=ALL-UNNAMED") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							.forEach(vmArguments::add);
 				});
 		return vmArguments;

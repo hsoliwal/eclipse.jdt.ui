@@ -121,7 +121,7 @@ public class GetterSetterUtil {
 	 * @return Returns the generated stub.
 	 * @throws CoreException when stub creation failed
 	 */
-	public static String getSetterStub(IField field, String setterName, boolean addComments, int flags) throws CoreException {
+	public static String getSetterStub(IField field, String setterName, boolean addComments, int flags) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String fieldName= field.getElementName();
 		IType parentType= field.getDeclaringType();
@@ -139,44 +139,44 @@ public class GetterSetterUtil {
 		boolean isFinal= Flags.isFinal(flags);
 
 		String lineDelim= "\n"; // Use default line delimiter, as generated stub has to be formatted anyway //$NON-NLS-1$
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (addComments) {
 			String comment= CodeGeneration.getSetterComment(field.getCompilationUnit(), parentType.getTypeQualifiedName('.'), setterName, field.getElementName(), typeName, argname, accessorName, lineDelim);
 			if (comment != null) {
-				buf.append(comment);
-				buf.append(lineDelim);
+				buf.append(comment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
-		buf.append(JdtFlags.getVisibilityString(flags));
-		buf.append(' ');
+		buf.append(JdtFlags.getVisibilityString(flags)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isStatic)
-			buf.append("static "); //$NON-NLS-1$
+			buf.append("static "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isSync)
-			buf.append("synchronized "); //$NON-NLS-1$
+			buf.append("synchronized "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isFinal)
-			buf.append("final "); //$NON-NLS-1$
+			buf.append("final "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		buf.append("void "); //$NON-NLS-1$
-		buf.append(setterName);
-		buf.append('(');
-		buf.append(typeName);
-		buf.append(' ');
-		buf.append(argname);
-		buf.append(") {"); //$NON-NLS-1$
-		buf.append(lineDelim);
+		buf.append("void "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(setterName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(typeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(argname); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(") {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		boolean useThis= StubUtility.useThisForFieldAccess(project);
 		if (argname.equals(fieldName) || (useThis && !isStatic)) {
 			if (isStatic)
-				fieldName= parentType.getElementName() + '.' + fieldName;
+				fieldName= parentType.getElementName() + '.' + fieldName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
-				fieldName= "this." + fieldName; //$NON-NLS-1$
+				fieldName= "this." + fieldName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		String body= CodeGeneration.getSetterMethodBodyContent(field.getCompilationUnit(), parentType.getTypeQualifiedName('.'), setterName, fieldName, argname, lineDelim);
 		if (body != null) {
-			buf.append(body);
+			buf.append(body); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}"); //$NON-NLS-1$
+		buf.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -190,7 +190,7 @@ public class GetterSetterUtil {
 	 * @return Returns the generated stub.
 	 * @throws CoreException when stub creation failed
 	 */
-	public static String getGetterStub(IField field, String getterName, boolean addComments, int flags) throws CoreException {
+	public static String getGetterStub(IField field, String getterName, boolean addComments, int flags) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String fieldName= field.getElementName();
 		IType parentType= field.getDeclaringType();
 
@@ -202,40 +202,40 @@ public class GetterSetterUtil {
 		String accessorName= StubUtility.getBaseName(field);
 
 		String lineDelim= "\n"; // Use default line delimiter, as generated stub has to be formatted anyway //$NON-NLS-1$
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (addComments) {
 			String comment= CodeGeneration.getGetterComment(field.getCompilationUnit(), parentType.getTypeQualifiedName('.'), getterName, field.getElementName(), typeName, accessorName, lineDelim);
 			if (comment != null) {
-				buf.append(comment);
-				buf.append(lineDelim);
+				buf.append(comment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 
-		buf.append(JdtFlags.getVisibilityString(flags));
-		buf.append(' ');
+		buf.append(JdtFlags.getVisibilityString(flags)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isStatic)
-			buf.append("static "); //$NON-NLS-1$
+			buf.append("static "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isSync)
-			buf.append("synchronized "); //$NON-NLS-1$
+			buf.append("synchronized "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isFinal)
-			buf.append("final "); //$NON-NLS-1$
+			buf.append("final "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		buf.append(typeName);
-		buf.append(' ');
-		buf.append(getterName);
-		buf.append("() {"); //$NON-NLS-1$
-		buf.append(lineDelim);
+		buf.append(typeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(getterName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("() {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		boolean useThis= StubUtility.useThisForFieldAccess(field.getJavaProject());
 		if (useThis && !isStatic) {
-			fieldName= "this." + fieldName; //$NON-NLS-1$
+			fieldName= "this." + fieldName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		String body= CodeGeneration.getGetterMethodBodyContent(field.getCompilationUnit(), parentType.getTypeQualifiedName('.'), getterName, fieldName, lineDelim);
 		if (body != null) {
-			buf.append(body);
+			buf.append(body); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}"); //$NON-NLS-1$
+		buf.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -248,7 +248,7 @@ public class GetterSetterUtil {
 	 * @param variableType the type of the variable that the result will be assigned to
 	 * @return an expression that can be assigned to the type variableType with node being replaced by a equivalent expression using the getter
 	 */
-	public static Expression getAssignedValue(ASTNode node, ASTRewrite astRewrite, Expression getterExpression, ITypeBinding variableType) {
+	public static Expression getAssignedValue(ASTNode node, ASTRewrite astRewrite, Expression getterExpression, ITypeBinding variableType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InfixExpression.Operator op= null;
 		AST ast= astRewrite.getAST();
 		if (isNotInBlock(node))
@@ -326,7 +326,7 @@ public class GetterSetterUtil {
 	 * @param variableType the Type of the variable the expression will be assigned to
 	 * @return the casted expression if necessary
 	 */
-	private static Expression createNarrowCastIfNessecary(Expression expression, ITypeBinding expressionType, AST ast, ITypeBinding variableType) {
+	private static Expression createNarrowCastIfNessecary(Expression expression, ITypeBinding expressionType, AST ast, ITypeBinding variableType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PrimitiveType castTo= null;
 		if (variableType.isEqualTo(expressionType))
 			return expression; //no cast for same type

@@ -54,7 +54,7 @@ public class AddTypeParameterProposalCore extends LinkedCorrectionProposalCore {
 	private final String fTypeParamName;
 	private final ITypeBinding[] fBounds;
 
-	public AddTypeParameterProposalCore(ICompilationUnit targetCU, IBinding binding, CompilationUnit astRoot, String name, ITypeBinding[] bounds, int relevance) {
+	public AddTypeParameterProposalCore(ICompilationUnit targetCU, IBinding binding, CompilationUnit astRoot, String name, ITypeBinding[] bounds, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", targetCU, null, relevance); //$NON-NLS-1$
 
 		Assert.isTrue(binding != null && Bindings.isDeclarationBinding(binding));
@@ -73,7 +73,7 @@ public class AddTypeParameterProposalCore extends LinkedCorrectionProposalCore {
 			setDisplayName(Messages.format(CorrectionMessages.AddTypeParameterProposal_type_label, args));
 		}
 	}
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		ASTNode boundNode= fAstRoot.findDeclaringNode(fBinding);
 		ASTNode declNode= null;
@@ -92,7 +92,7 @@ public class AddTypeParameterProposalCore extends LinkedCorrectionProposalCore {
 		if (fBounds != null && fBounds.length > 0) {
 			List<Type> typeBounds= newTypeParam.typeBounds();
 			ImportRewriteContext importRewriteContext= new ContextSensitiveImportRewriteContext(declNode, getImportRewrite());
-			for (ITypeBinding fBound : fBounds) {
+			for (ITypeBinding fBound : fBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type newBound= getImportRewrite().addImport(fBound, ast, importRewriteContext, TypeLocation.TYPE_BOUND);
 				typeBounds.add(newBound);
 			}
@@ -118,7 +118,7 @@ public class AddTypeParameterProposalCore extends LinkedCorrectionProposalCore {
 			ListRewrite tagsRewriter= rewrite.getListRewrite(javadoc, Javadoc.TAGS_PROPERTY);
 			Set<String> previousNames= JavadocTagsSubProcessorCore.getPreviousTypeParamNames(otherTypeParams, null);
 
-			String name= '<' + fTypeParamName + '>';
+			String name= '<' + fTypeParamName + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			TagElement newTag= ast.newTagElement();
 			newTag.setTagName(TagElement.TAG_PARAM);
 			TextElement text= ast.newTextElement();

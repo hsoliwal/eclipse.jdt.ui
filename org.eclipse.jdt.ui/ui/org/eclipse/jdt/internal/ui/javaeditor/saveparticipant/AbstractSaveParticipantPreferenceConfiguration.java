@@ -161,6 +161,6 @@ public abstract class AbstractSaveParticipantPreferenceConfiguration implements 
 	}
 
 	private String getPreferenceKey() {
-		return EDITOR_SAVE_PARTICIPANT_PREFIX + getPostSaveListenerId();
+		return EDITOR_SAVE_PARTICIPANT_PREFIX + getPostSaveListenerId(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
 }

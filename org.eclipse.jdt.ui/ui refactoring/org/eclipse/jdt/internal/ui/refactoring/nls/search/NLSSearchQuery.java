@@ -75,7 +75,7 @@ public class NLSSearchQuery implements ISearchQuery {
 	/*
 	 * @see org.eclipse.search.ui.ISearchQuery#run(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus run(IProgressMonitor monitor) {
 		monitor.beginTask("", 5 * fWrapperClass.length); //$NON-NLS-1$
 
@@ -83,7 +83,7 @@ public class NLSSearchQuery implements ISearchQuery {
 			final AbstractTextSearchResult textResult= (AbstractTextSearchResult) getSearchResult();
 			textResult.removeAll();
 
-			for (int i= 0; i < fWrapperClass.length; i++) {
+			for (int i= 0; i < fWrapperClass.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement wrapperClass= fWrapperClass[i];
 				IFile propertieFile= fPropertiesFile[i];
 				if (! wrapperClass.exists())
@@ -107,7 +107,7 @@ public class NLSSearchQuery implements ISearchQuery {
 					CompilationUnitEntry groupElement= new CompilationUnitEntry(NLSSearchMessages.NLSSearchResultCollector_unusedKeys, compilationUnit);
 
 					boolean hasUnusedPropertie= false;
-					for (IField field : ((IType)wrapperClass).getFields()) {
+					for (IField field : ((IType)wrapperClass).getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (isNLSField(field)) {
 							ISourceRange sourceRange= field.getSourceRange();
 							if (sourceRange != null) {

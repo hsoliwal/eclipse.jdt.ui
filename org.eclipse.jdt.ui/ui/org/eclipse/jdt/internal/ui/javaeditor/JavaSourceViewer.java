@@ -67,7 +67,7 @@ import org.eclipse.jdt.internal.ui.text.java.JavaFormattingContext;
 
 
 
-public class JavaSourceViewer extends ProjectionViewer implements IPropertyChangeListener {
+public class JavaSourceViewer extends ProjectionViewer implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	/**
 	 * Text operation code for requesting the outline for the current input.
@@ -145,7 +145,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 		// it's ok to use instance preferences here as subclasses replace
 		// with project dependent versions (see CompilationUnitEditor.AdaptedSourceViewer)
 		IFormattingContext context= new JavaFormattingContext();
-		Map<String, String> map= new HashMap<>(JavaCore.getOptions());
+		Map<String, String> map= new HashMap<>(JavaCore.getOptions()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		context.setProperty(FormattingContextProperties.CONTEXT_PREFERENCES, map);
 
 		return context;
@@ -202,7 +202,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 	/*
 	 * @see ISourceViewer#configure(SourceViewerConfiguration)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void configure(SourceViewerConfiguration configuration) {
 
 		/*
@@ -246,7 +246,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 	}
 
 
-	protected void initializeViewerColors() {
+	protected void initializeViewerColors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPreferenceStore != null) {
 
 			StyledText styledText= getTextWidget();
@@ -333,7 +333,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 	 * @see org.eclipse.jface.text.source.ISourceViewerExtension2#unconfigure()
 	 * @since 3.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void unconfigure() {
 		if (fOutlinePresenter != null) {
 			fOutlinePresenter.uninstall();
@@ -413,7 +413,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 	/*
 	 * @see org.eclipse.jface.text.source.SourceViewer#createControl(org.eclipse.swt.widgets.Composite, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createControl(Composite parent, int styles) {
 
 		// Use LEFT_TO_RIGHT unless otherwise specified.
@@ -476,7 +476,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 		Assert.isNotNull(listener);
 
 		if (fTextPresentationListeners == null)
-			fTextPresentationListeners= new ArrayList<>();
+			fTextPresentationListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fTextPresentationListeners.remove(listener);
 		fTextPresentationListeners.add(0, listener);
@@ -516,7 +516,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 	 * @return the line's Bidi segmentation
 	 * @throws BadLocationException in case lineOffset is not valid in document
 	 */
-	protected static int[] getBidiLineSegments(IDocument document, int baseLevel, int lineStart, String lineText) throws BadLocationException {
+	protected static int[] getBidiLineSegments(IDocument document, int baseLevel, int lineStart, String lineText) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (lineText == null || document == null)
 			return null;
@@ -546,7 +546,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 		int segmentIndex= 1;
 		int[] segments= new int[lineLength + 1];
 		int nPartitions= linePartitioning.length;
-		for (int partitionIndex= 0; partitionIndex < nPartitions; partitionIndex++) {
+		for (int partitionIndex= 0; partitionIndex < nPartitions; partitionIndex++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			ITypedRegion partition = linePartitioning[partitionIndex];
 			int lineOffset= partition.getOffset() - lineStart;
@@ -564,9 +564,9 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 			}
 			if (IDocument.DEFAULT_CONTENT_TYPE.equals(partition.getType())) {
 				int partitionEnd= Math.min(lineLength, lineOffset + partition.getLength());
-				while (++lineOffset < partitionEnd) {
+				while (++lineOffset < partitionEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isMismatchingLevel(bidi.getLevelAt(lineOffset), baseLevel)
-							&& String.valueOf(lineText.charAt(lineOffset)).matches(BIDI_DELIMITERS)) {
+							&& String.valueOf(lineText.charAt(lineOffset)).matches(BIDI_DELIMITERS)) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						// For default content types, indicate a segment before
 						// a delimiting character with a mismatching embedding
 						// level.

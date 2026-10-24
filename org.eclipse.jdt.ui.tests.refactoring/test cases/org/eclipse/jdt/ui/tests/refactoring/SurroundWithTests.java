@@ -41,7 +41,7 @@ public class SurroundWithTests extends AbstractJunit4SelectionTestCase {
 
 	@Override
 	protected String adaptName(String name) {
-		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java";
+		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void performTest(IPackageFragment packageFragment, String name, String outputFolder, TestMode mode) throws Exception {

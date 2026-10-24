@@ -162,7 +162,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 			presentation.clear();
 
 			String content= super.updatePresentation(drawable, hoverInfo, presentation, maxWidth, maxHeight);
-			return content + System.lineSeparator()+System.lineSeparator() + warning;
+			return content + System.lineSeparator()+System.lineSeparator() + warning; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 	/**
@@ -322,7 +322,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	 *
 	 * @since 3.3
 	 */
-	public static final class PresenterControlCreator extends AbstractReusableInformationControlCreator {
+	public static final class PresenterControlCreator extends AbstractReusableInformationControlCreator { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 		private final IWorkbenchSite fSite;
 
@@ -336,7 +336,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 			fSite= site;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IInformationControl doCreateInformationControl(Shell parent) {
 			if (BrowserInformationControl.isAvailable(parent)) {
 				ToolBarManager tbm= new ToolBarManager(SWT.FLAT);
@@ -360,7 +360,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 					OpenAttachedJavadocAction openAttachedJavadocAction= new OpenAttachedJavadocAction(fSite);
 					openAttachedJavadocAction.setSpecialSelectionProvider(selectionProvider);
 					openAttachedJavadocAction.setImageDescriptor(JavaPluginImages.DESC_ELCL_OPEN_BROWSER);
-					selectionProvider.addSelectionChangedListener(openAttachedJavadocAction);
+					selectionProvider.addSelectionChangedListener(openAttachedJavadocAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 					selectionProvider.setSelection(new StructuredSelection());
 					tbm.add(openAttachedJavadocAction);
 				}
@@ -422,7 +422,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	 *
 	 * @since 3.3
 	 */
-	public static final class HoverControlCreator extends AbstractReusableInformationControlCreator implements IPropertyChangeListener {
+	public static final class HoverControlCreator extends AbstractReusableInformationControlCreator implements IPropertyChangeListener { //FLLDCIM: MARK — T01  IMPLEMENTS
 		/**
 		 * The information presenter control creator.
 		 * @since 3.4
@@ -455,7 +455,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.text.java.hover.AbstractReusableInformationControlCreator#doCreateInformationControl(org.eclipse.swt.widgets.Shell)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IInformationControl doCreateInformationControl(Shell parent) {
 			String tooltipAffordanceString= fAdditionalInfoAffordance ? JavaPlugin.getAdditionalInfoAffordanceString() : EditorsUI.getTooltipAffordanceString();
 			if (BrowserInformationControl.isAvailable(parent)) {
@@ -468,13 +468,13 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 					}
 				};
 				iControl.setDisposeTimeout(getDisposeHoverTimeout());
-				JFaceResources.getColorRegistry().addListener(this); // So propertyChange() method is triggered in context of IPropertyChangeListener
+				JFaceResources.getColorRegistry().addListener(this); // So propertyChange() method is triggered in context of IPropertyChangeListener //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				setHoverColors();
 
 				addLinkListener(iControl);
 				return iControl;
 			} else {
-				return new DefaultInformationControl(parent, tooltipAffordanceString) {
+				return new DefaultInformationControl(parent, tooltipAffordanceString) { //FLLDCIM: MARK — T01  ANONYMOUS
 					@Override
 					public IInformationControlCreator getInformationPresenterControlCreator() {
 						return parentShell -> new DefaultInformationControl(parentShell, (ToolBarManager) null, new FallbackInformationPresenter());
@@ -603,7 +603,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	}
 
 
-	public static IEditorPart openDeclaration(IJavaElement element) throws PartInitException, JavaModelException {
+	public static IEditorPart openDeclaration(IJavaElement element) throws PartInitException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(element instanceof IPackageFragment)) {
 			return JavaUI.openInEditor(element);
 		}
@@ -623,7 +623,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 
 		// open the package.html file in editor if one exists
 		Object[] nonJavaResources= packageFragment.getNonJavaResources();
-		for (Object nonJavaResource : nonJavaResources) {
+		for (Object nonJavaResource : nonJavaResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (nonJavaResource instanceof IFile) {
 				IFile file= (IFile) nonJavaResource;
 				if (file.exists() && JavaModelUtil.PACKAGE_HTML.equals(file.getName())) {
@@ -638,7 +638,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		return null;
 	}
 
-	private static void addLinkListener(final BrowserInformationControl control) {
+	private static void addLinkListener(final BrowserInformationControl control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		control.addLocationListener(JavaElementLinks.createLocationListener(new JavaElementLinks.ILinkHandler() {
 			@Override
 			public void handleJavadocViewLink(IJavaElement linkTarget) {
@@ -735,12 +735,12 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	 *         IPackageFragment, else return the elements array unaltered
 	 * @since 3.9
 	 */
-	private static IJavaElement[] filterDuplicatePackages(IJavaElement[] elements) {
+	private static IJavaElement[] filterDuplicatePackages(IJavaElement[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements.length <= 1 || !(elements[0] instanceof IPackageFragment)) {
 			return elements;
 		}
 
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				if (element instanceof IPackageFragment) {
 					IPackageFragment packageFragment= (IPackageFragment) element;
@@ -765,8 +765,8 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	 * @return the HTML hover info for the given element(s) or <code>null</code> if no information is available
 	 * @since 3.4
 	 */
-	public static JavadocBrowserInformationControlInput getHoverInfo(IJavaElement[] elements, ITypeRoot editorInputElement, IRegion hoverRegion, JavadocBrowserInformationControlInput previousInput) {
-		StringBuilder buffer= new StringBuilder();
+	public static JavadocBrowserInformationControlInput getHoverInfo(IJavaElement[] elements, ITypeRoot editorInputElement, IRegion hoverRegion, JavadocBrowserInformationControlInput previousInput) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean hasContents= false;
 		String base= null;
 		IJavaElement element= null;
@@ -775,7 +775,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		elements= filterDuplicatePackages(elements);
 
 		if (elements.length > 1) {
-			for (IJavaElement el : elements) {
+			for (IJavaElement el : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				HTMLPrinter.startBulletList(buffer);
 				IJavaElement curr= el;
 				if (curr instanceof IMember || curr.getElementType() == IJavaElement.LOCAL_VARIABLE) {
@@ -799,7 +799,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 			if (element instanceof IPackageFragment || element instanceof IMember
 					|| element instanceof ILocalVariable || element instanceof ITypeParameter) {
 				HTMLPrinter.addSmallHeader(buffer, getInfoText(element, editorInputElement, hoverRegion, true));
-				buffer.append("<br>"); //$NON-NLS-1$
+				buffer.append("<br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				addAnnotations(buffer, element, editorInputElement, hoverRegion);
 				Reader reader= null;
 				try {
@@ -841,7 +841,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 			HTMLPrinter.insertPageProlog(buffer, 0, fgRGB, bgRGB, JavadocHover.getStyleSheet(buffer));
 			if (base != null) {
 				int endHeadIdx= buffer.indexOf("</head>"); //$NON-NLS-1$
-				buffer.insert(endHeadIdx, "\n<base href='" + base + "'>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				buffer.insert(endHeadIdx, "\n<base href='" + base + "'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			HTMLPrinter.addPageEpilog(buffer);
 			return new JavadocHoverInformationControlInput(previousInput, element, buffer.toString(), leadingImageWidth, editorInputElement, hoverRegion);
@@ -850,7 +850,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		return null;
 	}
 
-	private static String getInfoText(IJavaElement element, ITypeRoot editorInputElement, IRegion hoverRegion, boolean allowImage) {
+	private static String getInfoText(IJavaElement element, ITypeRoot editorInputElement, IRegion hoverRegion, boolean allowImage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long flags= getHeaderFlags(element);
 
 		boolean haveSource= editorInputElement instanceof ICompilationUnit;
@@ -859,17 +859,17 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 
 		StringBuilder label;
 		if (binding != null) {
-			label= new StringBuilder(JavaElementLinks.getBindingLabel(binding, element, flags, haveSource, true));
+			label= new StringBuilder(JavaElementLinks.getBindingLabel(binding, element, flags, haveSource, true)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		} else {
-			label= new StringBuilder(JavaElementLinks.getElementLabel(element, flags, false, true));
+			label= new StringBuilder(JavaElementLinks.getElementLabel(element, flags, false, true)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		}
 
 		if (element.getElementType() == IJavaElement.FIELD) {
 			String constantValue= getConstantValue((IField) element, editorInputElement, hoverRegion);
 			if (constantValue != null) {
 				constantValue= HTMLPrinter.convertToHTMLContentWithWhitespace(constantValue);
-				label.append(CONSTANT_VALUE_SEPARATOR);
-				label.append(constantValue);
+				label.append(CONSTANT_VALUE_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				label.append(constantValue); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 
@@ -882,8 +882,8 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 			}
 			if (defaultValue != null) {
 				defaultValue= HTMLPrinter.convertToHTMLContentWithWhitespace(defaultValue);
-				label.append(CONSTANT_VALUE_SEPARATOR);
-				label.append(defaultValue);
+				label.append(CONSTANT_VALUE_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				label.append(defaultValue); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 
@@ -899,7 +899,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	 * @return the default value of the given annotation type method or <code>null</code> if none
 	 * @throws JavaModelException if an exception occurs while accessing its default value
 	 */
-	public static String getAnnotationMemberDefaultValue(IMethod method, ITypeRoot editorInputElement, IRegion hoverRegion) throws JavaModelException {
+	public static String getAnnotationMemberDefaultValue(IMethod method, ITypeRoot editorInputElement, IRegion hoverRegion) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMemberValuePair memberValuePair= method.getDefaultValue();
 		if (memberValuePair == null) {
 			return null;
@@ -932,7 +932,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		return null;
 	}
 
-	private static IBinding getHoveredNodeBinding(IJavaElement element, ITypeRoot editorInputElement, IRegion hoverRegion) {
+	private static IBinding getHoveredNodeBinding(IJavaElement element, ITypeRoot editorInputElement, IRegion hoverRegion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (editorInputElement == null || hoverRegion == null) {
 			return null;
 		}
@@ -963,7 +963,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	 * @param node the AST node corresponding to the given element, or null, if no AST node is available.
 	 * @return either a binding corresponding to the given element or null.
 	 */
-	public static IBinding getHoverBinding(IJavaElement element, ASTNode node) {
+	public static IBinding getHoverBinding(IJavaElement element, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (JavaCore.ENABLED.equals(element.getJavaProject().getOption(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, true))) {
 			if (node == null) {
@@ -1033,7 +1033,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	 * @return the constant value for the given field or <code>null</code> if none
 	 * @since 3.4
 	 */
-	public static String getConstantValue(IField field, ITypeRoot editorInputElement, IRegion hoverRegion) {
+	public static String getConstantValue(IField field, ITypeRoot editorInputElement, IRegion hoverRegion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isStaticFinal(field))
 			return null;
 
@@ -1118,12 +1118,12 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	private static final String CSS_PLACEHOLDER_JC_ENUM= "jc_enum_color"; //$NON-NLS-1$
 
 	private static String semanticColorKey(String highlightingKey) {
-		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ highlightingKey
 				+ PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX;
 	}
 
-	public static String substituteJavaSyntaxColors(String css) {
+	public static String substituteJavaSyntaxColors(String css) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= PreferenceConstants.getPreferenceStore();
 		css= css.replace(CSS_PLACEHOLDER_JC_KEYWORD, getCssColor(PreferenceConverter.getColor(store, IJavaColorConstants.JAVA_KEYWORD)));
 		css= css.replace(CSS_PLACEHOLDER_JC_STRING, getCssColor(PreferenceConverter.getColor(store, IJavaColorConstants.JAVA_STRING)));
@@ -1145,7 +1145,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	}
 
 	private static String getCssColor(RGB color) {
-		return "rgb(" + color.red + ", " + color.green + ", " + color.blue + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "rgb(" + color.red + ", " + color.green + ", " + color.blue + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -1155,7 +1155,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	 * @return the style sheet, or <code>null</code> if unable to load
 	 * @since 3.4
 	 */
-	public static String loadStyleSheet(String styleSheetName) {
+	public static String loadStyleSheet(String styleSheetName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Bundle bundle= Platform.getBundle(JavaPlugin.getPluginId());
 		URL styleSheetURL= bundle.getEntry(styleSheetName);
 		if (styleSheetURL == null)
@@ -1164,11 +1164,11 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		BufferedReader reader= null;
 		try {
 			reader= new BufferedReader(new InputStreamReader(styleSheetURL.openStream()));
-			StringBuilder buffer= new StringBuilder(1500);
+			StringBuilder buffer= new StringBuilder(1500); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			String line= reader.readLine();
-			while (line != null) {
-				buffer.append(line);
-				buffer.append('\n');
+			while (line != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buffer.append(line); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				line= reader.readLine();
 			}
 
@@ -1187,68 +1187,68 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		}
 	}
 
-	public static String getImageAndLabel(IJavaElement element, boolean allowImage, String label) {
-		StringBuilder buf= new StringBuilder();
+	public static String getImageAndLabel(IJavaElement element, boolean allowImage, String label) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int imageWidth= 16;
 		int imageHeight= 16;
 		int labelLeft= 20;
 		int labelTop= 2;
 
-		buf.append("<div style='word-wrap: break-word; position: relative; "); //$NON-NLS-1$
+		buf.append("<div style='word-wrap: break-word; position: relative; "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		String imageSrcPath= allowImage ? getImageURL(element) : null;
 		if (imageSrcPath != null) {
-			buf.append("margin-left: ").append(labelLeft).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$
-			buf.append("padding-top: ").append(labelTop).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$
+			buf.append("margin-left: ").append(labelLeft).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("padding-top: ").append(labelTop).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		buf.append("'>"); //$NON-NLS-1$
+		buf.append("'>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (imageSrcPath != null) {
 			if (element != null) {
 				try {
 					String uri= JavaElementLinks.createURI(JavaElementLinks.OPEN_LINK_SCHEME, element);
-					buf.append("<a href='").append(uri).append("'>");  //$NON-NLS-1$//$NON-NLS-2$
+					buf.append("<a href='").append(uri).append("'>");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} catch (URISyntaxException e) {
 					element= null; // no link
 				}
 			}
-			StringBuilder imageStyle= new StringBuilder("border:none; position: absolute; "); //$NON-NLS-1$
-			imageStyle.append("width: ").append(imageWidth).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$
-			imageStyle.append("height: ").append(imageHeight).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$
-			imageStyle.append("left: ").append(- labelLeft - 1).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$
+			StringBuilder imageStyle= new StringBuilder("border:none; position: absolute; "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			imageStyle.append("width: ").append(imageWidth).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			imageStyle.append("height: ").append(imageHeight).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			imageStyle.append("left: ").append(- labelLeft - 1).append("px; "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			// hack for broken transparent PNG support in IE 6, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=223900 :
-			buf.append("<!--[if lte IE 6]><![if gte IE 5.5]>\n"); //$NON-NLS-1$
-			String tooltip= element == null ? "" : "alt='" + JavaHoverMessages.JavadocHover_openDeclaration + "' "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			buf.append("<span ").append(tooltip).append("style=\"").append(imageStyle). //$NON-NLS-1$ //$NON-NLS-2$
+			buf.append("<!--[if lte IE 6]><![if gte IE 5.5]>\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			String tooltip= element == null ? "" : "alt='" + JavaHoverMessages.JavadocHover_openDeclaration + "' "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			buf.append("<span ").append(tooltip).append("style=\"").append(imageStyle). //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					append("filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='").append(imageSrcPath).append("')\"></span>\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			buf.append("<![endif]><![endif]-->\n"); //$NON-NLS-1$
+			buf.append("<![endif]><![endif]-->\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-			buf.append("<!--[if !IE]>-->\n"); //$NON-NLS-1$
-			buf.append("<img ").append(tooltip).append("style='").append(imageStyle).append("' src='").append(imageSrcPath).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			buf.append("<!--<![endif]-->\n"); //$NON-NLS-1$
-			buf.append("<!--[if gte IE 7]>\n"); //$NON-NLS-1$
-			buf.append("<img ").append(tooltip).append("style='").append(imageStyle).append("' src='").append(imageSrcPath).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			buf.append("<![endif]-->\n"); //$NON-NLS-1$
+			buf.append("<!--[if !IE]>-->\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("<img ").append(tooltip).append("style='").append(imageStyle).append("' src='").append(imageSrcPath).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("<!--<![endif]-->\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("<!--[if gte IE 7]>\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("<img ").append(tooltip).append("style='").append(imageStyle).append("' src='").append(imageSrcPath).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("<![endif]-->\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (element != null) {
-				buf.append("</a>"); //$NON-NLS-1$
+				buf.append("</a>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 
-		buf.append(label);
+		buf.append(label); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		buf.append("</div>"); //$NON-NLS-1$
+		buf.append("</div>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
-	public static void addAnnotations(StringBuilder buf, IJavaElement element, ITypeRoot editorInputElement, IRegion hoverRegion) {
+	public static void addAnnotations(StringBuilder buf, IJavaElement element, ITypeRoot editorInputElement, IRegion hoverRegion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (element instanceof IAnnotatable) {
 				String annotationString= getAnnotations(element, editorInputElement, hoverRegion);
 				if (annotationString != null) {
-					buf.append("<div style='margin-bottom: 5px;'>"); //$NON-NLS-1$
-					buf.append(annotationString);
-					buf.append("</div>"); //$NON-NLS-1$
+					buf.append("<div style='margin-bottom: 5px;'>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(annotationString); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append("</div>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			} else if (element instanceof IPackageFragment) {
 				IPackageFragment pack= (IPackageFragment) element;
@@ -1267,11 +1267,11 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 			}
 		} catch (JavaModelException | URISyntaxException e) {
 			// no annotations this time...
-			buf.append("<br>"); //$NON-NLS-1$
+			buf.append("<br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 	}
 
-	private static String getAnnotations(IJavaElement element, ITypeRoot editorInputElement, IRegion hoverRegion) throws URISyntaxException, JavaModelException {
+	private static String getAnnotations(IJavaElement element, ITypeRoot editorInputElement, IRegion hoverRegion) throws URISyntaxException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(element instanceof IPackageFragment)) {
 			if (!(element instanceof IAnnotatable))
 				return null;
@@ -1289,7 +1289,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 			return null;
 
 		StringBuffer buf= new StringBuffer();
-		for (IAnnotationBinding annotation : annotations) {
+		for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//TODO: skip annotations that don't have an @Documented annotation?
 			addAnnotation(buf, annotation, true);
 			buf.append("<br>"); //$NON-NLS-1$
@@ -1298,7 +1298,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		return buf.toString();
 	}
 
-	private static IBinding resolveBinding(ASTNode node) {
+	private static IBinding resolveBinding(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node instanceof SimpleName) {
 			SimpleName simpleName= (SimpleName) node;
 			// workaround for https://bugs.eclipse.org/62605 (constructor name resolves to type, not method)
@@ -1328,14 +1328,14 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 	}
 
 	private static IBinding resolveSuperclassConstructor(ITypeBinding superClassDeclaration, IMethodBinding constructor) {
-		for (IMethodBinding method : superClassDeclaration.getDeclaredMethods()) {
+		for (IMethodBinding method : superClassDeclaration.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.isConstructor() && constructor.isSubsignature(method))
 				return method;
 		}
 		return null;
 	}
 
-	private static void addAnnotation(StringBuffer buf, IAnnotationBinding annotation, boolean addLinks) throws URISyntaxException {
+	private static void addAnnotation(StringBuffer buf, IAnnotationBinding annotation, boolean addLinks) throws URISyntaxException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement javaElement= annotation.getAnnotationType().getJavaElement();
 		buf.append('@');
 		if (javaElement == null || !addLinks) {
@@ -1348,7 +1348,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		IMemberValuePairBinding[] mvPairs= annotation.getDeclaredMemberValuePairs();
 		if (mvPairs.length > 0) {
 			buf.append('(');
-			for (int j= 0; j < mvPairs.length; j++) {
+			for (int j= 0; j < mvPairs.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (j > 0) {
 					buf.append(JavaElementLabels.COMMA_STRING);
 				}
@@ -1366,7 +1366,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		}
 	}
 
-	private static void addValue(StringBuffer buf, Object value, boolean addLinks) throws URISyntaxException {
+	private static void addValue(StringBuffer buf, Object value, boolean addLinks) throws URISyntaxException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Note: To be bug-compatible with Javadoc from Java 5/6/7, we currently don't escape HTML tags in String-valued annotations.
 		if (value instanceof ITypeBinding) {
 			ITypeBinding typeBinding= (ITypeBinding)value;
@@ -1404,7 +1404,7 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		} else if (value instanceof Object[]) {
 			Object[] values= (Object[])value;
 			buf.append('{');
-			for (int i= 0; i < values.length; i++) {
+			for (int i= 0; i < values.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
 					buf.append(JavaElementLabels.COMMA_STRING);
 				}
@@ -1421,34 +1421,34 @@ public class JavadocHover extends AbstractJavaEditorTextHover {
 		return buf.append(JavaElementLinks.createLink(uri, label));
 	}
 
-	public static String getHexConstantValue(Object constantValue) {
+	public static String getHexConstantValue(Object constantValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (constantValue instanceof Character) {
 			char charValue= ((Character) constantValue);
-			String constantResult= '\'' + (charValue == 0 ? "" : constantValue.toString()) + '\''; //$NON-NLS-1$
+			String constantResult= '\'' + (charValue == 0 ? "" : constantValue.toString()) + '\''; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			String hexString= Integer.toHexString(charValue);
-			StringBuilder hexResult= new StringBuilder("\\u"); //$NON-NLS-1$
-			for (int i= hexString.length(); i < 4; i++) {
-				hexResult.append('0');
+			StringBuilder hexResult= new StringBuilder("\\u"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i= hexString.length(); i < 4; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				hexResult.append('0'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			hexResult.append(hexString);
+			hexResult.append(hexString); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return formatWithHexValue(constantResult, hexResult.toString());
 
 		} else if (constantValue instanceof Byte) {
 			int byteValue= ((Byte) constantValue).intValue() & 0xFF;
-			return formatWithHexValue(constantValue, "0x" + Integer.toHexString(byteValue)); //$NON-NLS-1$
+			return formatWithHexValue(constantValue, "0x" + Integer.toHexString(byteValue)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} else if (constantValue instanceof Short) {
 			int shortValue= ((Short) constantValue).shortValue() & 0xFFFF;
-			return formatWithHexValue(constantValue, "0x" + Integer.toHexString(shortValue)); //$NON-NLS-1$
+			return formatWithHexValue(constantValue, "0x" + Integer.toHexString(shortValue)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} else if (constantValue instanceof Integer) {
 			int intValue= ((Integer) constantValue);
-			return formatWithHexValue(constantValue, "0x" + Integer.toHexString(intValue)); //$NON-NLS-1$
+			return formatWithHexValue(constantValue, "0x" + Integer.toHexString(intValue)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} else if (constantValue instanceof Long) {
 			long longValue= ((Long) constantValue);
-			return formatWithHexValue(constantValue, "0x" + Long.toHexString(longValue)); //$NON-NLS-1$
+			return formatWithHexValue(constantValue, "0x" + Long.toHexString(longValue)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} else {
 			return constantValue.toString();

@@ -41,7 +41,7 @@ public class AddSafeVarargsProposalCore extends LinkedCorrectionProposalCore {
 		fMethodBinding= methodBinding;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		if (fMethodDeclaration == null) {
 			CompilationUnit astRoot= ASTResolving.createQuickFixAST(getCompilationUnit(), null);

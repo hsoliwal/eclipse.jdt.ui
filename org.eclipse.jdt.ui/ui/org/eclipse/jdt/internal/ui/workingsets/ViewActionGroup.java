@@ -39,7 +39,7 @@ public class ViewActionGroup extends ActionGroup {
 	private static final int SHOW_PROJECTS= PackageExplorerPart.PROJECTS_AS_ROOTS;
 	private static final int SHOW_WORKING_SETS= PackageExplorerPart.WORKING_SETS_AS_ROOTS;
 
-	public static final String MODE_CHANGED= ViewActionGroup.class.getName() + ".mode_changed"; //$NON-NLS-1$
+	public static final String MODE_CHANGED= ViewActionGroup.class.getName() + ".mode_changed"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final Integer INT_SHOW_PROJECTS= SHOW_PROJECTS;
 	private static final Integer INT_SHOW_WORKING_SETS= SHOW_WORKING_SETS;
@@ -54,18 +54,18 @@ public class ViewActionGroup extends ActionGroup {
 	private final ConfigureWorkingSetAssignementAction fWorkingSetAssignementAction;
 	private final IWorkbenchPartSite fSite;
 
-	public ViewActionGroup(int mode, IPropertyChangeListener changeListener, IWorkbenchPartSite site) {
+	public ViewActionGroup(int mode, IPropertyChangeListener changeListener, IWorkbenchPartSite site) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fChangeListener= changeListener;
 		fSite= site;
 		if (fChangeListener == null) {
-			fChangeListener = unused -> {};
+			fChangeListener = unused -> {}; //FLLDCIM: MARK — T06  LAMBDA
 		}
 		fFilterActionGroup= new WorkingSetFilterActionGroup(site, fChangeListener);
 		fShowActionGroup= new WorkingSetShowActionGroup(site);
 		fWorkingSetAssignementAction= new ConfigureWorkingSetAssignementAction(site);
 
 		ISelectionProvider selectionProvider= site.getSelectionProvider();
-		selectionProvider.addSelectionChangedListener(fWorkingSetAssignementAction);
+		selectionProvider.addSelectionChangedListener(fWorkingSetAssignementAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		fMode= mode;
 		if (fMode == SHOW_WORKING_SETS)
@@ -130,7 +130,7 @@ public class ViewActionGroup extends ActionGroup {
 	public void fillFilters(StructuredViewer viewer) {
 		ViewerFilter workingSetFilter= fFilterActionGroup.getWorkingSetFilter();
 		if (fMode == SHOW_PROJECTS) {
-			viewer.addFilter(workingSetFilter);
+			viewer.addFilter(workingSetFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		} else {
 			viewer.removeFilter(workingSetFilter);
 		}

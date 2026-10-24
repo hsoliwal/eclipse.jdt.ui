@@ -89,11 +89,11 @@ public abstract class ReturnTypeBaseSubProcessor<T> {
 	}
 
 	private static class ReturnStatementCollector extends ASTVisitor {
-		private ArrayList<ReturnStatement> fResult= new ArrayList<>();
+		private ArrayList<ReturnStatement> fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		public ITypeBinding getTypeBinding(AST ast) {
+		public ITypeBinding getTypeBinding(AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean couldBeObject= false;
-			for (ReturnStatement node : fResult) {
+			for (ReturnStatement node : fResult) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression expr= node.getExpression();
 				if (expr != null) {
 					ITypeBinding binding= Bindings.normalizeTypeBinding(expr.resolveTypeBinding());
@@ -157,7 +157,7 @@ public abstract class ReturnTypeBaseSubProcessor<T> {
 	}
 
 
-	public void collectVoidMethodReturnsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void collectVoidMethodReturnsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		CompilationUnit astRoot= context.getASTRoot();
@@ -197,7 +197,7 @@ public abstract class ReturnTypeBaseSubProcessor<T> {
 				}
 				String key= "return_type"; //$NON-NLS-1$
 				proposal.addLinkedPosition(rewrite.track(newReturnType), true, key);
-				for (ITypeBinding b : ASTResolving.getRelaxingTypes(ast, binding)) {
+				for (ITypeBinding b : ASTResolving.getRelaxingTypes(ast, binding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					proposal.addLinkedPositionProposal(key, b);
 				}
 
@@ -228,7 +228,7 @@ public abstract class ReturnTypeBaseSubProcessor<T> {
 	}
 
 
-	public void collectMissingReturnTypeProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void collectMissingReturnTypeProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		CompilationUnit astRoot= context.getASTRoot();
@@ -278,7 +278,7 @@ public abstract class ReturnTypeBaseSubProcessor<T> {
 			String key= "return_type"; //$NON-NLS-1$
 			proposal.addLinkedPosition(rewrite.track(type), true, key);
 			if (typeBinding != null) {
-				for (ITypeBinding binding : ASTResolving.getRelaxingTypes(ast, typeBinding)) {
+				for (ITypeBinding binding : ASTResolving.getRelaxingTypes(ast, typeBinding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					proposal.addLinkedPositionProposal(key, binding);
 				}
 			}
@@ -304,7 +304,7 @@ public abstract class ReturnTypeBaseSubProcessor<T> {
 	}
 
 
-	public void collectMissingReturnStatementProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void collectMissingReturnStatementProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -352,7 +352,7 @@ public abstract class ReturnTypeBaseSubProcessor<T> {
 			}
 		}
 	}
-	public void collectReplaceReturnWithYieldStatementProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void collectReplaceReturnWithYieldStatementProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		CompilationUnit astRoot= context.getASTRoot();
 		ASTNode selectedNode= problem.getCoveringNode(astRoot);
@@ -391,7 +391,7 @@ public abstract class ReturnTypeBaseSubProcessor<T> {
 		}
 	}
 
-	public void collectMethodReturnsVoidProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws JavaModelException {
+	public void collectMethodReturnsVoidProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= context.getASTRoot();
 		ASTNode selectedNode= problem.getCoveringNode(astRoot);
 		if (!(selectedNode instanceof ReturnStatement returnStatement)) {

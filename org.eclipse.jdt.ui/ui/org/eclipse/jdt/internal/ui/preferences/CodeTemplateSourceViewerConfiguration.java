@@ -59,7 +59,7 @@ public class CodeTemplateSourceViewerConfiguration extends SimpleJavaSourceViewe
 			fProcessor= processor;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getHoverInfo(ITextViewer textViewer, IRegion subject) {
 			try {
 				IDocument doc= textViewer.getDocument();
@@ -69,7 +69,7 @@ public class CodeTemplateSourceViewerConfiguration extends SimpleJavaSourceViewe
 					TemplateContextType contextType= fProcessor.getContextType();
 					if (contextType != null) {
 						Iterator<TemplateVariableResolver> iter= contextType.resolvers();
-						while (iter.hasNext()) {
+						while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							TemplateVariableResolver var= iter.next();
 							if (varName.equals(var.getType())) {
 								return var.getDescription();
@@ -102,7 +102,7 @@ public class CodeTemplateSourceViewerConfiguration extends SimpleJavaSourceViewe
 	/*
 	 * @see SourceViewerConfiguration#getContentAssistant(ISourceViewer)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();

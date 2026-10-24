@@ -124,7 +124,7 @@ import org.eclipse.jdt.internal.ui.text.javadoc.JavadocContentAccess2;
  *
  * @since 3.2
  */
-public abstract class AbstractJavaCompletionProposal implements IJavaCompletionProposal, ICompletionProposalExtension, ICompletionProposalExtension2, ICompletionProposalExtension3,
+public abstract class AbstractJavaCompletionProposal implements IJavaCompletionProposal, ICompletionProposalExtension, ICompletionProposalExtension2, ICompletionProposalExtension3, //FLLDCIM: MARK — T30  IMPLEMENTS
 	ICompletionProposalExtension4, ICompletionProposalExtension5, ICompletionProposalExtension6, ICompletionProposalExtension7 {
 
 
@@ -195,7 +195,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 			fDocument= document;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ExitFlags doExit(LinkedModeModel environment, VerifyEvent event, int offset, int length) {
 
 			if (event.character == fExitCharacter) {
@@ -341,13 +341,13 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 		apply(document, (char) 0, getReplacementOffset() + getReplacementLength());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document, char trigger, int offset) {
 
 		if (isSupportingRequiredProposals()) {
 			CompletionProposal coreProposal= ((MemberProposalInfo)getProposalInfo()).fProposal;
 			CompletionProposal[] requiredProposals= coreProposal.getRequiredProposals();
-			for (int i= 0; requiredProposals != null &&  i < requiredProposals.length; i++) {
+			for (int i= 0; requiredProposals != null &&  i < requiredProposals.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int oldLen= document.getLength();
 				if (requiredProposals[i].getKind() == CompletionProposal.TYPE_REF) {
 					LazyJavaCompletionProposal proposal= createRequiredTypeCompletionProposal(requiredProposals[i], fInvocationContext);
@@ -379,11 +379,11 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 				replacement= getReplacementString();
 				//add ; to the replacement string if replacement string do not end with a semicolon and the document do not already have a ; at the reference offset.
 				if (trigger == ';' && replacement.charAt(replacement.length() - 1) != ';' && (referenceOffset >= document.getLength() || document.getChar(referenceOffset) != ';')) {
-					replacement= replacement + ";"; //$NON-NLS-1$
+					replacement= replacement + ";"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					setReplacementString(replacement);
 				}
 			} else {
-				StringBuilder buffer= new StringBuilder(getReplacementString());
+				StringBuilder buffer= new StringBuilder(getReplacementString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 				// fix for PR #5533. Assumes that no eating takes place.
 				if ((getCursorPosition() > 0 && getCursorPosition() <= buffer.length() && buffer.charAt(getCursorPosition() - 1) != trigger)) {
@@ -470,7 +470,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 			document.replace(offset, length, string);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(ITextViewer viewer, char trigger, int stateMask, int offset) {
 
 		IDocument document= viewer.getDocument();
@@ -569,19 +569,19 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 		return info == null ? null : info.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getAdditionalProposalInfo(IProgressMonitor monitor) {
 		ProposalInfo proposalInfo= getProposalInfo();
 		if (proposalInfo != null) {
 			try {
-				StringBuilder buffer= new StringBuilder();
+				StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				IJavaElement element= proposalInfo.getJavaElement();
 
 				if (element != null) {
 					String base= null;
 					String info= proposalInfo.getInfo(monitor);
 					if (info != null && info.length() > 0) {
-						buffer.append(info);
+						buffer.append(info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						base= JavadocContentAccess2.extractBaseURL(info);
 					}
 					if (base == null && element instanceof IMember) {
@@ -597,7 +597,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 						HTMLPrinter.insertPageProlog(buffer, 0, fgRGB, bgRGB, getCSSStyles());
 						if (base != null) {
 							int endHeadIdx= buffer.indexOf("</head>"); //$NON-NLS-1$
-							buffer.insert(endHeadIdx, "\n<base href='" + base + "'>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							buffer.insert(endHeadIdx, "\n<base href='" + base + "'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 						HTMLPrinter.addPageEpilog(buffer);
 						return new JavadocBrowserInformationControlInput(null, element, buffer.toString(), 0);
@@ -611,7 +611,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 		return null;
 	}
 
-	private void addConstantOrDefaultValue(StringBuilder buffer, IJavaElement element) throws JavaModelException {
+	private void addConstantOrDefaultValue(StringBuilder buffer, IJavaElement element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int elementType= element.getElementType();
 		if ((elementType != IJavaElement.FIELD)
 				&& (elementType != IJavaElement.METHOD)) {
@@ -634,12 +634,12 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 			if (constantValue != null) {
 				constantValue= HTMLPrinter.convertToHTMLContentWithWhitespace(constantValue);
 
-				buffer.append(JavadocContentAccess2.BlOCK_TAG_TITLE_START);
-				buffer.append(JavaTextMessages.AbstractJavaCompletionProposal_value);
-				buffer.append(JavadocContentAccess2.BlOCK_TAG_TITLE_END);
-				buffer.append(JavadocContentAccess2.BlOCK_TAG_ENTRY_START);
-				buffer.append(constantValue);
-				buffer.append(JavadocContentAccess2.BlOCK_TAG_ENTRY_END);
+				buffer.append(JavadocContentAccess2.BlOCK_TAG_TITLE_START); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(JavaTextMessages.AbstractJavaCompletionProposal_value); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(JavadocContentAccess2.BlOCK_TAG_TITLE_END); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(JavadocContentAccess2.BlOCK_TAG_ENTRY_START); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(constantValue); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(JavadocContentAccess2.BlOCK_TAG_ENTRY_END); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else if (elementType == IJavaElement.METHOD) {
 			String defaultValue;
@@ -651,12 +651,12 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 			if (defaultValue != null) {
 				defaultValue= HTMLPrinter.convertToHTMLContentWithWhitespace(defaultValue);
 
-				buffer.append(JavadocContentAccess2.BlOCK_TAG_TITLE_START);
-				buffer.append(JavaTextMessages.AbstractJavaCompletionProposal_default);
-				buffer.append(JavadocContentAccess2.BlOCK_TAG_TITLE_END);
-				buffer.append(JavadocContentAccess2.BlOCK_TAG_ENTRY_START);
-				buffer.append(defaultValue);
-				buffer.append(JavadocContentAccess2.BlOCK_TAG_ENTRY_END);
+				buffer.append(JavadocContentAccess2.BlOCK_TAG_TITLE_START); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(JavaTextMessages.AbstractJavaCompletionProposal_default); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(JavadocContentAccess2.BlOCK_TAG_TITLE_END); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(JavadocContentAccess2.BlOCK_TAG_ENTRY_START); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(defaultValue); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(JavadocContentAccess2.BlOCK_TAG_ENTRY_END); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 	}
@@ -667,7 +667,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 	 * @return the CSS styles
 	 * @since 3.3
 	 */
-	protected String getCSSStyles() {
+	protected String getCSSStyles() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fgCSSStyles == null) {
 			Bundle bundle= Platform.getBundle(JavaPlugin.getPluginId());
 			URL url= bundle.getEntry("/JavadocHoverStyleSheet.css"); //$NON-NLS-1$
@@ -676,11 +676,11 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 				try {
 					url= FileLocator.toFileURL(url);
 					reader= new BufferedReader(new InputStreamReader(url.openStream()));
-					StringBuilder buffer= new StringBuilder(200);
+					StringBuilder buffer= new StringBuilder(200); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					String line= reader.readLine();
-					while (line != null) {
-						buffer.append(line);
-						buffer.append('\n');
+					while (line != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						buffer.append(line); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						buffer.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						line= reader.readLine();
 					}
 					fgCSSStyles= buffer.toString();
@@ -922,12 +922,12 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 	 *         rule
 	 * @since 3.12
 	 */
-	protected int getPatternMatchRule(String pattern, String string) {
+	protected int getPatternMatchRule(String pattern, String string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String start;
 		try {
 			start= string.substring(0, pattern.length());
 		} catch (StringIndexOutOfBoundsException e) {
-			String message= "Error retrieving proposal text.\nDisplay string:\n" + string + "\nPattern:\n" + pattern; //$NON-NLS-1$//$NON-NLS-2$
+			String message= "Error retrieving proposal text.\nDisplay string:\n" + string + "\nPattern:\n" + pattern; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			JavaPlugin.log(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, message, e));
 			return -1;
 		}
@@ -959,7 +959,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 	 * @return a compound of prefix and any postfix taken from <code>string</code>
 	 * @since 3.2
 	 */
-	protected final String getCamelCaseCompound(String prefix, String string) {
+	protected final String getCamelCaseCompound(String prefix, String string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (prefix.length() > string.length())
 			return string;
 
@@ -971,9 +971,9 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 		final char[] patternChars= prefix.toCharArray();
 		final char[] stringChars= string.toCharArray();
 
-		for (int i= 1; i <= stringChars.length; i++)
+		for (int i= 1; i <= stringChars.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (CharOperation.camelCaseMatch(patternChars, 0, patternChars.length, stringChars, 0, i))
-				return prefix + string.substring(i);
+				return prefix + string.substring(i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		// Not a camel case match at all.
 		// This should not happen -> stay with the default behavior
@@ -1036,7 +1036,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 		}
 	}
 
-	private void updateStyle(ITextViewer viewer) {
+	private void updateStyle(ITextViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StyledText text= viewer.getTextWidget();
 		int widgetOffset= getWidgetOffset(viewer, fRememberedStyleRange.start);
 		StyleRange range= new StyleRange(fRememberedStyleRange);
@@ -1087,7 +1087,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 	 * @return the new style range for the text viewer or <code>null</code>
 	 * @since 3.6
 	 */
-	private StyleRange createStyleRange(ITextViewer viewer) {
+	private StyleRange createStyleRange(ITextViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StyledText text= viewer.getTextWidget();
 		if (text == null || text.isDisposed())
 			return null;
@@ -1114,7 +1114,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 		return new StyleRange(modelCaret, length, foreground, background);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selected(final ITextViewer viewer, boolean smartToggle) {
 		repairPresentation(viewer);
 		fRememberedStyleRange= null;
@@ -1202,7 +1202,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 	 * @param document the document
 	 * @param closingCharacter the exit character
 	 */
-	protected void setUpLinkedMode(IDocument document, char closingCharacter) {
+	protected void setUpLinkedMode(IDocument document, char closingCharacter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getTextViewer() != null && autocloseBrackets()) {
 			int offset= getReplacementOffset() + getCursorPosition();
 			int exit= getReplacementOffset() + getReplacementString().length();
@@ -1324,7 +1324,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 		return proposal != null && (proposal.getKind() == CompletionProposal.METHOD_REF || proposal.getKind() == CompletionProposal.FIELD_REF || proposal.getKind() == CompletionProposal.TYPE_REF || proposal.getKind() == CompletionProposal.CONSTRUCTOR_INVOCATION || proposal.getKind() == CompletionProposal.ANONYMOUS_CLASS_CONSTRUCTOR_INVOCATION);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isAutoInsertable() {
 		if (fInvocationContext == null) {
 			return false;

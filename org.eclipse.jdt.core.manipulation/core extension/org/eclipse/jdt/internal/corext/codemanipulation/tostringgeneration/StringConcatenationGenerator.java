@@ -124,7 +124,7 @@ public class StringConcatenationGenerator extends AbstractToStringGenerator {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addMemberCheckNull(Object member, boolean addSeparator) {
 		ConditionalExpression cExpression= fAst.newConditionalExpression();
 
@@ -136,7 +136,7 @@ public class StringConcatenationGenerator extends AbstractToStringGenerator {
 		cExpression.setExpression(infExpression);
 
 		SumExpressionBuilder builder= new SumExpressionBuilder(null);
-		for (String s : getContext().getTemplateParser().getBody()) {
+		for (String s : getContext().getTemplateParser().getBody()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addElement(processElement(s, member), builder);
 		}
 		if (addSeparator)

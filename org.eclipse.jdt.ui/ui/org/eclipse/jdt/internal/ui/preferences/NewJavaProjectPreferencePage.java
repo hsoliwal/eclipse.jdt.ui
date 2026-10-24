@@ -90,14 +90,14 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 
 	private static final String ENCODING= "UTF-8"; //$NON-NLS-1$
 
-	public static IClasspathEntry[] getDefaultJRELibrary() {
+	public static IClasspathEntry[] getDefaultJRELibrary() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 
 		String str= store.getString(CLASSPATH_JRELIBRARY_LIST);
 		int index= store.getInt(CLASSPATH_JRELIBRARY_INDEX);
 
 		StringTokenizer tok= new StringTokenizer(str, ";"); //$NON-NLS-1$
-		while (tok.hasMoreTokens() && index > 0) {
+		while (tok.hasMoreTokens() && index > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tok.nextToken();
 			index--;
 		}
@@ -139,10 +139,10 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 		return ""; //$NON-NLS-1$
 	}
 
-	public static IClasspathEntry[] decodeJRELibraryClasspathEntries(String encoded) {
+	public static IClasspathEntry[] decodeJRELibraryClasspathEntries(String encoded) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringTokenizer tok= new StringTokenizer(encoded, " "); //$NON-NLS-1$
-		ArrayList<IClasspathEntry> res= new ArrayList<>();
-		while (tok.hasMoreTokens()) {
+		ArrayList<IClasspathEntry> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				tok.nextToken(); // desc: ignore
 				int kind= Integer.parseInt(tok.nextToken());
@@ -176,21 +176,21 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 	}
 
 
-	public static String encodeJRELibrary(String desc, IClasspathEntry[] cpentries) {
-		StringBuilder buf= new StringBuilder();
-		for (IClasspathEntry entry : cpentries) {
-			buf.append(encode(desc));
-			buf.append(' ');
-			buf.append(entry.getEntryKind());
-			buf.append(' ');
-			buf.append(encodePath(entry.getPath()));
-			buf.append(' ');
-			buf.append(encodePath(entry.getSourceAttachmentPath()));
-			buf.append(' ');
-			buf.append(encodePath(entry.getSourceAttachmentRootPath()));
-			buf.append(' ');
-			buf.append(entry.isExported());
-			buf.append(' ');
+	public static String encodeJRELibrary(String desc, IClasspathEntry[] cpentries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (IClasspathEntry entry : cpentries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(encode(desc)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(entry.getEntryKind()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(encodePath(entry.getPath())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(encodePath(entry.getSourceAttachmentPath())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(encodePath(entry.getSourceAttachmentRootPath())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(entry.isExported()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -237,7 +237,7 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 	private Label fSrcFolderNameLabel;
 	private Label fBinFolderNameLabel;
 
-	public NewJavaProjectPreferencePage() {
+	public NewJavaProjectPreferencePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		setPreferenceStore(JavaPlugin.getDefault().getPreferenceStore());
 		setDescription(PreferencesMessages.NewJavaProjectPreferencePage_description);
@@ -245,9 +245,9 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 		// title used when opened programatically
 		setTitle(PreferencesMessages.NewJavaProjectPreferencePage_title);
 
-		fRadioButtons= new ArrayList<>();
-		fCheckBoxes= new ArrayList<>();
-		fTextControls= new ArrayList<>();
+		fRadioButtons= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fCheckBoxes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fTextControls= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fSelectionListener= new SelectionListener() {
 			@Override
@@ -259,7 +259,7 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 			}
 		};
 
-		fModifyListener= e -> controlModified(e.widget);
+		fModifyListener= e -> controlModified(e.widget); //FLLDCIM: MARK — T02  LAMBDA
 
 	}
 
@@ -273,13 +273,13 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 	}
 
 	private static String getDefaultJRELibraries() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		IClasspathEntry cntentry= getJREContainerEntry();
-		buf.append(encodeJRELibrary(PreferencesMessages.NewJavaProjectPreferencePage_jre_container_description, new IClasspathEntry[] { cntentry} ));
-		buf.append(';');
+		buf.append(encodeJRELibrary(PreferencesMessages.NewJavaProjectPreferencePage_jre_container_description, new IClasspathEntry[] { cntentry} )); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		IClasspathEntry varentry= getJREVariableEntry();
-		buf.append(encodeJRELibrary(PreferencesMessages.NewJavaProjectPreferencePage_jre_variable_description, new IClasspathEntry[] { varentry }));
-		buf.append(';');
+		buf.append(encodeJRELibrary(PreferencesMessages.NewJavaProjectPreferencePage_jre_variable_description, new IClasspathEntry[] { varentry })); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -343,7 +343,7 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -369,22 +369,22 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 		int indent= 0;
 
 		fProjectAsSourceFolder= addRadioButton(sourceFolderGroup, PreferencesMessages.NewJavaProjectPreferencePage_sourcefolder_project, SRCBIN_FOLDERS_IN_NEWPROJ, IPreferenceStore.FALSE, indent);
-		fProjectAsSourceFolder.addSelectionListener(fSelectionListener);
+		fProjectAsSourceFolder.addSelectionListener(fSelectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fFoldersAsSourceFolder= addRadioButton(sourceFolderGroup, PreferencesMessages.NewJavaProjectPreferencePage_sourcefolder_folder, SRCBIN_FOLDERS_IN_NEWPROJ, IPreferenceStore.TRUE, indent);
-		fFoldersAsSourceFolder.addSelectionListener(fSelectionListener);
+		fFoldersAsSourceFolder.addSelectionListener(fSelectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		indent= convertWidthInCharsToPixels(4);
 
 		fSrcFolderNameLabel= new Label(sourceFolderGroup, SWT.NONE);
 		fSrcFolderNameLabel.setText(PreferencesMessages.NewJavaProjectPreferencePage_folders_src);
 		fSrcFolderNameText= addTextControl(sourceFolderGroup, fSrcFolderNameLabel, SRCBIN_SRCNAME, indent);
-		fSrcFolderNameText.addModifyListener(fModifyListener);
+		fSrcFolderNameText.addModifyListener(fModifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		fBinFolderNameLabel= new Label(sourceFolderGroup, SWT.NONE);
 		fBinFolderNameLabel.setText(PreferencesMessages.NewJavaProjectPreferencePage_folders_bin);
 		fBinFolderNameText= addTextControl(sourceFolderGroup, fBinFolderNameLabel, SRCBIN_BINNAME, indent);
-		fBinFolderNameText.addModifyListener(fModifyListener);
+		fBinFolderNameText.addModifyListener(fModifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		String[] jreNames= getJRENames();
 		if (jreNames.length > 0) {
@@ -405,7 +405,7 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 		return result;
 	}
 
-	private void validateFolders() {
+	private void validateFolders() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean useFolders= fFoldersAsSourceFolder.getSelection();
 
 		fSrcFolderNameText.setEnabled(useFolders);
@@ -472,18 +472,18 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 	/*
 	 * @see PreferencePage#performDefaults()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performDefaults() {
 		IPreferenceStore store= getPreferenceStore();
-		for (Button button : fCheckBoxes) {
+		for (Button button : fCheckBoxes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= (String) button.getData();
 			button.setSelection(store.getDefaultBoolean(key));
 		}
-		for (Button button : fRadioButtons) {
+		for (Button button : fRadioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] info= (String[]) button.getData();
 			button.setSelection(info[1].equals(store.getDefaultString(info[0])));
 		}
-		for (Text text : fTextControls) {
+		for (Text text : fTextControls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= (String) text.getData();
 			text.setText(store.getDefaultString(key));
 		}
@@ -498,20 +498,20 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 	/*
 	 * @see IPreferencePage#performOk()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		IPreferenceStore store= getPreferenceStore();
-		for (Button button : fCheckBoxes) {
+		for (Button button : fCheckBoxes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= (String) button.getData();
 			store.setValue(key, button.getSelection());
 		}
-		for (Button button : fRadioButtons) {
+		for (Button button : fRadioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (button.getSelection()) {
 				String[] info= (String[]) button.getData();
 				store.setValue(info[0], info[1]);
 			}
 		}
-		for (Text text : fTextControls) {
+		for (Text text : fTextControls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= (String) text.getData();
 			store.setValue(key, text.getText());
 		}
@@ -526,9 +526,9 @@ public class NewJavaProjectPreferencePage extends PreferencePage implements IWor
 
 	private String[] getJRENames() {
 		String prefString= getPreferenceStore().getString(CLASSPATH_JRELIBRARY_LIST);
-		ArrayList<String> list= new ArrayList<>();
+		ArrayList<String> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		StringTokenizer tok= new StringTokenizer(prefString, ";"); //$NON-NLS-1$
-		while (tok.hasMoreTokens()) {
+		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.add(decodeJRELibraryDescription(tok.nextToken()));
 		}
 		return list.toArray(new String[list.size()]);

@@ -88,14 +88,14 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @param parent the container for the viewer
 	 * @param style the style flag used for this viewer
 	 */
-	public BreadcrumbViewer(Composite parent, int style) {
-		fBreadcrumbItems= new ArrayList<>();
+	public BreadcrumbViewer(Composite parent, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fBreadcrumbItems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fMenuListeners= new ListenerList<>();
 
 		fContainer= new Composite(parent, SWT.NONE);
 		GridData layoutData= new GridData(SWT.FILL, SWT.TOP, true, false);
 		fContainer.setLayoutData(layoutData);
-		fContainer.addTraverseListener(e -> e.doit= true);
+		fContainer.addTraverseListener(e -> e.doit= true); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		fContainer.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		fContainer.setData("org.eclipse.e4.ui.css.id", "BreadcrumbComposite"); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -113,7 +113,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 		gridLayout.horizontalSpacing= 0;
 		fContainer.setLayout(gridLayout);
 
-		fContainer.addListener(SWT.Resize, unused -> refresh());
+		fContainer.addListener(SWT.Resize, unused -> refresh()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -165,7 +165,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	/**
 	 * Transfers the keyboard focus into the viewer.
 	 */
-	public void setFocus() {
+	public void setFocus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fContainer.setFocus();
 
 		if (fSelectedItem != null) {
@@ -189,7 +189,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @return true if any of the items in the viewer is expanded
 	 */
 	public boolean isDropDownOpen() {
-		for (BreadcrumbItem item : fBreadcrumbItems) {
+		for (BreadcrumbItem item : fBreadcrumbItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.isMenuShown())
 				return true;
 		}
@@ -204,7 +204,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @return the drop downs shell or <code>null</code>
 	 */
 	public Shell getDropDownShell() {
-		for (BreadcrumbItem item : fBreadcrumbItems) {
+		for (BreadcrumbItem item : fBreadcrumbItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.isMenuShown())
 				return item.getDropDownShell();
 		}
@@ -219,7 +219,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @return the selection provider of the open drop down or <code>null</code>
 	 */
 	public ISelectionProvider getDropDownSelectionProvider() {
-		for (BreadcrumbItem item : fBreadcrumbItems) {
+		for (BreadcrumbItem item : fBreadcrumbItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.isMenuShown()) {
 				return item.getDropDownSelectionProvider();
 			}
@@ -260,7 +260,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	/*
 	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object, java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void inputChanged(Object fInput, Object oldInput) {
 		if (fContainer.isDisposed())
 			return;
@@ -279,7 +279,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 				last.setIsLastItem(true);
 			}
 
-			while (lastIndex < fBreadcrumbItems.size()) {
+			while (lastIndex < fBreadcrumbItems.size()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				BreadcrumbItem item= fBreadcrumbItems.remove(fBreadcrumbItems.size() - 1);
 				if (item == fSelectedItem) {
 					selectItem(null);
@@ -318,7 +318,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 		if (element == null)
 			return null;
 
-		for (BreadcrumbItem item : fBreadcrumbItems) {
+		for (BreadcrumbItem item : fBreadcrumbItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.getData() == element || element.equals(item.getData()))
 				return item;
 		}
@@ -329,7 +329,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	/*
 	 * @see org.eclipse.jface.viewers.StructuredViewer#doUpdateItem(org.eclipse.swt.widgets.Widget, java.lang.Object, boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doUpdateItem(Widget widget, Object element, boolean fullMap) {
 		if (widget instanceof BreadcrumbItem) {
 			final BreadcrumbItem item= (BreadcrumbItem) widget;
@@ -372,7 +372,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 		if (fSelectedItem.getData() == null)
 			return Collections.EMPTY_LIST;
 
-		ArrayList<Object> result= new ArrayList<>();
+		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.add(fSelectedItem.getData());
 		return result;
 	}
@@ -380,14 +380,14 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	/*
 	 * @see org.eclipse.jface.viewers.StructuredViewer#internalRefresh(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void internalRefresh(Object element) {
 
 		disableRedraw();
 		try {
 			BreadcrumbItem item= (BreadcrumbItem) doFindItem(element);
 			if (item == null) {
-				for (BreadcrumbItem item1 : fBreadcrumbItems) {
+				for (BreadcrumbItem item1 : fBreadcrumbItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					item1.refresh();
 				}
 			} else {
@@ -403,11 +403,11 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	/*
 	 * @see org.eclipse.jface.viewers.StructuredViewer#setSelectionToWidget(java.util.List, boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setSelectionToWidget(List l, boolean reveal) {
 		BreadcrumbItem focusItem= null;
 
-		for (BreadcrumbItem item : fBreadcrumbItems) {
+		for (BreadcrumbItem item : fBreadcrumbItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.hasFocus())
 				focusItem= item;
 
@@ -417,7 +417,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 		if (l == null)
 			return;
 
-		for (Object element : l) {
+		for (Object element : l) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BreadcrumbItem item= (BreadcrumbItem) doFindItem(element);
 			if (item != null) {
 				item.setSelected(true);
@@ -444,7 +444,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 		if (item != null) {
 			setFocus();
 		} else {
-			for (BreadcrumbItem listItem : fBreadcrumbItems) {
+			for (BreadcrumbItem listItem : fBreadcrumbItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listItem.setFocus(false);
 			}
 		}
@@ -478,7 +478,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @return the index of the item or -1 if not found
 	 */
 	int getIndexOfItem(BreadcrumbItem item) {
-		for (int i= 0, size= fBreadcrumbItems.size(); i < size; i++) {
+		for (int i= 0, size= fBreadcrumbItems.size(); i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BreadcrumbItem pItem= fBreadcrumbItems.get(i);
 			if (pItem == item)
 				return i;
@@ -516,7 +516,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @param event the event issued the menu detection
 	 */
 	void fireMenuDetect(MenuDetectEvent event) {
-		for (MenuDetectListener listener : fMenuListeners) {
+		for (MenuDetectListener listener : fMenuListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.menuDetected(event);
 		}
 	}
@@ -527,7 +527,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @param next <code>true</code> if the next element should be selected, otherwise the previous
 	 *            one will be selected
 	 */
-	void doTraverse(boolean next) {
+	void doTraverse(boolean next) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSelectedItem == null)
 			return;
 
@@ -563,7 +563,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @param element element to build the parent chain for
 	 * @return the first index of an item in fBreadcrumbItems which is not part of the chain
 	 */
-	private int buildItemChain(Object element) {
+	private int buildItemChain(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == null)
 			return 0;
 
@@ -622,7 +622,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 *
 	 * @return <code>true</code> if any item has changed, <code>false</code> otherwise
 	 */
-	private boolean updateSize() {
+	private boolean updateSize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int width= fContainer.getClientArea().width;
 
 		int currentWidth= getCurrentWidth();
@@ -631,7 +631,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 
 		if (currentWidth > width) {
 			int index= 0;
-			while (currentWidth > width && index < fBreadcrumbItems.size() - 1) {
+			while (currentWidth > width && index < fBreadcrumbItems.size() - 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				BreadcrumbItem viewer= fBreadcrumbItems.get(index);
 				if (viewer.isShowText()) {
 					viewer.setShowText(false);
@@ -645,7 +645,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 		} else if (currentWidth < width) {
 
 			int index= fBreadcrumbItems.size() - 1;
-			while (currentWidth < width && index >= 0) {
+			while (currentWidth < width && index >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				BreadcrumbItem viewer= fBreadcrumbItems.get(index);
 				if (!viewer.isShowText()) {
@@ -673,7 +673,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 */
 	private int getCurrentWidth() {
 		int result= 0;
-		for (BreadcrumbItem viewer : fBreadcrumbItems) {
+		for (BreadcrumbItem viewer : fBreadcrumbItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result+= viewer.getWidth();
 		}
 
@@ -708,7 +708,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 	 * @see org.eclipse.jface.viewers.StructuredViewer#handleDispose(org.eclipse.swt.events.DisposeEvent)
 	 * @since 3.6.1
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handleDispose(DisposeEvent event) {
 		if (fGradientBackground != null) {
 			fGradientBackground.dispose();
@@ -722,7 +722,7 @@ public abstract class BreadcrumbViewer extends StructuredViewer {
 
 		if (fBreadcrumbItems != null) {
 			Iterator<BreadcrumbItem> iterator= fBreadcrumbItems.iterator();
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				BreadcrumbItem item= iterator.next();
 				item.dispose();
 			}

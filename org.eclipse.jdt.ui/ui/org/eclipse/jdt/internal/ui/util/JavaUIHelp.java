@@ -42,12 +42,12 @@ public class JavaUIHelp {
 
 	public static void setHelp(StructuredViewer viewer, String contextId) {
 		JavaUIHelpListener listener= new JavaUIHelpListener(viewer, contextId);
-		viewer.getControl().addHelpListener(listener);
+		viewer.getControl().addHelpListener(listener); //FLLDCIM: MARK — T14 HELP CALL
 	}
 
 	public static void setHelp(JavaEditor editor, StyledText text, String contextId) {
 		JavaUIHelpListener listener= new JavaUIHelpListener(editor, contextId);
-		text.addHelpListener(listener);
+		text.addHelpListener(listener); //FLLDCIM: MARK — T14 HELP CALL
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class JavaUIHelp {
 		return new JavaUIHelpContextProvider(contextId, elements);
 	}
 
-	private static class JavaUIHelpListener implements HelpListener {
+	private static class JavaUIHelpListener implements HelpListener { //FLLDCIM: MARK — T14  IMPLEMENTS
 
 		private StructuredViewer fViewer;
 		private String fContextId;
@@ -88,7 +88,7 @@ public class JavaUIHelp {
 		/*
 		 * @see HelpListener#helpRequested(HelpEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void helpRequested(HelpEvent e) {
 			try {
 				Object[] selected= null;

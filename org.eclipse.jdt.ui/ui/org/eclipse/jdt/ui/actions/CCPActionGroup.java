@@ -120,7 +120,7 @@ public class CCPActionGroup extends ActionGroup {
 	 *            <code>false</code> otherwise
 	 * @since 3.7
 	 */
-	private CCPActionGroup(IWorkbenchSite site, ISelectionProvider specialSelectionProvider, boolean includeOnlyCopyActions) {
+	private CCPActionGroup(IWorkbenchSite site, ISelectionProvider specialSelectionProvider, boolean includeOnlyCopyActions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSelectionProvider= specialSelectionProvider == null ? site.getSelectionProvider() : specialSelectionProvider;
 
 		fCopyAction= new CopyToClipboardAction(site);
@@ -146,7 +146,7 @@ public class CCPActionGroup extends ActionGroup {
 		}
 
 		if (specialSelectionProvider != null) {
-			for (SelectionDispatchAction action : fActions) {
+			for (SelectionDispatchAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				action.setSpecialSelectionProvider(specialSelectionProvider);
 			}
 		}
@@ -157,15 +157,15 @@ public class CCPActionGroup extends ActionGroup {
 	private void registerActionsAsSelectionChangeListeners() {
 		ISelectionProvider provider= fSelectionProvider;
 		ISelection selection= provider.getSelection();
-		 for (SelectionDispatchAction action : fActions) {
+		 for (SelectionDispatchAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			 action.update(selection);
-			 provider.addSelectionChangedListener(action);
+			 provider.addSelectionChangedListener(action); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		 }
 	}
 
 	private void deregisterActionsAsSelectionChangeListeners() {
 		ISelectionProvider provider= fSelectionProvider;
-		 for (SelectionDispatchAction fAction : fActions) {
+		 for (SelectionDispatchAction fAction : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			 provider.removeSelectionChangedListener(fAction);
 		 }
 	}
@@ -197,7 +197,7 @@ public class CCPActionGroup extends ActionGroup {
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
 		super.fillContextMenu(menu);
-		 for (SelectionDispatchAction action : fActions) {
+		 for (SelectionDispatchAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			 if (action == fCutAction && !fCutAction.isEnabled())
 				 continue;
 			 menu.appendToGroup(ICommonMenuConstants.GROUP_EDIT, action);

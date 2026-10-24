@@ -74,7 +74,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	private IJavaProject fJProject1;
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -103,7 +103,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFieldAccessToStatic() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -139,7 +139,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertProposalExists(proposals, CorrectionMessages.ConfigureProblemSeveritySubProcessor_name);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInheritedAccessOnStatic() throws Exception {
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -216,7 +216,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInheritedAccessOnStaticInGeneric() throws Exception {
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -293,7 +293,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testQualifiedAccessToStatic() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -325,7 +325,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThisAccessToStatic() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -376,7 +376,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThisAccessToStaticField() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -428,7 +428,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastMissingInVarDecl() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -485,7 +485,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastMissingInVarDecl2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -560,7 +560,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastMissingInVarDecl3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -592,7 +592,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1 }, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastMissingInVarDecl4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -668,7 +668,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastMissingInFieldDecl() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -707,7 +707,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastMissingInAssignment() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -759,7 +759,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastMissingInAssignment2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -812,7 +812,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastMissingInExpression() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -860,7 +860,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCastOnCastExpression() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -912,7 +912,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtException() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -971,7 +971,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtException2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1043,7 +1043,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtException3() throws Exception {
 
 
@@ -1125,7 +1125,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtException4() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1212,7 +1212,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtException5() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=31554
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1257,7 +1257,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1 }, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionImportConflict() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1351,22 +1351,22 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionExtendedSelection() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.io.IOException;\n");
-		buf.append("public class E {\n");
-		buf.append("    public String goo(int i) throws IOException {\n");
-		buf.append("        return null;\n");
-		buf.append("    }\n");
-		buf.append("    public void foo() {\n");
-		buf.append("        System.out.println(goo(1));\n");
-		buf.append("        System.out.println(goo(2));\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.io.IOException;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public String goo(int i) throws IOException {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return null;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        System.out.println(goo(1));\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        System.out.println(goo(2));\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		CompilationUnit astRoot= getASTRoot(cu);
@@ -1421,7 +1421,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionRemoveMoreSpecific() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1497,7 +1497,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionToSurroundingTry() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1592,7 +1592,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionOnSuper1() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1629,7 +1629,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionOnSuper2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1678,7 +1678,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionOnSuper3() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1714,7 +1714,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionOnSuper4() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1758,7 +1758,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] {preview1}, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionOnSuper5() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=349051
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1797,7 +1797,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1 }, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionOnSuper6() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=349051
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1817,7 +1817,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 		assertCorrectLabels(proposals);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionOnThis() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1858,7 +1858,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionDuplicate() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1931,7 +1931,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultipleUncaughtExceptions() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1997,7 +1997,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionInInitializer() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2035,7 +2035,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededCatchBlock() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2104,7 +2104,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededCatchBlockInInitializer() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2143,7 +2143,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1 }, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededCatchBlockSingle() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2202,7 +2202,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededCatchBlockBug47221() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2262,7 +2262,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededCatchBlockWithFinally() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2329,7 +2329,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2505,7 +2505,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 				new String[] { expected1, expected2, expected3, expected4, expected5, expected6, expected7 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_2() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2550,7 +2550,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 				new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_3() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2601,7 +2601,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 				new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_4() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2636,7 +2636,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_5() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2671,7 +2671,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_6() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2714,7 +2714,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_7() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2755,7 +2755,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_8() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2800,7 +2800,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_9() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2851,7 +2851,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_10() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=37872
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2902,7 +2902,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_11() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=563285
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2949,7 +2949,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUninitializedField_12() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=572571
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2972,7 +2972,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 
 		String[] previews = new String[proposals.size()];
-		for (int i= 0; i < proposals.size(); i++) {
+		for (int i= 0; i < proposals.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			previews[i] =  getPreviewContent((CUCorrectionProposal)proposals.get(i));
 		}
 		String[] expected = new String[previews.length];
@@ -3020,7 +3020,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(previews, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethods() throws Exception {
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
 		String str= """
@@ -3078,7 +3078,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethods2() throws Exception {
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
 		String str= """
@@ -3149,7 +3149,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethods_bug62931() throws Exception {
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
 		String str= """
@@ -3214,7 +3214,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethods_bug113665() throws Exception {
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
 		String str= """
@@ -3266,7 +3266,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethods_bug122906() throws Exception {
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
 		String str= """
@@ -3329,7 +3329,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethods_bug123084() throws Exception {
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
 		String str= """
@@ -3383,7 +3383,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsExtendingGenericType1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3436,7 +3436,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsExtendingGenericType2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3488,7 +3488,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithTypeParameters() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3547,7 +3547,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithTypeParameters2() throws Exception {
 		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330241
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -3611,7 +3611,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedEnumConstructor() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -3643,7 +3643,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsInEnum() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -3681,7 +3681,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsInEnumConstant1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -3727,7 +3727,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsInEnumConstant2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -3770,7 +3770,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsInEnumConstant3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -3808,7 +3808,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithAnnotations() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_NONNULL_ANNOTATION_NAME, "test.NonNull");
@@ -3896,7 +3896,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithAnnotations2() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=387940
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -3933,7 +3933,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithAnnotations3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
@@ -4016,7 +4016,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithAnnotations4() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
@@ -4102,7 +4102,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithAnnotations5() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
@@ -4188,7 +4188,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithCovariantReturn() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=272657
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -4238,7 +4238,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithSubsignature() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=272657 , https://bugs.eclipse.org/bugs/show_bug.cgi?id=424509#c6
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -4286,7 +4286,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithSubsignature2() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=272657 , https://bugs.eclipse.org/bugs/show_bug.cgi?id=424509#c6
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -4330,7 +4330,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnimplementedMethodsWithSubsignature3() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=272657 , https://bugs.eclipse.org/bugs/show_bug.cgi?id=424509#c6
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -4374,7 +4374,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnitializedVariable() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4416,7 +4416,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorInDefaultConstructor1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4455,7 +4455,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorInDefaultConstructor2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4515,7 +4515,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorWithGenericSuperClass() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4554,7 +4554,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorWithLineBreaks() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(DefaultCodeFormatterConstants.FORMATTER_LINE_SPLIT, "30");
@@ -4608,7 +4608,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorWithEnclosing1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4653,7 +4653,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorWithEnclosing2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4698,7 +4698,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorWithEnclosingInGeneric() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4739,7 +4739,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorWithEnclosing3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4781,7 +4781,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNotVisibleConstructorInDefaultConstructor() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4822,7 +4822,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnhandledExceptionInDefaultConstructor() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -4865,7 +4865,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedPrivateField() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_PRIVATE_MEMBER, JavaCore.ERROR);
@@ -4911,7 +4911,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedPrivateField1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_PRIVATE_MEMBER, JavaCore.ERROR);
@@ -4958,7 +4958,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedPrivateField2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_PRIVATE_MEMBER, JavaCore.ERROR);
@@ -5010,7 +5010,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedPrivateField3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_PRIVATE_MEMBER, JavaCore.ERROR);
@@ -5071,7 +5071,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedPrivateFieldBug328481() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_PRIVATE_MEMBER, JavaCore.ERROR);
@@ -5135,7 +5135,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariable() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5190,7 +5190,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariable1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5241,7 +5241,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariable2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5290,7 +5290,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariable4() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5331,7 +5331,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariable5() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5375,7 +5375,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariable6() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5425,7 +5425,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariable7() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5479,7 +5479,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariable8() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5538,7 +5538,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableBug328481_1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5591,7 +5591,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableBug328481_2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5644,7 +5644,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableBug513404_1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5691,7 +5691,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableBug513404_2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5734,7 +5734,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableBug513404_3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5780,7 +5780,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableBug513404_4() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5831,7 +5831,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableAsSwitchStatement() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5894,7 +5894,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableBug120579() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -5920,7 +5920,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableWithSideEffectAssignments() throws Exception {
 		// https://bugs.eclipse.org/421717
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
@@ -5968,7 +5968,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableWithSideEffectAssignments2() throws Exception {
 		// https://bugs.eclipse.org/421717
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
@@ -6023,7 +6023,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableWithSideEffectAssignments3() throws Exception {
 		// https://bugs.eclipse.org/421717
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
@@ -6081,7 +6081,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedVariableWithSideEffectAssignments4() throws Exception {
 		// https://bugs.eclipse.org/421717
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
@@ -6137,7 +6137,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedParam() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -6195,7 +6195,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedParam2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -6248,7 +6248,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedParamBug328481() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_LOCAL, JavaCore.ERROR);
@@ -6308,7 +6308,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedPrivateMethod() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_PRIVATE_MEMBER, JavaCore.ERROR);
@@ -6344,7 +6344,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedPrivateConstructor() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_PRIVATE_MEMBER, JavaCore.ERROR);
@@ -6381,7 +6381,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedPrivateType() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_PRIVATE_MEMBER, JavaCore.ERROR);
@@ -6418,7 +6418,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryCast1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_TYPE_CHECK, JavaCore.ERROR);
@@ -6454,7 +6454,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryCast2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_TYPE_CHECK, JavaCore.ERROR);
@@ -6490,7 +6490,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryCast3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_TYPE_CHECK, JavaCore.ERROR);
@@ -6526,7 +6526,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryCastBug335173_1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_TYPE_CHECK, JavaCore.ERROR);
@@ -6562,7 +6562,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryCastBug335173_2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_TYPE_CHECK, JavaCore.ERROR);
@@ -6598,7 +6598,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryCastBug578911() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_TYPE_CHECK, JavaCore.ERROR);
@@ -6633,7 +6633,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSuperfluousSemicolon() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_EMPTY_STATEMENT, JavaCore.ERROR);
@@ -6669,7 +6669,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndirectStaticAccess1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_INDIRECT_STATIC_ACCESS, JavaCore.ERROR);
@@ -6725,7 +6725,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndirectStaticAccess2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_INDIRECT_STATIC_ACCESS, JavaCore.ERROR);
@@ -6783,7 +6783,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndirectStaticAccess_bug40880() throws Exception {
 
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
@@ -6845,7 +6845,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str4);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndirectStaticAccess_bug32022() throws Exception {
 
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
@@ -6911,7 +6911,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndirectStaticAccess_bug307407() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_INDIRECT_STATIC_ACCESS, JavaCore.ERROR);
@@ -6970,7 +6970,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryInstanceof1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_TYPE_CHECK, JavaCore.ERROR);
@@ -7006,7 +7006,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryInstanceof2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_TYPE_CHECK, JavaCore.ERROR);
@@ -7046,7 +7046,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryThrownException1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_DECLARED_THROWN_EXCEPTION, JavaCore.ERROR);
@@ -7103,7 +7103,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryThrownException2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_DECLARED_THROWN_EXCEPTION, JavaCore.ERROR);
@@ -7169,7 +7169,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryThrownException3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_DECLARED_THROWN_EXCEPTION, JavaCore.ERROR);
@@ -7222,7 +7222,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryThrownException4() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_DECLARED_THROWN_EXCEPTION, JavaCore.ERROR);
@@ -7304,7 +7304,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7340,7 +7340,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7384,7 +7384,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7429,7 +7429,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess4() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7474,7 +7474,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess_bug50960() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7519,7 +7519,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess_bug88313() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7570,7 +7570,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess_bug115277() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7609,7 +7609,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess_bug138325_1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7646,7 +7646,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccess_bug138325_2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7691,7 +7691,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnqualifiedFieldAccessWithGenerics() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNQUALIFIED_FIELD_ACCESS, JavaCore.ERROR);
@@ -7742,7 +7742,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expecteds);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHidingVariable1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_LOCAL_VARIABLE_HIDING, JavaCore.ERROR);
@@ -7768,7 +7768,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertTrue(proposals.get(0) instanceof LinkedNamesAssistProposal);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHidingVariable2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_LOCAL_VARIABLE_HIDING, JavaCore.ERROR);
@@ -7793,7 +7793,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertTrue(proposals.get(0) instanceof LinkedNamesAssistProposal);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHidingVariable3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_LOCAL_VARIABLE_HIDING, JavaCore.ERROR);
@@ -7820,7 +7820,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertTrue(proposals.get(0) instanceof LinkedNamesAssistProposal);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHidingVariable4() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_LOCAL_VARIABLE_HIDING, JavaCore.ERROR);
@@ -7848,7 +7848,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertTrue(proposals.get(0) instanceof LinkedNamesAssistProposal);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHidingVariable5() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_LOCAL_VARIABLE_HIDING, JavaCore.ERROR);
@@ -7877,7 +7877,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertTrue(proposals.get(0) instanceof LinkedNamesAssistProposal);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHidingVariable6() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_LOCAL_VARIABLE_HIDING, JavaCore.ERROR);
@@ -7905,7 +7905,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertTrue(proposals.get(0) instanceof LinkedNamesAssistProposal);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSetParenteses1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_LOCAL_VARIABLE_HIDING, JavaCore.ERROR);
@@ -7945,7 +7945,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSetParenteses2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_LOCAL_VARIABLE_HIDING, JavaCore.ERROR);
@@ -7983,7 +7983,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryElse1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_ELSE, JavaCore.ERROR);
@@ -8026,7 +8026,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryElse2() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_ELSE, JavaCore.ERROR);
@@ -8072,7 +8072,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryElse3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_ELSE, JavaCore.ERROR);
@@ -8115,7 +8115,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryElse4() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_ELSE, JavaCore.ERROR);
@@ -8163,7 +8163,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnecessaryElse5() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_ELSE, JavaCore.ERROR);
@@ -8214,7 +8214,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInterfaceExtendsClass() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_ELSE, JavaCore.ERROR);
@@ -8257,7 +8257,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveUnreachableCodeStmt() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNNECESSARY_ELSE, JavaCore.IGNORE);
@@ -8301,7 +8301,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveUnreachableCodeStmt2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -8344,7 +8344,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveUnreachableCodeWhile() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -8379,7 +8379,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeIfThen() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -8437,7 +8437,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeIfThen2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -8504,7 +8504,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeIfThen3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -8572,7 +8572,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeIfThen4() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -8636,7 +8636,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeIfThen5() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -8699,7 +8699,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeIfThenSwitch() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -8786,7 +8786,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeIfElse() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -8844,7 +8844,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -8951,7 +8951,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9010,7 +9010,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9086,7 +9086,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf4() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9162,7 +9162,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf5() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9221,7 +9221,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf6() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9280,7 +9280,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf7() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9339,7 +9339,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf8() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9398,7 +9398,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf9() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9474,7 +9474,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf10() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9533,7 +9533,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf11() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9592,7 +9592,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf12() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9651,7 +9651,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeAfterIf13() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9710,7 +9710,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeConditional() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9760,7 +9760,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeConditional2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9797,7 +9797,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeConditional3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9832,7 +9832,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDeadCodeMultiStatements() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9890,7 +9890,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveUnreachableCodeMultiStatementsSwitch() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_DEAD_CODE, JavaCore.WARNING);
@@ -9946,7 +9946,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, str1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedObjectAllocation1() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_UNUSED_OBJECT_ALLOCATION, JavaCore.WARNING);
@@ -10044,7 +10044,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedObjectAllocation2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_UNUSED_OBJECT_ALLOCATION, JavaCore.WARNING);
@@ -10134,7 +10134,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedObjectAllocation3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_UNUSED_OBJECT_ALLOCATION, JavaCore.WARNING);
@@ -10175,7 +10175,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNecessaryNLSTag1() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -10208,7 +10208,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnessecaryNLSTag1() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -10251,7 +10251,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnessecaryNLSTag2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -10294,7 +10294,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnessecaryNLSTag3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -10340,7 +10340,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnessecaryNLSTag4() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -10386,7 +10386,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnessecaryNLSTag5() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -10432,7 +10432,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnnessecaryNLSTag6() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -10479,7 +10479,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignmentWithoutSideEffect1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -10526,7 +10526,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignmentWithoutSideEffect2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -10573,7 +10573,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAssignmentWithoutSideEffect3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -10607,7 +10607,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddTypeParametersToClassInstanceCreationTest01() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -10647,7 +10647,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddTypeParametersToClassInstanceCreationTest02() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -10691,7 +10691,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingAnnotationAttributes1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -10729,7 +10729,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingAnnotationAttributes2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -10773,7 +10773,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingAnnotationAttributes3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -10813,7 +10813,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingAnnotationAttributes_bug179316 () throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("e", false, null);
 		String str= """
@@ -10844,7 +10844,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReference01() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -10905,7 +10905,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReference02() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -11123,7 +11123,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 //		assertExpectedExistInProposals(proposals, expected);
 //	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReference06() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -11179,7 +11179,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReference07() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -11232,7 +11232,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReference08() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_UNCHECKED_TYPE_OPERATION, JavaCore.WARNING);
@@ -11294,7 +11294,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReference09() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -11341,7 +11341,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReferenceIssue2668() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -11385,7 +11385,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReferenceBug212557() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -11422,7 +11422,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParametersToRawTypeReferenceBug280193() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -11472,7 +11472,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSwitchCaseFallThrough1() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_FALLTHROUGH_CASE, JavaCore.WARNING);
@@ -11557,7 +11557,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSwitchCaseFallThrough2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_FALLTHROUGH_CASE, JavaCore.WARNING);
@@ -11642,7 +11642,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSwitchCaseFallThrough3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_FALLTHROUGH_CASE, JavaCore.WARNING);
@@ -11731,7 +11731,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReplaceWithUnqualifiedEnumConstant1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -11776,7 +11776,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReplaceWithUnqualifiedEnumConstant2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -11821,7 +11821,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionsFieldMethodReplacement() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_UNCHECKED_TYPE_OPERATION, JavaCore.WARNING);
@@ -11863,7 +11863,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionsFieldMethodReplacement2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_UNCHECKED_TYPE_OPERATION, JavaCore.WARNING);
@@ -11911,7 +11911,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollectionsFieldMethodReplacement3() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_UNCHECKED_TYPE_OPERATION, JavaCore.WARNING);
@@ -11957,7 +11957,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingEnumConstantsInCase1() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_INCOMPLETE_ENUM_SWITCH, JavaCore.WARNING);
@@ -12052,7 +12052,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingEnumConstantsInCase2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_INCOMPLETE_ENUM_SWITCH, JavaCore.WARNING);
@@ -12130,7 +12130,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingEnumConstantsInCase3() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=372840
 		Hashtable<String, String> options= JavaCore.getOptions();
@@ -12195,7 +12195,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingEnumConstantsInCase4() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=379086
 		Hashtable<String, String> options= JavaCore.getOptions();
@@ -12303,7 +12303,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingHashCode1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -12346,7 +12346,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMissingHashCode2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -12366,7 +12366,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertEquals(0, astRoot.getProblems().length); // see https://bugs.eclipse.org/bugs/show_bug.cgi?id=38751#c7
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedTypeParameter1() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_TYPE_PARAMETER, JavaCore.ERROR);
@@ -12408,7 +12408,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedTypeParameter2() throws Exception {
 
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
@@ -12461,7 +12461,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedTypeParameter3() throws Exception {
 		Hashtable<String, String> hashtable= JavaCore.getOptions();
 		hashtable.put(JavaCore.COMPILER_PB_UNUSED_TYPE_PARAMETER, JavaCore.ERROR);
@@ -12507,7 +12507,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	 * Tests if the quick fix to loop over a variable name is added correctly. The complete
 	 * functionality of the for loop generation is tested in {@link AssistQuickFixTest}
 	 */
-	@Ignore("Bug 434188: [quick fix] shows sign of quick fix, but says no suggestions available.")
+	@Ignore("Bug 434188: [quick fix] shows sign of quick fix, but says no suggestions available.") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void testLoopOverAddedToFixesForVariable() throws Exception {
 
@@ -12524,7 +12524,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", str, false, null);
 
 		Map<String, String> saveOptions= fJProject1.getOptions(false);
-		Map<String, String> newOptions= new HashMap<>(saveOptions);
+		Map<String, String> newOptions= new HashMap<>(saveOptions); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		newOptions.put(DefaultCodeFormatterConstants.FORMATTER_PUT_EMPTY_STATEMENT_ON_NEW_LINE, "true");
 		try {
 			fJProject1.setOptions(newOptions);
@@ -12570,7 +12570,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	 * Tests if the quick fix to loop over a method invocation is added correctly. The complete
 	 * functionality of the for loop generation is tested in {@link AssistQuickFixTest}
 	 */
-	@Ignore("Bug 434188: [quick fix] shows sign of quick fix, but says no suggestions available.")
+	@Ignore("Bug 434188: [quick fix] shows sign of quick fix, but says no suggestions available.") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void testLoopOverAddedToFixesForMethodInvocation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -12586,7 +12586,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", str, false, null);
 
 		Map<String, String> saveOptions= fJProject1.getOptions(false);
-		Map<String, String> newOptions= new HashMap<>(saveOptions);
+		Map<String, String> newOptions= new HashMap<>(saveOptions); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		newOptions.put(DefaultCodeFormatterConstants.FORMATTER_PUT_EMPTY_STATEMENT_ON_NEW_LINE, "true");
 		try {
 			fJProject1.setOptions(newOptions);
@@ -12633,7 +12633,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	 * Tests if the quick fix to loop over a method invocation is added correctly. The complete
 	 * functionality of the for loop generation is tested in {@link AssistQuickFixTest}
 	 */
-	@Ignore("Bug 434188: [quick fix] shows sign of quick fix, but says no suggestions available.")
+	@Ignore("Bug 434188: [quick fix] shows sign of quick fix, but says no suggestions available.") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void testGenerateForeachNotAddedForLowVersion() throws Exception {
 
@@ -12650,7 +12650,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", str, false, null);
 
 		Map<String, String> saveOptions= fJProject1.getOptions(false);
-		Map<String, String> newOptions= new HashMap<>();
+		Map<String, String> newOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		newOptions.put(DefaultCodeFormatterConstants.FORMATTER_PUT_EMPTY_STATEMENT_ON_NEW_LINE, "true");
 		try {
 			fJProject1.setOptions(newOptions);
@@ -12685,7 +12685,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 	// regression test for https://bugs.eclipse.org/434188 - [quick fix] shows sign of quick fix, but says no suggestions available.
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoFixFor_ParsingErrorInsertToComplete() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -12720,7 +12720,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertNumberOfProposals(proposals, 0);
 
 		IProblem[] problems= astRoot.getProblems();
-		for (int i= 0; i < problems.length; i++) {
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblem problem= problems[i];
 			if (i == 5) {
 				assertEquals(IProblem.ParsingErrorDeleteToken, problem.getID());
@@ -12732,7 +12732,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 				JavaCorrectionProcessor.hasCorrections(cu, IProblem.ParsingErrorInsertToComplete, IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectProposal_1() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -12781,7 +12781,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectProposal_2() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -12840,7 +12840,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectProposal_3() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -12910,7 +12910,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectProposal_4() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -12980,7 +12980,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectProposal_5() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13035,7 +13035,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectProposal_6() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13089,7 +13089,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectReferenceProposal_1() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13150,7 +13150,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectReferenceProposal_2() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13211,7 +13211,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectReferenceProposal_3() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13280,7 +13280,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewObjectReferenceProposal_4() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13349,7 +13349,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewVariableReferenceProposal_1() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13423,7 +13423,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewVariableReferenceProposal_2() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13502,7 +13502,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateNewVariableReferenceProposal_3() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395216
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -13568,7 +13568,7 @@ public class LocalCorrectionsQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDuplicateConstructor() throws Exception { //https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/1123
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """

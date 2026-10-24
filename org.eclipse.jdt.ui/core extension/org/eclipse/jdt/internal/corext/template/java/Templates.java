@@ -59,7 +59,7 @@ public class Templates extends org.eclipse.jdt.internal.corext.template.java.Tem
 
 		try {
 			File templateFile= getTemplateFile();
-			if (templateFile.exists()) {
+			if (templateFile.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				addFromFile(templateFile, false);
 			}
 

@@ -68,7 +68,7 @@ public class ASTBatchParser {
 	 *   or <code>null</code> if none
 	 * @see ASTParser#createASTs(ICompilationUnit[], String[], ASTRequestor, IProgressMonitor)
 	 */
-	public final void createASTs(ICompilationUnit[] compilationUnits, String[] bindingKeys, ASTRequestor requestor, IProgressMonitor monitor) {
+	public final void createASTs(ICompilationUnit[] compilationUnits, String[] bindingKeys, ASTRequestor requestor, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (compilationUnits.length == 0)
 			return;
 
@@ -78,14 +78,14 @@ public class ASTBatchParser {
 		monitor.beginTask("", compilationUnits.length); //$NON-NLS-1$
 		try {
 
-			for (ICompilationUnit[] units : splitByProject(compilationUnits)) {
+			for (ICompilationUnit[] units : splitByProject(compilationUnits)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (units.length <= MAX_AT_ONCE) {
 					createParser(units[0].getJavaProject()).createASTs(units, bindingKeys, requestor, Progress.subMonitor(monitor, units.length));
 				} else {
 					List<ICompilationUnit> list= Arrays.asList(units);
 					int end= 0;
 					int cursor= 0;
-					while (cursor < units.length) {
+					while (cursor < units.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						end= Math.min(end + MAX_AT_ONCE, units.length);
 						List<ICompilationUnit> toParse= list.subList(cursor, end);
 
@@ -118,16 +118,16 @@ public class ASTBatchParser {
 		return result;
 	}
 
-	private static ICompilationUnit[][] splitByProject(ICompilationUnit[] units) {
+	private static ICompilationUnit[][] splitByProject(ICompilationUnit[] units) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hasOnlyOneProject(units))
 			return new ICompilationUnit[][] { units };
 
 		Hashtable<IJavaProject, ArrayList<ICompilationUnit>> projectTable= new Hashtable<>();
 
-		for (ICompilationUnit unit : units) {
+		for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ArrayList<ICompilationUnit> list= projectTable.get(unit.getJavaProject());
 			if (list == null) {
-				list= new ArrayList<>();
+				list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				projectTable.put(unit.getJavaProject(), list);
 			}
 			list.add(unit);
@@ -137,7 +137,7 @@ public class ASTBatchParser {
 
 		ICompilationUnit[][] result= new ICompilationUnit[values.size()][];
 		int i= 0;
-		for (ArrayList<ICompilationUnit> cus : values) {
+		for (ArrayList<ICompilationUnit> cus : values) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= cus.toArray(new ICompilationUnit[cus.size()]);
 			i++;
 		}
@@ -147,7 +147,7 @@ public class ASTBatchParser {
 
 	private static boolean hasOnlyOneProject(ICompilationUnit[] units) {
 		IJavaProject javaProject= units[0].getJavaProject();
-		for (int i= 1; i < units.length; i++) {
+		for (int i= 1; i < units.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!javaProject.equals(units[i].getJavaProject()))
 				return false;
 		}

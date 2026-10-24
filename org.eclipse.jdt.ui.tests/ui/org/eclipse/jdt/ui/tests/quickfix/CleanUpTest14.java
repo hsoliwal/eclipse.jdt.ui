@@ -46,7 +46,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionMethod() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -100,7 +100,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionField() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -151,7 +151,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionStaticInitializer() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -206,7 +206,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionEnumsNoDefault() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -268,7 +268,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionBug574824() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -320,7 +320,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionBug578130() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -390,7 +390,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionBug578129_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -445,7 +445,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionBug578129_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -509,7 +509,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToReturnSwitchExpressionIssue104_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -573,7 +573,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToReturnSwitchExpressionIssue104_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -632,7 +632,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionIssue380() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -679,7 +679,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionIssue388() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -724,7 +724,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionIssue1983_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -771,7 +771,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionIssue1983_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -817,7 +817,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertToReturnSwitchExpressionIssue104_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -856,7 +856,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertToReturnSwitchExpressionIssue104_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -898,7 +898,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertToSwitchExpressionNoBreak() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -929,7 +929,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertToSwitchExpressionNoStatements() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -960,7 +960,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionNoAssignment() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1010,7 +1010,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionNoDefaultAssignment() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1061,7 +1061,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionNoLastAssignment() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1116,7 +1116,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertToSwitchExpressionIfElse() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1152,7 +1152,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertToSwitchExpressionWithTry() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1188,7 +1188,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionReturn() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1239,7 +1239,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToSwitchExpressionBug578128() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1294,7 +1294,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 			assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertToSwitchExpressionIssue381() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1319,7 +1319,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertToSwitchExpressionIssue2728() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1343,7 +1343,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotRemoveParenthesesIssue2451_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1368,7 +1368,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotRemoveParenthesesIssue2451_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1393,7 +1393,7 @@ public class CleanUpTest14 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveParenthesesIssue2451_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """

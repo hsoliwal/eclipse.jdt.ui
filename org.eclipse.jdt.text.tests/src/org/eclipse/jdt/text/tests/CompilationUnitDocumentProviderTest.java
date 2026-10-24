@@ -122,7 +122,7 @@ public class CompilationUnitDocumentProviderTest {
 		checkFile(file);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNewFile() throws Exception {
 		setupProject();
 		String source= "// some source";
@@ -157,7 +157,7 @@ public class CompilationUnitDocumentProviderTest {
 		assertNull(provider.getAnnotationModel(input));
 	}
 
-	private static IProject createLinkedProject(String projectName, Plugin plugin, IPath linkPath) throws CoreException {
+	private static IProject createLinkedProject(String projectName, Plugin plugin, IPath linkPath) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspace workspace= ResourcesPlugin.getWorkspace();
 		IProject project= workspace.getRoot().getProject(projectName);
 

@@ -102,7 +102,7 @@ public class SelectionAnalyzer extends GenericVisitor {
 
 	//--- node management ---------------------------------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean visitNode(ASTNode node) {
 		// The selection lies behind the node.
 		if (fSelection.liesOutside(node)) {
@@ -130,7 +130,7 @@ public class SelectionAnalyzer extends GenericVisitor {
 	}
 
 	protected void handleFirstSelectedNode(ASTNode node) {
-		fSelectedNodes= new ArrayList<>(5);
+		fSelectedNodes= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fSelectedNodes.add(node);
 	}
 

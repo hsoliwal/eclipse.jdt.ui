@@ -47,7 +47,7 @@ public class CleanUpPreferenceUtil {
     	return loadOptions(context, CleanUpConstants.CLEANUP_PROFILE, CleanUpConstants.DEFAULT_PROFILE);
     }
 
-	private static Map<String, String> loadOptions(IScopeContext context, String profileIdKey, String defaultProfileId) {
+	private static Map<String, String> loadOptions(IScopeContext context, String profileIdKey, String defaultProfileId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	IEclipsePreferences contextNode= context.getNode(JavaUI.ID_PLUGIN);
     	String id= contextNode.get(profileIdKey, null);
 
@@ -65,7 +65,7 @@ public class CleanUpPreferenceUtil {
     		}
     	}
 
-    	for (Profile profile : getBuiltInProfiles()) {
+    	for (Profile profile : getBuiltInProfiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.equals(profile.getID()))
 				return profile.getSettings();
 		}
@@ -85,7 +85,7 @@ public class CleanUpPreferenceUtil {
         if (list == null)
         	return null;
 
-		for (Profile profile : list) {
+		for (Profile profile : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.equals(profile.getID()))
 				return profile.getSettings();
 		}
@@ -93,8 +93,8 @@ public class CleanUpPreferenceUtil {
     	return null;
     }
 
-	private static Map<String, String> loadFromProject(IScopeContext context) {
-		final Map<String, String> profileOptions= new HashMap<>();
+	private static Map<String, String> loadFromProject(IScopeContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, String> profileOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		IEclipsePreferences uiPrefs= context.getNode(JavaUI.ID_PLUGIN);
 
     	CleanUpProfileVersioner versioner= new CleanUpProfileVersioner();
@@ -102,9 +102,9 @@ public class CleanUpPreferenceUtil {
     	CleanUpOptions defaultOptions= JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS);
 
     	boolean hasValues= false;
-		for (KeySet keySet : CleanUpProfileManager.KEY_SETS) {
+		for (KeySet keySet : CleanUpProfileManager.KEY_SETS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEclipsePreferences preferences= context.getNode(keySet.getNodeName());
-			for (String key : keySet.getKeys()) {
+			for (String key : keySet.getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String val= preferences.get(key, null);
 				if (val != null) {
 					hasValues= true;
@@ -127,7 +127,7 @@ public class CleanUpPreferenceUtil {
 		return profile.getSettings();
     }
 
-	public static Map<String, String> loadSaveParticipantOptions(IScopeContext context) {
+	public static Map<String, String> loadSaveParticipantOptions(IScopeContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEclipsePreferences node;
 		if (hasSettingsInScope(context)) {
 			node= context.getNode(JavaUI.ID_PLUGIN);
@@ -140,9 +140,9 @@ public class CleanUpPreferenceUtil {
 			}
 		}
 
-		Map<String, String> result= new HashMap<>();
-		for (String key : JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_SAVE_ACTION_OPTIONS).getKeys()) {
-			result.put(key, node.get(SAVE_PARTICIPANT_KEY_PREFIX + key, CleanUpOptions.FALSE));
+		Map<String, String> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (String key : JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_SAVE_ACTION_OPTIONS).getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.put(key, node.get(SAVE_PARTICIPANT_KEY_PREFIX + key, CleanUpOptions.FALSE)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return result;
@@ -150,17 +150,17 @@ public class CleanUpPreferenceUtil {
 
     public static void saveSaveParticipantOptions(IScopeContext context, Map<String, String> settings) {
     	IEclipsePreferences node= context.getNode(JavaUI.ID_PLUGIN);
-		for (Map.Entry<String, String> entry : settings.entrySet()) {
+		for (Map.Entry<String, String> entry : settings.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
-			node.put(SAVE_PARTICIPANT_KEY_PREFIX + key, entry.getValue());
+			node.put(SAVE_PARTICIPANT_KEY_PREFIX + key, entry.getValue()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
     }
 
 	public static boolean hasSettingsInScope(IScopeContext context) {
     	IEclipsePreferences node= context.getNode(JavaUI.ID_PLUGIN);
 
-    	for (String key : JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_SAVE_ACTION_OPTIONS).getKeys()) {
-			if (node.get(SAVE_PARTICIPANT_KEY_PREFIX + key, null) != null)
+    	for (String key : JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_SAVE_ACTION_OPTIONS).getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			if (node.get(SAVE_PARTICIPANT_KEY_PREFIX + key, null) != null) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return true;
 		}
 
@@ -174,7 +174,7 @@ public class CleanUpPreferenceUtil {
 	 * @return list of profiles, not null
 	 * @since 3.3
 	 */
-	public static List<Profile> loadProfiles(IScopeContext scope) {
+	public static List<Profile> loadProfiles(IScopeContext scope) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
         CleanUpProfileVersioner versioner= new CleanUpProfileVersioner();
     	ProfileStore profileStore= new ProfileStore(CleanUpConstants.CLEANUP_PROFILES, versioner);
@@ -200,7 +200,7 @@ public class CleanUpPreferenceUtil {
 	 * @since 3.3
 	 */
 	public static List<Profile> getBuiltInProfiles() {
-    	ArrayList<Profile> result= new ArrayList<>();
+    	ArrayList<Profile> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
     	Map<String, String> settings= JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS).getMap();
     	final Profile eclipseProfile= new BuiltInProfile(CleanUpConstants.ECLIPSE_PROFILE, CleanUpMessages.CleanUpProfileManager_ProfileName_EclipseBuildIn, settings, 2, CleanUpProfileVersioner.CURRENT_VERSION, CleanUpProfileVersioner.PROFILE_KIND);

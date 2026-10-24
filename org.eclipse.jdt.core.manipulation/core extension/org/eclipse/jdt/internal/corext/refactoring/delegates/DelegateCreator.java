@@ -309,7 +309,7 @@ public abstract class DelegateCreator {
 	 * All references to the new member will contain the new name of the member
 	 * and/or new declaring type, if any.
 	 */
-	public void prepareDelegate() throws JavaModelException {
+	public void prepareDelegate() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(fDelegateRewrite);
 		Assert.isNotNull(fDeclaration);
 
@@ -354,7 +354,7 @@ public abstract class DelegateCreator {
 	 * Performs the actual rewriting and adds an edit to the ASTRewrite set with
 	 * {@link #setSourceRewrite(CompilationUnitRewrite)}.
 	 */
-	public void createEdit() throws JavaModelException {
+	public void createEdit() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IDocument document= new Document(fDelegateRewrite.getCu().getBuffer().getContents());
 			TextEdit edit= fDelegateRewrite.getASTRewrite().rewriteAST(document, fDelegateRewrite.getCu().getOptions(true));
@@ -402,14 +402,14 @@ public abstract class DelegateCreator {
 
 	// ******************* INTERNAL HELPERS ***************************
 
-	private TagElement getDelegateJavadocTag(BodyDeclaration declaration) throws JavaModelException {
+	private TagElement getDelegateJavadocTag(BodyDeclaration declaration) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(declaration);
 
 		String msg= RefactoringCoreMessages.DelegateCreator_use_member_instead;
 		int firstParam= msg.indexOf("{0}"); //$NON-NLS-1$
 		Assert.isTrue(firstParam != -1);
 
-		List<ASTNode> fragments= new ArrayList<>();
+		List<ASTNode> fragments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		TextElement text= getAst().newTextElement();
 		text.setText(msg.substring(0, firstParam).trim());
 		fragments.add(text);

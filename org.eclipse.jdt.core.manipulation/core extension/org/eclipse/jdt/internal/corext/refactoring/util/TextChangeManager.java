@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
  */
 public class TextChangeManager {
 
-	private Map<ICompilationUnit, TextChange> fMap= new HashMap<>(10);
+	private Map<ICompilationUnit, TextChange> fMap= new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final boolean fKeepExecutedTextEdits;
 
@@ -98,7 +98,7 @@ public class TextChangeManager {
 		});
 
 		TextChange[] textChanges= new TextChange[cus.length];
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			textChanges[i]= fMap.get(cus[i]);
 		}
 		return textChanges;

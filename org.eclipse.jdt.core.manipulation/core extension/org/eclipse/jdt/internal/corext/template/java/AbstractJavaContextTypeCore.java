@@ -52,7 +52,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 	        IJavaContext jc= (IJavaContext) context;
 	        Variable[] iterables= getVariables(jc);
 	        String[] names= new String[iterables.length];
-	        for (int i= 0; i < iterables.length; i++)
+	        for (int i= 0; i < iterables.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				names[i]= iterables[i].getName();
 	        if (names.length > 0)
 	        	jc.markAsUsed(names[0]);
@@ -64,7 +64,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 		/*
 		 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#resolve(org.eclipse.jface.text.templates.TemplateVariable, org.eclipse.jface.text.templates.TemplateContext)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void resolve(TemplateVariable variable, TemplateContext context) {
 			if (variable instanceof MultiVariable) {
 				IJavaContext jc= (IJavaContext) context;
@@ -121,7 +121,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 	        IJavaContext jc= (IJavaContext) context;
 	        Variable[] iterables= getVariablesInContextScope(jc);
 	        String[] types= new String[iterables.length];
-	        for (int i= 0; i < iterables.length; i++)
+	        for (int i= 0; i < iterables.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        	types[i]= iterables[i].getMemberTypeNames()[0];
 			return types;
 	    }
@@ -131,7 +131,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 		/*
 		 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#resolve(org.eclipse.jface.text.templates.TemplateVariable, org.eclipse.jface.text.templates.TemplateContext)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void resolve(TemplateVariable variable, TemplateContext context) {
 			if (variable instanceof MultiVariable) {
 				IJavaContext jc= (IJavaContext) context;
@@ -140,7 +140,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 				Variable[] iterables= getVariablesInContextScope(jc);
 				if (iterables.length > 0) {
 
-					for (Variable iterable : iterables)
+					for (Variable iterable : iterables) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						mv.setChoices(iterable, iterable.getMemberTypeNames());
 
 					TemplateVariable master= jc.getTemplateVariable(fMasterName);
@@ -197,7 +197,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 	        IJavaContext jc= (IJavaContext) context;
 	        Variable[] iterables= getLocalVariables(jc);
 	        String[] elements= new String[iterables.length];
-	        for (int i= 0; i < iterables.length; i++) {
+	        for (int i= 0; i < iterables.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        	elements[i]= jc.suggestVariableNames(iterables[i].getMemberTypeNames()[0])[0];
 	        	if (i == 0)
 	        		jc.markAsUsed(elements[0]);
@@ -211,7 +211,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 		/*
 		 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#resolve(org.eclipse.jface.text.templates.TemplateVariable, org.eclipse.jface.text.templates.TemplateContext)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void resolve(TemplateVariable variable, TemplateContext context) {
 			if (variable instanceof MultiVariable) {
 				IJavaContext jc= (IJavaContext) context;
@@ -219,7 +219,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 
 		        Variable[] iterables= getLocalVariables(jc);
 				if (iterables.length > 0) {
-					for (Variable iterable : iterables) {
+					for (Variable iterable : iterables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String[] elements= jc.suggestVariableNames(iterable.getMemberTypeNames()[0]);
 						mv.setChoices(iterable, elements);
 					}
@@ -327,7 +327,7 @@ public abstract class AbstractJavaContextTypeCore extends CompilationUnitContext
 	 *
 	 * @since 3.4
 	 */
-	public void initializeContextTypeResolvers() {
+	public void initializeContextTypeResolvers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// global
 		addResolver(new GlobalTemplateVariables.Cursor());

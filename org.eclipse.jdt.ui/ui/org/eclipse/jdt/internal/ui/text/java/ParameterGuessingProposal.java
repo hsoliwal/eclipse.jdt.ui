@@ -64,7 +64,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
  * This is a {@link org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposal} which includes templates
  * that represent the best guess completion for each parameter of a method.
  */
-public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
+public class ParameterGuessingProposal extends JavaMethodCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/**
 	 * Creates a {@link ParameterGuessingProposal} or <code>null</code> if the core context isn't available or extended.
@@ -108,7 +108,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 		char[][] types= Signature.getParameterTypes(signature);
 
 		IJavaElement[][] assignableElements= new IJavaElement[types.length][];
-		for (int i= 0; i < types.length; i++) {
+		for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assignableElements[i]= fCoreContext.getVisibleElements(new String(types[i]));
 		}
 		return assignableElements;
@@ -117,7 +117,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 	/*
 	 * @see ICompletionProposalExtension#apply(IDocument, char)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(final IDocument document, char trigger, int offset) {
 		try {
 			super.apply(document, trigger, offset);
@@ -129,7 +129,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 
 				LinkedModeModel model= new LinkedModeModel();
 
-				for (int i= 0; i < fPositions.length; i++) {
+				for (int i= 0; i < fPositions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					LinkedPositionGroup group= new LinkedPositionGroup();
 					int positionOffset= fPositions[i].getOffset();
 					int positionLength= fPositions[i].getLength();
@@ -155,12 +155,12 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 				// exit character can be either ')' or ';'
 				final char exitChar= replacement.charAt(replacement.length() - 1);
 				ui.setExitPolicy(new ExitPolicy(exitChar, document) {
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public ExitFlags doExit(LinkedModeModel model2, VerifyEvent event, int offset2, int length) {
 						try {
 							switch (event.character) {
 							case ',':
-								for (int i= 0; i < fPositions.length - 1; i++) { // not for the last one
+								for (int i= 0; i < fPositions.length - 1; i++) { // not for the last one //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									Position position= fPositions[i];
 									if (position.offset <= offset2 && offset2 + length <= position.offset + position.length) {
 										ITypedRegion partition= TextUtilities.getPartition(document, IJavaPartitions.JAVA_PARTITIONING, offset2 + length, false);
@@ -219,7 +219,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 		}
 	}
 
-	private boolean canExitLinkedMode(LinkedModeUI ui, IDocument document, int offset, int length) throws BadLocationException {
+	private boolean canExitLinkedMode(LinkedModeUI ui, IDocument document, int offset, int length) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int selectionEnd= offset + length;
 		ITypedRegion partition= TextUtilities.getPartition(document, IJavaPartitions.JAVA_PARTITIONING, selectionEnd, false);
 		if (!IDocument.DEFAULT_CONTENT_TYPE.equals(partition.getType())) {
@@ -230,12 +230,12 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 
 		int openParens= 0;
 		int pos= argumentRegion.getOffset();
-		while (pos < selectionEnd) {
+		while (pos < selectionEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypedRegion p= TextUtilities.getPartition(document, IJavaPartitions.JAVA_PARTITIONING, pos, false);
 			int end= p.getOffset() + p.getLength();
 			if (IDocument.DEFAULT_CONTENT_TYPE.equals(p.getType())) { // don't count parenthesis in strings, comments, etc.
 				String argumentTextFromPartition= document.get(pos, Math.min(selectionEnd, end) - pos);
-				for (int i= 0; i < argumentTextFromPartition.length(); i++) {
+				for (int i= 0; i < argumentTextFromPartition.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					char c= argumentTextFromPartition.charAt(i);
 					if (c == '(') {
 						openParens++;
@@ -265,7 +265,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.JavaMethodCompletionProposal#computeReplacementString()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String computeReplacementString() {
 
 		if (!hasParameters() || !hasArgumentList())
@@ -282,7 +282,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 			openErrorDialog(x);
 			return super.computeReplacementString();
 		}
-		if (JavaPlugin.DEBUG_RESULT_COLLECTOR) System.err.println("Parameter Guessing: " + (System.currentTimeMillis() - millis)); //$NON-NLS-1$
+		if (JavaPlugin.DEBUG_RESULT_COLLECTOR) System.err.println("Parameter Guessing: " + (System.currentTimeMillis() - millis)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		return replacement;
 	}
@@ -294,7 +294,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 	 * @return the completion string
 	 * @throws JavaModelException if parameter guessing failed
 	 */
-	private String computeGuessingCompletion() throws JavaModelException {
+	private String computeGuessingCompletion() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		StringBuffer buffer= new StringBuffer();
 		appendMethodNameReplacement(buffer);
@@ -312,7 +312,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 		int count= fChoices.length;
 		int replacementOffset= getReplacementOffset();
 
-		for (int i= 0; i < count; i++) {
+		for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i != 0) {
 				if (prefs.beforeComma)
 					buffer.append(SPACE);
@@ -358,7 +358,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 			return null;
 	}
 
-	private ICompletionProposal[][] guessParameters(char[][] parameterNames) throws JavaModelException {
+	private ICompletionProposal[][] guessParameters(char[][] parameterNames) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// find matches in reverse order.  Do this because people tend to declare the variable meant for the last
 		// parameter last.  That is, local variables for the last parameter in the method completion are more
 		// likely to be closer to the point of code completion. As an example consider a "delegation" completion:
@@ -378,7 +378,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 		ParameterGuesser guesser= new ParameterGuesser(getEnclosingElement());
 		IJavaElement[][] assignableElements= getAssignableElements();
 
-		for (int i= count - 1; i >= 0; i--) {
+		for (int i= count - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String paramName= new String(parameterNames[i]);
 			Position position= new Position(0,0);
 
@@ -403,7 +403,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 		char[][] types= Signature.getParameterTypes(signature);
 
 		String[] ret= new String[types.length];
-		for (int i= 0; i < types.length; i++) {
+		for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ret[i]= new String(Signature.toCharArray(types[i]));
 		}
 		return ret;
@@ -425,7 +425,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 		MessageDialog.openError(shell, JavaTextMessages.ParameterGuessingProposal_error_msg, e.getMessage());
 	}
 
-	private void ensurePositionCategoryInstalled(final IDocument document, LinkedModeModel model) {
+	private void ensurePositionCategoryInstalled(final IDocument document, LinkedModeModel model) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!document.containsPositionCategory(getCategory())) {
 			document.addPositionCategory(getCategory());
 			fUpdater= new InclusivePositionUpdater(getCategory());
@@ -461,7 +461,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 	}
 
 	private String getCategory() {
-		return "ParameterGuessingProposal_" + toString(); //$NON-NLS-1$
+		return "ParameterGuessingProposal_" + toString(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

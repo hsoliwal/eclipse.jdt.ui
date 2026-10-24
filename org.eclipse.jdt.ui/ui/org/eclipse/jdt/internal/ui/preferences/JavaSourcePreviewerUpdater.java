@@ -41,27 +41,27 @@ public class JavaSourcePreviewerUpdater {
 	 * @param configuration the configuration
 	 * @param preferenceStore the preference store
 	 */
-	public JavaSourcePreviewerUpdater(final SourceViewer viewer, final JavaSourceViewerConfiguration configuration, final IPreferenceStore preferenceStore) {
+	public JavaSourcePreviewerUpdater(final SourceViewer viewer, final JavaSourceViewerConfiguration configuration, final IPreferenceStore preferenceStore) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(viewer);
 		Assert.isNotNull(configuration);
 		Assert.isNotNull(preferenceStore);
-		final IPropertyChangeListener fontChangeListener= event -> {
+		final IPropertyChangeListener fontChangeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (PreferenceConstants.EDITOR_TEXT_FONT.equals(event.getProperty())) {
 				Font font= JFaceResources.getFont(PreferenceConstants.EDITOR_TEXT_FONT);
 				viewer.getTextWidget().setFont(font);
 			}
 		};
-		final IPropertyChangeListener propertyChangeListener= event -> {
+		final IPropertyChangeListener propertyChangeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (configuration.affectsTextPresentation(event)) {
 				configuration.handlePropertyChangeEvent(event);
 				viewer.invalidateTextPresentation();
 			}
 		};
-		viewer.getTextWidget().addDisposeListener(unused -> {
+		viewer.getTextWidget().addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			preferenceStore.removePropertyChangeListener(propertyChangeListener);
 			JFaceResources.getFontRegistry().removeListener(fontChangeListener);
 		});
-		JFaceResources.getFontRegistry().addListener(fontChangeListener);
+		JFaceResources.getFontRegistry().addListener(fontChangeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		preferenceStore.addPropertyChangeListener(propertyChangeListener);
 	}
 }

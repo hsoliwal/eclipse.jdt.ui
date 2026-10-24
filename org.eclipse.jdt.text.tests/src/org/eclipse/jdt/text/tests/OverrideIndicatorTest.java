@@ -66,7 +66,7 @@ public class OverrideIndicatorTest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		fEditor= openJavaEditor(new Path("/" + JUnitProjectTestSetup.getProject().getElementName() + "/src/junit/framework/TestCase.java"));
+		fEditor= openJavaEditor(new Path("/" + JUnitProjectTestSetup.getProject().getElementName() + "/src/junit/framework/TestCase.java")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull(fEditor);
 		fTextWidget= fEditor.getViewer().getTextWidget();
 		assertNotNull(fTextWidget);
@@ -91,11 +91,11 @@ public class OverrideIndicatorTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void countOverrideIndicators() {
 		int count= 0;
 		long timeOut= System.currentTimeMillis() + 60000;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EditorTestHelper.runEventQueue(fEditor);
 			computeOverrideIndicators();
 			count= fOverrideAnnotations.length;
@@ -117,7 +117,7 @@ public class OverrideIndicatorTest {
 	public void overrideIndicatorState() {
 		countOverrideIndicators();
 		int count= 0;
-		for (Annotation overrideAnnotation : fOverrideAnnotations) {
+		for (Annotation overrideAnnotation : fOverrideAnnotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Accessor indicator= new Accessor(overrideAnnotation, "org.eclipse.jdt.internal.ui.javaeditor.OverrideIndicatorManager$OverrideIndicator", getClass().getClassLoader());
 			if (indicator.getBoolean("fIsOverwriteIndicator"))
 				count++;
@@ -128,7 +128,7 @@ public class OverrideIndicatorTest {
 	@Test
 	public void overrideIndicatorText() {
 		countOverrideIndicators();
-		for (Annotation overrideAnnotation : fOverrideAnnotations) {
+		for (Annotation overrideAnnotation : fOverrideAnnotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String text= overrideAnnotation.getText();
 			assertNotNull(text);
 			assertTrue("overrides java.lang.Object.toString".equals(text)
@@ -138,9 +138,9 @@ public class OverrideIndicatorTest {
 	}
 
 	private void computeOverrideIndicators() {
-		ArrayList<Annotation> annotations= new ArrayList<>();
+		ArrayList<Annotation> annotations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<Annotation> iter= fAnnotationModel.getAnnotationIterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation annotation= iter.next();
 			if (OVERRIDE_INDICATOR_ANNOTATION.equals(annotation.getType()))
 				annotations.add(annotation);

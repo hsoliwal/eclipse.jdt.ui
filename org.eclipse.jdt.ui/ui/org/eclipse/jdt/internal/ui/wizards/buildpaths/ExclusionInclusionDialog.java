@@ -92,7 +92,7 @@ public class ExclusionInclusionDialog extends StatusDialog {
 	private static final int IDX_REMOVE= 4;
 
 
-	public ExclusionInclusionDialog(Shell parent, CPListElement entryToEdit, boolean focusOnExcluded) {
+	public ExclusionInclusionDialog(Shell parent, CPListElement entryToEdit, boolean focusOnExcluded) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 
 		fCurrElement= entryToEdit;
@@ -145,7 +145,7 @@ public class ExclusionInclusionDialog extends StatusDialog {
 		return true;
 	}
 
-	private ListDialogField<String> createListContents(CPListElement entryToEdit, String key, String label, ImageDescriptor descriptor, String[] buttonLabels) {
+	private ListDialogField<String> createListContents(CPListElement entryToEdit, String key, String label, ImageDescriptor descriptor, String[] buttonLabels) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ExclusionPatternAdapter adapter= new ExclusionPatternAdapter();
 
 		ListDialogField<String> patternList= new ListDialogField<>(adapter, buttonLabels, new ExclusionInclusionLabelProvider(descriptor));
@@ -156,8 +156,8 @@ public class ExclusionInclusionDialog extends StatusDialog {
 
 		IPath[] pattern= (IPath[]) entryToEdit.getAttribute(key);
 
-		ArrayList<String> elements= new ArrayList<>(pattern.length);
-		for (IPath p : pattern) {
+		ArrayList<String> elements= new ArrayList<>(pattern.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPath p : pattern) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			elements.add(p.toString());
 		}
 		patternList.setElements(elements);
@@ -168,7 +168,7 @@ public class ExclusionInclusionDialog extends StatusDialog {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 
@@ -301,7 +301,7 @@ public class ExclusionInclusionDialog extends StatusDialog {
 		Object[] arr= field.getElements().toArray();
 		Arrays.sort(arr);
 		IPath[] res= new IPath[arr.length];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res[i]= new Path((String) arr[i]);
 		}
 		return res;
@@ -336,7 +336,7 @@ public class ExclusionInclusionDialog extends StatusDialog {
 
 		IPath[] res= ExclusionInclusionEntryDialog.chooseExclusionPattern(getShell(), fCurrSourceFolder, title, message, null, true);
 		if (res != null) {
-			for (IPath p : res) {
+			for (IPath p : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				field.addElement(p.toString());
 			}
 		}

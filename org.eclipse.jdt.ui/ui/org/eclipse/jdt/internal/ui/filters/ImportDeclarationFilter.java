@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.IImportDeclaration;
 /**
  * Filters import declarations
  */
-public class ImportDeclarationFilter extends ViewerFilter {
+public class ImportDeclarationFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

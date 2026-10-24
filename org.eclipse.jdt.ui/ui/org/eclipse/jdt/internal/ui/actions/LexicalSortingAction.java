@@ -44,7 +44,7 @@ public class LexicalSortingAction extends Action {
 		super();
 		fViewer= viewer;
 		fDropSupport= dropSupport;
-		fPreferenceKey= "LexicalSortingAction." + id + ".isChecked"; //$NON-NLS-1$ //$NON-NLS-2$
+		fPreferenceKey= "LexicalSortingAction." + id + ".isChecked"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		setText(JavaBrowsingMessages.LexicalSortingAction_label);
 		JavaPluginImages.setLocalImageDescriptors(this, "alphab_sort_co.svg"); //$NON-NLS-1$
 		setToolTipText(JavaBrowsingMessages.LexicalSortingAction_tooltip);

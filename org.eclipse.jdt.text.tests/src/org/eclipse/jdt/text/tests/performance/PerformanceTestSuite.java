@@ -26,7 +26,7 @@ public class PerformanceTestSuite extends TestSuite {
 		return new PerformanceTestSetup(new PerformanceTestSuite());
 	}
 
-	public PerformanceTestSuite() {
+	public PerformanceTestSuite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addTest(ActivateJavaEditorTest.suite());
 		addTest(RevertTextEditorTest.suite());
 		addTest(RevertJavaEditorTest.suite());

@@ -87,22 +87,22 @@ public class ImportRemover {
 	private final IJavaProject fProject;
 	private final CompilationUnit fRoot;
 
-	private Set<String> fAddedImports= new HashSet<>();
-	private Set<StaticImportData> fAddedStaticImports= new HashSet<>();
+	private Set<String> fAddedImports= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+	private Set<StaticImportData> fAddedStaticImports= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private boolean fHasRemovedNodes;
-	private List<ImportDeclaration> fInlinedStaticImports= new ArrayList<>();
+	private List<ImportDeclaration> fInlinedStaticImports= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	public ImportRemover(IJavaProject project, CompilationUnit root) {
 		fProject= project;
 		fRoot= root;
-		propertyKey= PROPERTY_KEY_CLASS_ID + PROPERTY_KEY_COUNTER.getAndIncrement();
+		propertyKey= PROPERTY_KEY_CLASS_ID + PROPERTY_KEY_COUNTER.getAndIncrement(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void divideTypeRefs(List<SimpleName> importNames, List<SimpleName> staticNames, List<SimpleName> removedRefs, List<SimpleName> unremovedRefs) {
-		final List<int[]> removedStartsEnds= new ArrayList<>();
+	private void divideTypeRefs(List<SimpleName> importNames, List<SimpleName> staticNames, List<SimpleName> removedRefs, List<SimpleName> unremovedRefs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<int[]> removedStartsEnds= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fRoot.accept(new ASTVisitor(true) {
 			int fRemovingStart= -1;
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void preVisit(ASTNode node) {
 				Object property= node.getProperty(propertyKey);
 				if (property == REMOVED) {
@@ -148,19 +148,19 @@ public class ImportRemover {
 			}
 		});
 
-		for (SimpleName name : importNames) {
+		for (SimpleName name : importNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isInRemoved(name, removedStartsEnds))
 				removedRefs.add(name);
 			else
 				unremovedRefs.add(name);
 		}
-		for (SimpleName name : staticNames) {
+		for (SimpleName name : staticNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isInRemoved(name, removedStartsEnds))
 				removedRefs.add(name);
 			else
 				unremovedRefs.add(name);
 		}
-		for (ImportDeclaration importDecl : fInlinedStaticImports) {
+		for (ImportDeclaration importDecl : fInlinedStaticImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Name name= importDecl.getName();
 			if (name instanceof QualifiedName)
 				name= ((QualifiedName) name).getName();
@@ -171,7 +171,7 @@ public class ImportRemover {
 	private boolean isInRemoved(SimpleName ref, List<int[]> removedStartsEnds) {
 		int start= ref.getStartPosition();
 		int end= start + ref.getLength();
-		for (int[] removedStartsEnd : removedStartsEnds) {
+		for (int[] removedStartsEnd : removedStartsEnds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (start >= removedStartsEnd[0] && end <= removedStartsEnd[1]) {
 				return true;
 			}
@@ -179,20 +179,20 @@ public class ImportRemover {
 		return false;
 	}
 
-	public IBinding[] getImportsToRemove() {
-		ArrayList<SimpleName> importNames= new ArrayList<>();
-		ArrayList<SimpleName> staticNames= new ArrayList<>();
+	public IBinding[] getImportsToRemove() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<SimpleName> importNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<SimpleName> staticNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		ImportReferencesCollector.collect(fRoot, fProject, null, importNames, staticNames);
 
-		List<SimpleName> removedRefs= new ArrayList<>();
-		List<SimpleName> unremovedRefs= new ArrayList<>();
+		List<SimpleName> removedRefs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<SimpleName> unremovedRefs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		divideTypeRefs(importNames, staticNames, removedRefs, unremovedRefs);
 		if (removedRefs.isEmpty())
 			return new IBinding[0];
 
 		HashMap<String, IBinding> potentialRemoves= getPotentialRemoves(removedRefs);
-		for (SimpleName name : unremovedRefs) {
+		for (SimpleName name : unremovedRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			potentialRemoves.remove(name.getIdentifier());
 		}
 
@@ -201,8 +201,8 @@ public class ImportRemover {
 	}
 
 	private HashMap<String, IBinding> getPotentialRemoves(List<SimpleName> removedRefs) {
-		HashMap<String, IBinding>potentialRemoves= new HashMap<>();
-		for (SimpleName name : removedRefs) {
+		HashMap<String, IBinding>potentialRemoves= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (SimpleName name : removedRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fAddedImports.contains(name.getIdentifier()) || hasAddedStaticImport(name))
 				continue;
 			IBinding binding= name.resolveBinding();
@@ -226,7 +226,7 @@ public class ImportRemover {
 
 	private boolean hasAddedStaticImport(String qualifier, String member, boolean field) {
 		StaticImportData data= null;
-		for (final Iterator<StaticImportData> iterator= fAddedStaticImports.iterator(); iterator.hasNext();) {
+		for (final Iterator<StaticImportData> iterator= fAddedStaticImports.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			data= iterator.next();
 			if (data.fQualifier.equals(qualifier) && data.fMember.equals(member) && data.fField == field)
 				return true;
@@ -246,7 +246,7 @@ public class ImportRemover {
 			fAddedImports.add(typeName.substring(dot + 1));
 	}
 
-	public void registerAddedImports(Type newTypeNode) {
+	public void registerAddedImports(Type newTypeNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		newTypeNode.accept(new ASTVisitor(true) {
 
 			private void addName(SimpleName name) {
@@ -307,16 +307,16 @@ public class ImportRemover {
 	}
 
 	public void applyRemoves(ImportRewrite importRewrite) {
-		for (IBinding b : getImportsToRemove()) {
+		for (IBinding b : getImportsToRemove()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (b instanceof ITypeBinding) {
 				ITypeBinding typeBinding= (ITypeBinding) b;
 				importRewrite.removeImport(typeBinding.getTypeDeclaration().getQualifiedName());
 			} else if (b instanceof IMethodBinding) {
 				IMethodBinding binding= (IMethodBinding) b;
-				importRewrite.removeStaticImport(binding.getDeclaringClass().getQualifiedName() + '.' + binding.getName());
+				importRewrite.removeStaticImport(binding.getDeclaringClass().getQualifiedName() + '.' + binding.getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else if (b instanceof IVariableBinding) {
 				IVariableBinding binding= (IVariableBinding) b;
-				importRewrite.removeStaticImport(binding.getDeclaringClass().getQualifiedName() + '.' + binding.getName());
+				importRewrite.removeStaticImport(binding.getDeclaringClass().getQualifiedName() + '.' + binding.getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}

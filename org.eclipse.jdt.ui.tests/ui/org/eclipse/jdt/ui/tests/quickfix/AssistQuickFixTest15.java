@@ -64,7 +64,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -116,7 +116,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -168,7 +168,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -220,7 +220,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock4() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -271,7 +271,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock5() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -336,7 +336,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock6() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -393,7 +393,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock7() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -451,7 +451,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock8() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -509,7 +509,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock9() throws Exception { //https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/1111
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -560,7 +560,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock10() throws Exception { //https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/1111
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -612,7 +612,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock11() throws Exception { //https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/1240
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -670,7 +670,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock12() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -734,7 +734,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock13() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -794,7 +794,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock14() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -872,7 +872,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringToTextBlock1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -920,7 +920,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringToTextBlock2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -968,7 +968,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringToTextBlock3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1015,7 +1015,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1051,7 +1051,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1088,7 +1088,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1125,7 +1125,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock4() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1162,7 +1162,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock5() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1200,7 +1200,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock6() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1240,7 +1240,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock7() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1279,7 +1279,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock8() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1328,7 +1328,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock9() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1365,7 +1365,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock10() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1404,7 +1404,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertProposalDoesNotExist(proposals, FixMessages.StringConcatToTextBlockFix_convert_msg);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToMessageFormatTextBlock1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1467,7 +1467,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToMessageFormatTextBlock2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1530,7 +1530,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToMessageFormatTextBlock3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1590,7 +1590,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToMessageFormatTextBlock4() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1653,7 +1653,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToMessageFormatTextBlock5() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1700,7 +1700,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToMessageFormatTextBlock6() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1750,7 +1750,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToStringFormatTextBlock1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1810,7 +1810,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToStringFormatTextBlock2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1870,7 +1870,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToStringFormatTextBlock3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1927,7 +1927,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToStringFormatTextBlock4() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -1987,7 +1987,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToStringFormatTextBlock5() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -2031,7 +2031,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToStringFormatTextBlock6() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -2078,7 +2078,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringConcatToTextBlock() throws Exception {
 		//Testing new quick assist to place text block quotes on their own lines if option is enabled
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
@@ -2148,7 +2148,7 @@ public class AssistQuickFixTest15 extends QuickFixTest {
 		JavaCore.setOptions(options);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringBufferToTextBlock() throws Exception {
 		//Testing new quick assist to place text block quotes on their own lines if option is enabled
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");

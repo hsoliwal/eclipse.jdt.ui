@@ -29,19 +29,19 @@ public class BreakIteratorTest {
 		assertNextPositions(ci, new int[] {position});
 	}
 
-	public void assertNextPositions(CharSequence ci, int[] positions) {
+	public void assertNextPositions(CharSequence ci, int[] positions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fBreakIterator.setText(ci.toString());
 
 		// test next()
-		for (int position : positions) {
+		for (int position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int pos= fBreakIterator.next();
 			assertEquals(position, pos);
 		}
 
 		// test following()
 		int idx= 0;
-		for (int position : positions) {
-			while (idx < position) {
+		for (int position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (idx < position) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!illegalPos(ci, idx))
 					assertEquals(position, fBreakIterator.following(idx));
 				idx++;
@@ -70,20 +70,20 @@ public class BreakIteratorTest {
 		assertPreviousPositions(ci, new int[] {position});
 	}
 
-	public void assertPreviousPositions(CharSequence ci, int[] positions) {
+	public void assertPreviousPositions(CharSequence ci, int[] positions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fBreakIterator.setText(ci.toString());
 		fBreakIterator.last();
 
-		for (int i = positions.length - 1; i >= 0; i--) {
+		for (int i = positions.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int pos= fBreakIterator.previous();
 			assertEquals(positions[i], pos);
 		}
 
 		// test preceding()
 		int idx= ci.length();
-		for (int i = positions.length - 1; i >= 0; i--) {
+		for (int i = positions.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int position= positions[i];
-			while (idx > position) {
+			while (idx > position) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!illegalPos(ci, idx))
 					assertEquals(position, fBreakIterator.preceding(idx));
 				idx--;

@@ -64,25 +64,25 @@ public abstract class WildcardType extends TType {
 	// protected abstract boolean checkTypeArgumentBound(TType rhs);
 
 	protected String internalGetName(String keyword) {
-		StringBuilder result= new StringBuilder("?"); //$NON-NLS-1$
+		StringBuilder result= new StringBuilder("?"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		TType bound= getBound();
 		if (bound != null) {
-			result.append(" "); //$NON-NLS-1$
-			result.append(keyword);
-			result.append(" "); //$NON-NLS-1$
-			result.append(bound.getName());
+			result.append(" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(keyword); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(bound.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}
 
 	protected String internalGetPrettySignature(String keyword) {
-		StringBuilder result= new StringBuilder("?"); //$NON-NLS-1$
+		StringBuilder result= new StringBuilder("?"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		TType bound= getBound();
 		if (bound != null) {
-			result.append(" "); //$NON-NLS-1$
-			result.append(keyword);
-			result.append(" "); //$NON-NLS-1$
-			result.append(bound.getPlainPrettySignature());
+			result.append(" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(keyword); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(bound.getPlainPrettySignature()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}

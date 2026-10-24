@@ -54,7 +54,7 @@ public class OpenTypeHierarchyUtil {
 		return null;
 	}
 
-	public static TypeHierarchyViewPart open(IJavaElement[] candidates, IWorkbenchWindow window) {
+	public static TypeHierarchyViewPart open(IJavaElement[] candidates, IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(candidates != null && candidates.length != 0);
 
 		try {
@@ -93,7 +93,7 @@ public class OpenTypeHierarchyUtil {
 		return null;
 	}
 
-	private static TypeHierarchyViewPart openInPerspective(IWorkbenchWindow window, IJavaElement[] input) throws WorkbenchException, JavaModelException {
+	private static TypeHierarchyViewPart openInPerspective(IWorkbenchWindow window, IJavaElement[] input) throws WorkbenchException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbench workbench= PlatformUI.getWorkbench();
 		IJavaElement perspectiveInput= input.length == 1 ? input[0] : null;
 
@@ -126,7 +126,7 @@ public class OpenTypeHierarchyUtil {
 	 * @param input input
 	 * @return the possible candidates
 	 */
-	public static IJavaElement[] getCandidates(Object input) {
+	public static IJavaElement[] getCandidates(Object input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(input instanceof IJavaElement)) {
 			return null;
 		}

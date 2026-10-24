@@ -64,14 +64,14 @@ public class WordRulePerformanceTest extends TextPerformanceTestCase2 {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		StringBuilder sb= new StringBuilder();
-		for (int i= 0; i < WORDS_IN_DOCUMENT; i++)
-			sb.append(WORD_IN_DOCUMENT).append("\n");
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < WORDS_IN_DOCUMENT; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			sb.append(WORD_IN_DOCUMENT).append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		fDocument= new Document(sb.toString());
 		fWordRule= new WordRule(new MyWordDetector(), Token.UNDEFINED, true);
-		for (int i= 0; i < WORDS_PER_RULE; i++)
-			fWordRule.addWord(RULE_WORD_PREFIX + i, new Token("myToken_" + i));
+		for (int i= 0; i < WORDS_PER_RULE; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			fWordRule.addWord(RULE_WORD_PREFIX + i, new Token("myToken_" + i)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	}
 
@@ -81,7 +81,7 @@ public class WordRulePerformanceTest extends TextPerformanceTestCase2 {
 		scanner.setRange(fDocument, 0, fDocument.getLength());
 
 		meter.start();
-		while (scanner.nextToken() != Token.EOF) {
+		while (scanner.nextToken() != Token.EOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		}
 		meter.stop();
 	}

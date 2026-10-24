@@ -117,7 +117,7 @@ public class RenameNonPrivateFieldTests extends GenericRefactoringTest {
 		helper2(fieldName, newFieldName, false);
 	}
 
-	private void helper2(String fieldName, String newFieldName, boolean createDelegates) throws Exception{
+	private void helper2(String fieldName, String newFieldName, boolean createDelegates) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType classA= getType(cu, "A");
@@ -138,9 +138,9 @@ public class RenameNonPrivateFieldTests extends GenericRefactoringTest {
 		RenameRefactoring refactoring= (RenameRefactoring) createRefactoring(descriptor);
 		RenameFieldProcessor processor= (RenameFieldProcessor) refactoring.getProcessor();
 
-		List<IAnnotatable> elements= new ArrayList<>();
+		List<IAnnotatable> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		elements.add(field);
-		List<RenameArguments> args= new ArrayList<>();
+		List<RenameArguments> args= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		args.add(new RenameArguments(newFieldName, fUpdateReferences));
 		if (fRenameGetter) {
 			elements.add(processor.getGetter());
@@ -508,7 +508,7 @@ public class RenameNonPrivateFieldTests extends GenericRefactoringTest {
 
 	private String getExpectedFileConent(String propertyName) throws IOException {
 		String fileName= getOutputTestFileName(propertyName);
-		fileName= fileName.substring(0, fileName.length() - ".java".length()) + ".properties";
+		fileName= fileName.substring(0, fileName.length() - ".java".length()) + ".properties"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try (InputStream fileInputStream= getFileInputStream(fileName)) {
 			return getContents(fileInputStream);
 		}
@@ -516,10 +516,10 @@ public class RenameNonPrivateFieldTests extends GenericRefactoringTest {
 
 	private IFile createPropertiesFromTestFile(String propertyName) throws IOException, CoreException {
 		IFolder pack= (IFolder) getPackageP().getResource();
-		IFile file= pack.getFile(propertyName + ".properties");
+		IFile file= pack.getFile(propertyName + ".properties"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String fileName= getInputTestFileName(propertyName);
-		fileName= fileName.substring(0, fileName.length() - ".java".length()) + ".properties";
+		fileName= fileName.substring(0, fileName.length() - ".java".length()) + ".properties"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try (InputStream inputStream= getFileInputStream(fileName)) {
 			file.create(inputStream, true, null);
 		}

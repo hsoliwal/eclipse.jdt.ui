@@ -95,15 +95,15 @@ public class JavadocHelpContext implements IContext2 {
 	// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=85721
 	private static final boolean BUG_85721_FIXED= false;
 
-	public JavadocHelpContext(IContext context, Object[] elements) throws JavaModelException {
+	public JavadocHelpContext(IContext context, Object[] elements) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(elements);
 		if (context instanceof IContext2)
 			fTitle= ((IContext2)context).getTitle();
 
-		List<IHelpResource> helpResources= new ArrayList<>();
+		List<IHelpResource> helpResources= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		String javadocSummary= null;
-		for (Object e : elements) {
+		for (Object e : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (e instanceof IJavaElement) {
 				IJavaElement element= (IJavaElement) e;
 				// if element isn't on the build path skip it
@@ -117,7 +117,7 @@ public class JavadocHelpContext implements IContext2 {
 							String elementLabel= JavaElementLabels.getTextLabel(element, JavaElementLabels.ALL_DEFAULT);
 
 							// FIXME: needs to be NLSed once the code becomes active
-							javadocSummary= "<b>Javadoc for " + elementLabel + ":</b><br>" + javadocSummary;   //$NON-NLS-1$//$NON-NLS-2$
+							javadocSummary= "<b>Javadoc for " + elementLabel + ":</b><br>" + javadocSummary;   //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					} else {
 						javadocSummary= ""; // no Javadoc summary for multiple selection //$NON-NLS-1$
@@ -159,7 +159,7 @@ public class JavadocHelpContext implements IContext2 {
 		if (BUG_85721_FIXED) {
 			if (javadocSummary != null && javadocSummary.length() > 0) {
 				if (fText != null)
-					fText= context.getText() + "<br><br>" + javadocSummary; //$NON-NLS-1$
+					fText= context.getText() + "<br><br>" + javadocSummary; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				else
 					fText= javadocSummary;
 			}
@@ -175,21 +175,21 @@ public class JavadocHelpContext implements IContext2 {
 		if (url.getRef() != null) {
 			int anchorIdx= location.lastIndexOf('#');
 			if (anchorIdx != -1) {
-				return location.substring(0, anchorIdx) + "?noframes=true" + location.substring(anchorIdx); //$NON-NLS-1$
+				return location.substring(0, anchorIdx) + "?noframes=true" + location.substring(anchorIdx); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
-		return location + "?noframes=true"; //$NON-NLS-1$
+		return location + "?noframes=true"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private boolean doesNotExist(URL url) {
 		if ("file".equals(url.getProtocol())) { //$NON-NLS-1$
 			File file= new File(url.getFile());
-			return !file.exists();
+			return !file.exists(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 		return false;
 	}
 
-	private String retrieveText(IJavaElement elem) throws JavaModelException {
+	private String retrieveText(IJavaElement elem) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elem instanceof IMember mem) {
 			try (Reader contenReader= JavadocContentAccess.getHTMLContentReader(mem, true, true)) {
 				if (contenReader == null) {
@@ -215,12 +215,12 @@ public class JavadocHelpContext implements IContext2 {
 	 * @return the string
 	 */
 	private static String getString(Reader reader) {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		char[] buffer= new char[1024];
 		int count;
 		try {
-			while ((count= reader.read(buffer)) != -1)
-				buf.append(buffer, 0, count);
+			while ((count= reader.read(buffer)) != -1) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(buffer, 0, count); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} catch (IOException e) {
 			return null;
 		}

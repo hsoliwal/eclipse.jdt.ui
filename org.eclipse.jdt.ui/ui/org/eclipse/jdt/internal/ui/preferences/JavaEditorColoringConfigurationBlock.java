@@ -232,7 +232,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 	 *
 	 * @since 3.0
 	 */
-	private class ColorListContentProvider implements ITreeContentProvider {
+	private class ColorListContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		/*
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
@@ -320,7 +320,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 	 * Highlighting color list
 	 * @since  3.0
 	 */
-	private final java.util.List<HighlightingColorListItem> fListModel= new ArrayList<>();
+	private final java.util.List<HighlightingColorListItem> fListModel= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	/**
 	 * Highlighting color tree viewer
 	 * @since  3.0
@@ -347,16 +347,16 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 	 */
 	private FontMetrics fFontMetrics;
 
-	public JavaEditorColoringConfigurationBlock(OverlayPreferenceStore store) {
+	public JavaEditorColoringConfigurationBlock(OverlayPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(store);
 
 		fColorManager= new JavaColorManager();
 
-		for (SyntaxColorHighlighting syntaxColor : SyntaxColorHighlighting.getSyntaxColorHighlightings())
+		for (SyntaxColorHighlighting syntaxColor : SyntaxColorHighlighting.getSyntaxColorHighlightings()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fListModel.add(new HighlightingColorListItem (syntaxColor.label(), syntaxColor.preferenceKey(), syntaxColor.getBoldPreferenceKey(), syntaxColor.getItalicPreferenceKey(), syntaxColor.getStrikethroughPreferenceKey(), syntaxColor.getUnderlinePreferenceKey()));
 
 		SemanticHighlighting[] semanticHighlightings= SemanticHighlightings.getSemanticHighlightings();
-		for (SemanticHighlighting semanticHighlighting : semanticHighlightings)
+		for (SemanticHighlighting semanticHighlighting : semanticHighlightings) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fListModel.add(
 					new SemanticHighlightingColorListItem(
 							semanticHighlighting.getDisplayName(),
@@ -371,11 +371,11 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 		store.addKeys(createOverlayStoreKeys());
 	}
 
-	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() {
+	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		ArrayList<OverlayKey> overlayKeys= new ArrayList<>();
+		ArrayList<OverlayKey> overlayKeys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (HighlightingColorListItem item : fListModel) {
+		for (HighlightingColorListItem item : fListModel) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, item.getColorKey()));
 			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, item.getBoldKey()));
 			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, item.getItalicKey()));
@@ -456,7 +456,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 	public void initialize() {
 		super.initialize();
 
-		fTreeViewer.setInput(fListModel);
+		fTreeViewer.setInput(fListModel); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fTreeViewer.setSelection(new StructuredSelection(fJavaCategory));
 	}
 
@@ -483,7 +483,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 		super.dispose();
 	}
 
-	private void handleSyntaxColorListSelection() {
+	private void handleSyntaxColorListSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		HighlightingColorListItem item= getHighlightingColorListItem();
 		if (item == null) {
 			fEnableCheckbox.setEnabled(false);
@@ -523,7 +523,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 		}
 	}
 
-	private Control createSyntaxPage(final Composite parent) {
+	private Control createSyntaxPage(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Composite colorComposite= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -533,7 +533,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 
 		Link link= new Link(colorComposite, SWT.NONE);
 		link.setText(PreferencesMessages.JavaEditorColoringConfigurationBlock_link);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if ("org.eclipse.ui.preferencePages.GeneralTextEditor".equals(e.text)) //$NON-NLS-1$
@@ -566,7 +566,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 		editorComposite.setLayoutData(gd);
 
 		fTreeViewer= new TreeViewer(editorComposite, SWT.SINGLE | SWT.BORDER);
-		fTreeViewer.setLabelProvider(new ColorListLabelProvider());
+		fTreeViewer.setLabelProvider(new ColorListLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTreeViewer.setContentProvider(new ColorListContentProvider());
 		fTreeViewer.setComparator(new ViewerComparator() {
 			@Override
@@ -587,7 +587,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 		gd= new GridData(SWT.BEGINNING, SWT.FILL, false, true);
 		gd.heightHint= convertHeightInCharsToPixels(7);
 		int maxWidth= 0;
-		for (HighlightingColorListItem item : fListModel) {
+		for (HighlightingColorListItem item : fListModel) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			maxWidth= Math.max(maxWidth, convertWidthInCharsToPixels(item.getDisplayName().length()));
 		}
 		ScrollBar vBar= ((Scrollable) fTreeViewer.getControl()).getVerticalBar();
@@ -661,9 +661,9 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 		gd.widthHint= convertWidthInCharsToPixels(20);
 		previewer.setLayoutData(gd);
 
-		fTreeViewer.addSelectionChangedListener(unused -> handleSyntaxColorListSelection());
+		fTreeViewer.addSelectionChangedListener(unused -> handleSyntaxColorListSelection()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		foregroundColorButton.addSelectionListener(new SelectionListener() {
+		foregroundColorButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// do nothing
@@ -675,7 +675,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 			}
 		});
 
-		fBoldCheckBox.addSelectionListener(new SelectionListener() {
+		fBoldCheckBox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// do nothing
@@ -687,7 +687,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 			}
 		});
 
-		fItalicCheckBox.addSelectionListener(new SelectionListener() {
+		fItalicCheckBox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// do nothing
@@ -698,7 +698,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 				getPreferenceStore().setValue(item.getItalicKey(), fItalicCheckBox.getSelection());
 			}
 		});
-		fStrikethroughCheckBox.addSelectionListener(new SelectionListener() {
+		fStrikethroughCheckBox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// do nothing
@@ -710,7 +710,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 			}
 		});
 
-		fUnderlineCheckBox.addSelectionListener(new SelectionListener() {
+		fUnderlineCheckBox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// do nothing
@@ -722,7 +722,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 			}
 		});
 
-		fEnableCheckbox.addSelectionListener(new SelectionListener() {
+		fEnableCheckbox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// do nothing
@@ -758,7 +758,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 	 * @since 3.4
 	 */
 	private void installDoubleClickListener() {
-		fTreeViewer.addDoubleClickListener(event -> {
+		fTreeViewer.addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			IStructuredSelection s= (IStructuredSelection) event.getSelection();
 			Object element= s.getFirstElement();
 			if (fTreeViewer.isExpandable(element))
@@ -775,7 +775,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 		filler.setLayoutData(gd);
 	}
 
-	private Control createPreviewer(Composite parent) {
+	private Control createPreviewer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IPreferenceStore generalTextStore= EditorsUI.getPreferenceStore();
 		IPreferenceStore store= new ChainedPreferenceStore(new IPreferenceStore[] { getPreferenceStore(), new PreferencesAdapter(createTemporaryCorePreferenceStore()), generalTextStore });
@@ -819,16 +819,16 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 	}
 
 
-	private String loadPreviewContentFromFile(String filename) {
+	private String loadPreviewContentFromFile(String filename) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String line;
 		String separator= System.lineSeparator();
-		StringBuilder buffer= new StringBuilder(512);
+		StringBuilder buffer= new StringBuilder(512); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		BufferedReader reader= null;
 		try {
 			reader= new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename)));
-			while ((line= reader.readLine()) != null) {
-				buffer.append(line);
-				buffer.append(separator);
+			while ((line= reader.readLine()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buffer.append(line); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			buffer.setLength(buffer.length() - separator.length());
 		} catch (IOException io) {
@@ -874,7 +874,7 @@ class JavaEditorColoringConfigurationBlock extends AbstractConfigurationBlock {
 	 * @return the hard coded previewer ranges
 	 * @since 3.0
 	 */
-	private SemanticHighlightingManager.HighlightedRange[][] createPreviewerRanges() {
+	private SemanticHighlightingManager.HighlightedRange[][] createPreviewerRanges() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new SemanticHighlightingManager.HighlightedRange[][] {
 				{ createHighlightedRange( 6, 13,  9, SemanticHighlightings.DEPRECATED_MEMBER), createHighlightedRange( 6, 13,  9, SemanticHighlightings.CLASS),  },
 				{ createHighlightedRange( 6, 23,  1, SemanticHighlightings.TYPE_VARIABLE), createHighlightedRange( 6, 23,  1, SemanticHighlightings.TYPE_ARGUMENT), },

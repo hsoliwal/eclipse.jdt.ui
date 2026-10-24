@@ -118,17 +118,17 @@ public class JavaParameterListValidatorTest {
 		fValidator.install(info, fTextViewer, 0);
 
 		TextPresentation p= new TextPresentation();
-		for (int i= 0; i < fDocument.getLength(); i++) {
+		for (int i= 0; i < fDocument.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fValidator.updatePresentation(i, p);
 			assertEquals(createPresentation(i, parameterCommas, argumentCommas, infostring), p);
 		}
     }
 
-	private int[] computeCommaPositions(String code) {
+	private int[] computeCommaPositions(String code) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    int angleLevel= 0;
 	    int pos= 0;
-		List<Integer> positions= new ArrayList<>();
-		while (pos < code.length() && pos != -1) {
+		List<Integer> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		while (pos < code.length() && pos != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);
 			switch (ch) {
 	            case ',':
@@ -168,13 +168,13 @@ public class JavaParameterListValidatorTest {
 		}
 
 		int[] fields= new int[positions.size()];
-		for (int i= 0; i < fields.length; i++)
+		for (int i= 0; i < fields.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        fields[i]= positions.get(i);
 	    return fields;
     }
 
     private int findCommentEnd(String code, int pos) {
-    	while (pos < code.length()) {
+    	while (pos < code.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     		pos= code.indexOf('*', pos);
     		if (pos == -1 || pos == code.length() - 1)
     			break;
@@ -186,7 +186,7 @@ public class JavaParameterListValidatorTest {
     }
 
 	private int findLiteralEnd(String code, int pos, char peer) {
-    	while (pos < code.length()) {
+    	while (pos < code.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     		char ch= code.charAt(pos);
     		if (ch == peer)
     			return pos;
@@ -198,7 +198,7 @@ public class JavaParameterListValidatorTest {
 	    return -1;
     }
 
-	private TextPresentation createPresentation(int position, int[] parameterCommas, int[] argumentCommas, String contextInfo) {
+	private TextPresentation createPresentation(int position, int[] parameterCommas, int[] argumentCommas, String contextInfo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length= contextInfo.length();
 		TextPresentation p= new TextPresentation();
 
@@ -206,7 +206,7 @@ public class JavaParameterListValidatorTest {
 		int boldStart= 0;
 		int boldEnd= length;
 
-		for (int i= 0; i < argumentCommas.length; i++) {
+		for (int i= 0; i < argumentCommas.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        int argumentComma= argumentCommas[i];
 	        int parameterComma= parameterCommas[i];
 
@@ -239,24 +239,24 @@ public class JavaParameterListValidatorTest {
 		// check rest
 		Iterator<StyleRange> e1= expected.getAllStyleRangeIterator();
 		Iterator<StyleRange> e2= actual.getAllStyleRangeIterator();
-		while (e1.hasNext())
+		while (e1.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assertions.assertEquals(e1.next(), e2.next());
 	}
 
-	protected String print(TextPresentation presentation) {
-		StringBuilder buf= new StringBuilder();
+	protected String print(TextPresentation presentation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (presentation != null) {
 			// default range
-			buf.append("Default style range: ");
+			buf.append("Default style range: "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			StyleRange range= presentation.getDefaultStyleRange();
 			if (range != null)
-				buf.append(range.toString());
-			buf.append('\n');
+				buf.append(range.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			// rest
 			Iterator<StyleRange> e= presentation.getAllStyleRangeIterator();
-			while (e.hasNext()) {
-				buf.append(e.next().toString());
-				buf.append('\n');
+			while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(e.next().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return buf.toString();
@@ -298,8 +298,8 @@ public class JavaParameterListValidatorTest {
 	 * @param code the code to test, typically a parenthesized expression such as
 	 *        <code>(a, b, c)</code>
 	 */
-	private void assertValidPositions(final String code) {
-	    fDocument.set(code + " ");
+	private void assertValidPositions(final String code) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	    fDocument.set(code + " "); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fTextViewer.setDocument(fDocument);
 
 		IContextInformation info= new ContextInformation("context", "info");
@@ -311,12 +311,12 @@ public class JavaParameterListValidatorTest {
 		final int lastInnerPosition= length - 1;
 
 		// forward
-		for (int pos= firstInnerPosition; pos <= lastInnerPosition; pos++)
+		for (int pos= firstInnerPosition; pos <= lastInnerPosition; pos++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(fValidator.isContextInformationValid(pos));
 		assertFalse(fValidator.isContextInformationValid(length));
 
 		// backward
-		for (int pos= lastInnerPosition; pos >= firstInnerPosition; pos--)
+		for (int pos= lastInnerPosition; pos >= firstInnerPosition; pos--) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(fValidator.isContextInformationValid(pos));
 		assertFalse(fValidator.isContextInformationValid(0));
     }

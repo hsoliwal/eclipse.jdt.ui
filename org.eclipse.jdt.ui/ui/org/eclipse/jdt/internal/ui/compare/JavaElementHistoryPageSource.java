@@ -40,7 +40,7 @@ public class JavaElementHistoryPageSource extends ElementLocalHistoryPageSource 
 	 * @return <code>true</code> if there are editions available for the given Java element,
 	 *         <code>false</code> otherwise
 	 */
-	public static boolean hasEdition(IJavaElement je) {
+	public static boolean hasEdition(IJavaElement je) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (je instanceof IMember && ((IMember)je).isBinary())
 			return false;
@@ -59,7 +59,7 @@ public class JavaElementHistoryPageSource extends ElementLocalHistoryPageSource 
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IFile getFile(Object input) {
 		// extract CU from input
 		ICompilationUnit cu= null;

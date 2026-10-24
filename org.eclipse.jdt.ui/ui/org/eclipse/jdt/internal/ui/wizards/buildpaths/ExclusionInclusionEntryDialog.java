@@ -69,7 +69,7 @@ public class ExclusionInclusionEntryDialog extends StatusDialog {
 	private List<String> fExistingPatterns;
 	private boolean fIsExclusion;
 
-	public ExclusionInclusionEntryDialog(Shell parent, boolean isExclusion, String patternToEdit, List<String> existingPatterns, CPListElement entryToEdit) {
+	public ExclusionInclusionEntryDialog(Shell parent, boolean isExclusion, String patternToEdit, List<String> existingPatterns, CPListElement entryToEdit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 		fIsExclusion= isExclusion;
 		fExistingPatterns= existingPatterns;
@@ -118,7 +118,7 @@ public class ExclusionInclusionEntryDialog extends StatusDialog {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite)super.createDialogArea(parent);
 
@@ -186,7 +186,7 @@ public class ExclusionInclusionEntryDialog extends StatusDialog {
 		updateStatus(fExclusionPatternStatus);
 	}
 
-	protected void checkIfPatternValid() {
+	protected void checkIfPatternValid() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String pattern= fExclusionPatternDialog.getText().trim();
 		if (pattern.length() == 0) {
 			fExclusionPatternStatus.setError(NewWizardMessages.ExclusionInclusionEntryDialog_error_empty);
@@ -240,7 +240,7 @@ public class ExclusionInclusionEntryDialog extends StatusDialog {
 		return res[0];
 	}
 
-	public static IPath[] chooseExclusionPattern(Shell shell, IContainer currentSourceFolder, String title, String message, IPath initialPath, boolean multiSelection) {
+	public static IPath[] chooseExclusionPattern(Shell shell, IContainer currentSourceFolder, String title, String message, IPath initialPath, boolean multiSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?>[] acceptedClasses= new Class[] { IFolder.class, IFile.class };
 		ISelectionStatusValidator validator= new TypedElementSelectionValidator(acceptedClasses, multiSelection);
 		ViewerFilter filter= new TypedViewerFilter(acceptedClasses);
@@ -253,7 +253,7 @@ public class ExclusionInclusionEntryDialog extends StatusDialog {
 		if (initialPath != null) {
 			IContainer curr= currentSourceFolder;
 			int nSegments= initialPath.segmentCount();
-			for (int i= 0; i < nSegments; i++) {
+			for (int i= 0; i < nSegments; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource elem= curr.findMember(initialPath.segment(i));
 				if (elem != null) {
 					initialElement= elem;
@@ -270,7 +270,7 @@ public class ExclusionInclusionEntryDialog extends StatusDialog {
 		dialog.setTitle(title);
 		dialog.setValidator(validator);
 		dialog.setMessage(message);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(currentSourceFolder);
 		dialog.setInitialSelection(initialElement);
 		dialog.setComparator(new ResourceComparator(ResourceComparator.NAME));
@@ -281,7 +281,7 @@ public class ExclusionInclusionEntryDialog extends StatusDialog {
 			int existingSegments= currentSourceFolder.getFullPath().segmentCount();
 
 			IPath[] resArr= new IPath[objects.length];
-			for (int i= 0; i < objects.length; i++) {
+			for (int i= 0; i < objects.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource currRes= (IResource) objects[i];
 				IPath path= currRes.getFullPath().removeFirstSegments(existingSegments).makeRelative();
 				if (currRes instanceof IContainer) {

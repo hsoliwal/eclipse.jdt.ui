@@ -91,7 +91,7 @@ public class ModuleAddExportsBlock {
 
 	private IJavaElement[] fSourceJavaElements;
 	private Collection<String> fPossibleTargetModules;
-	private Set<String> fAlreadyExportedPackages = new HashSet<>();
+	private Set<String> fAlreadyExportedPackages = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * @param context listeners for status updates
@@ -100,7 +100,7 @@ public class ModuleAddExportsBlock {
 	 * @param initialValue The value to edit
 	 * @param alreadyExportedPackages The packages for which add-exports already done
 	 */
-	public ModuleAddExportsBlock(IStatusChangeListener context, IJavaElement[] sourceJavaElements, Collection<String> possibleTargetModules, ModuleAddExpose initialValue, Set<String> alreadyExportedPackages) {
+	public ModuleAddExportsBlock(IStatusChangeListener context, IJavaElement[] sourceJavaElements, Collection<String> possibleTargetModules, ModuleAddExpose initialValue, Set<String> alreadyExportedPackages) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fContext= context;
 		fInitialValue= initialValue;
 		fSourceJavaElements= sourceJavaElements;
@@ -146,9 +146,9 @@ public class ModuleAddExportsBlock {
 	}
 
 	private Set<String> moduleNames() {
-		Set<String> moduleNames= new HashSet<>();
+		Set<String> moduleNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (fSourceJavaElements != null) {
-			for (IJavaElement element : fSourceJavaElements) {
+			for (IJavaElement element : fSourceJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IPackageFragmentRoot) {
 					IModuleDescription module= ((IPackageFragmentRoot) element).getModuleDescription();
 					if (module != null) {
@@ -173,10 +173,10 @@ public class ModuleAddExportsBlock {
 	}
 
 	/* Answer all roots whose (@Nullable) module matches the given predicat. */
-	private IPackageFragmentRoot[] findRoots(Predicate<IModuleDescription> match) {
-		List<IPackageFragmentRoot> result= new ArrayList<>();
+	private IPackageFragmentRoot[] findRoots(Predicate<IModuleDescription> match) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IPackageFragmentRoot> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fSourceJavaElements != null) {
-			for (IJavaElement root : fSourceJavaElements) {
+			for (IJavaElement root : fSourceJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root instanceof IJavaProject) {
 					try {
 						IJavaProject project= (IJavaProject) root;
@@ -212,7 +212,7 @@ public class ModuleAddExportsBlock {
 		String targetModules= getTargetModulesText();
 		if (sourceModule.isEmpty() || pack.isEmpty() || targetModules.isEmpty())
 			return ""; //$NON-NLS-1$
-		return sourceModule+'/'+pack+'='+targetModules;
+		return sourceModule+'/'+pack+'='+targetModules; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public ModuleAddExpose getExport(CPListElementAttribute parentAttribute) {
@@ -232,7 +232,7 @@ public class ModuleAddExportsBlock {
 	 * @param parent the parent
 	 * @return the created control
 	 */
-	public Control createControl(Composite parent) {
+	public Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PixelConverter converter= new PixelConverter(parent);
 
 		fSWTWidget= parent;
@@ -298,7 +298,7 @@ public class ModuleAddExportsBlock {
 		return composite;
 	}
 
-	private void configurePackageContentAssist(Text textControl) {
+	private void configurePackageContentAssist(Text textControl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSourceJavaElements == null || fSourceJavaElements.length == 0) {
 			return;
 		}
@@ -330,7 +330,7 @@ public class ModuleAddExportsBlock {
 					assert fSourceJavaElements.length == 1;
 					IPackageFragmentRoot[] packageFragmentRoots= ((IJavaProject) fSourceJavaElements[0]).getPackageFragmentRoots();
 					int count= 0;
-					for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) {
+					for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (packageFragmentRoot.getKind() == IPackageFragmentRoot.K_SOURCE) {
 							packageFragmentRoots[count++]= packageFragmentRoot;
 						}
@@ -345,7 +345,7 @@ public class ModuleAddExportsBlock {
 				break;
 			case IJavaElement.PACKAGE_FRAGMENT_ROOT:
 				IPackageFragmentRoot[] roots= new IPackageFragmentRoot[fSourceJavaElements.length];
-				for (int i= 0; i < fSourceJavaElements.length; i++) {
+				for (int i= 0; i < fSourceJavaElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					roots[i]= (IPackageFragmentRoot) fSourceJavaElements[i];
 				}
 				packageCompletionProcessor.setPackageFragmentRoot(roots);
@@ -393,7 +393,7 @@ public class ModuleAddExportsBlock {
 		return status;
 	}
 
-	private IStatus computePackageStatus(String value) {
+	private IStatus computePackageStatus(String value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		if (value.isEmpty()) {
 			status.setError(NewWizardMessages.ModuleAddExportsBlock_packageEmpty_error);
@@ -409,7 +409,7 @@ public class ModuleAddExportsBlock {
 			needToSetSource= true;
 		}
 		if (roots != null) {
-			for (IPackageFragmentRoot root : roots) {
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPackageFragment packageFragment= root.getPackageFragment(value);
 				try {
 					if (packageFragment.exists() && packageFragment.containsJavaResources()) {
@@ -430,7 +430,7 @@ public class ModuleAddExportsBlock {
 		return status;
 	}
 
-	private void doStatusLineUpdate(DialogField currentField) {
+	private void doStatusLineUpdate(DialogField currentField) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus status= null;
 		if (!fSourceModuleStatus.isOK()) {
 			status= fSourceModuleStatus; 	// priority

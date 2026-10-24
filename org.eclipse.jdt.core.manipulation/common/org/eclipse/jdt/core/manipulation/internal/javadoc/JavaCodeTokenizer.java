@@ -111,14 +111,14 @@ public class JavaCodeTokenizer {
 	private final StringBuilder result;
 	private int pos;
 	private int braceDepth;
-	private final Map<String, Deque<Integer>> parameterNames= new HashMap<>();
-	private final Map<String, Integer> pendingParameters= new HashMap<>();
-	private final Map<String, Deque<Integer>> localVariables= new HashMap<>();
-	private final Map<String, Deque<Integer>> fields= new HashMap<>();
-	private final Map<String, Deque<Integer>> staticFields= new HashMap<>();
-	private final Map<String, Deque<Integer>> staticFinalFields= new HashMap<>();
-	private final Deque<Context> contextStack= new ArrayDeque<>();
-	private final Set<String> enumTypes= new HashSet<>();
+	private final Map<String, Deque<Integer>> parameterNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<String, Integer> pendingParameters= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
+	private final Map<String, Deque<Integer>> localVariables= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<String, Deque<Integer>> fields= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<String, Deque<Integer>> staticFields= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<String, Deque<Integer>> staticFinalFields= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Deque<Context> contextStack= new ArrayDeque<>(); //FLLDCIM: MARK — M08 M3_DEQUE_LANES NEW
+	private final Set<String> enumTypes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private boolean expectTypeBody;
 	private boolean expectEnumBody;
 	private boolean expectEnumName;
@@ -132,11 +132,11 @@ public class JavaCodeTokenizer {
 	private JavaCodeTokenizer(String code) {
 		this.code= code;
 		this.len= code.length();
-		this.result= new StringBuilder(len * 2);
+		this.result= new StringBuilder(len * 2); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 
-	private String doTokenize() {
-		while (pos < len) {
+	private String doTokenize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (pos < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);
 
 			if (ch == '/' && pos + 1 < len) {
@@ -229,7 +229,7 @@ public class JavaCodeTokenizer {
 	}
 
 	private void activatePendingParameters() {
-		for (Map.Entry<String, Integer> entry : pendingParameters.entrySet()) {
+		for (Map.Entry<String, Integer> entry : pendingParameters.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addBinding(parameterNames, entry.getKey(), entry.getValue());
 		}
 		pendingParameters.clear();
@@ -244,18 +244,18 @@ public class JavaCodeTokenizer {
 	}
 
 	private static void addBinding(Map<String, Deque<Integer>> map, String name, int depth) {
-		map.computeIfAbsent(name, unused -> new ArrayDeque<>()).push(depth);
+		map.computeIfAbsent(name, unused -> new ArrayDeque<>()).push(depth); //FLLDCIM: MARK — M08 M3_DEQUE_LANES NEW
 	}
 
 	private static boolean hasBinding(Map<String, Deque<Integer>> map, String name) {
-		Deque<Integer> stack= map.get(name);
+		Deque<Integer> stack= map.get(name); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		return stack != null && !stack.isEmpty();
 	}
 
 	private void cleanupBindings(Map<String, Deque<Integer>> map) {
 		map.entrySet().removeIf(e -> {
-			Deque<Integer> stack= e.getValue();
-			while (!stack.isEmpty() && stack.peek() > braceDepth) {
+			Deque<Integer> stack= e.getValue(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+			while (!stack.isEmpty() && stack.peek() > braceDepth) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				stack.pop();
 			}
 			return stack.isEmpty();
@@ -266,7 +266,7 @@ public class JavaCodeTokenizer {
 
 	private void consumeSingleLineComment() {
 		int start= pos;
-		while (pos < len && code.charAt(pos) != '\n' && code.charAt(pos) != '\r') {
+		while (pos < len && code.charAt(pos) != '\n' && code.charAt(pos) != '\r') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pos++;
 		}
 		appendSpan(CSS_CLASS_COMMENT, code.substring(start, pos));
@@ -276,7 +276,7 @@ public class JavaCodeTokenizer {
 		int start= pos;
 		pos += 2;
 		boolean terminated= false;
-		while (pos + 1 < len) {
+		while (pos + 1 < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (code.charAt(pos) == '*' && code.charAt(pos + 1) == '/') {
 				pos += 2;
 				terminated= true;
@@ -290,14 +290,14 @@ public class JavaCodeTokenizer {
 		appendSpan(CSS_CLASS_COMMENT, code.substring(start, pos));
 	}
 
-	private void consumeStringLiteral() {
+	private void consumeStringLiteral() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pos + 2 < len && code.charAt(pos + 1) == '"' && code.charAt(pos + 2) == '"') {
 			consumeTextBlock();
 			return;
 		}
 		int start= pos;
 		pos++;
-		while (pos < len) {
+		while (pos < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);
 			if (ch == '\\' && pos + 1 < len) {
 				pos += 2;
@@ -315,10 +315,10 @@ public class JavaCodeTokenizer {
 		appendSpan(CSS_CLASS_STRING, code.substring(start, pos));
 	}
 
-	private void consumeTextBlock() {
+	private void consumeTextBlock() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int start= pos;
 		pos += 3;
-		while (pos + 2 < len) {
+		while (pos + 2 < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (code.charAt(pos) == '"' && code.charAt(pos + 1) == '"' && code.charAt(pos + 2) == '"') {
 				pos += 3;
 				appendSpan(CSS_CLASS_STRING, code.substring(start, pos));
@@ -334,10 +334,10 @@ public class JavaCodeTokenizer {
 		appendSpan(CSS_CLASS_STRING, code.substring(start, pos));
 	}
 
-	private void consumeCharLiteral() {
+	private void consumeCharLiteral() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int start= pos;
 		pos++;
-		while (pos < len) {
+		while (pos < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);
 			if (ch == '\\' && pos + 1 < len) {
 				pos += 2;
@@ -358,24 +358,24 @@ public class JavaCodeTokenizer {
 	private void consumeAnnotation() {
 		int start= pos;
 		pos++;
-		while (pos < len && Character.isJavaIdentifierPart(code.charAt(pos))) {
+		while (pos < len && Character.isJavaIdentifierPart(code.charAt(pos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pos++;
 		}
 		appendSpan(CSS_CLASS_ANNOTATION, code.substring(start, pos));
 	}
 
-	private void consumeNumber() {
+	private void consumeNumber() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int start= pos;
 		if (code.charAt(pos) == '0' && pos + 1 < len) {
 			char next= code.charAt(pos + 1);
 			if (next == 'x' || next == 'X') {
 				pos += 2;
-				while (pos < len && isHexDigit(code.charAt(pos))) {
+				while (pos < len && isHexDigit(code.charAt(pos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pos++;
 				}
 			} else if (next == 'b' || next == 'B') {
 				pos += 2;
-				while (pos < len && isBinaryDigit(code.charAt(pos))) {
+				while (pos < len && isBinaryDigit(code.charAt(pos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pos++;
 				}
 			} else {
@@ -407,7 +407,7 @@ public class JavaCodeTokenizer {
 	}
 
 	private void consumeDecimalDigits() {
-		while (pos < len && (Character.isDigit(code.charAt(pos)) || code.charAt(pos) == '_')) {
+		while (pos < len && (Character.isDigit(code.charAt(pos)) || code.charAt(pos) == '_')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pos++;
 		}
 	}
@@ -422,10 +422,10 @@ public class JavaCodeTokenizer {
 
 	// ---- Word/identifier processing ----
 
-	private void consumeWord() {
+	private void consumeWord() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean qualified= pos > 0 && code.charAt(pos - 1) == '.';
 		int start= pos;
-		while (pos < len && Character.isJavaIdentifierPart(code.charAt(pos))) {
+		while (pos < len && Character.isJavaIdentifierPart(code.charAt(pos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pos++;
 		}
 		String word= code.substring(start, pos);
@@ -492,9 +492,9 @@ public class JavaCodeTokenizer {
 		return null;
 	}
 
-	private boolean isPrecededByDot(int position) {
+	private boolean isPrecededByDot(int position) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int p= position - 1;
-		while (p >= 0) {
+		while (p >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(p);
 			if (Character.isWhitespace(ch)) {
 				p--;
@@ -502,7 +502,7 @@ public class JavaCodeTokenizer {
 			}
 			if (ch == '/' && p >= 1 && code.charAt(p - 1) == '*') {
 				p -= 2;
-				while (p >= 1) {
+				while (p >= 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (code.charAt(p) == '*' && code.charAt(p - 1) == '/') {
 						p -= 2;
 						break;
@@ -518,7 +518,7 @@ public class JavaCodeTokenizer {
 
 	private boolean looksLikeEnumConstant() {
 		int probe= pos;
-		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			probe++;
 		}
 		if (probe >= len) {
@@ -530,7 +530,7 @@ public class JavaCodeTokenizer {
 
 	private boolean looksLikeTypeUsage() {
 		int probe= pos;
-		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			probe++;
 		}
 		if (probe >= len) {
@@ -540,16 +540,16 @@ public class JavaCodeTokenizer {
 		return ch == '<' || ch == '.' || ch == '[' || Character.isJavaIdentifierStart(ch);
 	}
 
-	private void tryConsumeEnumConstantAccess() {
+	private void tryConsumeEnumConstantAccess() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int probe= pos;
-		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			probe++;
 		}
 		if (probe >= len || code.charAt(probe) != '.') {
 			return;
 		}
 		probe++;
-		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			probe++;
 		}
 		if (probe >= len || !Character.isJavaIdentifierStart(code.charAt(probe)) || !Character.isUpperCase(code.charAt(probe))) {
@@ -557,7 +557,7 @@ public class JavaCodeTokenizer {
 		}
 		int nameStart= probe;
 		int nameEnd= nameStart + 1;
-		while (nameEnd < len && Character.isJavaIdentifierPart(code.charAt(nameEnd))) {
+		while (nameEnd < len && Character.isJavaIdentifierPart(code.charAt(nameEnd))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nameEnd++;
 		}
 		String name= code.substring(nameStart, nameEnd);
@@ -565,7 +565,7 @@ public class JavaCodeTokenizer {
 			return;
 		}
 		int afterName= nameEnd;
-		while (afterName < len && (code.charAt(afterName) == ' ' || code.charAt(afterName) == '\t')) {
+		while (afterName < len && (code.charAt(afterName) == ' ' || code.charAt(afterName) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			afterName++;
 		}
 		if (afterName < len && code.charAt(afterName) == '(') {
@@ -576,9 +576,9 @@ public class JavaCodeTokenizer {
 		pos= nameEnd;
 	}
 
-	private void classifyLowercaseIdentifier(String word, boolean qualified) {
+	private void classifyLowercaseIdentifier(String word, boolean qualified) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int probe= pos;
-		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			probe++;
 		}
 		if (probe < len && code.charAt(probe) == '(') {
@@ -600,14 +600,14 @@ public class JavaCodeTokenizer {
 
 	// ---- Generics and array brackets ----
 
-	private void consumeOptionalGenerics() {
+	private void consumeOptionalGenerics() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pos >= len || code.charAt(pos) != '<') {
 			return;
 		}
 		appendEscaped('<');
 		pos++;
 		int depth= 1;
-		while (pos < len && depth > 0) {
+		while (pos < len && depth > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);
 			if (ch == '<') {
 				depth++;
@@ -619,7 +619,7 @@ public class JavaCodeTokenizer {
 				pos++;
 			} else if (Character.isJavaIdentifierStart(ch)) {
 				int wordStart= pos;
-				while (pos < len && Character.isJavaIdentifierPart(code.charAt(pos))) {
+				while (pos < len && Character.isJavaIdentifierPart(code.charAt(pos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pos++;
 				}
 				String word= code.substring(wordStart, pos);
@@ -639,7 +639,7 @@ public class JavaCodeTokenizer {
 	}
 
 	private void consumeOptionalArrayBrackets() {
-		while (pos + 1 < len && code.charAt(pos) == '[' && code.charAt(pos + 1) == ']') {
+		while (pos + 1 < len && code.charAt(pos) == '[' && code.charAt(pos + 1) == ']') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			appendEscaped('[');
 			appendEscaped(']');
 			pos += 2;
@@ -648,24 +648,24 @@ public class JavaCodeTokenizer {
 
 	// ---- Declaration recognition ----
 
-	private void tryConsumeDeclarationAfterType() {
+	private void tryConsumeDeclarationAfterType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int probe= pos;
-		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			probe++;
 		}
 		int afterBrackets= probe;
-		while (afterBrackets + 1 < len && code.charAt(afterBrackets) == '[' && code.charAt(afterBrackets + 1) == ']') {
+		while (afterBrackets + 1 < len && code.charAt(afterBrackets) == '[' && code.charAt(afterBrackets + 1) == ']') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			afterBrackets += 2;
 		}
 		if (afterBrackets > probe) {
 			probe= afterBrackets;
-			while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+			while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				probe++;
 			}
 		}
 		if (probe + 2 < len && code.charAt(probe) == '.' && code.charAt(probe + 1) == '.' && code.charAt(probe + 2) == '.') {
 			probe += 3;
-			while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+			while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				probe++;
 			}
 		}
@@ -679,7 +679,7 @@ public class JavaCodeTokenizer {
 		}
 		int nameStart= probe;
 		int nameEnd= nameStart + 1;
-		while (nameEnd < len && Character.isJavaIdentifierPart(code.charAt(nameEnd))) {
+		while (nameEnd < len && Character.isJavaIdentifierPart(code.charAt(nameEnd))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nameEnd++;
 		}
 		String name= code.substring(nameStart, nameEnd);
@@ -688,7 +688,7 @@ public class JavaCodeTokenizer {
 		}
 
 		int afterName= nameEnd;
-		while (afterName < len && (code.charAt(afterName) == ' ' || code.charAt(afterName) == '\t')) {
+		while (afterName < len && (code.charAt(afterName) == ' ' || code.charAt(afterName) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			afterName++;
 		}
 		if (afterName >= len) {
@@ -728,11 +728,11 @@ public class JavaCodeTokenizer {
 
 	// ---- Method parameter parsing ----
 
-	private void consumeMethodParameters() {
+	private void consumeMethodParameters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		appendEscaped('(');
 		pos++;
 
-		while (pos < len) {
+		while (pos < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= code.charAt(pos);
 
 			if (ch == ')') {
@@ -760,7 +760,7 @@ public class JavaCodeTokenizer {
 
 			if (Character.isJavaIdentifierStart(ch)) {
 				int start= pos;
-				while (pos < len && Character.isJavaIdentifierPart(code.charAt(pos))) {
+				while (pos < len && Character.isJavaIdentifierPart(code.charAt(pos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pos++;
 				}
 				String word= code.substring(start, pos);
@@ -798,14 +798,14 @@ public class JavaCodeTokenizer {
 
 	private void consumeOptionalVarargs() {
 		if (pos + 2 < len && code.charAt(pos) == '.' && code.charAt(pos + 1) == '.' && code.charAt(pos + 2) == '.') {
-			result.append("..."); //$NON-NLS-1$
+			result.append("..."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			pos += 3;
 		}
 	}
 
-	private void tryConsumeParamName() {
+	private void tryConsumeParamName() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int probe= pos;
-		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) {
+		while (probe < len && (code.charAt(probe) == ' ' || code.charAt(probe) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			probe++;
 		}
 		if (probe >= len || !Character.isJavaIdentifierStart(code.charAt(probe)) || !Character.isLowerCase(code.charAt(probe))) {
@@ -813,7 +813,7 @@ public class JavaCodeTokenizer {
 		}
 		int nameStart= probe;
 		int nameEnd= nameStart + 1;
-		while (nameEnd < len && Character.isJavaIdentifierPart(code.charAt(nameEnd))) {
+		while (nameEnd < len && Character.isJavaIdentifierPart(code.charAt(nameEnd))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nameEnd++;
 		}
 		String name= code.substring(nameStart, nameEnd);
@@ -829,21 +829,21 @@ public class JavaCodeTokenizer {
 	// ---- HTML output helpers ----
 
 	private void appendSpan(String cssClass, String text) {
-		result.append("<span class=\""); //$NON-NLS-1$
-		result.append(cssClass);
-		result.append("\">"); //$NON-NLS-1$
+		result.append("<span class=\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(cssClass); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append("\">"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		appendEscapedText(text);
-		result.append("</span>"); //$NON-NLS-1$
+		result.append("</span>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private void appendEscapedText(String text) {
-		for (int i= 0; i < text.length(); i++) {
+		for (int i= 0; i < text.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			appendEscaped(text.charAt(i));
 		}
 	}
 
 	private void appendEscapedRange(int start, int end) {
-		for (int i= start; i < end; i++) {
+		for (int i= start; i < end; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			appendEscaped(code.charAt(i));
 		}
 	}
@@ -851,16 +851,16 @@ public class JavaCodeTokenizer {
 	private void appendEscaped(char ch) {
 		switch (ch) {
 			case '&':
-				result.append("&amp;"); //$NON-NLS-1$
+				result.append("&amp;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case '<':
-				result.append("&lt;"); //$NON-NLS-1$
+				result.append("&lt;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case '>':
-				result.append("&gt;"); //$NON-NLS-1$
+				result.append("&gt;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			default:
-				result.append(ch);
+				result.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 		}
 	}

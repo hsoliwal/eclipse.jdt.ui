@@ -41,32 +41,32 @@ public abstract class DynamicBindingProperty extends ExceptionAttribute {
 		return EMPTY;
 	}
 
-	public void setViewerElement(Binding viewerElement) {
+	public void setViewerElement(Binding viewerElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fViewerElement == viewerElement)
 			return;
 
 		fViewerElement= viewerElement;
 		fException= null;
 		IBinding trayBinding= fParent.getBinding();
-		StringBuilder buf= new StringBuilder(getName());
+		StringBuilder buf= new StringBuilder(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (viewerElement != null) {
 			IBinding viewerBinding= viewerElement.getBinding();
 			try {
 				String queryResult= executeQuery(viewerBinding, trayBinding);
-				buf.append(queryResult);
+				buf.append(queryResult); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} catch (RuntimeException e) {
 				fException= e;
-				buf.append(e.getClass().getName());
-				buf.append(" for \""); //$NON-NLS-1$
+				buf.append(e.getClass().getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(" for \""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (viewerBinding == null)
-					buf.append("null"); //$NON-NLS-1$
+					buf.append("null"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				else
-					buf.append('"').append(viewerBinding.getKey());
-				buf.append("\" and "); //$NON-NLS-1$
-				buf.append(trayBinding.getKey()).append('"');
+					buf.append('"').append(viewerBinding.getKey()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("\" and "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(trayBinding.getKey()).append('"'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else {
-			buf.append(N_A);
+			buf.append(N_A); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		fLabel= buf.toString();
 	}

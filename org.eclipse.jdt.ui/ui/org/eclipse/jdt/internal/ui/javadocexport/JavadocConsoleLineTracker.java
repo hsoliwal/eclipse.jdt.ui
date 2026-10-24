@@ -66,7 +66,7 @@ public class JavadocConsoleLineTracker implements IConsoleLineTracker {
 		@Override
 		public void linkActivated() {
 			try {
-				for (IFile curr : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(URIUtil.toURI(fExternalPath.makeAbsolute()))) {
+				for (IFile curr : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(URIUtil.toURI(fExternalPath.makeAbsolute()))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IJavaElement element= JavaCore.create(curr);
 					if (element != null && element.exists()) {
 						IEditorPart part= JavaUI.openInEditor(element, true, false);
@@ -100,7 +100,7 @@ public class JavadocConsoleLineTracker implements IConsoleLineTracker {
 		fConsole= console;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void lineAppended(IRegion line) {
 		try {
 			int offset = line.getOffset();
@@ -115,7 +115,7 @@ public class JavadocConsoleLineTracker implements IConsoleLineTracker {
 			int lineNumber= -1;
 			IPath path= null;
 			int index2= text.indexOf(':', index1 + 1);
-			while ((index2 != -1) && (path == null)) {
+			while ((index2 != -1) && (path == null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (index1 < index2) {
 					try {
 						String substr= text.substring(index1 + 1, index2);

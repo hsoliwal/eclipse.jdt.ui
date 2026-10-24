@@ -84,40 +84,40 @@ class PackageViewerWrapper extends StructuredViewer {
 	private void transferFilters(StructuredViewer oldViewer) {
 		//set filters
 		if (oldViewer != null) {
-			for (ViewerFilter filter : oldViewer.getFilters()) {
-				fViewer.addFilter(filter);
+			for (ViewerFilter filter : oldViewer.getFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				fViewer.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			}
 		}
 	}
 
-	private void transferListeners() {
+	private void transferListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		for (Object object : fPostSelectionChangedListenerList.getListeners()) {
+		for (Object object : fPostSelectionChangedListenerList.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ISelectionChangedListener listener= (ISelectionChangedListener)object;
-			fViewer.addPostSelectionChangedListener(listener);
+			fViewer.addPostSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 
-		for (Object object : fSelectionChangedListenerList.getListeners()) {
+		for (Object object : fSelectionChangedListenerList.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ISelectionChangedListener listener= (ISelectionChangedListener)object;
-			fViewer.addSelectionChangedListener(listener);
+			fViewer.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 
 		// Add all other listeners
-		for (Object object : fListenerList.getListeners()) {
+		for (Object object : fListenerList.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IOpenListener) {
 				IOpenListener listener= (IOpenListener) object;
-				addOpenListener(listener);
+				addOpenListener(listener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			} else if (object instanceof HelpListener) {
 				HelpListener listener= (HelpListener) object;
-				addHelpListener(listener);
+				addHelpListener(listener); //FLLDCIM: MARK — T14 HELP CALL
 			} else if (object instanceof IDoubleClickListener) {
 				IDoubleClickListener listener= (IDoubleClickListener) object;
-				addDoubleClickListener(listener);
+				addDoubleClickListener(listener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			}
 		}
 	}
 
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public void setSelection(ISelection selection, boolean reveal) {
 		if (selection instanceof IStructuredSelection) {
@@ -150,34 +150,34 @@ class PackageViewerWrapper extends StructuredViewer {
 	@Override
 	public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
 		fPostSelectionChangedListenerList.add(listener);
-		fViewer.addPostSelectionChangedListener(listener);
+		fViewer.addPostSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	@Deprecated
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		fSelectionChangedListenerList.add(listener);
-		fViewer.addSelectionChangedListener(listener);
+		fViewer.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	@Deprecated
 	@Override
 	public void addDoubleClickListener(IDoubleClickListener listener) {
-		fViewer.addDoubleClickListener(listener);
+		fViewer.addDoubleClickListener(listener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		fListenerList.add(listener);
 	}
 
 	@Deprecated
 	@Override
 	public void addOpenListener(IOpenListener listener) {
-		fViewer.addOpenListener(listener);
+		fViewer.addOpenListener(listener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		fListenerList.add(listener);
 	}
 
 	@Deprecated
 	@Override
 	public void addHelpListener(HelpListener listener) {
-		fViewer.addHelpListener(listener);
+		fViewer.addHelpListener(listener); //FLLDCIM: MARK — T14 HELP CALL
 		fListenerList.add(listener);
 	}
 
@@ -226,13 +226,13 @@ class PackageViewerWrapper extends StructuredViewer {
 	@Deprecated
 	@Override
 	public void addFilter(ViewerFilter filter) {
-		fViewer.addFilter(filter);
+		fViewer.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	@Deprecated
 	@Override
 	public void setFilters(ViewerFilter... filters) {
-		fViewer.setFilters(filters);
+		fViewer.setFilters(filters); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	@Deprecated
@@ -244,7 +244,7 @@ class PackageViewerWrapper extends StructuredViewer {
 	@Deprecated
 	@Override
 	public void refresh() {
-		fViewer.refresh();
+		fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	@Deprecated
@@ -262,19 +262,19 @@ class PackageViewerWrapper extends StructuredViewer {
 	@Deprecated
 	@Override
 	public void refresh(boolean updateLabels) {
-		fViewer.refresh(updateLabels);
+		fViewer.refresh(updateLabels); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	@Deprecated
 	@Override
 	public void refresh(Object element, boolean updateLabels) {
-		fViewer.refresh(element, updateLabels);
+		fViewer.refresh(element, updateLabels); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	@Deprecated
 	@Override
 	public void refresh(Object element) {
-		fViewer.refresh(element);
+		fViewer.refresh(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	@Deprecated
@@ -352,7 +352,7 @@ class PackageViewerWrapper extends StructuredViewer {
 	@Deprecated
 	@Override
 	public void setLabelProvider(IBaseLabelProvider labelProvider) {
-		fViewer.setLabelProvider(labelProvider);
+		fViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	@Deprecated
@@ -405,7 +405,7 @@ class PackageViewerWrapper extends StructuredViewer {
 
 	@Deprecated
 	public void setViewerInput(Object input){
-		fViewer.setInput(input);
+		fViewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	// need to provide implementation for abstract methods

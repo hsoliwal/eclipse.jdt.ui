@@ -109,17 +109,17 @@ public class FormatterModifyDialog extends ModifyDialog {
 
 		private final ToolItem fWrapStyleDropDown;
 
-		private final List<MenuItem> fWrapStyleItems= new ArrayList<>();
+		private final List<MenuItem> fWrapStyleItems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		private final ToolItem fForceSplitItem;
 
 		private final ToolItem fIndentationDropDown;
 
-		private final List<MenuItem> fIndentationItems= new ArrayList<>();
+		private final List<MenuItem> fIndentationItems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		private final ToolItem fWrapBeforeAfterDropDown;
 
-		private final List<MenuItem> fWrapBeforeAfterItems= new ArrayList<>();
+		private final List<MenuItem> fWrapBeforeAfterItems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		private final String fWrapBeforeKey;
 
@@ -133,7 +133,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 			return lineWrapPreference;
 		}
 
-		private LineWrapPreference(ToolBar toolBar, String label, String key, String wrapBeforeKey, boolean withIndent, Images images) {
+		private LineWrapPreference(ToolBar toolBar, String label, String key, String wrapBeforeKey, boolean withIndent, Images images) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(toolBar, label, key, VALUE_MATCHER);
 			fWrapBeforeKey= wrapBeforeKey;
 			if (wrapBeforeKey != null) {
@@ -160,10 +160,10 @@ public class FormatterModifyDialog extends ModifyDialog {
 			item.setControl(new Label(toolBar, SWT.NONE));
 		}
 
-		private ToolItem createDropDown(ToolBar toolBar, Object[][] menuItemsData, List<MenuItem> outItems, Images images) {
+		private ToolItem createDropDown(ToolBar toolBar, Object[][] menuItemsData, List<MenuItem> outItems, Images images) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ToolItem dropDown= new ToolItem(toolBar, SWT.DROP_DOWN);
 			final Menu menu= new Menu(toolBar.getShell());
-			dropDown.addSelectionListener(new SelectionAdapter() {
+			dropDown.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fControl.setFocus();
@@ -174,7 +174,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				}
 			});
 
-			for (Object[] itemData : menuItemsData) {
+			for (Object[] itemData : menuItemsData) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MenuItem menuItem= new MenuItem(menu, SWT.RADIO);
 				menuItem.setText((String) itemData[0]);
 				menuItem.setImage(images.get((ImageDescriptor) itemData[1]));
@@ -195,19 +195,19 @@ public class FormatterModifyDialog extends ModifyDialog {
 				}
 			};
 			addSelectionListener(fWrapStyleItems, menuItemListener);
-			fForceSplitItem.addSelectionListener(menuItemListener);
+			fForceSplitItem.addSelectionListener(menuItemListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			addSelectionListener(fIndentationItems, menuItemListener);
 			addSelectionListener(fWrapBeforeAfterItems, menuItemListener);
 			super.init(workingValues, valueValidator, valueChangeListener);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void updateWidget() {
 			String value= getPreferences().get(getKey());
 			int wrappingStyle= DefaultCodeFormatterConstants.getWrappingStyle(value);
 			boolean wrapEnabled= wrappingStyle != DefaultCodeFormatterConstants.WRAP_NO_SPLIT;
 			MenuItem wrapStyleItem= updateMenuItem(fWrapStyleItems, wrappingStyle);
-			fWrapStyleDropDown.setToolTipText(FormatterMessages.FormatterModifyDialog_lineWrap_wrapping_policy_label + wrapStyleItem.getText());
+			fWrapStyleDropDown.setToolTipText(FormatterMessages.FormatterModifyDialog_lineWrap_wrapping_policy_label + wrapStyleItem.getText()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fWrapStyleDropDown.setImage(wrapStyleItem.getImage());
 
 			boolean forceWrapping= DefaultCodeFormatterConstants.getForceWrapping(value);
@@ -216,7 +216,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 
 			if (fIndentationDropDown != null) {
 				MenuItem indentStyleItem= updateMenuItem(fIndentationItems, DefaultCodeFormatterConstants.getIndentStyle(value));
-				fIndentationDropDown.setToolTipText(FormatterMessages.FormatterModifyDialog_lineWrap_indentation_policy_label + indentStyleItem.getText());
+				fIndentationDropDown.setToolTipText(FormatterMessages.FormatterModifyDialog_lineWrap_indentation_policy_label + indentStyleItem.getText()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fIndentationDropDown.setImage(indentStyleItem.getImage());
 				fIndentationDropDown.setDisabledImage((Image) indentStyleItem.getData(DATA_IMAGE_DISABLED));
 				fIndentationDropDown.setEnabled(wrapEnabled);
@@ -253,7 +253,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 			return DefaultCodeFormatterConstants.createAlignmentValue(forceSplit, wrapStyle, indentStyle);
 		}
 
-		protected boolean valueMatches(StringMatcher matcher) {
+		protected boolean valueMatches(StringMatcher matcher) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String value= getPreferences().get(getKey());
 			int wrappingStyle= DefaultCodeFormatterConstants.getWrappingStyle(value);
 			MenuItem wrapStyleItem= updateMenuItem(fWrapStyleItems, wrappingStyle);
@@ -281,40 +281,40 @@ public class FormatterModifyDialog extends ModifyDialog {
 		}
 
 		private static void addSelectionListener(List<MenuItem> menuItems, SelectionListener menuItemListener) {
-			for (MenuItem item : menuItems)
-				item.addSelectionListener(menuItemListener);
+			for (MenuItem item : menuItems) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				item.addSelectionListener(menuItemListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 
 		private static MenuItem updateMenuItem(List<MenuItem> items, int currentData) {
 			Integer data= currentData;
 			MenuItem selected= null;
-			for (MenuItem item : items) {
+			for (MenuItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item.setSelection(false);
 				if (data.equals(item.getData()))
 					selected= item;
 			}
 			if (selected == null)
-				throw new AssertionError("No item found with data " + currentData); //$NON-NLS-1$
+				throw new AssertionError("No item found with data " + currentData); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			selected.setSelection(true);
 			return selected;
 		}
 
 		private static int getSelection(List<MenuItem> items) {
-			for (MenuItem item : items) {
+			for (MenuItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item.getSelection())
 					return ((Integer) item.getData());
 			}
 			throw new AssertionError("No item selected"); //$NON-NLS-1$
 		}
 
-		public static ModifyAll<ToolBar> addModifyAll(Section section, boolean withIndent, final Images images) {
+		public static ModifyAll<ToolBar> addModifyAll(Section section, boolean withIndent, final Images images) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new ModifyAll<>(section, images) {
 				private LineWrapPreference fPreference;
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected ToolBar createControl(Composite parent) {
 					boolean needWrapBefore= false;
-					for (LineWrapPreference pref : findPreferences(LineWrapPreference.class))
+					for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						needWrapBefore= needWrapBefore || pref.fWrapBeforeKey != null;
 
 					fPreference= create(parent, null, "wrapPolicyKey", needWrapBefore ? "wrapBeforeKey" : null, withIndent, images); //$NON-NLS-1$ //$NON-NLS-2$
@@ -324,7 +324,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							int selectedValue= (int) ((MenuItem) e.getSource()).getData();
-							for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) {
+							for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								updateMenuItem(pref.fWrapStyleItems, selectedValue);
 								pref.updateValue();
 								pref.updateWidget();
@@ -332,11 +332,11 @@ public class FormatterModifyDialog extends ModifyDialog {
 							prepareControl();
 						}
 					});
-					fPreference.fForceSplitItem.addSelectionListener(new SelectionAdapter() {
+					fPreference.fForceSplitItem.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							boolean selected= fPreference.fForceSplitItem.getSelection();
-							for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) {
+							for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								pref.fForceSplitItem.setSelection(selected);
 								pref.updateValue();
 							}
@@ -347,7 +347,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							int selectedValue= (int) ((MenuItem) e.getSource()).getData();
-							for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) {
+							for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								updateMenuItem(pref.fIndentationItems, selectedValue);
 								pref.updateValue();
 								pref.updateWidget();
@@ -359,7 +359,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							int selectedValue= (int) ((MenuItem) e.getSource()).getData();
-							for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) {
+							for (LineWrapPreference pref : findPreferences(LineWrapPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (!pref.fWrapBeforeAfterItems.isEmpty()) {
 									updateMenuItem(pref.fWrapBeforeAfterItems, selectedValue);
 									pref.updateValue();
@@ -373,21 +373,21 @@ public class FormatterModifyDialog extends ModifyDialog {
 					return fPreference.fControl;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected void prepareControl() {
 					final String STYLE= "style", FORCE= "force", INDENT= "indent", BEFORE= "before"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					List<LineWrapPreference> preferences= findPreferences(LineWrapPreference.class);
-					Map<String, Integer> valueCounts= new HashMap<>();
-					valueCounts.put(FORCE + true, 0);
+					Map<String, Integer> valueCounts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+					valueCounts.put(FORCE + true, 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					int hasWrapBeforeCount= 0;
-					for (LineWrapPreference pref : preferences) {
-						increment(STYLE + getSelection(pref.fWrapStyleItems), valueCounts);
-						increment(FORCE + pref.fForceSplitItem.getSelection(), valueCounts);
+					for (LineWrapPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						increment(STYLE + getSelection(pref.fWrapStyleItems), valueCounts); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+						increment(FORCE + pref.fForceSplitItem.getSelection(), valueCounts); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						if (!pref.fIndentationItems.isEmpty()) {
-							increment(INDENT + getSelection(pref.fIndentationItems), valueCounts);
+							increment(INDENT + getSelection(pref.fIndentationItems), valueCounts); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 						if (!pref.fWrapBeforeAfterItems.isEmpty()) {
-							increment(BEFORE + getSelection(pref.fWrapBeforeAfterItems), valueCounts);
+							increment(BEFORE + getSelection(pref.fWrapBeforeAfterItems), valueCounts); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							hasWrapBeforeCount++;
 						}
 					}
@@ -395,9 +395,9 @@ public class FormatterModifyDialog extends ModifyDialog {
 					prepareDrowpdown(fPreference.fWrapStyleDropDown, FormatterMessages.FormatterModifyDialog_lineWrap_wrapping_policy_label,
 							prepareItems(fPreference.fWrapStyleItems, WRAP_STYLE, STYLE, valueCounts, preferences.size()));
 
-					int forceWrapCount= valueCounts.get(FORCE + true);
+					int forceWrapCount= valueCounts.get(FORCE + true); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fPreference.fForceSplitItem.setSelection(forceWrapCount == preferences.size());
-					fPreference.fForceSplitItem.setToolTipText(FormatterMessages.FormatterModifyDialog_lineWrap_val_force_split
+					fPreference.fForceSplitItem.setToolTipText(FormatterMessages.FormatterModifyDialog_lineWrap_val_force_split //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ Messages.format(FormatterMessages.ModifyDialog_modifyAll_summary, new Object[] { forceWrapCount, preferences.size() }));
 
 					if (!fPreference.fIndentationItems.isEmpty()) {
@@ -410,16 +410,16 @@ public class FormatterModifyDialog extends ModifyDialog {
 					}
 				}
 
-				private void increment(String key, Map<String, Integer> valueCounts) {
+				private void increment(String key, Map<String, Integer> valueCounts) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 					valueCounts.merge(key, 1, Integer::sum);
 				}
 
-				private MenuItem prepareItems(List<MenuItem> items, Object[][] itemDatas, String keyPrefix, Map<String, Integer> valueCounts, int totalCount) {
+				private MenuItem prepareItems(List<MenuItem> items, Object[][] itemDatas, String keyPrefix, Map<String, Integer> valueCounts, int totalCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 					int maxCount= 0;
 					int maxCountIndex= 0;
-					for (int i= 0; i < itemDatas.length; i++) {
+					for (int i= 0; i < itemDatas.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						MenuItem item= items.get(i);
-						Integer count= valueCounts.get(keyPrefix + item.getData());
+						Integer count= valueCounts.get(keyPrefix + item.getData()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						String text= (String) itemDatas[i][0];
 						if (count != null) {
 							text+= Messages.format(FormatterMessages.ModifyDialog_modifyAll_summary, new Object[] { count, totalCount });
@@ -437,7 +437,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				}
 
 				private void prepareDrowpdown(ToolItem dropDown, String dropDownLabel, MenuItem mostPopularItem) {
-					dropDown.setToolTipText(dropDownLabel + mostPopularItem.getText());
+					dropDown.setToolTipText(dropDownLabel + mostPopularItem.getText()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					dropDown.setImage(mostPopularItem.getImage());
 					dropDown.setEnabled(true);
 				}
@@ -464,7 +464,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 			return new BlankLinesPreference(spinner, toolBar, label, key, preserveLinesPref);
 		}
 
-		private BlankLinesPreference(Spinner spinner, ToolBar toolBar, String label, String key, NumberPreference preserveLinesPref) {
+		private BlankLinesPreference(Spinner spinner, ToolBar toolBar, String label, String key, NumberPreference preserveLinesPref) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(spinner, label, key, FilteredPreferenceTree.SPINNER_VALUE_MATCHER);
 			fRemoveLinesItem= toolBar.getItem(0);
 
@@ -486,8 +486,8 @@ public class FormatterModifyDialog extends ModifyDialog {
 					updateValue();
 				}
 			};
-			spinner.addSelectionListener(listener);
-			fRemoveLinesItem.addSelectionListener(listener);
+			spinner.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			fRemoveLinesItem.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 
 		@Override
@@ -514,13 +514,13 @@ public class FormatterModifyDialog extends ModifyDialog {
 			return Integer.toString(fRemoveLinesItem.getSelection() ? ~number : number);
 		}
 
-		public static ModifyAll<Spinner> addModifyAll(Section section, final Images images) {
+		public static ModifyAll<Spinner> addModifyAll(Section section, final Images images) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new ModifyAll<>(section, images) {
 
 				private Label fLabel;
 				private ToolItem fRemoveLinesItem;
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected Spinner createControl(Composite parent) {
 					GridLayout layout= new GridLayout(3, false);
 					layout.marginWidth= layout.marginHeight= 0;
@@ -529,11 +529,11 @@ public class FormatterModifyDialog extends ModifyDialog {
 					fLabel= createLabel(1, parent, "", 0); //$NON-NLS-1$
 
 					Spinner spinner= NumberPreference.createSpinner(parent, MIN_LINES, MAX_LINES);
-					spinner.addSelectionListener(new SelectionAdapter() {
+					spinner.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							int value= fControl.getSelection();
-							for (BlankLinesPreference pref : findPreferences(BlankLinesPreference.class)) {
+							for (BlankLinesPreference pref : findPreferences(BlankLinesPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								pref.getControl().setSelection(value);
 								pref.updateValue();
 							}
@@ -544,11 +544,11 @@ public class FormatterModifyDialog extends ModifyDialog {
 					ToolBar toolBar= new ToolBar(parent, SWT.FLAT);
 					fRemoveLinesItem= new ToolItem(toolBar, SWT.CHECK);
 					fRemoveLinesItem.setImage(images.get(JavaPluginImages.DESC_ELCL_REMOVE_EXTRA_LINES));
-					fRemoveLinesItem.addSelectionListener(new SelectionAdapter() {
+					fRemoveLinesItem.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							boolean value= fRemoveLinesItem.getSelection();
-							for (BlankLinesPreference pref : findPreferences(BlankLinesPreference.class)) {
+							for (BlankLinesPreference pref : findPreferences(BlankLinesPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								pref.fRemoveLinesItem.setSelection(value);
 								pref.updateValue();
 							}
@@ -558,14 +558,14 @@ public class FormatterModifyDialog extends ModifyDialog {
 					return spinner;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected void prepareControl() {
 					int modeValue= 0;
 					int modeCount= -1;
-					HashMap<Integer, Integer> counts= new HashMap<>();
+					HashMap<Integer, Integer> counts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					int removeLinesCount= 0;
 					List<BlankLinesPreference> preferences= findPreferences(BlankLinesPreference.class);
-					for (BlankLinesPreference pref : preferences) {
+					for (BlankLinesPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int value= pref.getControl().getSelection();
 						int count= counts.merge(value, 1, Integer::sum);
 						if (count > modeCount) {
@@ -579,7 +579,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 					fControl.setSelection(modeValue);
 					fLabel.setText(Messages.format(FormatterMessages.ModifyDialog_modifyAll_summary, new Object[] { modeCount, preferences.size() }));
 					fLabel.requestLayout();
-					fRemoveLinesItem.setToolTipText(FormatterMessages.FormatterModifyDialog_blankLines_val_remove_extra_lines + Messages.format(FormatterMessages.ModifyDialog_modifyAll_summary, new Object[] { removeLinesCount, preferences.size() }));
+					fRemoveLinesItem.setToolTipText(FormatterMessages.FormatterModifyDialog_blankLines_val_remove_extra_lines + Messages.format(FormatterMessages.ModifyDialog_modifyAll_summary, new Object[] { removeLinesCount, preferences.size() })); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			};
 		}
@@ -587,10 +587,10 @@ public class FormatterModifyDialog extends ModifyDialog {
 
 	private static final String DIALOG_PREFERENCE_KEY= "formatter_page"; //$NON-NLS-1$
 
-	private static final String SHOW_INVISIBLE_PREFERENCE_KEY= JavaUI.ID_PLUGIN + '.' + DIALOG_PREFERENCE_KEY + ".show_invisible_characters"; //$NON-NLS-1$
+	private static final String SHOW_INVISIBLE_PREFERENCE_KEY= JavaUI.ID_PLUGIN + '.' + DIALOG_PREFERENCE_KEY + ".show_invisible_characters"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String CUSTOM_PREVIEW_TOGGLE_PREFERENCE_KEY= JavaUI.ID_PLUGIN + '.' + DIALOG_PREFERENCE_KEY + ".custom_preview_toggle"; //$NON-NLS-1$
-	private static final String CUSTOM_PREVIEW_CONTENT_PREFERENCE_KEY= JavaUI.ID_PLUGIN + '.' + DIALOG_PREFERENCE_KEY + ".custom_preview_content"; //$NON-NLS-1$
+	private static final String CUSTOM_PREVIEW_TOGGLE_PREFERENCE_KEY= JavaUI.ID_PLUGIN + '.' + DIALOG_PREFERENCE_KEY + ".custom_preview_toggle"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String CUSTOM_PREVIEW_CONTENT_PREFERENCE_KEY= JavaUI.ID_PLUGIN + '.' + DIALOG_PREFERENCE_KEY + ".custom_preview_content"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The default preview line width.
@@ -600,7 +600,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 	/**
 	 * The key to save the user's preview window width in the dialog settings.
 	 */
-	private static final String PREVIEW_LINE_WIDTH_PREFERENCE_KEY= JavaUI.ID_PLUGIN + ".codeformatter.line_wrapping_tab_page.preview_line_width"; //$NON-NLS-1$
+	private static final String PREVIEW_LINE_WIDTH_PREFERENCE_KEY= JavaUI.ID_PLUGIN + ".codeformatter.line_wrapping_tab_page.preview_line_width"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private Button fPreviewRawButton;
 
@@ -610,7 +610,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		loadPreviews("formatter.java"); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Composite createPreviewPane(Composite parent) {
 		Composite previewPane= super.createPreviewPane(parent);
 
@@ -626,7 +626,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		fPreviewRawButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		fPreviewRawButton.setText(FormatterMessages.FormatterModifyDialog_preview_show_raw_source_toggle);
 		fPreviewRawButton.setFont(previewPane.getFont());
-		fPreviewRawButton.addSelectionListener(new SelectionAdapter() {
+		fPreviewRawButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fPreview.setEditorMode(fPreviewRawButton.getSelection());
@@ -638,14 +638,14 @@ public class FormatterModifyDialog extends ModifyDialog {
 		customPreviewButton.setText(FormatterMessages.FormatterModifyDialog_preview_custom_contents_toggle);
 		customPreviewButton.setFont(previewPane.getFont());
 		customPreviewButton.setSelection(fDialogSettings.getBoolean(CUSTOM_PREVIEW_TOGGLE_PREFERENCE_KEY));
-		customPreviewButton.addSelectionListener(new SelectionAdapter() {
+		customPreviewButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fDialogSettings.put(CUSTOM_PREVIEW_TOGGLE_PREFERENCE_KEY, customPreviewButton.getSelection());
 				updatePreviewCode();
 			}
 		});
-		fPreview.fSourceViewer.getTextWidget().addModifyListener(e -> {
+		fPreview.fSourceViewer.getTextWidget().addModifyListener(e -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			if (customPreviewButton.getSelection())
 				fDialogSettings.put(CUSTOM_PREVIEW_CONTENT_PREFERENCE_KEY, ((StyledText) e.getSource()).getText());
 		});
@@ -654,7 +654,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		showInvisibleButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		showInvisibleButton.setText(FormatterMessages.FormatterModifyDialog_preview_show_whitespace_toggle);
 		showInvisibleButton.setFont(previewPane.getFont());
-		showInvisibleButton.addSelectionListener(new SelectionAdapter() {
+		showInvisibleButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fPreview.showInvisibleCharacters(showInvisibleButton.getSelection());
@@ -689,7 +689,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 			fDialogSettings.put(PREVIEW_LINE_WIDTH_PREFERENCE_KEY, Integer.toString(previewLineSplit));
 		}
 		lineWidthSpinner.setSelection(previewLineSplit);
-		lineWidthSpinner.addSelectionListener(new SelectionAdapter() {
+		lineWidthSpinner.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fDialogSettings.put(PREVIEW_LINE_WIDTH_PREFERENCE_KEY, Integer.toString(lineWidthSpinner.getSelection()));
@@ -704,7 +704,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 	@Override
 	public void valuesModified() {
 		if (fPreview != null) {
-			HashMap<String, String> workingValuesForPreview= new HashMap<>(fWorkingValues);
+			HashMap<String, String> workingValuesForPreview= new HashMap<>(fWorkingValues); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			workingValuesForPreview.put(DefaultCodeFormatterConstants.FORMATTER_LINE_SPLIT, fDialogSettings.get(PREVIEW_LINE_WIDTH_PREFERENCE_KEY));
 			fPreview.setWorkingValues(workingValuesForPreview);
 
@@ -729,7 +729,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		createOffOnTree();
 	}
 
-	private void createIndentationTree() {
+	private void createIndentationTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Section globalSection= fTree.addSection(null, FormatterMessages.FormatterModifyDialog_indentation_tree_indentation, "section-indentation"); //$NON-NLS-1$
 		createGeneralIndentationPrefs(globalSection);
 		fTree.addComboPref(globalSection, FormatterMessages.FormatterModifyDialog_indentation_pref_text_block_indentation, DefaultCodeFormatterConstants.FORMATTER_TEXT_BLOCK_INDENTATION,
@@ -768,7 +768,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		createAlignOnColumnPrefs(globalSection);
 	}
 
-	private void createGeneralIndentationPrefs(Section globalSection) {
+	private void createGeneralIndentationPrefs(Section globalSection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String[] tabPolicyValues= new String[] { JavaCore.SPACE, JavaCore.TAB, DefaultCodeFormatterConstants.MIXED };
 		final String[] tabPolicyLabels= new String[] {
 				FormatterMessages.FormatterModifyDialog_indentation_tab_policy_SPACE,
@@ -793,7 +793,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				return true;
 			}
 
-			private void updateTabPreferences() {
+			private void updateTabPreferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				String tabPolicy= fWorkingValues.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
 				/*
 				 * If the tab-char is SPACE (or TAB), INDENTATION_SIZE
@@ -853,12 +853,12 @@ public class FormatterModifyDialog extends ModifyDialog {
 		});
 	}
 
-	private void createAlignOnColumnPrefs(Section parentSection) {
+	private void createAlignOnColumnPrefs(Section parentSection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class CheckboxSpinnerPreference extends Preference<Button> {
 
 			Spinner fSpinner;
 
-			CheckboxSpinnerPreference(Button checkbox, Spinner spinner, String label, String key) {
+			CheckboxSpinnerPreference(Button checkbox, Spinner spinner, String label, String key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				super(checkbox, label, key,
 						(node, matcher) -> FilteredPreferenceTree.CHECK_BOX_MATCHER.valueMatches(node, matcher)
 							|| matcher.match(Integer.toString(spinner.getSelection())));
@@ -875,8 +875,8 @@ public class FormatterModifyDialog extends ModifyDialog {
 						updateValue();
 					}
 				};
-				checkbox.addSelectionListener(listener);
-				spinner.addSelectionListener(listener);
+				checkbox.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				spinner.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			}
 
 			@Override
@@ -904,7 +904,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 			@Override
 			public void setValueValidator(Predicate<String> valueValidator) {
 				super.setValueValidator(valueValidator);
-				fSpinner.addFocusListener(new FocusAdapter() {
+				fSpinner.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 					@Override
 					public void focusLost(FocusEvent e) {
 						valueValidator.test(null);
@@ -972,7 +972,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		});
 	}
 
-	private void createBracesTree() {
+	private void createBracesTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String[] bracePositions= {
 				DefaultCodeFormatterConstants.END_OF_LINE,
 				DefaultCodeFormatterConstants.NEXT_LINE,
@@ -1008,7 +1008,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				.build(null, (parent, label, key) -> fTree.addComboPref(parent, label, key, bracePositions, bracePositionNames));
 	}
 
-	private void createParanthesesTree() {
+	private void createParanthesesTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTree.builder(FormatterMessages.FormatterModifyDialog_parentheses_tree_parentheses_positions, "section-parentheses", s -> ComboPreference.addModifyAll(s, fImages)) //$NON-NLS-1$
 				.pref(FormatterMessages.FormatterModifyDialog_parentheses_pref_method_declaration, DefaultCodeFormatterConstants.FORMATTER_PARENTHESES_POSITIONS_IN_METHOD_DECLARATION)
 				.pref(FormatterMessages.FormatterModifyDialog_parentheses_pref_method_invocation, DefaultCodeFormatterConstants.FORMATTER_PARENTHESES_POSITIONS_IN_METHOD_INVOCATION)
@@ -1050,7 +1050,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				});
 	}
 
-	private void createWhiteSpaceTree() {
+	private void createWhiteSpaceTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Consumer<Section> modAll= s -> CheckboxPreference.addModifyAll(s, fImages);
 		fTree.builder(FormatterMessages.FormatterModifyDialog_whiteSpace_tree_whitespace, "section-whitespace", modAll) //$NON-NLS-1$
 				.node(fTree.builder(FormatterMessages.FormatterModifyDialog_whiteSpace_tree_declarations, "-declarations", modAll) //$NON-NLS-1$
@@ -1289,7 +1289,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				.build(null, (parent, label, key) -> fTree.addCheckbox(parent, label, key, CheckboxPreference.DO_NOT_INSERT_INSERT));
 	}
 
-	private void createBlankLinesTree() {
+	private void createBlankLinesTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Consumer<Section> modAll= s -> BlankLinesPreference.addModifyAll(s, fImages);
 		fTree.builder(FormatterMessages.FormatterModifyDialog_blankLines_tree_blank_lines, "section-blank-lines") //$NON-NLS-1$
 				.pref(FormatterMessages.FormatterModifyDialog_blankLines_pref_empty_lines_to_preserve, DefaultCodeFormatterConstants.FORMATTER_NUMBER_OF_EMPTY_LINES_TO_PRESERVE)
@@ -1332,7 +1332,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				});
 	}
 
-	private void createNewLinesTree() {
+	private void createNewLinesTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Consumer<Section> modAll= s -> CheckboxPreference.addModifyAll(s, fImages);
 		fTree.builder(FormatterMessages.FormatterModifyDialog_newLines_tree_new_lines, "section-newlines") //$NON-NLS-1$
 				.pref(FormatterMessages.FormatterModifyDialog_newLines_pref_empty_statement, DefaultCodeFormatterConstants.FORMATTER_PUT_EMPTY_STATEMENT_ON_NEW_LINE)
@@ -1383,7 +1383,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				});
 	}
 
-	private SimpleTreeBuilder<?> createKeepOnOneLineSection() {
+	private SimpleTreeBuilder<?> createKeepOnOneLineSection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] oneLineOptions= {
 				DefaultCodeFormatterConstants.ONE_LINE_NEVER,
 				DefaultCodeFormatterConstants.ONE_LINE_IF_EMPTY,
@@ -1441,7 +1441,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		};
 	}
 
-	private void createLineWrapTree() {
+	private void createLineWrapTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Section globalSection= fTree.addSection(null, FormatterMessages.FormatterModifyDialog_lineWrap_tree_line_wrapping, "section-linewrap"); //$NON-NLS-1$
 		fTree.addNumberPref(globalSection,
 				FormatterMessages.FormatterModifyDialog_lineWrap_pref_max_line_width, DefaultCodeFormatterConstants.FORMATTER_LINE_SPLIT, 0, 9999);
@@ -1571,7 +1571,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 				});
 	}
 
-	private void createCommentsTree() {
+	private void createCommentsTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Section section= fTree.builder(FormatterMessages.FormatterModifyDialog_comments_tree_comments, "section-comments") //$NON-NLS-1$
 				.pref(FormatterMessages.FormatterModifyDialog_comments_pref_line_width, DefaultCodeFormatterConstants.FORMATTER_COMMENT_LINE_LENGTH, pref -> {
 					fTree.addCheckbox(pref, FormatterMessages.FormatterModifyDialog_comments_pref_line_width_count_from_starting_position,
@@ -1637,13 +1637,13 @@ public class FormatterModifyDialog extends ModifyDialog {
 		Function<String, Section> sectionFinder= key -> mainItems.stream().filter(n -> n instanceof Section)
 				.map(n -> (Section) n).filter(n -> n.getKey().endsWith(key)).findAny().get();
 		Section javadocSection= sectionFinder.apply("-javadocs"); //$NON-NLS-1$
-		for (PreferenceTreeNode<?> pref : javadocSection.getChildren()) {
+		for (PreferenceTreeNode<?> pref : javadocSection.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			javadocMaster.addDependant(pref, javadocChecker);
 			markdownMaster.addDependant(pref, javadocChecker);
 			headerMaster.addDependant(pref, javadocChecker);
 		}
 		Section blockSection= sectionFinder.apply("-blockcomments"); //$NON-NLS-1$
-		for (PreferenceTreeNode<?> pref : blockSection.getChildren()) {
+		for (PreferenceTreeNode<?> pref : blockSection.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			blockMaster.addDependant(pref, blockChecker);
 			headerMaster.addDependant(pref, blockChecker);
 		}
@@ -1653,7 +1653,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		blockMaster.addDependant(joinLinesPref, javadocChecker.or(blockChecker));
 	}
 
-	private SimpleTreeBuilder<?> createJavadocAlignOptions() {
+	private SimpleTreeBuilder<?> createJavadocAlignOptions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] items= {
 				FormatterMessages.FormatterModifyDialog_comments_pref_javadoc_align_names_and_descriptions,
 				FormatterMessages.FormatterModifyDialog_comments_pref_javadoc_align_descriptions_grouped,
@@ -1672,7 +1672,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 
 			AlignPreference(Combo combo, String label) {
 				super(combo, label, "", FilteredPreferenceTree.COMBO_VALUE_MATCHER); //$NON-NLS-1$
-				combo.addSelectionListener(new SelectionAdapter() {
+				combo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						updateValue();
@@ -1683,7 +1683,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 			@Override
 			protected void updateWidget() {
 				int selected= prefs.indexOf(null);
-				for (int i= 0; i < prefs.size(); i++) {
+				for (int i= 0; i < prefs.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (prefs.get(i) != null && values[1].equals(fWorkingValues.get(prefs.get(i))))
 						selected= i;
 				}
@@ -1693,7 +1693,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 			@Override
 			protected void updateValue() {
 				int selected= fControl.getSelectionIndex();
-				for (int i= 0; i < prefs.size(); i++) {
+				for (int i= 0; i < prefs.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (prefs.get(i) != null)
 						fWorkingValues.put(prefs.get(i), values[i == selected ? 1 : 0]);
 				}
@@ -1708,7 +1708,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 
 		return fTree.new SimpleTreeBuilder<>(null, null, null) {
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected PreferenceTreeNode<?> build(Section parent, PreferenceBuilder prefBuilder) {
 				Combo combo= new Combo(parent.fInnerComposite, SWT.SINGLE | SWT.READ_ONLY);
 				combo.setItems(items);
@@ -1731,7 +1731,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		};
 	}
 
-	private void createOffOnTree() {
+	private void createOffOnTree() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Section section= fTree.addSection(null, FormatterMessages.FormatterModifyDialog_offOn_tree_off_on_tags, "section-offon"); //$NON-NLS-1$
 		fTree.addGap(section);
 
@@ -1790,7 +1790,7 @@ public class FormatterModifyDialog extends ModifyDialog {
 		if (fDialogSettings.getBoolean(CUSTOM_PREVIEW_TOGGLE_PREFERENCE_KEY)) {
 			String previewText= fDialogSettings.get(CUSTOM_PREVIEW_CONTENT_PREFERENCE_KEY);
 			if (previewText == null)
-				previewText= "// " + FormatterMessages.FormatterModifyDialog_preview_custom_contents_default_comment; //$NON-NLS-1$
+				previewText= "// " + FormatterMessages.FormatterModifyDialog_preview_custom_contents_default_comment; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fPreview.setPreviewText(previewText, CodeFormatter.K_UNKNOWN);
 		} else {
 			super.updatePreviewCode();

@@ -102,7 +102,7 @@ public class DeleteTest extends GenericRefactoringTest {
 
 	private IPackageFragmentRoot getArchiveRoot() throws JavaModelException, Exception {
 		IPackageFragmentRoot archive= null;
-		for (IPackageFragmentRoot root : rts.getProject().getPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : rts.getProject().getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (root.isArchive() && root.isExternal())
 				archive= root;
 		}
@@ -123,7 +123,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		RefactoringStatus status= performRefactoring(refactoring, true);
 		assertNull("precondition was supposed to pass", status);
 
-		ICompilationUnit newCuA= getPackageP().getCompilationUnit(CU_NAME + ".java");
+		ICompilationUnit newCuA= getPackageP().getCompilationUnit(CU_NAME + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals("A.java does not exist", newCuA.exists(), !deleteCu);
 		if (! deleteCu)
 			assertEqualLines("incorrect content of A.java", getFileContents(getOutputTestFileName(CU_NAME)), newCuA.getSource());
@@ -140,19 +140,19 @@ public class DeleteTest extends GenericRefactoringTest {
 
 	private IPackageFragment[] createPackagePath(int no) throws JavaModelException {
 		IPackageFragment[] frags= new IPackageFragment[no];
-		for (int i=0; i<no; i++) {
+		for (int i=0; i<no; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			frags[i]= getRoot().createPackageFragment(getPackageName(i), true, new NullProgressMonitor());
 		}
 		return frags;
 	}
 
 	private String getPackageName(int i) {
-		StringBuilder buf= new StringBuilder();
-		for (int j= 0; j <= i; j++) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int j= 0; j <= i; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (j>0)
-				buf.append(".");
-			buf.append("a");
-			buf.append(j);
+				buf.append("."); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("a"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(j); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -170,9 +170,9 @@ public class DeleteTest extends GenericRefactoringTest {
 	 * @throws CoreException xxx
 	 * @throws Exception xxx
 	 */
-	private void executeDeletePackage(Object[] markedForDelete, IPackageFragment[] packsToBeDeleted, Object[] othersToBeDeleted, boolean deleteSubs) throws CoreException, Exception {
+	private void executeDeletePackage(Object[] markedForDelete, IPackageFragment[] packsToBeDeleted, Object[] othersToBeDeleted, boolean deleteSubs) throws CoreException, Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		List<Object> allList= new ArrayList<>();
+		List<Object> allList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		allList.addAll(Arrays.asList(packsToBeDeleted));
 		allList.addAll(Arrays.asList(othersToBeDeleted));
 
@@ -208,28 +208,28 @@ public class DeleteTest extends GenericRefactoringTest {
 
 	private void assertExist(Object[] resourceOrElements, boolean exists) {
 		if (resourceOrElements != null) {
-			for (Object resourceOrElement : resourceOrElements) {
+			for (Object resourceOrElement : resourceOrElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assertExists(resourceOrElement, exists);
 			}
 		}
 	}
 
-	private void assertExists(Object resourceOrElement, boolean exists) {
+	private void assertExists(Object resourceOrElement, boolean exists) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resourceOrElement instanceof IResource) {
 			IResource resource= (IResource) resourceOrElement;
 			if (exists) {
-				assertTrue("expected to exist: " + resource.getFullPath(), resource.exists());
+				assertTrue("expected to exist: " + resource.getFullPath(), resource.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				assertFalse("expected NOT to exist: " + resource.getFullPath(), resource.exists());
+				assertFalse("expected NOT to exist: " + resource.getFullPath(), resource.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else 	if (resourceOrElement instanceof IJavaElement) {
 			IJavaElement javaElement= (IJavaElement) resourceOrElement;
 			if (exists) {
-				assertTrue("expected to exist: " + javaElement.getHandleIdentifier(), javaElement.exists());
+				assertTrue("expected to exist: " + javaElement.getHandleIdentifier(), javaElement.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				assertFalse("expected NOT to exist: " + javaElement.getHandleIdentifier(), javaElement.exists());
+				assertFalse("expected NOT to exist: " + javaElement.getHandleIdentifier(), javaElement.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				IResource resource= javaElement.getResource();
-				assertFalse("expected NOT to exist: " + resource.getFullPath(), resource.exists());
+				assertFalse("expected NOT to exist: " + resource.getFullPath(), resource.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
@@ -764,7 +764,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		ParticipantTesting.testDelete(handles);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeleteFile() throws Exception{
 		ParticipantTesting.reset();
 		IFolder folder= (IFolder)getPackageP().getResource();
@@ -796,7 +796,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		assertFalse(file.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeleteFolder() throws Exception{
 		ParticipantTesting.reset();
 		IFolder folder= (IFolder)getPackageP().getResource();
@@ -816,7 +816,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		ParticipantTesting.testDelete(handles);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeleteNestedFolders() throws Exception{
 		ParticipantTesting.reset();
 		IFolder folder= (IFolder)getPackageP().getResource();
@@ -852,7 +852,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		assertFalse(subsubFolder.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeleteCu() throws Exception{
 		ParticipantTesting.reset();
 		final String contents= "package p; class X{}";
@@ -907,7 +907,7 @@ public class DeleteTest extends GenericRefactoringTest {
 	public void testDeleteInternalJAR() throws Exception{
 		ParticipantTesting.reset();
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
-		assertTrue("lib does not exist",  lib.exists());
+		assertTrue("lib does not exist",  lib.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot internalJAR= JavaProjectHelper.addLibraryWithImport(rts.getProject(), Path.fromOSString(lib.getPath()), null, null);
 
 		Object[] elements= {internalJAR};
@@ -927,7 +927,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		//TODO implement me - how do i get a handle to a class file?
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeletePackage() throws Exception{
 		// newPackage    <- delete
 		// newPackage.A
@@ -963,7 +963,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		assertFalse(newPackage.exists());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeletePackage2() throws Exception{
 		// p1   <- delete
 		// p1.A
@@ -1103,7 +1103,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		doTestUndoRedo(deleted, exist);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeletePackage10() throws Exception {
 		// a0.a1.a2 <- delete
 		// a0.a1.a2.A <- delete
@@ -1144,7 +1144,7 @@ public class DeleteTest extends GenericRefactoringTest {
 		doTestUndoRedo(deleted, exist);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeletePackageAndFolder() throws Exception {
 		// folder    <- delete
 		// and

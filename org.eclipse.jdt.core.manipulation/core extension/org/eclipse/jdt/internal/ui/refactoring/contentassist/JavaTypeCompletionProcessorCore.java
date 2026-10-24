@@ -28,5 +28,5 @@ public class JavaTypeCompletionProcessorCore {
 	 * The CU name to be used if no parent ICompilationUnit is available.
 	 * The main type of this class will be filtered out from the proposals list.
 	 */
-	public static final String DUMMY_CU_NAME= DUMMY_CLASS_NAME + JavaModelUtil.DEFAULT_CU_SUFFIX;
+	public static final String DUMMY_CU_NAME= DUMMY_CLASS_NAME + JavaModelUtil.DEFAULT_CU_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 }

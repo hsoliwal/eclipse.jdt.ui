@@ -79,7 +79,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 	private Object draggedItemsProject;
 	private boolean fromModularProject;
 
-	public ProjectsWorkbookPage(ListDialogField<CPListElement> classPathList, IWorkbenchPreferenceContainer pageContainer) {
+	public ProjectsWorkbookPage(ListDialogField<CPListElement> classPathList, IWorkbenchPreferenceContainer pageContainer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fClassPathList= classPathList;
 		fPageContainer= pageContainer;
 		fSWTControl= null;
@@ -110,11 +110,11 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		if (Display.getCurrent() != null) {
 			updateProjectsList();
 		} else {
-			Display.getDefault().asyncExec(this::updateProjectsList);
+			Display.getDefault().asyncExec(this::updateProjectsList); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
-	private void updateProjectsList() {
+	private void updateProjectsList() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if(JavaModelUtil.is9OrHigher(fCurrJProject)) {
 				updateProjectsListWithRootNode();
 				return;
@@ -122,9 +122,9 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 			// add the projects-cpentries that are already on the class path
 			List<CPListElement> cpelements= fClassPathList.getElements();
 
-			final List<CPListElement> checkedProjects= new ArrayList<>(cpelements.size());
+			final List<CPListElement> checkedProjects= new ArrayList<>(cpelements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (int i= cpelements.size() - 1 ; i >= 0; i--) {
+			for (int i= cpelements.size() - 1 ; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPListElement cpelem= cpelements.get(i);
 				if (isEntryKind(cpelem.getEntryKind())) {
 					checkedProjects.add(cpelem);
@@ -142,16 +142,16 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 			return true;
 		return false;
 	}
-	private void updateProjectsListWithRootNode() {
+	private void updateProjectsListWithRootNode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RootCPListElement rootClasspath = new RootCPListElement(fCurrJProject, NewWizardMessages.PathRootWorkbookPage_classpath,false);
 		RootCPListElement rootModulepath =  new RootCPListElement(fCurrJProject,NewWizardMessages.PathRootWorkbookPage_modulepath,true);
 
 		// add the projects-cpentries that are already on the class path
 		List<CPListElement> cpelements= fClassPathList.getElements();
 
-		final List<CPListElement> checkedProjects= new ArrayList<>(cpelements.size());
+		final List<CPListElement> checkedProjects= new ArrayList<>(cpelements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i= cpelements.size() - 1 ; i >= 0; i--) {
+		for (int i= cpelements.size() - 1 ; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement cpelem= cpelements.get(i);
 			if (isEntryKind(cpelem.getEntryKind())) {
 				Object mod= cpelem.getAttribute(CPListElement.MODULE);
@@ -173,13 +173,13 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private void enableDragDropSupport() {
+	private void enableDragDropSupport() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		dragDropEnabled= true;
 		int ops= DND.DROP_MOVE;
 		Transfer[] transfers= new Transfer[] { ResourceTransfer.getInstance(), FileTransfer.getInstance() };
 
 		fProjectsList.getTreeViewer().addDragSupport(ops, transfers, new DragSourceListener() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void dragStart(DragSourceEvent event) {
 				IStructuredSelection ssel= (IStructuredSelection) fProjectsList.getTreeViewer().getSelection();
 				if (ssel == null || ssel.isEmpty()) {
@@ -187,7 +187,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 				}
 				if (ssel != null) {
 					Object[] ele= ssel.toArray();
-					for (Object element : ele) {
+					for (Object element : ele) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (element instanceof RootCPListElement) {
 							event.doit= false;
 							break;
@@ -195,7 +195,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 						if (element instanceof CPListElement) {
 							CPListElement cpe= (CPListElement) element;
 							List<CPListElement> elements= fProjectsList.getElements();
-							for (CPListElement cpListElement : elements) {
+							for (CPListElement cpListElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (cpListElement instanceof RootCPListElement) {
 									RootCPListElement root= (RootCPListElement) cpListElement;
 									if (root.getChildren().contains(cpe)) {
@@ -223,14 +223,14 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		});
 
 		fProjectsList.getTreeViewer().addDropSupport(ops, transfers, new ViewerDropAdapter(fProjectsList.getTreeViewer()) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean performDrop(Object data) {
 				Object[] objects= (data == null) ? (Object[]) draggedItemsProject : (Object[]) data;
 				if (objects == null)
 					return false;
 				Object target= getCurrentTarget();
 				if (target instanceof RootCPListElement) {
-					for (Object object : objects) {
+					for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!(object instanceof CPListElement))
 							return false;
 						if(object instanceof RootCPListElement)
@@ -282,14 +282,14 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		return composite;
 	}
 
-	private void updateClasspathList() {
+	private void updateClasspathList() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<CPListElement> projelements= fProjectsList.getElements();
 
-		 List<CPListElement> flattenedProjElements = new ArrayList<>();
-		 for (CPListElement ele : projelements) {
+		 List<CPListElement> flattenedProjElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		 for (CPListElement ele : projelements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		 	// if root node, collect the CPList elements
 		 	if(ele.isRootNodeForPath()) {
-		 		for (Object object : ((RootCPListElement)ele).getChildren()) {
+		 		for (Object object : ((RootCPListElement)ele).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		 			if(object instanceof CPListElement) {
 		 				flattenedProjElements.add((CPListElement) object);
 		 			}
@@ -303,7 +303,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		boolean remove= false;
 		List<CPListElement> cpelements= fClassPathList.getElements();
 		// backwards, as entries will be deleted
-		for (int i= cpelements.size() -1; i >= 0 ; i--) {
+		for (int i= cpelements.size() -1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement cpe= cpelements.get(i);
 			if (isEntryKind(cpe.getEntryKind())) {
 				if (!flattenedProjElements.remove(cpe)) {
@@ -333,7 +333,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 	public void setSelection(List<?> selElements, boolean expand) {
 		fProjectsList.selectElements(new StructuredSelection(selElements));
 		if (expand) {
-			for (Object selElement : selElements) {
+			for (Object selElement : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fProjectsList.expandElement(selElement, 1);
 			}
 		}
@@ -381,7 +381,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 	 * @param field the dialog field
 	 * @param index the button index
 	 */
-	private void projectPageCustomButtonPressed(DialogField field, int index) {
+	private void projectPageCustomButtonPressed(DialogField field, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPListElement[] entries= null;
 		switch (index) {
 		case IDX_ADDPROJECT: /* add project */
@@ -398,8 +398,8 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 			int nElementsChosen= entries.length;
 			// remove duplicates
 			List<CPListElement> cplist= fProjectsList.getElements();
-			List<CPListElement> elementsToAdd= new ArrayList<>(nElementsChosen);
-			for (int i= 0; i < nElementsChosen; i++) {
+			List<CPListElement> elementsToAdd= new ArrayList<>(nElementsChosen); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i= 0; i < nElementsChosen; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPListElement curr= entries[i];
 				if (!cplist.contains(curr) && !elementsToAdd.contains(curr)) {
 					elementsToAdd.add(curr);
@@ -418,25 +418,25 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 					return;
 				boolean isClassRootExpanded= getRootExpansionState(fProjectsList, true);
 				boolean isModuleRootExpanded= getRootExpansionState(fProjectsList, false);
-				List<CPListElement> checkedElements= new ArrayList<>();
+				List<CPListElement> checkedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				if (fClassPathList instanceof CheckedListDialogField) {
 					CheckedListDialogField<CPListElement> checkedDialogField= (CheckedListDialogField<CPListElement>)fClassPathList;
-					for (CPListElement element : checkedDialogField.getElements()) {
+					for (CPListElement element : checkedDialogField.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (checkedDialogField.isChecked(element)) {
 							checkedElements.add(element);
 						}
 					}
 				}
 				fProjectsList.removeAllElements();
-				for (Object selectedElement : selectedElements) {
+				for (Object selectedElement : selectedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if( ((CPListElement)selectedElement).isClassPathRootNode()) {
-						for (CPListElement cpListElement : elementsToAdd) {
+						for (CPListElement cpListElement : elementsToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							cpListElement.setAttribute(IClasspathAttribute.MODULE, null);
 						}
 						isClassRootExpanded= true;
 					}
 					if( ((CPListElement)selectedElement).isModulePathRootNode()) {
-						for (CPListElement cpListElement : elementsToAdd) {
+						for (CPListElement cpListElement : elementsToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Object attribute= cpListElement.getAttribute(IClasspathAttribute.MODULE);
 							if(attribute == null) {
 								cpListElement.setAttribute(IClasspathAttribute.MODULE, new ModuleEncapsulationDetail[0]);
@@ -455,7 +455,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 				if (fClassPathList instanceof CheckedListDialogField) {
 					CheckedListDialogField<CPListElement> checkedDialogField= (CheckedListDialogField<CPListElement>)fClassPathList;
 					List<CPListElement> dialogElements= checkedDialogField.getElements();
-					for (CPListElement element : checkedElements) {
+					for (CPListElement element : checkedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (dialogElements.contains(element)) {
 							checkedDialogField.setChecked(element, true);
 						}
@@ -470,9 +470,9 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private void removeEntry() {
+	private void removeEntry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Object> selElements= fProjectsList.getSelectedElements();
-		for (int i= selElements.size() - 1; i >= 0 ; i--) {
+		for (int i= selElements.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object elem= selElements.get(i);
 			if (elem instanceof CPListElementAttribute) {
 				CPListElementAttribute attrib= (CPListElementAttribute) elem;
@@ -497,7 +497,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		} else {
 			if(hasRootNodes()) {
 				List<CPListElement> elements= fProjectsList.getElements();
-				for (CPListElement cpListElement : elements) {
+				for (CPListElement cpListElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					((RootCPListElement)cpListElement).getChildren().removeAll(selElements);
 				}
 				fProjectsList.getTreeViewer().remove(selElements.toArray());
@@ -511,12 +511,12 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private boolean canRemove(List<?> selElements) {
+	private boolean canRemove(List<?> selElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selElements.isEmpty()) {
 			return false;
 		}
 
-		for (Object elem : selElements) {
+		for (Object elem : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem instanceof CPListElementAttribute) {
 				CPListElementAttribute attrib= (CPListElementAttribute) elem;
 				if (IClasspathAttribute.MODULE.equals(attrib.getKey())) {
@@ -549,7 +549,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		return true;
 	}
 
-	private boolean canEdit(List<?> selElements) {
+	private boolean canEdit(List<?> selElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selElements.size() != 1) {
 			return false;
 		}
@@ -588,7 +588,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private void editAttributeEntry(CPListElementAttribute elem) {
+	private void editAttributeEntry(CPListElementAttribute elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String key= elem.getKey();
 		boolean needRefresh= false;
 		boolean wasModular= false;
@@ -643,7 +643,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private CPListElement[] addProjectDialog() {
+	private CPListElement[] addProjectDialog() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
 			Object[] selectArr= getNotYetRequiredProjects();
@@ -655,7 +655,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 			if (dialog.open() == Window.OK) {
 				Object[] result= dialog.getResult();
 				CPListElement[] cpElements= new CPListElement[result.length];
-				for (int i= 0; i < result.length; i++) {
+				for (int i= 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IJavaProject curr= (IJavaProject) result[i];
 					CPListElement cpListElement= new CPListElement(fCurrJProject, IClasspathEntry.CPE_PROJECT, curr.getPath(), curr.getResource());
 					cpListElement.setModuleAttributeIf9OrHigher(fCurrJProject);
@@ -669,13 +669,13 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 		return null;
 	}
 
-	private Object[] getNotYetRequiredProjects() throws JavaModelException {
-		ArrayList<IJavaProject> selectable= new ArrayList<>(Arrays.asList(fCurrJProject.getJavaModel().getJavaProjects()));
+	private Object[] getNotYetRequiredProjects() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IJavaProject> selectable= new ArrayList<>(Arrays.asList(fCurrJProject.getJavaModel().getJavaProjects())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		selectable.remove(fCurrJProject);
 
-		for (CPListElement curr : fProjectsList.getElements()) {
+		for (CPListElement curr : fProjectsList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isRootNodeForPath()) {
-				for (Object object : ((RootCPListElement)curr).getChildren()) {
+				for (Object object : ((RootCPListElement)curr).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if(object instanceof CPListElement) {
 						CPListElement cpe = (CPListElement)object;
 						IJavaProject proj= (IJavaProject) JavaCore.create(cpe.getResource());
@@ -724,7 +724,7 @@ public class ProjectsWorkbookPage extends BuildPathBasePage {
 	/**
 	 * @param field the dialog field
 	 */
-	private void projectPageSelectionChanged(DialogField field) {
+	private void projectPageSelectionChanged(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Object> selElements= fProjectsList.getSelectedElements();
 
 		String text;

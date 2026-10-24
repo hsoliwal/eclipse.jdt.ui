@@ -98,7 +98,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 			fIdsTable= new Hashtable<>();
         }
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringStatus initialize(IProgressMonitor monitor) throws CoreException {
 			if (monitor == null)
 				monitor= new NullProgressMonitor();
@@ -119,7 +119,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 				ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 				parser.setProject(fProject);
 				IBinding[] bindings= parser.createBindings(types, Progress.subMonitor(monitor, 1));
-				for (int i= 0; i < bindings.length; i++) {
+				for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IBinding curr= bindings[i];
 					if (curr instanceof ITypeBinding) {
 						ITypeBinding typeBinding= (ITypeBinding) curr;
@@ -150,26 +150,26 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 			fIdsTable.put(binding.getKey(), id);
 		}
 
-		private IType[] findTypesWithMissingUID(IJavaProject project, ICompilationUnit[] compilationUnits, IProgressMonitor monitor) throws CoreException {
+		private IType[] findTypesWithMissingUID(IJavaProject project, ICompilationUnit[] compilationUnits, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				monitor.beginTask("", compilationUnits.length); //$NON-NLS-1$
 
 				IType serializable= project.findType(SERIALIZABLE_NAME);
 
-				List<IType> types= new ArrayList<>();
+				List<IType> types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 				if (compilationUnits.length > 500) {
 					//500 is a guess. Building the type hierarchy on serializable is very expensive
 					//depending on how many subtypes exit in the project.
 
-					HashSet<ICompilationUnit> cus= new HashSet<>(Arrays.asList(compilationUnits));
+					HashSet<ICompilationUnit> cus= new HashSet<>(Arrays.asList(compilationUnits)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					monitor.subTask(Messages.format(FixMessages.Java50Fix_SerialVersion_CalculateHierarchy_description, SERIALIZABLE_NAME));
 					ITypeHierarchy hierarchy1= serializable.newTypeHierarchy(project, Progress.subMonitor(monitor, compilationUnits.length));
 					IType[] allSubtypes1= hierarchy1.getAllSubtypes(serializable);
 					addTypes(allSubtypes1, cus, types);
 				} else {
 					monitor.subTask(FixMessages.Java50Fix_InitializeSerialVersionId_subtask_description);
-                    for (ICompilationUnit compilationUnit : compilationUnits) {
+                    for (ICompilationUnit compilationUnit : compilationUnits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                     	collectChildrenWithMissingSerialVersionId(compilationUnit.getChildren(), serializable, types);
                     	if (monitor.isCanceled())
                     		throw new OperationCanceledException();
@@ -184,7 +184,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 		}
 
 		private void addTypes(IType[] allSubtypes, HashSet<ICompilationUnit> cus, List<IType> types) throws JavaModelException {
-			for (IType type : allSubtypes) {
+			for (IType type : allSubtypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IField field= type.getField(NAME_FIELD);
 				if (!field.exists()) {
 					if (type.isClass() && cus.contains(type.getCompilationUnit())){
@@ -194,8 +194,8 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 			}
 		}
 
-		private void collectChildrenWithMissingSerialVersionId(IJavaElement[] children, IType serializable, List<IType> result) throws JavaModelException {
-			for (IJavaElement child : children) {
+		private void collectChildrenWithMissingSerialVersionId(IJavaElement[] children, IType serializable, List<IType> result) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			for (IJavaElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof IType) {
 					IType type= (IType)child;
 
@@ -203,7 +203,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
     					IField field= type.getField(NAME_FIELD);
     					if (!field.exists()) {
     						ITypeHierarchy hierarchy= type.newSupertypeHierarchy(new NullProgressMonitor());
-    						for (IType interface1 : hierarchy.getAllSuperInterfaces(type)) {
+    						for (IType interface1 : hierarchy.getAllSuperInterfaces(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     							if (interface1.equals(serializable)) {
     								result.add(type);
     								break;
@@ -241,7 +241,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 			if (id == null)
 				return false;
 
-			fragment.setInitializer(fragment.getAST().newNumberLiteral(id.toString() + LONG_SUFFIX));
+			fragment.setInitializer(fragment.getAST().newNumberLiteral(id.toString() + LONG_SUFFIX)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return true;
 		}
 
@@ -252,7 +252,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 
 	private static ISerialVersionFixContext fCurrentContext;
 
-	public static IProposableFix[] createMissingSerialVersionFixes(CompilationUnit compilationUnit, IProblemLocation problem) {
+	public static IProposableFix[] createMissingSerialVersionFixes(CompilationUnit compilationUnit, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (problem.getProblemId() != IProblem.MissingSerialVersion)
 			return null;
 
@@ -277,7 +277,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 		return new IProposableFix[] {fix1, fix2};
 	}
 
-	public static RefactoringStatus checkPreConditions(IJavaProject project, ICompilationUnit[] compilationUnits, IProgressMonitor monitor,
+	public static RefactoringStatus checkPreConditions(IJavaProject project, ICompilationUnit[] compilationUnits, IProgressMonitor monitor, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean calculatedId,
 			boolean defaultId,
 			boolean randomId) throws CoreException {
@@ -328,21 +328,21 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 
 		IProblem[] problems= compilationUnit.getProblems();
 		IProblemLocation[] locations= new IProblemLocation[problems.length];
-		for (int i= 0; i < problems.length; i++) {
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			locations[i]= new ProblemLocation(problems[i]);
 		}
 		return createCleanUp(compilationUnit, locations, addSerialVersionIds);
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems, boolean addSerialVersionIds) {
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems, boolean addSerialVersionIds) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (addSerialVersionIds) {
 
 			final ICompilationUnit unit= (ICompilationUnit)compilationUnit.getJavaElement();
 			if (unit == null)
 				return null;
 
-			List<ASTNode> declarationNodes= new ArrayList<>();
-			for (IProblemLocation problem : problems) {
+			List<ASTNode> declarationNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (problem.getProblemId() == IProblem.MissingSerialVersion) {
 					final SimpleName simpleName= getSelectedName(compilationUnit, problem);
 					if (simpleName != null) {
@@ -356,7 +356,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 			if (declarationNodes.size() == 0)
 				return null;
 
-			for (ASTNode declarationNode : declarationNodes) {
+			for (ASTNode declarationNode : declarationNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	            ITypeBinding binding= getTypeBinding(declarationNode);
 	            if (fCurrentContext.getSerialVersionId(binding) != null) {
 	            	SerialVersionHashBatchOperation op= new SerialVersionHashBatchOperation(unit, declarationNodes.toArray(new ASTNode[declarationNodes.size()]), fCurrentContext);
@@ -367,7 +367,7 @@ public class PotentialProgrammingProblemsFixCore extends CompilationUnitRewriteO
 		return null;
 	}
 
-	public static SimpleName getSelectedName(CompilationUnit compilationUnit, IProblemLocation problem) {
+	public static SimpleName getSelectedName(CompilationUnit compilationUnit, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ASTNode selection= problem.getCoveredNode(compilationUnit);
 		if (selection == null)
 			return null;

@@ -68,7 +68,7 @@ public class CodeStyleCleanUpCore extends AbstractMultiFix {
 		       nonStaticMethods && isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_METHOD_USE_THIS_IF_NECESSARY);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public org.eclipse.jdt.ui.cleanup.ICleanUpFix createFix(CompilationUnit compilationUnit) throws CoreException {
 		if (compilationUnit == null)
 			return null;
@@ -107,9 +107,9 @@ public class CodeStyleCleanUpCore extends AbstractMultiFix {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS_ALWAYS))
 			result.add(MultiFixMessages.CodeStyleMultiFix_AddThisQualifier_description);
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_METHOD_USE_THIS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_METHOD_USE_THIS_ALWAYS))
@@ -129,67 +129,67 @@ public class CodeStyleCleanUpCore extends AbstractMultiFix {
 		return result.toArray(new String[result.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		buf.append("private int value;\n"); //$NON-NLS-1$
-		buf.append("public int get() {\n"); //$NON-NLS-1$
+		buf.append("private int value;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public int get() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS_ALWAYS)) {
-			buf.append("    return this.value + this.value;\n"); //$NON-NLS-1$
+			buf.append("    return this.value + this.value;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS_IF_NECESSARY)) {
-			buf.append("    return value + value;\n"); //$NON-NLS-1$
+			buf.append("    return value + value;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("    return this.value + value;\n"); //$NON-NLS-1$
+			buf.append("    return this.value + value;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}\n"); //$NON-NLS-1$
-		buf.append("\n"); //$NON-NLS-1$
-		buf.append("public int getZero() {\n"); //$NON-NLS-1$
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public int getZero() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_METHOD_USE_THIS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_METHOD_USE_THIS_ALWAYS)) {
-			buf.append("    return this.get() - this.get();\n"); //$NON-NLS-1$
+			buf.append("    return this.get() - this.get();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_METHOD_USE_THIS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_METHOD_USE_THIS_IF_NECESSARY)) {
-			buf.append("    return get() - get();\n"); //$NON-NLS-1$
+			buf.append("    return get() - get();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("    return this.get() - get();\n"); //$NON-NLS-1$
+			buf.append("    return this.get() - get();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}\n"); //$NON-NLS-1$
-		buf.append("\n"); //$NON-NLS-1$
-		buf.append("class E {\n"); //$NON-NLS-1$
-		buf.append("    public static int NUMBER;\n"); //$NON-NLS-1$
-		buf.append("    public static void set(int i) {\n"); //$NON-NLS-1$
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("class E {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public static int NUMBER;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public static void set(int i) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_FIELD)) {
-			buf.append("        E.NUMBER= i;\n"); //$NON-NLS-1$
+			buf.append("        E.NUMBER= i;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("        NUMBER= i;\n"); //$NON-NLS-1$
+			buf.append("        NUMBER= i;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("    }\n"); //$NON-NLS-1$
-		buf.append("\n"); //$NON-NLS-1$
-		buf.append("    public void reset() {\n"); //$NON-NLS-1$
+		buf.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void reset() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_METHOD)) {
-			buf.append("        E.set(0);\n"); //$NON-NLS-1$
+			buf.append("        E.set(0);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("        set(0);\n"); //$NON-NLS-1$
+			buf.append("        set(0);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("    }\n"); //$NON-NLS-1$
-		buf.append("}\n"); //$NON-NLS-1$
-		buf.append("\n"); //$NON-NLS-1$
-		buf.append("class ESub extends E {\n"); //$NON-NLS-1$
-		buf.append("    public void reset() {\n"); //$NON-NLS-1$
+		buf.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("class ESub extends E {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void reset() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_SUBTYPE_ACCESS)) {
-			buf.append("        E.NUMBER= 0;\n"); //$NON-NLS-1$
+			buf.append("        E.NUMBER= 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("        ESub.NUMBER= 0;\n"); //$NON-NLS-1$
+			buf.append("        ESub.NUMBER= 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("    }\n"); //$NON-NLS-1$
-		buf.append("}\n"); //$NON-NLS-1$
-		buf.append("\n"); //$NON-NLS-1$
-		buf.append("public void dec() {\n"); //$NON-NLS-1$
+		buf.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public void dec() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_INSTANCE_ACCESS)) {
-			buf.append("    E.NUMBER--;\n"); //$NON-NLS-1$
+			buf.append("    E.NUMBER--;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("    (new E()).NUMBER--;\n"); //$NON-NLS-1$
+			buf.append("    (new E()).NUMBER--;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}\n"); //$NON-NLS-1$
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buf.toString();
 	}
@@ -208,21 +208,21 @@ public class CodeStyleCleanUpCore extends AbstractMultiFix {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int computeNumberOfFixes(CompilationUnit compilationUnit) {
 		int result= 0;
 		IProblem[] problems= compilationUnit.getProblems();
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS_ALWAYS))
 			result+= getNumberOfProblems(problems, IProblem.UnqualifiedFieldAccess);
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_SUBTYPE_ACCESS)) {
-			for (IProblem problem : problems) {
+			for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int id= problem.getID();
 				if (id == IProblem.IndirectAccessToStaticField || id == IProblem.IndirectAccessToStaticMethod)
 					result++;
 			}
 		}
 		if (isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS) && isEnabled(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_INSTANCE_ACCESS)) {
-			for (IProblem problem : problems) {
+			for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int id= problem.getID();
 				if (id == IProblem.NonStaticAccessToStaticField || id == IProblem.NonStaticAccessToStaticMethod)
 					result++;

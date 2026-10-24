@@ -55,7 +55,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
 public class MyQuickAssistProcessor implements IQuickAssistProcessor {
 
-	private boolean getConvertProposal(IInvocationContext context, List<ChangeCorrectionProposal> result) {
+	private boolean getConvertProposal(IInvocationContext context, List<ChangeCorrectionProposal> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= context.getCoveringNode();
 		if (!(node instanceof StringLiteral)) {
 			return false;
@@ -77,26 +77,26 @@ public class MyQuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private String toUpperCase(String escapedValue) {
+	private String toUpperCase(String escapedValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length= escapedValue.length();
-		StringBuilder buf= new StringBuilder(length);
+		StringBuilder buf= new StringBuilder(length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean inEscape= false;
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= escapedValue.charAt(i);
 			if (inEscape) {
-				buf.append(ch);
+				buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				inEscape= false;
 			} else if (ch == '\\') {
-				buf.append(ch);
+				buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				inEscape= true;
 			} else {
-				buf.append(Character.toUpperCase(ch));
+				buf.append(Character.toUpperCase(ch)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return buf.toString();
 	}
 
-	private boolean getStringWrappedProposal(final IInvocationContext context, List<ChangeCorrectionProposal> result) throws CoreException {
+	private boolean getStringWrappedProposal(final IInvocationContext context, List<ChangeCorrectionProposal> result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int selectionOffset= context.getSelectionOffset();
 		int selectionLength= context.getSelectionLength();
 
@@ -117,7 +117,7 @@ public class MyQuickAssistProcessor implements IQuickAssistProcessor {
 				return true;
 			}
 			Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
-			result.add(new ChangeCorrectionProposal("Wrap in buf.append() (to clipboard)", null, 3, image) {
+			result.add(new ChangeCorrectionProposal("Wrap in buf.append() (to clipboard)", null, 3, image) { //FLLDCIM: MARK — T30  ANONYMOUS
 				@Override
 				protected void performChange(IEditorPart activeEditor, IDocument doc) throws CoreException {
 					wrapAndCopyToClipboard(context, doc);
@@ -132,7 +132,7 @@ public class MyQuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private boolean getCreateQuickFixTestProposal(final IInvocationContext context, List<ChangeCorrectionProposal> result) throws CoreException {
+	private boolean getCreateQuickFixTestProposal(final IInvocationContext context, List<ChangeCorrectionProposal> result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ICompilationUnit cu= context.getCompilationUnit();
 		if (context.getSelectionOffset() != 0 || context.getSelectionLength() != cu.getSourceRange().getLength()) {
 			return false;
@@ -146,7 +146,7 @@ public class MyQuickAssistProcessor implements IQuickAssistProcessor {
 		}
 
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
-		result.add(new ChangeCorrectionProposal("Create quick fix test", null, 3, image) {
+		result.add(new ChangeCorrectionProposal("Create quick fix test", null, 3, image) { //FLLDCIM: MARK — T30  ANONYMOUS
 			@Override
 			protected void performChange(IEditorPart activeEditor, IDocument doc) throws CoreException {
 				try {
@@ -167,36 +167,36 @@ public class MyQuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	protected void wrapAndCopyToClipboard(IInvocationContext context, IDocument document) {
-		StringBuilder buf= new StringBuilder();
+	protected void wrapAndCopyToClipboard(IInvocationContext context, IDocument document) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try {
 			int selectionOffset= context.getSelectionOffset();
 			int selectionLength= context.getSelectionLength();
 			int startLine= document.getLineOfOffset(selectionOffset);
 			int endLine= document.getLineOfOffset(selectionOffset + selectionLength);
 
-			for (int i= startLine; i <= endLine; i++) {
+			for (int i= startLine; i <= endLine; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IRegion lineInfo= document.getLineInformation(i);
 				String lineContent= document.get(lineInfo.getOffset(), lineInfo.getLength());
-				buf.append("buf.append(\"");
-				for (int k= 0; k < lineContent.length(); k++) {
+				buf.append("buf.append(\""); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				for (int k= 0; k < lineContent.length(); k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					char ch= lineContent.charAt(k);
 					switch (ch) {
 					case '\t':
-						buf.append("    "); // 4 spaces
+						buf.append("    "); // 4 spaces //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case '"':
 					case '\\':
-						buf.append('\\').append(ch);
+						buf.append('\\').append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					default:
-						buf.append(ch);
+						buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					}
 				}
-				buf.append("\\n\");");
+				buf.append("\\n\");"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i != endLine) {
-					buf.append('\n');
+					buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		} catch (BadLocationException e) {
@@ -214,7 +214,7 @@ public class MyQuickAssistProcessor implements IQuickAssistProcessor {
 
 	@Override
 	public IJavaCompletionProposal[] getAssists(IInvocationContext context, IProblemLocation[] locations) throws CoreException {
-		ArrayList<ChangeCorrectionProposal> resultingCollections= new ArrayList<>();
+		ArrayList<ChangeCorrectionProposal> resultingCollections= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getConvertProposal(context, resultingCollections);
 		getStringWrappedProposal(context, resultingCollections);
 		getCreateQuickFixTestProposal(context, resultingCollections);

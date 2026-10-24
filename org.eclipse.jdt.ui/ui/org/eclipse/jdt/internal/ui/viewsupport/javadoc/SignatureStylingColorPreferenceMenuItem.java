@@ -48,7 +48,7 @@ class SignatureStylingColorPreferenceMenuItem extends Action implements ImageDat
 		this.colorIdx= colorIdx;
 		this.colorPreferenceGetter= Objects.requireNonNull(colorPreferenceGetter);
 		this.colorPreferenceSetter= Objects.requireNonNull(colorPreferenceSetter);
-		setId(SignatureStylingColorPreferenceMenuItem.class.getSimpleName() + "_" + colorIdx); //$NON-NLS-1$
+		setId(SignatureStylingColorPreferenceMenuItem.class.getSimpleName() + "_" + colorIdx); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		setImageDescriptor(ImageDescriptor.createFromImageDataProvider(this));
 	}
 

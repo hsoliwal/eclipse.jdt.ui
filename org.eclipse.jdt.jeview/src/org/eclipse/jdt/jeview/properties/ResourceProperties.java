@@ -44,7 +44,7 @@ public class ResourceProperties implements IPropertySource {
 
 	protected IResource fResource;
 
-	private static final ArrayList<IPropertyDescriptor> RESOURCE_PROPERTY_DESCRIPTORS= new ArrayList<>();
+	private static final ArrayList<IPropertyDescriptor> RESOURCE_PROPERTY_DESCRIPTORS= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	static {
 		addResourceDescriptor(new PropertyDescriptor(P_NAME, "name"));
 		addResourceDescriptor(new PropertyDescriptor(P_FULL_PATH, "fullPath"));
@@ -76,7 +76,7 @@ public class ResourceProperties implements IPropertySource {
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		ArrayList<IPropertyDescriptor> result= new ArrayList<>(RESOURCE_PROPERTY_DESCRIPTORS);
+		ArrayList<IPropertyDescriptor> result= new ArrayList<>(RESOURCE_PROPERTY_DESCRIPTORS); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 //		if (fJavaElement instanceof IMember)
 //			result.addAll(MEMBER_PROPERTY_DESCRIPTORS);
 //		if (fJavaElement instanceof IParent)
@@ -86,7 +86,7 @@ public class ResourceProperties implements IPropertySource {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getPropertyValue(Object name) {
 		if (P_NAME.equals(name)) {
 			return fResource.getName();

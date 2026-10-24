@@ -59,7 +59,7 @@ class ReadOnlyResourceFinder{
 	}
 
 	private static boolean hasReadOnlyResourcesAndSubResources(IJavaElement[] javaElements) throws CoreException {
-		for (IJavaElement javaElement : javaElements) {
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasReadOnlyResourcesAndSubResources(javaElement)) {
 				return true;
 			}
@@ -67,7 +67,7 @@ class ReadOnlyResourceFinder{
 		return false;
 	}
 
-	private static boolean hasReadOnlyResourcesAndSubResources(IJavaElement javaElement) throws CoreException {
+	private static boolean hasReadOnlyResourcesAndSubResources(IJavaElement javaElement) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch(javaElement.getElementType()){
 			case IJavaElement.CLASS_FILE:
 			case IJavaElement.COMPILATION_UNIT:
@@ -82,7 +82,7 @@ class ReadOnlyResourceFinder{
 				IPackageFragment pack= (IPackageFragment)javaElement;
 				if (Resources.isReadOnly(packResource))
 					return true;
-				for (Object object : pack.getNonJavaResources()) {
+				for (Object object : pack.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (object instanceof IResource && hasReadOnlyResourcesAndSubResources((IResource)object))
 						return true;
 				}
@@ -96,7 +96,7 @@ class ReadOnlyResourceFinder{
 					return false;
 				if (Resources.isReadOnly(pfrResource))
 					return true;
-				for (Object object : root.getNonJavaResources()) {
+				for (Object object : root.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (object instanceof IResource && hasReadOnlyResourcesAndSubResources((IResource)object))
 						return true;
 				}
@@ -117,7 +117,7 @@ class ReadOnlyResourceFinder{
 	}
 
 	private static boolean hasReadOnlyResourcesAndSubResources(IResource[] resources) throws CoreException {
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasReadOnlyResourcesAndSubResources(resource)) {
 				return true;
 			}

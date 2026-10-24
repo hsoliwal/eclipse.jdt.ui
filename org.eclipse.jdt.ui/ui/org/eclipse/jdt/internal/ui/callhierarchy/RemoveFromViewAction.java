@@ -73,7 +73,7 @@ class RemoveFromViewAction extends Action{
 	 */
 	@Override
 	public void run() {
-		for (TreeItem item : fCallHierarchyViewer.getTree().getSelection()) {
+		for (TreeItem item : fCallHierarchyViewer.getTree().getSelection()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.dispose();
 		}
 	}
@@ -92,19 +92,19 @@ class RemoveFromViewAction extends Action{
 	 *
 	 * @return <code> true</code> if the action can be added, <code>false</code> otherwise
 	 */
-	protected boolean canActionBeAdded() {
+	protected boolean canActionBeAdded() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStructuredSelection selection= (IStructuredSelection)getSelection();
 		if (selection.isEmpty())
 			return false;
 
 		Iterator<?> iter= selection.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= iter.next();
 			if (!(element instanceof MethodWrapper))//takes care of '...' node
 				return false;
 		}
 
-		for (TreeItem item : fCallHierarchyViewer.getTree().getSelection()) {
+		for (TreeItem item : fCallHierarchyViewer.getTree().getSelection()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!checkForChildren(item)) {
 				return false;
 			}
@@ -126,7 +126,7 @@ class RemoveFromViewAction extends Action{
 			if (!(data instanceof MethodWrapper) && data != null)
 				return false; // Do not add action if children are still being fetched for that node or if it's only JFace's dummy node.
 		}
-		for (TreeItem child : children) {
+		for (TreeItem child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!checkForChildren(child)) {
 				return false;
 			}

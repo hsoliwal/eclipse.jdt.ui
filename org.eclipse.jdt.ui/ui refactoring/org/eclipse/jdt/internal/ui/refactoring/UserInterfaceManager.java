@@ -24,7 +24,7 @@ import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 
 public class UserInterfaceManager {
 
-	private Map<Class<? extends RefactoringProcessor>, Tuple> fMap= new HashMap<>();
+	private Map<Class<? extends RefactoringProcessor>, Tuple> fMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private static class Tuple {
 		private Class<? extends UserInterfaceStarter> starter;
@@ -40,7 +40,7 @@ public class UserInterfaceManager {
 	}
 
 
-	public UserInterfaceStarter getStarter(Refactoring refactoring) {
+	public UserInterfaceStarter getStarter(Refactoring refactoring) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringProcessor processor= refactoring.getAdapter(RefactoringProcessor.class);
 		if (processor == null)
 			return null;

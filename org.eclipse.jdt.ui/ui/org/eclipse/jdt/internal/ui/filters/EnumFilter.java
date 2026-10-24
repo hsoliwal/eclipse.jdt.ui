@@ -22,7 +22,7 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * Filters enums.
  */
-public class EnumFilter extends ViewerFilter {
+public class EnumFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

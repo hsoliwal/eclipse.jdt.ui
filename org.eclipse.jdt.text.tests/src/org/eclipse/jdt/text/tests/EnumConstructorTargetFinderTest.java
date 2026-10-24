@@ -84,11 +84,11 @@ public class EnumConstructorTargetFinderTest {
 	private void checkSelection(CompilationUnit root, int offset, int length, OccurrenceLocation expected) throws Exception {
 		OccurrenceLocation selectedNode= getTarget(root, offset, length);
 		assertNotNull("Selection null", selectedNode);
-		assertEquals("Offset\n" + expected.getDescription(), expected.getOffset(), selectedNode.getOffset());
-		assertEquals("Length\n" + expected.getDescription(), expected.getLength(), selectedNode.getLength());
+		assertEquals("Offset\n" + expected.getDescription(), expected.getOffset(), selectedNode.getOffset()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Length\n" + expected.getDescription(), expected.getLength(), selectedNode.getLength()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumConstructorFinder_1() throws Exception {
 		String s= """
 			package test1;
@@ -109,7 +109,7 @@ public class EnumConstructorTargetFinderTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumConstructorFinder_2() throws Exception {
 		String s= """
 			package test1;
@@ -151,7 +151,7 @@ public class EnumConstructorTargetFinderTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumConstructorFinder_3() throws Exception {
 		String s= """
 			package test1;
@@ -189,7 +189,7 @@ public class EnumConstructorTargetFinderTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumConstructorFinder_4() throws Exception {
 		String s= """
 			package test1;
@@ -255,7 +255,7 @@ public class EnumConstructorTargetFinderTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumConstructorFinder_5() throws Exception {
 		String s= """
 			package test1;
@@ -285,7 +285,7 @@ public class EnumConstructorTargetFinderTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumConstructorFinder_6() throws Exception {
 		String s= """
 			package test1;
@@ -315,7 +315,7 @@ public class EnumConstructorTargetFinderTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumConstructorFinder_7() throws Exception {
 		String s= """
 			package test1;

@@ -165,7 +165,7 @@ public class JUnitCore {
 	 * @since 3.5
 	 */
 	public static IType[] findTestTypes(IJavaElement container, IProgressMonitor monitor) throws CoreException, OperationCanceledException {
-		final Set<IType> result= new HashSet<>();
+		final Set<IType> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ITestFinder finder= TestKindRegistry.getContainerTestKind(container).getFinder();
 
 		finder.findTestsInContainer(container, result, monitor);

@@ -59,27 +59,27 @@ public class InlineDeprecatedMethodCleanUpCore extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("Class E {\n"); //$NON-NLS-1$
-		bld.append("  /**\n"); //$NON-NLS-1$
-		bld.append("   * @deprecated use {@link foo(int)} instead\n"); //$NON-NLS-1$
-		bld.append("   * @param a - first int\n"); //$NON-NLS-1$
-		bld.append("   * @param b - second int\n"); //$NON-NLS-1$
-		bld.append("   */\n"); //$NON-NLS-1$
-		bld.append("  @Deprecated\n"); //$NON-NLS-1$
-		bld.append("  public static int foo(int a, int b) {\n"); //$NON-NLS-1$
-		bld.append("    return foo(a + b);\n"); //$NON-NLS-1$
-		bld.append("  }\n"); //$NON-NLS-1$
-		bld.append("  public static int foo(int a) {\n"); //$NON-NLS-1$
-		bld.append("    return a + 7;\n"); //$NON-NLS-1$
-		bld.append("  }\n"); //$NON-NLS-1$
-		bld.append("}\n\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("Class E {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  /**\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("   * @deprecated use {@link foo(int)} instead\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("   * @param a - first int\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("   * @param b - second int\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("   */\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  @Deprecated\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  public static int foo(int a, int b) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    return foo(a + b);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  public static int foo(int a) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    return a + 7;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.REPLACE_DEPRECATED_CALLS)) {
-			bld.append("return E.foo(x + y);\n"); //$NON-NLS-1$
+			bld.append("return E.foo(x + y);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("return E.foo(x, y);\n"); //$NON-NLS-1$
+			bld.append("return E.foo(x, y);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return bld.toString();
 	}
@@ -89,7 +89,7 @@ public class InlineDeprecatedMethodCleanUpCore extends AbstractMultiFix {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit compilationUnit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.REPLACE_DEPRECATED_CALLS)) {
 			return null;
@@ -97,7 +97,7 @@ public class InlineDeprecatedMethodCleanUpCore extends AbstractMultiFix {
 		if (compilationUnit == null)
 			return null;
 
-		final List<MethodInvocation> deprecatedInvocations= new ArrayList<>();
+		final List<MethodInvocation> deprecatedInvocations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ASTVisitor visitor= new ASTVisitor() {
 			@Override
 			public boolean visit(MethodInvocation node) {

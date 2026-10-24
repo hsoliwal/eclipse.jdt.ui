@@ -82,11 +82,11 @@ public class NLSHintHelperTest {
 		fJProject= pts.getProject();
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.NLS_LIB);
 		assertNotNull("lib does not exist", lib);
-		assertTrue("lib does not exist", lib.exists());
+		assertTrue("lib does not exist", lib.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		fLibrary= JavaProjectHelper.addLibrary(fJProject, Path.fromOSString(lib.getPath())); // add library to project
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findInJAR() {
 		try {
 			assertNotNull(NLSHintHelper.getResourceBundle(fLibrary, "pkg", "Messages.properties"));
@@ -118,12 +118,12 @@ public class NLSHintHelperTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findInDirtyBuffer() {
 		ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
 		assertNotNull(manager);
 
-		IPath nonExistentPath= fJProject.getProject().getFullPath().append("" + System.currentTimeMillis());
+		IPath nonExistentPath= fJProject.getProject().getFullPath().append("" + System.currentTimeMillis()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try {
 			manager.connect(nonExistentPath, LocationKind.NORMALIZE, null);
 		} catch (CoreException e) {
@@ -147,12 +147,12 @@ public class NLSHintHelperTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void doNotFindDirtyBuffer() {
 		ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
 		assertNotNull(manager);
 
-		IPath nonExistentPath= fJProject.getProject().getFullPath().append("" + System.currentTimeMillis());
+		IPath nonExistentPath= fJProject.getProject().getFullPath().append("" + System.currentTimeMillis()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try {
 			manager.connect(nonExistentPath, LocationKind.NORMALIZE, null);
 		} catch (CoreException e) {
@@ -176,12 +176,12 @@ public class NLSHintHelperTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findInFile() {
 		ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
 		assertNotNull(manager);
 
-		String fileName= "" + System.currentTimeMillis();
+		String fileName= "" + System.currentTimeMillis(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPath nonExistentPath= fJProject.getProject().getFullPath().append(fileName);
 		IPath nonExistentLocation= fJProject.getProject().getLocation().append(fileName);
 
@@ -214,12 +214,12 @@ public class NLSHintHelperTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void doNotFindInFile() {
 		ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
 		assertNotNull(manager);
 
-		String fileName= "" + System.currentTimeMillis();
+		String fileName= "" + System.currentTimeMillis(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPath nonExistentPath= fJProject.getProject().getFullPath().append(fileName);
 		IPath nonExistentLocation= fJProject.getProject().getLocation().append(fileName);
 		try {
@@ -268,7 +268,7 @@ public class NLSHintHelperTest {
 	    assertEquals("test.test", getResourceBundleName(source, "TestMessages", "test"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findResourceBundleName1s() throws Exception {
 	    String source=
 			"""
@@ -340,7 +340,7 @@ public class NLSHintHelperTest {
 	    assertEquals("test.TestMessages", getResourceBundleName(source, "TestMessages", "test"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findResourceBundleName3s() throws Exception {
 	    String source=
 			"""
@@ -377,7 +377,7 @@ public class NLSHintHelperTest {
 	    assertEquals("test.test", getResourceBundleName(source, "TestMessages", "test"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findResourceBundleName4s() throws Exception {
 	    String source=
 			"""
@@ -415,7 +415,7 @@ public class NLSHintHelperTest {
 	    assertEquals("test.TestMessages", getResourceBundleName(source, "TestMessages", "test"));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findResourceBundleName5s() throws Exception {
 	    String source=
 			"""
@@ -473,7 +473,7 @@ public class NLSHintHelperTest {
 		// Create CU
 	    IPackageFragmentRoot sourceFolder = JavaProjectHelper.addSourceContainer(fJProject, "src");
         IPackageFragment pack = sourceFolder.createPackageFragment(packageName, false, null);
-        ICompilationUnit  cu= pack.createCompilationUnit(className + ".java", source, false, null);
+        ICompilationUnit  cu= pack.createCompilationUnit(className + ".java", source, false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
         // Get type binding
         CompilationUnit ast= SharedASTProviderCore.getAST(cu, SharedASTProviderCore.WAIT_YES, null);

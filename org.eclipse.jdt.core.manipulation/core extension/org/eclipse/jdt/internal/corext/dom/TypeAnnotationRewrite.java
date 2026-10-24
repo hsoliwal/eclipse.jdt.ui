@@ -55,7 +55,7 @@ public class TypeAnnotationRewrite {
 		ListRewrite listRewrite= rewrite.getListRewrite(node, childListProperty);
 		@SuppressWarnings("unchecked")
 		List<? extends ASTNode> children= (List<? extends ASTNode>) node.getStructuralProperty(childListProperty);
-		for (ASTNode child : children) {
+		for (ASTNode child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof Annotation) {
 				Annotation annotation= (Annotation) child;
 				if (isPureTypeAnnotation(annotation)) {
@@ -79,7 +79,7 @@ public class TypeAnnotationRewrite {
 	}
 
 	private static IAnnotationBinding findTargetAnnotation(IAnnotationBinding[] metaAnnotations) {
-		for (IAnnotationBinding binding : metaAnnotations) {
+		for (IAnnotationBinding binding : metaAnnotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding annotationType= binding.getAnnotationType();
 			if (annotationType != null && annotationType.getQualifiedName().equals(Target.class.getName())) {
 				return binding;
@@ -88,14 +88,14 @@ public class TypeAnnotationRewrite {
 		return null;
 	}
 
-	private static boolean isTypeUseOnly(IAnnotationBinding binding) {
+	private static boolean isTypeUseOnly(IAnnotationBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean typeUseSeen= false;
 		boolean otherSeen= false;
-		for (final IMemberValuePairBinding pair : binding.getAllMemberValuePairs()) {
+		for (final IMemberValuePairBinding pair : binding.getAllMemberValuePairs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pair.getKey() == null || "value".equals(pair.getKey())) { //$NON-NLS-1$
 				Object value= pair.getValue();
 				if (value instanceof Object[]) {
-					for (Object v : (Object[]) value) {
+					for (Object v : (Object[]) value) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (v instanceof IVariableBinding) {
 							String name= ((IVariableBinding) v).getName();
 							if (name.equals(ElementType.TYPE_USE.name())) {

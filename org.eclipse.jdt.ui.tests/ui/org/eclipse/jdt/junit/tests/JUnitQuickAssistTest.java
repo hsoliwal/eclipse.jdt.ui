@@ -71,7 +71,7 @@ public class JUnitQuickAssistTest extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDisabledAnnotationToJUnit5Test() throws Exception {
 		// Test adding @Disabled to a JUnit 5 test
 		IPackageFragment pack1 = fSourceFolder.createPackageFragment("test1", false, null);
@@ -123,7 +123,7 @@ public class MyTest {
 		assertEqualString(document.get(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveDisabledAnnotationFromJUnit5Test() throws Exception {
 		// Test removing @Disabled from a JUnit 5 test
 		IPackageFragment pack1 = fSourceFolder.createPackageFragment("test1", false, null);
@@ -176,7 +176,7 @@ public class MyTest {
 		assertEqualString(document.get(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddIgnoreAnnotationToJUnit4Test() throws Exception {
 		// Test adding @Ignore to a JUnit 4 test
 		IPackageFragment pack1 = fSourceFolder.createPackageFragment("test1", false, null);
@@ -229,7 +229,7 @@ public class MyTest {
 		assertEqualString(document.get(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveIgnoreAnnotationFromJUnit4Test() throws Exception {
 		// Test removing @Ignore from a JUnit 4 test
 		IPackageFragment pack1 = fSourceFolder.createPackageFragment("test1", false, null);
@@ -282,7 +282,7 @@ public class MyTest {
 		assertEqualString(document.get(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoProposalForNonTestMethod() throws Exception {
 		// Test that no proposal is offered for non-test methods
 		IPackageFragment pack1 = fSourceFolder.createPackageFragment("test1", false, null);
@@ -310,7 +310,7 @@ public class MyTest {
 		assertEquals("Should not have 'Disable test with @Ignore' proposal for non-test method", null, ignoreProposal);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDisabledAnnotationToParameterizedTest() throws Exception {
 		// Test adding @Disabled to a JUnit 5 parameterized test
 		IPackageFragment pack1 = fSourceFolder.createPackageFragment("test1", false, null);
@@ -367,7 +367,7 @@ public class MyTest {
 		assertEqualString(document.get(), expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDisabledAnnotationToRepeatedTest() throws Exception {
 		// Test adding @Disabled to a JUnit 5 repeated test
 		IPackageFragment pack1 = fSourceFolder.createPackageFragment("test1", false, null);
@@ -425,7 +425,7 @@ public class MyTest {
 	 * Helper method to find a proposal by its display name.
 	 */
 	private IJavaCompletionProposal findProposalByName(List<IJavaCompletionProposal> proposals, String name) {
-		for (IJavaCompletionProposal proposal : proposals) {
+		for (IJavaCompletionProposal proposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(proposal.getDisplayString())) {
 				return proposal;
 			}

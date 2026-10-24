@@ -58,7 +58,7 @@ public class JavaTypeCompletionProposalComputer extends JavaCompletionProposalCo
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposalComputer#computeCompletionProposals(org.eclipse.jface.text.contentassist.TextContentAssistInvocationContext, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, IProgressMonitor monitor) {
 		List<ICompletionProposal> types= super.computeCompletionProposals(context, monitor);
 
@@ -78,8 +78,8 @@ public class JavaTypeCompletionProposalComputer extends JavaCompletionProposalCo
 
 					// compute minmimum relevance and already proposed list
 					int relevance= Integer.MAX_VALUE;
-					Set<String> proposed= new HashSet<>();
-					for (ICompletionProposal iCompletionProposal : types) {
+					Set<String> proposed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+					for (ICompletionProposal iCompletionProposal : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						AbstractJavaCompletionProposal p= (AbstractJavaCompletionProposal) iCompletionProposal;
 						IJavaElement element= p.getJavaElement();
 						if (element instanceof IType)
@@ -90,7 +90,7 @@ public class JavaTypeCompletionProposalComputer extends JavaCompletionProposalCo
 					// insert history types
 					List<String> history= JavaPlugin.getDefault().getContentAssistHistory().getHistory(expectedType.getFullyQualifiedName()).getTypes();
 					relevance-= history.size() + 1;
-					for (String type : history) {
+					for (String type : history) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (proposed.contains(type))
 							continue;
 
@@ -127,7 +127,7 @@ public class JavaTypeCompletionProposalComputer extends JavaCompletionProposalCo
 		return p;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected int guessContextInformationPosition(ContentAssistInvocationContext context) {
 		final int contextPosition= context.getInvocationOffset();
 
@@ -138,7 +138,7 @@ public class JavaTypeCompletionProposalComputer extends JavaCompletionProposalCo
 		// try the innermost scope of angle brackets that looks like a generic type argument list
 		try {
 			int pos= contextPosition - 1;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int angle= scanner.findOpeningPeer(pos, bound, '<', '>');
 				if (angle == JavaHeuristicScanner.NOT_FOUND)
 					break;

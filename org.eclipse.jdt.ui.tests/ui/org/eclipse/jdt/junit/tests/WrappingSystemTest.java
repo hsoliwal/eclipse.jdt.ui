@@ -63,7 +63,7 @@ import org.eclipse.jdt.internal.junit.ui.TestRunnerViewPart;
 /**
  * Disabled unreliable tests driving the event loop in JUnitJUnitTests.
  */
-@SuppressWarnings("restriction") // org.eclipse.debug.internal.ui
+@SuppressWarnings("restriction") // org.eclipse.debug.internal.ui //FLLDCIM: MARK — T27  IMPLEMENTS
 public class WrappingSystemTest implements ILaunchesListener2 {
 	private boolean fLaunchHasTerminated = false;
 
@@ -160,7 +160,7 @@ public class WrappingSystemTest implements ILaunchesListener2 {
 		waitForTableToFill(numExpectedTableItems, 60000, lastItemHasImage);
 	}
 
-	protected void launchTests(String prefixForErrorMessage,
+	protected void launchTests(String prefixForErrorMessage, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int howManyNumbersInErrorString) throws CoreException,
 			JavaModelException {
 		// have to set up an 1.3 project to avoid requiring a 5.0 VM
@@ -173,15 +173,15 @@ public class WrappingSystemTest implements ILaunchesListener2 {
 
 		ICompilationUnit cu1 = pack.getCompilationUnit("LongTraceLines.java");
 
-		String initialString = prefixForErrorMessage + "Numbers:";
+		String initialString = prefixForErrorMessage + "Numbers:"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		String initializeString = "String errorString = \"" + initialString
+		String initializeString = "String errorString = \"" + initialString //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "\";";
 
-		String contents = "public class LongTraceLines extends TestCase {\n"
+		String contents = "public class LongTraceLines extends TestCase {\n" //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "	public void testLongTraceLine() throws Exception {\n"
-							+ ("		" + initializeString + "\n")
-							+ ("		for (int i = 0; i < "
+							+ ("		" + initializeString + "\n") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+							+ ("		for (int i = 0; i < " //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ howManyNumbersInErrorString + "; i++) {\n")
 							+ "			errorString += \" \" + i;\n"
 							+ "		}\n"
@@ -201,7 +201,7 @@ public class WrappingSystemTest implements ILaunchesListener2 {
 				.getLaunchConfigurationManager();
 		List<LaunchShortcutExtension> launchShortcuts = manager.getLaunchShortcuts();
 		LaunchShortcutExtension ext = null;
-		for (Iterator<LaunchShortcutExtension> iter = launchShortcuts.iterator(); iter.hasNext();) {
+		for (Iterator<LaunchShortcutExtension> iter = launchShortcuts.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ext = iter.next();
 			if ("JUnit Test".equals(ext.getLabel()))
 				break;
@@ -212,8 +212,8 @@ public class WrappingSystemTest implements ILaunchesListener2 {
 	protected void waitForTableToFill(int numExpectedTableLines,
 			int millisecondTimeout, boolean lastItemHasImage) throws PartInitException {
 		long startTime = System.currentTimeMillis();
-		while (stillWaiting(numExpectedTableLines, lastItemHasImage)) {
-			assertFalse("Timeout waiting for " + numExpectedTableLines
+		while (stillWaiting(numExpectedTableLines, lastItemHasImage)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertFalse("Timeout waiting for " + numExpectedTableLines //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " lines in table. Present: " + getNumTableItems() + " items.\n"
 					+ "The 2nd vm has " + (hasNotTerminated() ? "not " : "") + "terminated.", System.currentTimeMillis() - startTime > millisecondTimeout);
 			dispatchEvents();

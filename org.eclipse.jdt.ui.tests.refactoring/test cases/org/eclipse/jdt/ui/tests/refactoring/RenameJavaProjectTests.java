@@ -52,7 +52,7 @@ public class RenameJavaProjectTests extends GenericRefactoringTest {
 		fIsPreDeltaTest= true;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test0() throws Exception {
 		IJavaProject p1= null;
 		IJavaProject referencing1= null;
@@ -101,7 +101,7 @@ public class RenameJavaProjectTests extends GenericRefactoringTest {
 			//check entries in  referencing1
 			IClasspathEntry[] entries= referencing1.getRawClasspath();
 			assertEquals("expected entries", 3, entries.length);
-			for (int i= 0; i < entries.length; i++) {
+			for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IClasspathEntry iClassPathEntry= entries[i];
 				if (i == 1) {
 					assertEquals("expected entry name", p1.getProject().getFullPath(), iClassPathEntry.getPath());
@@ -112,7 +112,7 @@ public class RenameJavaProjectTests extends GenericRefactoringTest {
 			//check entries in  referencing2
 			entries= referencing2.getRawClasspath();
 			assertEquals("expected entries", 3, entries.length);
-			for (int i= 0; i < entries.length; i++) {
+			for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IClasspathEntry iClassPathEntry= entries[i];
 				if (i == 1) {
 					assertEquals("expected entry name", p1.getProject().getFullPath(), iClassPathEntry.getPath());
@@ -137,7 +137,7 @@ public class RenameJavaProjectTests extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception {
 		IJavaProject p1= null;
 		IJavaProject referencing1= null;

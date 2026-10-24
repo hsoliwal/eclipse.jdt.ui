@@ -38,7 +38,7 @@ public class ActualTypeResolver extends TypeResolver {
 
 	private static final String GENERIC_CLASS_CLOSE_DIAMOND= ">"; //$NON-NLS-1$
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 		List<String> params= variable.getVariableType().getParams();
 		if (params.size() > 0 && context instanceof JavaPostfixContext) {

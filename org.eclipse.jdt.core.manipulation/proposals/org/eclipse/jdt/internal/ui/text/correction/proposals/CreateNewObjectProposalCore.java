@@ -99,7 +99,7 @@ public class CreateNewObjectProposalCore extends LinkedCorrectionProposalCore {
 		return Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_createnew_instance_of_object, fTypeNode.getName());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		ASTRewrite rewrite= ASTRewrite.create(fAST);
 		ImportRewrite importRewrite= createImportRewrite(fCu);
@@ -161,7 +161,7 @@ public class CreateNewObjectProposalCore extends LinkedCorrectionProposalCore {
 			newMethodInvocation.setName(fAST.newSimpleName(methodName));
 			newMethodInvocation.setExpression(fAST.newName(newVariableName));
 			List<Expression> arguments= oldMethodInvocation.arguments();
-			for (Expression argument : arguments) {
+			for (Expression argument : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newMethodInvocation.arguments().add(rewrite.createCopyTarget(argument));
 			}
 			rewrite.replace(selectedNode.getExpression(), newMethodInvocation, null);
@@ -182,7 +182,7 @@ public class CreateNewObjectProposalCore extends LinkedCorrectionProposalCore {
 	}
 
 	private IMethodBinding getConstructorMethod() {
-		for (IMethodBinding iMethodBinding : fTypeNode.getDeclaredMethods()) {
+		for (IMethodBinding iMethodBinding : fTypeNode.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (iMethodBinding.isDefaultConstructor() || iMethodBinding.isConstructor()) {
 				return iMethodBinding;
 			}
@@ -191,9 +191,9 @@ public class CreateNewObjectProposalCore extends LinkedCorrectionProposalCore {
 	}
 
 	private static List<Expression> getConstructorArguments(ASTRewrite rewrite, ITypeBinding[] typeBindings) {
-		List<Expression> constructorArgs= new ArrayList<>();
+		List<Expression> constructorArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		AST ast= rewrite.getAST();
-		for (ITypeBinding typeBinding : typeBindings) {
+		for (ITypeBinding typeBinding : typeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			constructorArgs.add(ASTNodeFactory.newDefaultExpression(ast, typeBinding));
 		}
 		return constructorArgs;
@@ -202,8 +202,8 @@ public class CreateNewObjectProposalCore extends LinkedCorrectionProposalCore {
 	private void addLinkedRanges(ASTRewrite rewrite, ClassInstanceCreation newStub) {
 		List<Expression> parameters= newStub.arguments();
 		int index= 0;
-		for (Expression curr : parameters) {
-			addLinkedPosition(rewrite.track(curr), false, "arg_" + (index++)); //$NON-NLS-1$
+		for (Expression curr : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			addLinkedPosition(rewrite.track(curr), false, "arg_" + (index++)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 }

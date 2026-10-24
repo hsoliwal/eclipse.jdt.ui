@@ -48,7 +48,7 @@ public class SignatureStylingMenuToolbarAction extends Action implements IMenuCr
 	private boolean enhancementsEnabled= JavaElementLinks.getStylingEnabledPreference();
 	private String javadocContent;
 
-	public SignatureStylingMenuToolbarAction(Shell parent, JavadocContentInputAccessor contentInputAccessor, Runnable enhancementsReconfiguredTask) {
+	public SignatureStylingMenuToolbarAction(Shell parent, JavadocContentInputAccessor contentInputAccessor, Runnable enhancementsReconfiguredTask) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(JavadocStylingMessages.JavadocStyling_enabledTooltip, IAction.AS_DROP_DOWN_MENU);
 		Objects.requireNonNull(parent);
 		Objects.requireNonNull(contentInputAccessor);
@@ -154,7 +154,7 @@ public class SignatureStylingMenuToolbarAction extends Action implements IMenuCr
 	}
 
 	public void setup(ToolBar toolbar) {
-		toolbar.addDisposeListener(unused -> JavaElementLinks.removeStylingConfigurationListener(this));
+		toolbar.addDisposeListener(unused -> JavaElementLinks.removeStylingConfigurationListener(this)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	private class NoStylingEnhancementsAction extends Action {

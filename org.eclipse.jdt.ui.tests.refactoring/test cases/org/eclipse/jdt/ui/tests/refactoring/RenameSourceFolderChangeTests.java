@@ -40,7 +40,7 @@ public class RenameSourceFolderChangeTests extends GenericRefactoringTest {
 		rts= new RefactoringTestSetup();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test0() throws Exception {
 		String oldName= "oldName";
 		String newName= "newName";
@@ -58,15 +58,15 @@ public class RenameSourceFolderChangeTests extends GenericRefactoringTest {
 			assertFalse("old folder should not exist", oldRoot.exists());
 			assertEquals("expected 3 pfr's", 3, testProject.getPackageFragmentRoots().length);
 			IPackageFragmentRoot[] newRoots= testProject.getPackageFragmentRoots();
-			for (int i= 0; i < newRoots.length; i++){
-				assertTrue("should exist " + i, newRoots[i].exists());
+			for (int i= 0; i < newRoots.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				assertTrue("should exist " + i, newRoots[i].exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} finally{
 			JavaProjectHelper.removeSourceContainer(rts.getProject(), newName);
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception {
 		String oldName1= "oldName1";
 		String oldName2= "oldName2";
@@ -88,11 +88,11 @@ public class RenameSourceFolderChangeTests extends GenericRefactoringTest {
 			assertFalse("old folder should not exist", oldRoot1.exists());
 			assertEquals("expected 4 pfr's", 4, testProject.getPackageFragmentRoots().length);
 			IPackageFragmentRoot[] newRoots= testProject.getPackageFragmentRoots();
-			for (int i= 0; i < newRoots.length; i++){
+			for (int i= 0; i < newRoots.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				//DebugUtils.dump(newRoots[i].getElementName());
-				assertTrue("should exist " + i, newRoots[i].exists());
+				assertTrue("should exist " + i, newRoots[i].exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (i == 2)
-					assertEquals("3rd position should be:" + newName1, newName1, newRoots[i].getElementName());
+					assertEquals("3rd position should be:" + newName1, newName1, newRoots[i].getElementName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}finally{
 			JavaProjectHelper.removeSourceContainer(rts.getProject(), newName1);
@@ -100,7 +100,7 @@ public class RenameSourceFolderChangeTests extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug129991() throws Exception {
 		IJavaProject project= JavaProjectHelper.createJavaProject("RenameSourceFolder", "bin");
 

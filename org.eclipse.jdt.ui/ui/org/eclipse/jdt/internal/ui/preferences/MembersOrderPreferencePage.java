@@ -79,7 +79,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 	private static boolean isValidEntries(List<String> entries, String entryString) {
 		StringTokenizer tokenizer= new StringTokenizer(entryString, ","); //$NON-NLS-1$
 		int i= 0;
-		for (; tokenizer.hasMoreTokens(); i++) {
+		for (; tokenizer.hasMoreTokens(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token= tokenizer.nextToken();
 			if (!entries.contains(token))
 				return false;
@@ -87,7 +87,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 		return i == entries.size();
 	}
 
-	public MembersOrderPreferencePage() {
+	public MembersOrderPreferencePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//set the preference store
 		setPreferenceStore(JavaPlugin.getDefault().getPreferenceStore());
 
@@ -137,8 +137,8 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 
 	private static List<String> parseList(String string) {
 		StringTokenizer tokenizer= new StringTokenizer(string, ","); //$NON-NLS-1$
-		List<String> entries= new ArrayList<>();
-		while (tokenizer.hasMoreTokens()) {
+		List<String> entries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token= tokenizer.nextToken();
 			entries.add(token);
 		}
@@ -157,7 +157,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		// Create both the dialog lists
 		Composite sortComposite= new Composite(parent, SWT.NONE);
@@ -191,7 +191,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 	}
 
 
-	private void createListDialogField(Composite composite, ListDialogField<String> dialogField) {
+	private void createListDialogField(Composite composite, ListDialogField<String> dialogField) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Control list= dialogField.getListControl(composite);
 		GridData gd= new GridData();
 		gd.horizontalAlignment= GridData.FILL;
@@ -222,7 +222,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performDefaults() {
 		IPreferenceStore prefs= JavaPlugin.getDefault().getPreferenceStore();
 		String str= prefs.getDefaultString(PREF_OUTLINE_SORT_OPTION);
@@ -262,10 +262,10 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 	}
 
 	private void updateList(IPreferenceStore store, ListDialogField<String> list, String str) {
-		StringBuilder buf= new StringBuilder();
-		for (String s : list.getElements()) {
-			buf.append(s);
-			buf.append(',');
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String s : list.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(s); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		store.setValue(str, buf.toString());
 	}
@@ -278,7 +278,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 		/*
 		* @see org.eclipse.jface.viewers.ILabelProvider#getImage(Object)
 		*/
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Image getImage(Object element) {
 			//access to image registry
 			ImageDescriptorRegistry registry= JavaPlugin.getImageDescriptorRegistry();
@@ -326,7 +326,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 		/*
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getText(Object element) {
 
 			if (element instanceof String) {
@@ -365,7 +365,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 		/*
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Image getImage(Object element) {
 			//access to image registry
 			ImageDescriptorRegistry registry= JavaPlugin.getImageDescriptorRegistry();
@@ -397,7 +397,7 @@ public class MembersOrderPreferencePage extends PreferencePage implements IWorkb
 		/*
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getText(Object element) {
 			if (element instanceof String) {
 				String s= (String) element;

@@ -43,7 +43,7 @@ import org.eclipse.jdt.internal.ui.packageview.PackageFragmentRootContainer;
  * Add the <code>StatusBarUpdater</code> to your ViewPart to have the statusbar
  * describing the selected elements.
  */
-public class StatusBarUpdater implements ISelectionChangedListener {
+public class StatusBarUpdater implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private static final long LABEL_FLAGS= JavaElementLabels.DEFAULT_QUALIFIED | JavaElementLabels.ROOT_POST_QUALIFIED | JavaElementLabels.APPEND_ROOT_PATH |
 			JavaElementLabels.M_PARAMETER_TYPES | JavaElementLabels.M_PARAMETER_NAMES | JavaElementLabels.M_APP_RETURNTYPE | JavaElementLabels.M_EXCEPTIONS |
@@ -65,7 +65,7 @@ public class StatusBarUpdater implements ISelectionChangedListener {
 	}
 
 
-	protected String formatMessage(ISelection sel) {
+	protected String formatMessage(ISelection sel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (sel instanceof IStructuredSelection && !sel.isEmpty()) {
 			IStructuredSelection selection= (IStructuredSelection) sel;
 
@@ -80,17 +80,17 @@ public class StatusBarUpdater implements ISelectionChangedListener {
 					return formatResourceMessage((IResource) elem);
 				} else if (elem instanceof PackageFragmentRootContainer) {
 					PackageFragmentRootContainer container= (PackageFragmentRootContainer) elem;
-					return container.getLabel() + JavaElementLabels.CONCAT_STRING + container.getJavaProject().getElementName();
+					return container.getLabel() + JavaElementLabels.CONCAT_STRING + container.getJavaProject().getElementName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else if (elem instanceof IJarEntryResource) {
 					IJarEntryResource jarEntryResource= (IJarEntryResource) elem;
-					StringBuilder buf= new StringBuilder(BasicElementLabels.getResourceName(jarEntryResource.getName()));
-					buf.append(JavaElementLabels.CONCAT_STRING);
+					StringBuilder buf= new StringBuilder(BasicElementLabels.getResourceName(jarEntryResource.getName())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					IPath fullPath= jarEntryResource.getFullPath();
 					if (fullPath.segmentCount() > 1) {
-						buf.append(BasicElementLabels.getPathLabel(fullPath.removeLastSegments(1), false));
-						buf.append(JavaElementLabels.CONCAT_STRING);
+						buf.append(BasicElementLabels.getPathLabel(fullPath.removeLastSegments(1), false)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					buf.append(JavaElementLabels.getElementLabel(jarEntryResource.getPackageFragmentRoot(), JavaElementLabels.ROOT_POST_QUALIFIED));
+					buf.append(JavaElementLabels.getElementLabel(jarEntryResource.getPackageFragmentRoot(), JavaElementLabels.ROOT_POST_QUALIFIED)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					return buf.toString();
 				} else if (elem instanceof IAdaptable) {
 					IWorkbenchAdapter wbadapter= ((IAdaptable)elem).getAdapter(IWorkbenchAdapter.class);
@@ -110,7 +110,7 @@ public class StatusBarUpdater implements ISelectionChangedListener {
 	private String formatResourceMessage(IResource element) {
 		IContainer parent= element.getParent();
 		if (parent != null && parent.getType() != IResource.ROOT)
-			return BasicElementLabels.getResourceName(element.getName()) + JavaElementLabels.CONCAT_STRING + BasicElementLabels.getPathLabel(parent.getFullPath(), false);
+			return BasicElementLabels.getResourceName(element.getName()) + JavaElementLabels.CONCAT_STRING + BasicElementLabels.getPathLabel(parent.getFullPath(), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
 			return BasicElementLabels.getResourceName(element.getName());
 	}

@@ -47,13 +47,13 @@ public class PersistentSpellDictionary extends AbstractSpellDictionary {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addWord(final String word) {
 		if (isCorrect(word))
 			return;
 
 		Charset charset= Charset.forName(getEncoding());
-		ByteBuffer byteBuffer= charset.encode(word + "\n"); //$NON-NLS-1$
+		ByteBuffer byteBuffer= charset.encode(word + "\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int size= byteBuffer.limit();
 		final byte[] byteArray;
 		if (byteBuffer.hasArray())
@@ -63,7 +63,7 @@ public class PersistentSpellDictionary extends AbstractSpellDictionary {
 			byteBuffer.get(byteArray);
 		}
 
-		try (FileOutputStream fileStream= new FileOutputStream(fLocation.getPath(), true)) {
+		try (FileOutputStream fileStream= new FileOutputStream(fLocation.getPath(), true)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 
 			// Encoding UTF-16 charset writes a BOM. In which case we need to cut it away if the file isn't empty
 			int bomCutSize= 0;

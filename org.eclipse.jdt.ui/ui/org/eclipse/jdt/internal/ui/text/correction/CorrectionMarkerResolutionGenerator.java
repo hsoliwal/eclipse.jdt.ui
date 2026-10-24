@@ -107,7 +107,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 			return fProposal.getDisplayString();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run(IMarker marker) {
 			try {
 				IEditorPart part= EditorUtility.isOpenInEditor(fCompilationUnit);
@@ -128,7 +128,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 		}
 
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run(IMarker[] markers, IProgressMonitor monitor) {
 			if (markers.length == 1) {
 				run(markers[0]);
@@ -163,9 +163,9 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 			}
 		}
 
-		public static MultiFixTarget[] getCleanUpTargets(IMarker[] markers) {
+		public static MultiFixTarget[] getCleanUpTargets(IMarker[] markers) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Hashtable<ICompilationUnit, List<IProblemLocation>> problemLocations= new Hashtable<>();
-			for (IMarker marker : markers) {
+			for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu= getCompilationUnit(marker);
 
 				if (cu != null) {
@@ -174,7 +174,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 					if (location != null) {
 						List<IProblemLocation> l= problemLocations.get(cu.getPrimary());
 						if (l == null) {
-							l= new ArrayList<>();
+							l= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							problemLocations.put(cu.getPrimary(), l);
 						}
 						l.add(location);
@@ -184,7 +184,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 
 			MultiFixTarget[] result= new MultiFixTarget[problemLocations.size()];
 			int i= 0;
-			for (Map.Entry<ICompilationUnit, List<IProblemLocation>> entry : problemLocations.entrySet()) {
+			for (Map.Entry<ICompilationUnit, List<IProblemLocation>> entry : problemLocations.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu= entry.getKey();
 				List<IProblemLocation> locations= entry.getValue();
 				result[i]= new MultiFixTarget(cu, locations.toArray(new IProblemLocation[locations.size()]));
@@ -211,12 +211,12 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 			return 0;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IMarker[] findOtherMarkers(IMarker[] markers) {
 			if (fProposal instanceof CreatePackageInfoWithDefaultNullnessProposal) {
 				CreatePackageInfoWithDefaultNullnessProposal createPackageInfoWithDefaultNullnessProposal= (CreatePackageInfoWithDefaultNullnessProposal) fProposal;
-				final List<IMarker> result= new ArrayList<>();
-				for (IMarker marker : markers) {
+				final List<IMarker> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int id= marker.getAttribute(IJavaModelMarker.ID, -1);
 					if(JavaModelUtil.PACKAGE_INFO_JAVA.equals(marker.getResource().getName())) {
 						// if marker is on package-info.java, no need to create it (another quickfix offers just to add @NonNullByDefault)
@@ -244,9 +244,9 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 			if (fileMarkerTable.isEmpty())
 				return NO_MARKERS;
 
-			final List<IMarker> result= new ArrayList<>();
+			final List<IMarker> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (Map.Entry<IFile, List<IMarker>> entry : fileMarkerTable.entrySet()) {
+			for (Map.Entry<IFile, List<IMarker>> entry : fileMarkerTable.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IFile file= entry.getKey();
 				List<IMarker> fileMarkers= entry.getValue();
 
@@ -254,7 +254,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 				if (element instanceof ICompilationUnit) {
 					ICompilationUnit unit= (ICompilationUnit) element;
 
-					for (int i= 0, size= fileMarkers.size(); i < size; i++) {
+					for (int i= 0, size= fileMarkers.size(); i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IMarker marker= fileMarkers.get(i);
 						IProblemLocation problem= createFromMarker(marker, unit);
 						if (problem != null && multiFix.canFix(unit, problem)) {
@@ -275,7 +275,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 		 * @param markers the markers
 		 * @return mapping files to markers
 		 */
-		private Hashtable<IFile, List<IMarker>> getMarkersForFiles(IMarker[] markers) {
+		private Hashtable<IFile, List<IMarker>> getMarkersForFiles(IMarker[] markers) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Hashtable<IFile, List<IMarker>> result= new Hashtable<>();
 
 			String markerType;
@@ -286,7 +286,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 				return result;
 			}
 
-			for (IMarker marker : markers) {
+			for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!marker.equals(fMarker)) {
 					String currMarkerType= null;
 					try {
@@ -300,7 +300,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 						if (res instanceof IFile && res.isAccessible()) {
 							List<IMarker> markerList= result.get(res);
 							if (markerList == null) {
-								markerList= new ArrayList<>();
+								markerList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 								result.put((IFile) res, markerList);
 							}
 							markerList.add(marker);
@@ -338,7 +338,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 		return cu != null && JavaCorrectionProcessor.hasCorrections(cu, id, MarkerUtilities.getMarkerType(marker));
 	}
 
-	private static IMarkerResolution[] internalGetResolutions(IMarker marker) {
+	private static IMarkerResolution[] internalGetResolutions(IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!internalHasResolutions(marker)) {
 			return NO_RESOLUTIONS;
 		}
@@ -354,13 +354,13 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 					if (!hasProblem(context.getASTRoot().getProblems(), location) && !(marker.getResource() instanceof IFolder))
 						return NO_RESOLUTIONS;
 
-					ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+					ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					JavaCorrectionProcessor.collectCorrections(context, new IProblemLocation[] { location }, proposals);
-					Collections.sort(proposals, new CompletionProposalComparator());
+					Collections.sort(proposals, new CompletionProposalComparator()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 					int nProposals= proposals.size();
 					IMarkerResolution[] resolutions= new IMarkerResolution[nProposals];
-					for (int i= 0; i < nProposals; i++) {
+					for (int i= 0; i < nProposals; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						resolutions[i]= new CorrectionMarkerResolution(context.getCompilationUnit(), location.getOffset(), location.getLength(), proposals.get(i), marker);
 					}
 					return resolutions;
@@ -371,14 +371,14 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 	}
 
 	private static boolean hasProblem(IProblem[] problems, IProblemLocation location) {
-		for (IProblem problem : problems) {
+		for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem.getID() == location.getProblemId() && problem.getSourceStart() == location.getOffset())
 				return true;
 		}
 		return false;
 	}
 
-	private static ICompilationUnit getCompilationUnit(IMarker marker) {
+	private static ICompilationUnit getCompilationUnit(IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource res= marker.getResource();
 		if (res instanceof IFile && res.isAccessible()) {
 			IJavaElement element= JavaCore.create((IFile) res);
@@ -392,7 +392,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 				IJavaProject javaProject= packageFragment.getJavaProject();
 				try {
 					IPackageFragment[] packageFragments= javaProject.getPackageFragments();
-					for (IPackageFragment p : packageFragments) {
+					for (IPackageFragment p : packageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (p.getElementName().equals(packageFragment.getElementName())) {
 							ICompilationUnit compilationUnit= p.getCompilationUnit(org.eclipse.jdt.internal.corext.util.JavaModelUtil.PACKAGE_INFO_JAVA);
 							if (compilationUnit.exists()) {
@@ -402,7 +402,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 					}
 					// no existing package-info.java found, return any writeable compilation unit in packageFragment as placeholder
 					// (there must be one, or the error wouldn't exist.)
-					for (ICompilationUnit compilationUnit : packageFragment.getCompilationUnits()) {
+					for (ICompilationUnit compilationUnit : packageFragment.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (compilationUnit.exists()) {
 							return compilationUnit;
 						}
@@ -415,7 +415,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 		return null;
 	}
 
-	public static IProblemLocation findProblemLocation(IEditorInput input, IMarker marker) {
+	public static IProblemLocation findProblemLocation(IEditorInput input, IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (marker.getResource() instanceof IFolder) {
 			ICompilationUnit cu= getCompilationUnit(marker);
 			return createFromMarker(marker, cu);
@@ -423,7 +423,7 @@ public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGen
 		IAnnotationModel model= JavaPlugin.getDefault().getCompilationUnitDocumentProvider().getAnnotationModel(input);
 		if (model != null) { // open in editor
 			Iterator<Annotation> iter= model.getAnnotationIterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Annotation curr= iter.next();
 				if (curr instanceof JavaMarkerAnnotation) {
 					JavaMarkerAnnotation annot= (JavaMarkerAnnotation) curr;

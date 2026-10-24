@@ -33,18 +33,18 @@ public class JavaVersion {
 		String javaVersion;
 		if (javaV > 0) {
 			if (javaV > 8) {
-				javaVersion = javaV + "." + minor; //$NON-NLS-1$
+				javaVersion = javaV + "." + minor; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				javaVersion = "1." + javaV; //$NON-NLS-1$
+				javaVersion = "1." + javaV; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else {
-			javaVersion = "? " + major; //$NON-NLS-1$
+			javaVersion = "? " + major; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return javaVersion;
 	}
 
 	@Override
 	public String toString() {
-		return version + " : " + humanReadable(); //$NON-NLS-1$
+		return version + " : " + humanReadable(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

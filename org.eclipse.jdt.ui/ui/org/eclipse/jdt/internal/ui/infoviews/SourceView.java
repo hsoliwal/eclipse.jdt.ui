@@ -85,7 +85,7 @@ import org.eclipse.jdt.internal.ui.text.SimpleJavaSourceViewerConfiguration;
  *
  * @since 3.0
  */
-public class SourceView extends AbstractInfoView {
+public class SourceView extends AbstractInfoView { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	/** Symbolic Java editor font name. */
 	private static final String SYMBOLIC_FONT_NAME= "org.eclipse.jdt.ui.editors.textfont"; //$NON-NLS-1$
@@ -95,7 +95,7 @@ public class SourceView extends AbstractInfoView {
 	 *
 	 * @since 3.0
 	 */
-	class PropertyChangeListener implements IPropertyChangeListener {
+	class PropertyChangeListener implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 		/*
 		 * @see IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
 		 */
@@ -114,7 +114,7 @@ public class SourceView extends AbstractInfoView {
 	/**
 	 * Internal property change listener for handling workbench font changes.
 	 */
-	class FontPropertyChangeListener implements IPropertyChangeListener {
+	class FontPropertyChangeListener implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 		/*
 		 * @see IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
 		 */
@@ -169,7 +169,7 @@ public class SourceView extends AbstractInfoView {
 	/** The viewers configuration */
 	private JavaSourceViewerConfiguration fViewerConfiguration;
 	/** Map of configuration kind to source viewer configuration */
-	private Map<String, JavaSourceViewerConfiguration> fKindToViewerConfiguration= new HashMap<>();
+	private Map<String, JavaSourceViewerConfiguration> fKindToViewerConfiguration= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	/** The viewer's font properties change listener. */
 	private IPropertyChangeListener fFontPropertyChangeListener= new FontPropertyChangeListener();
 	/**
@@ -200,7 +200,7 @@ public class SourceView extends AbstractInfoView {
 		fViewer.setEditable(false);
 
 		setViewerFont();
-		JFaceResources.getFontRegistry().addListener(fFontPropertyChangeListener);
+		JFaceResources.getFontRegistry().addListener(fFontPropertyChangeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		store.addPropertyChangeListener(fPropertyChangeListener);
 
@@ -210,13 +210,13 @@ public class SourceView extends AbstractInfoView {
 	/*
 	 * @see AbstractInfoView#internalCreatePartControl(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createActions() {
 		super.createActions();
 		fSelectAllAction= new SelectAllAction(fViewer);
 
 		// Setup OpenAction
-		fOpen= new OpenAction(getViewSite()) {
+		fOpen= new OpenAction(getViewSite()) { //FLLDCIM: MARK — T04  ANONYMOUS
 
 			/*
 			 * @see org.eclipse.jdt.ui.actions.SelectionDispatchAction#getSelection()
@@ -331,7 +331,7 @@ public class SourceView extends AbstractInfoView {
 	 * @param selection the selection
 	 * @return a structured selection with Java elements
 	 */
-	private IStructuredSelection convertToJavaElementSelection(ISelection selection) {
+	private IStructuredSelection convertToJavaElementSelection(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!(selection instanceof ITextSelection) || !(fCurrentViewInput instanceof ISourceReference))
 			return StructuredSelection.EMPTY;
@@ -367,7 +367,7 @@ public class SourceView extends AbstractInfoView {
 	 * @return the offset in the unclipped document or <code>-1</code> if the offset cannot be
 	 *         computed
 	 */
-	private int getOffsetInUnclippedDocument(ITextSelection textSelection) {
+	private int getOffsetInUnclippedDocument(ITextSelection textSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDocument unclippedDocument= null;
 		try {
 			unclippedDocument= new Document(((ISourceReference)fCurrentViewInput).getSource());
@@ -409,7 +409,7 @@ public class SourceView extends AbstractInfoView {
 	/*
 	 * @see AbstractInfoView#computeInput(Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object computeInput(Object input) {
 
 		if (fViewer == null || !(input instanceof ISourceReference))
@@ -448,7 +448,7 @@ public class SourceView extends AbstractInfoView {
 				if (!shell.isDisposed()) {
 					Display display= shell.getDisplay();
 					if (!display.isDisposed()) {
-						display.asyncExec(() -> updateViewerConfiguration((IJavaElement) input));
+						display.asyncExec(() -> updateViewerConfiguration((IJavaElement) input)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					}
 				}
 			}
@@ -471,7 +471,7 @@ public class SourceView extends AbstractInfoView {
 		return Strings.concatenate(sourceLines, delim);
 	}
 
-	private void updateViewerConfiguration(IJavaElement input) {
+	private void updateViewerConfiguration(IJavaElement input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fKindToViewerConfiguration != null) {
 			JavaSourceViewerConfiguration oldViewerConfiguration= fViewerConfiguration;
 			if (JavaModelUtil.isModule(input)) {
@@ -513,13 +513,13 @@ public class SourceView extends AbstractInfoView {
 	 * @param source the string with the source
 	 * @return the source without leading comments
 	 */
-	private String removeLeadingComments(String source) {
+	private String removeLeadingComments(String source) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int i;
 		IDocument document= new Document(source);
 		try (JavaCodeReader reader= new JavaCodeReader()) {
 			reader.configureForwardReader(document, 0, document.getLength(), true, false);
 			int c= reader.read();
-			while (c != -1 && (c == '\r' || c == '\n' || c == '\t')) {
+			while (c != -1 && (c == '\r' || c == '\n' || c == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				c= reader.read();
 			}
 			i= reader.getOffset();
@@ -543,7 +543,7 @@ public class SourceView extends AbstractInfoView {
 	/**
 	 * Sets the font for this viewer sustaining selection and scroll position.
 	 */
-	private void setViewerFont() {
+	private void setViewerFont() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font= JFaceResources.getFont(SYMBOLIC_FONT_NAME);
 
 		if (fViewer.getDocument() != null) {

@@ -94,7 +94,7 @@ public class ImplementOccurrencesFinder implements IOccurrencesFinder {
 	private String fDescription;
 
 	public ImplementOccurrencesFinder() {
-		fResult= new ArrayList<>();
+		fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class ImplementOccurrencesFinder implements IOccurrencesFinder {
 		return initialize(root, NodeFinder.perform(root, offset, length));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String initialize(CompilationUnit root, ASTNode node) {
 		if (!(node instanceof Name))
 			return SearchMessages.ImplementOccurrencesFinder_invalidTarget;

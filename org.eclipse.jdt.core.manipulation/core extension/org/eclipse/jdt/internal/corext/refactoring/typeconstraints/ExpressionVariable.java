@@ -46,7 +46,7 @@ public final class ExpressionVariable extends ConstraintVariable {
 
 	@Override
 	public String toString() {
-		return "[" + fSource + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "[" + fSource + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public CompilationUnitRange getCompilationUnitRange() {
@@ -61,7 +61,7 @@ public final class ExpressionVariable extends ConstraintVariable {
 		return fExpressionBinding;
 	}
 
-	public static IBinding resolveBinding(Expression expression){
+	public static IBinding resolveBinding(Expression expression){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (expression instanceof Name)
 			return ((Name)expression).resolveBinding();
 		if (expression instanceof ParenthesizedExpression)

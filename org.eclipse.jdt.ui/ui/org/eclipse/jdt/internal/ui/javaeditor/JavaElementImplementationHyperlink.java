@@ -158,10 +158,10 @@ public class JavaElementImplementationHyperlink implements IHyperlink {
 	 * @param openAction the action to use to open the elements
 	 * @since 3.6
 	 */
-	public static void openImplementations(IEditorPart editor, IRegion region, final IJavaElement javaElement, SelectionDispatchAction openAction) {
+	public static void openImplementations(IEditorPart editor, IRegion region, final IJavaElement javaElement, SelectionDispatchAction openAction) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final boolean isMethodAbstract[]= new boolean[1];
 		final String dummyString= ""; //$NON-NLS-1$
-		final ArrayList<IJavaElement> links= new ArrayList<>();
+		final ArrayList<IJavaElement> links= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IRunnableWithProgress runnable;
 
 		if (javaElement instanceof IMethod) {
@@ -207,7 +207,7 @@ public class JavaElementImplementationHyperlink implements IHyperlink {
 				openQuickHierarchy(editor);
 				return;
 			}
-			runnable= monitor -> {
+			runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				if (monitor == null) {
 					monitor= new NullProgressMonitor();
 				}
@@ -262,7 +262,7 @@ public class JavaElementImplementationHyperlink implements IHyperlink {
 
 		} else if (javaElement instanceof IType) {
 			IType type= (IType) javaElement;
-			runnable= monitor -> {
+			runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				if (monitor == null) {
 					monitor= new NullProgressMonitor();
 				}

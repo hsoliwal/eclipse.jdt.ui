@@ -45,7 +45,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaTextSelection;
 import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
-public class MoveStaticMembersAction extends SelectionDispatchAction{
+public class MoveStaticMembersAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -94,7 +94,7 @@ public class MoveStaticMembersAction extends SelectionDispatchAction{
 	public void run(IStructuredSelection selection) {
 		try {
 			IMember[] members= getSelectedMembers(selection);
-			for (IMember member : members) {
+			for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!ActionUtil.isEditable(getShell(), member)) {
 					return;
 				}
@@ -127,11 +127,11 @@ public class MoveStaticMembersAction extends SelectionDispatchAction{
 		if (selection.isEmpty())
 			return null;
 
-		for (Object member : selection) {
+		for (Object member : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! (member instanceof IMember))
 				return null;
 		}
-		Set<IMember> memberSet= new HashSet<>();
+		Set<IMember> memberSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		@SuppressWarnings("unchecked")
 		List<IMember> selectionList= (List<IMember>) (List<?>) Arrays.asList(selection.toArray());
 		memberSet.addAll(selectionList);

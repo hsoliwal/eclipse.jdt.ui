@@ -65,7 +65,7 @@ public class CleanUpPreview extends JavaPreview {
 		format(fPage.getPreview());
 	}
 
-	private void format(String text) {
+	private void format(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if (text == null) {
             fPreviewDocument.set(""); //$NON-NLS-1$
             return;

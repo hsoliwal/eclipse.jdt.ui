@@ -72,7 +72,7 @@ public class AbstractTestRunSessionSerializationTests {
 		String fSerialized;
 	}
 
-	private SerializationResult launchTest(IJavaElement elementToLaunch) throws Exception {
+	private SerializationResult launchTest(IJavaElement elementToLaunch) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final SerializationResult result= new SerializationResult();
 
 		TestRunListener testRunListener= new TestRunListener() {
@@ -103,7 +103,7 @@ public class AbstractTestRunSessionSerializationTests {
 		return result;
 	}
 
-	private void runExportImport(IJavaElement test, String expectedXML) throws Exception {
+	private void runExportImport(IJavaElement test, String expectedXML) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SerializationResult serializationResult= launchTest(test);
 		assertEqualXML(expectedXML, serializationResult.fSerialized);
 
@@ -125,32 +125,32 @@ public class AbstractTestRunSessionSerializationTests {
 		}
 	}
 
-	private void assertEqualXML(String expected, String actual) {
+	private void assertEqualXML(String expected, String actual) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Strips &#13; and &#10;
 		 */
-		Pattern regex0= Pattern.compile("&#1[03];");
+		Pattern regex0= Pattern.compile("&#1[03];"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		/*
 		 * Avoid comparing stack traces (which are VM-dependent)
 		 */
-		Pattern regex= Pattern.compile("(?m)^\\s*at\\s+[/\\w\\.\\:\\;\\$\\(\\)\\[ \\t]+$\r?\n?");
+		Pattern regex= Pattern.compile("(?m)^\\s*at\\s+[/\\w\\.\\:\\;\\$\\(\\)\\[ \\t]+$\r?\n?"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		/*
 		 * Strips lines like " ... 18 more"
 		 */
-		Pattern regex2= Pattern.compile("(?m)^\\s*\\.{3}\\s+\\d+\\s+more\\s+$\r?\n?");
+		Pattern regex2= Pattern.compile("(?m)^\\s*\\.{3}\\s+\\d+\\s+more\\s+$\r?\n?"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		/*
 		 * Strips running times
 		 */
-		Pattern regex3= Pattern.compile("(?<=time=\\\")\\d+\\.\\d+(?=\\\")");
+		Pattern regex3= Pattern.compile("(?<=time=\\\")\\d+\\.\\d+(?=\\\")"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		/*
 		 * CPU timings are optional and VM-dependent. Their persistence is covered by
 		 * TestRunSessionHistoryTests, while these legacy golden files verify the rest
 		 * of the exported XML independently of the availability and exact CPU values.
 		 */
-		Pattern regexCpuTimes= Pattern.compile("\\s+(?:cpuTime|userTime)=\\\"\\d+(?:\\.\\d+)?\\\"");
+		Pattern regexCpuTimes= Pattern.compile("\\s+(?:cpuTime|userTime)=\\\"\\d+(?:\\.\\d+)?\\\""); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String replacement= "";
-		expected= regexCpuTimes.matcher(regex3.matcher(regex2.matcher(regex.matcher(regex0.matcher(expected).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement);
-		actual= regexCpuTimes.matcher(regex3.matcher(regex2.matcher(regex.matcher(regex0.matcher(actual).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement);
+		expected= regexCpuTimes.matcher(regex3.matcher(regex2.matcher(regex.matcher(regex0.matcher(expected).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		actual= regexCpuTimes.matcher(regex3.matcher(regex2.matcher(regex.matcher(regex0.matcher(actual).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement)).replaceAll(replacement); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		int ibmJava6BugOffset= actual.indexOf("><");
 		if (ibmJava6BugOffset > 0) // https://bugs.eclipse.org/bugs/show_bug.cgi?id=197842
 			actual= new StringBuffer(actual).insert(ibmJava6BugOffset + 1, " ").toString();
@@ -160,7 +160,7 @@ public class AbstractTestRunSessionSerializationTests {
 		String replacement4= "</actual>";
 		String regex5= "\\s*</failure>";
 		String replacement5= " </failure>";
-		actual= actual.replaceAll(regex4, replacement4).replaceAll(regex5, replacement5);
+		actual= actual.replaceAll(regex4, replacement4).replaceAll(regex5, replacement5); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		/*
 		 * Strip all whitespace
@@ -169,7 +169,7 @@ public class AbstractTestRunSessionSerializationTests {
 		StringTokenizer actTok= new StringTokenizer(actual);
 		if (expTok.countTokens() != actTok.countTokens())
 			assertEquals(expected, actual);
-		while (expTok.hasMoreElements()) {
+		while (expTok.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String e= expTok.nextToken();
 			String a= actTok.nextToken();
 			if (! e.equals(a)) {
@@ -192,7 +192,7 @@ public class AbstractTestRunSessionSerializationTests {
 		assertEqualSuite(expected.getTestRoot(), actual.getTestRoot());
 	}
 
-	private void assertEqualSuite(ITestSuiteElement expected, ITestSuiteElement actual) {
+	private void assertEqualSuite(ITestSuiteElement expected, ITestSuiteElement actual) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertEquals(expected.getProgressState(), actual.getProgressState());
 		assertEquals(expected.getTestResult(false), actual.getTestResult(false));
 		if (actual instanceof TestSuiteElement) {
@@ -204,7 +204,7 @@ public class AbstractTestRunSessionSerializationTests {
 			ITestElement[] expChildren= exp.getChildren();
 			ITestElement[] actChildren= act.getChildren();
 			assertEquals(expChildren.length, actChildren.length);
-			for (int i= 0; i < expChildren.length; i++) {
+			for (int i= 0; i < expChildren.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITestElement expChild= expChildren[i];
 				ITestElement actChild= actChildren[i];
 				if (expChild instanceof ITestCaseElement) {
@@ -238,19 +238,19 @@ public class AbstractTestRunSessionSerializationTests {
 	protected void runCUTest(String test) throws CoreException, IOException, FileNotFoundException, Exception {
 		IPackageFragmentRoot root= JUnitWorkspaceTestSetup.getRoot();
 		IPackageFragment pack= root.getPackageFragment("pack");
-		ICompilationUnit cu= pack.getCompilationUnit(test + ".java");
+		ICompilationUnit cu= pack.getCompilationUnit(test + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IType aTestCase= cu.findPrimaryType();
 
-		Path expectedPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "xml/" + test + ".xml");
+		Path expectedPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "xml/" + test + ".xml"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File expectedFile= JavaTestPlugin.getDefault().getFileInPlugin(expectedPath);
-		String expected=  Files.readString(expectedFile.toPath());
+		String expected=  Files.readString(expectedFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		runExportImport(aTestCase, expected);
 
 		runImportAntResult(test);
 	}
 
 	private void runImportAntResult(String test) throws CoreException {
-		Path testPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "ant/result/TEST-pack." + test + ".xml");
+		Path testPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "ant/result/TEST-pack." + test + ".xml"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File testFile= JavaTestPlugin.getDefault().getFileInPlugin(testPath);
 		JUnitModel.importTestRunSession(testFile); // no contents check for now...
 	}
@@ -258,13 +258,13 @@ public class AbstractTestRunSessionSerializationTests {
 	protected void runMethodTest(String testType, String method) throws Exception {
 		IPackageFragmentRoot root= JUnitWorkspaceTestSetup.getRoot();
 		IPackageFragment pack= root.getPackageFragment("pack");
-		ICompilationUnit cu= pack.getCompilationUnit(testType + ".java");
+		ICompilationUnit cu= pack.getCompilationUnit(testType + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IType testCase= cu.findPrimaryType();
 		IMethod testMethod= testCase.getMethod(method, new String[0]);
 
-		Path expectedPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "xml/" + testType + "_" + method + ".xml");
+		Path expectedPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "xml/" + testType + "_" + method + ".xml"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File expectedFile= JavaTestPlugin.getDefault().getFileInPlugin(expectedPath);
-		String expected= Files.readString(expectedFile.toPath());
+		String expected= Files.readString(expectedFile.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		runExportImport(testMethod, expected);
 
 		//ant cannot run single test methods

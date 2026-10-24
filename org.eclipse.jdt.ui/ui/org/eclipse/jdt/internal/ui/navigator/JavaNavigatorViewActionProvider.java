@@ -64,7 +64,7 @@ public class JavaNavigatorViewActionProvider extends CommonActionProvider {
 
 	private IExtensionActivationListener fMenuUpdater= new IExtensionActivationListener() {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void onExtensionActivation(String viewerId, String[] theNavigatorExtensionIds, boolean isCurrentlyActive) {
 
 			if (fExtensionSite != null && fActionBars != null) {
@@ -140,7 +140,7 @@ public class JavaNavigatorViewActionProvider extends CommonActionProvider {
 		super.setContext(context);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void restoreState(IMemento memento) {
 		boolean isCurrentLayoutFlat= true;
 		Integer state= null;

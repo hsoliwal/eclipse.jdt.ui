@@ -180,7 +180,7 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 		fParameterNames= parameterNames;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		// TargetProvider must get an untampered AST with original invocation node
 		// SourceProvider must get a tweaked AST with method body / parameter names replaced
@@ -225,7 +225,7 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 		return result;
 	}
 
-	private SourceProvider resolveSourceProvider(IMethodBinding methodBinding, RefactoringStatus status) throws JavaModelException {
+	private SourceProvider resolveSourceProvider(IMethodBinding methodBinding, RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IMethod method= (IMethod) methodBinding.getJavaElement();
 
 		ITypeRoot typeRoot;
@@ -246,7 +246,7 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 			newBody.statements().add(rewrite.createStringPlaceholder(fBody, ASTNode.EMPTY_STATEMENT));
 			rewrite.replace(methodDecl.getBody(), newBody, null);
 			List<SingleVariableDeclaration> parameters= methodDecl.parameters();
-			for (int i= 0; i < parameters.size(); i++) {
+			for (int i= 0; i < parameters.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SingleVariableDeclaration parameter= parameters.get(i);
 				rewrite.set(parameter.getName(), SimpleName.IDENTIFIER_PROPERTY, fParameterNames[i], null);
 			}
@@ -315,7 +315,7 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 		return checkNode(NodeFinder.perform(root, offset, length));
 	}
 
-	private static ASTNode checkNode(ASTNode node) {
+	private static ASTNode checkNode(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node == null)
 			return null;
 		if (node.getNodeType() == ASTNode.SIMPLE_NAME) {
@@ -334,7 +334,7 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		pm.beginTask("", 20); //$NON-NLS-1$
 		fChangeManager= new TextChangeManager();
@@ -370,7 +370,7 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 		checkOverridden(result, Progress.subMonitor(pm, 4));
 		IProgressMonitor sub= Progress.subMonitor(pm, 15);
 		sub.beginTask("", units.length * 3); //$NON-NLS-1$
-		for (ICompilationUnit unit : units) {
+		for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sub.subTask(Messages.format(RefactoringCoreMessages.InlineMethodRefactoring_processing,  BasicElementLabels.getFileName(unit)));
 			CallInliner inliner= null;
 			try {
@@ -382,12 +382,12 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 				if (bodies.length == 0)
 					continue;
 				inliner= new CallInliner(unit, (CompilationUnit) bodies[0].getRoot(), fSourceProvider);
-				for (BodyDeclaration body : bodies) {
+				for (BodyDeclaration body : bodies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					inliner.initialize(body);
 					RefactoringStatus nestedInvocations= new RefactoringStatus();
 					ASTNode[] invocations= removeNestedCalls(nestedInvocations, unit,
 						fTargetProvider.getInvocations(body, Progress.subMonitor(sub, 2)));
-					for (ASTNode invocation : invocations) {
+					for (ASTNode invocation : invocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						result.merge(inliner.initialize(invocation, fTargetProvider.getStatusSeverity()));
 						if (result.hasFatalError())
 							break;
@@ -430,10 +430,10 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		// TODO: update for fSelectionStart == -1
-		final Map<String, String> arguments= new HashMap<>();
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String project= null;
 		IJavaProject javaProject= fSelectionTypeRoot.getJavaProject();
 		if (javaProject != null)
@@ -450,15 +450,15 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 			comment.addSetting(RefactoringCoreMessages.ReplaceInvocationsRefactoring_replace_references);
 		final JavaRefactoringDescriptor descriptor= new JavaRefactoringDescriptor(ID_REPLACE_INVOCATIONS, project, description, comment.asString(), arguments, flags){}; //REVIEW Unregistered ID!
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fSelectionTypeRoot));
-		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		arguments.put(ATTRIBUTE_MODE, Integer.toString(fTargetProvider.isSingle() ? 0 : 1));
 		return new DynamicValidationRefactoringChange(descriptor, RefactoringCoreMessages.ReplaceInvocationsRefactoring_change_name, fChangeManager.getAllChanges());
 	}
 
 	private IFile[] getFilesToBeModified(ICompilationUnit[] units) {
-		List<IFile> result= new ArrayList<>(units.length + 1);
+		List<IFile> result= new ArrayList<>(units.length + 1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IFile file;
-		for (ICompilationUnit unit : units) {
+		for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			file= getFile(unit);
 			if (file != null)
 				result.add(file);
@@ -513,7 +513,7 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 	}
 	private void checkTypes(RefactoringStatus result, IMethod method, IType[] types, String key, IProgressMonitor pm) {
 		pm.beginTask("", types.length); //$NON-NLS-1$
-		for (IType type : types) {
+		for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pm.worked(1);
 			IMethod[] overridden= type.findMethods(method);
 			if (overridden != null && overridden.length > 0) {
@@ -522,18 +522,18 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 		}
 	}
 
-	private ASTNode[] removeNestedCalls(RefactoringStatus status, ICompilationUnit unit, ASTNode[] invocations) {
+	private ASTNode[] removeNestedCalls(RefactoringStatus status, ICompilationUnit unit, ASTNode[] invocations) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (invocations.length <= 1)
 			return invocations;
 		ASTNode[] parents= new ASTNode[invocations.length];
-		for (int i= 0; i < invocations.length; i++) {
+		for (int i= 0; i < invocations.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parents[i]= invocations[i].getParent();
 		}
-		for (int i= 0; i < invocations.length; i++) {
+		for (int i= 0; i < invocations.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			removeNestedCalls(status, unit, parents, invocations, i);
 		}
-		List<ASTNode> result= new ArrayList<>();
-		for (ASTNode invocation : invocations) {
+		List<ASTNode> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ASTNode invocation : invocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (invocation != null) {
 				result.add(invocation);
 			}
@@ -543,8 +543,8 @@ public class ReplaceInvocationsRefactoring extends Refactoring {
 
 	private void removeNestedCalls(RefactoringStatus status, ICompilationUnit unit, ASTNode[] parents, ASTNode[] invocations, int index) {
 		ASTNode invocation= invocations[index];
-		for (ASTNode parent : parents) {
-			while (parent != null) {
+		for (ASTNode parent : parents) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parent == invocation) {
 					status.addError(RefactoringCoreMessages.InlineMethodRefactoring_nestedInvocation,
 						JavaStatusContext.create(unit, parent));

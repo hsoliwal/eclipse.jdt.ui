@@ -97,7 +97,7 @@ public class SingletonTypeSet extends TypeSet {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Iterator<TType> iterator() {
 		return new Iterator<>() {
 			private boolean done= false;
@@ -155,6 +155,6 @@ public class SingletonTypeSet extends TypeSet {
 
 	@Override
 	public String toString() {
-		return "{" + fID + ": " + fType.getPrettySignature() + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "{" + fID + ": " + fType.getPrettySignature() + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

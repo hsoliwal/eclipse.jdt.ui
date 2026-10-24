@@ -76,12 +76,12 @@ abstract class ReorgUserInputPage extends UserInputWizardPage{
 
 		fViewer= createViewer(result);
 		fViewer.setSelection(new StructuredSelection(initialSelection), true);
-		fViewer.addSelectionChangedListener(ReorgUserInputPage.this::viewerSelectionChanged);
-		fViewer.addDoubleClickListener(new TreeViewerDoubleClickListener());
+		fViewer.addSelectionChangedListener(ReorgUserInputPage.this::viewerSelectionChanged); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fViewer.addDoubleClickListener(new TreeViewerDoubleClickListener()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		Dialog.applyDialogFont(result);
 	}
 
-	protected Control addLabel(Composite parent) {
+	protected Control addLabel(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label label= new Label(parent, SWT.WRAP);
 		String text;
 		int resources= getResources().length;
@@ -152,10 +152,10 @@ abstract class ReorgUserInputPage extends UserInputWizardPage{
 		gd.widthHint= convertWidthInCharsToPixels(40);
 		gd.heightHint= convertHeightInCharsToPixels(15);
 		treeViewer.getTree().setLayoutData(gd);
-		treeViewer.setLabelProvider(new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_SMALL_ICONS));
+		treeViewer.setLabelProvider(new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_SMALL_ICONS)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		treeViewer.setContentProvider(new DestinationContentProvider(getDestinationValidator()));
 		treeViewer.setComparator(new JavaElementComparator());
-		treeViewer.setInput(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()));
+		treeViewer.setInput(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot())); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		return treeViewer;
 	}
 
@@ -163,7 +163,7 @@ abstract class ReorgUserInputPage extends UserInputWizardPage{
 		return fViewer;
 	}
 
-	private final class TreeViewerDoubleClickListener implements IDoubleClickListener {
+	private final class TreeViewerDoubleClickListener implements IDoubleClickListener { //FLLDCIM: MARK — T05  IMPLEMENTS
 		@Override
 		public void doubleClick(DoubleClickEvent event) {
 			IStructuredSelection selection= (IStructuredSelection) event.getSelection();

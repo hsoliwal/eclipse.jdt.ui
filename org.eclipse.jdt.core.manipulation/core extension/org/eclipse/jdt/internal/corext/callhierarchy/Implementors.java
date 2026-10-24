@@ -58,7 +58,7 @@ public class Implementors {
      * @return An array of found implementing Java elements (currently only IMethod
      *         instances)
      */
-    public IJavaElement[] searchForImplementors(IJavaElement[] elements,
+    public IJavaElement[] searchForImplementors(IJavaElement[] elements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         IProgressMonitor progressMonitor) {
         if ((elements != null) && (elements.length > 0)) {
             IJavaElement element = elements[0];
@@ -96,7 +96,7 @@ public class Implementors {
      * @return An array of found interfaces implemented by the declaring classes of the
      *         specified Java elements (currently only IMethod instances)
      */
-    public IJavaElement[] searchForInterfaces(IJavaElement[] elements,
+    public IJavaElement[] searchForInterfaces(IJavaElement[] elements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         IProgressMonitor progressMonitor) {
         if ((elements != null) && (elements.length > 0)) {
             IJavaElement element = elements[0];
@@ -125,11 +125,11 @@ public class Implementors {
     }
 
     private IType[] findImplementingTypes(IType type, IProgressMonitor progressMonitor) {
-        Collection<IType> implementingTypes = new ArrayList<>();
+        Collection<IType> implementingTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
         IImplementorFinder[] finders = getImplementorFinders();
 
-        for (int i = 0; (i < finders.length) && !progressMonitor.isCanceled(); i++) {
+        for (int i = 0; (i < finders.length) && !progressMonitor.isCanceled(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             Collection<IType> types = finders[i].findImplementingTypes(type,
             		Progress.subMonitorSupressed(progressMonitor, 10));
 
@@ -142,11 +142,11 @@ public class Implementors {
     }
 
     private IType[] findInterfaces(IType type, IProgressMonitor progressMonitor) {
-        Collection<IType> interfaces = new ArrayList<>();
+        Collection<IType> interfaces = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
         IImplementorFinder[] finders = getImplementorFinders();
 
-        for (int i = 0; (i < finders.length) && !progressMonitor.isCanceled(); i++) {
+        for (int i = 0; (i < finders.length) && !progressMonitor.isCanceled(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             Collection<IType> types = finders[i].findInterfaces(type,
             		Progress.subMonitorSupressed(progressMonitor, 10));
 
@@ -167,15 +167,15 @@ public class Implementors {
      *
      * @return An array of methods which match the method parameter.
      */
-    private IJavaElement[] findMethods(IMethod method, IType[] types,
+    private IJavaElement[] findMethods(IMethod method, IType[] types, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         IProgressMonitor progressMonitor) {
-        Collection<IMethod> foundMethods = new ArrayList<>();
+        Collection<IMethod> foundMethods = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
         IProgressMonitor subProgressMonitor = Progress.subMonitorSupressed(progressMonitor, 10);
         subProgressMonitor.beginTask("", types.length); //$NON-NLS-1$
 
         try {
-            for (IType type : types) {
+            for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             	// we don't want the type we start the searched on be searched again. This happens when
             	// searching for abstract method implementations on abstract classes.
             	if(method.getDeclaringType().equals(type)) {

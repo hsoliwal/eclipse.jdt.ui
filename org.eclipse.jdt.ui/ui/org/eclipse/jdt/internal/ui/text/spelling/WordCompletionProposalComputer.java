@@ -55,7 +55,7 @@ public final class WordCompletionProposalComputer implements IJavaCompletionProp
 	/*
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposalComputer#computeCompletionProposals(org.eclipse.jface.text.contentassist.TextContentAssistInvocationContext, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, IProgressMonitor monitor) {
 		if (contributes()) {
 			try {
@@ -66,7 +66,7 @@ public final class WordCompletionProposalComputer implements IJavaCompletionProp
 				final String content= document.get(region.getOffset(), region.getLength());
 
 				int index= offset - region.getOffset() - 1;
-				while (index >= 0 && Character.isLetter(content.charAt(index)))
+				while (index >= 0 && Character.isLetter(content.charAt(index))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					index--;
 
 				final int start= region.getOffset() + index + 1;
@@ -79,15 +79,15 @@ public final class WordCompletionProposalComputer implements IJavaCompletionProp
 
 					if (checker != null) {
 
-						final List<RankedWordProposal> proposals= new ArrayList<>(checker.getProposals(candidate, Character.isUpperCase(candidate.charAt(0))));
-						final List<ICompletionProposal> result= new ArrayList<>(proposals.size());
+						final List<RankedWordProposal> proposals= new ArrayList<>(checker.getProposals(candidate, Character.isUpperCase(candidate.charAt(0)))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+						final List<ICompletionProposal> result= new ArrayList<>(proposals.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-						for (RankedWordProposal word : proposals) {
+						for (RankedWordProposal word : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							String text= word.getText();
 							if (text.startsWith(candidate))
 								word.setRank(word.getRank() + PREFIX_RANK_SHIFT);
 
-							result.add(new JavaCompletionProposal(text, start, candidate.length(), JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_RENAME), text, word.getRank()) {
+							result.add(new JavaCompletionProposal(text, start, candidate.length(), JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_RENAME), text, word.getRank()) { //FLLDCIM: MARK — T30  ANONYMOUS
 								/*
 								* @see org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposal#validate(org.eclipse.jface.text.IDocument, int, org.eclipse.jface.text.DocumentEvent)
 								*/

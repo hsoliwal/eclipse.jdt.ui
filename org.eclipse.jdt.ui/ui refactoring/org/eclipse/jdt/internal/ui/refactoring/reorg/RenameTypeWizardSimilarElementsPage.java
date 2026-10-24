@@ -156,7 +156,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 				updateStatus(validateSettings());
 		}
 
-		private IStatus validateSettings() {
+		private IStatus validateSettings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String name= fNameField.getText();
 			if (name.length() == 0) {
 				return new StatusInfo(IStatus.ERROR, RefactoringMessages.RenameTypeWizardSimilarElementsPage_name_empty);
@@ -191,7 +191,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		}
 	}
 
-	private static class SimilarElementTreeContentProvider implements ITreeContentProvider {
+	private static class SimilarElementTreeContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private Map<IJavaElement, Set<IJavaElement>> fTreeElementMap;
 		private Set<ICompilationUnit> fTopLevelElements;
@@ -234,16 +234,16 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 			fTopLevelElements= null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			Assert.isTrue(newInput == null || newInput instanceof Map);
 			if (newInput == null)
 				return;
 			@SuppressWarnings("unchecked")
 			final Map<IJavaElement, String> similarElementsMap= (Map<IJavaElement, String>) newInput;
-			fTreeElementMap= new HashMap<>();
-			fTopLevelElements= new HashSet<>();
-			for (IJavaElement similarElement : similarElementsMap.keySet().toArray(new IJavaElement[0])) {
+			fTreeElementMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			fTopLevelElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IJavaElement similarElement : similarElementsMap.keySet().toArray(new IJavaElement[0])) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IType declaring= (IType) similarElement.getAncestor(IJavaElement.TYPE);
 				if (similarElement instanceof IMember) {
 					// methods, fields, initializers, inner types
@@ -276,7 +276,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		private void addToMap(final IJavaElement key, final IJavaElement element) {
 			Set<IJavaElement> elements= fTreeElementMap.get(key);
 			if (elements == null) {
-				elements= new HashSet<>();
+				elements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				fTreeElementMap.put(key, elements);
 			}
 			elements.add(element);
@@ -286,7 +286,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 
 	private static class SimilarLabelProvider extends JavaElementLabelProvider {
 
-		private Map<ImageDescriptor, Image> fDescriptorImageMap= new HashMap<>();
+		private Map<ImageDescriptor, Image> fDescriptorImageMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		private Map<IJavaElement, String> fElementToNewName;
 
 		public SimilarLabelProvider() {
@@ -299,7 +299,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 
 		@Override
 		public void dispose() {
-			for (Image image : fDescriptorImageMap.values()) {
+			for (Image image : fDescriptorImageMap.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			super.dispose();
@@ -341,7 +341,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 
 	private static class SimilarElementComparator extends JavaElementComparator {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int category(Object element) {
 
 			/*
@@ -412,7 +412,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 	}
 
 	private void createTreeAndSourceViewer(Composite superComposite) {
-		SashForm composite= new SashForm(superComposite, SWT.HORIZONTAL);
+		SashForm composite= new SashForm(superComposite, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		initializeDialogUnits(superComposite);
 		GridData gd= new GridData(GridData.FILL_BOTH);
 		gd.heightHint= convertHeightInCharsToPixels(20);
@@ -457,9 +457,9 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		fTreeViewer.setComparator(new SimilarElementComparator());
 		fTreeViewer.setContentProvider(new SimilarElementTreeContentProvider());
 		fTreeViewerLabelProvider= new SimilarLabelProvider();
-		fTreeViewer.setLabelProvider(fTreeViewerLabelProvider);
-		fTreeViewer.addSelectionChangedListener(RenameTypeWizardSimilarElementsPage.this::treeViewerSelectionChanged);
-		fTreeViewer.addDoubleClickListener(unused -> RenameTypeWizardSimilarElementsPage.this.editCurrentElement());
+		fTreeViewer.setLabelProvider(fTreeViewerLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fTreeViewer.addSelectionChangedListener(RenameTypeWizardSimilarElementsPage.this::treeViewerSelectionChanged); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fTreeViewer.addDoubleClickListener(unused -> RenameTypeWizardSimilarElementsPage.this.editCurrentElement()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 	}
 
 	private void createSourceViewerComposite(Composite parent) {
@@ -498,7 +498,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		return JavaPlugin.getDefault().getJavaTextTools();
 	}
 
-	private void createButtonComposite(Composite superComposite) {
+	private void createButtonComposite(Composite superComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttonComposite= new Composite(superComposite, SWT.NONE);
 		buttonComposite.setLayoutData(new GridData());
 		GridLayout layout= new GridLayout(2, false);
@@ -509,7 +509,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		returnToDefaults.setText(RefactoringMessages.RenameTypeWizardSimilarElementsPage_restore_defaults);
 		returnToDefaults.setLayoutData(new GridData());
 		SWTUtil.setButtonDimensionHint(returnToDefaults);
-		returnToDefaults.addSelectionListener(new SelectionAdapter() {
+		returnToDefaults.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -521,7 +521,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		fEditElementButton.setLayoutData(new GridData());
 		fEditElementButton.setEnabled(false);
 		SWTUtil.setButtonDimensionHint(fEditElementButton);
-		fEditElementButton.addSelectionListener(new SelectionAdapter() {
+		fEditElementButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -561,7 +561,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		if (isSimilarElement(data)) {
 			return data;
 		} else {
-			for (TreeItem child : item.getItems()) {
+			for (TreeItem child : item.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object childData= getFirstSimilarElement(child);
 				if (childData != null)
 					return childData;
@@ -570,7 +570,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		return null;
 	}
 
-	private void initializeUIFromRef() {
+	private void initializeUIFromRef() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get data from the refactoring
 		final Map<IJavaElement, String> elementsToNewNames= getRenameTypeProcessor().getSimilarElementsToNewNames();
 		try {
@@ -579,7 +579,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 			if (fSimilarElementsToNewName == null || elementsToNewNames != fSimilarElementsToNewName) {
 				fSimilarElementsToNewName= elementsToNewNames;
 				fTreeViewerLabelProvider.initialize(fSimilarElementsToNewName);
-				fTreeViewer.setInput(fSimilarElementsToNewName);
+				fTreeViewer.setInput(fSimilarElementsToNewName); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 			fTreeViewer.expandAll();
 			restoreSelectionAndNames(getRenameTypeProcessor().getSimilarElementsToSelection());
@@ -591,11 +591,11 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 
 	private void initializeRefFromUI() {
 		IJavaElement[] selected= getCheckedSimilarElements();
-		Map<IJavaElement, Boolean> selection= getRenameTypeProcessor().getSimilarElementsToSelection();
-		for (IJavaElement element : selection.keySet()) {
+		Map<IJavaElement, Boolean> selection= getRenameTypeProcessor().getSimilarElementsToSelection(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (IJavaElement element : selection.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selection.put(element, Boolean.FALSE);
 		}
-		for (IJavaElement s : selected) {
+		for (IJavaElement s : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selection.put(s, Boolean.TRUE);
 		}
 
@@ -624,8 +624,8 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		}
 	}
 
-	private void restoreSelectionAndNames(final Map<IJavaElement, Boolean> selection) {
-		for (Map.Entry<IJavaElement, Boolean> entry : selection.entrySet()) {
+	private void restoreSelectionAndNames(final Map<IJavaElement, Boolean> selection) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
+		for (Map.Entry<IJavaElement, Boolean> entry : selection.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element = entry.getKey();
 			boolean isSelected= entry.getValue();
 			fTreeViewer.setChecked(element, isSelected);
@@ -694,7 +694,7 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 		return (IJavaElement) first;
 	}
 
-	private void setSourceViewerContents(IJavaElement el) throws JavaModelException {
+	private void setSourceViewerContents(IJavaElement el) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String EMPTY= ""; //$NON-NLS-1$
 		if (el == null) {
 			fSourceViewer.getDocument().set(EMPTY);
@@ -730,8 +730,8 @@ class RenameTypeWizardSimilarElementsPage extends UserInputWizardPage {
 
 	private IJavaElement[] getCheckedSimilarElements() {
 		Object[] checked= fTreeViewer.getCheckedElements();
-		List<IJavaElement> elements= new ArrayList<>(checked.length);
-		for (Object c : checked) {
+		List<IJavaElement> elements= new ArrayList<>(checked.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object c : checked) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSimilarElement(c)) {
 				elements.add((IJavaElement) c);
 			}

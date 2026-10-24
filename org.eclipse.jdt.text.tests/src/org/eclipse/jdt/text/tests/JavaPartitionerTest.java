@@ -51,7 +51,7 @@ public class JavaPartitionerTest {
 		fDocument.set("xxx\n/*xxx*/\nxxx\n/**xxx*/\nxxx\n/**/\nxxx\n/***/\nxxx");
 
 		fDocumentPartitioningChanged= false;
-		fDocument.addDocumentPartitioningListener(unused -> fDocumentPartitioningChanged= true);
+		fDocument.addDocumentPartitioningListener(unused -> fDocumentPartitioningChanged= true); //FLLDCIM: MARK — T28 DOCUMENT_DELTA CALL
 	}
 
 	@AfterEach
@@ -65,22 +65,22 @@ public class JavaPartitionerTest {
 	}
 
 	protected String print(ITypedRegion r) {
-		return "[" + r.getOffset() + "," + r.getLength() + "," + r.getType() + "]";
+		return "[" + r.getOffset() + "," + r.getLength() + "," + r.getType() + "]"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void checkPartitioning(ITypedRegion[] expectation, ITypedRegion[] result) {
 
 		assertEquals(expectation.length, result.length, "invalid number of partitions");
 
-		for (int i= 0; i < expectation.length; i++) {
+		for (int i= 0; i < expectation.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypedRegion e= expectation[i];
 			ITypedRegion r= result[i];
-			assertEquals(r, e, print(r) + " != " + print(e));
+			assertEquals(r, e, print(r) + " != " + print(e)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInitialPartitioning() {
 		try {
 
@@ -105,7 +105,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIntraPartitionChange() {
 		try {
 
@@ -133,7 +133,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIntraPartitionChange2() {
 		try {
 
@@ -160,7 +160,7 @@ public class JavaPartitionerTest {
 			fail();
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInsertNewPartition() {
 		try {
 
@@ -190,7 +190,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemovePartition1() {
 		try {
 
@@ -217,7 +217,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemovePartition2() {
 
 		testJoinPartition3();
@@ -248,7 +248,7 @@ public class JavaPartitionerTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJoinPartitions1() {
 		try {
 
@@ -274,7 +274,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJoinPartitions2() {
 		try {
 
@@ -300,7 +300,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJoinPartition3() {
 		try {
 
@@ -327,7 +327,7 @@ public class JavaPartitionerTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitPartition1() {
 
 		testJoinPartitions1();
@@ -350,7 +350,7 @@ public class JavaPartitionerTest {
 		testInitialPartitioning();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitPartition2() {
 
 		testJoinPartitions2();
@@ -371,7 +371,7 @@ public class JavaPartitionerTest {
 		testInitialPartitioning();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitPartition3() {
 
 		fDocumentPartitioningChanged= false;
@@ -401,7 +401,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCorruptPartitioning1() {
 		try {
 
@@ -433,7 +433,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCorruptPartitioning2() {
 		try {
 
@@ -469,7 +469,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCorruptPartitioning3() {
 		try {
 
@@ -503,7 +503,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOpenPartition1() {
 		try {
 
@@ -531,7 +531,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOpenPartition2() {
 		try {
 
@@ -562,7 +562,7 @@ public class JavaPartitionerTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeContentTypeOfPartition() {
 		try {
 
@@ -595,8 +595,8 @@ public class JavaPartitionerTest {
 	public void testPartitionFinder() {
 		try {
 
-			for (ITypedRegion expected : fDocument.computePartitioning(0, fDocument.getLength())) {
-				for (int j= 0; j < expected.getLength(); j++) {
+			for (ITypedRegion expected : fDocument.computePartitioning(0, fDocument.getLength())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (int j= 0; j < expected.getLength(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypedRegion result= fDocument.getPartition(expected.getOffset() + j);
 					assertEquals(expected, result);
 				}
@@ -607,7 +607,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtendPartition() {
 		try {
 
@@ -633,7 +633,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTransformPartition() {
 		try {
 
@@ -659,7 +659,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTogglePartition() {
 		try {
 
@@ -691,7 +691,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditing1() {
 		try {
 
@@ -729,7 +729,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditing2() {
 		try {
 
@@ -775,7 +775,7 @@ public class JavaPartitionerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEditing3() {
 		try {
 

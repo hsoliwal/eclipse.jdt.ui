@@ -58,11 +58,11 @@ import org.eclipse.jdt.internal.corext.util.Messages;
 public class SelfEncapsulateFieldCompositeRefactoring extends Refactoring {
 
 	private final List<SelfEncapsulateFieldRefactoring> fRefactorings;
-	private final HashMap<ICompilationUnit, ImportRewrite> fImportRewritesMap = new HashMap<>();
-	private final HashMap<ICompilationUnit, ASTRewrite> fRewritersMap = new HashMap<>();
-	private final HashMap<ICompilationUnit, CompilationUnit> fRootsMap = new HashMap<>();
-	private final HashMap<ICompilationUnit, List<TextEditGroup>> fDescriptionsMap = new HashMap<>();
-	private final List<TextChange> changes = new ArrayList<>();
+	private final HashMap<ICompilationUnit, ImportRewrite> fImportRewritesMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final HashMap<ICompilationUnit, ASTRewrite> fRewritersMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final HashMap<ICompilationUnit, CompilationUnit> fRootsMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final HashMap<ICompilationUnit, List<TextEditGroup>> fDescriptionsMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final List<TextChange> changes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	public List<SelfEncapsulateFieldRefactoring> getRefactorings() {
 		return fRefactorings;
@@ -73,8 +73,8 @@ public class SelfEncapsulateFieldCompositeRefactoring extends Refactoring {
 	}
 
 	public List<SelfEncapsulateFieldRefactoring> getRefactoringFromFields(List<IField> fields) throws JavaModelException {
-		List<SelfEncapsulateFieldRefactoring> refactorings = new ArrayList<>();
-		for(IField field : fields) {
+		List<SelfEncapsulateFieldRefactoring> refactorings = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for(IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (RefactoringAvailabilityTesterCore.isSelfEncapsulateAvailable(field)) {
 				refactorings.add(new SelfEncapsulateFieldRefactoring(field, this));
 			}
@@ -91,7 +91,7 @@ public class SelfEncapsulateFieldCompositeRefactoring extends Refactoring {
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 
 		RefactoringStatus fInitialConditions = new RefactoringStatus();
-		for(SelfEncapsulateFieldRefactoring selfEncapsulateFieldRefactoring : fRefactorings) {
+		for(SelfEncapsulateFieldRefactoring selfEncapsulateFieldRefactoring : fRefactorings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fInitialConditions.merge(selfEncapsulateFieldRefactoring.checkInitialConditions(pm));
 		}
 		return fInitialConditions;
@@ -101,7 +101,7 @@ public class SelfEncapsulateFieldCompositeRefactoring extends Refactoring {
 	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		pm.beginTask(RefactoringCoreMessages.SelfEncapsulateField_create_changes, changes.size());
 		final DynamicValidationRefactoringChange result= new DynamicValidationRefactoringChange(getDescriptor(), getName());
-		for (TextChange change : changes) {
+		for (TextChange change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(change);
 			pm.worked(1);
 		}
@@ -109,13 +109,13 @@ public class SelfEncapsulateFieldCompositeRefactoring extends Refactoring {
 		return result;
 	}
 
-	public EncapsulateFieldDescriptor getDescriptor () {
-		final Map<String, String> arguments= new HashMap<>();
+	public EncapsulateFieldDescriptor getDescriptor () { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String project= null;
 		IJavaProject javaProject= getSelectedRefactorings().get(0).getField().getJavaProject();
 		if (javaProject != null)
 			project= javaProject.getElementName();
-		String fieldLabels = (getSelectedRefactorings().size() <= 3
+		String fieldLabels = (getSelectedRefactorings().size() <= 3 //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				? getSelectedRefactorings()
 				: getSelectedRefactorings().subList(0, 3)).stream().map(refactoring -> refactoring.getField().getElementName()).collect(Collectors.joining(", ")) + ", ..."; //$NON-NLS-1$ //$NON-NLS-2$;
 		final String description= Messages.format(RefactoringCoreMessages.SelfEncapsulateField_descriptor_description_short, fieldLabels);
@@ -130,28 +130,28 @@ public class SelfEncapsulateFieldCompositeRefactoring extends Refactoring {
 			JavaManipulationPlugin.log(exception);
 		}
 		String comment = getSelectedRefactorings().stream().map(refactoring -> refactoring.getCommentsForDescriptor().asString()).collect(Collectors.joining(", ")); //$NON-NLS-1$
-		getSelectedRefactorings().forEach(refactoring -> refactoring.getArgumentsForDescriptor().forEach((key, value) -> arguments.merge(key, value, (v1, v2) -> v1 + ", " + v2))); //$NON-NLS-1$
+		getSelectedRefactorings().forEach(refactoring -> refactoring.getArgumentsForDescriptor().forEach((key, value) -> arguments.merge(key, value, (v1, v2) -> v1 + ", " + v2))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final EncapsulateFieldDescriptor descriptor= RefactoringSignatureDescriptorFactory.createEncapsulateFieldDescriptor(project, description, comment, arguments, flags);
 
 		return descriptor;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		clearResources();
 		RefactoringStatus fFinalConditions = new RefactoringStatus();
-		for(SelfEncapsulateFieldRefactoring selfEncapsulateFieldRefactoring : getSelectedRefactorings()) {
+		for(SelfEncapsulateFieldRefactoring selfEncapsulateFieldRefactoring : getSelectedRefactorings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fFinalConditions.merge(selfEncapsulateFieldRefactoring.checkFinalConditions(pm));
 		}
 		makeDeclarationsPrivate();
 		TextChangeManager fChangeManager = new TextChangeManager();
-		for(Entry<ICompilationUnit, ASTRewrite> entry : fRewritersMap.entrySet()) {
+		for(Entry<ICompilationUnit, ASTRewrite> entry : fRewritersMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TextChange change= fChangeManager.get(entry.getKey());
 			MultiTextEdit root= new MultiTextEdit();
 			change.setEdit(root);
 			root.addChild(fImportRewritesMap.get(entry.getKey()).rewriteImports(null));
 			root.addChild(entry.getValue().rewriteAST());
-			for (TextEditGroup textEditGroup : fDescriptionsMap.get(entry.getKey())) {
+			for (TextEditGroup textEditGroup : fDescriptionsMap.get(entry.getKey())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				change.addTextEditGroup(textEditGroup);
 			}
 			changes.add(change);
@@ -160,7 +160,7 @@ public class SelfEncapsulateFieldCompositeRefactoring extends Refactoring {
 	}
 
 	private void makeDeclarationsPrivate() throws CoreException {
-		for(SelfEncapsulateFieldRefactoring refactoring : getSelectedRefactorings()) {
+		for(SelfEncapsulateFieldRefactoring refactoring : getSelectedRefactorings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			refactoring.makeDeclarationPrivateIfNeeded();
 		}
 	}
@@ -210,7 +210,7 @@ public class SelfEncapsulateFieldCompositeRefactoring extends Refactoring {
 	public List<TextEditGroup> getDescriptionsForUnit(ICompilationUnit cu) {
 		List<TextEditGroup> descriptions;
 		if(fDescriptionsMap.get(cu) == null) {
-			descriptions= new ArrayList<>();
+			descriptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fDescriptionsMap.put(cu, descriptions);
 		} else {
 			descriptions = fDescriptionsMap.get(cu);

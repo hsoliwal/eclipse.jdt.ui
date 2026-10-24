@@ -139,12 +139,12 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 			return false;
 		if (fElements.length != fResources.length + fJavaElements.length)
 			return false;
-		for (IResource resource : fResources) {
+		for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!RefactoringAvailabilityTesterCore.isDeleteAvailable(resource)) {
 				return false;
 			}
 		}
-		for (IJavaElement javaElement : fJavaElements) {
+		for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!RefactoringAvailabilityTesterCore.isDeleteAvailable(javaElement)) {
 				return false;
 			}
@@ -156,7 +156,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		if (fResources != null && fResources.length > 0)
 			return true;
 		if (fJavaElements != null) {
-			for (IJavaElement javaElement : fJavaElements) {
+			for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int type= javaElement.getElementType();
 				if (type <= IJavaElement.CLASS_FILE)
 					return true;
@@ -184,7 +184,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	private String[] getAffectedProjectNatures() throws CoreException {
 		String[] jNatures= JavaProcessors.computeAffectedNaturs(fJavaElements);
 		String[] rNatures= ResourceProcessors.computeAffectedNatures(fResources);
-		Set<String> result= new HashSet<>(Arrays.asList(jNatures));
+		Set<String> result= new HashSet<>(Arrays.asList(jNatures)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		result.addAll(Arrays.asList(rNatures));
 		return result.toArray(new String[result.size()]);
 	}
@@ -207,7 +207,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 
 	public boolean hasSubPackagesToDelete() {
 		try {
-			for (IJavaElement javaElement : fJavaElements) {
+			for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (javaElement instanceof IPackageFragment) {
 					IPackageFragment packageFragment = (IPackageFragment) javaElement;
 					if (packageFragment.isDefaultPackage())
@@ -239,7 +239,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		return fResources;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		Assert.isNotNull(fDeleteQueries);//must be set before checking activation
 		RefactoringStatus result= new RefactoringStatus();
@@ -248,7 +248,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		if (!status.isOK()) {
 			boolean autoRefresh= Platform.getPreferencesService().getBoolean(ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PREF_LIGHTWEIGHT_AUTO_REFRESH, false, null);
 			if (autoRefresh) {
-				for (IResource resource : resources) {
+				for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						resource.refreshLocal(IResource.DEPTH_INFINITE, pm);
 					} catch (CoreException e) {
@@ -265,7 +265,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		if (!status.isOK()) {
 			boolean autoRefresh= Platform.getPreferencesService().getBoolean(ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PREF_LIGHTWEIGHT_AUTO_REFRESH, false, null);
 			if (autoRefresh) {
-				for (IResource resource : resources) {
+				for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						resource.refreshLocal(IResource.DEPTH_INFINITE, pm);
 					} catch (CoreException e) {
@@ -276,7 +276,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 			}
 		}
 		result.merge(RefactoringStatus.create(status));
-		for (IJavaElement element : fJavaElements) {
+		for (IJavaElement element : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IType && ((IType)element).isAnonymous()) {
 				// work around for bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=44450
 				// result.addFatalError("Currently, there isn't any support to delete an anonymous type.");
@@ -285,7 +285,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException {
 		pm.beginTask(RefactoringCoreMessages.DeleteRefactoring_1, 1);
 		try{
@@ -307,7 +307,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 			ResourceChangeChecker checker= context.getChecker(ResourceChangeChecker.class);
 			IResourceChangeDescriptionFactory deltaFactory= checker.getDeltaFactory();
 			fDeleteModifications.buildDelta(deltaFactory);
-			for (IFile file : ResourceUtil.getFiles(manager.getAllCompilationUnits())) {
+			for (IFile file : ResourceUtil.getFiles(manager.getAllCompilationUnits())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				deltaFactory.change(file);
 			}
 			return result;
@@ -322,11 +322,11 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	private void checkDirtyCompilationUnits(RefactoringStatus result) throws CoreException {
 		if (fJavaElements == null || fJavaElements.length == 0)
 			return;
-		for (IJavaElement element : fJavaElements) {
+		for (IJavaElement element : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				checkDirtyCompilationUnit(result, (ICompilationUnit)element);
 			} else if (element instanceof IPackageFragment) {
-				for (ICompilationUnit unit : ((IPackageFragment)element).getCompilationUnits()) {
+				for (ICompilationUnit unit : ((IPackageFragment)element).getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkDirtyCompilationUnit(result, unit);
 				}
 			}
@@ -341,7 +341,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	}
 
 	private void checkDirtyResources(final RefactoringStatus result) throws CoreException {
-		for (IResource resource : fResources) {
+		for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			resource.accept((IResourceVisitor) visitedResource -> {
 				if (visitedResource instanceof IFile) {
 					checkDirtyFile(result, (IFile)visitedResource);
@@ -374,7 +374,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	 * This method is used to calculate the set of elements that will be deleted - if necessary,
 	 * it asks the user.
 	 */
-	private void recalculateElementsToDelete() throws CoreException {
+	private void recalculateElementsToDelete() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//the sequence is critical here
 		fAccessorsDeleted= false;
 		if (fDeleteSubPackages) /* add subpackages first, to allow removing elements with parents in selection etc. */
@@ -404,8 +404,8 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	 */
 	private void addSubPackages() throws JavaModelException {
 
-		final Set<IJavaElement> javaElements= new HashSet<>();
-		for (IJavaElement javaElement : fJavaElements) {
+		final Set<IJavaElement> javaElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (javaElement instanceof IPackageFragment) {
 				javaElements.addAll(Arrays.asList(JavaElementUtil.getPackageAndSubpackages((IPackageFragment) javaElement)));
 			} else {
@@ -421,7 +421,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	 *
 	 * @throws CoreException should not happen
 	 */
-	private void addDeletableParentPackagesOnPackageDeletion() throws CoreException {
+	private void addDeletableParentPackagesOnPackageDeletion() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		@SuppressWarnings("unchecked")
 		final List<IPackageFragment> initialPackagesToDelete= (List<IPackageFragment>) ReorgUtilsCore.getElementsOfType(fJavaElements, IJavaElement.PACKAGE_FRAGMENT);
@@ -430,11 +430,11 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 			return;
 
 		// Move from inner to outer packages
-		Collections.sort(initialPackagesToDelete, Comparator.comparing(IPackageFragment::getElementName).reversed());
+		Collections.sort(initialPackagesToDelete, Comparator.comparing(IPackageFragment::getElementName).reversed()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 		// Get resources and java elements which will be deleted as well
-		final Set<IResource> deletedChildren= new HashSet<>(Arrays.asList(fResources));
-		for (IJavaElement javaElement : fJavaElements) {
+		final Set<IResource> deletedChildren= new HashSet<>(Arrays.asList(fResources)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!ReorgUtilsCore.isInsideCompilationUnit(javaElement)) {
 				deletedChildren.add(javaElement.getResource());
 			}
@@ -444,9 +444,9 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		final Set<IPackageFragment>allFragmentsToDelete= new LinkedHashSet<>();
 
 		IsCompletelySelected isCompletelySelected = new IsCompletelySelected(initialPackagesToDelete);
-		Set<IPackageFragment> packagesToDelete = new HashSet<>(initialPackagesToDelete); // or use binary search, since the array is sorted?
+		Set<IPackageFragment> packagesToDelete = new HashSet<>(initialPackagesToDelete); // or use binary search, since the array is sorted? //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (IPackageFragment currentPackageFragment : initialPackagesToDelete) {
+		for (IPackageFragment currentPackageFragment : initialPackagesToDelete) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// The package will at least be cleared
 			allFragmentsToDelete.add(currentPackageFragment);
 
@@ -456,7 +456,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 
 				if (parent != null && !packagesToDelete.contains(parent)) {
 
-					final List<IPackageFragment>emptyParents= new ArrayList<>();
+					final List<IPackageFragment>emptyParents= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					addDeletableParentPackages(parent, packagesToDelete, deletedChildren, emptyParents);
 
 					// Add parents in the right sequence (inner to outer)
@@ -466,8 +466,8 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		}
 
 		// Remove resources in deleted packages; and the packages as well
-		final List<IJavaElement>javaElements= new ArrayList<>();
-		for (IJavaElement javaElement : fJavaElements) {
+		final List<IJavaElement>javaElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement javaElement : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(javaElement instanceof IPackageFragment)) {
 				// remove children of deleted packages
 				final IPackageFragment frag= (IPackageFragment) javaElement.getAncestor(IJavaElement.PACKAGE_FRAGMENT);
@@ -480,8 +480,8 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		javaElements.addAll(allFragmentsToDelete);
 
 		// Remove resources in deleted folders
-		final List<IResource>resources= new ArrayList<>();
-		for (IResource resource : fResources) {
+		final List<IResource>resources= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContainer parent= resource.getParent();
 			if (!deletedChildren.contains(parent))
 				resources.add(resource);
@@ -501,7 +501,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	 * @param deletableParentPackages result ro add deletable parent packages
 	 * @throws CoreException should not happen
 	 */
-	private void addDeletableParentPackages(IPackageFragment frag, Collection<IPackageFragment> initialPackagesToDelete, Set<IResource> resourcesToDelete, List<IPackageFragment> deletableParentPackages)
+	private void addDeletableParentPackages(IPackageFragment frag, Collection<IPackageFragment> initialPackagesToDelete, Set<IResource> resourcesToDelete, List<IPackageFragment> deletableParentPackages) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws CoreException {
 
 		if (frag.getResource().isLinked()) {
@@ -510,7 +510,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 					return;
 		}
 
-		for (IResource child : ((IContainer) frag.getResource()).members()) {
+		for (IResource child : ((IContainer) frag.getResource()).members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Child must be a package fragment already in the list,
 			// or a resource which is deleted as well.
 			if (!resourcesToDelete.contains(child)) {
@@ -534,9 +534,9 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		removeUnconfirmedReferencedArchiveFiles(query);
 	}
 
-	private void removeUnconfirmedReferencedArchiveFiles(IConfirmQuery query) throws JavaModelException, OperationCanceledException {
-		List<IResource> filesToSkip= new ArrayList<>(0);
-		for (IResource resource : fResources) {
+	private void removeUnconfirmedReferencedArchiveFiles(IConfirmQuery query) throws JavaModelException, OperationCanceledException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IResource> filesToSkip= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! (resource instanceof IFile))
 				continue;
 
@@ -554,12 +554,12 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	}
 
 	private void removeUnconfirmedReferencedPackageFragmentRoots(IConfirmQuery query) throws JavaModelException, OperationCanceledException {
-		List<IPackageFragmentRoot> rootsToSkip= new ArrayList<>(0);
-		for (IJavaElement element : fJavaElements) {
+		List<IPackageFragmentRoot> rootsToSkip= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement element : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! (element instanceof IPackageFragmentRoot))
 				continue;
 			IPackageFragmentRoot root= (IPackageFragmentRoot)element;
-			ArrayList<IJavaProject> referencingProjects= new ArrayList<>(Arrays.asList(JavaElementUtil.getReferencingProjects(root)));
+			ArrayList<IJavaProject> referencingProjects= new ArrayList<>(Arrays.asList(JavaElementUtil.getReferencingProjects(root))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			referencingProjects.remove(root.getJavaProject());
 			if (skipDeletingReferencedRoot(query, root, referencingProjects))
 				rootsToSkip.add(root);
@@ -579,8 +579,8 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	private void removeUnconfirmedFoldersThatContainSourceFolders() throws CoreException {
 		String queryTitle= RefactoringCoreMessages.DeleteRefactoring_4;
 		IConfirmQuery query= fDeleteQueries.createYesYesToAllNoNoToAllQuery(queryTitle, true, IReorgQueries.CONFIRM_DELETE_FOLDERS_CONTAINING_SOURCE_FOLDERS);
-		List<IFolder> foldersToSkip= new ArrayList<>(0);
-		for (IResource resource : fResources) {
+		List<IFolder> foldersToSkip= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : fResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource instanceof IFolder){
 				IFolder folder= (IFolder)resource;
 				if (containsSourceFolder(folder)){
@@ -594,7 +594,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	}
 
 	private static boolean containsSourceFolder(IFolder folder) throws CoreException {
-		for (IResource subFolder : folder.members()) {
+		for (IResource subFolder : folder.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(subFolder instanceof IFolder)) {
 				continue;
 			}
@@ -623,11 +623,11 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		fJavaElements= parentUtil.getJavaElements();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor monitor) throws CoreException {
 		try {
 			monitor.beginTask(RefactoringCoreMessages.JavaDeleteProcessor_creating_change, 1);
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			final String description= fElements.length == 1 ? RefactoringCoreMessages.JavaDeleteProcessor_description_singular : RefactoringCoreMessages.JavaDeleteProcessor_description_plural;
 			final IProject resource= getSingleProject();
 			final String project= resource != null ? resource.getName() : null;
@@ -644,20 +644,20 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 			arguments.put(ATTRIBUTE_DELETE_SUBPACKAGES, Boolean.toString(fDeleteSubPackages));
 			arguments.put(ATTRIBUTE_SUGGEST_ACCESSORS, Boolean.toString(fSuggestGetterSetterDeletion));
 			arguments.put(ATTRIBUTE_RESOURCES, Integer.toString(fResources.length));
-			for (int offset= 0; offset < fResources.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.resourceToHandle(project, fResources[offset]));
+			for (int offset= 0; offset < fResources.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + 1), JavaRefactoringDescriptorUtil.resourceToHandle(project, fResources[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.put(ATTRIBUTE_ELEMENTS, Integer.toString(fJavaElements.length));
-			for (int offset= 0; offset < fJavaElements.length; offset++)
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fResources.length + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fJavaElements[offset]));
+			for (int offset= 0; offset < fJavaElements.length; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (offset + fResources.length + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fJavaElements[offset])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return new DynamicValidationRefactoringChange(descriptor, RefactoringCoreMessages.DeleteRefactoring_7, new Change[] { fDeleteChange});
 		} finally {
 			monitor.done();
 		}
 	}
 
-	private IProject getSingleProject() {
+	private IProject getSingleProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProject first= null;
-		for (Object javaElement : fElements) {
+		for (Object javaElement : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject project= null;
 			if (javaElement instanceof IJavaElement) {
 				project= ((IJavaElement) javaElement).getJavaProject().getProject();
@@ -703,10 +703,10 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	}
 
 	private List<IMethod> getGettersSettersToDelete(Map<IField, IMethod[]> getterSetterMapping) {
-		List<IMethod> gettersSettersToAdd= new ArrayList<>(getterSetterMapping.size());
+		List<IMethod> gettersSettersToAdd= new ArrayList<>(getterSetterMapping.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String queryTitle= RefactoringCoreMessages.DeleteRefactoring_8;
 		IConfirmQuery getterSetterQuery= fDeleteQueries.createYesYesToAllNoNoToAllQuery(queryTitle, true, IReorgQueries.CONFIRM_DELETE_GETTER_SETTER);
-		for (IField field : getterSetterMapping.keySet()) {
+		for (IField field : getterSetterMapping.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isTrue(hasGetter(getterSetterMapping, field) || hasSetter(getterSetterMapping, field));
 			String deleteGetterSetter= Messages.format(RefactoringCoreMessages.DeleteRefactoring_9, JavaElementUtil.createFieldSignature(field));
 			if (getterSetterQuery.confirm(deleteGetterSetter)){
@@ -720,9 +720,9 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	}
 
 	//note: modifies the mapping
-	private void removeAlreadySelectedMethods(Map<IField, IMethod[]> getterSetterMapping) {
+	private void removeAlreadySelectedMethods(Map<IField, IMethod[]> getterSetterMapping) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<IJavaElement> elementsToDelete= Arrays.asList(fJavaElements);
-		for (Iterator<IField> iter= getterSetterMapping.keySet().iterator(); iter.hasNext();) {
+		for (Iterator<IField> iter= getterSetterMapping.keySet().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IField field= iter.next();
 			//remove getter
 			IMethod getter= getGetter(getterSetterMapping, field);
@@ -744,8 +744,8 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	 * IField -> IMethod[] (array of 2 - [getter, setter], one of which can be null)
 	 */
 	private static Map<IField, IMethod[]> createGetterSetterMapping(IField[] fields) throws JavaModelException {
-		Map<IField, IMethod[]> result= new HashMap<>();
-		for (IField field : fields) {
+		Map<IField, IMethod[]> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod[] getterSetter= getGetterSetter(field);
 			if (getterSetter != null)
 				result.put(field, getterSetter);
@@ -773,8 +773,8 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		return getterSetterMapping.get(field)[1];
 	}
 	private static IField[] getFields(IJavaElement[] elements){
-		List<IJavaElement> fields= new ArrayList<>(3);
-		for (IJavaElement element : elements) {
+		List<IJavaElement> fields= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IField) {
 				fields.add(element);
 			}
@@ -807,9 +807,9 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 	}
 
 	private Set<ICompilationUnit> getCusToEmpty() throws JavaModelException {
-		Set<IJavaElement> deletedElements= new HashSet<>(Arrays.asList(fJavaElements));
-		Set<ICompilationUnit> result= new HashSet<>();
-		for (IJavaElement element : fJavaElements) {
+		Set<IJavaElement> deletedElements= new HashSet<>(Arrays.asList(fJavaElements)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<ICompilationUnit> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement element : fJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= ReorgUtilsCore.getCompilationUnit(element);
 			if (cu != null && !result.contains(cu) && deletedElements.containsAll(topLevelTypes(cu)))
 				result.add(cu);
@@ -821,7 +821,7 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		return Arrays.asList(cu.getTypes());
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		setQueries(new NullReorgQueries());
 		final RefactoringStatus status= new RefactoringStatus();
 		final String subPackages= extended.getAttribute(ATTRIBUTE_DELETE_SUBPACKAGES);
@@ -855,9 +855,9 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 		} else
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, ATTRIBUTE_ELEMENTS));
 		String handle= null;
-		List<IAdaptable> elements= new ArrayList<>();
-		for (int index= 0; index < resourceCount; index++) {
-			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1);
+		List<IAdaptable> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int index= 0; index < resourceCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			handle= extended.getAttribute(attribute);
 			if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 				final IResource resource= JavaRefactoringDescriptorUtil.handleToResource(extended.getProject(), handle);
@@ -869,9 +869,9 @@ public final class JavaDeleteProcessor extends DeleteProcessor {
 				return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, attribute));
 		}
 		fResources= elements.toArray(new IResource[elements.size()]);
-		elements= new ArrayList<>();
-		for (int index= 0; index < elementCount; index++) {
-			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (resourceCount + index + 1);
+		elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int index= 0; index < elementCount; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			final String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (resourceCount + index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			handle= extended.getAttribute(attribute);
 			if (handle != null && !"".equals(handle)) { //$NON-NLS-1$
 				final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);

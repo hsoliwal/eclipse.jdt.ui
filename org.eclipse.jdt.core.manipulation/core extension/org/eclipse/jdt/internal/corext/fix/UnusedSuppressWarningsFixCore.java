@@ -57,11 +57,11 @@ public class UnusedSuppressWarningsFixCore extends CompilationUnitRewriteOperati
 		return createAllFix(compilationUnit, null, false);
 	}
 
-	private static IProposableFix createAllFix(CompilationUnit compilationUnit, StringLiteral origLiteral, boolean isQuickFix) {
+	private static IProposableFix createAllFix(CompilationUnit compilationUnit, StringLiteral origLiteral, boolean isQuickFix) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProblem[] problems= compilationUnit.getProblems();
-		List<IProblemLocation> locationsList= new ArrayList<>();
-		Set<String> tokens= new HashSet<>();
-		for (int i= 0; i < problems.length; i++) {
+		List<IProblemLocation> locationsList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<String> tokens= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblemLocation location= new ProblemLocation(problems[i]);
 			if (location.getProblemId() == IProblem.UnusedWarningToken) {
 				ASTNode node= location.getCoveringNode(compilationUnit);
@@ -112,10 +112,10 @@ public class UnusedSuppressWarningsFixCore extends CompilationUnitRewriteOperati
 			this.fLocations= locations;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 
-			for (IProblemLocation location : fLocations) {
+			for (IProblemLocation location : fLocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode coveringNode= location.getCoveringNode(cuRewrite.getRoot());
 				if (!(coveringNode instanceof StringLiteral))
 					continue;

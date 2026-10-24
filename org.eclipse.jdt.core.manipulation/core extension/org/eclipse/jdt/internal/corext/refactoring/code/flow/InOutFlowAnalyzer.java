@@ -44,7 +44,7 @@ public class InOutFlowAnalyzer extends FlowAnalyzer {
 		FlowContext context= getFlowContext();
 		GenericSequentialFlowInfo result= createSequential();
 		fSelectedNodes= selectedNodes;
-		for (ASTNode node : selectedNodes) {
+		for (ASTNode node : selectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node.accept(this);
 			result.merge(getFlowInfo(node), context);
 		}
@@ -66,7 +66,7 @@ public class InOutFlowAnalyzer extends FlowAnalyzer {
 	@Override
 	protected boolean createReturnFlowInfo(YieldStatement node) {
 		ASTNode parent= node.getParent();
-		while (parent != null && !(parent instanceof SwitchExpression)) {
+		while (parent != null && !(parent instanceof SwitchExpression)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		return (parent instanceof SwitchExpression) && fSelectedNodes.length > 0 && parent.getStartPosition() < fSelectedNodes[0].getStartPosition();	// we are only traversing selected nodes.
@@ -100,7 +100,7 @@ public class InOutFlowAnalyzer extends FlowAnalyzer {
 	public void endVisit(MethodDeclaration node) {
 		super.endVisit(node);
 		FlowInfo info= accessFlowInfo(node);
-		for (Iterator<SingleVariableDeclaration> iter= node.parameters().iterator(); iter.hasNext();) {
+		for (Iterator<SingleVariableDeclaration> iter= node.parameters().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			clearAccessMode(info, iter.next());
 		}
 	}
@@ -114,7 +114,7 @@ public class InOutFlowAnalyzer extends FlowAnalyzer {
 	private void clearAccessMode(FlowInfo info, List<? extends ASTNode> nodes) {
 		if (nodes== null || nodes.isEmpty() || info == null)
 			return;
-		for (ASTNode node : nodes) {
+		for (ASTNode node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Iterator<VariableDeclarationFragment> fragments= null;
 			if (node instanceof VariableDeclarationStatement) {
 				fragments= ((VariableDeclarationStatement)node).fragments().iterator();
@@ -122,7 +122,7 @@ public class InOutFlowAnalyzer extends FlowAnalyzer {
 				fragments= ((VariableDeclarationExpression)node).fragments().iterator();
 			}
 			if (fragments != null) {
-				while (fragments.hasNext()) {
+				while (fragments.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					clearAccessMode(info, fragments.next());
 				}
 			}

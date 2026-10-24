@@ -99,7 +99,7 @@ public class ParameterNamesCodeMiningTest {
 	public void tearDown() throws Exception {
 		PreferenceConstants.getPreferenceStore().setValue(PreferenceConstants.EDITOR_CODEMINING_ENABLED, wasCodeMiningEnabled);
 		IWorkbenchPage workbenchPage= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		for (IEditorReference ref : workbenchPage.getEditorReferences()) {
+		for (IEditorReference ref : workbenchPage.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			workbenchPage.closeEditor(ref.getEditor(false), false);
 		}
 	}
@@ -144,7 +144,7 @@ public class ParameterNamesCodeMiningTest {
 		assertEquals(2, fParameterNameCodeMiningProvider.provideCodeMinings(viewer, new NullProgressMonitor()).get().size());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultiLines() throws Exception {
 		String contents =
 				"""
@@ -199,7 +199,7 @@ public class ParameterNamesCodeMiningTest {
 		assertEquals(2, fParameterNameCodeMiningProvider.provideCodeMinings(viewer, new NullProgressMonitor()).get().size());
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@ValueSource(ints= {ProjectionViewer.COLLAPSE, ProjectionViewer.COLLAPSE_ALL}) // ensure no error with both comment and everything collapsed
 	public void testCollapsedFolding(int collapseAction) throws Exception {
 		String contents= """
@@ -241,7 +241,7 @@ public class ParameterNamesCodeMiningTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollapsedFoldingAndToggleHighlight() throws Exception {
 		String contents= """
 			/**
@@ -307,7 +307,7 @@ public class ParameterNamesCodeMiningTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug547232() throws Exception {
 		String contents= "public class Test {\n" +
 				"    public final Object object;\n" +
@@ -332,7 +332,7 @@ public class ParameterNamesCodeMiningTest {
 		assertEquals(2, fParameterNameCodeMiningProvider.provideCodeMinings(viewer, new NullProgressMonitor()).get().size());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug549023() throws Exception {
 		String contents= "class Base {\n" +
 				"    public final Object object;\n" +
@@ -359,7 +359,7 @@ public class ParameterNamesCodeMiningTest {
 		assertEquals(2, fParameterNameCodeMiningProvider.provideCodeMinings(viewer, new NullProgressMonitor()).get().size());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug549126() throws Exception {
 		String contents= "public enum TestEnum {\n" +
 				"    A(\"bla\", null);\n" +
@@ -392,7 +392,7 @@ public class ParameterNamesCodeMiningTest {
 		assertParameterNamesShown(true, 1);
 	}
 
-	private void assertParameterNamesShown(boolean preferenceValue, int expectedShownNames) throws JavaModelException, PartInitException, InterruptedException, ExecutionException {
+	private void assertParameterNamesShown(boolean preferenceValue, int expectedShownNames) throws JavaModelException, PartInitException, InterruptedException, ExecutionException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PreferenceConstants.getPreferenceStore().setValue(PreferenceConstants.EDITOR_JAVA_CODEMINING_SHOW_PARAMETER_NAME_SINGLE_ARG, preferenceValue);
 		String contents= """
 				public class Ant {
@@ -413,7 +413,7 @@ public class ParameterNamesCodeMiningTest {
 		assertEquals(expectedShownNames, fParameterNameCodeMiningProvider.provideCodeMinings(viewer, new NullProgressMonitor()).get().size());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordConstructorOK() throws Exception {
 		String contents= "import java.util.Map;\n"
 				+ "public record Edge(int fromNodeId,\n"
@@ -450,7 +450,7 @@ public class ParameterNamesCodeMiningTest {
 		assertEquals(10, fParameterNameCodeMiningProvider.provideCodeMinings(viewer, new NullProgressMonitor()).get().size());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue457() throws Exception {
 		String contents=
 				"""

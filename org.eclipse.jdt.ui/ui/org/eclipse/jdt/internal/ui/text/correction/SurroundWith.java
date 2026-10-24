@@ -88,7 +88,7 @@ public abstract class SurroundWith {
 			return fAccessedInside.contains(last) != fAccessedInside.contains(current) || fAccessedAfter.contains(last) != fAccessedAfter.contains(current);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void initializeStatement(VariableDeclarationStatement statement, VariableDeclarationFragment current) {
 			if (fAccessedAfter.contains(current)) {
 				if (fAccessedInside.contains(current))
@@ -217,7 +217,7 @@ public abstract class SurroundWith {
 	 * @return Returns the rewriter to be used.
 	 * @throws CoreException A core exception is thrown when the could not be created.
 	 */
-	public ASTRewrite getRewrite() throws CoreException {
+	public ASTRewrite getRewrite() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode[] selectedNodes= fSelectedNodes;
 		AST ast= getAst();
 
@@ -232,12 +232,12 @@ public abstract class SurroundWith {
 		List<VariableDeclaration> readInside;
 		readInside= getVariableDeclarationReadsInside(selectedNodes, maxVariableId);
 
-		List<ASTNode> inserted= new ArrayList<>();
+		List<ASTNode> inserted= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		moveToBlock(selectedNodes, inserted, accessedAfter, readInside, rewrite);
 		if (fIsNewContext) {
 			ImportRewrite importRewrite= StubUtility.createImportRewrite((CompilationUnit)selectedNodes[0].getRoot(), false);
 			ImportRewriteContext importRewriteContext= new ContextSensitiveImportRewriteContext(selectedNodes[0], importRewrite);
-			for (ASTNode selectedNode : selectedNodes) {
+			for (ASTNode selectedNode : selectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				qualifyThisExpressions(selectedNode, rewrite, importRewrite, importRewriteContext);
 			}
 		}
@@ -247,7 +247,7 @@ public abstract class SurroundWith {
 			rewrite.replace(selectedNodes[0], wrap, null);
 			ListRewrite listRewrite= rewrite.getListRewrite(wrap, Block.STATEMENTS_PROPERTY);
 
-			for (ASTNode node : inserted) {
+			for (ASTNode node : inserted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listRewrite.insertLast(node, null);
 			}
 
@@ -255,7 +255,7 @@ public abstract class SurroundWith {
 			ListRewrite listRewrite= getListRewrite(selectedNodes[0], rewrite);
 
 			ASTNode current= selectedNodes[selectedNodes.length - 1];
-			for (ASTNode node : inserted) {
+			for (ASTNode node : inserted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listRewrite.insertAfter(node, current, null);
 				current= node;
 			}
@@ -281,11 +281,11 @@ public abstract class SurroundWith {
 	 * @return	List of VariableDeclaration
 	 */
 	protected List<VariableDeclaration> getVariableDeclarationReadsInside(ASTNode[] selectedNodes, int maxVariableId) {
-		ArrayList<VariableDeclaration> result= new ArrayList<>();
+		ArrayList<VariableDeclaration> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (!fIsNewContext)
 			return result;
 
-		for (IVariableBinding read : getReads(selectedNodes, maxVariableId)) {
+		for (IVariableBinding read : getReads(selectedNodes, maxVariableId)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!read.isField()) {
 				ASTNode readDecl= getRootNode().findDeclaringNode(read);
 				if (readDecl instanceof VariableDeclaration) {
@@ -304,7 +304,7 @@ public abstract class SurroundWith {
 	 * @param maxVariableId The maximum number of variable declarations
 	 * @return List of VariableDeclarationFragments which can't be moved to the new block
 	 */
-	protected List<VariableDeclarationFragment> getVariableDeclarationsAccessedAfter(ASTNode startNode, int maxVariableId) {
+	protected List<VariableDeclarationFragment> getVariableDeclarationsAccessedAfter(ASTNode startNode, int maxVariableId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		List<Statement> statements;
 		if (startNode.getLocationInParent() == SwitchStatement.STATEMENTS_PROPERTY) {
@@ -316,10 +316,10 @@ public abstract class SurroundWith {
 		}
 		List<Statement> bodyAfterSelection= statements.subList(statements.indexOf(startNode) + 1, statements.size());
 
-		List<VariableDeclarationFragment> result= new ArrayList<>();
+		List<VariableDeclarationFragment> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (!bodyAfterSelection.isEmpty()) {
 
-			for (IVariableBinding curVar : getAccesses(bodyAfterSelection.toArray(new ASTNode[bodyAfterSelection.size()]), maxVariableId)) {
+			for (IVariableBinding curVar : getAccesses(bodyAfterSelection.toArray(new ASTNode[bodyAfterSelection.size()]), maxVariableId)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!curVar.isField()) {
 					ASTNode readDecl= ASTNodes.findDeclaration(curVar, getRootNode());
 					if (readDecl instanceof VariableDeclarationFragment) {
@@ -378,16 +378,16 @@ public abstract class SurroundWith {
 	 * @param accessedInside VariableDeclaration which can be made final
 	 * @param rewrite The rewrite to use.
 	 */
-	private final void moveToBlock(ASTNode[] toMove, List<ASTNode> statements, final List<VariableDeclarationFragment> accessedAfter, final List<VariableDeclaration> accessedInside, final ASTRewrite rewrite) {
+	private final void moveToBlock(ASTNode[] toMove, List<ASTNode> statements, final List<VariableDeclarationFragment> accessedAfter, final List<VariableDeclaration> accessedInside, final ASTRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		for (ASTNode node : toMove) {
+		for (ASTNode node : toMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof VariableDeclarationStatement) {
 				VariableDeclarationStatement statement= (VariableDeclarationStatement)node;
 				final ListRewrite blockRewrite= getListRewrite(statement, rewrite);
 
 				splitVariableDeclarationStatement(statement, createSplitSelectedOperator(accessedAfter, accessedInside, rewrite, statements, blockRewrite), rewrite);
 
-				for (Iterator<VariableDeclarationFragment> iter= statement.fragments().iterator(); iter.hasNext();) {
+				for (Iterator<VariableDeclarationFragment> iter= statement.fragments().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					accessedInside.remove(iter.next());
 				}
 			} else {
@@ -395,7 +395,7 @@ public abstract class SurroundWith {
 			}
 		}
 
-		while (!accessedInside.isEmpty()) {
+		while (!accessedInside.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclaration variableDeclaration= accessedInside.get(0);
 			if (variableDeclaration instanceof SingleVariableDeclaration) {
 				if (ASTNodes.findModifierNode(Modifier.FINAL, ASTNodes.getModifiers(variableDeclaration)) == null) {
@@ -408,7 +408,7 @@ public abstract class SurroundWith {
 
 				splitVariableDeclarationStatement(statement, createSplitUnselectedOperator(accessedInside, rewrite, blockRewrite), rewrite);
 
-				for (Iterator<VariableDeclarationFragment> iter= statement.fragments().iterator(); iter.hasNext();) {
+				for (Iterator<VariableDeclarationFragment> iter= statement.fragments().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment fragment= iter.next();
 					accessedInside.remove(fragment);
 				}
@@ -417,7 +417,7 @@ public abstract class SurroundWith {
 
 				VariableDeclarationRewrite.rewriteModifiers(expression, Modifier.FINAL, 0, rewrite, null);
 
-				for (Iterator<VariableDeclarationFragment> iter= expression.fragments().iterator(); iter.hasNext();) {
+				for (Iterator<VariableDeclarationFragment> iter= expression.fragments().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment fragment= iter.next();
 					accessedInside.remove(fragment);
 				}
@@ -447,7 +447,7 @@ public abstract class SurroundWith {
 	 * @param splitOperator The operator to use to split
 	 * @param rewrite The rewriter to use to generate new VariableDeclarationStatements.
 	 */
-	private void splitVariableDeclarationStatement(VariableDeclarationStatement statement, ISplitOperation splitOperator, ASTRewrite rewrite) {
+	private void splitVariableDeclarationStatement(VariableDeclarationStatement statement, ISplitOperation splitOperator, ASTRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		List<VariableDeclarationFragment> fragments= statement.fragments();
 		Iterator<VariableDeclarationFragment> iter= fragments.iterator();
@@ -457,7 +457,7 @@ public abstract class SurroundWith {
 		splitOperator.initializeStatement(lastStatement, lastFragment);
 
 		ListRewrite fragmentsRewrite= null;
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment currentFragment= iter.next();
 
 			if (splitOperator.needsSplit(lastFragment, currentFragment)) {
@@ -465,7 +465,7 @@ public abstract class SurroundWith {
 				VariableDeclarationStatement newStatement= getAst().newVariableDeclarationStatement((VariableDeclarationFragment)rewrite.createMoveTarget(currentFragment));
 
 				ListRewrite modifierRewrite= rewrite.getListRewrite(newStatement, VariableDeclarationStatement.MODIFIERS2_PROPERTY);
-				for (Iterator<IExtendedModifier> iterator= statement.modifiers().iterator(); iterator.hasNext();) {
+				for (Iterator<IExtendedModifier> iterator= statement.modifiers().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					modifierRewrite.insertLast(rewrite.createCopyTarget((ASTNode)iterator.next()), null);
 				}
 

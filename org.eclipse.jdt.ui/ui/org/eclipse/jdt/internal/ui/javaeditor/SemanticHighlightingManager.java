@@ -48,7 +48,7 @@ import org.eclipse.jdt.internal.ui.text.JavaPresentationReconciler;
  *
  * @since 3.0
  */
-public class SemanticHighlightingManager implements IPropertyChangeListener {
+public class SemanticHighlightingManager implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	/**
 	 * Highlighting.
@@ -284,7 +284,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 	private HighlightedRange[][] fHardcodedRanges;
 
 	/** Highlightings whose style changed in the current UI turn */
-	private final Set<Highlighting> fChangedHighlightings= new HashSet<>();
+	private final Set<Highlighting> fChangedHighlightings= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	/** Whether a re-style is already scheduled */
 	private boolean fRestylePending;
 
@@ -296,7 +296,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 	 * @param colorManager The color manager
 	 * @param preferenceStore The preference store
 	 */
-	public void install(JavaEditor editor, JavaSourceViewer sourceViewer, IColorManager colorManager, IPreferenceStore preferenceStore) {
+	public void install(JavaEditor editor, JavaSourceViewer sourceViewer, IColorManager colorManager, IPreferenceStore preferenceStore) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fEditor= editor;
 		fSourceViewer= sourceViewer;
 		fColorManager= colorManager;
@@ -369,11 +369,11 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 	 * @return the hard-coded positions
 	 */
 	private HighlightedPosition[] createHardcodedPositions() {
-		List<HighlightedPosition> positions= new ArrayList<>();
-		for (HighlightedRange[] hardcodedRange : fHardcodedRanges) {
+		List<HighlightedPosition> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (HighlightedRange[] hardcodedRange : fHardcodedRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			HighlightedRange range= null;
 			Highlighting hl= null;
-			for (HighlightedRange r : hardcodedRange) {
+			for (HighlightedRange r : hardcodedRange) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				hl= getHighlighting(r.getKey());
 				if (hl.isEnabled()) {
 					range= r;
@@ -393,7 +393,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 	 * @return the corresponding highlighting
 	 */
 	private Highlighting getHighlighting(String key) {
-		for (Highlighting highlighting : fHighlightings) {
+		for (Highlighting highlighting : fHighlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (key.equals(highlighting.getPreferenceKey()))
 				return highlighting;
 		}
@@ -449,10 +449,10 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 	/**
 	 * Initialize semantic highlightings.
 	 */
-	private void initializeHighlightings() {
+	private void initializeHighlightings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSemanticHighlightings= SemanticHighlightings.getSemanticHighlightings();
 		fHighlightings= new Highlighting[fSemanticHighlightings.length];
-		for (int i= 0, n= fSemanticHighlightings.length; i < n; i++) {
+		for (int i= 0, n= fSemanticHighlightings.length; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SemanticHighlighting semanticHighlighting= fSemanticHighlightings[i];
 
 			String colorKey= SemanticHighlightings.getColorPreferenceKey(semanticHighlighting);
@@ -467,7 +467,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 
 		SyntaxColorHighlighting[] syntaxHighlightings= SyntaxColorHighlighting.getSyntaxColorHighlightings();
 		fSyntaxHighlightings= new Highlighting[syntaxHighlightings.length];
-		for (int i= 0; i < syntaxHighlightings.length; i++) {
+		for (int i= 0; i < syntaxHighlightings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SyntaxColorHighlighting h= syntaxHighlightings[i];
 			fSyntaxHighlightings[i]= createHighlightingFromPereferences(h.preferenceKey(), true, h.preferenceKey(), h.getBoldPreferenceKey(), h.getItalicPreferenceKey(), h.getStrikethroughPreferenceKey(), h.getUnderlinePreferenceKey());
 		}
@@ -494,10 +494,10 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 	 * Dispose the semantic highlightings.
 	 */
 	private void disposeHighlightings() {
-		for (SemanticHighlighting fSemanticHighlighting : fSemanticHighlightings) {
+		for (SemanticHighlighting fSemanticHighlighting : fSemanticHighlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			removeColor(SemanticHighlightings.getColorPreferenceKey(fSemanticHighlighting));
 		}
-		for (Highlighting h : fSyntaxHighlightings) {
+		for (Highlighting h : fSyntaxHighlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			removeColor(h.getPreferenceKey());
 		}
 
@@ -519,7 +519,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 	 *
 	 * @param event The event
 	 */
-	private void handlePropertyChangeEvent(PropertyChangeEvent event) {
+	private void handlePropertyChangeEvent(PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPreferenceStore == null)
 			return; // Uninstalled during event notification
 
@@ -536,7 +536,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 		if (!isEnabled())
 			return;
 
-		for (int i= 0, n= fSemanticHighlightings.length; i < n; i++) {
+		for (int i= 0, n= fSemanticHighlightings.length; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SemanticHighlighting semanticHighlighting= fSemanticHighlightings[i];
 
 			String colorKey= SemanticHighlightings.getColorPreferenceKey(semanticHighlighting);
@@ -583,7 +583,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 		}
 
 		SyntaxColorHighlighting[] editorHighlightings= SyntaxColorHighlighting.getSyntaxColorHighlightings();
-		for (int i= 0, n= editorHighlightings.length; i < n; i++) {
+		for (int i= 0, n= editorHighlightings.length; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SyntaxColorHighlighting h= editorHighlightings[i];
 
 			String colorKey= h.preferenceKey();
@@ -628,7 +628,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 	 * Re-styles the changed highlightings once per UI event loop turn, since a theme
 	 * switch changes dozens of keys in one turn.
 	 */
-	private void scheduleRestyle(Highlighting highlighting) {
+	private void scheduleRestyle(Highlighting highlighting) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSourceViewer == null)
 			return;
 		StyledText widget= fSourceViewer.getTextWidget();
@@ -637,19 +637,19 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 		Display display= widget.getDisplay();
 		if (display.getThread() != Thread.currentThread()) {
 			// keeps the pending set confined to the UI thread
-			display.asyncExec(() -> scheduleRestyle(highlighting));
+			display.asyncExec(() -> scheduleRestyle(highlighting)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return;
 		}
 		fChangedHighlightings.add(highlighting);
 		if (fRestylePending)
 			return;
 		fRestylePending= true;
-		display.asyncExec(this::restyleChangedHighlightings);
+		display.asyncExec(this::restyleChangedHighlightings); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	private void restyleChangedHighlightings() {
 		fRestylePending= false;
-		Set<Highlighting> changed= new HashSet<>(fChangedHighlightings);
+		Set<Highlighting> changed= new HashSet<>(fChangedHighlightings); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fChangedHighlightings.clear();
 		if (changed.isEmpty() || fPresenter == null || fSourceViewer == null)
 			return;
@@ -673,7 +673,7 @@ public class SemanticHighlightingManager implements IPropertyChangeListener {
 		highlighting.setEnabled(eventValue);
 	}
 
-	private void adaptToTextForegroundChange(Highlighting highlighting, PropertyChangeEvent event) {
+	private void adaptToTextForegroundChange(Highlighting highlighting, PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RGB rgb= null;
 
 		Object value= event.getNewValue();

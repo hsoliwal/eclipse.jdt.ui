@@ -95,13 +95,13 @@ public class ParameterGuesser {
 		@Override
 		public String toString() {
 
-			StringBuilder buffer= new StringBuilder();
-			buffer.append(qualifiedTypeName);
-			buffer.append(' ');
-			buffer.append(name);
-			buffer.append(" ("); //$NON-NLS-1$
-			buffer.append(variableType);
-			buffer.append(')');
+			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buffer.append(qualifiedTypeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(" ("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(variableType); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			return buffer.toString();
 		}
@@ -119,17 +119,17 @@ public class ParameterGuesser {
 	 */
 	public ParameterGuesser(IJavaElement enclosingElement) {
 		fEnclosingElement= enclosingElement;
-		fAlreadyMatchedNames= new HashSet<>();
+		fAlreadyMatchedNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	private List<Variable> evaluateVisibleMatches(String expectedType, IJavaElement[] suggestions) throws JavaModelException {
+	private List<Variable> evaluateVisibleMatches(String expectedType, IJavaElement[] suggestions) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType currentType= null;
 		if (fEnclosingElement != null) {
 			currentType= (IType) fEnclosingElement.getAncestor(IJavaElement.TYPE);
 		}
 
-		ArrayList<Variable> res= new ArrayList<>();
-		for (int i= 0; i < suggestions.length; i++) {
+		ArrayList<Variable> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < suggestions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Variable variable= createVariable(suggestions[i], currentType, expectedType, i);
 			if (variable != null) {
 				if (fAlreadyMatchedNames.contains(variable.name)) {
@@ -167,7 +167,7 @@ public class ParameterGuesser {
 		return res;
 	}
 
-	public Variable createVariable(IJavaElement element, IType enclosingType, String expectedType, int positionScore) throws JavaModelException {
+	public Variable createVariable(IJavaElement element, IType enclosingType, String expectedType, int positionScore) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int variableType;
 		int elementType= element.getElementType();
 		String elementName= element.getElementName();
@@ -207,7 +207,7 @@ public class ParameterGuesser {
 					} else {
 						typeSignature= method.getReturnType();
 					}
-					elementName= elementName + "()";  //$NON-NLS-1$
+					elementName= elementName + "()";  //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
 					return null;
 				}
@@ -233,7 +233,7 @@ public class ParameterGuesser {
 		return PrimitiveType.toCode(type) != null;
 	}
 
-	private PrimitiveType.Code getPrimitiveTypeCode(String type) {
+	private PrimitiveType.Code getPrimitiveTypeCode(String type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PrimitiveType.Code code= PrimitiveType.toCode(type);
 		if (code != null) {
 			return code;
@@ -294,14 +294,14 @@ public class ParameterGuesser {
 	 * @return returns the name of the best match, or <code>null</code> if no match found
 	 * @throws JavaModelException if it fails
 	 */
-	public ICompletionProposal[] parameterProposals(String expectedType, String paramName, Position pos, IJavaElement[] suggestions, boolean fillBestGuess, boolean isLastParameter) throws JavaModelException {
+	public ICompletionProposal[] parameterProposals(String expectedType, String paramName, Position pos, IJavaElement[] suggestions, boolean fillBestGuess, boolean isLastParameter) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Variable> typeMatches= evaluateVisibleMatches(expectedType, suggestions);
 		orderMatches(typeMatches, paramName);
 
 		boolean hasVarWithParamName= false;
 		ICompletionProposal[] ret= new ICompletionProposal[typeMatches.size()];
 		int i= 0; int replacementLength= 0;
-		for (Variable v : typeMatches) {
+		for (Variable v : typeMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i == 0) {
 				fAlreadyMatchedNames.add(v.name);
 				replacementLength= v.name.length();
@@ -390,7 +390,7 @@ public class ParameterGuesser {
 	 * @param paramName the parameter name
 	 */
 	private static void orderMatches(List<Variable> typeMatches, String paramName) {
-		if (typeMatches != null) Collections.sort(typeMatches, new MatchComparator(paramName));
+		if (typeMatches != null) Collections.sort(typeMatches, new MatchComparator(paramName)); //FLLDCIM: MARK — M16 SORT_LANE CALL
 	}
 
 	/**
@@ -400,26 +400,26 @@ public class ParameterGuesser {
 	 * @param second the second string
 	 * @return the longest common substring
 	 */
-	private static String getLongestCommonSubstring(String first, String second) {
+	private static String getLongestCommonSubstring(String first, String second) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String shorter= (first.length() <= second.length()) ? first : second;
 		String longer= shorter == first ? second : first;
 
 		int minLength= shorter.length();
 
-		StringBuilder pattern= new StringBuilder(shorter.length() + 2);
+		StringBuilder pattern= new StringBuilder(shorter.length() + 2); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String longestCommonSubstring= ""; //$NON-NLS-1$
 
-		for (int i= 0; i < minLength; i++) {
-			for (int j= i + 1; j <= minLength; j++) {
+		for (int i= 0; i < minLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int j= i + 1; j <= minLength; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (j - i < longestCommonSubstring.length())
 					continue;
 
 				String substring= shorter.substring(i, j);
 				pattern.setLength(0);
-				pattern.append('*');
-				pattern.append(substring);
-				pattern.append('*');
+				pattern.append('*'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				pattern.append(substring); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				pattern.append('*'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 				StringMatcher matcher= new StringMatcher(pattern.toString(), true, false);
 				if (matcher.match(longer))

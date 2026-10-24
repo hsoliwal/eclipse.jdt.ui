@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.corext.dom.ASTNodes;
  * @since 3.2
  */
 public class TightSourceRangeComputer extends TargetSourceRangeComputer {
-	private HashSet<ASTNode> fTightSourceRangeNodes= new HashSet<>();
+	private HashSet<ASTNode> fTightSourceRangeNodes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Add the given node to the set of "tight" nodes.
@@ -44,18 +44,18 @@ public class TightSourceRangeComputer extends TargetSourceRangeComputer {
 	 * @param reference a node
 	 * @since 3.2
 	 */
-	public void addTightSourceNode(ASTNode reference) {
+	public void addTightSourceNode(ASTNode reference) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTightSourceRangeNodes.add(reference);
 
 	    List<StructuralPropertyDescriptor> properties= reference.structuralPropertiesForType();
-	    for (StructuralPropertyDescriptor descriptor : properties) {
+	    for (StructuralPropertyDescriptor descriptor : properties) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        if (descriptor.isChildProperty()) {
 	        	ASTNode child= (ASTNode)reference.getStructuralProperty(descriptor);
 	        	if (child != null && isExtending(child, reference)) {
 	        		addTightSourceNode(child);
 	        	}
 	        } else if (descriptor.isChildListProperty()) {
-	        	for (ASTNode child : ASTNodes.getChildListProperty(reference, (ChildListPropertyDescriptor) descriptor)) {
+	        	for (ASTNode child : ASTNodes.getChildListProperty(reference, (ChildListPropertyDescriptor) descriptor)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isExtending(child, reference)) {
 						addTightSourceNode(child);
 					}

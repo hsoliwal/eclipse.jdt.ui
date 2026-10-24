@@ -102,20 +102,20 @@ public class MethodChecks {
 		return RefactoringStatus.createStatus(RefactoringStatus.FATAL, message, context, CorextCore.getPluginId(), RefactoringStatusCodes.METHOD_DECLARED_IN_INTERFACE, inInterface);
 	}
 
-	public static IMethod isDeclaredInInterface(IMethod method, ITypeHierarchy hierarchy, IProgressMonitor monitor) throws JavaModelException {
+	public static IMethod isDeclaredInInterface(IMethod method, ITypeHierarchy hierarchy, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(isVirtual(method));
 		IProgressMonitor subMonitor= Progress.subMonitor(monitor, 1);
 		try {
 			IType[] classes= hierarchy.getAllClasses();
 			subMonitor.beginTask("", classes.length); //$NON-NLS-1$
-			for (IType clazz : classes) {
+			for (IType clazz : classes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!clazz.isAnonymous()) { // no need to look at an anonymous instance
 					IType[] superinterfaces= null;
 					if (clazz.equals(hierarchy.getType()))
 						superinterfaces= hierarchy.getAllSuperInterfaces(clazz);
 					else
 						superinterfaces= clazz.newSupertypeHierarchy(Progress.subMonitor(subMonitor, 1)).getAllSuperInterfaces(clazz);
-					for (IType superinterface : superinterfaces) {
+					for (IType superinterface : superinterfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IMethod found= Checks.findSimilarMethod(method, superinterface);
 						if (found != null && !found.equals(method))
 							return found;
@@ -148,7 +148,7 @@ public class MethodChecks {
 	 * @param monitor an IProgressMonitor
 	 * @return the topmost method of the ripple, or null if none
 	 */
-	public static IMethod getTopmostMethod(IMethod method, ITypeHierarchy typeHierarchy, IProgressMonitor monitor) throws JavaModelException {
+	public static IMethod getTopmostMethod(IMethod method, ITypeHierarchy typeHierarchy, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(method);
 

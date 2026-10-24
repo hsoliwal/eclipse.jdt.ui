@@ -78,7 +78,7 @@ public class SelectionListenerWithASTManager {
 			fCurrentJob= null;
 			fAstListeners= new ListenerList<>(ListenerList.IDENTITY);
 
-			fSelectionListener= event -> {
+			fSelectionListener= event -> { //FLLDCIM: MARK — T04  LAMBDA
 				ISelection selection= event.getSelection();
 				if (selection instanceof ITextSelection) {
 					fireSelectionChanged((ITextSelection) selection);
@@ -100,7 +100,7 @@ public class SelectionListenerWithASTManager {
 				fPart.getEditorSite().getPage().addPostSelectionListener(fPostSelectionListener);
 				ISelectionProvider selectionProvider= fPart.getSelectionProvider();
 				if (selectionProvider != null)
-						selectionProvider.addSelectionChangedListener(fSelectionListener);
+						selectionProvider.addSelectionChangedListener(fSelectionListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			}
 			fAstListeners.add(listener);
 		}
@@ -131,7 +131,7 @@ public class SelectionListenerWithASTManager {
 		 *
 		 * @param selection the selection
 		 */
-		public void firePostSelectionChanged(final ITextSelection selection) {
+		public void firePostSelectionChanged(final ITextSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fCurrentJob != null) {
 				fCurrentJob.cancel();
 			}
@@ -155,7 +155,7 @@ public class SelectionListenerWithASTManager {
 			fCurrentJob.schedule();
 		}
 
-		protected IStatus calculateASTandInform(ITypeRoot input, ITextSelection selection, IProgressMonitor monitor) {
+		protected IStatus calculateASTandInform(ITypeRoot input, ITextSelection selection, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (monitor == null) {
 				monitor= new NullProgressMonitor();
 			}
@@ -171,7 +171,7 @@ public class SelectionListenerWithASTManager {
 					synchronized (PartListenerGroup.this) { // sync probably doesn't make sense here...
 						listeners= fAstListeners.iterator();
 					}
-					while (listeners.hasNext()) {
+					while (listeners.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ISelectionListenerWithAST listener= listeners.next();
 						listener.selectionChanged(fPart, selection, astRoot);
 						if (monitor.isCanceled()) {
@@ -191,7 +191,7 @@ public class SelectionListenerWithASTManager {
 	private Map<ITextEditor, PartListenerGroup> fListenerGroups;
 
 	private SelectionListenerWithASTManager() {
-		fListenerGroups= new HashMap<>();
+		fListenerGroups= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	/**

@@ -22,7 +22,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class CastCorrectionProposal extends LinkedCorrectionProposal {
+public class CastCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public static final String ADD_CAST_ID= CastCorrectionProposalCore.ADD_CAST_ID;
 

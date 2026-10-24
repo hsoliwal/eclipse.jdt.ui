@@ -209,7 +209,7 @@ public class ExtractTempRefactoring extends Refactoring {
 
 
 		public LocalVariableWithIdenticalExpressionFinder(ASTNode expression, Boolean ifStopOnFirstMatch) {
-			usedNames= new ArrayList<>();
+			usedNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			this.expression= expression;
 			this.ifStopOnFirstMatch= ifStopOnFirstMatch;
 		}
@@ -228,7 +228,7 @@ public class ExtractTempRefactoring extends Refactoring {
 
 		@Override
 		public boolean visit(VariableDeclarationStatement node) {
-			for (Object obj : node.fragments()) {
+			for (Object obj : node.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclarationFragment fragment= (VariableDeclarationFragment) obj;
 				if (fragment.getInitializer() != null) {
 					Expression initializer= fragment.getInitializer();
@@ -251,8 +251,8 @@ public class ExtractTempRefactoring extends Refactoring {
 		private HashMap<ASTNode, String> enclosingKeyMap;
 
 		public IdenticalExpressionFinder(ASTNode expression) {
-			this.identicalFragments= new ArrayList<>();
-			this.enclosingKeyMap= new HashMap<>();
+			this.identicalFragments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			this.enclosingKeyMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			this.expression= expression;
 		}
 
@@ -279,7 +279,7 @@ public class ExtractTempRefactoring extends Refactoring {
 
 	private static boolean allArraysEqual(ASTNode[][] arrays, int position) {
 		Object element= arrays[0][position];
-		for (ASTNode[] a : arrays) {
+		for (ASTNode[] a : arrays) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object[] array= a;
 			if (!element.equals(array[position]))
 				return false;
@@ -288,7 +288,7 @@ public class ExtractTempRefactoring extends Refactoring {
 	}
 
 
-	private static boolean canReplace(IASTFragment fragment) {
+	private static boolean canReplace(IASTFragment fragment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= fragment.getAssociatedNode();
 		ASTNode parent= node.getParent();
 		if (parent instanceof VariableDeclarationFragment) {
@@ -332,8 +332,8 @@ public class ExtractTempRefactoring extends Refactoring {
 
 	// return List<IVariableBinding>
 	private static List<IVariableBinding> getForInitializedVariables(VariableDeclarationExpression variableDeclarations) {
-		List<IVariableBinding> forInitializerVariables= new ArrayList<>(1);
-		for (Iterator<VariableDeclarationFragment> iter= variableDeclarations.fragments().iterator(); iter.hasNext();) {
+		List<IVariableBinding> forInitializerVariables= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<VariableDeclarationFragment> iter= variableDeclarations.fragments().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment fragment= iter.next();
 			IVariableBinding binding= fragment.resolveBinding();
 			if (binding != null)
@@ -347,10 +347,10 @@ public class ExtractTempRefactoring extends Refactoring {
 		if (arrays.length == 0)
 			return new ASTNode[0];
 		int minArrayLength= arrays[0].length;
-		for (int i= 1; i < arrays.length; i++)
+		for (int i= 1; i < arrays.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			minArrayLength= Math.min(minArrayLength, arrays[i].length);
 
-		for (int i= 0; i < minArrayLength; i++) {
+		for (int i= 0; i < minArrayLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!allArraysEqual(arrays, i))
 				break;
 			length++;
@@ -362,8 +362,8 @@ public class ExtractTempRefactoring extends Refactoring {
 
 	private static ASTNode[] getParents(ASTNode node) {
 		ASTNode current= node;
-		List<ASTNode> parents= new ArrayList<>();
-		do {
+		List<ASTNode> parents= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parents.add(current.getParent());
 			current= current.getParent();
 		} while (current.getParent() != null);
@@ -390,11 +390,11 @@ public class ExtractTempRefactoring extends Refactoring {
 		return (node instanceof SimpleName) && (node.getParent() instanceof SingleVariableDeclaration) && (node.getParent().getParent() instanceof MethodDeclaration);
 	}
 
-	private static boolean isReferringToLocalVariableFromFor(Expression expression) {
+	private static boolean isReferringToLocalVariableFromFor(Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode current= expression;
 		ASTNode parent= current.getParent();
 
-		while (parent != null && !(parent instanceof BodyDeclaration)) {
+		while (parent != null && !(parent instanceof BodyDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent instanceof ForStatement) {
 				ForStatement forStmt= (ForStatement) parent;
 				if (forStmt.initializers().contains(current) || forStmt.updaters().contains(current) || forStmt.getExpression() == current) {
@@ -427,9 +427,9 @@ public class ExtractTempRefactoring extends Refactoring {
 		return false;
 	}
 
-	private IASTFragment[] retainOnlyReplacableMatches(IASTFragment[] allMatches) {
-		List<IASTFragment> result= new ArrayList<>(allMatches.length);
-		for (IASTFragment match : allMatches) {
+	private IASTFragment[] retainOnlyReplacableMatches(IASTFragment[] allMatches) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IASTFragment> result= new ArrayList<>(allMatches.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IASTFragment match : allMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (canReplace(match)) {
 				result.add(match);
 			}
@@ -450,7 +450,7 @@ public class ExtractTempRefactoring extends Refactoring {
 			if (flag) {
 				ASTNode parent= associatedNode.getParent();
 				StructuralPropertyDescriptor location= parent.getLocationInParent();
-				while (parent != null) {
+				while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parent instanceof Block || parent instanceof BodyDeclaration || parent instanceof LambdaExpression && ((LambdaExpression) parent).resolveMethodBinding() != null
 							|| parent instanceof EnhancedForStatement || parent instanceof WhileStatement
 							|| parent instanceof ForStatement || parent instanceof DoStatement) {
@@ -470,7 +470,7 @@ public class ExtractTempRefactoring extends Refactoring {
 					SwitchStatement ss= (SwitchStatement) parent.getParent();
 					Iterator<Object> iterator= ss.statements().iterator();
 					int preOffset= -1;
-					while (iterator.hasNext()) {
+					while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Object obj= iterator.next();
 						if (obj instanceof ASTNode) {
 							ASTNode node= (ASTNode) obj;
@@ -483,7 +483,7 @@ public class ExtractTempRefactoring extends Refactoring {
 					if (preOffset > 0)
 						offset= preOffset;
 				}
-				for (int i= 0; i < result.size(); ++i) {
+				for (int i= 0; i < result.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (result.get(i).getStartPosition() > offset) {
 						upper= i;
 						break;
@@ -541,7 +541,7 @@ public class ExtractTempRefactoring extends Refactoring {
 
 	private int fEndPoint;
 
-	private HashSet<IASTFragment> fSeen= new HashSet<>();
+	private HashSet<IASTFragment> fSeen= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private String fEnclosingKey;
 
@@ -560,7 +560,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		this(unit, selectionStart, selectionLength, null);
 	}
 
-	public ExtractTempRefactoring(ICompilationUnit unit, int selectionStart, int selectionLength, Map<String, String> formatterOptions) {
+	public ExtractTempRefactoring(ICompilationUnit unit, int selectionStart, int selectionLength, Map<String, String> formatterOptions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(selectionStart >= 0);
 		Assert.isTrue(selectionLength >= 0);
 		fSelectionStart= selectionStart;
@@ -579,7 +579,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		fStartPoint= -1; // default
 		fEndPoint= -1; // default
 		fEnclosingKey= null;
-		fEnclosingKeySet= new HashSet<>();
+		fEnclosingKeySet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fFormatterOptions= formatterOptions;
 	}
 
@@ -587,7 +587,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		this(astRoot, selectionStart, selectionLength, null);
 	}
 
-	public ExtractTempRefactoring(CompilationUnit astRoot, int selectionStart, int selectionLength, Map<String, String> formatterOptions) {
+	public ExtractTempRefactoring(CompilationUnit astRoot, int selectionStart, int selectionLength, Map<String, String> formatterOptions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(selectionStart >= 0);
 		Assert.isTrue(selectionLength >= 0);
 		Assert.isTrue(astRoot.getTypeRoot() instanceof ICompilationUnit);
@@ -609,7 +609,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		fStartPoint= -1; // default
 		fEndPoint= -1; // default
 		fEnclosingKey= null;
-		fEnclosingKeySet= new HashSet<>();
+		fEnclosingKeySet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fFormatterOptions= formatterOptions;
 	}
 
@@ -619,7 +619,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		fStartPoint= -1; // default
 		fEndPoint= -1; // default
 		fEnclosingKey= null;
-		fEnclosingKeySet= new HashSet<>();
+		fEnclosingKeySet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		RefactoringStatus initializeStatus= initialize(arguments);
 		status.merge(initializeStatus);
 
@@ -635,7 +635,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		fLinkedProposalModel= linkedProposalModel;
 	}
 
-	private void addReplaceExpressionWithTemp() throws JavaModelException {
+	private void addReplaceExpressionWithTemp() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IASTFragment[] fragmentsToReplace= retainOnlyReplacableMatches(getMatchingFragments());
 
 		if (fragmentsToReplace.length == 0 || fEndPoint == -1) {
@@ -643,7 +643,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		}
 		//TODO: should not have to prune duplicates here...
 		ASTRewrite rewrite= fCURewrite.getASTRewrite();
-		for (int i= fEndPoint; i >= fStartPoint; --i) {
+		for (int i= fEndPoint; i >= fStartPoint; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IASTFragment fragment= fragmentsToReplace[i];
 			if (!fSeen.add(fragment))
 				continue;
@@ -666,7 +666,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		}
 	}
 
-	private RefactoringStatus checkExpression() throws JavaModelException {
+	private RefactoringStatus checkExpression() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression selectedExpression= getSelectedExpression().getAssociatedExpression();
 		if (selectedExpression != null) {
 			ASTNode parent= selectedExpression.getParent();
@@ -678,7 +678,7 @@ public class ExtractTempRefactoring extends Refactoring {
 				if (parent instanceof Expression && !(parent instanceof ParenthesizedExpression))
 					return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.ExtractTempRefactoring_assignment);
 				else {
-					while (parent != null) {
+					while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						parent= parent.getParent();
 						if (parent instanceof Statement) {
 							break;
@@ -733,7 +733,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return binding;
 	}
 
-	public RefactoringStatus checkSumPosition() {
+	public RefactoringStatus checkSumPosition() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSelectedExpression instanceof IExpressionFragment expFrag) {
 			// Is newFrag an Infix Operation
 			Expression newExp= expFrag.getAssociatedExpression();
@@ -755,7 +755,7 @@ public class ExtractTempRefactoring extends Refactoring {
 						int curExpressionsPos= 0;
 						List<Expression> expressions= infixNewExp.extendedOperands();
 						if (selectStartingPosition > firstSelectedOperand.getStartPosition()) {
-							for (int i= 0; i < expressions.size(); i++) {
+							for (int i= 0; i < expressions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Expression exp= expressions.get(i);
 								if (selectStartingPosition <= exp.getStartPosition()) {
 									if (!exp.resolveUnboxing() && !exp.resolveTypeBinding().isPrimitive()) {
@@ -772,7 +772,7 @@ public class ExtractTempRefactoring extends Refactoring {
 						if (firstBinding == null) {
 							return null;
 						}
-						for (int i= curExpressionsPos; i < expressions.size(); i++) {
+						for (int i= curExpressionsPos; i < expressions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Expression curExpression= expressions.get(i);
 							if (curExpression.getStartPosition() < endOfSelection) {
 								ITypeBinding curExpBinding= curExpression.resolveTypeBinding();
@@ -793,7 +793,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask(RefactoringCoreMessages.ExtractTempRefactoring_checking_preconditions, 4);
@@ -828,7 +828,7 @@ public class ExtractTempRefactoring extends Refactoring {
 					@Override
 					public void preVisit(TextEdit edit) {
 						TextEdit[] children= edit.getChildren();
-						for (TextEdit te : children)
+						for (TextEdit te : children) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (te instanceof CopySourceEdit) {
 								CopySourceEdit cse= (CopySourceEdit) te;
 								if (cse.getTargetEdit() == null || cse.getTargetEdit().getOffset() == 0) {
@@ -871,8 +871,8 @@ public class ExtractTempRefactoring extends Refactoring {
 		}
 	}
 
-	private final ExtractLocalDescriptor createRefactoringDescriptor() {
-		final Map<String, String> arguments= new HashMap<>();
+	private final ExtractLocalDescriptor createRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String project= null;
 		IJavaProject javaProject= fCu.getJavaProject();
 		if (javaProject != null)
@@ -888,7 +888,7 @@ public class ExtractTempRefactoring extends Refactoring {
 			final IMethodBinding method= ((MethodDeclaration) decl).resolveBinding();
 			final String label= method != null
 					? BindingLabelProviderCore.getBindingLabel(method, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)
-					: BasicElementLabels.getJavaElementName('{' + JavaElementLabelsCore.ELLIPSIS_STRING + '}');
+					: BasicElementLabels.getJavaElementName('{' + JavaElementLabelsCore.ELLIPSIS_STRING + '}'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			comment.addSetting(Messages.format(RefactoringCoreMessages.ExtractTempRefactoring_destination_pattern, label));
 		}
 		comment.addSetting(Messages.format(RefactoringCoreMessages.ExtractTempRefactoring_expression_pattern, BasicElementLabels.getJavaCodeString(expression)));
@@ -903,7 +903,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		final ExtractLocalDescriptor descriptor= RefactoringSignatureDescriptorFactory.createExtractLocalDescriptor(project, description, comment.asString(), arguments, RefactoringDescriptor.NONE);
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fCu));
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_NAME, fTempName);
-		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		arguments.put(ATTRIBUTE_REPLACE, Boolean.toString(fReplaceAllOccurrences));
 		arguments.put(ATTRIBUTE_REPLACE_ALL, Boolean.toString(fReplaceAllOccurrencesInThisFile));
 		arguments.put(ATTRIBUTE_FINAL, Boolean.toString(fDeclareFinal));
@@ -927,7 +927,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		}
 	}
 
-	private void processSelectedExpression() throws CoreException {
+	private void processSelectedExpression() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int cnt= 1;
 		getSelectedExpression();
 		MethodDeclaration methodDeclaration= ASTNodes.getFirstAncestorOrNull(fSelectedExpression.getAssociatedNode(), MethodDeclaration.class);
@@ -949,17 +949,17 @@ public class ExtractTempRefactoring extends Refactoring {
 			addReplaceExpressionWithTemp();
 			String oldTempName= fTempName;
 			String baseName= getBaseName(fTempName);
-			fTempName= baseName + ++cnt;
-			while (usedNames.contains(fTempName) || fTempName.equals(oldTempName)) {
-				fTempName= baseName + ++cnt;
+			fTempName= baseName + ++cnt; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			while (usedNames.contains(fTempName) || fTempName.equals(oldTempName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				fTempName= baseName + ++cnt; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
-		while (replaceAllOccurrences() &&
+		while (replaceAllOccurrences() && //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				retainOnlyReplacableMatches.length > fSeen.size()) {
 			fStartPoint= -1;
 			fEndPoint= -1;
 			boolean flag= false;
-			for (int i= 0; i < retainOnlyReplacableMatches.length; ++i) {
+			for (int i= 0; i < retainOnlyReplacableMatches.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!fSeen.contains(retainOnlyReplacableMatches[i])) {
 					fSelectionStart= retainOnlyReplacableMatches[i].getStartPosition();
 					fSelectionLength= retainOnlyReplacableMatches[i].getLength();
@@ -976,9 +976,9 @@ public class ExtractTempRefactoring extends Refactoring {
 				addReplaceExpressionWithTemp();
 				String oldTempName= fTempName;
 				String baseName= getBaseName(fTempName);
-				fTempName= baseName + ++cnt;
-				while (usedNames.contains(fTempName) || fTempName.equals(oldTempName)) {
-					fTempName= baseName + ++cnt;
+				fTempName= baseName + ++cnt; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				while (usedNames.contains(fTempName) || fTempName.equals(oldTempName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					fTempName= baseName + ++cnt; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -991,14 +991,14 @@ public class ExtractTempRefactoring extends Refactoring {
 
 	private String getBaseName(String tempName) {
 		int i= tempName.length() - 1;
-		while (i > 0 && Character.isDigit(tempName.charAt(i))) {
+		while (i > 0 && Character.isDigit(tempName.charAt(i))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			--i;
 		}
 		return tempName.substring(0, i + 1);
 	}
 
 
-	private void processOtherIdenticalExpressions() throws CoreException {
+	private void processOtherIdenticalExpressions() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode associatedNode= getSelectedExpression().getAssociatedNode();
 		CompilationUnit cuNode= ASTNodes.getFirstAncestorOrNull(associatedNode, CompilationUnit.class);
 		IdenticalExpressionFinder identicalExpressionFinder= new IdenticalExpressionFinder(associatedNode);
@@ -1008,7 +1008,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		int realStartOffset= getRealStartOffset(matchedFragments, enclosingKeyMap);
 		int realLength= fSelectionLength;
 
-		for (ASTNode fragment : matchedFragments) {
+		for (ASTNode fragment : matchedFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fSeen.clear();
 			if (!fEnclosingKeySet.contains(enclosingKeyMap.get(fragment))) {
 				fSelectedExpression= getSelectedExpression(fragment.getStartPosition() + realStartOffset, realLength);
@@ -1019,7 +1019,7 @@ public class ExtractTempRefactoring extends Refactoring {
 
 	private int getRealStartOffset(ASTNode[] matchedFragments, HashMap<ASTNode, String> enclosingKeyMap) {
 		int realStartOffset= 0;
-		for (ASTNode fragment : matchedFragments) {
+		for (ASTNode fragment : matchedFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fragment.getLength() == fSelectionLength) {
 				return realStartOffset;
 			}
@@ -1044,13 +1044,13 @@ public class ExtractTempRefactoring extends Refactoring {
 	 */
 	private Collection<String> getUsedLocalNames(ASTNode selected) {
 		ASTNode surroundingBlock= selected;
-		while ((surroundingBlock= surroundingBlock.getParent()) != null) {
+		while ((surroundingBlock= surroundingBlock.getParent()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (surroundingBlock instanceof Block || surroundingBlock instanceof MethodDeclaration) {
 				break;
 			}
 		}
 		if (surroundingBlock == null) {
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		Collection<String> localUsedNames= new ScopeAnalyzer((CompilationUnit) selected.getRoot()).getUsedVariableNames(surroundingBlock.getStartPosition(), surroundingBlock.getLength());
 		return localUsedNames;
@@ -1091,7 +1091,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		ASTNode surroundingBlock= selected;
 		surroundingBlock= ASTNodes.getFirstAncestorOrNull(surroundingBlock, MethodDeclaration.class);
 		if (surroundingBlock == null) {
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		LocalVariableWithIdenticalExpressionFinder localVariableWithIdenticalExpressionFinder= new LocalVariableWithIdenticalExpressionFinder(selected, Boolean.FALSE);
 		surroundingBlock.accept(localVariableWithIdenticalExpressionFinder);
@@ -1100,7 +1100,7 @@ public class ExtractTempRefactoring extends Refactoring {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask("", 6); //$NON-NLS-1$
@@ -1127,7 +1127,7 @@ public class ExtractTempRefactoring extends Refactoring {
 
 	private RefactoringStatus checkMatchingFragments() throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
-		for (IASTFragment matchingFragment : getMatchingFragments()) {
+		for (IASTFragment matchingFragment : getMatchingFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= matchingFragment.getAssociatedNode();
 			if (isLeftValue(node) && !isReferringToLocalVariableFromFor((Expression) node)) {
 				String msg= RefactoringCoreMessages.ExtractTempRefactoring_assigned_to;
@@ -1151,7 +1151,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return result;
 	}
 
-	private RefactoringStatus checkSelection(IProgressMonitor pm) throws JavaModelException {
+	private RefactoringStatus checkSelection(IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			pm.beginTask("", 8); //$NON-NLS-1$
 
@@ -1209,7 +1209,7 @@ public class ExtractTempRefactoring extends Refactoring {
 	}
 
 	private boolean hasFinalModifer(List<IExtendedModifier> modifiers) {
-		for (IExtendedModifier modifier : modifiers) {
+		for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modifier.isModifier() && Modifier.isFinal(((Modifier) modifier).getKeyword().toFlagValue())) {
 				return true;
 			}
@@ -1217,7 +1217,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return false;
 	}
 
-	private void createAndInsertTempDeclaration() throws CoreException {
+	private void createAndInsertTempDeclaration() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression initializer= getSelectedExpression().createCopyTarget(fCURewrite.getASTRewrite(), true);
 		VariableDeclarationExpression vds= createTempDeclaration(initializer);
 
@@ -1245,7 +1245,7 @@ public class ExtractTempRefactoring extends Refactoring {
 				ITypeBinding vdsBinding= originalexp.resolveTypeBinding();
 				if (vdsBinding != null) {
 					boolean isAutoCloseable= false;
-					for (ITypeBinding superType : Bindings.getAllSuperTypes(vdsBinding)) {
+					for (ITypeBinding superType : Bindings.getAllSuperTypes(vdsBinding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if ("java.lang.AutoCloseable".equals(superType.getQualifiedName())) { //$NON-NLS-1$
 							isAutoCloseable= true;
 							break;
@@ -1255,10 +1255,10 @@ public class ExtractTempRefactoring extends Refactoring {
 						List<Expression> resources= tryStatement.resources();
 						ASTNode originalNode= getSelectedExpression().getAssociatedNode();
 						boolean resourceFound= false;
-						for (Expression resource : resources) {
+						for (Expression resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							int offset= resource.getStartPosition();
 							ASTNode parent= originalNode.getParent();
-							while (parent != null) {
+							while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (parent == resource) {
 									resourceFound= true;
 									node= resource;
@@ -1285,7 +1285,7 @@ public class ExtractTempRefactoring extends Refactoring {
 
 		int selectNumber= -1;
 
-		for (int i= 0; i < retainOnlyReplacableMatches.length; ++i) {
+		for (int i= 0; i < retainOnlyReplacableMatches.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fSelectionStart == retainOnlyReplacableMatches[i].getStartPosition()) {
 				selectNumber= i;
 				break;
@@ -1330,7 +1330,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return;
 	}
 
-	private ASTNode evalStartAndEnd(IASTFragment[] retainOnlyReplacableMatches, int selectNumber, Integer fixedStartOffset) throws JavaModelException {
+	private ASTNode evalStartAndEnd(IASTFragment[] retainOnlyReplacableMatches, int selectNumber, Integer fixedStartOffset) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode realCommonASTNode= null;
 		if (selectNumber < 0 || selectNumber >= retainOnlyReplacableMatches.length) {
 			return realCommonASTNode;
@@ -1342,7 +1342,7 @@ public class ExtractTempRefactoring extends Refactoring {
 
 		ChangedValueChecker cvc= new ChangedValueChecker(getSelectedExpression().getAssociatedNode(), fEnclosingKey, true);
 
-		while (expandFlag > 0 && start <= end) {
+		while (expandFlag > 0 && start <= end) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IASTFragment iASTFragment= retainOnlyReplacableMatches[start];
 			firstReplaceExpression= getCertainReplacedExpression(retainOnlyReplacableMatches, start).getAssociatedNode();
 			ASTNode[] firstReplaceNodeParents= getParents(firstReplaceExpression);
@@ -1367,8 +1367,8 @@ public class ExtractTempRefactoring extends Refactoring {
 
 			UnsafeCheckTester uct= new UnsafeCheckTester(fCompilationUnitNode, fCu, commonASTNode, expression, startOffset, endOffset);
 
-			ArrayList<IASTFragment> candidateList= new ArrayList<>();
-			for (int i= start; i <= end; ++i)
+			ArrayList<IASTFragment> candidateList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i= start; i <= end; ++i) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				candidateList.add(retainOnlyReplacableMatches[i]);
 			cvc.detectConflict(startOffset, lastExprOffset, retainOnlyReplacableMatches[end].getAssociatedNode(), deepestCommonParent, candidateList);
 			flag= !uct.hasUnsafeCheck() && !cvc.hasConflict();
@@ -1407,10 +1407,10 @@ public class ExtractTempRefactoring extends Refactoring {
 		return realCommonASTNode;
 	}
 
-	private ASTNode convertToExtractNode(ASTNode target) {
+	private ASTNode convertToExtractNode(ASTNode target) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= target.getParent();
 		StructuralPropertyDescriptor locationInParent= target.getLocationInParent();
-		while (locationInParent != Block.STATEMENTS_PROPERTY && locationInParent != SwitchStatement.STATEMENTS_PROPERTY) {
+		while (locationInParent != Block.STATEMENTS_PROPERTY && locationInParent != SwitchStatement.STATEMENTS_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (locationInParent == IfStatement.THEN_STATEMENT_PROPERTY
 					|| locationInParent == IfStatement.ELSE_STATEMENT_PROPERTY
 					|| locationInParent == ForStatement.BODY_PROPERTY
@@ -1428,7 +1428,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return target;
 	}
 
-	private VariableDeclarationExpression createTempDeclaration(Expression initializer) throws CoreException {
+	private VariableDeclarationExpression createTempDeclaration(Expression initializer) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= fCURewrite.getAST();
 
 		VariableDeclarationFragment vdf= ast.newVariableDeclarationFragment();
@@ -1452,7 +1452,7 @@ public class ExtractTempRefactoring extends Refactoring {
 			if (nameSuggestions.length > 0 && !nameSuggestions[0].equals(fTempName)) {
 				nameGroup.addProposal(fTempName, nameSuggestions.length + 1);
 			}
-			for (int i= 0; i < nameSuggestions.length; i++) {
+			for (int i= 0; i < nameSuggestions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nameGroup.addProposal(nameSuggestions[i], nameSuggestions.length - i);
 			}
 		}
@@ -1468,12 +1468,12 @@ public class ExtractTempRefactoring extends Refactoring {
 		listRewrite.insertBefore(exp, target, groupDescription);
 	}
 
-	private void insertAt(ASTNode target, Statement declaration) {
+	private void insertAt(ASTNode target, Statement declaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTRewrite rewrite= fCURewrite.getASTRewrite();
 		TextEditGroup groupDescription= fCURewrite.createGroupDescription(RefactoringCoreMessages.ExtractTempRefactoring_declare_local_variable);
 		ASTNode parent= target.getParent();
 		StructuralPropertyDescriptor locationInParent= target.getLocationInParent();
-		while (locationInParent != Block.STATEMENTS_PROPERTY && locationInParent != SwitchStatement.STATEMENTS_PROPERTY
+		while (locationInParent != Block.STATEMENTS_PROPERTY && locationInParent != SwitchStatement.STATEMENTS_PROPERTY //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				&& locationInParent != TryStatement.RESOURCES2_PROPERTY) {
 			if (locationInParent == IfStatement.THEN_STATEMENT_PROPERTY
 					|| locationInParent == IfStatement.ELSE_STATEMENT_PROPERTY
@@ -1546,20 +1546,20 @@ public class ExtractTempRefactoring extends Refactoring {
 	private ASTNode[] findDeepestCommonSuperNodePathForReplacedNodes(int start, int end) throws JavaModelException {
 		ASTNode[] matchNodes= getMatchNodes();
 		ASTNode[][] matchingNodesParents= new ASTNode[end + 1 - start][];
-		for (int i= start; i < matchNodes.length && i < end + 1; ++i) {
+		for (int i= start; i < matchNodes.length && i < end + 1; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			matchingNodesParents[i - start]= getParents(matchNodes[i]);
 		}
 		List<ASTNode> l= Arrays.asList(getLongestArrayPrefix(matchingNodesParents));
 		return l.toArray(new ASTNode[l.size()]);
 	}
 
-	private ASTNode getEnclosingBodyNode() throws JavaModelException {
+	private ASTNode getEnclosingBodyNode() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= getSelectedExpression().getAssociatedNode();
 
 		// expression must be in a method, lambda or initializer body
 		// make sure it is not in method or parameter annotation
 		StructuralPropertyDescriptor location= null;
-		while (node != null && !(node instanceof BodyDeclaration)) {
+		while (node != null && !(node instanceof BodyDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			location= node.getLocationInParent();
 			node= node.getParent();
 			if (node instanceof LambdaExpression) {
@@ -1599,14 +1599,14 @@ public class ExtractTempRefactoring extends Refactoring {
 		return true;
 	}
 
-	private String[] getExcludedVariableNames() {
+	private String[] getExcludedVariableNames() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fExcludedVariableNames == null) {
 			try {
 				IBinding[] bindings= new ScopeAnalyzer(fCompilationUnitNode)
 						.getDeclarationsInScope(getSelectedExpression().getStartPosition(), ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY);
 				ASTNode enclosingNode= getEnclosingBodyNode().getParent();
-				List<String> excludedVariableNames= new ArrayList<>();
-				for (IBinding binding : bindings) {
+				List<String> excludedVariableNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					BodyDeclaration bodyDeclaration= ASTNodes.getParent(getEnclosingBodyNode(), BodyDeclaration.class);
 					int modifiers= bodyDeclaration.getModifiers();
 					modifiers= bodyDeclaration instanceof TypeDeclaration ? modifiers&= ~Modifier.STATIC : modifiers;
@@ -1646,7 +1646,7 @@ public class ExtractTempRefactoring extends Refactoring {
 	private ASTNode[] getMatchNodes() throws JavaModelException {
 		IASTFragment[] matches= retainOnlyReplacableMatches(getMatchingFragments());
 		ASTNode[] result= new ASTNode[matches.length];
-		for (int i= 0; i < matches.length; i++) {
+		for (int i= 0; i < matches.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= matches[i].getAssociatedNode();
 		}
 
@@ -1658,7 +1658,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return RefactoringCoreMessages.ExtractTempRefactoring_name;
 	}
 
-	private IExpressionFragment getSelectedExpression(int startOffset, int length) throws JavaModelException {
+	private IExpressionFragment getSelectedExpression(int startOffset, int length) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IASTFragment selectedFragment= ASTFragmentFactory.createFragmentForSourceRange(new SourceRange(startOffset, length), fCompilationUnitNode, fCu);
 		if (selectedFragment instanceof IExpressionFragment && !Checks.isInsideJavadoc(selectedFragment.getAssociatedNode())) {
 			fSelectedExpression= (IExpressionFragment) selectedFragment;
@@ -1681,7 +1681,7 @@ public class ExtractTempRefactoring extends Refactoring {
 	}
 
 
-	private IExpressionFragment getSelectedExpression() throws JavaModelException {
+	private IExpressionFragment getSelectedExpression() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSelectedExpression != null)
 			return fSelectedExpression;
 		IASTFragment selectedFragment= ASTFragmentFactory.createFragmentForSourceRange(new SourceRange(fSelectionStart, fSelectionLength), fCompilationUnitNode, fCu);
@@ -1706,7 +1706,7 @@ public class ExtractTempRefactoring extends Refactoring {
 	}
 
 
-	private Type createTempType() throws CoreException {
+	private Type createTempType() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression expression= getSelectedExpression().getAssociatedExpression();
 
 		Type resultingType= null;
@@ -1739,7 +1739,7 @@ public class ExtractTempRefactoring extends Refactoring {
 			typeGroup.addPosition(rewrite.track(resultingType), false);
 			if (typeBinding != null) {
 				ITypeBinding[] relaxingTypes= ASTResolving.getNarrowingTypes(ast, typeBinding);
-				for (int i= 0; i < relaxingTypes.length; i++) {
+				for (int i= 0; i < relaxingTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					typeGroup.addProposal(relaxingTypes[i], fCURewrite.getCu(), relaxingTypes.length - i);
 				}
 			}
@@ -1788,7 +1788,7 @@ public class ExtractTempRefactoring extends Refactoring {
 	 * @return proposed variable names based on context (may be empty, but not null). The first
 	 *         proposal should be used as "best guess" (if it exists).
 	 */
-	public String[] guessTempNamesWithContext() {
+	public String[] guessTempNamesWithContext() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fGuessedTempNames == null) {
 			try {
 				Expression expression= getSelectedExpression().getAssociatedExpression();
@@ -1808,7 +1808,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return fGuessedTempNames;
 	}
 
-	private boolean isLiteralNodeSelected() throws JavaModelException {
+	private boolean isLiteralNodeSelected() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExpressionFragment fragment= getSelectedExpression();
 		if (fragment == null)
 			return false;
@@ -1845,7 +1845,7 @@ public class ExtractTempRefactoring extends Refactoring {
 		return fReplaceAllOccurrencesInThisFile;
 	}
 
-	private void replaceSelectedExpressionWithTempDeclaration() throws CoreException {
+	private void replaceSelectedExpressionWithTempDeclaration() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTRewrite rewrite= fCURewrite.getASTRewrite();
 		Expression selectedExpression= getSelectedExpression().getAssociatedExpression(); // whole expression selected
 
@@ -1912,7 +1912,7 @@ public class ExtractTempRefactoring extends Refactoring {
 				&& selectedFragment.matches(ASTFragmentFactory.createFragmentForFullSubtree(associatedNode));
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String selection= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION);
 		if (selection != null) {
 			int offset= -1;

@@ -27,16 +27,16 @@ public class ResourceProcessors {
 
 	public static String[] computeAffectedNatures(IResource resource) throws CoreException {
 		IProject project= resource.getProject();
-		Set<String> result= new HashSet<>();
-		Set<IProject> visitedProjects= new HashSet<>();
+		Set<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<IProject> visitedProjects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		computeNatures(result, visitedProjects, project);
 		return result.toArray(new String[result.size()]);
 	}
 
 	public static String[] computeAffectedNatures(IResource[] resources) throws CoreException {
-		Set<String> result= new HashSet<>();
-		Set<IProject> visitedProjects= new HashSet<>();
-		for (IResource resource : resources) {
+		Set<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<IProject> visitedProjects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			computeNatures(result, visitedProjects, resource.getProject());
 		}
 		return result.toArray(new String[result.size()]);
@@ -48,7 +48,7 @@ public class ResourceProcessors {
 		String[] pns= focus.getDescription().getNatureIds();
 		result.addAll(Arrays.asList(pns));
 		visitedProjects.add(focus);
-		for (IProject element : focus.getReferencingProjects()) {
+		for (IProject element : focus.getReferencingProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			computeNatures(result, visitedProjects, element);
 		}
 	}

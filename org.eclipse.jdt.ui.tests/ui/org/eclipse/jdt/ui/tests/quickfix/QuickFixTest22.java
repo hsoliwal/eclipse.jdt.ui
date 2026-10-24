@@ -65,7 +65,7 @@ public class QuickFixTest22 extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRenameToUnnamedProposal1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -116,7 +116,7 @@ public class QuickFixTest22 extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRenameToUnnamedProposal2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -173,7 +173,7 @@ public class QuickFixTest22 extends QuickFixTest {
 		assertEqualString(preview1, expected1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRenameToUnnamedProposal3() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -220,7 +220,7 @@ public class QuickFixTest22 extends QuickFixTest {
 		assertEqualString(preview1, expected1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRenameToUnnamedProposal4() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -271,7 +271,7 @@ public class QuickFixTest22 extends QuickFixTest {
 		assertEqualString(preview1, expected1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRenameToUnnamedProposal5() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -330,7 +330,7 @@ public class QuickFixTest22 extends QuickFixTest {
 		assertEqualString(preview1, expected1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddPermittedTypesToSwitchStatement() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -410,7 +410,7 @@ public class QuickFixTest22 extends QuickFixTest {
 			assertEqualString(preview1, expected1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddPermittedTypesToSwitchStatement2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -490,7 +490,7 @@ public class QuickFixTest22 extends QuickFixTest {
 			assertEqualString(preview1, expected1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddPermittedTypesToSwitchExpression() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectsetup.getDefaultClasspath(), null);

@@ -128,7 +128,7 @@ public class StubUtility {
 
 	private static final Set<String> VALID_TYPE_BODY_TEMPLATES;
 	static {
-		VALID_TYPE_BODY_TEMPLATES= new HashSet<>();
+		VALID_TYPE_BODY_TEMPLATES= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		VALID_TYPE_BODY_TEMPLATES.add(CodeTemplateContextType.CLASSBODY_ID);
 		VALID_TYPE_BODY_TEMPLATES.add(CodeTemplateContextType.INTERFACEBODY_ID);
 		VALID_TYPE_BODY_TEMPLATES.add(CodeTemplateContextType.ENUMBODY_ID);
@@ -150,7 +150,7 @@ public class StubUtility {
 		return getMethodBodyContent(false, isConstructor, project, destTypeName, methodName, bodyStatement, lineDelimiter);
 	}
 
-	public static String getMethodBodyContent(boolean useAlternativeMethodBody, boolean isConstructor, IJavaProject project, String destTypeName, String methodName, String bodyStatement, String lineDelimiter) throws CoreException {
+	public static String getMethodBodyContent(boolean useAlternativeMethodBody, boolean isConstructor, IJavaProject project, String destTypeName, String methodName, String bodyStatement, String lineDelimiter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String templateName= isConstructor ? CodeTemplateContextType.CONSTRUCTORSTUB_ID
 							: useAlternativeMethodBody ? CodeTemplateContextType.METHODSTUB_ALTERNATIVE_ID
 							: CodeTemplateContextType.METHODSTUB_ID;
@@ -244,11 +244,11 @@ public class StubUtility {
 	 */
 	public static String getCompilationUnitContent(ICompilationUnit cu, String fileComment, String typeComment, String typeContent, String lineDelimiter) throws CoreException {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
-		String packDecl= pack.isDefaultPackage() ? "" : "package " + pack.getElementName() + ';'; //$NON-NLS-1$ //$NON-NLS-2$
+		String packDecl= pack.isDefaultPackage() ? "" : "package " + pack.getElementName() + ';'; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return getCompilationUnitContent(cu, packDecl, fileComment, typeComment, typeContent, lineDelimiter);
 	}
 
-	public static String getCompilationUnitContent(ICompilationUnit cu, String packDecl, String fileComment, String typeComment, String typeContent, String lineDelimiter) throws CoreException {
+	public static String getCompilationUnitContent(ICompilationUnit cu, String packDecl, String fileComment, String typeComment, String typeContent, String lineDelimiter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Template template= getCodeTemplate(CodeTemplateContextType.NEWTYPE_ID, cu.getJavaProject());
 		if (template == null) {
 			return null;
@@ -299,7 +299,7 @@ public class StubUtility {
 	 * Don't use this method directly, use CodeGeneration.
 	 * @see CodeGeneration#getTypeComment(ICompilationUnit, String, String[], String)
 	 */
-	public static String getTypeComment(ICompilationUnit cu, String typeQualifiedName, String[] typeParameterNames, String[] params,
+	public static String getTypeComment(ICompilationUnit cu, String typeQualifiedName, String[] typeParameterNames, String[] params, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String lineDelim, boolean useMarkdown) throws CoreException {
 		Template template= getCodeTemplate(useMarkdown ? CodeTemplateContextType.MARKDOWNTYPECOMMENT_ID : CodeTemplateContextType.TYPECOMMENT_ID, cu.getJavaProject());
 		if (template == null) {
@@ -328,7 +328,7 @@ public class StubUtility {
 
 		IDocument document= new Document(str);
 		int[] tagOffsets= position.getOffsets();
-		for (int i= tagOffsets.length - 1; i >= 0; i--) { // from last to first
+		for (int i= tagOffsets.length - 1; i >= 0; i--) { // from last to first //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				insertTag(document, tagOffsets[i], position.getLength(), params, EMPTY, null, typeParameterNames, false, lineDelim);
 			} catch (BadLocationException e) {
@@ -349,7 +349,7 @@ public class StubUtility {
 	public static String[] getParameterTypeNamesForSeeTag(IMethodBinding binding) {
 		ITypeBinding[] typeBindings= binding.getParameterTypes();
 		String[] result= new String[typeBindings.length];
-		for (int i= 0; i < result.length; i++) {
+		for (int i= 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding curr= typeBindings[i];
 			curr= curr.getErasure(); // Javadoc references use erased type
 			result[i]= curr.getQualifiedName();
@@ -360,7 +360,7 @@ public class StubUtility {
 	/*
 	 * Returns the parameters type names used in see tags. Currently, these are always fully qualified.
 	 */
-	private static String[] getParameterTypeNamesForSeeTag(IMethod overridden) {
+	private static String[] getParameterTypeNamesForSeeTag(IMethod overridden) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 			parser.setProject(overridden.getJavaProject());
@@ -374,32 +374,32 @@ public class StubUtility {
 		// fall back code. Not good for generic methods!
 		String[] paramTypes= overridden.getParameterTypes();
 		String[] paramTypeNames= new String[paramTypes.length];
-		for (int i= 0; i < paramTypes.length; i++) {
+		for (int i= 0; i < paramTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paramTypeNames[i]= Signature.toString(Signature.getTypeErasure(paramTypes[i]));
 		}
 		return paramTypeNames;
 	}
 
 	private static String getSeeTag(String declaringClassQualifiedName, String methodName, String[] parameterTypesQualifiedNames) {
-		StringBuilder buf= new StringBuilder();
-		buf.append("@see "); //$NON-NLS-1$
-		buf.append(declaringClassQualifiedName);
-		buf.append('#');
-		buf.append(methodName);
-		buf.append('(');
-		for (int i= 0; i < parameterTypesQualifiedNames.length; i++) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("@see "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(declaringClassQualifiedName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append('#'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(methodName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < parameterTypesQualifiedNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
-				buf.append(", "); //$NON-NLS-1$
+				buf.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(parameterTypesQualifiedNames[i]);
+			buf.append(parameterTypesQualifiedNames[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(')');
+		buf.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
 	public static String[] getTypeParameterNames(ITypeParameter[] typeParameters) {
 		String[] typeParametersNames= new String[typeParameters.length];
-		for (int i= 0; i < typeParameters.length; i++) {
+		for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			typeParametersNames[i]= typeParameters[i].getElementName();
 		}
 		return typeParametersNames;
@@ -407,7 +407,7 @@ public class StubUtility {
 
 	public static String[] getRecordParameterNames(IField[] recordParameters) {
 		String[] recordParametersNames= new String[recordParameters.length];
-		for (int i= 0; i < recordParameters.length; i++) {
+		for (int i= 0; i < recordParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			recordParametersNames[i]= recordParameters[i].getElementName();
 		}
 		return recordParametersNames;
@@ -430,7 +430,7 @@ public class StubUtility {
 	 */
 	public static String getTypeBody(String templateID, ICompilationUnit cu, String typeName, String lineDelim) throws CoreException {
 		if (!VALID_TYPE_BODY_TEMPLATES.contains(templateID)) {
-			throw new IllegalArgumentException("Invalid code template ID: " + templateID); //$NON-NLS-1$
+			throw new IllegalArgumentException("Invalid code template ID: " + templateID); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		Template template= getCodeTemplate(templateID, cu.getJavaProject());
@@ -458,7 +458,7 @@ public class StubUtility {
 	 * Don't use this method directly, use CodeGeneration.
 	 * @see CodeGeneration#getMethodComment(ICompilationUnit, String, String, String[], String[], String, String[], IMethod, String)
 	 */
-	public static String getMethodComment(ICompilationUnit cu, String typeName, String methodName, String[] paramNames, String[] excTypeSig, String retTypeSig, String[] typeParameterNames,
+	public static String getMethodComment(ICompilationUnit cu, String typeName, String methodName, String[] paramNames, String[] excTypeSig, String retTypeSig, String[] typeParameterNames, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IMethod target, boolean delegate, String lineDelimiter, boolean useMarkdown) throws CoreException {
 		String templateName= useMarkdown ? CodeTemplateContextType.MARKDOWNMETHODCOMMENT_ID : CodeTemplateContextType.METHODCOMMENT_ID;
 		if (retTypeSig == null) {
@@ -510,12 +510,12 @@ public class StubUtility {
 
 		IDocument document= new Document(str);
 		String[] exceptionNames= new String[excTypeSig.length];
-		for (int i= 0; i < excTypeSig.length; i++) {
+		for (int i= 0; i < excTypeSig.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			exceptionNames[i]= Signature.toString(excTypeSig[i]);
 		}
 		String returnType= retTypeSig != null ? Signature.toString(retTypeSig) : null;
 		int[] tagOffsets= position.getOffsets();
-		for (int i= tagOffsets.length - 1; i >= 0; i--) { // from last to first
+		for (int i= tagOffsets.length - 1; i >= 0; i--) { // from last to first //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				insertTag(document, tagOffsets[i], position.getLength(), paramNames, exceptionNames, returnType, typeParameterNames, false, lineDelimiter);
 			} catch (BadLocationException e) {
@@ -526,17 +526,17 @@ public class StubUtility {
 	}
 
 	// remove lines for empty variables
-	private static String fixEmptyVariables(TemplateBuffer buffer, String[] variables) throws MalformedTreeException, BadLocationException {
+	private static String fixEmptyVariables(TemplateBuffer buffer, String[] variables) throws MalformedTreeException, BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDocument doc= new Document(buffer.getString());
 		int nLines= doc.getNumberOfLines();
 		MultiTextEdit edit= new MultiTextEdit();
-		HashSet<Integer> removedLines= new HashSet<>();
-		for (String variable : variables) {
+		HashSet<Integer> removedLines= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (String variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TemplateVariable position= findVariable(buffer, variable); // look if Javadoc tags have to be added
 			if (position == null || position.getLength() > 0) {
 				continue;
 			}
-			for (int offset2 : position.getOffsets()) {
+			for (int offset2 : position.getOffsets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int line= doc.getLineOfOffset(offset2);
 				IRegion lineInfo= doc.getLineInformation(line);
 				int offset= lineInfo.getOffset();
@@ -565,7 +565,7 @@ public class StubUtility {
 	 * Don't use this method directly, use CodeGeneration.
 	 * @see CodeGeneration#getModuleComment(IJavaProject, String, String, String[], String[], String[], String[], String[], String)
 	 */
-	public static String getModuleComment(ICompilationUnit cu, String moduleName, String[] providesNames,
+	public static String getModuleComment(ICompilationUnit cu, String moduleName, String[] providesNames, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] usesNames, String lineDelimiter, boolean useMarkdown) throws CoreException {
 		String templateName= useMarkdown ? CodeTemplateContextType.MARKDOWNMODULECOMMENT_ID : CodeTemplateContextType.MODULECOMMENT_ID;
 		Template template= getCodeTemplate(templateName, cu.getJavaProject());
@@ -593,7 +593,7 @@ public class StubUtility {
 
 		IDocument document= new Document(str);
 		int[] tagOffsets= position.getOffsets();
-		for (int i= tagOffsets.length - 1; i >= 0; i--) { // from last to first
+		for (int i= tagOffsets.length - 1; i >= 0; i--) { // from last to first //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				insertModuleTags(document, tagOffsets[i], position.getLength(), providesNames, usesNames,
 						lineDelimiter);
@@ -604,7 +604,7 @@ public class StubUtility {
 		return document.get();
 	}
 
-	private static void insertModuleTags(IDocument textBuffer, int offset, int length, String[] providesNames,
+	private static void insertModuleTags(IDocument textBuffer, int offset, int length, String[] providesNames, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] usesNames, String lineDelimiter) throws BadLocationException {
 		IRegion region= textBuffer.getLineInformationOfOffset(offset);
 		if (region == null) {
@@ -612,18 +612,18 @@ public class StubUtility {
 		}
 		String lineStart= textBuffer.get(region.getOffset(), offset - region.getOffset());
 
-		StringBuilder buf= new StringBuilder();
-		for (String providesName : providesNames) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String providesName : providesNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (buf.length() > 0) {
-				buf.append(lineDelimiter).append(lineStart);
+				buf.append(lineDelimiter).append(lineStart); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append("@provides ").append(providesName); //$NON-NLS-1$
+			buf.append("@provides ").append(providesName); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		for (String usesName : usesNames) {
+		for (String usesName : usesNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (buf.length() > 0) {
-				buf.append(lineDelimiter).append(lineStart);
+				buf.append(lineDelimiter).append(lineStart); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append("@uses ").append(usesName); //$NON-NLS-1$
+			buf.append("@uses ").append(usesName); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (buf.length() == 0 && isAllCommentWhitespace(lineStart)) {
 			int prevLine= textBuffer.getLineOfOffset(offset) - 1;
@@ -660,7 +660,7 @@ public class StubUtility {
 	 * Don't use this method directly, use CodeGeneration.
 	 * @see CodeGeneration#getSetterComment(ICompilationUnit, String, String, String, String, String, String, String)
 	 */
-	public static String getSetterComment(ICompilationUnit cu, String typeName, String methodName, String fieldName, String fieldType, String paramName, String bareFieldName, String lineDelimiter)
+	public static String getSetterComment(ICompilationUnit cu, String typeName, String methodName, String fieldName, String fieldType, String paramName, String bareFieldName, String lineDelimiter) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws CoreException {
 		boolean useMarkdown= useMarkdown(cu.getJavaProject());
 		String templateName= useMarkdown ? CodeTemplateContextType.MARKDOWNSETTERCOMMENT_ID : CodeTemplateContextType.SETTERCOMMENT_ID;
@@ -741,7 +741,7 @@ public class StubUtility {
 	 * This method should work with all AST levels.
 	 * @see CodeGeneration#getMethodComment(ICompilationUnit, String, MethodDeclaration, boolean, String, String[], String)
 	 */
-	public static String getMethodComment(ICompilationUnit cu, String typeName, MethodDeclaration decl, boolean isDeprecated, String targetName, String targetMethodDeclaringTypeName,
+	public static String getMethodComment(ICompilationUnit cu, String typeName, MethodDeclaration decl, boolean isDeprecated, String targetName, String targetMethodDeclaringTypeName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] targetMethodParameterTypeNames, boolean delegate, String lineDelimiter) throws CoreException {
 		boolean needsTarget= targetMethodDeclaringTypeName != null && targetMethodParameterTypeNames != null;
 		boolean useMarkdown= useMarkdown(cu.getJavaProject());
@@ -797,13 +797,13 @@ public class StubUtility {
 		IDocument textBuffer= new Document(str);
 		List<TypeParameter> typeParams= decl.typeParameters();
 		String[] typeParamNames= new String[typeParams.size()];
-		for (int i= 0; i < typeParamNames.length; i++) {
+		for (int i= 0; i < typeParamNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter elem= typeParams.get(i);
 			typeParamNames[i]= elem.getName().getIdentifier();
 		}
 		List<SingleVariableDeclaration> params= decl.parameters();
 		String[] paramNames= new String[params.size()];
-		for (int i= 0; i < paramNames.length; i++) {
+		for (int i= 0; i < paramNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration elem= params.get(i);
 			paramNames[i]= elem.getName().getIdentifier();
 		}
@@ -819,7 +819,7 @@ public class StubUtility {
 			}
 		}
 		int[] tagOffsets= position.getOffsets();
-		for (int i= tagOffsets.length - 1; i >= 0; i--) { // from last to first
+		for (int i= tagOffsets.length - 1; i >= 0; i--) { // from last to first //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				insertTag(textBuffer, tagOffsets[i], position.getLength(), paramNames, exceptionNames, returnType, typeParamNames, isDeprecated, lineDelimiter);
 			} catch (BadLocationException e) {
@@ -840,13 +840,13 @@ public class StubUtility {
 		if (decl.getAST().apiLevel() >= ASTHelper.JLS8) {
 			List<Type> exceptions= decl.thrownExceptionTypes();
 			exceptionNames= new String[exceptions.size()];
-			for (int i= 0; i < exceptionNames.length; i++) {
+			for (int i= 0; i < exceptionNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				exceptionNames[i]= ASTNodes.getTypeName(exceptions.get(i));
 			}
 		} else {
 			List<Name> exceptions= decl.thrownExceptions();
 			exceptionNames= new String[exceptions.size()];
-			for (int i= 0; i < exceptionNames.length; i++) {
+			for (int i= 0; i < exceptionNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				exceptionNames[i]= ASTNodes.getSimpleNameIdentifier(exceptions.get(i));
 			}
 		}
@@ -870,7 +870,7 @@ public class StubUtility {
 
 
 	private static TemplateVariable findVariable(TemplateBuffer buffer, String variable) {
-		for (TemplateVariable curr : buffer.getVariables()) {
+		for (TemplateVariable curr : buffer.getVariables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (variable.equals(curr.getType())) {
 				return curr;
 			}
@@ -878,7 +878,7 @@ public class StubUtility {
 		return null;
 	}
 
-	private static void insertTag(IDocument textBuffer, int offset, int length, String[] paramNames, String[] exceptionNames, String returnType, String[] typeParameterNames, boolean isDeprecated,
+	private static void insertTag(IDocument textBuffer, int offset, int length, String[] paramNames, String[] exceptionNames, String returnType, String[] typeParameterNames, boolean isDeprecated, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String lineDelimiter) throws BadLocationException {
 		IRegion region= textBuffer.getLineInformationOfOffset(offset);
 		if (region == null) {
@@ -886,38 +886,38 @@ public class StubUtility {
 		}
 		String lineStart= textBuffer.get(region.getOffset(), offset - region.getOffset());
 
-		StringBuilder buf= new StringBuilder();
-		for (String typeParameterName : typeParameterNames) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String typeParameterName : typeParameterNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (buf.length() > 0) {
-				buf.append(lineDelimiter).append(lineStart);
+				buf.append(lineDelimiter).append(lineStart); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append("@param <").append(typeParameterName).append('>'); //$NON-NLS-1$
+			buf.append("@param <").append(typeParameterName).append('>'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		for (String paramName : paramNames) {
+		for (String paramName : paramNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (buf.length() > 0) {
-				buf.append(lineDelimiter).append(lineStart);
+				buf.append(lineDelimiter).append(lineStart); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append("@param ").append(paramName); //$NON-NLS-1$
+			buf.append("@param ").append(paramName); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (returnType != null && !"void".equals(returnType)) { //$NON-NLS-1$
 			if (buf.length() > 0) {
-				buf.append(lineDelimiter).append(lineStart);
+				buf.append(lineDelimiter).append(lineStart); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append("@return"); //$NON-NLS-1$
+			buf.append("@return"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (exceptionNames != null) {
-			for (String exceptionName : exceptionNames) {
+			for (String exceptionName : exceptionNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (buf.length() > 0) {
-					buf.append(lineDelimiter).append(lineStart);
+					buf.append(lineDelimiter).append(lineStart); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append("@throws ").append(exceptionName); //$NON-NLS-1$
+				buf.append("@throws ").append(exceptionName); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		if (isDeprecated) {
 			if (buf.length() > 0) {
-				buf.append(lineDelimiter).append(lineStart);
+				buf.append(lineDelimiter).append(lineStart); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append("@deprecated"); //$NON-NLS-1$
+			buf.append("@deprecated"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (buf.length() == 0 && isAllCommentWhitespace(lineStart)) {
 			int prevLine= textBuffer.getLineOfOffset(offset) - 1;
@@ -933,7 +933,7 @@ public class StubUtility {
 	}
 
 	private static boolean isAllCommentWhitespace(String lineStart) {
-		for (char ch : lineStart.toCharArray()) {
+		for (char ch : lineStart.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Character.isWhitespace(ch) && ch != '*') {
 				return false;
 			}
@@ -1018,7 +1018,7 @@ public class StubUtility {
 	public static int getIndentUsed(IBuffer buffer, int offset, IJavaProject project) {
 		int i= offset;
 		// find beginning of line
-		while (i > 0 && !IndentManipulation.isLineDelimiterChar(buffer.getChar(i - 1))) {
+		while (i > 0 && !IndentManipulation.isLineDelimiterChar(buffer.getChar(i - 1))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i--;
 		}
 		return Strings.computeIndentUnits(buffer.getText(i, offset - i), project);
@@ -1037,7 +1037,7 @@ public class StubUtility {
 		IJavaElement parent= member.getParent();
 		if (parent instanceof IParent) {
 			IJavaElement[] elements= ((IParent)parent).getChildren();
-			for (int i= elements.length - 2; i >= 0; i--) {
+			for (int i= elements.length - 2; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (member.equals(elements[i])) {
 					return elements[i + 1];
 				}
@@ -1046,7 +1046,7 @@ public class StubUtility {
 		return null;
 	}
 
-	public static String getTodoTaskTag(IJavaProject project) {
+	public static String getTodoTaskTag(IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String markers= null;
 		if (project == null) {
 			markers= JavaCore.getOption(JavaCore.COMPILER_TASK_TAGS);
@@ -1076,7 +1076,7 @@ public class StubUtility {
 
 	// --------------------------- name suggestions --------------------------
 
-	public static String[] getVariableNameSuggestions(int variableKind, IJavaProject project, ITypeBinding expectedType, Expression assignedExpression, Collection<String> excluded) {
+	public static String[] getVariableNameSuggestions(int variableKind, IJavaProject project, ITypeBinding expectedType, Expression assignedExpression, Collection<String> excluded) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LinkedHashSet<String> res= new LinkedHashSet<>(); // avoid duplicates but keep order
 
 		if (assignedExpression != null) {
@@ -1113,7 +1113,7 @@ public class StubUtility {
 		return res.toArray(new String[res.size()]);
 	}
 
-	public static String[] getVariableNameSuggestions(int variableKind, IJavaProject project, ITypeBinding expectedType, Expression assignedExpression, Collection<String> excluded,
+	public static String[] getVariableNameSuggestions(int variableKind, IJavaProject project, ITypeBinding expectedType, Expression assignedExpression, Collection<String> excluded, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String usedNameForIdenticalExpressionInCu, Collection<String> usedNamesForIdenticalExpressionInMethod) {
 		LinkedHashSet<String> res= new LinkedHashSet<>(); // avoid duplicates but keep order
 
@@ -1167,15 +1167,15 @@ public class StubUtility {
 		return res.toArray(new String[res.size()]);
 	}
 
-	private static String recycleNames(String typeName, Expression assignedExpression, Collection<String> excluded,
+	private static String recycleNames(String typeName, Expression assignedExpression, Collection<String> excluded, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String usedNameForIdenticalExpressionInCu, Collection<String> usedNamesForIdenticalExpressionInMethod) {
 
 		MethodInvocation methodInvocation= (MethodInvocation)assignedExpression;
 		String name= methodInvocation.getName().getIdentifier();
 		if (!name.toLowerCase().contains(typeName.toLowerCase())) {
 			List<Expression> arguments= methodInvocation.arguments();
-			List<Integer> argumentTypes= new ArrayList<>();
-			for (Expression argument : arguments)
+			List<Integer> argumentTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+			for (Expression argument : arguments) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				argumentTypes.add(Integer.valueOf(argument.getNodeType()));
 			if (arguments.size() > 1 || argumentTypes.contains(Integer.valueOf(ASTNode.METHOD_INVOCATION))) {
 				if (usedNameForIdenticalExpressionInCu != null) {
@@ -1192,7 +1192,7 @@ public class StubUtility {
 
 
 
-	public static String[] getVariableNameSuggestions(int variableKind, IJavaProject project, Type expectedType, Expression assignedExpression, Collection<String> excluded) {
+	public static String[] getVariableNameSuggestions(int variableKind, IJavaProject project, Type expectedType, Expression assignedExpression, Collection<String> excluded) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LinkedHashSet<String> res= new LinkedHashSet<>(); // avoid duplicates but keep order
 
 		if (assignedExpression != null) {
@@ -1238,8 +1238,8 @@ public class StubUtility {
 		String prop= variableKind == NamingConventions.VK_STATIC_FINAL_FIELD ? "X" : "x"; //$NON-NLS-1$//$NON-NLS-2$
 		String name= prop;
 		int i= 1;
-		while (excluded.contains(name)) {
-			name= prop + i++;
+		while (excluded.contains(name)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			name= prop + i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return new String[] { name };
 	}
@@ -1288,7 +1288,7 @@ public class StubUtility {
 		result.addAll(Arrays.asList(names));
 	}
 
-	private static String getBaseNameFromExpression(IJavaProject project, Expression assignedExpression, int variableKind) {
+	private static String getBaseNameFromExpression(IJavaProject project, Expression assignedExpression, int variableKind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= null;
 		if (assignedExpression instanceof CastExpression) {
 			assignedExpression= ((CastExpression)assignedExpression).getExpression();
@@ -1316,14 +1316,14 @@ public class StubUtility {
 			return ((FieldAccess)assignedExpression).getName().getIdentifier();
 		} else if (variableKind == NamingConventions.VK_STATIC_FINAL_FIELD && (assignedExpression instanceof StringLiteral || assignedExpression instanceof NumberLiteral)) {
 			String string= assignedExpression instanceof StringLiteral ? ((StringLiteral)assignedExpression).getLiteralValue() : ((NumberLiteral)assignedExpression).getToken();
-			StringBuilder res= new StringBuilder();
+			StringBuilder res= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			boolean needsUnderscore= false;
-			for (char ch : string.toCharArray()) {
+			for (char ch : string.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Character.isJavaIdentifierPart(ch)) {
 					if (res.length() == 0 && !Character.isJavaIdentifierStart(ch) || needsUnderscore) {
-						res.append('_');
+						res.append('_'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					res.append(ch);
+					res.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					needsUnderscore= false;
 				} else {
 					needsUnderscore= res.length() > 0;
@@ -1334,7 +1334,7 @@ public class StubUtility {
 			}
 		}
 		if (name != null) {
-			for (String curr : KNOWN_METHOD_NAME_PREFIXES) {
+			for (String curr : KNOWN_METHOD_NAME_PREFIXES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (name.startsWith(curr)) {
 					if (name.equals(curr)) {
 						return null; // don't suggest 'get' as variable name
@@ -1357,7 +1357,7 @@ public class StubUtility {
 		return "element"; //$NON-NLS-1$
 	}
 
-	private static String getBaseNameFromLocationInParent(Expression assignedExpression, List<Expression> arguments, IMethodBinding binding) {
+	private static String getBaseNameFromLocationInParent(Expression assignedExpression, List<Expression> arguments, IMethodBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding == null)
 			return null;
 
@@ -1391,7 +1391,7 @@ public class StubUtility {
 	}
 
 
-	private static String getBaseNameFromLocationInParent(Expression assignedExpression) {
+	private static String getBaseNameFromLocationInParent(Expression assignedExpression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StructuralPropertyDescriptor location= assignedExpression.getLocationInParent();
 		if (location == MethodInvocation.ARGUMENTS_PROPERTY) {
 			MethodInvocation parent= (MethodInvocation)assignedExpression.getParent();
@@ -1454,12 +1454,12 @@ public class StubUtility {
 	}
 
 
-	public static String[][] suggestArgumentNamesWithProposals(IJavaProject project, String[] paramNames) {
+	public static String[][] suggestArgumentNamesWithProposals(IJavaProject project, String[] paramNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[][] newNames= new String[paramNames.length][];
-		ArrayList<String> takenNames= new ArrayList<>();
+		ArrayList<String> takenNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Ensure that the code generation preferences are respected
-		for (int i= 0; i < paramNames.length; i++) {
+		for (int i= 0; i < paramNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String curr= paramNames[i];
 			String baseName= NamingConventions.getBaseName(NamingConventions.VK_PARAMETER, curr, project);
 
@@ -1477,7 +1477,7 @@ public class StubUtility {
 		return newNames;
 	}
 
-	public static String[][] suggestArgumentNamesWithProposals(IJavaProject project, IMethodBinding binding) {
+	public static String[][] suggestArgumentNamesWithProposals(IJavaProject project, IMethodBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nParams= binding.getParameterTypes().length;
 		if (nParams > 0) {
 			try {
@@ -1493,14 +1493,14 @@ public class StubUtility {
 			}
 		}
 		String[][] names= new String[nParams][];
-		for (int i= 0; i < names.length; i++) {
-			names[i]= new String[] { "arg" + i }; //$NON-NLS-1$
+		for (int i= 0; i < names.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			names[i]= new String[] { "arg" + i }; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return names;
 	}
 
 
-	public static String[] suggestArgumentNames(IJavaProject project, IMethodBinding binding) {
+	public static String[] suggestArgumentNames(IJavaProject project, IMethodBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nParams= binding.getParameterTypes().length;
 
 		if (nParams > 0) {
@@ -1510,9 +1510,9 @@ public class StubUtility {
 					String[] paramNames= method.getParameterNames();
 					if (paramNames.length == nParams) {
 						String[] namesArray= EMPTY;
-						ArrayList<String> newNames= new ArrayList<>(paramNames.length);
+						ArrayList<String> newNames= new ArrayList<>(paramNames.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						// Ensure that the code generation preferences are respected
-						for (String curr : paramNames) {
+						for (String curr : paramNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							String baseName= NamingConventions.getBaseName(NamingConventions.VK_PARAMETER, curr, method.getJavaProject());
 							if (!curr.equals(baseName)) {
 								// make the existing name the favorite
@@ -1530,8 +1530,8 @@ public class StubUtility {
 			}
 		}
 		String[] names= new String[nParams];
-		for (int i= 0; i < names.length; i++) {
-			names[i]= "arg" + i; //$NON-NLS-1$
+		for (int i= 0; i < names.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			names[i]= "arg" + i; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return names;
 	}
@@ -1595,7 +1595,7 @@ public class StubUtility {
 		@Override
 		public int indexOf(Object o) {
 			if (o instanceof String) {
-				for (int i= 0; i < fExcluded.length; i++) {
+				for (int i= 0; i < fExcluded.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (o.equals(fExcluded[i]))
 						return i;
 				}
@@ -1642,11 +1642,11 @@ public class StubUtility {
 	}
 
 
-	private static boolean hasPrefixOrSuffix(String prefixes, String suffixes, String name) {
+	private static boolean hasPrefixOrSuffix(String prefixes, String suffixes, String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String listSeparartor= ","; //$NON-NLS-1$
 
 		StringTokenizer tok= new StringTokenizer(prefixes, listSeparartor);
-		while (tok.hasMoreTokens()) {
+		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String curr= tok.nextToken();
 			if (name.startsWith(curr)) {
 				return true;
@@ -1654,7 +1654,7 @@ public class StubUtility {
 		}
 
 		tok= new StringTokenizer(suffixes, listSeparartor);
-		while (tok.hasMoreTokens()) {
+		while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String curr= tok.nextToken();
 			if (name.endsWith(curr)) {
 				return true;

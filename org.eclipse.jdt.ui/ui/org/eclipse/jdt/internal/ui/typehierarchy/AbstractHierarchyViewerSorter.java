@@ -53,7 +53,7 @@ public abstract class AbstractHierarchyViewerSorter extends ViewerComparator {
 		return type.getFlags();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int category(Object element) {
 		if (element instanceof IType) {
 			IType type= (IType) element;
@@ -80,7 +80,7 @@ public abstract class AbstractHierarchyViewerSorter extends ViewerComparator {
 		return OTHER;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compare(Viewer viewer, Object e1, Object e2) {
 		if (!isSortAlphabetically() && !isSortByDefiningType()) {
 			return fSourcePositonSorter.compare(viewer, e1, e2);
@@ -147,7 +147,7 @@ public abstract class AbstractHierarchyViewerSorter extends ViewerComparator {
 	}
 
 
-	private int compareInHierarchy(IType def1, IType def2) {
+	private int compareInHierarchy(IType def1, IType def2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (JavaModelUtil.isSuperType(getHierarchy(def1), def2, def1)) {
 			return 1;
 		} else if (JavaModelUtil.isSuperType(getHierarchy(def2), def1, def2)) {

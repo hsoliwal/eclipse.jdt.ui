@@ -60,7 +60,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class SelfEncapsulateFieldAction extends SelectionDispatchAction {
+public class SelfEncapsulateFieldAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -115,14 +115,14 @@ public class SelfEncapsulateFieldAction extends SelectionDispatchAction {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		try {
 			if (!ActionUtil.isEditable(fEditor))
 				return;
 			IJavaElement[] elements= SelectionConverter.codeResolve(fEditor, true);
 			IField[] fields;
-			List<IField> selfEncapsulationAvailableFields = new ArrayList<>();
+			List<IField> selfEncapsulationAvailableFields = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			List<IField> preselected;
 			if (elements.length == 1 && (elements[0] instanceof IField)) {
 				IField field= (IField) elements[0];
@@ -139,7 +139,7 @@ public class SelfEncapsulateFieldAction extends SelectionDispatchAction {
 				}
 			}
 
-			for (IField field: fields) {
+			for (IField field: fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (RefactoringAvailabilityTester.isSelfEncapsulateAvailable(field)) {
 					selfEncapsulationAvailableFields.add(field);
 				}

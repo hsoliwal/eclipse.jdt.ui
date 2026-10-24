@@ -93,7 +93,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			fProcessor= processor;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			initializeDialogUnits(parent);
 			Composite result= new Composite(parent, SWT.NONE);
@@ -111,7 +111,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 
 			addReplaceAllCheckbox(result);
 			addInstanceofCheckbox(result, layout.marginWidth);
-			fReplaceAllCheckbox.addSelectionListener(new SelectionAdapter() {
+			fReplaceAllCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -144,7 +144,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			String title= RefactoringMessages.ExtractInterfaceWizard_generate_annotations;
 			fGenerateAnnotationsCheckbox= createCheckbox(result,  title, false);
 			fProcessor.setAnnotations(fGenerateAnnotationsCheckbox.getSelection());
-			fGenerateAnnotationsCheckbox.addSelectionListener(new SelectionAdapter(){
+			fGenerateAnnotationsCheckbox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fProcessor.setAnnotations(fGenerateAnnotationsCheckbox.getSelection());
@@ -156,7 +156,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			String title= RefactoringMessages.ExtractInterfaceWizard_generate_comments;
 			fGenerateCommentsCheckbox= createCheckbox(result,  title, false);
 			fProcessor.setComments(fGenerateCommentsCheckbox.getSelection());
-			fGenerateCommentsCheckbox.addSelectionListener(new SelectionAdapter(){
+			fGenerateCommentsCheckbox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fProcessor.setComments(fGenerateCommentsCheckbox.getSelection());
@@ -174,7 +174,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			fInstanceofCheckbox.setLayoutData(gd);
 			fInstanceofCheckbox.setText(title);
 			fProcessor.setInstanceOf(fInstanceofCheckbox.getSelection());
-			fInstanceofCheckbox.addSelectionListener(new SelectionAdapter(){
+			fInstanceofCheckbox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fProcessor.setInstanceOf(fInstanceofCheckbox.getSelection());
@@ -182,7 +182,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			});
 		}
 
-		private void addMemberListComposite(Composite result) {
+		private void addMemberListComposite(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite composite= new Composite(result, SWT.NONE);
 			GridLayout layout= new GridLayout();
 			layout.numColumns= 2;
@@ -196,15 +196,15 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 
 			fTableViewer= CheckboxTableViewer.newCheckList(composite, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 			fTableViewer.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
-			fTableViewer.setLabelProvider(createLabelProvider());
+			fTableViewer.setLabelProvider(createLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			fTableViewer.setContentProvider(ArrayContentProvider.getInstance());
 			try {
-				fTableViewer.setInput(getExtractableMembers());
+				fTableViewer.setInput(getExtractableMembers()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			} catch (JavaModelException e) {
 				ExceptionHandler.handle(e, RefactoringMessages.ExtractInterfaceInputPage_Extract_Interface, RefactoringMessages.ExtractInterfaceInputPage_Internal_Error);
-				fTableViewer.setInput(new IMember[0]);
+				fTableViewer.setInput(new IMember[0]); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
-			fTableViewer.addCheckStateListener(unused -> ExtractInterfaceInputPage.this.updateUIElementEnablement());
+			fTableViewer.addCheckStateListener(unused -> ExtractInterfaceInputPage.this.updateUIElementEnablement()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			fTableViewer.setComparator(new JavaElementComparator());
 			fTableViewer.getControl().setEnabled(anyMembersToExtract());
 
@@ -233,7 +233,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 		}
 
 		private static boolean containsMethods(IMember[] members) {
-			for (IMember member : members) {
+			for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (member.getElementType() == IJavaElement.METHOD) {
 					return true;
 				}
@@ -250,7 +250,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			return new DecoratingJavaLabelProvider(lprovider);
 		}
 
-		private void createButtonComposite(Composite composite) {
+		private void createButtonComposite(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			GridData gd;
 			Composite buttonComposite= new Composite(composite, SWT.NONE);
 			GridLayout gl= new GridLayout();
@@ -265,7 +265,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			fSelectAllButton.setEnabled(anyMembersToExtract());
 			fSelectAllButton.setLayoutData(new GridData());
 			SWTUtil.setButtonDimensionHint(fSelectAllButton);
-			fSelectAllButton.addSelectionListener(new SelectionAdapter(){
+			fSelectAllButton.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fTableViewer.setAllChecked(true);
@@ -278,7 +278,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			fDeselectAllButton.setEnabled(anyMembersToExtract());
 			fDeselectAllButton.setLayoutData(new GridData());
 			SWTUtil.setButtonDimensionHint(fDeselectAllButton);
-			fDeselectAllButton.addSelectionListener(new SelectionAdapter(){
+			fDeselectAllButton.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fTableViewer.setAllChecked(false);
@@ -300,7 +300,7 @@ public class ExtractInterfaceWizard extends RefactoringWizard {
 			boolean defaultValue= fProcessor.isReplace();
 			fReplaceAllCheckbox= createCheckbox(result,  title, defaultValue);
 			fProcessor.setReplace(fReplaceAllCheckbox.getSelection());
-			fReplaceAllCheckbox.addSelectionListener(new SelectionAdapter(){
+			fReplaceAllCheckbox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fProcessor.setReplace(fReplaceAllCheckbox.getSelection());

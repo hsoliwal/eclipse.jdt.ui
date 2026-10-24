@@ -31,7 +31,7 @@ public class ChangeLambdaBodyToBlockFixCore extends CompilationUnitRewriteOperat
 		super(name, compilationUnit, operation);
 	}
 
-	public static ChangeLambdaBodyToBlockFixCore createChangeLambdaBodyToBlockFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static ChangeLambdaBodyToBlockFixCore createChangeLambdaBodyToBlockFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LambdaExpression lambda;
 		if (node instanceof LambdaExpression) {
 			lambda= (LambdaExpression) node;

@@ -311,7 +311,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		public InfixExpression getParentInfixExpression() {
 			ASTNode expr= fSelectedNode;
 			ASTNode parent= expr.getParent(); // include all parents
-			while (parent instanceof InfixExpression && isBitOperation(((InfixExpression) parent).getOperator())) {
+			while (parent instanceof InfixExpression && isBitOperation(((InfixExpression) parent).getOperator())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				expr= parent;
 				parent= expr.getParent();
 			}
@@ -323,7 +323,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return op == InfixExpression.Operator.AND || op == InfixExpression.Operator.OR || op == InfixExpression.Operator.XOR;
 	}
 
-	public void getTypeArgumentsFromContext(IInvocationContext context, IProblemLocation problem,
+	public void getTypeArgumentsFromContext(IInvocationContext context, IProblemLocation problem, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<T> proposals, UnresolvedElementsBaseSubProcessor<T> processor) {
 		// similar to UnresolvedElementsSubProcessor.getTypeProposals(context, problem, proposals);
 
@@ -335,7 +335,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			return;
 		}
 
-		while (selectedNode.getLocationInParent() == QualifiedName.NAME_PROPERTY) {
+		while (selectedNode.getLocationInParent() == QualifiedName.NAME_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= selectedNode.getParent();
 		}
 
@@ -394,7 +394,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public boolean getSplitOrConditionProposalsBase(IInvocationContext context, ASTNode node, Collection<T> resultingCollections) {
+	public boolean getSplitOrConditionProposalsBase(IInvocationContext context, ASTNode node, Collection<T> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Operator orOperator= InfixExpression.Operator.CONDITIONAL_OR;
 		// check that user invokes quick assist on infix expression
 		if (!(node instanceof InfixExpression)) {
@@ -417,7 +417,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 		// check that infix expression is part of first level || condition of IfStatement
 		InfixExpression topInfixExpression= infixExpression;
-		while (topInfixExpression.getParent() instanceof InfixExpression && ((InfixExpression) topInfixExpression.getParent()).getOperator() == orOperator) {
+		while (topInfixExpression.getParent() instanceof InfixExpression && ((InfixExpression) topInfixExpression.getParent()).getOperator() == orOperator) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			topInfixExpression= (InfixExpression) topInfixExpression.getParent();
 		}
 		if (ifStatement.getExpression() != topInfixExpression) {
@@ -459,7 +459,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return true;
 	}
 
-	public boolean getSplitAndConditionProposalsBase(IInvocationContext context, ASTNode node, Collection<T> resultingCollections) {
+	public boolean getSplitAndConditionProposalsBase(IInvocationContext context, ASTNode node, Collection<T> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Operator andOperator= InfixExpression.Operator.CONDITIONAL_AND;
 		// check that user invokes quick assist on infix expression
 		if (!(node instanceof InfixExpression)) {
@@ -483,7 +483,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 		// check that infix expression is part of first level && condition of IfStatement
 		InfixExpression topInfixExpression= infixExpression;
-		while (topInfixExpression.getParent() instanceof InfixExpression && ((InfixExpression) topInfixExpression.getParent()).getOperator() == andOperator) {
+		while (topInfixExpression.getParent() instanceof InfixExpression && ((InfixExpression) topInfixExpression.getParent()).getOperator() == andOperator) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			topInfixExpression= (InfixExpression) topInfixExpression.getParent();
 		}
 		if (ifStatement.getExpression() != topInfixExpression) {
@@ -533,7 +533,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	 * Breaks an infix operation with possible extended operators at the given operator and returns the new left and right operands.
 	 * a & b & c   ->  [[a' & b' ] & c' ]   (c' == copy of c)
 	 */
-	private void breakInfixOperationAtOperation(ASTRewrite rewrite, Expression expression, Operator operator, int operatorOffset, boolean removeParentheses, Expression[] res) {
+	private void breakInfixOperationAtOperation(ASTRewrite rewrite, Expression expression, Operator operator, int operatorOffset, boolean removeParentheses, Expression[] res) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (expression.getStartPosition() + expression.getLength() <= operatorOffset) {
 			// add to the left
 			res[0]= combineOperands(rewrite, res[0], expression, removeParentheses, operator);
@@ -555,12 +555,12 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		breakInfixOperationAtOperation(rewrite, infixExpression.getRightOperand(), operator, operatorOffset, removeParentheses, res);
 
 		List<Expression> extended= infixExpression.extendedOperands();
-		for (Expression element : extended) {
+		for (Expression element : extended) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			breakInfixOperationAtOperation(rewrite, element, operator, operatorOffset, removeParentheses, res);
 		}
 	}
 
-	private Expression combineOperands(ASTRewrite rewrite, Expression existing, Expression originalNode, boolean removeParentheses, Operator operator) {
+	private Expression combineOperands(ASTRewrite rewrite, Expression existing, Expression originalNode, boolean removeParentheses, Operator operator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (existing == null && removeParentheses) {
 			originalNode= ASTNodes.getUnparenthesedExpression(originalNode);
 		}
@@ -603,7 +603,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			return ASTNodes.getExclusiveEnd(left);
 		}
 		List<Expression> extended= infixExpression.extendedOperands();
-		for (Expression element : extended) {
+		for (Expression element : extended) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			left= right;
 			right= element;
 			if (isSelectingOperator(left, right, offset, length)) {
@@ -625,7 +625,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	@SuppressWarnings({ "null" })
+	@SuppressWarnings({ "null" }) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean getTryWithResourceProposalsBase(IInvocationContext context, ASTNode node, ArrayList<ASTNode> coveredNodes, Collection<T> resultingCollections)
 			throws IllegalArgumentException, CoreException {
 		ASTNode parentStatement= ASTResolving.findAncestor(node, ASTNode.VARIABLE_DECLARATION_STATEMENT);
@@ -635,11 +635,11 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 				&& (coveredNodes == null || coveredNodes.isEmpty())) {
 			return false;
 		}
-		List<ASTNode> coveredStatements= new ArrayList<>();
+		List<ASTNode> coveredStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (coveredNodes == null || coveredNodes.isEmpty() && parentStatement != null) {
 			coveredStatements.add(parentStatement);
 		} else {
-			for (ASTNode coveredNode : coveredNodes) {
+			for (ASTNode coveredNode : coveredNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Statement statement= ASTResolving.findParentStatement(coveredNode);
 				if (statement == null) {
 					continue;
@@ -661,7 +661,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		int start= coveredAutoClosableNodes.get(0).getStartPosition();
 		int end= start;
 
-		for (ASTNode astNode : coveredAutoClosableNodes) {
+		for (ASTNode astNode : coveredAutoClosableNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int endPosition= QuickAssistProcessorUtil.findEndPostion(astNode);
 			end= Math.max(end, endPosition);
 		}
@@ -669,9 +669,9 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		// recursive loop to find all nodes affected by wrapping in try block
 		List<ASTNode> nodesInRange= SurroundWithTryWithResourcesRefactoringCore.findNodesInRange(parentBodyDeclaration, start, end);
 		int oldEnd= end;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int newEnd= oldEnd;
-			for (ASTNode astNode : nodesInRange) {
+			for (ASTNode astNode : nodesInRange) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int endPosition= QuickAssistProcessorUtil.findEndPostion(astNode);
 				newEnd= Math.max(newEnd, endPosition);
 			}
@@ -711,9 +711,9 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		SurroundWithTryWithResourcesAnalyzer analyzer= new SurroundWithTryWithResourcesAnalyzer(icu, selection);
 		cu.accept(analyzer);
 		ITypeBinding[] exceptions= analyzer.getExceptions(analyzer.getSelection());
-		List<ITypeBinding> allExceptions= new ArrayList<>(Arrays.asList(exceptions));
+		List<ITypeBinding> allExceptions= new ArrayList<>(Arrays.asList(exceptions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int resourceCount= 0;
-		for (ASTNode coveredNode : coveredAutoClosableNodes) {
+		for (ASTNode coveredNode : coveredAutoClosableNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode findAncestor= ASTResolving.findAncestor(coveredNode, ASTNode.VARIABLE_DECLARATION_STATEMENT);
 			if (findAncestor == null) {
 				findAncestor= ASTResolving.findAncestor(coveredNode, ASTNode.ASSIGNMENT);
@@ -730,7 +730,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 				if (typeBinding != null) {
 					IMethodBinding close= SurroundWithTryWithResourcesRefactoringCore.findAutocloseMethod(typeBinding);
 					if (close != null) {
-						for (ITypeBinding exceptionType : close.getExceptionTypes()) {
+						for (ITypeBinding exceptionType : close.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!allExceptions.contains(exceptionType)) {
 								allExceptions.add(exceptionType);
 							}
@@ -739,7 +739,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 				}
 				String typeName= buffer.getText(type.getStartPosition(), type.getLength());
 
-				for (Object object : vds.fragments()) {
+				for (Object object : vds.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment variableDeclarationFragment= (VariableDeclarationFragment) object;
 					VariableDeclarationFragment newVariableDeclarationFragment= ast.newVariableDeclarationFragment();
 					SimpleName name= variableDeclarationFragment.getName();
@@ -762,7 +762,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 					newVariableDeclarationFragment.setInitializer(newExpression);
 					VariableDeclarationExpression newVariableDeclarationExpression= ast.newVariableDeclarationExpression(newVariableDeclarationFragment);
 					newVariableDeclarationExpression.setType(
-							(Type) rewrite.createStringPlaceholder(commentToken + typeName, type.getNodeType()));
+							(Type) rewrite.createStringPlaceholder(commentToken + typeName, type.getNodeType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					resourceCount++;
 					if (modifyExistingTry) {
 						resourcesRewriter.insertLast(newVariableDeclarationExpression, null);
@@ -793,7 +793,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		String name= scope.createName(varName, false);
 		decl.setName(ast.newSimpleName(name));
 
-		List<ITypeBinding> mustRethrowList= new ArrayList<>();
+		List<ITypeBinding> mustRethrowList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<ITypeBinding> catchExceptions= analyzer.calculateCatchesAndRethrows(ASTNodes.filterSubtypes(allExceptions), mustRethrowList);
 		List<ITypeBinding> filteredExceptions= ASTNodes.filterSubtypes(catchExceptions);
 
@@ -804,7 +804,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 			int i= 0;
 			if (!modifyExistingTry) {
-				for (ITypeBinding mustThrow : mustRethrowList) {
+				for (ITypeBinding mustThrow : mustRethrowList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CatchClause newClause= ast.newCatchClause();
 					SingleVariableDeclaration newDecl= ast.newSingleVariableDeclaration();
 					newDecl.setName(ast.newSimpleName(name));
@@ -813,7 +813,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 					newClause.setException(newDecl);
 					ThrowStatement newThrowStatement= ast.newThrowStatement();
 					newThrowStatement.setExpression(ast.newSimpleName(name));
-					linkedProposalModel.getPositionGroup(GROUP_EXC_NAME + i, true).addPosition(rewrite.track(decl.getName()), false);
+					linkedProposalModel.getPositionGroup(GROUP_EXC_NAME + i, true).addPosition(rewrite.track(decl.getName()), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					newClause.getBody().statements().add(newThrowStatement);
 					newTryStatement.catchClauses().add(newClause);
 					++i;
@@ -821,16 +821,16 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			}
 			UnionType unionType= ast.newUnionType();
 			List<Type> types= unionType.types();
-			for (ITypeBinding exception : filteredExceptions) {
+			for (ITypeBinding exception : filteredExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type type= imports.addImport(exception, ast, importRewriteContext, TypeLocation.EXCEPTION);
 				types.add(type);
-				linkedProposalModel.getPositionGroup(GROUP_EXC_TYPE + i, true).addPosition(rewrite.track(type), i == 0);
+				linkedProposalModel.getPositionGroup(GROUP_EXC_TYPE + i, true).addPosition(rewrite.track(type), i == 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				i++;
 			}
 
 			decl.setType(unionType);
 			catchClause.setException(decl);
-			linkedProposalModel.getPositionGroup(GROUP_EXC_NAME + 0, true).addPosition(rewrite.track(decl.getName()), false);
+			linkedProposalModel.getPositionGroup(GROUP_EXC_NAME + 0, true).addPosition(rewrite.track(decl.getName()), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Statement st= null;
 			String s= StubUtility.getCatchBodyContent(icu, "Exception", name, coveredStatements.get(0), icu.findRecommendedLineSeparator()); //$NON-NLS-1$
 			if (s != null) {
@@ -847,7 +847,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 
 		if (modifyExistingTry) {
-			for (int i= 0; i < coveredAutoClosableNodes.size(); i++) {
+			for (int i= 0; i < coveredAutoClosableNodes.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.remove(coveredAutoClosableNodes.get(i), null);
 			}
 		} else {
@@ -861,7 +861,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 			// replace first node and delete the rest of selected nodes
 			rewrite.replace(coveredAutoClosableNodes.get(0), newTryStatement, null);
-			for (int i= 1; i < coveredAutoClosableNodes.size(); i++) {
+			for (int i= 1; i < coveredAutoClosableNodes.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.remove(coveredAutoClosableNodes.get(i), null);
 			}
 		}
@@ -878,7 +878,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return statements.size() > 0 && coveredStatements.size() > 0 && statements.get(0) != coveredStatements.get(0);
 	}
 
-	public void getUnreachableCodeProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getUnreachableCodeProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= context.getASTRoot();
 		ASTNode selectedNode= problem.getCoveringNode(root);
 		if (selectedNode == null) {
@@ -886,7 +886,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 
 		ASTNode parent= selectedNode.getParent();
-		while (parent instanceof ExpressionStatement) {
+		while (parent instanceof ExpressionStatement) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= parent;
 			parent= selectedNode.getParent();
 		}
@@ -924,7 +924,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			Expression replacement= ASTNodes.getUnparenthesedExpression(leftOperand);
 
 			Expression toReplace= infixExpression;
-			while (toReplace.getLocationInParent() == ParenthesizedExpression.EXPRESSION_PROPERTY) {
+			while (toReplace.getLocationInParent() == ParenthesizedExpression.EXPRESSION_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				toReplace= (Expression) toReplace.getParent();
 			}
 
@@ -998,7 +998,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 								return;
 							}
 							ASTNode[] thenStatementsArray= new ASTNode[thenStatements.size()];
-							for (int i= 0; i < thenStatementsArray.length; i++) {
+							for (int i= 0; i < thenStatementsArray.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								thenStatementsArray[i]= thenStatements.get(i);
 							}
 							ASTNode newThenStatement= rewrite.createGroupNode(thenStatementsArray);
@@ -1011,7 +1011,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 				}
 			}
 
-			for (int i= idx; i < statements.size(); i++) {
+			for (int i= idx; i < statements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode statement= statements.get(i);
 				if (statement instanceof SwitchCase)
 					break; // stop at case *: and default:
@@ -1028,7 +1028,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	}
 
 
-	private void addRemoveIncludingConditionProposal(IInvocationContext context, ASTNode toRemove, ASTNode replacement, Collection<T> proposals) {
+	private void addRemoveIncludingConditionProposal(IInvocationContext context, ASTNode toRemove, ASTNode replacement, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String label= CorrectionMessages.LocalCorrectionsSubProcessor_removeunreachablecode_including_condition_description;
 		AST ast= toRemove.getAST();
 		ASTRewrite rewrite= ASTRewrite.create(ast);
@@ -1081,7 +1081,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		proposals.add(astRewriteCorrectionProposalToT(proposal, DELETE_ID));
 	}
 
-	public void getInvalidVariableNameProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getInvalidVariableNameProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// hiding, redefined or future keyword
 
 		CompilationUnit root= context.getASTRoot();
@@ -1125,7 +1125,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		if (problem.getProblemId() == IProblem.UseEnumAsAnIdentifier) {
 			valueSuggestion= "enumeration"; //$NON-NLS-1$
 		} else {
-			valueSuggestion= nameNode.getIdentifier() + '1';
+			valueSuggestion= nameNode.getIdentifier() + '1'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		LinkedNamesAssistProposalCore proposalCore= new LinkedNamesAssistProposalCore(name, context, nameNode, valueSuggestion);
@@ -1145,7 +1145,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		proposals.add(astRewriteCorrectionProposalToT(proposal, DELETE_ID));
 	}
 
-	public void getServiceProviderProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void getServiceProviderProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= problem.getCoveredNode(context.getASTRoot());
 		if (!(node instanceof Name) || !(node.getParent() instanceof ProvidesDirective)) {
 			return;
@@ -1168,7 +1168,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getUnusedObjectAllocationProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getUnusedObjectAllocationProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= context.getASTRoot();
 		AST ast= root.getAST();
 		ASTNode selectedNode= problem.getCoveringNode(root);
@@ -1239,7 +1239,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		getAssignToVariableProposalsBase(context, selectedNode, null, proposals);
 	}
 
-	public boolean getAssignToVariableProposalsBase(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<T> resultingCollections) {
+	public boolean getAssignToVariableProposalsBase(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<T> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// don't add if already added as quick fix
 		if (containsMatchingProblem(locations, IProblem.ParsingErrorInsertToComplete))
 			return false;
@@ -1293,7 +1293,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 	private static boolean containsMatchingProblem(IProblemLocation[] locations, int problemId) {
 		if (locations != null) {
-			for (IProblemLocation location : locations) {
+			for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER.equals(location.getMarkerType())
 						&& location.getProblemId() == problemId) {
 					return true;
@@ -1303,7 +1303,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return false;
 	}
 
-	public boolean getGenerateForLoopProposalsBase(IInvocationContext context, ASTNode coveringNode, @SuppressWarnings("unused") IProblemLocation[] locations, Collection<T> resultingCollections) {
+	public boolean getGenerateForLoopProposalsBase(IInvocationContext context, ASTNode coveringNode, @SuppressWarnings("unused") IProblemLocation[] locations, Collection<T> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 //		if (containsMatchingProblem(locations, IProblem.ParsingErrorInsertToComplete))
 //			return false;
 
@@ -1360,7 +1360,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	}
 
 
-	public void getInvalidOperatorProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getInvalidOperatorProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= context.getASTRoot();
 		AST ast= root.getAST();
 
@@ -1428,7 +1428,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getUnnecessaryThrownExceptionProposal(IInvocationContext context, IProblemLocation problem,
+	public void getUnnecessaryThrownExceptionProposal(IInvocationContext context, IProblemLocation problem, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<T> proposals, JavadocTagsBaseSubProcessor<T> javadocProcessor) {
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		selectedNode= ASTNodes.getNormalizedNode(selectedNode);
@@ -1455,7 +1455,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		javadocProcessor.addUnusedAndUndocumentedParameterOrExceptionProposals(context, problem, proposals);
 	}
 
-	public void getUnusedMemberProposal(IInvocationContext context, IProblemLocation problem,
+	public void getUnusedMemberProposal(IInvocationContext context, IProblemLocation problem, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<T> proposals, JavadocTagsBaseSubProcessor<T> javadocProcessor,
 			GetterSetterCorrectionBaseSubProcessor<T> getterProcessor) {
 		int problemId= problem.getProblemId();
@@ -1513,12 +1513,12 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getCorrectAccessToStaticProposals(IInvocationContext context, IProblemLocation problem,
+	public void getCorrectAccessToStaticProposals(IInvocationContext context, IProblemLocation problem, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<T> proposals, ModifierCorrectionSubProcessorCore<T> modifierProcessor) throws CoreException {
 		IProposableFix fix= CodeStyleFixCore.createIndirectAccessToStaticFix(context.getASTRoot(), problem);
 
 		if (fix != null) {
-			Map<String, String> options= new HashMap<>();
+			Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			options.put(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS, CleanUpOptions.TRUE);
 			options.put(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_SUBTYPE_ACCESS, CleanUpOptions.TRUE);
 			FixCorrectionProposalCore proposal= new FixCorrectionProposalCore(fix, new CodeStyleCleanUpCore(options), IProposalRelevance.CREATE_INDIRECT_ACCESS_TO_STATIC, context);
@@ -1530,7 +1530,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		IProposableFix[] fixes= CodeStyleFixCore.createNonStaticAccessFixes(context.getASTRoot(), problem);
 		if (fixes != null) {
 			IProposableFix fix1= fixes[0];
-			Map<String, String> options= new HashMap<>();
+			Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			options.put(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS, CleanUpOptions.TRUE);
 			options.put(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_INSTANCE_ACCESS, CleanUpOptions.TRUE);
 			FixCorrectionProposalCore proposal= new FixCorrectionProposalCore(fix1, new CodeStyleCleanUpCore(options), IProposalRelevance.CREATE_NON_STATIC_ACCESS_USING_DECLARING_TYPE, context);
@@ -1538,7 +1538,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			proposals.add(fixCorrectionProposalToT(proposal, ADD_STATIC_ACCESS));
 
 			if (fixes.length > 1) {
-				Map<String, String> options1= new HashMap<>();
+				Map<String, String> options1= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				options1.put(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS, CleanUpOptions.TRUE);
 				options1.put(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_SUBTYPE_ACCESS, CleanUpOptions.TRUE);
 				options1.put(CleanUpConstants.MEMBER_ACCESSES_STATIC_QUALIFY_WITH_DECLARING_CLASS_INSTANCE_ACCESS, CleanUpOptions.TRUE);
@@ -1550,7 +1550,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		modifierProcessor.getNonAccessibleReferenceProposal(context, problem, proposals, ModifierCorrectionSubProcessorCore.TO_NON_STATIC, IProposalRelevance.REMOVE_STATIC_MODIFIER);
 	}
 
-	public void getUncaughtExceptionProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void getUncaughtExceptionProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		CompilationUnit astRoot= context.getASTRoot();
@@ -1558,7 +1558,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		if (selectedNode == null) {
 			return;
 		}
-		while (selectedNode != null && !(selectedNode instanceof Statement) && !(selectedNode instanceof VariableDeclarationExpression)
+		while (selectedNode != null && !(selectedNode instanceof Statement) && !(selectedNode instanceof VariableDeclarationExpression) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				&& (selectedNode.getLocationInParent() != LambdaExpression.BODY_PROPERTY) && !(selectedNode instanceof MethodReference)) {
 			selectedNode= selectedNode.getParent();
 		}
@@ -1583,11 +1583,11 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		if (refactoring == null)
 			return;
 
-		List<String> affectedLocals= new ArrayList<>();
+		List<String> affectedLocals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SimpleName vName= null;
 		ITypeBinding vType= null;
 		if (selectedNode.getAST().apiLevel() >= ASTHelper.JLS10 && (selectedNode instanceof VariableDeclarationStatement)) {
-			for (Object o : ((VariableDeclarationStatement) selectedNode).fragments()) {
+			for (Object o : ((VariableDeclarationStatement) selectedNode).fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclarationFragment v= ((VariableDeclarationFragment) o);
 				vName= v.getName();
 				vType= ((VariableDeclarationStatement) selectedNode).getType().resolveBinding();
@@ -1669,13 +1669,13 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 					UnionType unionType= (UnionType) originalType;
 					ListRewrite listRewrite= rewrite.getListRewrite(unionType, UnionType.TYPES_PROPERTY);
 					@SuppressWarnings("unchecked")
-					List<Type> existingTypes= new ArrayList<>(unionType.types());
+					List<Type> existingTypes= new ArrayList<>(unionType.types()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-					for (int i= 0; i < filteredExceptions.size(); i++) {
+					for (int i= 0; i < filteredExceptions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Type addedType= addNewException(ast, filteredExceptions, rewrite, proposal, imports, importRewriteContext, i);
 						boolean isReplaced= false;
 
-						for (Type existingType : existingTypes) {
+						for (Type existingType : existingTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (existingType.resolveBinding().isSubTypeCompatible(filteredExceptions.get(i))) {
 								listRewrite.replace(existingType, addedType, null);
 								isReplaced= true;
@@ -1689,9 +1689,9 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 					}
 				} else {
 					Type firstType= null;
-					List<Type> typesToAdd= new ArrayList<>();
+					List<Type> typesToAdd= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-					for (int i= 0; i < filteredExceptions.size(); i++) {
+					for (int i= 0; i < filteredExceptions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Type addedType= addNewException(ast, filteredExceptions, rewrite, proposal, imports, importRewriteContext, i);
 
 						if (originalType.resolveBinding().isSubTypeCompatible(filteredExceptions.get(i))) {
@@ -1737,7 +1737,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 				UnionType newUnionType= ast.newUnionType();
 				List<Type> types= newUnionType.types();
 
-				for (int i= 0; i < filteredExceptions.size(); i++) {
+				for (int i= 0; i < filteredExceptions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					types.add(addNewException(ast, filteredExceptions, rewrite, proposal, imports, importRewriteContext, i));
 				}
 
@@ -1772,9 +1772,9 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 					if (!isApplicable) { // bug 349051
 						ITypeBinding[] exceptionTypes= overriddenMethod.getExceptionTypes();
-						ArrayList<ITypeBinding> unhandledExceptions= new ArrayList<>(uncaughtExceptions.length);
+						ArrayList<ITypeBinding> unhandledExceptions= new ArrayList<>(uncaughtExceptions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-						for (ITypeBinding curr : uncaughtExceptions) {
+						for (ITypeBinding curr : uncaughtExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (isSubtype(curr, exceptionTypes)) {
 								unhandledExceptions.add(curr);
 							}
@@ -1787,9 +1787,9 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 				if (isApplicable && binding != null) {
 					ITypeBinding[] methodExceptions= binding.getExceptionTypes();
-					ArrayList<ITypeBinding> unhandledExceptions= new ArrayList<>(uncaughtExceptions.length);
+					ArrayList<ITypeBinding> unhandledExceptions= new ArrayList<>(uncaughtExceptions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-					for (ITypeBinding curr : uncaughtExceptions) {
+					for (ITypeBinding curr : uncaughtExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!isSubtype(curr, methodExceptions)) {
 							unhandledExceptions.add(curr);
 						}
@@ -1801,7 +1801,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 					int nExistingExceptions= exceptions.size();
 
 					ChangeDescription[] desc= new ChangeDescription[nExistingExceptions + uncaughtExceptions.length];
-					for (int i= 0; i < exceptions.size(); i++) {
+					for (int i= 0; i < exceptions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Type elem= exceptions.get(i);
 
 						if (isSubtype(elem.resolveBinding(), uncaughtExceptions)) {
@@ -1809,7 +1809,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 						}
 					}
 
-					for (int i= 0; i < uncaughtExceptions.length; i++) {
+					for (int i= 0; i < uncaughtExceptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						desc[i + nExistingExceptions]= new InsertDescription(uncaughtExceptions[i], ""); //$NON-NLS-1$
 					}
 
@@ -1817,7 +1817,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 					ChangeMethodSignatureProposalCore proposal= new ChangeMethodSignatureProposalCore(label, cu, astRoot, binding, null, desc, IProposalRelevance.ADD_THROWS_DECLARATION);
 
-					for (int i= 0; i < uncaughtExceptions.length; i++) {
+					for (int i= 0; i < uncaughtExceptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						addExceptionTypeLinkProposals(proposal, uncaughtExceptions[i], proposal.getExceptionTypeGroupId(i + nExistingExceptions));
 					}
 
@@ -1833,14 +1833,14 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		ITypeBinding excBinding= filteredExceptions.get(i);
 		Type type= imports.addImport(excBinding, ast, importRewriteContext, TypeLocation.EXCEPTION);
 
-		String typeKey= "type" + i; //$NON-NLS-1$
+		String typeKey= "type" + i; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		proposal.addLinkedPosition(rewrite.track(type), false, typeKey);
 		addExceptionTypeLinkProposals(proposal, excBinding, typeKey);
 
 		return type;
 	}
 
-	private void addAdditionalCatchProposal(IInvocationContext context, Collection<T> proposals, ICompilationUnit cu, ASTNode selectedNode, int offset, int length,
+	private void addAdditionalCatchProposal(IInvocationContext context, Collection<T> proposals, ICompilationUnit cu, ASTNode selectedNode, int offset, int length, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			BodyDeclaration decl,
 			ITypeBinding[] uncaughtExceptions, TryStatement surroundingTry, AST ast) throws CoreException {
 		ASTRewrite rewrite= ASTRewrite.create(surroundingTry.getAST());
@@ -1856,7 +1856,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		scope.setCursor(offset);
 
 		ListRewrite clausesRewrite= rewrite.getListRewrite(surroundingTry, TryStatement.CATCH_CLAUSES_PROPERTY);
-		for (int i= 0; i < uncaughtExceptions.length; i++) {
+		for (int i= 0; i < uncaughtExceptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding excBinding= uncaughtExceptions[i];
 			String varName= StubUtility.getExceptionVariableName(cu.getJavaProject());
 			String name= scope.createName(varName, false);
@@ -1872,8 +1872,8 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			}
 			clausesRewrite.insertLast(newClause, null);
 
-			String typeKey= "type" + i; //$NON-NLS-1$
-			String nameKey= "name" + i; //$NON-NLS-1$
+			String typeKey= "type" + i; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String nameKey= "name" + i; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			proposal.addLinkedPosition(rewrite.track(var.getType()), false, typeKey);
 			proposal.addLinkedPosition(rewrite.track(var.getName()), false, nameKey);
 			addExceptionTypeLinkProposals(proposal, excBinding, typeKey);
@@ -1883,7 +1883,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 	private void addExceptionTypeLinkProposals(LinkedCorrectionProposalCore proposal, ITypeBinding exc, String key) {
 		// all super classes except Object
-		while (exc != null && !"java.lang.Object".equals(exc.getQualifiedName())) { //$NON-NLS-1$
+		while (exc != null && !"java.lang.Object".equals(exc.getQualifiedName())) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			proposal.addLinkedPositionProposal(key, exc);
 			exc= exc.getSuperclass();
 		}
@@ -1891,8 +1891,8 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 
 	private boolean isSubtype(ITypeBinding curr, ITypeBinding[] addedExceptions) {
-		while (curr != null) {
-			for (ITypeBinding addedException : addedExceptions) {
+		while (curr != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (ITypeBinding addedException : addedExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr == addedException) {
 					return true;
 				}
@@ -1903,7 +1903,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	}
 
 
-	public void getUninitializedLocalVariableProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getUninitializedLocalVariableProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -1940,7 +1940,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getConstructorFromSuperclassProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void getConstructorFromSuperclassProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode == null) {
 			return;
@@ -1962,14 +1962,14 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			return;
 		}
 		ICompilationUnit cu= context.getCompilationUnit();
-		for (IMethodBinding curr : binding.getSuperclass().getDeclaredMethods()) {
+		for (IMethodBinding curr : binding.getSuperclass().getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isConstructor() && !Modifier.isPrivate(curr.getModifiers())) {
 				proposals.add(constructorFromSuperClassProposalToT(new ConstructorFromSuperclassProposalCore(cu, typeDeclaration, curr, IProposalRelevance.ADD_CONSTRUCTOR_FROM_SUPER_CLASS), ADD_CONSTRUCTOR_FROM_SUPERCLASS));
 			}
 		}
 	}
 
-	public void getNewObjectProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void getNewObjectProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode == null) {
 			return;
@@ -2033,7 +2033,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getObjectReferenceProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void getObjectReferenceProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		ITypeBinding binding= null;
 		if (selectedNode == null) {
@@ -2070,7 +2070,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getVariableReferenceProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void getVariableReferenceProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode == null) {
 			return;
@@ -2136,7 +2136,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getUnnecessaryInstanceofProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getUnnecessaryInstanceofProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 
 		ASTNode curr= ASTNodes.getUnparenthesedExpression(selectedNode);
@@ -2182,7 +2182,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	public void getUnqualifiedFieldAccessProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
 		IProposableFix fix= CodeStyleFixCore.createAddFieldQualifierFix(context.getASTRoot(), problem);
 		if (fix != null) {
-			Map<String, String> options= new HashMap<>();
+			Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			options.put(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS, CleanUpOptions.TRUE);
 			options.put(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS_ALWAYS, CleanUpOptions.TRUE);
 			FixCorrectionProposalCore proposal= new FixCorrectionProposalCore(fix, new CodeStyleCleanUpCore(options), IProposalRelevance.ADD_FIELD_QUALIFIER, context);
@@ -2191,7 +2191,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getUnnecessaryElseProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getUnnecessaryElseProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= context.getASTRoot();
 		ASTNode selectedNode= problem.getCoveringNode(root);
 		if (selectedNode == null) {
@@ -2236,13 +2236,13 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	}
 
 
-	public void getInterfaceExtendsClassProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getInterfaceExtendsClassProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= context.getASTRoot();
 		ASTNode selectedNode= problem.getCoveringNode(root);
 		if (selectedNode == null) {
 			return;
 		}
-		while (selectedNode.getParent() instanceof Type) {
+		while (selectedNode.getParent() instanceof Type) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= selectedNode.getParent();
 		}
 
@@ -2309,7 +2309,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return null;
 	}
 
-	public void getAssignmentHasNoEffectProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getAssignmentHasNoEffectProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= context.getASTRoot();
 		ASTNode selectedNode= problem.getCoveringNode(root);
 		if (!(selectedNode instanceof Assignment)) {
@@ -2364,7 +2364,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	private ASTRewriteCorrectionProposalCore createNoSideEffectProposal(IInvocationContext context, SimpleName nodeToQualify, IVariableBinding fieldBinding, String label, int relevance) {
+	private ASTRewriteCorrectionProposalCore createNoSideEffectProposal(IInvocationContext context, SimpleName nodeToQualify, IVariableBinding fieldBinding, String label, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= nodeToQualify.getAST();
 
 		Expression qualifier;
@@ -2399,7 +2399,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getFallThroughProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getFallThroughProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode instanceof SwitchCase && selectedNode.getLocationInParent() == SwitchStatement.STATEMENTS_PROPERTY) {
 			AST ast= selectedNode.getAST();
@@ -2430,13 +2430,13 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getCasesOmittedProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getCasesOmittedProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode instanceof Expression && selectedNode.getLocationInParent() == SwitchStatement.EXPRESSION_PROPERTY) {
 			AST ast= selectedNode.getAST();
 			SwitchStatement parent= (SwitchStatement) selectedNode.getParent();
 
-			for (Statement statement : (List<Statement>) parent.statements()) {
+			for (Statement statement : (List<Statement>) parent.statements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (statement instanceof SwitchCase && ((SwitchCase) statement).isDefault()) {
 
 					// insert //$CASES-OMITTED$:
@@ -2455,7 +2455,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getDeprecatedFieldsToMethodsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getDeprecatedFieldsToMethodsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode instanceof Name) {
 			IBinding binding= ((Name) selectedNode).resolveBinding();
@@ -2493,7 +2493,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 	private String[] getMethod(String fieldName) {
 		if (resolveMap == null) {
-			resolveMap= new HashMap<>();
+			resolveMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			resolveMap.put("java.util.Collections.EMPTY_MAP", new String[] { "java.util.Collections", "emptyMap" }); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 			resolveMap.put("java.util.Collections.EMPTY_SET", new String[] { "java.util.Collections", "emptySet" }); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 			resolveMap.put("java.util.Collections.EMPTY_LIST", new String[] { "java.util.Collections", "emptyList" });//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
@@ -2501,8 +2501,8 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return resolveMap.get(fieldName);
 	}
 
-	public void getMissingEnumConstantCaseProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
-		for (T proposal : proposals) {
+	public void getMissingEnumConstantCaseProposalsBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (T proposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (proposal instanceof ChangeCorrectionProposalCore) {
 				if (CorrectionMessages.LocalCorrectionsSubProcessor_add_missing_cases_description.equals(((ChangeCorrectionProposalCore) proposal).getName())) {
 					return;
@@ -2533,7 +2533,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 				return;
 			}
 
-			ArrayList<String> missingEnumCases= new ArrayList<>();
+			ArrayList<String> missingEnumCases= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			boolean hasDefault= evaluateMissingSwitchCasesBase(binding, statements, missingEnumCases);
 			if (missingEnumCases.size() == 0 && hasDefault)
 				return;
@@ -2542,16 +2542,16 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean evaluateMissingSwitchCasesBase(ITypeBinding enumBindings, List<Statement> switchStatements, ArrayList<String> enumConstNames) {
-		for (IVariableBinding field : enumBindings.getDeclaredFields()) {
+		for (IVariableBinding field : enumBindings.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field.isEnumConstant()) {
 				enumConstNames.add(field.getName());
 			}
 		}
 
 		boolean hasDefault= false;
-		for (Statement curr : switchStatements) {
+		for (Statement curr : switchStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof SwitchCase) {
 				SwitchCase switchCase= (SwitchCase) curr;
 				if (ASTHelper.isSwitchCaseExpressionsSupportedInAST(switchCase.getAST())) {
@@ -2559,7 +2559,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 					if (expressions.size() == 0) {
 						hasDefault= true;
 					} else {
-						for (Expression expression : expressions) {
+						for (Expression expression : expressions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (expression instanceof SimpleName) {
 								enumConstNames.remove(((SimpleName) expression).getFullyQualifiedName());
 							}
@@ -2578,7 +2578,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return hasDefault;
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createMissingCaseProposalsBase(IInvocationContext context, ASTNode parent, IProblemLocation problem, ArrayList<String> enumConstNames, Collection<T> proposals) {
 		List<Statement> statements;
 		Expression expression;
@@ -2596,7 +2596,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		int defaultIndex= statements.size();
 		boolean newCaseFormat= false;
 		boolean hasDefault= false;
-		for (int i= 0; i < statements.size(); i++) {
+		for (int i= 0; i < statements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Statement curr= statements.get(i);
 			if (curr instanceof SwitchCase) {
 				SwitchCase switchCase= (SwitchCase) curr;
@@ -2632,7 +2632,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			if (newCaseFormat) {
 				SwitchCase newSwitchCase= ast.newSwitchCase();
 				newSwitchCase.setSwitchLabeledRule(true);
-				for (String enumConstName : enumConstNames) {
+				for (String enumConstName : enumConstNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Name newName= ast.newName(enumConstName);
 					newSwitchCase.expressions().add(newName);
 				}
@@ -2665,7 +2665,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 					}
 				}
 			} else {
-				for (String enumConstName : enumConstNames) {
+				for (String enumConstName : enumConstNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SwitchCase newSwitchCase= ast.newSwitchCase();
 					Name newName= ast.newName(enumConstName);
 					if (ASTHelper.isSwitchCaseExpressionsSupportedInAST(ast)) {
@@ -2756,7 +2756,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return newThrowStatement;
 	}
 
-	public void removeDefaultCaseProposalBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void removeDefaultCaseProposalBase(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 
 		if (selectedNode instanceof SwitchCase && ((SwitchCase) selectedNode).isDefault()) {
@@ -2795,7 +2795,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getPermittedTypesProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getPermittedTypesProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode instanceof Expression expression) {
 			StructuralPropertyDescriptor locationInParent= selectedNode.getLocationInParent();
@@ -2831,9 +2831,9 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	}
 
 
-	private void createPermittedTypeCasesProposal(IInvocationContext context, ASTNode parent, Collection<T> proposals) {
+	private void createPermittedTypeCasesProposal(IInvocationContext context, ASTNode parent, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class TypeExtendsSearchRequestor extends SearchRequestor {
-			public List<SearchMatch> results= new ArrayList<>();
+			public List<SearchMatch> results= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			public List<SearchMatch> getResults() {
 				return results;
@@ -2897,7 +2897,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 		ITypeBinding binding= expression.resolveTypeBinding();
 		IType sealedType= (IType)binding.getJavaElement();
-		Set<String> excludedNames= new HashSet<>();
+		Set<String> excludedNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		CompilationUnit cu= context.getASTRoot();
 		PackageDeclaration pkg= cu.getPackage();
 		String pkgName= ""; //$NON-NLS-1$
@@ -2916,14 +2916,14 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		String[] permittedTypeNames;
 		try {
 			permittedTypeNames= sealedType.getPermittedSubtypeNames();
-			for (String permittedTypeName : permittedTypeNames) {
+			for (String permittedTypeName : permittedTypeNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean needImport= false;
 				String importName= ""; //$NON-NLS-1$
 				String[][] resolvedName= sealedType.resolveType(permittedTypeName);
-				for (int i= 0; i < resolvedName.length; ++i) {
+				for (int i= 0; i < resolvedName.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String[] inner= resolvedName[i];
 					if (!inner[0].isEmpty()) {
-						importName= inner[0] + "." + inner[1]; //$NON-NLS-1$
+						importName= inner[0] + "." + inner[1]; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						if (!inner[0].equals(pkgName)) {
 							needImport= true;
 						}
@@ -2935,25 +2935,25 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 						String name= permittedTypeName.substring(sealedType.getTypeQualifiedName('.').length() + 1);
 						IType innerType= sealedType.getType(name);
 						if (innerType.exists()) {
-							permittedTypeName= sealedType.getElementName() + "." + name; //$NON-NLS-1$
+							permittedTypeName= sealedType.getElementName() + "." + name; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							if (innerType.isRecord()) {
 								permittedTypeName += "("; //$NON-NLS-1$
 								String separator= ""; //$NON-NLS-1$
-								for (IField field : innerType.getRecordComponents()) {
-									permittedTypeName += separator + Signature.toString(field.getTypeSignature());
+								for (IField field : innerType.getRecordComponents()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+									permittedTypeName += separator + Signature.toString(field.getTypeSignature()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									separator= ", "; //$NON-NLS-1$
-									permittedTypeName += " " + field.getElementName(); //$NON-NLS-1$
+									permittedTypeName += " " + field.getElementName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								}
 								permittedTypeName += ")"; //$NON-NLS-1$
 							} else {
 								String patternName= permittedTypeName.substring(0, 1).toLowerCase();
 								String nameToUse= patternName;
 								int count= 1;
-								while (excludedNames.contains(nameToUse)) {
-									nameToUse= patternName + (++count);
+								while (excludedNames.contains(nameToUse)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+									nameToUse= patternName + (++count); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								}
 								excludedNames.add(nameToUse);
-								permittedTypeName += " " + nameToUse; //$NON-NLS-1$
+								permittedTypeName += " " + nameToUse; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							}
 						}
 					} else {
@@ -2968,7 +2968,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 							return;
 						}
 						List<SearchMatch> results= requestor.getResults();
-						for (SearchMatch result : results) {
+						for (SearchMatch result : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Object obj= result.getElement();
 							if (obj instanceof IType resultType) {
 								try {
@@ -2976,10 +2976,10 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 										permittedTypeName= inner[1];
 										permittedTypeName += "("; //$NON-NLS-1$
 										String separator= ""; //$NON-NLS-1$
-										for (IField field : resultType.getRecordComponents()) {
-											permittedTypeName += separator + Signature.toString(field.getTypeSignature());
+										for (IField field : resultType.getRecordComponents()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+											permittedTypeName += separator + Signature.toString(field.getTypeSignature()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 											separator= ", "; //$NON-NLS-1$
-											permittedTypeName += " " + field.getElementName(); //$NON-NLS-1$
+											permittedTypeName += " " + field.getElementName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										}
 										permittedTypeName += ")"; //$NON-NLS-1$
 									} else {
@@ -2987,11 +2987,11 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 										String patternName= permittedTypeName.substring(0, 1).toLowerCase();
 										String nameToUse= patternName;
 										int count= 1;
-										while (excludedNames.contains(nameToUse)) {
-											nameToUse= patternName + (++count);
+										while (excludedNames.contains(nameToUse)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+											nameToUse= patternName + (++count); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										}
 										excludedNames.add(nameToUse);
-										permittedTypeName += " " + nameToUse; //$NON-NLS-1$
+										permittedTypeName += " " + nameToUse; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									}
 								} catch (JavaModelException e) {
 									// do nothing
@@ -3001,16 +3001,16 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 					}
 				}
-				String caseName= "case " + permittedTypeName + " -> " + caseCode; //$NON-NLS-1$ //$NON-NLS-2$
+				String caseName= "case " + permittedTypeName + " -> " + caseCode; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				SwitchCase newSwitchCase= (SwitchCase) astRewrite.createStringPlaceholder(caseName, ASTNode.SWITCH_CASE);
 				listRewrite.insertLast(newSwitchCase, null);
 				if (needImport) {
 					importRewriter.addImport(importName);
 				}
 			}
-			SwitchCase newNullCase= (SwitchCase) astRewrite.createStringPlaceholder("case null -> " + caseCode, ASTNode.SWITCH_CASE); //$NON-NLS-1$
+			SwitchCase newNullCase= (SwitchCase) astRewrite.createStringPlaceholder("case null -> " + caseCode, ASTNode.SWITCH_CASE); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			listRewrite.insertLast(newNullCase, null);
-			SwitchCase defaultCase= (SwitchCase) astRewrite.createStringPlaceholder("default -> " + caseCode, ASTNode.SWITCH_CASE); //$NON-NLS-1$
+			SwitchCase defaultCase= (SwitchCase) astRewrite.createStringPlaceholder("default -> " + caseCode, ASTNode.SWITCH_CASE); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			listRewrite.insertLast(defaultCase, null);
 			proposals.add(linkedCorrectionProposalToT(proposal, ADD_PERMITTED_TYPES));
 		} catch (JavaModelException e) {
@@ -3035,19 +3035,19 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	 * @throws JavaModelException
 	 *             if the method declaration could not be found
 	 */
-	private String[] computeReservedIdentifiers(ASTNode node, CompilationUnit cu) throws JavaModelException {
-		final List<String> names= new ArrayList<>();
+	private String[] computeReservedIdentifiers(ASTNode node, CompilationUnit cu) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<String> names= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final MethodDeclaration declaration= ASTNodes.getFirstAncestorOrNull(node, MethodDeclaration.class);
 		if (declaration != null) {
 			final List<SingleVariableDeclaration> parameters= declaration.parameters();
 			VariableDeclaration variable= null;
-			for (SingleVariableDeclaration parameter : parameters) {
+			for (SingleVariableDeclaration parameter : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				variable= parameter;
 				names.add(variable.getName().getIdentifier());
 			}
 			final Block body= declaration.getBody();
 			if (body != null) {
-				for (IBinding binding : new ScopeAnalyzer(cu).getDeclarationsAfter(body.getStartPosition(), ScopeAnalyzer.VARIABLES))
+				for (IBinding binding : new ScopeAnalyzer(cu).getDeclarationsAfter(body.getStartPosition(), ScopeAnalyzer.VARIABLES)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					names.add(binding.getName());
 			}
 		}
@@ -3056,7 +3056,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		return result;
 	}
 
-	public void getMissingDefaultCaseProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getMissingDefaultCaseProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode instanceof Expression) {
 			StructuralPropertyDescriptor locationInParent= selectedNode.getLocationInParent();
@@ -3071,7 +3071,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 				return;
 			}
 
-			for (Statement statement : statements) {
+			for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (statement instanceof SwitchCase && ((SwitchCase) statement).isDefault()) {
 					return;
 				}
@@ -3080,7 +3080,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	private void createMissingDefaultProposal(IInvocationContext context, ASTNode parent, Collection<T> proposals) {
+	private void createMissingDefaultProposal(IInvocationContext context, ASTNode parent, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Statement> statements;
 		Expression expression;
 		if (parent instanceof SwitchStatement) {
@@ -3181,7 +3181,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	public void getOverrideDefaultMethodProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getOverrideDefaultMethodProposal(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= context.getASTRoot();
 
 		ASTNode selectedNode= problem.getCoveringNode(astRoot);
@@ -3217,11 +3217,11 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 
 			String[] parameters1= {};
 			if (args[1] != null && args[1].length() != 0) {
-				parameters1= args[1].split(", "); //$NON-NLS-1$
+				parameters1= args[1].split(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 			String[] parameters2= {};
 			if (args[2] != null && args[2].length() != 0) {
-				parameters2= args[2].split(", "); //$NON-NLS-1$
+				parameters2= args[2].split(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 
 			addOverrideProposal(typeNode, typeBinding, methodName, parameters1, args[3], context, proposals);
@@ -3251,7 +3251,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			String paramString= arg0.substring(indexOfLParen + 1, indexOfRParen);
 			String[] parameters= {};
 			if (paramString != null && paramString.length() != 0) {
-				parameters= paramString.split(", "); //$NON-NLS-1$
+				parameters= paramString.split(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 
 			addOverrideProposal(typeNode, typeBinding, methodName, parameters, args[1], context, proposals);
@@ -3259,7 +3259,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 		}
 	}
 
-	private void addOverrideProposal(ASTNode typeNode, ITypeBinding typeBinding, String methodName, String[] parameters, String superType,
+	private void addOverrideProposal(ASTNode typeNode, ITypeBinding typeBinding, String methodName, String[] parameters, String superType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IInvocationContext context, Collection<T> proposals) {
 		ITypeBinding superTypeBinding= null;
 		if (superType != null) {
@@ -3313,14 +3313,14 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 	public void getRemoveRedundantTypeArgumentsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
 		IProposableFix fix= TypeParametersFixCore.createRemoveRedundantTypeArgumentsFix(context.getASTRoot(), problem);
 		if (fix != null) {
-			Map<String, String> options= new HashMap<>();
+			Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			options.put(CleanUpConstants.REMOVE_REDUNDANT_TYPE_ARGUMENTS, CleanUpOptions.TRUE);
 			FixCorrectionProposalCore proposal= new FixCorrectionProposalCore(fix, new TypeParametersCleanUpCore(options), IProposalRelevance.REMOVE_REDUNDANT_TYPE_ARGUMENTS, context);
 			proposals.add(fixCorrectionProposalToT(proposal, REMOVE_REDUNDANT_TYPE_ARGS));
 		}
 	}
 
-	public void getServiceProviderConstructorProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void getServiceProviderConstructorProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= problem.getCoveredNode(context.getASTRoot());
 		if (!(node instanceof Name) && !(node.getParent() instanceof ProvidesDirective)) {
 			return;
@@ -3359,7 +3359,7 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 			if (!result.isEmpty()) {
 				IMethodBinding targetMethodBinding= result.get(0);
 				IMethod targetMethod= null;
-				for (IMethod m : targetType.getMethods()) {
+				for (IMethod m : targetType.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (m.isConstructor() && m.getParameters().length == 0) {
 						targetMethod= m;
 						break;
@@ -3381,13 +3381,13 @@ public abstract class LocalCorrectionsBaseSubProcessor<T> {
 				String[] args= new String[] { ASTResolving
 						.getMethodSignature(ASTResolving.getTypeSignature(targetBinding), new ITypeBinding[0], false) };
 				String label= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_createconstructor_description, args);
-				NewMethodCorrectionProposalCore proposal= new NewMethodCorrectionProposalCore(label, targetCU, targetRoot, new ArrayList<>(), targetBinding, IProposalRelevance.CREATE_CONSTRUCTOR);
+				NewMethodCorrectionProposalCore proposal= new NewMethodCorrectionProposalCore(label, targetCU, targetRoot, new ArrayList<>(), targetBinding, IProposalRelevance.CREATE_CONSTRUCTOR); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				proposals.add(newMethodCorrectionProposalToT(proposal, CREATE_CONSTRUCTOR));
 			}
 		}
 	}
 
-	public void getUnimplementedMethodsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getUnimplementedMethodsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProposableFix addMethodFix= UnimplementedCodeFixCore.createAddUnimplementedMethodsFix(context.getASTRoot(), problem);
 		if (addMethodFix != null) {
 			Map<String, String> settings= new Hashtable<>();

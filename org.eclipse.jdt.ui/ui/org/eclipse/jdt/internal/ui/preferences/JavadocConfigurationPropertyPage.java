@@ -89,7 +89,7 @@ public class JavadocConfigurationPropertyPage extends PropertyPage implements IS
 	/**
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		IJavaElement elem= getJavaElement();
 		try {
@@ -128,7 +128,7 @@ public class JavadocConfigurationPropertyPage extends PropertyPage implements IS
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.JAVADOC_CONFIGURATION_PROPERTY_PAGE);
 	}
 
-	private IClasspathEntry handleContainerEntry(IPath containerPath, IJavaProject jproject, IPath jarPath) throws JavaModelException {
+	private IClasspathEntry handleContainerEntry(IPath containerPath, IJavaProject jproject, IPath jarPath) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ClasspathContainerInitializer initializer= JavaCore.getClasspathContainerInitializer(containerPath.segment(0));
 		IClasspathContainer container= JavaCore.getClasspathContainer(containerPath, jproject);
 		if (initializer == null || container == null) {
@@ -155,7 +155,7 @@ public class JavadocConfigurationPropertyPage extends PropertyPage implements IS
 	/*
 	 * @see PreferencePage#createContents(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		if (!fIsValidElement || fIsReadOnly) {
 			Composite inner= new Composite(parent, SWT.NONE);
@@ -205,7 +205,7 @@ public class JavadocConfigurationPropertyPage extends PropertyPage implements IS
 		return control;
 	}
 
-	private IJavaElement getJavaElement() {
+	private IJavaElement getJavaElement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAdaptable adaptable= getElement();
 		IJavaElement elem= adaptable.getAdapter(IJavaElement.class);
 		if (elem == null) {
@@ -241,7 +241,7 @@ public class JavadocConfigurationPropertyPage extends PropertyPage implements IS
 	/**
 	 * @see org.eclipse.jface.preference.IPreferencePage#performOk()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		if (fJavadocConfigurationBlock != null) {
 			URL javadocLocation= fJavadocConfigurationBlock.getJavadocLocation();
@@ -269,8 +269,8 @@ public class JavadocConfigurationPropertyPage extends PropertyPage implements IS
 	}
 
 
-	private static IRunnableWithProgress getRunnable(final Shell shell, final IJavaElement elem, final URL javadocLocation, final IClasspathEntry entry, final IPath containerPath) {
-		return monitor -> {
+	private static IRunnableWithProgress getRunnable(final Shell shell, final IJavaElement elem, final URL javadocLocation, final IClasspathEntry entry, final IPath containerPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				IJavaProject project= elem.getJavaProject();
 				if (elem instanceof IPackageFragmentRoot) {

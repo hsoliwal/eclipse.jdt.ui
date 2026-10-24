@@ -38,7 +38,7 @@ import org.eclipse.jdt.internal.corext.refactoring.code.flow.FlowInfo;
 		super();
 		fDeclaration= decl;
 		fAccessMode= FlowInfo.UNUSED;
-		fReferences= new ArrayList<>(2);
+		fReferences= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fOperatorPrecedence= -1;
 	}
 

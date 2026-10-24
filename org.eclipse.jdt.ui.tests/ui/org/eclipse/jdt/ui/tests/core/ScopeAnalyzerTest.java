@@ -66,7 +66,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 		JavaProjectHelper.clear(fJProject1, pts.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVariableDeclarations1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str1= """
@@ -125,7 +125,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVariableDeclarations2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str1= """
@@ -208,7 +208,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVariableDeclarations3() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
@@ -256,7 +256,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVariableDeclarations4() throws Exception {
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack1", false, null);
 		String str1= """
@@ -298,7 +298,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVariableDeclarations5() throws Exception {
 
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack1", false, null);
@@ -360,7 +360,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVariableDeclarations6() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str1= """
@@ -447,7 +447,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVariableDeclarations7() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
@@ -478,7 +478,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSwitchOnEnum() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str1= """
@@ -521,7 +521,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeclarationsAfter() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
@@ -590,7 +590,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeDeclarations1() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
@@ -668,7 +668,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeDeclarations2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
@@ -707,7 +707,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeDeclarationsTypeParameters() throws Exception {
 
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("test0.ae", false, null);
@@ -744,7 +744,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testClassInstanceCreation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str1= """
@@ -782,7 +782,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodDeclarations1() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
@@ -815,7 +815,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodDeclarations2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
@@ -887,7 +887,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	private void assertMethods(IBinding[] res, String[] expectedNames, boolean addObjectMethods) {
 		String[] names= new String[res.length];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			names[i]= res[i].getName();
 		}
 		String[] expected= expectedNames;
@@ -901,7 +901,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 		assertEqualStringsIgnoreOrder(names, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumConstantDeclaration1() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -927,7 +927,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 			int offset= str1.indexOf(str);
 
 			int flags= ScopeAnalyzer.METHODS;
-			for (IBinding binding : new ScopeAnalyzer(astRoot).getDeclarationsInScope(offset, flags)) {
+			for (IBinding binding : new ScopeAnalyzer(astRoot).getDeclarationsInScope(offset, flags)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ("getDefaultValue".equals(binding.getName())) {
 					return;
 				}
@@ -939,7 +939,7 @@ public class ScopeAnalyzerTest extends CoreTests {
 
 	private void assertVariables(IBinding[] res, String[] expectedNames) {
 		String[] names= new String[res.length];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			names[i]= res[i].getName();
 		}
 		assertEqualStringsIgnoreOrder(names, expectedNames);
@@ -948,9 +948,9 @@ public class ScopeAnalyzerTest extends CoreTests {
 	private void assertNoProblems(CompilationUnit astRoot) {
 		IProblem[] problems= astRoot.getProblems();
 		if (problems.length > 0) {
-			StringBuilder buf= new StringBuilder();
-			for (IProblem problem : problems) {
-				buf.append(problem.getMessage()).append('\n');
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(problem.getMessage()).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			fail(buf.toString());
 		}

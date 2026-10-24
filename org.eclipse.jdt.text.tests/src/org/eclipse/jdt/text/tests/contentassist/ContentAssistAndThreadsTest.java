@@ -61,7 +61,7 @@ public class ContentAssistAndThreadsTest extends AbstractCompletionTest {
 		JavaPlugin.getDefault().getPreferenceStore().setToDefault(PreferenceConstants.CODEASSIST_NONUITHREAD_COMPUTATION);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testComputeCompletionInNonUIThread() throws Exception {
 		IJavaProject fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		JavaProjectHelper.addRTJar(fJProject1);
@@ -73,7 +73,7 @@ public class ContentAssistAndThreadsTest extends AbstractCompletionTest {
 		assistant.setDocumentPartitioning(IJavaPartitions.JAVA_PARTITIONING);
 		JavaCompletionProcessor javaProcessor= new JavaCompletionProcessor(part, assistant, getContentType());
 		AtomicReference<Throwable> exception = new AtomicReference<>();
-		List<IStatus> errors = new ArrayList<>();
+		List<IStatus> errors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		JavaPlugin.getDefault().getLog().addLogListener((status, unused) -> {
 			if (status.getSeverity() >= IStatus.WARNING) {
 				errors.add(status);
@@ -96,7 +96,7 @@ public class ContentAssistAndThreadsTest extends AbstractCompletionTest {
 		assertEquals(Collections.emptyList(), errors);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLongNonUIThreadContentAssistDoesntFreezeUI() throws Exception {
 		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.CODEASSIST_NONUITHREAD_COMPUTATION, true);
 		IJavaProject fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
@@ -111,7 +111,7 @@ public class ContentAssistAndThreadsTest extends AbstractCompletionTest {
 		action.update();
 		CheckUIThreadReactivityThread thread = new CheckUIThreadReactivityThread(display);
 		thread.start();
-		display.asyncExec(() -> action.run()); // mustn't be synchronous or CheckUIThreadReactivityTest can miss it.
+		display.asyncExec(() -> action.run()); // mustn't be synchronous or CheckUIThreadReactivityTest can miss it. //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		try {
 			assertTrue("Missing completion proposal", new org.eclipse.jdt.text.tests.performance.DisplayHelper() {
 				@Override
@@ -128,14 +128,14 @@ public class ContentAssistAndThreadsTest extends AbstractCompletionTest {
 		} finally {
 			thread.interrupt();
 		}
-		assertTrue("UI was frozen for " + thread.getMaxDuration(), thread.getMaxDuration() < 1000);
+		assertTrue("UI was frozen for " + thread.getMaxDuration(), thread.getMaxDuration() < 1000); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private Table findCompletionSelectionControl(Widget control) {
 		if (control instanceof Table) {
 			return (Table)control;
 		} else if (control instanceof Composite) {
-			for (Widget child : ((Composite)control).getChildren()) {
+			for (Widget child : ((Composite)control).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Table res = findCompletionSelectionControl(child);
 				if (res != null) {
 					return res;

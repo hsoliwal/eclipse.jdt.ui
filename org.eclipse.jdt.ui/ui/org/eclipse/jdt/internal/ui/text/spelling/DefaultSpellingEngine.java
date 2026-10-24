@@ -53,7 +53,7 @@ public class DefaultSpellingEngine implements ISpellingEngine {
 	private static final IContentType PROPERTIES_CONTENT_TYPE= Platform.getContentTypeManager().getContentType("org.eclipse.jdt.core.javaProperties"); //$NON-NLS-1$
 
 	/** Available spelling engines by content type */
-	private Map<IContentType, SpellingEngine> fEngines= new HashMap<>();
+	private Map<IContentType, SpellingEngine> fEngines= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Initialize concrete engines.

@@ -92,7 +92,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
  *
  * @since 2.1
  */
-public abstract class AbstractInformationControl extends PopupDialog implements IInformationControl, IInformationControlExtension, IInformationControlExtension2, DisposeListener {
+public abstract class AbstractInformationControl extends PopupDialog implements IInformationControl, IInformationControlExtension, IInformationControlExtension2, DisposeListener { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 	/**
 	 * The NamePatternFilter selects the elements which
@@ -100,7 +100,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	 *
 	 * @since 2.0
 	 */
-	protected class NamePatternFilter extends ViewerFilter {
+	protected class NamePatternFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		public NamePatternFilter() {
 		}
@@ -108,8 +108,8 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 		@Override
 		public Object[] filter(Viewer viewer, TreePath parentPath, Object[] elements) {
 			int size = elements.length;
-			ArrayList<Object> out = new ArrayList<>(size);
-			for (int i = 0; i < size; ++i) {
+			ArrayList<Object> out = new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i = 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element = elements[i];
 				if (selectTreePath(viewer, parentPath, element)) {
 					out.add(element);
@@ -123,10 +123,10 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 			return selectTreePath(viewer, new TreePath(new Object[] { parentElement }), element);
 		}
 
-		public boolean selectTreePath(Viewer viewer, TreePath parentPath, Object element) {
+		public boolean selectTreePath(Viewer viewer, TreePath parentPath, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Avoid endless loops, see https://bugs.eclipse.org/395202 :
 			// Cut off children of elements that are shown repeatedly.
-			for (int i= 0; i < parentPath.getSegmentCount() - 1; i++) {
+			for (int i= 0; i < parentPath.getSegmentCount() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.equals(parentPath.getSegment(i))) {
 					return false;
 				}
@@ -152,7 +152,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 				Object[] children= contentProvider instanceof ITreePathContentProvider
 						? ((ITreePathContentProvider) contentProvider).getChildren(elementPath)
 						: ((ITreeContentProvider) contentProvider).getChildren(element);
-				for (Object child : children) {
+				for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (selectTreePath(viewer, elementPath, child)) {
 						return true;
 					}
@@ -206,7 +206,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	 * @param invokingCommandId the id of the command that invoked this control or <code>null</code>
 	 * @param showStatusField <code>true</code> iff the control has a status field at the bottom
 	 */
-	public AbstractInformationControl(Shell parent, int shellStyle, int treeStyle, String invokingCommandId, boolean showStatusField) {
+	public AbstractInformationControl(Shell parent, int shellStyle, int treeStyle, String invokingCommandId, boolean showStatusField) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent, shellStyle, true, true, false, true, true, null, null);
 		if (invokingCommandId != null) {
 			ICommandService commandService= PlatformUI.getWorkbench().getService(ICommandService.class);
@@ -237,14 +237,14 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	 * @return The control representing the main content.
 	 * @since 3.2
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		fTreeViewer= createTreeViewer(parent, fTreeStyle);
 
 		fCustomFiltersActionGroup= new CustomFiltersActionGroup(getId(), fTreeViewer);
 
 		final Tree tree= fTreeViewer.getTree();
-		tree.addKeyListener(new KeyListener() {
+		tree.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e)  {
 				if (e.character == 0x1B) // ESC
@@ -256,7 +256,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 			}
 		});
 
-		tree.addSelectionListener(new SelectionListener() {
+		tree.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// do nothing
@@ -267,9 +267,9 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 			}
 		});
 
-		tree.addMouseMoveListener(new MouseMoveListener()	 {
+		tree.addMouseMoveListener(new MouseMoveListener()	 { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			TreeItem fLastItem= null;
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void mouseMove(MouseEvent e) {
 				if (tree.equals(e.getSource())) {
 					TreeItem o= tree.getItem(new Point(e.x, e.y));
@@ -305,7 +305,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 			}
 		});
 
-		tree.addMouseListener(new MouseAdapter() {
+		tree.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseUp(MouseEvent e) {
 
@@ -372,7 +372,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 		return fFilterText;
 	}
 
-	protected Text createFilterText(Composite parent) {
+	protected Text createFilterText(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fFilterText= new Text(parent, SWT.NONE);
 		Dialog.applyDialogFont(fFilterText);
 
@@ -381,7 +381,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 		data.verticalAlignment= GridData.CENTER;
 		fFilterText.setLayoutData(data);
 
-		fFilterText.addKeyListener(new KeyListener() {
+		fFilterText.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == 0x0D || e.keyCode == SWT.KEYPAD_CR) // Enter key
@@ -418,7 +418,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	private void installFilter() {
 		fFilterText.setText(""); //$NON-NLS-1$
 
-		fFilterText.addModifyListener(e -> {
+		fFilterText.addModifyListener(e -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			String text= ((Text) e.widget).getText();
 			setMatcherString(text, true);
 		});
@@ -431,7 +431,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	protected void stringMatcherUpdated() {
 		// refresh viewer to re-filter
 		fTreeViewer.getControl().setRedraw(false);
-		fTreeViewer.refresh();
+		fTreeViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fTreeViewer.expandAll();
 		selectFirstMatch();
 		fTreeViewer.getControl().setRedraw(true);
@@ -490,7 +490,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	 * Selects the first element in the tree which
 	 * matches the current filter pattern.
 	 */
-	protected void selectFirstMatch() {
+	protected void selectFirstMatch() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object selectedElement = null;
 		if (fInitiallySelectedType != null) {
 			selectedElement= fTreeViewer.testFindItem(fInitiallySelectedType);
@@ -513,14 +513,14 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 		return findElement(items, null, true);
 	}
 
-	private TreeItem findElement(TreeItem[] items, TreeItem[] toBeSkipped, boolean allowToGoUp) {
+	private TreeItem findElement(TreeItem[] items, TreeItem[] toBeSkipped, boolean allowToGoUp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPatternMatcher == null)
 			return items.length > 0 ? items[0] : null;
 
 		ILabelProvider labelProvider= (ILabelProvider)fTreeViewer.getLabelProvider();
 
 		// First search at same level
-		for (TreeItem item : items) {
+		for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element= (IJavaElement)item.getData();
 			if (element != null) {
 				String label= labelProvider.getText(element);
@@ -529,7 +529,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 			}
 		}
 		// Go one level down for each item
-		for (TreeItem item : items) {
+		for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TreeItem foundItem= findElement(selectItems(item.getItems(), toBeSkipped), null, false);
 			if (foundItem != null)
 				return foundItem;
@@ -551,7 +551,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 		if (toBeSkipped == null)
 			return false;
 
-		for (TreeItem curr : toBeSkipped) {
+		for (TreeItem curr : toBeSkipped) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr == item) {
 				return true;
 			}
@@ -564,7 +564,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 			return items;
 
 		int j= 0;
-		for (TreeItem item : items) {
+		for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!canSkip(item, toBeSkipped))
 				items[j++]= item;
 		}
@@ -618,7 +618,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 			else
 				fInitiallySelectedType= (IType)javaElement.getAncestor(IJavaElement.TYPE);
 		}
-		fTreeViewer.setInput(newInput);
+		fTreeViewer.setInput(newInput); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		if (newSelection != null)
 			fTreeViewer.setSelection(new StructuredSelection(newSelection));
 	}
@@ -731,7 +731,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 
 	@Override
 	public void addDisposeListener(DisposeListener listener) {
-		getShell().addDisposeListener(listener);
+		getShell().addDisposeListener(listener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	@Override
@@ -762,7 +762,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 
 	@Override
 	public void addFocusListener(FocusListener listener) {
-		getShell().addFocusListener(listener);
+		getShell().addFocusListener(listener); //FLLDCIM: MARK — T15 FOCUS CALL
 	}
 
 	@Override
@@ -804,7 +804,7 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	 *
 	 * @since 3.2
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createTitleMenuArea(Composite parent) {
 		fViewMenuButtonComposite= (Composite) super.createTitleMenuArea(parent);
 

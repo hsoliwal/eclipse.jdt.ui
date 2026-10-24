@@ -50,7 +50,7 @@ public class MyQuickFixProcessor implements IQuickFixProcessor {
 
 	@Override
 	public IJavaCompletionProposal[] getCorrections(IInvocationContext context, IProblemLocation[] locations) throws CoreException {
-		for (IProblemLocation location : locations) {
+		for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (location.getProblemId() == IProblem.NumericValueOutOfRange) {
 				return getNumericValueOutOfRangeCorrection(context, location);
 			}

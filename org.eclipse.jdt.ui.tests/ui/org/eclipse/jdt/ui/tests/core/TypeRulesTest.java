@@ -72,7 +72,7 @@ public class TypeRulesTest extends CoreTests {
 		JavaProjectHelper.clear(fJProject1, pts.getDefaultClasspath());
 	}
 
-	private VariableDeclarationFragment[] createVariables() throws JavaModelException {
+	private VariableDeclarationFragment[] createVariables() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
 			package test1;
@@ -150,7 +150,7 @@ public class TypeRulesTest extends CoreTests {
 		FieldDeclaration[] fields= type.getFields();
 
 		VariableDeclarationFragment[] targets= new VariableDeclarationFragment[fields.length];
-		for (int i= 0; i < fields.length; i++) {
+		for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<VariableDeclarationFragment> fragments= fields[i].fragments();
 			targets[i]= fragments.get(0);
 		}
@@ -158,21 +158,21 @@ public class TypeRulesTest extends CoreTests {
 	}
 
 	//TODO: only tests behavior for ITypeBindings from the same AST. See bug 80715.
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIsAssignmentCompatible() throws Exception {
 		VariableDeclarationFragment[] targets= createVariables();
 
-		StringBuilder errors= new StringBuilder();
-		for (VariableDeclarationFragment f1 : targets) {
-			for (VariableDeclarationFragment f2 : targets) {
-				String line= f2.getName().getIdentifier() + "= " + f1.getName().getIdentifier();
-				StringBuilder buf= new StringBuilder();
-				buf.append("package test1;\n");
-				buf.append("public class F<T, U extends Number> extends E<T, U> {\n");
-				buf.append("    void foo() {\n");
-				buf.append("        ").append(line).append(";\n");
-				buf.append("    }\n");
-				buf.append("}\n");
+		StringBuilder errors= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (VariableDeclarationFragment f1 : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (VariableDeclarationFragment f2 : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				String line= f2.getName().getIdentifier() + "= " + f1.getName().getIdentifier(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("public class F<T, U extends Number> extends E<T, U> {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("        ").append(line).append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				char[] content= buf.toString().toCharArray();
 
 				ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
@@ -190,9 +190,9 @@ public class TypeRulesTest extends CoreTests {
 				assertNotNull(b2);
 				boolean res2= b1.isAssignmentCompatible(b2);
 				if (res2 != (problems.length == 0)) {
-					errors.append(line).append('\n');
-					for (IProblem problem : problems) {
-						errors.append('\t').append(problem.getMessage()).append('\n');
+					errors.append(line).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						errors.append('\t').append(problem.getMessage()).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 			}
@@ -200,22 +200,22 @@ public class TypeRulesTest extends CoreTests {
 		assertEquals(errors.toString(), 0, errors.length());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCanAssign() throws Exception {
 		VariableDeclarationFragment[] targets= createVariables();
 
-		StringBuilder errors= new StringBuilder();
-		for (VariableDeclarationFragment f1 : targets) {
-			for (VariableDeclarationFragment f2 : targets) {
-				String line= f2.getName().getIdentifier() + "= " + f1.getName().getIdentifier();
+		StringBuilder errors= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (VariableDeclarationFragment f1 : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (VariableDeclarationFragment f2 : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				String line= f2.getName().getIdentifier() + "= " + f1.getName().getIdentifier(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-				StringBuilder buf= new StringBuilder();
-				buf.append("package test1;\n");
-				buf.append("public class F<T, U extends Number> extends E<T, U> {\n");
-				buf.append("    void foo() {\n");
-				buf.append("        ").append(line).append(";\n");
-				buf.append("    }\n");
-				buf.append("}\n");
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("public class F<T, U extends Number> extends E<T, U> {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("        ").append(line).append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				char[] content= buf.toString().toCharArray();
 
 				ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
@@ -234,9 +234,9 @@ public class TypeRulesTest extends CoreTests {
 
 				boolean res2= TypeRules.canAssign(b1, b2);
 				if (res2 != (problems.length == 0)) {
-					errors.append(line).append('\n');
-					for (IProblem problem : problems) {
-						errors.append('\t').append(problem.getMessage()).append('\n');
+					errors.append(line).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						errors.append('\t').append(problem.getMessage()).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 			}
@@ -244,22 +244,22 @@ public class TypeRulesTest extends CoreTests {
 		assertEquals(errors.toString(), 0, errors.length());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIsCastCompatible() throws Exception {
-		StringBuilder errors= new StringBuilder();
+		StringBuilder errors= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		VariableDeclarationFragment[] targets= createVariables();
-		for (VariableDeclarationFragment f1 : targets) {
-			for (VariableDeclarationFragment f2 : targets) {
+		for (VariableDeclarationFragment f1 : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (VariableDeclarationFragment f2 : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String castType= f2.resolveBinding().getType().getQualifiedName();
-				String line= castType + " x= (" + castType + ") " + f1.getName().getIdentifier();
+				String line= castType + " x= (" + castType + ") " + f1.getName().getIdentifier(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-				StringBuilder buf= new StringBuilder();
-				buf.append("package test1;\n");
-				buf.append("public class F<T, U extends Number> extends E<T, U> {\n");
-				buf.append("    void foo() {\n");
-				buf.append("        ").append(line).append(";\n");
-				buf.append("    }\n");
-				buf.append("}\n");
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("public class F<T, U extends Number> extends E<T, U> {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("        ").append(line).append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				char[] content= buf.toString().toCharArray();
 
 				ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
@@ -277,9 +277,9 @@ public class TypeRulesTest extends CoreTests {
 				assertNotNull(b2);
 				boolean res= b2.isCastCompatible(b1);
 				if (res != (problems.length == 0)) {
-					errors.append(line).append('\n');
-					for (IProblem problem : problems) {
-						errors.append('\t').append(problem.getMessage()).append('\n');
+					errors.append(line).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						errors.append('\t').append(problem.getMessage()).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 			}
@@ -287,22 +287,22 @@ public class TypeRulesTest extends CoreTests {
 		assertEquals(errors.toString(), 0, errors.length());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCanCast() throws Exception {
-		StringBuilder errors= new StringBuilder();
+		StringBuilder errors= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		VariableDeclarationFragment[] targets= createVariables();
-		for (VariableDeclarationFragment f1 : targets) {
-			for (VariableDeclarationFragment f2 : targets) {
+		for (VariableDeclarationFragment f1 : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (VariableDeclarationFragment f2 : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String castType= f2.resolveBinding().getType().getQualifiedName();
-				String line= castType + " x= (" + castType + ") " + f1.getName().getIdentifier();
+				String line= castType + " x= (" + castType + ") " + f1.getName().getIdentifier(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-				StringBuilder buf= new StringBuilder();
-				buf.append("package test1;\n");
-				buf.append("public class F<T, U extends Number> extends E<T, U> {\n");
-				buf.append("    void foo() {\n");
-				buf.append("        ").append(line).append(";\n");
-				buf.append("    }\n");
-				buf.append("}\n");
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("public class F<T, U extends Number> extends E<T, U> {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("        ").append(line).append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				char[] content= buf.toString().toCharArray();
 
 				ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
@@ -332,9 +332,9 @@ public class TypeRulesTest extends CoreTests {
 
 				boolean res= TypeRules.canCast(b2, b1);
 				if (res != (problems.length == 0)) {
-					errors.append(line).append('\n');
-					for (IProblem problem : problems) {
-						errors.append('\t').append(problem.getMessage()).append('\n');
+					errors.append(line).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						errors.append('\t').append(problem.getMessage()).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 			}

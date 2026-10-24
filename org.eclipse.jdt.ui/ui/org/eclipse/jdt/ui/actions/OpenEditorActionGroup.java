@@ -118,7 +118,7 @@ public class OpenEditorActionGroup extends ActionGroup {
 		ISelection selection= fSelectionProvider.getSelection();
 		fOpen.update(selection);
 		if (!fIsEditorOwner) {
-			fSelectionProvider.addSelectionChangedListener(fOpen);
+			fSelectionProvider.addSelectionChangedListener(fOpen); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 	}
 
@@ -155,7 +155,7 @@ public class OpenEditorActionGroup extends ActionGroup {
 			menu.appendToGroup(IContextMenuConstants.GROUP_OPEN, action);
 	}
 
-	private void addOpenWithMenu(IMenuManager menu) {
+	private void addOpenWithMenu(IMenuManager menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection selection= getContext().getSelection();
 		if (selection.isEmpty() || !(selection instanceof IStructuredSelection))
 			return;

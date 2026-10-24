@@ -83,13 +83,13 @@ public class BitwiseConditionalExpressionCleanupCore extends AbstractMultiFix {
 		return "if (value & CONSTANT > 0) {}\n"; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.CHECK_SIGN_OF_BITWISE_OPERATION)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -106,7 +106,7 @@ public class BitwiseConditionalExpressionCleanupCore extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean isBitwiseExpression(final Expression bitwiseExpression) {
+			private boolean isBitwiseExpression(final Expression bitwiseExpression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (bitwiseExpression instanceof ParenthesizedExpression) {
 					return isBitwiseExpression(((ParenthesizedExpression) bitwiseExpression).getExpression());
 				}

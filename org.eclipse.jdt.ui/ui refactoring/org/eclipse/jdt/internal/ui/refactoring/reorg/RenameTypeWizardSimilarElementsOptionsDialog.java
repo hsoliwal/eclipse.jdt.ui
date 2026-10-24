@@ -57,7 +57,7 @@ public class RenameTypeWizardSimilarElementsOptionsDialog extends MessageDialog 
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createMessageArea(Composite parent) {
 		initializeDialogUnits(parent);
 

@@ -119,7 +119,7 @@ public class FatJarExportTests {
 	private IJavaProject fProject;
 	private IPackageFragmentRoot fMainRoot;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fProject= pts.getProject();
 
@@ -160,7 +160,7 @@ public class FatJarExportTests {
 		return str;
 	}
 
-	private static JarPackageData createAndRunFatJar(IJavaProject project, String testName, boolean compressJar, LibraryHandler libraryHandler) throws Exception, CoreException {
+	private static JarPackageData createAndRunFatJar(IJavaProject project, String testName, boolean compressJar, LibraryHandler libraryHandler) throws Exception, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JarPackageData data= null;
 		// create jar and check contents
 		switch (libraryHandler.getID()) {
@@ -177,7 +177,7 @@ public class FatJarExportTests {
 				break;
 			}
 			default: {
-				fail("invalid library handling '" + libraryHandler.getID() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+				fail("invalid library handling '" + libraryHandler.getID() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				break;
 			}
 		}
@@ -185,7 +185,7 @@ public class FatJarExportTests {
 		// run newly generated jar and check stdout
 		String stdout= runJar(project, data.getJarLocation().toOSString());
 		// normalize EndOfLine to \n
-		stdout= stdout.replaceAll("\r\n", "\n").replaceAll("\r", "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		stdout= stdout.replaceAll("\r\n", "\n").replaceAll("\r", "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		// check for successful call of Foo
 		String expected= "created mylib.Foo\n"; //$NON-NLS-1$
 		assertEquals(expected, stdout);
@@ -193,7 +193,7 @@ public class FatJarExportTests {
 		return data;
 	}
 
-	private static JarPackageData assertFatJarExport(IJavaProject project, String testName, boolean compressJar, LibraryHandler libraryHandler) throws Exception {
+	private static JarPackageData assertFatJarExport(IJavaProject project, String testName, boolean compressJar, LibraryHandler libraryHandler) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//create class files
 		buildProject();
 
@@ -222,7 +222,7 @@ public class FatJarExportTests {
 		return data;
 	}
 
-	private static JarPackageData assertFatJarWithLoaderExport(IJavaProject project, String testName, boolean compressJar, LibraryHandler libraryHandler) throws Exception {
+	private static JarPackageData assertFatJarWithLoaderExport(IJavaProject project, String testName, boolean compressJar, LibraryHandler libraryHandler) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//create class files
 		buildProject();
 
@@ -244,15 +244,15 @@ public class FatJarExportTests {
 			int minorVersion;
 			int majorVersion;
 			try ( // check version of class file JarRsrcLoader (jdk 1.6 = version 50.0)
-					InputStream in = generatedArchive.getInputStream(loaderClassEntry)) {
+					InputStream in = generatedArchive.getInputStream(loaderClassEntry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 				magic = 0;
-				for (int i= 0; i < 4; i++)
+				for (int i= 0; i < 4; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					magic = (magic << 8) + in.read();
 				minorVersion = ((in.read() << 8) + in.read());
 				majorVersion = ((in.read() << 8) + in.read());
 			}
 			assertEquals("loader is a class file", 0xCAFEBABE, magic); //$NON-NLS-1$
-			assertEquals("loader compiled with JDK 1.8", "52.0", majorVersion + "." + minorVersion); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			assertEquals("loader compiled with JDK 1.8", "52.0", majorVersion + "." + minorVersion); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		MultiStatus status= new MultiStatus(JavaUI.ID_PLUGIN, 0, "", null); //$NON-NLS-1$
@@ -263,12 +263,12 @@ public class FatJarExportTests {
 
 		// check that jar-rsrc-loader.zip file was created next to build.xml
 		IPath zipLocation= antScriptLocation(testName).removeLastSegments(1).append(FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP);
-		assertTrue("loader zip missing: " + zipLocation.toOSString(), zipLocation.toFile().exists());
+		assertTrue("loader zip missing: " + zipLocation.toOSString(), zipLocation.toFile().exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		return data;
 	}
 
-	private static JarPackageData assertFatJarWithSubfolderExport(IJavaProject project, String testName, boolean compressJar, LibraryHandler libraryHandler) throws Exception {
+	private static JarPackageData assertFatJarWithSubfolderExport(IJavaProject project, String testName, boolean compressJar, LibraryHandler libraryHandler) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//create class files
 		buildProject();
 
@@ -286,9 +286,9 @@ public class FatJarExportTests {
 
 			// check for libraries sub-folder
 			File jarFile= new File(generatedArchive.getName());
-			String subFolderName= jarFile.getName().replaceFirst("^(.*)[.]jar$", "$1_lib"); //$NON-NLS-1$//$NON-NLS-2$
+			String subFolderName= jarFile.getName().replaceFirst("^(.*)[.]jar$", "$1_lib"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			File subFolderDir= new File(jarFile.getParentFile(), subFolderName);
-			assertTrue("actual: '" + subFolderDir.toString() + "'", subFolderDir.isDirectory()); //$NON-NLS-1$//$NON-NLS-2$
+			assertTrue("actual: '" + subFolderDir.toString() + "'", subFolderDir.isDirectory()); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 
 		MultiStatus status= new MultiStatus(JavaUI.ID_PLUGIN, 0, "", null); //$NON-NLS-1$
@@ -303,22 +303,22 @@ public class FatJarExportTests {
 	private static void buildProject() throws CoreException {
 		ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD, null);
 
-		for (IMarker marker : ResourcesPlugin.getWorkspace().getRoot().findMarkers(null, true, IResource.DEPTH_INFINITE)) {
+		for (IMarker marker : ResourcesPlugin.getWorkspace().getRoot().findMarkers(null, true, IResource.DEPTH_INFINITE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertNotEquals((String) marker.getAttribute(IMarker.MESSAGE), IMarker.SEVERITY_ERROR, marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO));
 		}
 	}
 
 
 	private static IPath antScriptLocation(String testName) {
-		return ResourcesPlugin.getWorkspace().getRoot().getLocation().append("build_" + testName + ".xml"); //$NON-NLS-1$//$NON-NLS-2$
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation().append("build_" + testName + ".xml"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private static JarPackageData createJarPackageData(IJavaProject project, String testName, LibraryHandler libraryHandler) throws CoreException {
+	private static JarPackageData createJarPackageData(IJavaProject project, String testName, LibraryHandler libraryHandler) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JarPackageData data= new JarPackageData();
 		data.setOverwrite(true);
 		data.setIncludeDirectoryEntries(true);
 
-		IPath destination= ResourcesPlugin.getWorkspace().getRoot().getLocation().append(testName + ".jar"); //$NON-NLS-1$
+		IPath destination= ResourcesPlugin.getWorkspace().getRoot().getLocation().append(testName + ".jar"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		data.setJarLocation(destination);
 
 		ILaunchConfiguration launchConfig= createTempLaunchConfig(project);
@@ -334,10 +334,10 @@ public class FatJarExportTests {
 	}
 
 	private static String getProblems(MultiStatus status) {
-		StringBuilder result= new StringBuilder();
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		for (IStatus child : status.getChildren()) {
-			result.append(child.getMessage()).append("\n"); //$NON-NLS-1$
+		for (IStatus child : status.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(child.getMessage()).append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return result.toString();
@@ -348,10 +348,10 @@ public class FatJarExportTests {
 	 *
 	 *  For internal use only (testing), clients must not call.
 	 */
-	public static ILaunchConfiguration createTempLaunchConfig(IJavaProject project) {
+	public static ILaunchConfiguration createTempLaunchConfig(IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String projectName= project.getElementName();
 
-		String configname= "fatjar_cfg_eraseme_" + projectName; //$NON-NLS-1$
+		String configname= "fatjar_cfg_eraseme_" + projectName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ILaunchConfiguration config= null;
 		ILaunchConfigurationWorkingCopy wc= null;
 		try {
@@ -387,7 +387,7 @@ public class FatJarExportTests {
 		return JarPackagerUtil.createZipFile(data.getJarLocation());
 	}
 
-	private static String runJar(IJavaProject project, String jarPath) throws CoreException {
+	private static String runJar(IJavaProject project, String jarPath) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IVMInstall vmInstall= JavaRuntime.getVMInstall(project);
 		if (vmInstall == null)
@@ -412,7 +412,7 @@ public class FatJarExportTests {
 			throw new CoreException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Could not launch jar")); //$NON-NLS-1$
 
 		int timeout= JAVA_RUN_TIMEOUT;
-		while (timeout > 0 && !processes[0].isTerminated()) {
+		while (timeout > 0 && !processes[0].isTerminated()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -434,13 +434,13 @@ public class FatJarExportTests {
 			String stdout= processes[0].getStreamsProxy().getOutputStreamMonitor().getContents();
 			String errout= processes[0].getStreamsProxy().getErrorStreamMonitor().getContents();
 
-			throw new CoreException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Run failed: exitcode=" + exitCode + ", stdout=[" + stdout + "], stderr=[" + errout + "]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			throw new CoreException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Run failed: exitcode=" + exitCode + ", stdout=[" + stdout + "], stderr=[" + errout + "]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			return processes[0].getStreamsProxy().getOutputStreamMonitor().getContents();
 		}
 	}
 
-	private static void assertAntScript(JarPackageData data, IPath antScriptLocation, LibraryHandler libraryHandler, String[] filesets, String[] zipfilesets) throws Exception {
+	private static void assertAntScript(JarPackageData data, IPath antScriptLocation, LibraryHandler libraryHandler, String[] filesets, String[] zipfilesets) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String archiveName= data.getAbsoluteJarLocation().lastSegment();
 		switch (libraryHandler.getID()) {
 			case ExtractLibraryHandler.ID: {
@@ -456,14 +456,14 @@ public class FatJarExportTests {
 				break;
 			}
 			default: {
-				fail("unknown library handling '" + libraryHandler.getID() + "'"); //$NON-NLS-1$//$NON-NLS-2$
+				fail("unknown library handling '" + libraryHandler.getID() + "'"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				break;
 			}
 		}
 	}
 
-	private static void assertAntScriptCopy(String archiveName, IPath antScriptLocation, String[] filesets, String[] zipfilesets) throws Exception {
-		String subfolderName= archiveName.replaceFirst("^(.*)[.]jar$", "$1_lib"); //$NON-NLS-1$//$NON-NLS-2$
+	private static void assertAntScriptCopy(String archiveName, IPath antScriptLocation, String[] filesets, String[] zipfilesets) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String subfolderName= archiveName.replaceFirst("^(.*)[.]jar$", "$1_lib"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		String projectNameValue= "Create Runnable Jar for Project TestSetupProject"; //$NON-NLS-1$
 		projectNameValue+= " with libraries in sub-folder"; //$NON-NLS-1$
@@ -477,7 +477,7 @@ public class FatJarExportTests {
 		assertEquals("create_run_jar", xmlTarget.getAttribute("name")); //$NON-NLS-1$//$NON-NLS-2$
 
 		Element xmlJar= (Element)xmlTarget.getElementsByTagName("jar").item(0); //$NON-NLS-1$
-		assertTrue("actual: " + xmlJar.getAttribute("destfile"), xmlJar.getAttribute("destfile").endsWith(archiveName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertTrue("actual: " + xmlJar.getAttribute("destfile"), xmlJar.getAttribute("destfile").endsWith(archiveName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		Element xmlManifest= (Element)xmlJar.getElementsByTagName("manifest").item(0); //$NON-NLS-1$
 
@@ -487,48 +487,48 @@ public class FatJarExportTests {
 
 		Element xmlAttribute2= (Element)xmlManifest.getElementsByTagName("attribute").item(1); //$NON-NLS-1$
 		assertEquals("Class-Path", xmlAttribute2.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertTrue("actual value: " + xmlAttribute2.getAttribute("value"), xmlAttribute2.getAttribute("value").startsWith(".")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		assertTrue("actual value: " + xmlAttribute2.getAttribute("value"), xmlAttribute2.getAttribute("value").startsWith(".")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		NodeList xmlFilesets= xmlJar.getElementsByTagName("fileset"); //$NON-NLS-1$
 		assertEquals(filesets.length, xmlFilesets.getLength());
 
-		for (int i= 0; i < xmlFilesets.getLength(); i++) {
+		for (int i= 0; i < xmlFilesets.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String dir= ((Element)xmlFilesets.item(i)).getAttribute("dir"); //$NON-NLS-1$
 			boolean found= false;
-			for (String fileset : filesets) {
+			for (String fileset : filesets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (dir.endsWith(fileset)) {
 					found= true;
 					break;
 				}
 			}
-			assertTrue("found fileset: '" + dir + "'", found); //$NON-NLS-1$//$NON-NLS-2$
+			assertTrue("found fileset: '" + dir + "'", found); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		Element xmlDelete= (Element)xmlTarget.getElementsByTagName("delete").item(0); //$NON-NLS-1$
-		assertTrue("actual: " + xmlDelete.getAttribute("dir"), xmlDelete.getAttribute("dir").endsWith(subfolderName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertTrue("actual: " + xmlDelete.getAttribute("dir"), xmlDelete.getAttribute("dir").endsWith(subfolderName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		Element xmlMkdir= (Element)xmlTarget.getElementsByTagName("mkdir").item(0); //$NON-NLS-1$
-		assertTrue("actual: " + xmlMkdir.getAttribute("dir"), xmlMkdir.getAttribute("dir").endsWith(subfolderName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertTrue("actual: " + xmlMkdir.getAttribute("dir"), xmlMkdir.getAttribute("dir").endsWith(subfolderName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		NodeList xmlCopies= xmlTarget.getElementsByTagName("copy"); //$NON-NLS-1$
 		assertEquals(zipfilesets.length, xmlCopies.getLength());
 
-		for (int i= 0; i < xmlCopies.getLength(); i++) {
+		for (int i= 0; i < xmlCopies.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String absLibPath= ((Element)xmlCopies.item(i)).getAttribute("file"); //$NON-NLS-1$
 			String libName= new File(absLibPath).getName();
 			boolean found= false;
-			for (String zipfileset : zipfilesets) {
+			for (String zipfileset : zipfilesets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (libName.equals(zipfileset)) {
 					found= true;
 					break;
 				}
 			}
-			assertTrue("find zipfileset lib: '" + libName + "'", found); //$NON-NLS-1$  //$NON-NLS-2$
+			assertTrue("find zipfileset lib: '" + libName + "'", found); //$NON-NLS-1$  //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}
 
-	private static void assertAntScriptPackage(String archiveName, IPath antScriptLocation, String[] filesets, String[] zipfilesets) throws Exception {
+	private static void assertAntScriptPackage(String archiveName, IPath antScriptLocation, String[] filesets, String[] zipfilesets) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String projectNameValue= "Create Runnable Jar for Project TestSetupProject"; //$NON-NLS-1$
 		projectNameValue+= " with Jar-in-Jar Loader"; //$NON-NLS-1$
 
@@ -541,7 +541,7 @@ public class FatJarExportTests {
 		assertEquals("create_run_jar", xmlTarget.getAttribute("name")); //$NON-NLS-1$//$NON-NLS-2$
 
 		Element xmlJar= (Element)xmlTarget.getElementsByTagName("jar").item(0); //$NON-NLS-1$
-		assertTrue("actual: " + xmlJar.getAttribute("destfile"), xmlJar.getAttribute("destfile").endsWith(archiveName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertTrue("actual: " + xmlJar.getAttribute("destfile"), xmlJar.getAttribute("destfile").endsWith(archiveName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		Element xmlManifest= (Element)xmlJar.getElementsByTagName("manifest").item(0); //$NON-NLS-1$
 
@@ -559,7 +559,7 @@ public class FatJarExportTests {
 
 		Element xmlAttribute4= (Element)xmlManifest.getElementsByTagName("attribute").item(3); //$NON-NLS-1$
 		assertEquals("Rsrc-Class-Path", xmlAttribute4.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertTrue("actual value: " + xmlAttribute4.getAttribute("value"), xmlAttribute4.getAttribute("value").startsWith("./")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		assertTrue("actual value: " + xmlAttribute4.getAttribute("value"), xmlAttribute4.getAttribute("value").startsWith("./")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		NodeList xmlFilesets= xmlJar.getElementsByTagName("fileset"); //$NON-NLS-1$
 		assertEquals(filesets.length, xmlFilesets.getLength());
@@ -567,36 +567,36 @@ public class FatJarExportTests {
 		NodeList xmlZipfilesets= xmlJar.getElementsByTagName("zipfileset"); //$NON-NLS-1$
 		assertEquals(zipfilesets.length + 1, xmlZipfilesets.getLength());
 
-		for (int i= 0; i < xmlFilesets.getLength(); i++) {
+		for (int i= 0; i < xmlFilesets.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String dir= ((Element)xmlFilesets.item(i)).getAttribute("dir"); //$NON-NLS-1$
 			boolean found= false;
-			for (String fileset : filesets) {
+			for (String fileset : filesets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (dir.endsWith(fileset)) {
 					found= true;
 					break;
 				}
 			}
-			assertTrue("found fileset: '" + dir + "'", found); //$NON-NLS-1$//$NON-NLS-2$
+			assertTrue("found fileset: '" + dir + "'", found); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
-		for (int i= 0; i < xmlZipfilesets.getLength(); i++) {
+		for (int i= 0; i < xmlZipfilesets.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String libName= ((Element)xmlZipfilesets.item(i)).getAttribute("includes"); //$NON-NLS-1$
 			boolean found= false;
 			if (libName.isEmpty()) {
 				libName= ((Element)xmlZipfilesets.item(i)).getAttribute("src"); //$NON-NLS-1$
 				found= FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP.equals(libName);
 			}
-			for (String zipfileset : zipfilesets) {
+			for (String zipfileset : zipfilesets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (libName.equals(zipfileset)) {
 					found= true;
 					break;
 				}
 			}
-			assertTrue("find zipfileset lib: '" + libName + "'", found); //$NON-NLS-1$  //$NON-NLS-2$
+			assertTrue("find zipfileset lib: '" + libName + "'", found); //$NON-NLS-1$  //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	private static void assertAntScriptExtract(String archiveName, IPath antScriptLocation, String[] filesets, String[] zipfilesets) throws Exception {
+	private static void assertAntScriptExtract(String archiveName, IPath antScriptLocation, String[] filesets, String[] zipfilesets) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String projectNameValue= "Create Runnable Jar for Project TestSetupProject"; //$NON-NLS-1$
 
 		Element xmlProject= readXML(antScriptLocation);
@@ -608,7 +608,7 @@ public class FatJarExportTests {
 		assertEquals("create_run_jar", xmlTarget.getAttribute("name")); //$NON-NLS-1$//$NON-NLS-2$
 
 		Element xmlJar= (Element)xmlTarget.getElementsByTagName("jar").item(0); //$NON-NLS-1$
-		assertTrue("actual: " + xmlJar.getAttribute("destfile"), xmlJar.getAttribute("destfile").endsWith(archiveName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertTrue("actual: " + xmlJar.getAttribute("destfile"), xmlJar.getAttribute("destfile").endsWith(archiveName)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals("mergewithoutmain", xmlJar.getAttribute("filesetmanifest")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Element xmlManifest= (Element)xmlJar.getElementsByTagName("manifest").item(0); //$NON-NLS-1$
@@ -627,30 +627,30 @@ public class FatJarExportTests {
 		NodeList xmlZipfilesets= xmlJar.getElementsByTagName("zipfileset"); //$NON-NLS-1$
 		assertEquals(zipfilesets.length, xmlZipfilesets.getLength());
 
-		for (int i= 0; i < xmlFilesets.getLength(); i++) {
+		for (int i= 0; i < xmlFilesets.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String dir= ((Element)xmlFilesets.item(i)).getAttribute("dir"); //$NON-NLS-1$
 			boolean found= false;
-			for (String fileset : filesets) {
+			for (String fileset : filesets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (dir.endsWith(fileset)) {
 					found= true;
 					break;
 				}
 			}
-			assertTrue("found fileset: '" + dir + "'", found); //$NON-NLS-1$//$NON-NLS-2$
+			assertTrue("found fileset: '" + dir + "'", found); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
-		for (int i= 0; i < xmlZipfilesets.getLength(); i++) {
+		for (int i= 0; i < xmlZipfilesets.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String excludes= ((Element)xmlZipfilesets.item(i)).getAttribute("excludes"); //$NON-NLS-1$
 			assertEquals("META-INF/*.SF", excludes); //$NON-NLS-1$
 			String src= ((Element)xmlZipfilesets.item(i)).getAttribute("src"); //$NON-NLS-1$
 			boolean found= false;
-			for (String zipfileset : zipfilesets) {
+			for (String zipfileset : zipfilesets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (src.endsWith(zipfileset)) {
 					found= true;
 					break;
 				}
 			}
-			assertTrue("found zipfileset: '" + src + "'", found); //$NON-NLS-1$  //$NON-NLS-2$
+			assertTrue("found zipfileset: '" + src + "'", found); //$NON-NLS-1$  //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -662,7 +662,7 @@ public class FatJarExportTests {
 	 * @throws Exception if anything went wrong
 	 */
 	private static Element readXML(IPath xmlFilePath) throws Exception {
-		try (InputStream in = new FileInputStream(xmlFilePath.toFile())) {
+		try (InputStream in = new FileInputStream(xmlFilePath.toFile())) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			DocumentBuilder parser= XmlProcessorFactoryJdtJunit.createDocumentBuilderFactoryWithErrorOnDOCTYPE().newDocumentBuilder();
 			parser.setErrorHandler(new DefaultHandler());
 			Element root= parser.parse(new InputSource(in)).getDocumentElement();
@@ -676,7 +676,7 @@ public class FatJarExportTests {
 		return tn.getMethodName();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void exportSameSrcRoot() throws Exception {
 		IPackageFragment pack= fMainRoot.createPackageFragment("mylib", true, null); //$NON-NLS-1$
 		try {
@@ -688,15 +688,15 @@ public class FatJarExportTests {
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(), new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 		} finally {
@@ -704,7 +704,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void exportSrcRootWithOutputFolder() throws Exception {
 		IPackageFragmentRoot root= JavaProjectHelper.addSourceContainer(fProject, "other", new IPath[0], new IPath[0], "otherout"); //$NON-NLS-1$  //$NON-NLS-2$
 		try {
@@ -718,15 +718,15 @@ public class FatJarExportTests {
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin", "TestSetupProject/otherout" },//$NON-NLS-2$  //$NON-NLS-1$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(), new String[] { "TestSetupProject/bin", "TestSetupProject/otherout" },//$NON-NLS-2$  //$NON-NLS-1$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 		} finally {
@@ -734,7 +734,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void exportOtherSrcRoot() throws Exception {
 		IPackageFragmentRoot root= JavaProjectHelper.addSourceContainer(fProject, "other"); //$NON-NLS-1$
 		try {
@@ -747,15 +747,15 @@ public class FatJarExportTests {
 					new String[] { "TestSetupProject/bin" }, new String[] { "rtstubs15.jar" }); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(),
 					new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
@@ -764,7 +764,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void exportOtherProject() throws Exception {
 		IJavaProject otherProject= JavaProjectHelper.createJavaProject("OtherProject", "bin"); //$NON-NLS-1$  //$NON-NLS-2$
 		try {
@@ -782,15 +782,15 @@ public class FatJarExportTests {
 					new String[] { "TestSetupProject/bin", "OtherProject/bin" }, new String[] { "rtstubs15.jar" }); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin", "OtherProject/bin" },//$NON-NLS-1$  //$NON-NLS-2$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(),
 					new String[] { "TestSetupProject/bin", "OtherProject/bin" },//$NON-NLS-1$  //$NON-NLS-2$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
@@ -800,7 +800,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void exportInternalLib() throws Exception {
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB_STDOUT);
 		IPackageFragmentRoot root= JavaProjectHelper.addLibraryWithImport(fProject, Path.fromOSString(lib.getPath()), null, null);
@@ -813,15 +813,15 @@ public class FatJarExportTests {
 					new String[] { "rtstubs15.jar", "TestSetupProject/mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin" },//$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(),
 					new String[] { "TestSetupProject/bin" },//$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
@@ -830,7 +830,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void exportInternalLib_UncompressedJar() throws Exception {
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB_STDOUT);
 		IPackageFragmentRoot root= JavaProjectHelper.addLibraryWithImport(fProject, Path.fromOSString(lib.getPath()), null, null);
@@ -842,15 +842,15 @@ public class FatJarExportTests {
 					new String[] { "TestSetupProject/bin" }, new String[] { "rtstubs15.jar", "TestSetupProject/mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(),
 					new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
@@ -859,7 +859,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void exportExternalLib() throws Exception {
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB_STDOUT);
 		IPackageFragmentRoot root= JavaProjectHelper.addLibrary(fProject, Path.fromOSString(lib.getPath()));
@@ -872,15 +872,15 @@ public class FatJarExportTests {
 					new String[] { "TestSetupProject/bin" }, new String[] { "rtstubs15.jar", "testresources/mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(), new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 		} finally {
@@ -888,7 +888,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void classFolder() throws Exception {
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB_STDOUT);
 
@@ -901,15 +901,15 @@ public class FatJarExportTests {
 					new String[] { "TestSetupProject/bin", "TestSetupProject/cf" }, new String[] { "rtstubs15.jar" }); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin", "TestSetupProject/cf" },//$NON-NLS-1$  //$NON-NLS-2$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(), new String[] { "TestSetupProject/bin", "TestSetupProject/cf" },//$NON-NLS-1$  //$NON-NLS-2$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 		} finally {
@@ -917,7 +917,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void variable() throws Exception {
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB_STDOUT);
 		JavaCore.setClasspathVariable("MYLIB", Path.fromOSString(lib.getPath()), null); //$NON-NLS-1$
@@ -931,15 +931,15 @@ public class FatJarExportTests {
 					new String[] { "TestSetupProject/bin" }, new String[] { "rtstubs15.jar", "testresources/mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(), new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_stdout.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 		} finally {
@@ -947,7 +947,7 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void signedLibs() throws Exception {
 		File lib= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB_SIG);
 		IPackageFragmentRoot root= JavaProjectHelper.addLibraryWithImport(fProject, Path.fromOSString(lib.getPath()), null, null);
@@ -960,15 +960,15 @@ public class FatJarExportTests {
 					new String[] { "TestSetupProject/bin" }, new String[] { "rtstubs15.jar", "TestSetupProject/mylib_sig.jar" }); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_sig.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(), new String[] { "TestSetupProject/bin" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar", "mylib_sig.jar" }); //$NON-NLS-1$  //$NON-NLS-2$
 		} finally {
@@ -976,11 +976,11 @@ public class FatJarExportTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void externalClassFolder() throws Exception {
 		File classFolder= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/externalClassFolder/"));//$NON-NLS-1$
 		assertNotNull("class folder not found", classFolder);//$NON-NLS-1$
-		assertTrue("class folder not found", classFolder.exists());
+		assertTrue("class folder not found", classFolder.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot externalRoot= JavaProjectHelper.addLibrary(fProject, Path.fromOSString(classFolder.getPath()), null, null);
 
 		try {
@@ -990,15 +990,15 @@ public class FatJarExportTests {
 					new String[] { "TestSetupProject/bin", "testresources/externalClassFolder" }, new String[] { "rtstubs15.jar" }); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
 
 			// Jar-in-Jar loader
-			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_JiJ", true, new PackageLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_JiJ"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new PackageLibraryHandler(),
 					new String[] { "TestSetupProject/bin", "testresources/externalClassFolder" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 
 			// sub-folder libraries
-			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$
-			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$
+			data= createAndRunFatJar(fProject, getName() + "_SL", true, new CopyLibraryHandler()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertAntScript(data, antScriptLocation(getName() + "_SL"), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new CopyLibraryHandler(), new String[] { "TestSetupProject/bin", "testresources/externalClassFolder" }, //$NON-NLS-1$
 					new String[] { "rtstubs15.jar" }); //$NON-NLS-1$
 		} finally {

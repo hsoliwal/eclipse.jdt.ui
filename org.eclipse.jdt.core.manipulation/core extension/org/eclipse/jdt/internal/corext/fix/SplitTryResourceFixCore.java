@@ -83,7 +83,7 @@ public final class SplitTryResourceFixCore extends CompilationUnitRewriteOperati
 			this.expression= expression;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			TextEditGroup group= null;
 			final ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -101,7 +101,7 @@ public final class SplitTryResourceFixCore extends CompilationUnitRewriteOperati
 					String tab_option= project.getOption(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, true);
 					if (JavaCore.SPACE.equals(tab_option)) {
 						fIndent= ""; //$NON-NLS-1$
-						for (int i= 0; i < CodeFormatterUtil.getTabWidth(project); ++i) {
+						for (int i= 0; i < CodeFormatterUtil.getTabWidth(project); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fIndent += " "; //$NON-NLS-1$
 						}
 					}
@@ -109,7 +109,7 @@ public final class SplitTryResourceFixCore extends CompilationUnitRewriteOperati
 			}
 			boolean copyResources= false;
 			String prefix= ""; //$NON-NLS-1$
-			for (VariableDeclarationExpression resource : resources) {
+			for (VariableDeclarationExpression resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resource.equals(expression)) {
 					copyResources= true;
 				}
@@ -121,22 +121,22 @@ public final class SplitTryResourceFixCore extends CompilationUnitRewriteOperati
 					VariableDeclarationExpression newVarExpression= (VariableDeclarationExpression) rewrite.createStringPlaceholder(buffer.toString(), ASTNode.VARIABLE_DECLARATION_EXPRESSION);
 					newTryStatement.resources().add(newVarExpression);
 					rewrite.remove(resource, group);
-					prefix= "\n" + fIndent + fIndent; //$NON-NLS-1$
+					prefix= "\n" + fIndent + fIndent; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			Block originalBlock= tryStatement.getBody();
 			List<Statement> originalStatements= originalBlock.statements();
 			ListRewrite originalBlockListRewrite= rewrite.getListRewrite(originalBlock, Block.STATEMENTS_PROPERTY);
-			StringBuilder buf= new StringBuilder();
-			buf.append("{\n"); //$NON-NLS-1$
-			for (Statement s : originalStatements) {
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append("{\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (Statement s : originalStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int start= root.getExtendedStartPosition(s);
 				int length= root.getExtendedLength(s);
 				String text= cuBuffer.getText(start, length);
-				buf.append(fIndent).append(text).append("\n"); //$NON-NLS-1$
+				buf.append(fIndent).append(text).append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				rewrite.remove(s, group);
 			}
-			buf.append("}"); //$NON-NLS-1$
+			buf.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			Block newBlock= (Block) rewrite.createStringPlaceholder(buf.toString(), ASTNode.BLOCK);
 			newTryStatement.setBody(newBlock);
 			originalBlockListRewrite.insertFirst(newTryStatement, group);

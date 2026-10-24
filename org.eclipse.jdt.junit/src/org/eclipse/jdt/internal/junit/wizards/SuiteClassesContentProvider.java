@@ -70,7 +70,7 @@ public class SuiteClassesContentProvider implements IStructuredContentProvider {
 
 	public Set<IType> getTests(IPackageFragment pack) {
 		try {
-			HashSet<IType> result= new HashSet<>();
+			HashSet<IType> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			if (isIncludeJunit5Tests()) {
 				new JUnit5TestFinder().findTestsInContainer(pack, result, null);
 			} else if (isIncludeJunit4Tests()) {

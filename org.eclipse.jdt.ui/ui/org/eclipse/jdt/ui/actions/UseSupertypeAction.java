@@ -55,7 +55,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  */
 // Note: The disclaimer about instantiating and subclassing got added in 3.1.
 // Don't make this class final or remove a constructor!
-public class UseSupertypeAction extends SelectionDispatchAction{
+public class UseSupertypeAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 

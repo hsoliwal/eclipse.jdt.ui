@@ -68,9 +68,9 @@ import org.eclipse.jdt.internal.ui.viewsupport.AppearanceAwareLabelProvider;
 
 public class ReferencesInBinaryStatusContextViewer implements IStatusContextViewer {
 
-	private static class ContentProvider extends StandardJavaElementContentProvider {
-		private Map<Object, Object> fChildren= new HashMap<>();
-		private Set<Object> fRoots= new HashSet<>();
+	private static class ContentProvider extends StandardJavaElementContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
+		private Map<Object, Object> fChildren= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		private Set<Object> fRoots= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -94,9 +94,9 @@ public class ReferencesInBinaryStatusContextViewer implements IStatusContextView
 			return fRoots.toArray();
 		}
 
-		public void add(Object element) {
+		public void add(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object parent= getParent(element);
-			while (parent != null) {
+			while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ((parent instanceof IJavaModel) || (parent instanceof IWorkspaceRoot)) {
 					fRoots.add(element);
 				} else {
@@ -109,7 +109,7 @@ public class ReferencesInBinaryStatusContextViewer implements IStatusContextView
 						oldChildrenSet.add(element);
 						return;
 					} else if (oldChildren != null) {
-						Set<Object> newChildren= new HashSet<>(4);
+						Set<Object> newChildren= new HashSet<>(4); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						newChildren.add(oldChildren);
 						newChildren.add(element);
 						fChildren.put(parent, newChildren);
@@ -131,19 +131,19 @@ public class ReferencesInBinaryStatusContextViewer implements IStatusContextView
 	private ReferencesInBinaryContext fInput;
 	private Button fButton;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setInput(RefactoringStatusContext input) {
 		ContentProvider contentProvider= new ContentProvider();
 
 		ReferencesInBinaryContext binariesContext= (ReferencesInBinaryContext) input;
 		List<SearchMatch> matches= binariesContext.getMatches();
-		for (SearchMatch match : matches) {
+		for (SearchMatch match : matches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= match.getElement();
 			if (element != null)
 				contentProvider.add(element);
 		}
 		fTreeViewer.setContentProvider(contentProvider);
-		fTreeViewer.setInput(contentProvider);
+		fTreeViewer.setInput(contentProvider); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		fLabel.setText(binariesContext.getDescription());
 
@@ -152,7 +152,7 @@ public class ReferencesInBinaryStatusContextViewer implements IStatusContextView
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		fForm= new ViewForm(parent, SWT.BORDER | SWT.FLAT);
 		fForm.marginWidth= 0;
@@ -172,7 +172,7 @@ public class ReferencesInBinaryStatusContextViewer implements IStatusContextView
 
 		fTreeViewer= new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		final AppearanceAwareLabelProvider labelProvider= new AppearanceAwareLabelProvider();
-		fTreeViewer.setLabelProvider(new DelegatingStyledCellLabelProvider(labelProvider));
+		fTreeViewer.setLabelProvider(new DelegatingStyledCellLabelProvider(labelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTreeViewer.setComparator(new ViewerComparator() {
 			private Collator fCollator= Collator.getInstance();
 			@Override
@@ -189,7 +189,7 @@ public class ReferencesInBinaryStatusContextViewer implements IStatusContextView
 		GridData layoutData= new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
 		layoutData.widthHint= SWTUtil.getButtonWidthHint(fButton);
 		fButton.setLayoutData(layoutData);
-		fButton.addSelectionListener(new SelectionAdapter() {
+		fButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fillInSearchView();
@@ -251,7 +251,7 @@ public class ReferencesInBinaryStatusContextViewer implements IStatusContextView
 			NewSearchResultCollector collector= new NewSearchResultCollector(fResult, false);
 			collector.beginReporting();
 
-			for (SearchMatch searchMatch : matches) {
+			for (SearchMatch searchMatch : matches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					collector.acceptSearchMatch(searchMatch);
 				} catch (CoreException e) {

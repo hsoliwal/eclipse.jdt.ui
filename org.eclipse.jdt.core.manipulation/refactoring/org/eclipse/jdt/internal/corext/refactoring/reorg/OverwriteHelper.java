@@ -109,8 +109,8 @@ class OverwriteHelper {
 	}
 
 	private void confirmPackageFragmentRootOverwritting(IConfirmQuery skipQuery, IConfirmQuery overwriteQuery) {
-		List<IPackageFragmentRoot> toNotOverwrite= new ArrayList<>(1);
-		for (IPackageFragmentRoot root : fRoots) {
+		List<IPackageFragmentRoot> toNotOverwrite= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPackageFragmentRoot root : fRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (canOverwrite(root)) {
 				if (root.getResource() instanceof IContainer) {
 					if (!skip(JavaElementLabelsCore.getElementLabel(root, JavaElementLabelsCore.ALL_DEFAULT), skipQuery))
@@ -126,8 +126,8 @@ class OverwriteHelper {
 	}
 
 	private void confirmCuOverwritting(IConfirmQuery overwriteQuery) {
-		List<ICompilationUnit> cusToNotOverwrite= new ArrayList<>(1);
-		for (ICompilationUnit cu : fCus) {
+		List<ICompilationUnit> cusToNotOverwrite= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ICompilationUnit cu : fCus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (canOverwrite(cu) && ! overwrite(cu, overwriteQuery))
 				cusToNotOverwrite.add(cu);
 		}
@@ -136,8 +136,8 @@ class OverwriteHelper {
 	}
 
 	private void confirmFolderOverwritting(IConfirmQuery overwriteQuery) {
-		List<IFolder> foldersToNotOverwrite= new ArrayList<>(1);
-		for (IFolder folder : fFolders) {
+		List<IFolder> foldersToNotOverwrite= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IFolder folder : fFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (willOverwrite(folder) && ! skip(BasicElementLabels.getResourceName(folder), overwriteQuery))
 				foldersToNotOverwrite.add(folder);
 		}
@@ -146,8 +146,8 @@ class OverwriteHelper {
 	}
 
 	private void confirmFileOverwritting(IConfirmQuery overwriteQuery, IConfirmQuery skipQuery) {
-		List<IFile> filesToNotOverwrite= new ArrayList<>(1);
-		for (IFile file : fFiles) {
+		List<IFile> filesToNotOverwrite= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IFile file : fFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (willOverwrite(file)) {
 				IContainer destination= (IContainer) ResourceUtil.getResource(fDestination);
 				if (ParentChecker.isDescendantOf(file, destination.findMember(file.getName()))) {
@@ -164,8 +164,8 @@ class OverwriteHelper {
 	}
 
 	private void confirmPackageOverwritting(IConfirmQuery overwriteQuery){
-		List<IPackageFragment> toNotOverwrite= new ArrayList<>(1);
-		for (IPackageFragment pack : fPackageFragments) {
+		List<IPackageFragment> toNotOverwrite= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPackageFragment pack : fPackageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (canOverwrite(pack) && ! overwrite(pack, overwriteQuery))
 				toNotOverwrite.add(pack);
 		}
@@ -185,7 +185,7 @@ class OverwriteHelper {
 	/*
 	 * Will resource override a member of destination?
 	 */
-	private boolean willOverwrite(IResource resource) {
+	private boolean willOverwrite(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resource == null)
 			return false;
 

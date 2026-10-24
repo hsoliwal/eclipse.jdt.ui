@@ -67,9 +67,9 @@ public class RenameModifications extends RefactoringModifications {
 	private List<IParticipantDescriptorFilter> fParticipantDescriptorFilter;
 
 	public RenameModifications() {
-		fRename= new ArrayList<>();
-		fRenameArguments= new ArrayList<>();
-		fParticipantDescriptorFilter= new ArrayList<>();
+		fRename= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fRenameArguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fParticipantDescriptorFilter= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void rename(IResource resource, RenameArguments args) {
@@ -81,7 +81,7 @@ public class RenameModifications extends RefactoringModifications {
 		IProject rProject= project.getProject();
 		if (rProject != null) {
 			getResourceModifications().addRename(rProject, args);
-			for (IProject referencingProject : rProject.getReferencingProjects()) {
+			for (IProject referencingProject : rProject.getReferencingProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IFile classpath= getClasspathFile(referencingProject);
 				if (classpath != null) {
 					getResourceModifications().addChanged(classpath);
@@ -97,12 +97,12 @@ public class RenameModifications extends RefactoringModifications {
 		}
 	}
 
-	public void rename(IPackageFragment rootPackage, RenameArguments args, boolean renameSubPackages) throws CoreException {
+	public void rename(IPackageFragment rootPackage, RenameArguments args, boolean renameSubPackages) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		add(rootPackage, args, null);
 		IPackageFragment[] allSubPackages= null;
 		if (renameSubPackages) {
 			allSubPackages= getSubpackages(rootPackage);
-			for (IPackageFragment pack : allSubPackages) {
+			for (IPackageFragment pack : allSubPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				RenameArguments subArgs= new RenameArguments(
 					getNewPackageName(rootPackage, args.getNewName(), pack.getElementName()),
 					args.getUpdateReferences());
@@ -169,7 +169,7 @@ public class RenameModifications extends RefactoringModifications {
 
 	@Override
 	public void buildDelta(IResourceChangeDescriptionFactory builder) {
-		for (int i= 0; i < fRename.size(); i++) {
+		for (int i= 0; i < fRename.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= fRename.get(i);
 			if (element instanceof IResource) {
 				ResourceModifications.buildMoveDelta(builder, (IResource) element, (RenameArguments) fRenameArguments.get(i));
@@ -180,7 +180,7 @@ public class RenameModifications extends RefactoringModifications {
 
 	@Override
 	public void buildValidateEdits(ValidateEditChecker checker) {
-		for (Object element : fRename) {
+		for (Object element : fRename) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				ICompilationUnit unit= (ICompilationUnit)element;
 				IResource resource= unit.getResource();
@@ -193,8 +193,8 @@ public class RenameModifications extends RefactoringModifications {
 
 	@Override
 	public RefactoringParticipant[] loadParticipants(RefactoringStatus status, RefactoringProcessor owner, String[] natures, SharableParticipants shared) {
-		List<RefactoringParticipant> result= new ArrayList<>();
-		for (int i= 0; i < fRename.size(); i++) {
+		List<RefactoringParticipant> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < fRename.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(ParticipantManager.loadRenameParticipants(status,
 				owner, fRename.get(i),
 				(RenameArguments) fRenameArguments.get(i),
@@ -220,7 +220,7 @@ public class RenameModifications extends RefactoringModifications {
 			if (container == null)
 				return;
 			boolean removeContainer= ! container.contains(target);
-			for (IPackageFragment pack : allSubPackages) {
+			for (IPackageFragment pack : allSubPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IFolder subTarget= addResourceModifications(rootPackage, args, pack, renameSubPackages);
 				if (container.contains(subTarget))
 					removeContainer= false;
@@ -231,19 +231,19 @@ public class RenameModifications extends RefactoringModifications {
 		}
 	}
 
-	private IFolder addResourceModifications(IPackageFragment rootPackage, RenameArguments args, IPackageFragment pack, boolean renameSubPackages) throws CoreException {
+	private IFolder addResourceModifications(IPackageFragment rootPackage, RenameArguments args, IPackageFragment pack, boolean renameSubPackages) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContainer container= (IContainer)pack.getResource();
 		if (container == null)
 			return null;
 		IFolder target= computeTargetFolder(rootPackage, args, pack);
 		createIncludingParents(target);
 		MoveArguments arguments= new MoveArguments(target, args.getUpdateReferences());
-		Set<IResource> allMembers= new HashSet<>(Arrays.asList(container.members()));
-		for (IResource toMove : collectResourcesOfInterest(pack)) {
+		Set<IResource> allMembers= new HashSet<>(Arrays.asList(container.members())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IResource toMove : collectResourcesOfInterest(pack)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			getResourceModifications().addMove(toMove, arguments);
 			allMembers.remove(toMove);
 		}
-		for (Iterator<IResource> iter= allMembers.iterator(); iter.hasNext();) {
+		for (Iterator<IResource> iter= allMembers.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource element= iter.next();
 			if (element instanceof IFile) {
 				getResourceModifications().addDelete(element);
@@ -264,9 +264,9 @@ public class RenameModifications extends RefactoringModifications {
 		IPackageFragmentRoot root= (IPackageFragmentRoot) pack.getParent();
 		if (pack.isDefaultPackage())
 			return new IPackageFragment[0];
-		ArrayList<IPackageFragment> result= new ArrayList<>();
-		String prefix= pack.getElementName() + '.';
-		for (IJavaElement element : root.getChildren()) {
+		ArrayList<IPackageFragment> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		String prefix= pack.getElementName() + '.'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (IJavaElement element : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment currentPackage= (IPackageFragment) element;
 			if (currentPackage.getElementName().startsWith(prefix))
 				result.add(currentPackage);
@@ -283,6 +283,6 @@ public class RenameModifications extends RefactoringModifications {
 
 	private String getNewPackageName(IPackageFragment rootPackage, String newPackageName, String oldSubPackageName) {
 		String oldPackageName= rootPackage.getElementName();
-		return newPackageName + oldSubPackageName.substring(oldPackageName.length());
+		return newPackageName + oldSubPackageName.substring(oldPackageName.length()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

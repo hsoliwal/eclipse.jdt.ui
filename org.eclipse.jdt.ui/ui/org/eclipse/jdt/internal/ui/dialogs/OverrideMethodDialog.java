@@ -103,7 +103,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 
 	}
 
-	private static class OverrideMethodContentProvider implements ITreeContentProvider {
+	private static class OverrideMethodContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private final Object[] fEmpty= new Object[0];
 
@@ -147,8 +147,8 @@ public class OverrideMethodDialog extends SourceActionDialog {
 		@Override
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof ITypeBinding) {
-				ArrayList<IMethodBinding> result= new ArrayList<>(fMethods.length);
-				for (IMethodBinding fMethod : fMethods) {
+				ArrayList<IMethodBinding> result= new ArrayList<>(fMethods.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IMethodBinding fMethod : fMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fMethod.getDeclaringClass().isEqualTo((IBinding) parentElement)) {
 						result.add(fMethod);
 					}
@@ -211,7 +211,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 				fShowTypes= showTypes;
 				fSettings.put(SETTINGS_SHOWTYPES, showTypes);
 				if (fViewer != null)
-					fViewer.refresh();
+					fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		}
 	}
@@ -265,7 +265,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 		@Override
 		public IStatus validate(Object[] selection) {
 			int count= 0;
-			for (Object s : selection) {
+			for (Object s : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (s instanceof IMethodBinding) {
 					count++;
 				}
@@ -276,7 +276,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 		}
 	}
 
-	private static ITypeBinding getSuperType(final ITypeBinding binding, final String name) {
+	private static ITypeBinding getSuperType(final ITypeBinding binding, final String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (binding.isArray() || binding.isPrimitive())
 			return null;
@@ -290,7 +290,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 			if (result != null)
 				return result;
 		}
-		for (ITypeBinding t : binding.getInterfaces()) {
+		for (ITypeBinding t : binding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ITypeBinding result= getSuperType(t, name);
 			if (result != null)
 				return result;
@@ -300,25 +300,25 @@ public class OverrideMethodDialog extends SourceActionDialog {
 
 	private CompilationUnit fUnit= null;
 
-	public OverrideMethodDialog(Shell shell, CompilationUnitEditor editor, IType type) throws JavaModelException {
+	public OverrideMethodDialog(Shell shell, CompilationUnitEditor editor, IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(shell, new BindingLabelProvider(), new OverrideMethodContentProvider(), editor, type, false);
 		RefactoringASTParser parser= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL);
 		fUnit= parser.parse(type.getCompilationUnit(), true);
 		final ITypeBinding binding= ASTNodes.getTypeBinding(fUnit, type);
-		List<IMethodBinding> toImplement= new ArrayList<>();
+		List<IMethodBinding> toImplement= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding[] overridable= null;
 		if (binding != null) {
 			final IPackageBinding pack= binding.getPackage();
 			final IMethodBinding[] methods= StubUtility2Core.getOverridableMethods(fUnit.getAST(), binding, false);
-			List<IMethodBinding> list= new ArrayList<>(methods.length);
-			for (IMethodBinding cur : methods) {
+			List<IMethodBinding> list= new ArrayList<>(methods.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IMethodBinding cur : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Bindings.isVisibleInHierarchy(cur, pack))
 					list.add(cur);
 			}
 			overridable= list.toArray(new IMethodBinding[list.size()]);
 		} else
 			overridable= new IMethodBinding[] {};
-		for (IMethodBinding b : overridable) {
+		for (IMethodBinding b : overridable) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Modifier.isAbstract(b.getModifiers())) {
 				toImplement.add(b);
 			}
@@ -327,7 +327,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 		if (binding != null) {
 			ITypeBinding cloneable= getSuperType(binding, "java.lang.Cloneable"); //$NON-NLS-1$
 			if (cloneable != null) {
-				for (IMethodBinding method : fUnit.getAST().resolveWellKnownType("java.lang.Object").getDeclaredMethods()) { //$NON-NLS-1$
+				for (IMethodBinding method : fUnit.getAST().resolveWellKnownType("java.lang.Object").getDeclaredMethods()) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ("clone".equals(method.getName()) && method.getParameterTypes().length == 0) //$NON-NLS-1$
 						toImplement.add(method);
 				}
@@ -337,13 +337,13 @@ public class OverrideMethodDialog extends SourceActionDialog {
 		IMethodBinding[] toImplementArray= toImplement.toArray(new IMethodBinding[toImplement.size()]);
 		setInitialSelections((Object[]) toImplementArray);
 
-		HashSet<ITypeBinding> expanded= new HashSet<>(toImplementArray.length);
-		for (IMethodBinding b : toImplementArray) {
+		HashSet<ITypeBinding> expanded= new HashSet<>(toImplementArray.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMethodBinding b : toImplementArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expanded.add(b.getDeclaringClass());
 		}
 
-		HashSet<ITypeBinding> types= new HashSet<>(overridable.length);
-		for (IMethodBinding b : overridable) {
+		HashSet<ITypeBinding> types= new HashSet<>(overridable.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMethodBinding b : overridable) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			types.add(b.getDeclaringClass());
 		}
 
@@ -386,7 +386,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 	protected Control createLinkControl(Composite composite) {
 		Link link= new Link(composite, SWT.WRAP);
 		link.setText(JavaUIMessages.OverrideMethodDialog_link_message);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				openCodeTempatePage(CodeTemplateContextType.OVERRIDECOMMENT_ID);
@@ -403,7 +403,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 	/*
 	 * @see CheckedTreeSelectionDialog#createTreeViewer(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected CheckboxTreeViewer createTreeViewer(Composite composite) {
 		initializeDialogUnits(composite);
 		ViewerPane pane= new ViewerPane(composite, SWT.BORDER | SWT.FLAT);
@@ -439,16 +439,16 @@ public class OverrideMethodDialog extends SourceActionDialog {
 		return getContentProvider().getElements(null).length > 0;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addMethodSearchFilter(Text filterText, CheckboxTreeViewer treeViewer) {
 
-		filterText.addModifyListener(unused -> {
+		filterText.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			final String searchText = filterText.getText();
 
 			PatternMatcher matcher = new PatternMatcher(searchText);
 			ViewerFilter vf = null;
 			if(!searchText.trim().isEmpty()) {
-				vf = new ViewerFilter() {
+				vf = new ViewerFilter() { //FLLDCIM: MARK — T23  ANONYMOUS
 
 					@Override
 					public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -466,7 +466,7 @@ public class OverrideMethodDialog extends SourceActionDialog {
 						return false;
 					}
 				};
-				treeViewer.setFilters(vf);
+				treeViewer.setFilters(vf); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 				treeViewer.expandAll();
 			} else {
 				treeViewer.resetFilters();

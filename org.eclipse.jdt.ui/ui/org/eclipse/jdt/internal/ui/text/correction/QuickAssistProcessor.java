@@ -278,13 +278,13 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 	public static final String FIELD_NAMING_CONVENTION_ID= "org.eclipse.jdt.ui.correction.convertToConstantNamingConvention.assist"; //$NON-NLS-1$
 
-	public static final Pattern FIELD_NAMING_PATTERN= Pattern.compile("^[A-Z0-9]+(_[A-Z0-9]+)*$"); //$NON-NLS-1$
+	public static final Pattern FIELD_NAMING_PATTERN= Pattern.compile("^[A-Z0-9]+(_[A-Z0-9]+)*$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	public QuickAssistProcessor() {
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean hasAssists(IInvocationContext context) throws CoreException {
 		ASTNode coveringNode= context.getCoveringNode();
 		if (coveringNode != null) {
@@ -360,12 +360,12 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IJavaCompletionProposal[] getAssists(IInvocationContext context, IProblemLocation[] locations) throws CoreException {
 		ASTNode coveringNode= context.getCoveringNode();
 		if (coveringNode != null) {
 			ArrayList<ASTNode> coveredNodes= AdvancedQuickAssistProcessor.getFullyCoveredNodes(context, coveringNode);
-			ArrayList<ICommandAccess> resultingCollections= new ArrayList<>();
+			ArrayList<ICommandAccess> resultingCollections= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			boolean noErrorsAtLocation= noErrorsAtLocation(locations);
 
 			// quick assists that show up also if there is an error/warning
@@ -447,7 +447,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return null;
 	}
 
-	private static boolean getConvertToIOPrintProposal(IInvocationContext context, ASTNode node, ArrayList<ICommandAccess> resultingCollections) {
+	private static boolean getConvertToIOPrintProposal(IInvocationContext context, ASTNode node, ArrayList<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!JavaModelUtil.is25OrHigher(context.getCompilationUnit().getJavaProject())) {
 			return false;
 		}
@@ -455,7 +455,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			return false;
 		}
 		if (!(node instanceof ExpressionStatement)) {
-			while(!(node instanceof ExpressionStatement) && !(node instanceof Block) && node.getParent()!=null) {
+			while(!(node instanceof ExpressionStatement) && !(node instanceof Block) && node.getParent()!=null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 			}
 		}
@@ -485,7 +485,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getConvertForLoopToForEachProposal(IInvocationContext context, ASTNode node, ArrayList<ICommandAccess> resultingCollections) {
+	private static boolean getConvertForLoopToForEachProposal(IInvocationContext context, ASTNode node, ArrayList<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		EnhancedForStatement enhancedForStatement= getEnclosingHeader(node, EnhancedForStatement.class, EnhancedForStatement.PARAMETER_PROPERTY, EnhancedForStatement.EXPRESSION_PROPERTY);
 		if (enhancedForStatement == null)
 			return false;
@@ -515,12 +515,12 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getReplaceQualifiedNameProposals(IInvocationContext context, ASTNode node, ArrayList<ICommandAccess> resultingCollections) throws JavaModelException {
+	private static boolean getReplaceQualifiedNameProposals(IInvocationContext context, ASTNode node, ArrayList<ICommandAccess> resultingCollections) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		IImportDeclaration[] imports= cu.getImports();
 		if (node instanceof SimpleName || node instanceof QualifiedName) {
 			ASTNode curNode= node;
-			while ((curNode.getParent() instanceof QualifiedName)) {
+			while ((curNode.getParent() instanceof QualifiedName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				curNode= curNode.getParent();
 			}
 			if (curNode instanceof QualifiedName) {
@@ -541,7 +541,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 	static boolean noErrorsAtLocation(IProblemLocation[] locations) {
 		if (locations != null) {
-			for (IProblemLocation location : locations) {
+			for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (location.isError()) {
 					if (IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER.equals(location.getMarkerType())
 							&& JavaCore.getOptionForConfigurableSeverity(location.getProblemId()) != null) {
@@ -555,7 +555,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getExtractMethodProposal(IInvocationContext context, ASTNode coveringNode, boolean problemsAtLocation, Collection<ICommandAccess> proposals) throws CoreException {
+	private static boolean getExtractMethodProposal(IInvocationContext context, ASTNode coveringNode, boolean problemsAtLocation, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(coveringNode instanceof Expression) && !(coveringNode instanceof Statement) && !(coveringNode instanceof Block)) {
 			return false;
 		}
@@ -591,7 +591,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getExtractMethodFromLambdaProposal(IInvocationContext context, ASTNode coveringNode, boolean problemsAtLocation, Collection<ICommandAccess> proposals) throws CoreException {
+	private static boolean getExtractMethodFromLambdaProposal(IInvocationContext context, ASTNode coveringNode, boolean problemsAtLocation, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (coveringNode instanceof Block && coveringNode.getLocationInParent() == LambdaExpression.BODY_PROPERTY) {
 			return false;
 		}
@@ -621,7 +621,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getExtractVariableProposal(IInvocationContext context, boolean problemsAtLocation, Collection<ICommandAccess> proposals) throws CoreException {
+	private static boolean getExtractVariableProposal(IInvocationContext context, boolean problemsAtLocation, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ASTNode node= context.getCoveredNode();
 
@@ -725,7 +725,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private boolean getExtractAnonymousClassProposal(IInvocationContext context, ASTNode coveringNode, ArrayList<ICommandAccess> proposals) throws CoreException {
+	private boolean getExtractAnonymousClassProposal(IInvocationContext context, ASTNode coveringNode, ArrayList<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AnonymousClassDeclaration decl= ASTNodes.getFirstAncestorOrNull(coveringNode, AnonymousClassDeclaration.class);
 		if (decl != null) {
 			ASTNode parent= decl.getParent();
@@ -802,13 +802,13 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		}
 	}
 
-	private static class RefactoringCorrectionProposalExtension extends RefactoringCorrectionProposal {
+	private static class RefactoringCorrectionProposalExtension extends RefactoringCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 		public RefactoringCorrectionProposalExtension(String name, ICompilationUnit cu, int relevance, Image image, RefactoringCorrectionProposalCore delegate) {
 			super(name, cu, relevance, image, delegate);
 		}
 	}
 
-	private static boolean getDeprecatedProposal(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> proposals) {
+	private static boolean getDeprecatedProposal(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// don't add if already added as quick fix
 		if (containsMatchingProblem(locations, IProblem.UsingDeprecatedMethod) ||
 				containsMatchingProblem(locations, IProblem.UsingDeprecatedConstructor))
@@ -834,7 +834,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getDeprecatedFieldProposal(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> proposals) {
+	private static boolean getDeprecatedFieldProposal(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// don't add if already added as quick fix
 		if (containsMatchingProblem(locations, IProblem.UsingDeprecatedField))
 			return false;
@@ -866,7 +866,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getConvertAnonymousToNestedProposal(IInvocationContext context, final ASTNode node, Collection<ICommandAccess> proposals) throws CoreException {
+	private static boolean getConvertAnonymousToNestedProposal(IInvocationContext context, final ASTNode node, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof Name))
 			return false;
 
@@ -896,11 +896,11 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		}
 		String[][] existingTypes= ((IType) anonymTypeBinding.getJavaElement()).resolveType(className);
 		int i= 1;
-		while (existingTypes != null) {
+		while (existingTypes != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
-			existingTypes= ((IType) anonymTypeBinding.getJavaElement()).resolveType(className + i);
+			existingTypes= ((IType) anonymTypeBinding.getJavaElement()).resolveType(className + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		refactoring.setClassName(i == 1 ? className : className + i);
+		refactoring.setClassName(i == 1 ? className : className + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (refactoring.checkInitialConditions(new NullProgressMonitor()).isOK()) {
 			LinkedProposalModelCore linkedProposalModel= createProposalModel();
@@ -916,12 +916,12 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getConvertPatternInstanceofIfStmtToSwitchProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getConvertPatternInstanceofIfStmtToSwitchProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode ancestor= ASTNodes.getFirstAncestorOrNull(covering, IfStatement.class, MethodDeclaration.class, TypeDeclaration.class);
 		if (!(ancestor instanceof IfStatement ifStmt)) {
 			return false;
 		}
-		while (ifStmt.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) {
+		while (ifStmt.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ifStmt= (IfStatement) ifStmt.getParent();
 		}
 		IProposableFix fix= PatternInstanceofToSwitchFixCore.createPatternInstanceofToSwitchFix(ifStmt);
@@ -940,8 +940,8 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertAnonymousClassCreationsToLambdaProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
-		while (covering instanceof Name
+	private static boolean getConvertAnonymousClassCreationsToLambdaProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (covering instanceof Name //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				|| covering instanceof Type
 				|| covering instanceof Dimension
 				|| covering.getParent() instanceof MethodDeclaration
@@ -980,7 +980,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	public static boolean getConvertLambdaToAnonymousClassCreationsProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
+	public static boolean getConvertLambdaToAnonymousClassCreationsProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LambdaExpression lambda;
 		if (covering instanceof LambdaExpression) {
 			lambda= (LambdaExpression) covering;
@@ -1007,7 +1007,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertMethodReferenceToLambdaProposal(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) throws JavaModelException {
+	private static boolean getConvertMethodReferenceToLambdaProposal(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MethodReference methodReference;
 		if (covering instanceof MethodReference) {
 			methodReference= (MethodReference) covering;
@@ -1040,7 +1040,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertToSwitchExpressionProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getConvertToSwitchExpressionProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (covering instanceof Block) {
 			List<Statement> statements= ((Block) covering).statements();
 			int startIndex= QuickAssistProcessorUtil.getIndex(context.getSelectionOffset(), statements);
@@ -1049,7 +1049,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			}
 			covering= statements.get(startIndex);
 		} else {
-			while (covering instanceof SwitchCase
+			while (covering instanceof SwitchCase //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					|| covering instanceof SwitchExpression) {
 				covering= covering.getParent();
 			}
@@ -1078,7 +1078,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertToSwitchProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getConvertToSwitchProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(covering instanceof Block)) {
 			return false;
 		}
@@ -1101,20 +1101,20 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getUnblockSwitchExpressionCaseProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getUnblockSwitchExpressionCaseProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Block block= null;
 		if (covering instanceof Block coveringBlock) {
 			block= coveringBlock;
 		} else if (covering instanceof SwitchCase switchCase) {
 			ASTNode parent= switchCase.getParent();
-			List<Statement> statements= new ArrayList<>();
+			List<Statement> statements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (parent instanceof SwitchStatement switchStatement) {
 				statements= switchStatement.statements();
 			} else if (parent instanceof SwitchExpression switchExpression) {
 				statements= switchExpression.statements();
 			}
 			int i= 0;
-			for (i= 0; i < statements.size(); ++i) {
+			for (i= 0; i < statements.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (statements.get(i) == switchCase) {
 					break;
 				}
@@ -1123,7 +1123,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 				block= b;
 			}
 		} else {
-			while (!(covering instanceof Statement) && covering != null) {
+			while (!(covering instanceof Statement) && covering != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				covering= covering.getParent();
 			}
 			if (covering != null && covering.getParent() instanceof Block parentBlock) {
@@ -1193,7 +1193,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getFixParenthesesInLambdaExpression(IInvocationContext context, ASTNode coveringNode, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getFixParenthesesInLambdaExpression(IInvocationContext context, ASTNode coveringNode, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LambdaExpression enclosingLambda= null;
 		if (coveringNode instanceof LambdaExpression) {
 			enclosingLambda= (LambdaExpression) coveringNode;
@@ -1282,7 +1282,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getAddMethodDeclaration(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getAddMethodDeclaration(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AddMissingMethodDeclarationFixCore fix= AddMissingMethodDeclarationFixCore.createAddMissingMethodDeclaration(context.getASTRoot(), covering);
 		if (fix != null) {
 			if (resultingCollections == null) {
@@ -1293,14 +1293,14 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			// Create a proposal that properly handles the change to the target compilation unit
 			// The fix may modify a different file than the current one, so we need special handling
 			ICompilationUnit targetCU= fix.getCompilationUnit();
-			FixCorrectionProposal proposal= new FixCorrectionProposal(fix, null, IProposalRelevance.ADD_INFERRED_LAMBDA_PARAMETER_TYPES, image, context,
+			FixCorrectionProposal proposal= new FixCorrectionProposal(fix, null, IProposalRelevance.ADD_INFERRED_LAMBDA_PARAMETER_TYPES, image, context, //FLLDCIM: MARK — T30  ANONYMOUS
 					new FixCorrectionProposalCore(fix, null, IProposalRelevance.ADD_INFERRED_LAMBDA_PARAMETER_TYPES, context) {
 						@Override
 						public ICompilationUnit getCompilationUnit() {
 							// Return the target compilation unit, not the current one from the context
 							return targetCU;
 						}
-					}) {
+					}) { //FLLDCIM: MARK — T30  IMPLEMENTS
 			};
 			resultingCollections.add(proposal);
 			return true;
@@ -1308,7 +1308,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	@SuppressWarnings("removal")
+	@SuppressWarnings("removal") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static boolean getInferDiamondArgumentsProposal(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> resultingCollections) {
 		// don't add if already added as quick fix
 		if (containsMatchingProblem(locations, IProblem.DiamondNotBelow17))
@@ -1344,7 +1344,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		if (fix != null && resultingCollections != null) {
 			Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
 			int relevance= locations == null ? IProposalRelevance.INSERT_INFERRED_TYPE_ARGUMENTS : IProposalRelevance.INSERT_INFERRED_TYPE_ARGUMENTS_ERROR; // if error -> higher than ReorgCorrectionsSubProcessor.getNeedHigherComplianceProposals()
-			Map<String, String> options= new HashMap<>();
+			Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			options.put(CleanUpConstants.INSERT_INFERRED_TYPE_ARGUMENTS, CleanUpOptions.TRUE);
 			FixCorrectionProposal proposal= new FixCorrectionProposal(fix, new TypeParametersCleanUpCore(options), relevance, image, context);
 			resultingCollections.add(proposal);
@@ -1369,13 +1369,13 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unused") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private static boolean getSplitVariableProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) throws JavaModelException {
 		if (resultingCollections == null) {
 			return true;
 		}
 		boolean commandConflict= false;
-		for (ICommandAccess completionProposal : resultingCollections) {
+		for (ICommandAccess completionProposal : resultingCollections) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (completionProposal instanceof ChangeCorrectionProposal ccp) {
 				if (SPLIT_JOIN_VARIABLE_DECLARATION_ID.equals(ccp.getCommandId())) {
 					commandConflict= true;
@@ -1407,7 +1407,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	}
 	private static boolean containsMatchingProblem(IProblemLocation[] locations, int problemId) {
 		if (locations != null) {
-			for (IProblemLocation location : locations) {
+			for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER.equals(location.getMarkerType())
 						&& location.getProblemId() == problemId) {
 					return true;
@@ -1417,7 +1417,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getAssignParamToFieldProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getAssignParamToFieldProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		node= ASTNodes.getNormalizedNode(node);
 		ASTNode parent= node.getParent();
 		if (!(parent instanceof SingleVariableDeclaration) || !(parent.getParent() instanceof MethodDeclaration)) {
@@ -1448,7 +1448,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			CompilationUnit root= context.getASTRoot();
 			boolean isStaticContext= ASTResolving.isInStaticContext(node);
 			boolean hasFieldWithSameName= false;
-			for (IVariableBinding curr : parentType.getDeclaredFields()) {
+			for (IVariableBinding curr : parentType.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isStaticContext == Modifier.isStatic(curr.getModifiers()) && typeBinding.isAssignmentCompatible(curr.getType())) {
 					ASTNode fieldDeclFrag= root.findDeclaringNode(curr);
 					if (fieldDeclFrag instanceof VariableDeclarationFragment) {
@@ -1461,7 +1461,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 					}
 				}
 			}
-			for (IVariableBinding curr : parentType.getDeclaredFields()) {
+			for (IVariableBinding curr : parentType.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isStaticContext == Modifier.isStatic(curr.getModifiers()) && typeBinding.isAssignmentCompatible(curr.getType())) {
 					ASTNode fieldDeclFrag= root.findDeclaringNode(curr);
 					if (fieldDeclFrag instanceof VariableDeclarationFragment) {
@@ -1488,7 +1488,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getAssignAllParamsToFieldsProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getAssignAllParamsToFieldsProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		node= ASTNodes.getNormalizedNode(node);
 		ASTNode parent= node.getParent();
 		if (!(parent instanceof SingleVariableDeclaration) || !(parent.getParent() instanceof MethodDeclaration)) {
@@ -1506,7 +1506,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		if (parentType == null || parentType.isInterface()) {
 			return false;
 		}
-		for (SingleVariableDeclaration param : parameters) {
+		for (SingleVariableDeclaration param : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding binding= param.resolveBinding();
 			if (binding == null || binding.getType() == null) {
 				return false;
@@ -1522,7 +1522,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getAddFinallyProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getAddFinallyProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TryStatement tryStatement= ASTResolving.findParentTryStatement(node);
 		if (tryStatement == null || tryStatement.getFinally() != null) {
 			return false;
@@ -1549,7 +1549,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getAddElseProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getAddElseProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof IfStatement)) {
 			return false;
 		}
@@ -1575,7 +1575,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	public static boolean getCatchClauseToThrowsProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	public static boolean getCatchClauseToThrowsProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CatchClause catchClause= (CatchClause) ASTResolving.findAncestor(node, ASTNode.CATCH_CLAUSE);
 		if (catchClause == null) {
 			return false;
@@ -1629,7 +1629,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 				if (type.isUnionType()) {
 					UnionType unionType= (UnionType) type;
 					List<Type> types= unionType.types();
-					for (Type elementType : types) {
+					for (Type elementType : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!(elementType instanceof SimpleType)
 								&& !(elementType instanceof NameQualifiedType))
 							return false;
@@ -1664,7 +1664,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	private static void removeException(ASTRewrite rewrite, UnionType unionType, Type exception) {
 		ListRewrite listRewrite= rewrite.getListRewrite(unionType, UnionType.TYPES_PROPERTY);
 		List<Type> types= unionType.types();
-		for (Type type : types) {
+		for (Type type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.equals(exception)) {
 				listRewrite.remove(type, null);
 			}
@@ -1681,7 +1681,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		}
 	}
 
-	private static void removeCatchBlock(ASTRewrite rewrite, CatchClause catchClause) {
+	private static void removeCatchBlock(ASTRewrite rewrite, CatchClause catchClause) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TryStatement tryStatement= (TryStatement) catchClause.getParent();
 		if (tryStatement.catchClauses().size() > 1 || tryStatement.getFinally() != null || !tryStatement.resources().isEmpty()) {
 			rewrite.remove(catchClause, null);
@@ -1710,7 +1710,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	}
 
 	private static boolean isNotYetThrown(ITypeBinding binding, List<Type> thrownExceptions) {
-		for (Type name : thrownExceptions) {
+		for (Type name : thrownExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding elem= name.resolveBinding();
 			if (elem != null) {
 				if (Bindings.isSuperType(elem, binding)) { // existing exception is base class of new
@@ -1721,7 +1721,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getPickoutTypeFromMulticatchProposals(IInvocationContext context, ASTNode node, ArrayList<ASTNode> coveredNodes, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getPickoutTypeFromMulticatchProposals(IInvocationContext context, ASTNode node, ArrayList<ASTNode> coveredNodes, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CatchClause catchClause= (CatchClause) ASTResolving.findAncestor(node, ASTNode.CATCH_CLAUSE);
 		if (catchClause == null) {
 			return false;
@@ -1771,7 +1771,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		SingleVariableDeclaration newSingleVariableDeclaration= ast.newSingleVariableDeclaration();
 		UnionType newUnionType= ast.newUnionType();
 		List<Type> types= newUnionType.types();
-		for (ASTNode typeNode : coveredNodes) {
+		for (ASTNode typeNode : coveredNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			types.add((Type) rewrite.createCopyTarget(typeNode));
 			rewrite.remove(typeNode, null);
 		}
@@ -1794,7 +1794,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertToMultiCatchProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getConvertToMultiCatchProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CatchClause catchClause= (CatchClause) ASTResolving.findAncestor(covering, ASTNode.CATCH_CLAUSE);
 		if (catchClause == null) {
 			return false;
@@ -1825,7 +1825,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		String commonSource= null;
 		try {
 			IBuffer buffer= context.getCompilationUnit().getBuffer();
-			for (CatchClause catchClause1 : catchClauses) {
+			for (CatchClause catchClause1 : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Block body= catchClause1.getBody();
 				String source= buffer.getText(body.getStartPosition(), body.getLength());
 				if (commonSource == null) {
@@ -1852,11 +1852,11 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 		UnionType newUnionType= ast.newUnionType();
 		List<Type> types= newUnionType.types();
-		for (CatchClause catchClause1 : catchClauses) {
+		for (CatchClause catchClause1 : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type type= catchClause1.getException().getType();
 			if (type instanceof UnionType) {
 				List<Type> types2= ((UnionType) type).types();
-				for (Type type2 : types2) {
+				for (Type type2 : types2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					types.add((Type) rewrite.createCopyTarget(type2));
 				}
 			} else {
@@ -1869,7 +1869,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		newExceptionDeclaration.setName((SimpleName) rewrite.createCopyTarget(firstCatchClause.getException().getName()));
 		rewrite.replace(firstCatchClause.getException(), newExceptionDeclaration, null);
 
-		for (int i= 1; i < catchClauses.size(); i++) {
+		for (int i= 1; i < catchClauses.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rewrite.remove(catchClauses.get(i), null);
 		}
 
@@ -1880,7 +1880,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getUnrollMultiCatchProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getUnrollMultiCatchProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CatchClause catchClause= (CatchClause) ASTResolving.findAncestor(covering, ASTNode.CATCH_CLAUSE);
 		if (catchClause == null) {
 			return false;
@@ -1919,7 +1919,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 		UnionType unionType= (UnionType) type;
 		List<Type> types= unionType.types();
-		for (int i= types.size() - 1; i >= 0; i--) {
+		for (int i= types.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type type2= types.get(i);
 			CatchClause newCatchClause= ast.newCatchClause();
 
@@ -1946,12 +1946,12 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 		//newCatchClause#setBody() destroys the formatting, hence copy statement by statement.
 		List<Statement> statements= catchClause.getBody().statements();
-		for (Statement statement : statements) {
+		for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newCatchClause.getBody().statements().add(rewrite.createCopyTarget(statement));
 		}
 	}
 
-	private static boolean getRenameLocalProposals(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getRenameLocalProposals(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof SimpleName)) {
 			return false;
 		}
@@ -1981,7 +1981,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getRenameRefactoringProposal(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> resultingCollections)
+	private static boolean getRenameRefactoringProposal(IInvocationContext context, ASTNode node, IProblemLocation[] locations, Collection<ICommandAccess> resultingCollections) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws CoreException {
 		if (!(context instanceof AssistContext)) {
 			return false;
@@ -2023,7 +2023,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean isRecordComponentAccessorMethod(IBinding binding) {
+	private static boolean isRecordComponentAccessorMethod(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isAccessor= false;
 		if (binding instanceof IMethodBinding && ((IMethodBinding) binding).isSyntheticRecordMethod()) {
 			IMethodBinding mBinding= (IMethodBinding) binding;
@@ -2031,7 +2031,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			if (tBinding.isRecord() && mBinding.getParameterTypes().length == 0) {
 				IVariableBinding[] bindings= tBinding.getDeclaredFields();
 				if (bindings != null && bindings.length > 0) {
-					for (IVariableBinding varBinding : bindings) {
+					for (IVariableBinding varBinding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int modifiers= varBinding.getModifiers();
 						if (!Flags.isStatic(modifiers) && varBinding.getName().equals(mBinding.getName())) {
 							isAccessor= true;
@@ -2044,9 +2044,9 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return isAccessor;
 	}
 
-	private static boolean containsQuickFixableRenameLocal(IProblemLocation[] locations) {
+	private static boolean containsQuickFixableRenameLocal(IProblemLocation[] locations) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (locations != null) {
-			for (IProblemLocation location : locations) {
+			for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER.equals(location.getMarkerType())) {
 					switch (location.getProblemId()) {
 						case IProblem.LocalVariableHidingLocalVariable:
@@ -2064,7 +2064,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	}
 
 
-	private static boolean getUnWrapProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getUnWrapProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode outer= node;
 
 		Block block= null;
@@ -2113,7 +2113,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			label= CorrectionMessages.QuickAssistProcessor_unwrap_trystatement;
 		} else if (outer instanceof AnonymousClassDeclaration) {
 			List<BodyDeclaration> decls= ((AnonymousClassDeclaration) outer).bodyDeclarations();
-			for (BodyDeclaration elem : decls) {
+			for (BodyDeclaration elem : decls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (elem instanceof MethodDeclaration) {
 					Block curr= ((MethodDeclaration) elem).getBody();
 					if (curr != null && !curr.statements().isEmpty()) {
@@ -2186,7 +2186,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		}
 	}
 
-	private static boolean getRemoveBlockProposals(IInvocationContext context, ASTNode coveringNode, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getRemoveBlockProposals(IInvocationContext context, ASTNode coveringNode, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProposableFix[] fixes= ControlStatementsFix.createRemoveBlockFix(context.getASTRoot(), coveringNode);
 		if (fixes != null) {
 			if (resultingCollections == null) {
@@ -2196,7 +2196,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			options.put(CleanUpConstants.CONTROL_STATEMENTS_USE_BLOCKS, CleanUpOptions.TRUE);
 			options.put(CleanUpConstants.CONTROL_STATEMENTS_USE_BLOCKS_NEVER, CleanUpOptions.TRUE);
 			ICleanUp cleanUp= new ControlStatementsCleanUp(options);
-			for (IProposableFix fix : fixes) {
+			for (IProposableFix fix : fixes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
 				FixCorrectionProposal proposal= new FixCorrectionProposal(fix, cleanUp, IProposalRelevance.REMOVE_BLOCK_FIX, image, context);
 				resultingCollections.add(proposal);
@@ -2208,7 +2208,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 	public static boolean getTryWithResourceAssistProposals(IProblemLocation[] locations, IInvocationContext context, ASTNode node,
 			ArrayList<ASTNode> coveredNodes, Collection<ICommandAccess> resultingCollections) throws IllegalArgumentException, CoreException {
-		for (IProblemLocation location : locations) {
+		for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((location.getProblemId() == IProblem.UnclosedCloseable ||
 					location.getProblemId() == IProblem.PotentiallyUnclosedCloseable)) {
 				return false;
@@ -2222,7 +2222,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return LocalCorrectionsSubProcessor.getTryWithResourceProposals(context, node, coveredNodes, resultingCollections);
 	}
 
-	private static boolean getAddBlockProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getAddBlockProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof Statement)) {
 			return false;
 		}
@@ -2350,7 +2350,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		if (node.getNodeType() == ASTNode.IF_STATEMENT) {
 			ASTRewrite rewrite= ASTRewrite.create(ast);
 
-			while (node.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) {
+			while (node.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 			}
 
@@ -2360,7 +2360,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			IfStatement ifStatement;
 			Statement thenStatment;
 			Statement elseStatment;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ifStatement= (IfStatement) node;
 				thenStatment= ifStatement.getThenStatement();
 				elseStatment= ifStatement.getElseStatement();
@@ -2415,7 +2415,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getAddStaticMemberFavoritesProposals(ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getAddStaticMemberFavoritesProposals(ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof ImportDeclaration)) {
 			node= ASTNodes.getFirstAncestorOrNull(node, ImportDeclaration.class);
 		}
@@ -2435,7 +2435,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			existingFavorites= deserializeFavorites(favoritesRaw);
 		}
 		boolean foundMember= false;
-		for (String favorite : existingFavorites) {
+		for (String favorite : existingFavorites) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (favorite.endsWith(".*")) { //$NON-NLS-1$
 				String trimmedFavorite= favorite.substring(0, favorite.length() - 2);
 				if (importName.startsWith(trimmedFavorite) && (trimmedFavorite.length() == importName.length() ||
@@ -2451,7 +2451,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_ADD);
 		String desc= CorrectionMessages.QuickAssistProcessor_modify_favorites_desc;
 		if (decl.isOnDemand()) {
-			String favorite= importName + ".*"; //$NON-NLS-1$
+			String favorite= importName + ".*"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String label= NLS.bind(CorrectionMessages.QuickAssistProcessor_modify_favorites, favorite);
 			resultingCollections.add(new AddStaticFavoriteProposal(favorite, label, desc, image, IProposalRelevance.ADD_STATIC_FAVORITE));
 		} else {
@@ -2461,7 +2461,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 				resultingCollections.add(new AddStaticFavoriteProposal(importName, label, desc, image, IProposalRelevance.ADD_STATIC_FAVORITE));
 			}
 			int lastDot= importName.lastIndexOf('.');
-			String favorite= importName.substring(0, lastDot) + ".*"; //$NON-NLS-1$
+			String favorite= importName.substring(0, lastDot) + ".*"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			label= NLS.bind(CorrectionMessages.QuickAssistProcessor_modify_favorites, favorite);
 			resultingCollections.add(new AddStaticFavoriteProposal(favorite, label, desc, image, IProposalRelevance.ADD_STATIC_FAVORITE));
 		}
@@ -2469,17 +2469,17 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	}
 
 	private static String[] deserializeFavorites(String str) {
-		return str.split(";"); //$NON-NLS-1$
+		return str.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
-	private static boolean getArrayInitializerToArrayCreation(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getArrayInitializerToArrayCreation(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof ArrayInitializer)) {
 			return false;
 		}
 		ArrayInitializer initializer= (ArrayInitializer) node;
 
 		ASTNode parent= initializer.getParent();
-		while (parent instanceof ArrayInitializer) {
+		while (parent instanceof ArrayInitializer) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			initializer= (ArrayInitializer) parent;
 			parent= parent.getParent();
 		}
@@ -2528,7 +2528,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	public static boolean getCreateInSuperClassProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections, boolean addOverride) throws CoreException {
 		Collection<Object> newResults = new LinkedList<>();
 		boolean result = QuickAssistProcessorUtil.getCreateInSuperClassProposals(context, node, newResults);
-		for (Object res : newResults) {
+		for (Object res : newResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (res instanceof NewDefiningMethodProposalCore proposal) {
 				resultingCollections.add(new NewDefiningMethodProposal(
 						proposal.getName(), proposal.getCompilationUnit(),
@@ -2540,7 +2540,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return result;
 	}
 
-	private static boolean getConvertEnhancedForLoopProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getConvertEnhancedForLoopProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		EnhancedForStatement enhancedForStatement= getEnclosingHeader(node, EnhancedForStatement.class, EnhancedForStatement.PARAMETER_PROPERTY, EnhancedForStatement.EXPRESSION_PROPERTY);
 		if (enhancedForStatement == null) {
 			return false;
@@ -2561,7 +2561,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		}
 
 		Statement topLabelStatement= enhancedForStatement;
-		while (topLabelStatement.getLocationInParent() == LabeledStatement.BODY_PROPERTY) {
+		while (topLabelStatement.getLocationInParent() == LabeledStatement.BODY_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			topLabelStatement= (Statement) topLabelStatement.getParent();
 		}
 
@@ -2604,7 +2604,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			VariableDeclarationFragment iterFragment= ast.newVariableDeclarationFragment();
 			iterFragment.setName(initializerIterName);
 			proposal.addLinkedPosition(rewrite.track(initializerIterName), 0, iterNameKey);
-			for (String name : iterNames) {
+			for (String name : iterNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				proposal.addLinkedPositionProposal(iterNameKey, name, null);
 			}
 
@@ -2680,13 +2680,13 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 				VariableDeclarationFragment varFragment= ast.newVariableDeclarationFragment();
 				String[] varNames= StubUtility.getVariableNameSuggestions(NamingConventions.VK_LOCAL, project, initializerTypeBinding, initializer, usedVarNames);
 				varName= varNames[0];
-				usedVarNames= new ArrayList<>(usedVarNames);
+				usedVarNames= new ArrayList<>(usedVarNames); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				usedVarNames.add(varName);
 				varNameGenerated= true;
 				SimpleName varNameNode= ast.newSimpleName(varName);
 				varFragment.setName(varNameNode);
 				proposal.addLinkedPosition(rewrite.track(varNameNode), 0, varNameKey);
-				for (String name : varNames) {
+				for (String name : varNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					proposal.addLinkedPositionProposal(varNameKey, name, null);
 				}
 
@@ -2732,7 +2732,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			SimpleName initializerIndexName= ast.newSimpleName(indexName);
 			indexFragment.setName(initializerIndexName);
 			proposal.addLinkedPosition(rewrite.track(initializerIndexName), 0, indexNameKey);
-			for (String name : indexNames) {
+			for (String name : indexNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				proposal.addLinkedPositionProposal(indexNameKey, name, null);
 			}
 			VariableDeclarationExpression indexVariable= ast.newVariableDeclarationExpression(indexFragment);
@@ -2823,7 +2823,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getUnnecessaryArrayCreationProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getUnnecessaryArrayCreationProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression methodInvocation= null;
 		if (node instanceof MethodInvocation || node instanceof SuperMethodInvocation) {
 			methodInvocation= (Expression) node;
@@ -2831,7 +2831,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			methodInvocation= (Expression) node.getParent();
 		} else {
 			ASTNode n= node;
-			while (n != null && !(n instanceof CompilationUnit)) {
+			while (n != null && !(n instanceof CompilationUnit)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (n instanceof ArrayCreation) {
 					ASTNode parent= n.getParent();
 					if (parent instanceof MethodInvocation || parent instanceof SuperMethodInvocation) {
@@ -2853,7 +2853,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			return false;
 
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(CleanUpConstants.REMOVE_UNNECESSARY_ARRAY_CREATION, CleanUpOptions.TRUE);
 		ICleanUp cleanUp= new UnnecessaryArrayCreationCleanUpCore(options);
 		FixCorrectionProposal proposal= new FixCorrectionProposal(fix, cleanUp, IProposalRelevance.REMOVE_UNNECESSARY_ARRAY_CREATION, image, context);
@@ -2863,7 +2863,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getDoWhileRatherThanWhileProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getDoWhileRatherThanWhileProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		WhileStatement whileStatement= null;
 		if (node instanceof WhileStatement) {
 			whileStatement= (WhileStatement) node;
@@ -2881,7 +2881,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			return false;
 
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(CleanUpConstants.DO_WHILE_RATHER_THAN_WHILE, CleanUpOptions.TRUE);
 		ICleanUp cleanUp= new DoWhileRatherThanWhileCleanUpCore(options);
 		FixCorrectionProposal proposal= new FixCorrectionProposal(fix, cleanUp, IProposalRelevance.DO_WHILE_RATHER_THAN_WHILE, image, context);
@@ -2889,7 +2889,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getStringConcatToTextBlockProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getStringConcatToTextBlockProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode exp= null;
 		if (node instanceof Assignment
 				|| node instanceof VariableDeclarationFragment
@@ -2924,7 +2924,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
 		if (fix != null) {
-			Map<String, String> options= new HashMap<>();
+			Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			options.put(CleanUpConstants.STRINGCONCAT_TO_TEXTBLOCK, CleanUpOptions.TRUE);
 			options.put(CleanUpConstants.STRINGCONCAT_STRINGBUFFER_STRINGBUILDER, CleanUpOptions.TRUE);
 			ICleanUp cleanUp= new StringConcatToTextBlockCleanUpCore(options);
@@ -2944,7 +2944,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return fixFound;
 	}
 
-	private static boolean getConvertForLoopProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getConvertForLoopProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ForStatement forStatement= getEnclosingForStatementHeader(node);
 		if (forStatement == null)
 			return false;
@@ -2957,7 +2957,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			return false;
 
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(CleanUpConstants.CONTROL_STATEMENTS_CONVERT_FOR_LOOP_TO_ENHANCED, CleanUpOptions.TRUE);
 		ICleanUp cleanUp= new ConvertLoopCleanUpCore(options);
 		FixCorrectionProposal proposal= new FixCorrectionProposal(fix, cleanUp, IProposalRelevance.CONVERT_FOR_LOOP_TO_ENHANCED, image, context);
@@ -2967,7 +2967,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertIterableLoopProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getConvertIterableLoopProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ForStatement forStatement= getEnclosingForStatementHeader(node);
 		if (forStatement == null)
 			return false;
@@ -2980,7 +2980,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			return false;
 
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE);
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		options.put(CleanUpConstants.CONTROL_STATEMENTS_CONVERT_FOR_LOOP_TO_ENHANCED, CleanUpOptions.TRUE);
 		ICleanUp cleanUp= new ConvertLoopCleanUpCore(options);
 		FixCorrectionProposal proposal= new FixCorrectionProposal(fix, cleanUp, IProposalRelevance.CONVERT_ITERABLE_LOOP_TO_ENHANCED, image, context);
@@ -2998,15 +2998,15 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return getEnclosingHeader(node, ForStatement.class, ForStatement.INITIALIZERS_PROPERTY, ForStatement.EXPRESSION_PROPERTY, ForStatement.UPDATERS_PROPERTY);
 	}
 
-	private static <T extends ASTNode> T getEnclosingHeader(ASTNode node, Class<T> headerType, StructuralPropertyDescriptor... headerProperties) {
+	private static <T extends ASTNode> T getEnclosingHeader(ASTNode node, Class<T> headerType, StructuralPropertyDescriptor... headerProperties) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (headerType.isInstance(node))
 			return headerType.cast(node);
 
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode parent= node.getParent();
 			if (headerType.isInstance(parent)) {
 				StructuralPropertyDescriptor locationInParent= node.getLocationInParent();
-				for (StructuralPropertyDescriptor property : headerProperties) {
+				for (StructuralPropertyDescriptor property : headerProperties) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (locationInParent == property)
 						return headerType.cast(parent);
 				}
@@ -3017,7 +3017,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return null;
 	}
 
-	private static boolean getMakeVariableDeclarationFinalProposals(IInvocationContext context, Collection<ICommandAccess> resultingCollections) {
+	private static boolean getMakeVariableDeclarationFinalProposals(IInvocationContext context, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SelectionAnalyzer analyzer= new SelectionAnalyzer(Selection.createFromStartLength(context.getSelectionOffset(), context.getSelectionLength()), false);
 		context.getASTRoot().accept(analyzer);
 		ASTNode[] selectedNodes= analyzer.getSelectedNodes();
@@ -3043,7 +3043,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getInlineLocalProposal(IInvocationContext context, final ASTNode node, Collection<ICommandAccess> proposals) throws CoreException {
+	private static boolean getInlineLocalProposal(IInvocationContext context, final ASTNode node, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof SimpleName))
 			return false;
 
@@ -3075,7 +3075,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getMissingCaseStatementProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> proposals) {
+	private static boolean getMissingCaseStatementProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node instanceof SwitchCase) {
 			node= node.getParent();
 		}
@@ -3087,7 +3087,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		if (expressionBinding == null || !expressionBinding.isEnum())
 			return false;
 
-		ArrayList<String> missingEnumCases= new ArrayList<>();
+		ArrayList<String> missingEnumCases= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean hasDefault= LocalCorrectionsSubProcessor.evaluateMissingSwitchCases(expressionBinding, switchStatement.statements(), missingEnumCases);
 		if (missingEnumCases.isEmpty() && hasDefault)
 			return false;
@@ -3099,7 +3099,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertVarTypeToResolvedTypeProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> proposals) {
+	private static boolean getConvertVarTypeToResolvedTypeProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= context.getASTRoot();
 		boolean isValid= ASTNodes.isVarType(node, astRoot);
 		if (!isValid) {
@@ -3129,7 +3129,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertResolvedTypeToVarTypeProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> proposals) {
+	private static boolean getConvertResolvedTypeToVarTypeProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= context.getASTRoot();
 		IJavaElement root= astRoot.getJavaElement();
 		if (root == null) {
@@ -3232,7 +3232,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getConvertLocalToFieldProposal(IInvocationContext context, final ASTNode node, Collection<ICommandAccess> proposals) throws CoreException {
+	private static boolean getConvertLocalToFieldProposal(IInvocationContext context, final ASTNode node, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof SimpleName))
 			return false;
 
@@ -3278,7 +3278,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 	 * @param proposals the receiver of proposals, may be {@code null}
 	 * @return {@code true} if the operation could or has been performed, {@code false otherwise}
 	 */
-	private static boolean getAddStaticImportProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> proposals) {
+	private static boolean getAddStaticImportProposals(IInvocationContext context, ASTNode node, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof SimpleName)) {
 			return false;
 		}
@@ -3386,7 +3386,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 			MethodInvocation miFinal= mi;
 			name.getRoot().accept(new ASTVisitor() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(MethodInvocation methodInvocation) {
 					Expression methodInvocationExpression= methodInvocation.getExpression();
 					if (methodInvocationExpression == null) {
@@ -3449,9 +3449,9 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean isDirectlyAccessible(ASTNode nameNode, ITypeBinding declaringClass) {
+	private static boolean isDirectlyAccessible(ASTNode nameNode, ITypeBinding declaringClass) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= nameNode.getParent();
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			if (node instanceof AbstractTypeDeclaration) {
 				ITypeBinding binding= ((AbstractTypeDeclaration) node).resolveBinding();
@@ -3470,10 +3470,10 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private boolean getJUnitTestCaseProposal(IInvocationContext context, ASTNode coveringNode, ArrayList<ICommandAccess> resultingCollections) {
+	private boolean getJUnitTestCaseProposal(IInvocationContext context, ASTNode coveringNode, ArrayList<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (coveringNode instanceof SimpleName && coveringNode.getParent() instanceof AbstractTypeDeclaration) {
 			SimpleName name= (SimpleName) coveringNode;
-			String idName= name.getIdentifier() + JavaModelUtil.DEFAULT_CU_SUFFIX;
+			String idName= name.getIdentifier() + JavaModelUtil.DEFAULT_CU_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String unitName= context.getCompilationUnit().getElementName();
 			if (unitName.equals(idName)) {
 				if (resultingCollections != null) {
@@ -3489,7 +3489,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private boolean getNewImplementationProposal(IInvocationContext context, ASTNode coveringNode, ArrayList<ICommandAccess> resultingCollections) {
+	private boolean getNewImplementationProposal(IInvocationContext context, ASTNode coveringNode, ArrayList<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (coveringNode instanceof SimpleName && coveringNode.getParent() instanceof TypeDeclaration) {
 			TypeDeclaration typeDecl= ((TypeDeclaration) coveringNode.getParent());
 			boolean isInterface= typeDecl.isInterface();
@@ -3500,7 +3500,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			}
 
 			SimpleName name= (SimpleName) coveringNode;
-			String idName= name.getIdentifier() + JavaModelUtil.DEFAULT_CU_SUFFIX;
+			String idName= name.getIdentifier() + JavaModelUtil.DEFAULT_CU_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String unitName= context.getCompilationUnit().getElementName();
 			if (unitName.equals(idName)) {
 				if (resultingCollections != null) {
@@ -3516,7 +3516,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private boolean getNewInterfaceImplementationProposal(IInvocationContext context, ASTNode coveringNode, ArrayList<ICommandAccess> resultingCollections) {
+	private boolean getNewInterfaceImplementationProposal(IInvocationContext context, ASTNode coveringNode, ArrayList<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (coveringNode instanceof SimpleName && coveringNode.getParent() instanceof TypeDeclaration) {
 			TypeDeclaration typeDecl= ((TypeDeclaration) coveringNode.getParent());
 			boolean isInterface= typeDecl.isInterface();
@@ -3526,7 +3526,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			}
 
 			SimpleName name= (SimpleName) coveringNode;
-			String idName= name.getIdentifier() + JavaModelUtil.DEFAULT_CU_SUFFIX;
+			String idName= name.getIdentifier() + JavaModelUtil.DEFAULT_CU_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String unitName= context.getCompilationUnit().getElementName();
 			if (unitName.equals(idName)) {
 				if (resultingCollections != null) {
@@ -3543,7 +3543,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private boolean getSplitSwitchLabelProposal(IInvocationContext context, ASTNode coveringNode, Collection<ICommandAccess> proposals) {
+	private boolean getSplitSwitchLabelProposal(IInvocationContext context, ASTNode coveringNode, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= coveringNode.getAST();
 		// Only continue if AST has preview enabled and selected node, or its parent is a SwitchCase
 		if (!ASTHelper.isSwitchCaseExpressionsSupportedInAST(ast) ||
@@ -3579,7 +3579,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			// Figure out the list index of the switch case in the statement list
 			// We care about duplicating the statement(s) occuring immediately after it
 			int statementIndex= 0;
-			for (Statement s : statements) {
+			for (Statement s : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (scase.equals(s)) {
 					break;
 				}
@@ -3588,8 +3588,8 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 			statementIndex++;
 
 			// Switch Case Statement(s)
-			List<Statement> caseStatements= new ArrayList<>();
-			for (int i= statementIndex; i < statements.size(); i++) {
+			List<Statement> caseStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i= statementIndex; i < statements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Statement curr= statements.get(i);
 				if (curr instanceof SwitchCase) {
 					break;
@@ -3597,7 +3597,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 				caseStatements.add(curr);
 			}
 
-			for (int i= 0; i < scase.expressions().size(); i++) {
+			for (int i= 0; i < scase.expressions().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression elem= (Expression) scase.expressions().get(i);
 				// SwitchCase
 				SwitchCase newSwitchCase= ast.newSwitchCase();
@@ -3607,13 +3607,13 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 				// Preserve order from left -> right, top -> bottom
 				listRewrite.insertBefore(newSwitchCase, scase, null);
-				for (Statement statement : caseStatements) {
+				for (Statement statement : caseStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					listRewrite.insertBefore(astRewrite.createCopyTarget(statement), scase, null);
 				}
 			}
 
 			listRewrite.remove(scase, null);
-			for (Statement statement : caseStatements) {
+			for (Statement statement : caseStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listRewrite.remove(statement, null);
 			}
 
@@ -3639,7 +3639,7 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	private boolean getConvertFieldNamingConventionProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) {
+	private boolean getConvertFieldNamingConventionProposal(IInvocationContext context, ASTNode node, Collection<ICommandAccess> resultingCollections) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof SimpleName)) {
 			return false;
 		}
@@ -3697,35 +3697,35 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 
 	private boolean isValidConstantName(String identifier) {
 		Pattern pattern= FIELD_NAMING_PATTERN;
-		Matcher matcher= pattern.matcher(identifier);
-		return matcher.matches();
+		Matcher matcher= pattern.matcher(identifier); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		return matcher.matches(); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	public static String convertToConstantName(String identifier) {
-		StringBuilder constantNaming= new StringBuilder();
+		StringBuilder constantNaming= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean lastCharWasUpperCase= false;
-		for (char c : identifier.toCharArray()) {
+		for (char c : identifier.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Character.isUpperCase(c)) {
 				if (!lastCharWasUpperCase && constantNaming.length() > 0) {
-					constantNaming.append("_"); //$NON-NLS-1$
+					constantNaming.append("_"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				constantNaming.append(Character.toUpperCase(c));
+				constantNaming.append(Character.toUpperCase(c)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				lastCharWasUpperCase= true;
 			} else {
-				constantNaming.append(Character.toUpperCase(c));
+				constantNaming.append(Character.toUpperCase(c)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				lastCharWasUpperCase= false;
 			}
 		}
-		return constantNaming.toString().replaceAll("_{2,}", "_"); //$NON-NLS-1$ //$NON-NLS-2$
+		return constantNaming.toString().replaceAll("_{2,}", "_"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 }
 
 final class FieldDeclarationChecker extends ASTVisitor {
-	private final List<String> fieldDeclarationList= new ArrayList<>();
+	private final List<String> fieldDeclarationList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	@Override
 	public boolean visit(FieldDeclaration fieldDecl) {
-		for (Object fragment : fieldDecl.fragments()) {
+		for (Object fragment : fieldDecl.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fragment instanceof VariableDeclarationFragment) {
 				VariableDeclarationFragment varDecl= (VariableDeclarationFragment) fragment;
 				fieldDeclarationList.add(varDecl.getName().toString());

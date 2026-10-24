@@ -110,7 +110,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 	/*
 	 * @see org.eclipse.jface.text.rules.ITokenScanner#nextToken()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IToken nextToken() {
 
 		// emulate JavaPartitionScanner
@@ -127,7 +127,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 		fTokenOffset += fTokenLength;
 		fTokenLength= fPrefixLength;
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final int ch= fScanner.read();
 
 			// characters
@@ -497,7 +497,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 		 						}
 		 					}
 		 					if (!considerEndQuotes) {
-		 						for (int i=0; i< 3; i++) {
+		 						for (int i=0; i< 3; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									fScanner.unread();
 								}
 		 					}
@@ -520,7 +520,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 		}
  	}
 
-	private boolean scanForUnicodeSlash() {
+	private boolean scanForUnicodeSlash() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int count= 0;
 		boolean isUnicodeSlash= false;
 		try {
@@ -552,7 +552,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 			//let it return false;
 		} finally {
 			if (!isUnicodeSlash) {
-				for (int i= count; i > 0; i--) {
+				for (int i= count; i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fScanner.unread();
 				}
 			}
@@ -560,7 +560,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 		return isUnicodeSlash;
 	}
 
-	private boolean scanForTextBlockBeginning() {
+	private boolean scanForTextBlockBeginning() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isTextBlockSupported()) {
 			return false;
 		}
@@ -579,7 +579,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 				if (ch == '\"') {
 					count++;
 					ch= fScanner.read();
-					while (Character.isWhitespace(ch)) {
+					while (Character.isWhitespace(ch)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						switch (ch) {
 							case 10: /* \ u000a: LINE FEED               */
 							case 13: /* \ u000d: CARRIAGE RETURN         */
@@ -610,14 +610,14 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 			if (isTextBlockBeginning) {
 				ignore= 2;
 			}
-			for (int i= count - ignore; i > 0; i--) {
+			for (int i= count - ignore; i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fScanner.unread();
 			}
 		}
 		return isTextBlockBeginning;
 	}
 
-	private boolean scanForTextBlockClose() {
+	private boolean scanForTextBlockClose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int count= 0;
 		boolean isTextBlockEnd= false;
 		try {
@@ -639,7 +639,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 			//let it return false;
 		} finally {
 			if (!isTextBlockEnd) {
-				for (int i= count; i > 0; i--) {
+				for (int i= count; i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fScanner.unread();
 				}
 			}
@@ -648,7 +648,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 		return isTextBlockEnd;
 	}
 
-	private static final int getLastLength(int last) {
+	private static final int getLastLength(int last) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (last) {
 		default:
 			return -1;
@@ -684,7 +684,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 		return fTokens[state];
 	}
 
-	private final IToken preFix(int state, int newState, int last, int prefixLength) {
+	private final IToken preFix(int state, int newState, int last, int prefixLength) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// emulate JavaPartitionScanner
 		if (fEmulate && state == JAVA && (fTokenLength - getLastLength(fLast) > 0)) {
 			fTokenLength -= getLastLength(fLast);
@@ -706,7 +706,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 		}
 	}
 
-	private static int getState(String contentType) {
+	private static int getState(String contentType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (contentType == null)
 			return JAVA;
@@ -734,7 +734,7 @@ public abstract class AbstractFastJavaPartitionScanner implements IPartitionToke
 	/*
 	 * @see IPartitionTokenScanner#setPartialRange(IDocument, int, int, String, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setPartialRange(IDocument document, int offset, int length, String contentType, int partitionOffset) {
 		fCurrentDocument= document;
 		fScanner.setRange(document, offset, length);

@@ -59,7 +59,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda01() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -99,10 +99,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		enable(CleanUpConstants.USE_ANONYMOUS_CLASS_CREATION);
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original },
-				new HashSet<>(Arrays.asList(FixMessages.LambdaExpressionsFix_convert_to_anonymous_class_creation)));
+				new HashSet<>(Arrays.asList(FixMessages.LambdaExpressionsFix_convert_to_anonymous_class_creation))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda02() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -146,16 +146,16 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.LambdaExpressionsFix_convert_to_lambda_expression)));
+				new HashSet<>(Arrays.asList(FixMessages.LambdaExpressionsFix_convert_to_lambda_expression))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		disable(CleanUpConstants.USE_LAMBDA);
 		enable(CleanUpConstants.USE_ANONYMOUS_CLASS_CREATION);
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original },
-				new HashSet<>(Arrays.asList(FixMessages.LambdaExpressionsFix_convert_to_anonymous_class_creation)));
+				new HashSet<>(Arrays.asList(FixMessages.LambdaExpressionsFix_convert_to_anonymous_class_creation))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda03() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -198,7 +198,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda04() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -264,7 +264,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda05() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -325,7 +325,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda06() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -387,7 +387,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda07() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -431,7 +431,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambda08() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -490,7 +490,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaWithConstant() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -534,10 +534,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.LambdaExpressionsFix_convert_to_lambda_expression)));
+				new HashSet<>(Arrays.asList(FixMessages.LambdaExpressionsFix_convert_to_lambda_expression))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaNestedWithImports() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -586,7 +586,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 	}
 
 	// fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=434507#c5
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaAmbiguous01() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -738,7 +738,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 	}
 
 	// fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=434507#c5
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaAmbiguous02() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -888,7 +888,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 	}
 
 	// fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=434507#c2
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaAmbiguous03() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -959,7 +959,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaAmbiguous04() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1030,7 +1030,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaConflictingNames() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1144,7 +1144,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaNoRenameLocals() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String original= """
@@ -1199,7 +1199,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { fixed }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaWithRenameLocals() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String original= """
@@ -1265,7 +1265,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaWithMethodAnnotations() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1308,7 +1308,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousWithWildcards() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1371,7 +1371,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousWithWildcards1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1417,7 +1417,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToAnonymousWithJoinedSAM() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=428526#c1 and #c6
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -1464,7 +1464,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaWithNonFunctionalTargetType() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=468457
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
@@ -1515,7 +1515,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { original }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaWithSynchronizedOrStrictfp() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1543,7 +1543,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 	}
 
 	// fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=560018
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaInFieldInitializerWithFinalFieldReference() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1573,7 +1573,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 	}
 
 	// fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=560018
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaInFieldInitializerWithFinalFieldReference2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1603,7 +1603,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaAndQualifyNextField() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1649,7 +1649,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaWithQualifiedField() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -1695,7 +1695,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimplifyLambdaExpression() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1949,10 +1949,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1498() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2000,10 +2000,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotSimplifyLambdaExpression() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -2079,7 +2079,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_1() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2129,10 +2129,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_2() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2188,10 +2188,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu, cu1 }, new String[] { expected, given1 },
-				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_3() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2244,10 +2244,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu, cu1 }, new String[] { expected, given1 },
-				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_4() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2300,10 +2300,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu, cu1 }, new String[] { expected, given1 },
-				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1047_5() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2356,10 +2356,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu, cu1 }, new String[] { expected, given1 },
-				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug579393() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -2432,10 +2432,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.LambdaExpressionAndMethodRefCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaWithRecursion() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -2504,7 +2504,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertLocalRecursiveClass() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -2539,7 +2539,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotConvertGenericInterface() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -2575,7 +2575,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testComparingOnCriteria() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -3231,10 +3231,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(MultiFixMessages.ComparingOnCriteriaCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.ComparingOnCriteriaCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseComparingOnCriteria() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -3384,7 +3384,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJoin() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String input= """
@@ -4250,10 +4250,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 
 		assertNotEquals("The class must be changed", input, output);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { output },
-				new HashSet<>(Arrays.asList(MultiFixMessages.JoinCleanup_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.JoinCleanup_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotJoin() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -4675,7 +4675,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStringBufferToStringBuilderLocalsOnly() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample0= """
@@ -4733,7 +4733,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu0, cu1 }, new String[] { sample0, expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotChangeStringBufferToStringBuilderLocalsOnly() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample0= """
@@ -4813,7 +4813,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu0, cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeStringBufferToStringBuilderAll() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample0= """
@@ -4944,10 +4944,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			""";
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu0, cu1 }, new String[] { expected0, expected1 },
-				new HashSet<>(Arrays.asList(MultiFixMessages.StringBufferToStringBuilderCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.StringBufferToStringBuilderCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhile() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -4989,10 +4989,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileNested() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -5040,10 +5040,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileNested2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -5090,10 +5090,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileNested3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -5137,10 +5137,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileNested4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -5187,10 +5187,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileNested5() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -5237,10 +5237,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileGenericSubtype() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5274,13 +5274,13 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
 	 * https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/109
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIssue109_EntrySet() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5316,13 +5316,13 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			}
 			""";
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
 	 * https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/109
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIssue109_EntrySet_2() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5356,13 +5356,13 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			}
 			""";
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
 	 * https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/109
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIssue109_EntrySet_3() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5396,13 +5396,13 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			}
 			""";
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
 	 * https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/120
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIssue120_CollectionTypeResolution() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5437,13 +5437,13 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			}
 			""";
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
 	 * https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/121
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIssue121() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5485,13 +5485,13 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			}
 			""";
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
 	 * https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/190
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIssue190_MultipleWhileLoops() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5535,7 +5535,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			}
 			""";
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
@@ -5543,7 +5543,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 	 *
 	 * @throws CoreException on failure
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIssue798() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5597,7 +5597,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			}
 			"""; //
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
@@ -5605,7 +5605,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 	 *
 	 * @throws CoreException on failure
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIssue963() throws CoreException {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5688,10 +5688,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			}
 			"""; //
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileSelf() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5727,10 +5727,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileIteratorAssigned() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5767,10 +5767,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileNoSelf() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5812,10 +5812,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileWithNonRawSuperclass() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5853,10 +5853,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileWithRawIterator() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5892,10 +5892,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWhileSubtype() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5931,10 +5931,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileBigChangeNeeded() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5961,7 +5961,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileUsedSpecially() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -5988,7 +5988,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Ignore("""
+	@Ignore(""" //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Either check exactly the data type (eg CopyOnWriteArrayList allows modifications)\
 		 or stay away from refactoring when deletions/additions happen.\
 		btw simple for loop to enhanced for loop should do the same.""")
@@ -6019,7 +6019,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileUsedSpecially2() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6043,7 +6043,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileWithIndirectIterator() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6071,7 +6071,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileWithIndirectIterator2() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6118,7 +6118,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileWithDoubleNext() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6142,7 +6142,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileRaw() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6166,7 +6166,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileWrongType() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6190,7 +6190,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileIssue373() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6214,7 +6214,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileIssue190_1() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6245,7 +6245,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileIssue190_2() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6275,7 +6275,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileNotIterable() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6302,7 +6302,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotWhileNotSubtype() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6326,7 +6326,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotAddFinalForFieldUsedBeforeInitialized() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/769
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6389,10 +6389,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu1}, new String[] {expected1},
-				new HashSet<>(Arrays.asList(FixMessages.VariableDeclarationFix_changeModifierOfUnknownToFinal_description)));
+				new HashSet<>(Arrays.asList(FixMessages.VariableDeclarationFix_changeModifierOfUnknownToFinal_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotAddFinalForFieldUsedInLambdaFieldInitializer() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/769
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6451,10 +6451,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu1}, new String[] {expected1},
-				new HashSet<>(Arrays.asList(FixMessages.VariableDeclarationFix_changeModifierOfUnknownToFinal_description)));
+				new HashSet<>(Arrays.asList(FixMessages.VariableDeclarationFix_changeModifierOfUnknownToFinal_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeprecatedCleanup1() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/722
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6550,10 +6550,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu2}, new String[] {expected1},
-				new HashSet<>(Arrays.asList(FixMessages.InlineDeprecatedMethod_msg)));
+				new HashSet<>(Arrays.asList(FixMessages.InlineDeprecatedMethod_msg))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeprecatedCleanup2() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/722
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample1= """
@@ -6653,10 +6653,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu1, cu2}, new String[] {sample1, expected1},
-				new HashSet<>(Arrays.asList(FixMessages.InlineDeprecatedMethod_msg)));
+				new HashSet<>(Arrays.asList(FixMessages.InlineDeprecatedMethod_msg))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeprecatedCleanup3() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/722
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample1= """
@@ -6704,10 +6704,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 			""";
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu}, new String[] {expected},
-				new HashSet<>(Arrays.asList(FixMessages.InlineDeprecatedMethod_msg)));
+				new HashSet<>(Arrays.asList(FixMessages.InlineDeprecatedMethod_msg))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeprecatedFieldCleanup1() throws Exception {
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
 		String sample2= """
@@ -6814,10 +6814,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu, cu1, cu2}, new String[] {sample1, sample2, expected1},
-				new HashSet<>(Arrays.asList(FixMessages.ReplaceDeprecatedField_msg)));
+				new HashSet<>(Arrays.asList(FixMessages.ReplaceDeprecatedField_msg))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeprecatedFieldCleanup2() throws Exception {
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
 		String sample2= """
@@ -6887,10 +6887,10 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu, cu1, cu2}, new String[] {sample1, sample2, expected1},
-				new HashSet<>(Arrays.asList(FixMessages.ReplaceDeprecatedField_msg)));
+				new HashSet<>(Arrays.asList(FixMessages.ReplaceDeprecatedField_msg))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotDoDeprecatedCleanup1() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/722
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -6956,7 +6956,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1, cu2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotDoDeprecatedCleanup2() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/722
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample1= """
@@ -7024,7 +7024,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1, cu2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotDoDeprecatedCleanup3() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/722
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample1= """
@@ -7092,7 +7092,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1, cu2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotDoDeprecatedCleanup4() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/722
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String sample1= """
@@ -7160,7 +7160,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1, cu2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveThisIssue1211() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/1211
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 
@@ -7237,7 +7237,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaIssue1535_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String original= """
@@ -7285,7 +7285,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaIssue1535_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String original= """
@@ -7366,7 +7366,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToLambdaIssue1999() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String original= """
@@ -7414,7 +7414,7 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveSuppressWarnings() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String original= """

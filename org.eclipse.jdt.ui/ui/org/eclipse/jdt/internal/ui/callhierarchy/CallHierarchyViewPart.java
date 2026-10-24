@@ -132,7 +132,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.StatusBarUpdater;
  * This is the main view for the callers plugin. It builds a tree of callers/callees
  * and allows the user to double click an entry to go to the selected method.
  */
-public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyViewPart, ISelectionChangedListener {
+public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyViewPart, ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 
 	private static class CallHierarchySelectionProvider extends SelectionProviderMediator {
@@ -175,7 +175,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 		@Override
 		protected void open(ISelection selection, boolean activate) {
 			if (selection instanceof IStructuredSelection) {
-				for (Object object : ((IStructuredSelection)selection)) {
+				for (Object object : ((IStructuredSelection)selection)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					boolean noError= CallHierarchyUI.openInEditor(object, getSite().getShell(), OpenStrategy.activateOnOpen());
 					if (!noError)
 						return;
@@ -316,7 +316,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
      * called from ToggleOrientationAction.
      * @param orientation VIEW_ORIENTATION_HORIZONTAL or VIEW_ORIENTATION_VERTICAL
      */
-    void setOrientation(int orientation) {
+    void setOrientation(int orientation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if (fCurrentOrientation != orientation) {
             if ((fLocationViewer != null) && !fLocationViewer.getControl().isDisposed() &&
                         (fHierarchyLocationSplitter != null) &&
@@ -345,7 +345,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
     }
 
 	private void updateCheckedState() {
-		for (ToggleOrientationAction toaction : fToggleOrientationActions) {
+		for (ToggleOrientationAction toaction : fToggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			toaction.setChecked(fOrientation == toaction.getOrientation());
 		}
 	}
@@ -356,7 +356,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
      */
     void setCallMode(int mode) {
         if (fCurrentCallMode != mode) {
-			for (ToggleCallModeAction tcmaction : fToggleCallModeActions) {
+			for (ToggleCallModeAction tcmaction : fToggleCallModeActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tcmaction.setChecked(mode == tcmaction.getMode());
 			}
 
@@ -384,7 +384,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
      */
     void setFieldMode(int mode) {
         if (fCurrentFieldMode != mode) {
-			for (SelectFieldModeAction toggleFieldModeAction : fToggleFieldModeActions) {
+			for (SelectFieldModeAction toggleFieldModeAction : fToggleFieldModeActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				toggleFieldModeAction.setChecked(mode == toggleFieldModeAction.getMode());
 			}
 
@@ -419,7 +419,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
         //dnd on empty hierarchy
         DropTarget dropTarget = new DropTarget(fPagebook, DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK | DND.DROP_DEFAULT);
         dropTarget.setTransfer(LocalSelectionTransfer.getTransfer());
-        dropTarget.addDropListener(new CallHierarchyTransferDropAdapter(this, fCallHierarchyViewer));
+        dropTarget.addDropListener(new CallHierarchyTransferDropAdapter(this, fCallHierarchyViewer)); //FLLDCIM: MARK — T25 DND CALL
     }
 
 	private void addDropAdapters(StructuredViewer viewer) {
@@ -433,7 +433,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 		viewer.addDropSupport(ops, transfers, delegatingDropAdapter);
 	}
 
-	private void addDragAdapters(StructuredViewer viewer) {
+	private void addDragAdapters(StructuredViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int ops= DND.DROP_COPY | DND.DROP_LINK;
 
 		Transfer[] transfers= new Transfer[] { LocalSelectionTransfer.getTransfer(), ResourceTransfer.getInstance(), FileTransfer.getInstance()};
@@ -457,7 +457,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 		viewer.addDragSupport(ops, transfers, dragAdapter);
 	}
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
     	fParent= parent;
     	addResizeListener(parent);
@@ -481,7 +481,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
                 });
 
         IStatusLineManager slManager = getViewSite().getActionBars().getStatusLineManager();
-        fSelectionProviderMediator.addSelectionChangedListener(new StatusBarUpdater(slManager));
+        fSelectionProviderMediator.addSelectionChangedListener(new StatusBarUpdater(slManager)); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
         getSite().setSelectionProvider(fSelectionProviderMediator);
 
         fCallHierarchyViewer.initContextMenu(
@@ -507,7 +507,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
    }
 
 	private void restoreSplitterRatio() {
-		String ratio= fDialogSettings.get(DIALOGSTORE_RATIO + fCurrentOrientation);
+		String ratio= fDialogSettings.get(DIALOGSTORE_RATIO + fCurrentOrientation); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (ratio == null)
 			return;
 		int intRatio= Integer.parseInt(ratio);
@@ -518,7 +518,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 		if (fHierarchyLocationSplitter != null && ! fHierarchyLocationSplitter.isDisposed()) {
 	        int[] weigths = fHierarchyLocationSplitter.getWeights();
 	        int ratio = (weigths[0] * 1000) / (weigths[0] + weigths[1]);
-			String key= DIALOGSTORE_RATIO + fCurrentOrientation;
+			String key= DIALOGSTORE_RATIO + fCurrentOrientation; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	        fDialogSettings.put(key, ratio);
 		}
 	}
@@ -538,8 +538,8 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 		return thisSecondaryId == null && partRefSecondaryId == null || thisSecondaryId != null && thisSecondaryId.equals(partRefSecondaryId);
 	}
 
-	private void addPartListener() {
-		fPartListener= new IPartListener2() {
+	private void addPartListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fPartListener= new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 				if (isThisView(partRef))
@@ -581,7 +581,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 	}
 
 	private void addResizeListener(Composite parent) {
-		parent.addControlListener(new ControlListener() {
+		parent.addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlMoved(ControlEvent e) {
 			}
@@ -633,7 +633,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
         fSearchScopeActions.restoreState(memento);
     }
 
-    private void initCallMode() {
+    private void initCallMode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         int mode;
 
         try {
@@ -653,7 +653,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
         setCallMode(mode);
     }
 
-    private void initFieldMode() {
+    private void initFieldMode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         int mode;
 
         try {
@@ -695,19 +695,19 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
         setOrientation(fOrientation);
     }
 
-    private void fillViewMenu() {
+    private void fillViewMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         IActionBars actionBars = getViewSite().getActionBars();
         IMenuManager viewMenu = actionBars.getMenuManager();
         viewMenu.add(new Separator());
 
-		for (ToggleCallModeAction fToggleCallModeAction : fToggleCallModeActions) {
+		for (ToggleCallModeAction fToggleCallModeAction : fToggleCallModeActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			viewMenu.add(fToggleCallModeAction);
 		}
 
         viewMenu.add(new Separator());
 
         MenuManager layoutSubMenu= new MenuManager(CallHierarchyMessages.CallHierarchyViewPart_layout_menu);
-		for (ToggleOrientationAction fToggleOrientationAction : fToggleOrientationActions) {
+		for (ToggleOrientationAction fToggleOrientationAction : fToggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			layoutSubMenu.add(fToggleOrientationAction);
 		}
         viewMenu.add(layoutSubMenu);
@@ -715,7 +715,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 		viewMenu.add(new Separator(IContextMenuConstants.GROUP_SEARCH));
 
         MenuManager fieldSubMenu= new MenuManager(CallHierarchyMessages.CallHierarchyViewPart_field_menu);
-		for (SelectFieldModeAction fToggleFieldModeAction : fToggleFieldModeActions) {
+		for (SelectFieldModeAction fToggleFieldModeAction : fToggleFieldModeActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fieldSubMenu.add(fToggleFieldModeAction);
 		}
         viewMenu.add(fieldSubMenu);
@@ -742,7 +742,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
      * @param entry the history entry
      */
     public void gotoHistoryEntry(IMember[] entry) {
-    	for (IMember[] name : getMethodHistory()) {
+    	for (IMember[] name : getMethodHistory()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Arrays.equals(entry, name)) {
 				setInputElements(entry);
 				return;
@@ -802,7 +802,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
         }
     }
 
-    private void revealElementInEditor(Object elem, Viewer originViewer) {
+    private void revealElementInEditor(Object elem, Viewer originViewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         // only allow revealing when the type hierarchy is the active pagae
         // no revealing after selection events due to model changes
         if (getSite().getPage().getActivePart() != this) {
@@ -918,7 +918,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
     	}
         if (fCallerRoots == null) {
             fCallerRoots = CallHierarchy.getDefault().getCallerRoots(fInputElements);
-			for (MethodWrapper fCallerRoot : fCallerRoots) {
+			for (MethodWrapper fCallerRoot : fCallerRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fCallerRoot.setFieldSearchMode(fCurrentFieldMode);
 			}
         }
@@ -956,7 +956,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 	 * @since 3.7
 	 */
 	private void updateHistoryEntries(IMember[] currentInput, IMember[] entry) {
-		for (Iterator<IMember[]> iter= getMethodHistory().iterator(); iter.hasNext();) {
+		for (Iterator<IMember[]> iter= getMethodHistory().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Arrays.equals(currentInput, iter.next())) {
 				iter.remove();
 			}
@@ -974,16 +974,16 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
     }
 
     private void createHierarchyLocationSplitter(Composite parent) {
-        fHierarchyLocationSplitter = new SashForm(parent, SWT.NONE);
+        fHierarchyLocationSplitter = new SashForm(parent, SWT.NONE); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
     }
 
     private void createCallHierarchyViewer(Composite parent) {
         fCallHierarchyViewer = new CallHierarchyViewer(parent, this);
 
-        fCallHierarchyViewer.addSelectionChangedListener(this);
+        fCallHierarchyViewer.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
     }
 
-    protected void fillCallHierarchyViewerContextMenu(IMenuManager menu) {
+    protected void fillCallHierarchyViewerContextMenu(IMenuManager menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         JavaPlugin.createStandardGroups(menu);
 
 		menu.appendToGroup(IContextMenuConstants.GROUP_SHOW, fRefreshSingleElementAction);
@@ -1009,7 +1009,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 		}
     }
 
-    private void fillActionBars() {
+    private void fillActionBars() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         IActionBars actionBars = getActionBars();
 		actionBars.setGlobalActionHandler(ActionFactory.REFRESH.getId(), fRefreshSingleElementAction);
 		actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), fRemoveFromViewAction);
@@ -1020,7 +1020,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 
         toolBar.add(fRefreshViewAction);
         toolBar.add(fCancelSearchAction);
-		for (ToggleCallModeAction fToggleCallModeAction : fToggleCallModeActions) {
+		for (ToggleCallModeAction fToggleCallModeAction : fToggleCallModeActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			toolBar.add(fToggleCallModeAction);
 		}
         toolBar.add(fHistoryDropDownAction);
@@ -1028,7 +1028,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
         toolBar.add(fFiltersAction);
     }
 
-    private void makeActions() {
+    private void makeActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         fRefreshViewAction = new RefreshViewAction(this);
         fRefreshSingleElementAction= new RefreshElementAction(fCallHierarchyViewer);
 
@@ -1089,15 +1089,15 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 
     private void updateLocationsView(MethodWrapper methodWrapper) {
         if (methodWrapper != null && methodWrapper.getMethodCall().hasCallLocations()) {
-            fLocationViewer.setInput(methodWrapper.getMethodCall().getCallLocations());
+            fLocationViewer.setInput(methodWrapper.getMethodCall().getCallLocations()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
         } else {
             fLocationViewer.clearViewer();
         }
     }
 
     private void updateHistoryEntries() {
-        for (int i = getMethodHistory().size() - 1; i >= 0; i--) {
-         	for (IMember member : getMethodHistory().get(i)) {
+        for (int i = getMethodHistory().size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+         	for (IMember member : getMethodHistory().get(i)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! member.exists()) {
 					getMethodHistory().remove(i);
 					break;
@@ -1108,7 +1108,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
         fHistoryDropDownAction.setEnabled(!getMethodHistory().isEmpty());
     }
 
-	private void updateView() {
+	private void updateView() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInputElements != null) {
 			showPage(PAGE_VIEWER);
 
@@ -1116,7 +1116,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 			CallHierarchy.getDefault().setSearchScope(getSearchScope(includeMask));
 
 			// set input to null so that setComparator does not cause a refresh on the old contents:
-			fCallHierarchyViewer.setInput(null);
+			fCallHierarchyViewer.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (fCurrentCallMode == CALL_MODE_CALLERS) {
 				// sort caller hierarchy alphabetically (bug 111423) and make RealCallers the last in 'Expand With Constructors' mode
 				fCallHierarchyViewer.setComparator(new ViewerComparator() {
@@ -1163,7 +1163,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 	 * @return the content description
 	 * @since 3.7
 	 */
-	private String computeContentDescription(int includeMask) {
+	private String computeContentDescription(int includeMask) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// see also HistoryAction.getElementLabel(IMember[])
 		String scopeDescription= fSearchScopeActions.getFullDescription(includeMask);
 
@@ -1346,22 +1346,22 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 	 * @param newElements the new input elements to add
 	 * @since 3.7
 	 */
-	void addInputElements(IMember[] newElements) {
+	void addInputElements(IMember[] newElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Caveat: RemoveFromViewAction#run() disposes TreeItems. When we add a previously removed element,
 		// we have to consider the real Tree state, not only fInputElements.
 
 		List<IMember> inputElements= Arrays.asList(fInputElements);
-		List<IMember> treeElements= new ArrayList<>();
-		for (TreeItem treeItem : fCallHierarchyViewer.getTree().getItems()) {
+		List<IMember> treeElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TreeItem treeItem : fCallHierarchyViewer.getTree().getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data= treeItem.getData();
 			if (data instanceof MethodWrapper)
 				treeElements.add(((MethodWrapper) data).getMember());
 		}
 
-		List<IMember> newInput= new ArrayList<>(inputElements);
-		List<IMember> addedElements= new ArrayList<>();
+		List<IMember> newInput= new ArrayList<>(inputElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IMember> addedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IMember newElement : newElements) {
+		for (IMember newElement : newElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! inputElements.contains(newElement))
 				newInput.add(newElement);
 			if (! treeElements.contains(newElement))
@@ -1392,7 +1392,7 @@ public class CallHierarchyViewPart extends ViewPart implements ICallHierarchyVie
 		CallHierarchyViewer hierarchyViewer= getViewer();
 		TreeRoot treeRoot= hierarchyViewer.getTreeRoot(roots, true);
 		hierarchyViewer.add(treeRoot, (Object[]) roots);
-		for (MethodWrapper root : roots) {
+		for (MethodWrapper root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hierarchyViewer.setExpandedState(root, true);
 		}
 		hierarchyViewer.setSelection(new StructuredSelection(roots), true);

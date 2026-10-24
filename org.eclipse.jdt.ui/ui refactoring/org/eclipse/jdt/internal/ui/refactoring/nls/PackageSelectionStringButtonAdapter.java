@@ -42,7 +42,7 @@ class PackageSelectionStringButtonAdapter implements IStringButtonAdapter {
 		fEmtpyListMessage= emtpyListMessage;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void changeControlPressed(DialogField field) {
 		IPackageFragmentRoot root= fPackageSelectionField.getSelectedFragmentRoot();
 

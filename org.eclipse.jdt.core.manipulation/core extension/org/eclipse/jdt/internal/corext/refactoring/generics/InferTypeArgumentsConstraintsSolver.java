@@ -82,7 +82,7 @@ public class InferTypeArgumentsConstraintsSolver {
 		fWorkList= new LinkedList<>();
 	}
 
-	public InferTypeArgumentsUpdate solveConstraints(IProgressMonitor pm) {
+	public InferTypeArgumentsUpdate solveConstraints(IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask("", 2); //$NON-NLS-1$
 		fUpdate= new InferTypeArgumentsUpdate();
 
@@ -94,29 +94,29 @@ public class InferTypeArgumentsConstraintsSolver {
 		ParametricStructureComputer parametricStructureComputer= new ParametricStructureComputer(allConstraintVariables, fTCModel);
 		Collection<CollectionElementVariable2> newVars= parametricStructureComputer.createElemConstraintVariables();
 
-		ArrayList<ConstraintVariable2> newAllConstraintVariables= new ArrayList<>(Arrays.asList(allConstraintVariables));
+		ArrayList<ConstraintVariable2> newAllConstraintVariables= new ArrayList<>(Arrays.asList(allConstraintVariables)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		newAllConstraintVariables.addAll(newVars);
 		allConstraintVariables= newAllConstraintVariables.toArray(new ConstraintVariable2[newAllConstraintVariables.size()]);
 
 
 		//loop over all TypeEquivalenceSets and unify the elements from the fElemStructureEnv with the existing TypeEquivalenceSets
-		HashSet<TypeEquivalenceSet> allTypeEquivalenceSets= new HashSet<>();
-		for (ConstraintVariable2 allConstraintVariable : allConstraintVariables) {
+		HashSet<TypeEquivalenceSet> allTypeEquivalenceSets= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ConstraintVariable2 allConstraintVariable : allConstraintVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeEquivalenceSet typeEquivalenceSet= allConstraintVariable.getTypeEquivalenceSet();
 			if (typeEquivalenceSet != null)
 				allTypeEquivalenceSets.add(typeEquivalenceSet);
 		}
-		for (TypeEquivalenceSet typeEquivalenceSet : allTypeEquivalenceSets) {
+		for (TypeEquivalenceSet typeEquivalenceSet : allTypeEquivalenceSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ConstraintVariable2[] contributingVariables= typeEquivalenceSet.getContributingVariables();
-			for (int i= 0; i < contributingVariables.length; i++) {
-				for (int j= i + 1; j < contributingVariables.length; j++) {
+			for (int i= 0; i < contributingVariables.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (int j= i + 1; j < contributingVariables.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ConstraintVariable2 first= contributingVariables[i];
 					ConstraintVariable2 second= contributingVariables[j];
 					fTCModel.createElementEqualsConstraints(first, second); // recursively
 				}
 			}
 		}
-		for (ITypeConstraint2 typeConstraint : fTCModel.getAllTypeConstraints()) {
+		for (ITypeConstraint2 typeConstraint : fTCModel.getAllTypeConstraints()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTCModel.createElementEqualsConstraints(typeConstraint.getLeft(), typeConstraint.getRight());
 		}
 
@@ -130,8 +130,8 @@ public class InferTypeArgumentsConstraintsSolver {
 		return fUpdate;
 	}
 
-	private void initializeTypeEstimates(ConstraintVariable2[] allConstraintVariables) {
-		for (ConstraintVariable2 cv : allConstraintVariables) {
+	private void initializeTypeEstimates(ConstraintVariable2[] allConstraintVariables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (ConstraintVariable2 cv : allConstraintVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//TODO: not necessary for types that are not used in a TypeConstraint but only as type in CollectionElementVariable
 			//TODO: handle nested element variables; see ParametricStructureComputer.createAndInitVars()
 			TypeEquivalenceSet set= cv.getTypeEquivalenceSet();
@@ -143,7 +143,7 @@ public class InferTypeArgumentsConstraintsSolver {
 				TypeSet typeEstimate= (TypeSet) cv.getTypeEstimate();
 				if (typeEstimate == null) {
 					typeEstimate= fTypeSetEnvironment.getUniverseTypeSet();
-					for (ConstraintVariable2 c : set.getContributingVariables()) { //TODO: optimize: just try to find an immutable CV; if not found, use Universe
+					for (ConstraintVariable2 c : set.getContributingVariables()) { //TODO: optimize: just try to find an immutable CV; if not found, use Universe //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						typeEstimate= typeEstimate.intersectedWith(createInitialEstimate(c));
 					}
 					set.setTypeEstimate(typeEstimate);
@@ -152,7 +152,7 @@ public class InferTypeArgumentsConstraintsSolver {
 		}
 	}
 
-	private TypeSet createInitialEstimate(ConstraintVariable2 cv) {
+	private TypeSet createInitialEstimate(ConstraintVariable2 cv) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// TODO: check assumption: only immutable CVs have a type
 //		ParametricStructure parametricStructure= fElemStructureEnv.elemStructure(cv);
 //		if (parametricStructure != null && parametricStructure != ParametricStructureComputer.ParametricStructure.NONE) {
@@ -189,7 +189,7 @@ public class InferTypeArgumentsConstraintsSolver {
 
 	private void runSolver(IProgressMonitor pm) {
 		pm.beginTask("", fWorkList.size() * 3); //$NON-NLS-1$
-		while (! fWorkList.isEmpty()) {
+		while (! fWorkList.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Get a variable whose type estimate has changed
 			ConstraintVariable2 cv= fWorkList.removeFirst();
 			List<ITypeConstraint2> usedIn= fTCModel.getUsedIn(cv);
@@ -212,7 +212,7 @@ public class InferTypeArgumentsConstraintsSolver {
 	 */
 	private void processConstraints(List<ITypeConstraint2> usedIn) {
 		Iterator<ITypeConstraint2> iter= usedIn.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeConstraint2 tc= iter.next();
 
 				maintainSimpleConstraint(tc);
@@ -224,7 +224,7 @@ public class InferTypeArgumentsConstraintsSolver {
 		}
 	}
 
-	private void maintainSimpleConstraint(ITypeConstraint2 stc) {
+	private void maintainSimpleConstraint(ITypeConstraint2 stc) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ConstraintVariable2 left= stc.getLeft();
 		ConstraintVariable2 right= stc.getRight();
 
@@ -262,9 +262,9 @@ public class InferTypeArgumentsConstraintsSolver {
 		}
 	}
 
-	private void chooseTypes(ConstraintVariable2[] allConstraintVariables, IProgressMonitor pm) {
+	private void chooseTypes(ConstraintVariable2[] allConstraintVariables, IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask("", allConstraintVariables.length); //$NON-NLS-1$
-		for (ConstraintVariable2 cv : allConstraintVariables) {
+		for (ConstraintVariable2 cv : allConstraintVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeEquivalenceSet set= cv.getTypeEquivalenceSet();
 			if (set == null)
 				continue; //TODO: should not happen iff all unused constraint variables got pruned
@@ -284,7 +284,7 @@ public class InferTypeArgumentsConstraintsSolver {
 		pm.done();
 	}
 
-	private TType chooseSingleType(TypeSet typeEstimate) {
+	private TType chooseSingleType(TypeSet typeEstimate) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (typeEstimate.isUniverse() || typeEstimate.isEmpty()) {
 			return null;
 
@@ -294,13 +294,13 @@ public class InferTypeArgumentsConstraintsSolver {
 		} else {
 			EnumeratedTypeSet lowerBound= typeEstimate.lowerBound().enumerate();
 			ArrayList<TType> interfaceCandidates= null;
-			for (Iterator<TType> iter= lowerBound.iterator(); iter.hasNext();) {
+			for (Iterator<TType> iter= lowerBound.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType type= iter.next();
 				if (! type.isInterface()) {
 					return type;
 				} else {
 					if (interfaceCandidates == null)
-						interfaceCandidates= new ArrayList<>(2);
+						interfaceCandidates= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					interfaceCandidates.add(type);
 				}
 			}
@@ -321,7 +321,7 @@ public class InferTypeArgumentsConstraintsSolver {
 	}
 
 	private static final int MAX_CACHE= 1024;
-	private Map<TType, Boolean> fInterfaceTaggingCache= new LinkedHashMap<>(MAX_CACHE, 0.75f, true) {
+	private Map<TType, Boolean> fInterfaceTaggingCache= new LinkedHashMap<>(MAX_CACHE, 0.75f, true) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private static final long serialVersionUID= 1L;
 		@Override
 		protected boolean removeEldestEntry(Map.Entry<TType, Boolean> eldest) {
@@ -329,11 +329,11 @@ public class InferTypeArgumentsConstraintsSolver {
 		}
 	};
 
-	private ArrayList<TType> getNonTaggingInterfaces(ArrayList<TType> interfaceCandidates) {
-		ArrayList<TType> unresolvedTypes= new ArrayList<>();
-		ArrayList<TType> nonTagging= new ArrayList<>();
+	private ArrayList<TType> getNonTaggingInterfaces(ArrayList<TType> interfaceCandidates) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<TType> unresolvedTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<TType> nonTagging= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i= 0; i < interfaceCandidates.size(); i++) {
+		for (int i= 0; i < interfaceCandidates.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType interf= interfaceCandidates.get(i);
 			Boolean isTagging= fInterfaceTaggingCache.get(interf);
 			if (isTagging == null)
@@ -343,7 +343,7 @@ public class InferTypeArgumentsConstraintsSolver {
 		}
 
 		if (!unresolvedTypes.isEmpty()) {
-			for (TType interf : unresolvedTypes) {
+			for (TType interf : unresolvedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isTaggingInterface(interf)) {
 					fInterfaceTaggingCache.put(interf, Boolean.TRUE);
 				} else {
@@ -367,8 +367,8 @@ public class InferTypeArgumentsConstraintsSolver {
 		return false;
 	}
 
-	private void findCastsToRemove(CastVariable2[] castVariables) {
-		for (CastVariable2 castCv : castVariables) {
+	private void findCastsToRemove(CastVariable2[] castVariables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (CastVariable2 castCv : castVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ConstraintVariable2 expressionVariable= castCv.getExpressionVariable();
 			TType chosenType= InferTypeArgumentsConstraintsSolver.getChosenType(expressionVariable);
 			TType castType= castCv.getType();

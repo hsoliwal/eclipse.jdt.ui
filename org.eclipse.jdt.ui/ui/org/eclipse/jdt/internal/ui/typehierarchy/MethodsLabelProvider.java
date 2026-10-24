@@ -37,7 +37,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.ColoredViewersManager;
 /**
  * Label provider for the hierarchy method viewers.
  */
-public class MethodsLabelProvider extends AppearanceAwareLabelProvider {
+public class MethodsLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private boolean fShowDefiningType;
 	private TypeHierarchyLifeCycle fHierarchy;
@@ -49,12 +49,12 @@ public class MethodsLabelProvider extends AppearanceAwareLabelProvider {
 		fHierarchy= lifeCycle;
 		fShowDefiningType= false;
 		fMethodsViewer= methodsViewer;
-		fColorRegistryListener= event -> {
+		fColorRegistryListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (ColoredViewersManager.INHERITED_COLOR_NAME.equals(event.getProperty())) {
 				fireLabelProviderChanged(new LabelProviderChangedEvent(MethodsLabelProvider.this, null));
 			}
 		};
-		JFaceResources.getColorRegistry().addListener(fColorRegistryListener);
+		JFaceResources.getColorRegistry().addListener(fColorRegistryListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	public void setShowDefiningType(boolean showDefiningType) {
@@ -66,7 +66,7 @@ public class MethodsLabelProvider extends AppearanceAwareLabelProvider {
 	}
 
 
-	private IType getDefiningType(Object element) throws JavaModelException {
+	private IType getDefiningType(Object element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int kind= ((IJavaElement) element).getElementType();
 
 		if (kind != IJavaElement.METHOD && kind != IJavaElement.FIELD && kind != IJavaElement.INITIALIZER) {
@@ -94,7 +94,7 @@ public class MethodsLabelProvider extends AppearanceAwareLabelProvider {
 		String text= super.getText(element);
 		String qualifier= getQualifier(element);
 		if (qualifier != null) {
-			return qualifier + text;
+			return qualifier + text; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return text;
 	}
@@ -117,7 +117,7 @@ public class MethodsLabelProvider extends AppearanceAwareLabelProvider {
 			try {
 				IType type= getDefiningType(element);
 				if (type != null) {
-					return super.getText(type) + JavaElementLabels.CONCAT_STRING;
+					return super.getText(type) + JavaElementLabels.CONCAT_STRING; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} catch (JavaModelException e) {
 			}

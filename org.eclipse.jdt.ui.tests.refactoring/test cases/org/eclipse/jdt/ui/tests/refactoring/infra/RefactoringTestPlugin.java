@@ -43,7 +43,7 @@ public class RefactoringTestPlugin extends Plugin {
 
 	public InputStream getTestResourceStream(String fileName) throws IOException {
 		IPath path= new Path("resources").append(fileName);
-		URL url= getBundle().getEntry("/"+ path.toString());
+		URL url= getBundle().getEntry("/"+ path.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return url.openStream();
 	}
 

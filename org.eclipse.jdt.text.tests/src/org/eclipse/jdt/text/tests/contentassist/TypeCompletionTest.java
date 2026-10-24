@@ -129,23 +129,23 @@ public class TypeCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testInnerTypeOfGenericOuter2() throws Exception {
 		addMembers("static class Outer<E> { class Inner {} }");
-		expectImport("test1.Completion_" + getName() + ".Outer.Inner");
+		expectImport("test1.Completion_" + getName() + ".Outer.Inner"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertMethodBodyProposal("Inner|", "Outer<E>.Inner", "Inner|");
 	}
 
 	@Test
 	public void testInnerTypeOfGenericOuterImported() throws Exception {
 		addMembers("static class Outer<E> { class Inner {} }");
-		addImport("test1.Completion_" + getName() + ".Outer");
-		expectImport("test1.Completion_" + getName() + ".Outer");
+		addImport("test1.Completion_" + getName() + ".Outer"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		expectImport("test1.Completion_" + getName() + ".Outer"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertMethodBodyProposal("Outer<String>.I|", "Outer<java.lang.String>.Inner", "Outer<String>.Inner|");
 	}
 
 	@Test
 	public void testInnerTypeOfGenericOuterImported2() throws Exception {
 		addMembers("static class Outer<E> { class Inner {} }");
-		addImport("test1.Completion_" + getName() + ".Outer.Inner");
-		expectImport("test1.Completion_" + getName() + ".Outer.Inner");
+		addImport("test1.Completion_" + getName() + ".Outer.Inner"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		expectImport("test1.Completion_" + getName() + ".Outer.Inner"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertMethodBodyProposal("Inner|", "Outer<E>.Inner", "Inner|");
 	}
 
@@ -293,15 +293,15 @@ public class TypeCompletionTest extends AbstractCompletionTest {
 		IPackageFragmentRoot src= (IPackageFragmentRoot)cts.getTestPackage().getParent();
 
 		IPackageFragment package1= src.createPackageFragment("package1", true, null);
-		package1.createCompilationUnit("AClass.java", "package " + package1.getElementName() + "; public class AClass {}", true, null);
+		package1.createCompilationUnit("AClass.java", "package " + package1.getElementName() + "; public class AClass {}", true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IPackageFragment package2= src.createPackageFragment("package2", true, null);
-		package1.createCompilationUnit("AClass.java", "package " + package2.getElementName() + "; public class AClass {}", true, null);
+		package1.createCompilationUnit("AClass.java", "package " + package2.getElementName() + "; public class AClass {}", true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		waitBeforeCompleting(true);
 
-		addImport(package1.getElementName() + ".AClass");
-		expectImport(package1.getElementName() + ".AClass");
-		assertMethodBodyProposal("new AClass|", "AClass() - " + package2.getElementName(), "new " + package2.getElementName() + ".AClass()");
+		addImport(package1.getElementName() + ".AClass"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		expectImport(package1.getElementName() + ".AClass"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertMethodBodyProposal("new AClass|", "AClass() - " + package2.getElementName(), "new " + package2.getElementName() + ".AClass()"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

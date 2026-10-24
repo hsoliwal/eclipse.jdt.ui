@@ -52,7 +52,7 @@ public class FocusTestPass implements IDialogTestPass {
 	 */
 	@Override
 	public ArrayList<String> checkListTexts() {
-		ArrayList<String> list = new ArrayList<>(CHECKLIST_SIZE);
+		ArrayList<String> list = new ArrayList<>(CHECKLIST_SIZE); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.add("&1) the initial focus is appropriate.");
 		return list;
 	}

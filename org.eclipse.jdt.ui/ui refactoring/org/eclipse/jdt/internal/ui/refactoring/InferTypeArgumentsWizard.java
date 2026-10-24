@@ -68,7 +68,7 @@ public class InferTypeArgumentsWizard extends RefactoringWizard {
 			setDescription(DESCRIPTION);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			fRefactoring= (InferTypeArgumentsRefactoring) getRefactoring();
 			loadSettings();
@@ -91,7 +91,7 @@ public class InferTypeArgumentsWizard extends RefactoringWizard {
 			boolean assumeCloneValue= fSettings.getBoolean(ASSUME_CLONE_RETURNS_SAME_TYPE);
 			fRefactoring.setAssumeCloneReturnsSameType(assumeCloneValue);
 			cloneCheckBox.setSelection(assumeCloneValue);
-			cloneCheckBox.addSelectionListener(new SelectionAdapter() {
+			cloneCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					setAssumeCloseReturnsSameType(((Button)e.widget).getSelection());
@@ -103,7 +103,7 @@ public class InferTypeArgumentsWizard extends RefactoringWizard {
 			boolean leaveRawValue= fSettings.getBoolean(LEAVE_UNCONSTRAINED_RAW);
 			fRefactoring.setLeaveUnconstrainedRaw(leaveRawValue);
 			leaveRawCheckBox.setSelection(leaveRawValue);
-			leaveRawCheckBox.addSelectionListener(new SelectionAdapter() {
+			leaveRawCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					setLeaveUnconstrainedRaw(((Button)e.widget).getSelection());

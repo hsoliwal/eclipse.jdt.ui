@@ -84,10 +84,10 @@ public abstract class AbstractJavaReplaceAllTest extends TextPerformanceTestCase
 		assertAllPerformance();
 	}
 
-	private void measure(PerformanceMeter performanceMeter, int runs) throws Exception {
+	private void measure(PerformanceMeter performanceMeter, int runs) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAction action= fEditor.getAction(ITextEditorActionConstants.FIND);
 		final Display display= EditorTestHelper.getActiveDisplay();
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			StyledText text= (StyledText) fEditor.getAdapter(Control.class);
 			text.setSelection(0);
 			runAction(action);

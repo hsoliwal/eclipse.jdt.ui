@@ -34,7 +34,7 @@ public class SemanticTokensProviderTest extends AbstractSemanticHighlightingTest
 	@RegisterExtension
 	public SemanticHighlightingTestSetup shts= new SemanticHighlightingTestSetup( "/SHTest/src/STTest.java");
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void contributedHighlighting() throws Exception {
 		setUpSemanticHighlighting(SemanticHighlightings.CLASS);
 		setUpSemanticHighlighting(SemanticHighlightings.NUMBER);
@@ -55,9 +55,9 @@ public class SemanticTokensProviderTest extends AbstractSemanticHighlightingTest
 		assertEqualPositions(expected, actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void disabledHighlightingNoError() throws Exception {
-		List<IStatus> errors= new ArrayList<>();
+		List<IStatus> errors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ILogListener logListener= (status, unused) -> {
 			if (status.getSeverity() == IStatus.ERROR) {
 				errors.add(status);
@@ -83,7 +83,7 @@ public class SemanticTokensProviderTest extends AbstractSemanticHighlightingTest
 			List<IStatus> semanticErrors= errors.stream()
 					.filter(s -> s.getMessage().contains("Cannot find semantic highlighting")) //$NON-NLS-1$
 					.toList();
-			assertTrue(semanticErrors.isEmpty(), () -> "Unexpected error log for disabled highlighting: " + semanticErrors); //$NON-NLS-1$
+			assertTrue(semanticErrors.isEmpty(), () -> "Unexpected error log for disabled highlighting: " + semanticErrors); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} finally {
 			Platform.removeLogListener(logListener);
 		}

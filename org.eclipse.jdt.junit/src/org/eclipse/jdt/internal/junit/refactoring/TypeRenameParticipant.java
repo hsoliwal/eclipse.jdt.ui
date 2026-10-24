@@ -51,7 +51,7 @@ public class TypeRenameParticipant extends JUnitRenameParticipant {
 				prefix= ""; //$NON-NLS-1$
 			else
 				prefix= mainType.substring(0, index + 1);
-			String newValue= prefix + getNewName();
+			String newValue= prefix + getNewName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			list.addAttributeChange(config, IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, newValue);
 
 			list.addRenameChangeIfNeeded(config, fType.getElementName());

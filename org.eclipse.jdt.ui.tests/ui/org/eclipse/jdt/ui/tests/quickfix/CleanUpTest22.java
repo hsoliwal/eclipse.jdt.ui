@@ -49,7 +49,7 @@ public class CleanUpTest22 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedCleanUpUnnamedVariable() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_UNUSED_LAMBDA_PARAMETER, JavaCore.WARNING);
@@ -104,7 +104,7 @@ public class CleanUpTest22 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPatternInstanceofToSwitch() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.TAB);
@@ -179,7 +179,7 @@ public class CleanUpTest22 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPatternInstanceofToSwitchExpression() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.TAB);
@@ -247,7 +247,7 @@ public class CleanUpTest22 extends CleanUpTestCase {
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPatternInstanceofToSwitchExpression2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.TAB);

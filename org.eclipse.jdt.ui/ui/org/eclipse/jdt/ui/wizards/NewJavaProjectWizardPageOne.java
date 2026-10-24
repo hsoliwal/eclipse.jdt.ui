@@ -191,7 +191,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 
 		private String fPreviousExternalLocation;
 
-		private final String DIALOGSTORE_LAST_EXTERNAL_LOC= JavaUI.ID_PLUGIN + ".last.external.project"; //$NON-NLS-1$
+		private final String DIALOGSTORE_LAST_EXTERNAL_LOC= JavaUI.ID_PLUGIN + ".last.external.project"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		public LocationGroup() {
 			fUseDefaults= new SelectionButtonDialogField(SWT.CHECK);
@@ -261,7 +261,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			fireEvent();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void changeControlPressed(DialogField field) {
 			final DirectoryDialog dialog= new DirectoryDialog(getShell(), SWT.SHEET);
 			dialog.setText(NewWizardMessages.NewJavaProjectWizardPageOne_dialog_title);
@@ -276,7 +276,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 
 			if (directoryName.length() > 0) {
 				final File path = new File(directoryName);
-				if (path.exists())
+				if (path.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					dialog.setFilterPath(directoryName);
 			}
 			final String selectedDirectory = dialog.open();
@@ -330,7 +330,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 		}
 
 
-		public Control createContent(Composite composite) {
+		public Control createContent(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fGroup= new Group(composite, SWT.NONE);
 			fGroup.setFont(composite.getFont());
 			fGroup.setLayout(initGridLayout(new GridLayout(3, false), true));
@@ -344,7 +344,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			fPreferenceLink= new Link(fGroup, SWT.NONE);
 			fPreferenceLink.setText(NewWizardMessages.NewJavaProjectWizardPageOne_LayoutGroup_link_description);
 			fPreferenceLink.setLayoutData(new GridData(GridData.END, GridData.END, false, false));
-			fPreferenceLink.addSelectionListener(this);
+			fPreferenceLink.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			updateEnableState();
 			return fGroup;
@@ -396,10 +396,10 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 
 	private final class JREGroup extends Observable implements Observer, SelectionListener, IDialogFieldListener {
 
-		private final String LAST_SELECTED_EE_SETTINGS_KEY= JavaUI.ID_PLUGIN + ".last.selected.execution.enviroment"; //$NON-NLS-1$
-		private final String LAST_SELECTED_JRE_SETTINGS_KEY= JavaUI.ID_PLUGIN + ".last.selected.project.jre"; //$NON-NLS-1$
+		private final String LAST_SELECTED_EE_SETTINGS_KEY= JavaUI.ID_PLUGIN + ".last.selected.execution.enviroment"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		private final String LAST_SELECTED_JRE_SETTINGS_KEY= JavaUI.ID_PLUGIN + ".last.selected.project.jre"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 //		private static final String LAST_SELECTED_JRE_KIND= JavaUI.ID_PLUGIN + ".last.selected.jre.kind"; // used before EE became default
-		private final String LAST_SELECTED_JRE_KIND2= JavaUI.ID_PLUGIN + ".last.selected.jre.kind2"; //$NON-NLS-1$
+		private final String LAST_SELECTED_JRE_KIND2= JavaUI.ID_PLUGIN + ".last.selected.jre.kind2"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		private static final int DEFAULT_JRE= 0;
 		private static final int PROJECT_JRE= 1;
@@ -416,7 +416,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 		private String[] fEECompliance;
 		private String fDefaultJVMLabel;
 
-		public JREGroup() {
+		public JREGroup() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fUseDefaultJRE= new SelectionButtonDialogField(SWT.RADIO);
 			fUseDefaultJRE.setLabelText(NewWizardMessages.NewJavaProjectWizardPageOne_JREGroup_unspecified_compliance);
 
@@ -469,7 +469,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 		}
 
 
-		private void initializeJvmFields () {
+		private void initializeJvmFields () { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fDefaultJVMLabel= getDefaultJVMLabel();
 
 			fInstalledJVMs= getWorkspaceJREs();
@@ -489,7 +489,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			fInstalledEEs= environments;
 		}
 
-		public Control createControl(Composite composite) {
+		public Control createControl(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fGroup= new Group(composite, SWT.NONE);
 			fGroup.setFont(composite.getFont());
 			fGroup.setLayout(initGridLayout(new GridLayout(3, false), true));
@@ -515,14 +515,14 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			GridData gd3= new GridData(GridData.END, GridData.CENTER, false, false);
 			gd3.horizontalSpan= 1;
 			fPreferenceLink.setLayoutData(gd3);
-			fPreferenceLink.addSelectionListener(this);
+			fPreferenceLink.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			updateEnableState();
 			return fGroup;
 		}
 
 
-		private void fillInstalledJREs(ComboDialogField comboField) {
+		private void fillInstalledJREs(ComboDialogField comboField) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fGroup.isDisposed()) {
 				return;
 			}
@@ -538,7 +538,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			selectionIndex= -1;//find new index
 			String[] jreLabels= new String[fInstalledJVMs.length];
 			fJRECompliance= new String[fInstalledJVMs.length];
-			for (int i= 0; i < fInstalledJVMs.length; i++) {
+			for (int i= 0; i < fInstalledJVMs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				jreLabels[i]= fInstalledJVMs[i].getName();
 				if (selectedItem != null && jreLabels[i].equals(selectedItem)) {
 					selectionIndex= i;
@@ -557,7 +557,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			}
 		}
 
-		private void fillExecutionEnvironments(ComboDialogField comboField) {
+		private void fillExecutionEnvironments(ComboDialogField comboField) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String selectedItem= getLastSelectedEE();
 			int selectionIndex= -1;
 			if (fUseEEJRE.isSelected()) {
@@ -570,7 +570,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			selectionIndex= -1;//find new index
 			String[] eeLabels= new String[fInstalledEEs.length];
 			fEECompliance= new String[fInstalledEEs.length];
-			for (int i= 0; i < fInstalledEEs.length; i++) {
+			for (int i= 0; i < fInstalledEEs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				eeLabels[i]= fInstalledEEs[i].getId();
 				if (selectedItem != null && eeLabels[i].equals(selectedItem)) {
 					selectionIndex= i;
@@ -586,9 +586,9 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 		}
 
 		private IVMInstall[] getWorkspaceJREs() {
-			List<VMStandin> standins = new ArrayList<>();
-			for (IVMInstallType type : JavaRuntime.getVMInstallTypes()) {
-				for (IVMInstall install : type.getVMInstalls()) {
+			List<VMStandin> standins = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IVMInstallType type : JavaRuntime.getVMInstallTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IVMInstall install : type.getVMInstalls()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					standins.add(new VMStandin(install));
 				}
 			}
@@ -604,13 +604,13 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			}
 		}
 
-		private String getDefaultEEName() {
+		private String getDefaultEEName() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IVMInstall defaultVM= JavaRuntime.getDefaultVMInstall();
 
-			List<IExecutionEnvironment> environments= new ArrayList<>(JavaRuntime.getExecutionEnvironmentsManager().getSupportedExecutionEnvironments());
+			List<IExecutionEnvironment> environments= new ArrayList<>(JavaRuntime.getExecutionEnvironmentsManager().getSupportedExecutionEnvironments()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			Collections.reverse(environments);
 			if (defaultVM != null) {
-				for (IExecutionEnvironment environment : environments) {
+				for (IExecutionEnvironment environment : environments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IVMInstall eeDefaultVM= environment.getDefaultVM();
 					if (eeDefaultVM != null && defaultVM.getId().equals(eeDefaultVM.getId())) {
 						return environment.getId();
@@ -622,7 +622,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			if (defaultVM instanceof IVMInstall2)
 				defaultCC= JavaModelUtil.getCompilerCompliance((IVMInstall2)defaultVM, defaultCC);
 
-			for (IExecutionEnvironment environment : environments) {
+			for (IExecutionEnvironment environment : environments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String eeCompliance= JavaModelUtil.getExecutionEnvironmentCompliance(environment);
 				if (defaultCC.equals(eeCompliance)) {
 					return environment.getId();
@@ -669,7 +669,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			String jreID= BuildPathSupport.JRE_PREF_PAGE_ID;
 			String eeID= BuildPathSupport.EE_PREF_PAGE_ID;
 			String complianceId= CompliancePreferencePage.PREF_ID;
-			Map<String, Boolean> data= new HashMap<>();
+			Map<String, Boolean> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			data.put(PropertyAndPreferencePage.DATA_NO_LINK, Boolean.TRUE);
 			PreferencesUtil.createPreferenceDialogOn(getShell(), jreID, new String[] { jreID, complianceId , eeID }, data).open();
 
@@ -683,7 +683,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			fillExecutionEnvironments(fEECombo);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void dialogFieldChanged(DialogField field) {
 			if (fGroup.isDisposed()) {
 				return;
@@ -823,8 +823,8 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 
 	private final class ModuleGroup extends Observable implements IDialogFieldListener{
 
-		private static final String LAST_SELECTED_CREATE_MODULEINFO_SETTINGS_KEY= JavaUI.ID_PLUGIN + ".last.selected.create.moduleinfo"; //$NON-NLS-1$
-		private static final String LAST_SELECTED_CREATE_MODULEINFO_COMMENT_SETTINGS_KEY= JavaUI.ID_PLUGIN + ".last.selected.create.moduleinfo.comments"; //$NON-NLS-1$
+		private static final String LAST_SELECTED_CREATE_MODULEINFO_SETTINGS_KEY= JavaUI.ID_PLUGIN + ".last.selected.create.moduleinfo"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		private static final String LAST_SELECTED_CREATE_MODULEINFO_COMMENT_SETTINGS_KEY= JavaUI.ID_PLUGIN + ".last.selected.create.moduleinfo.comments"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		private final SelectionButtonDialogField fCreateModuleInfo;
 		private final SelectionButtonDialogField fAddCommentButton;
 		private final StringDialogField fModuleNameDialogField;
@@ -875,7 +875,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			return moduleGroup;
 		}
 
-		public void handlePossibleJVMChange() {
+		public void handlePossibleJVMChange() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean enable= false;
 			boolean oldValEnabled= fCreateModuleInfo.isEnabled();
 			String compliance= getCompliance();
@@ -936,7 +936,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			notifyObservers();
 		}
 
-		private void updateModuleFields() {
+		private void updateModuleFields() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean enable= false;
 			boolean commentOldVal = fAddCommentButton.isEnabled() && fAddCommentButton.isSelected();
 			boolean moduleNameDlgFieldOldVal= fModuleNameDialogField.isEnabled();
@@ -1014,7 +1014,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			fDetect= false;
 		}
 
-		public Control createControl(Composite parent) {
+		public Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			Composite composite= new Composite(parent, SWT.NONE);
 			GridData gridData= new GridData(SWT.FILL, SWT.TOP, true, false);
@@ -1031,7 +1031,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 
 			fHintText= new Link(composite, SWT.WRAP);
 			fHintText.setFont(composite.getFont());
-			fHintText.addSelectionListener(this);
+			fHintText.addSelectionListener(this); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			gridData= new GridData(GridData.FILL, SWT.FILL, true, false);
 			gridData.widthHint= convertWidthInCharsToPixels(50);
 			gridData.heightHint= convertHeightInCharsToPixels(3);
@@ -1041,7 +1041,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			return composite;
 		}
 
-		public void handlePossibleJVMChange() {
+		public void handlePossibleJVMChange() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			if (JavaRuntime.getDefaultVMInstall() == null) {
 				fHintText.setText(NewWizardMessages.NewJavaProjectWizardPageOne_NoJREFound_link);
@@ -1096,15 +1096,15 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 					return false;
 				} else {
 					final File directory= fLocationGroup.getLocation().append(name).toFile();
-					return directory.isDirectory();
+					return directory.isDirectory(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				}
 			} else {
 				final File directory= fLocationGroup.getLocation().toFile();
-				return directory.isDirectory();
+				return directory.isDirectory(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void update(Observable o, Object arg) {
 			if (o instanceof LocationGroup) {
 				boolean oldDetectState= fDetect;
@@ -1140,7 +1140,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			String jreID= BuildPathSupport.JRE_PREF_PAGE_ID;
 			String eeID= BuildPathSupport.EE_PREF_PAGE_ID;
 			String complianceId= CompliancePreferencePage.PREF_ID;
-			Map<String, Boolean> data= new HashMap<>();
+			Map<String, Boolean> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			data.put(PropertyAndPreferencePage.DATA_NO_LINK, Boolean.TRUE);
 			String id= "JRE".equals(e.text) ? jreID : complianceId; //$NON-NLS-1$
 			PreferencesUtil.createPreferenceDialogOn(getShell(), id, new String[] { jreID, complianceId, eeID  }, data).open();
@@ -1155,7 +1155,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 	 */
 	private final class Validator implements Observer {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void update(Observable o, Object arg) {
 
 			final IWorkspace workspace= JavaPlugin.getWorkspace();
@@ -1187,10 +1187,10 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			}
 
 			IPath projectLocation= ResourcesPlugin.getWorkspace().getRoot().getLocation().append(name);
-			if (projectLocation.toFile().exists()) {
+			if (projectLocation.toFile().exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				try {
 					//correct casing
-					String canonicalPath= projectLocation.toFile().getCanonicalPath();
+					String canonicalPath= projectLocation.toFile().getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					projectLocation= new Path(canonicalPath);
 				} catch (IOException e) {
 					JavaPlugin.log(e);
@@ -1225,7 +1225,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			IPath projectPath= null;
 			if (!fLocationGroup.isUseDefaultSelected()) {
 				projectPath= Path.fromOSString(location);
-				if (!projectPath.toFile().exists()) {
+				if (!projectPath.toFile().exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					// check non-existing external location
 					if (!canCreate(projectPath.toFile())) {
 						setErrorMessage(NewWizardMessages.NewJavaProjectWizardPageOne_Message_cannotCreateAtExternalLocation);
@@ -1272,13 +1272,13 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 		}
 
 		private boolean canCreate(File file) {
-			while (!file.exists()) {
+			while (!file.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				file= file.getParentFile();
 				if (file == null)
 					return false;
 			}
 
-			return file.canWrite();
+			return file.canWrite(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 
@@ -1297,7 +1297,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 	/**
 	 * Creates a new {@link NewJavaProjectWizardPageOne}.
 	 */
-	public NewJavaProjectWizardPageOne() {
+	public NewJavaProjectWizardPageOne() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(PAGE_NAME);
 		setPageComplete(false);
 		setTitle(NewWizardMessages.NewJavaProjectWizardPageOne_page_title);
@@ -1350,7 +1350,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 		JavaRuntime.getDefaultVMInstall();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -1411,7 +1411,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			private int computeHeight(int width) {
 				final int availableWidth= width - 2 * compositeLayout.marginWidth;
 				int height= 0;
-				for (Control child : composite.getChildren()) {
+				for (Control child : composite.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (child.getLayoutData() instanceof GridData && ((GridData) child.getLayoutData()).exclude) {
 						continue;
 					}
@@ -1425,7 +1425,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			}
 
 		};
-		scroll.addControlListener(new ControlAdapter() {
+		scroll.addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlResized(ControlEvent e) {
 				updateSize();
@@ -1633,7 +1633,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 	 * @param newPath JRE path
 	 * @return array containing JRE container with module attribute if modular
 	 */
-	private IClasspathEntry[] updateWithModuleAttribute(IClasspathEntry[] cpEntries, IPath newPath) {
+	private IClasspathEntry[] updateWithModuleAttribute(IClasspathEntry[] cpEntries, IPath newPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (cpEntries.length == 1) {
 				IVMInstall vmInstall= JavaRuntime.getVMInstall(newPath);
@@ -1660,7 +1660,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 
 	private IClasspathAttribute[] addModuleAttributeIfNeeded(IClasspathAttribute[] extraAttributes) {
 		String TRUE = "true"; //$NON-NLS-1$
-		for (int j= 0; j < extraAttributes.length; j++) {
+		for (int j= 0; j < extraAttributes.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathAttribute classpathAttribute= extraAttributes[j];
 			if (IClasspathAttribute.MODULE.equals(classpathAttribute.getName())) {
 				if (TRUE.equals(classpathAttribute.getValue())) {
@@ -1756,10 +1756,10 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 
 	private static final IWorkingSet[] EMPTY_WORKING_SET_ARRAY = new IWorkingSet[0];
 
-	private IWorkingSet[] getSelectedWorkingSet(IStructuredSelection selection, IWorkbenchPart activePart) {
+	private IWorkingSet[] getSelectedWorkingSet(IStructuredSelection selection, IWorkbenchPart activePart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkingSet[] selected= getSelectedWorkingSet(selection);
 		if (selected != null && selected.length > 0) {
-			for (IWorkingSet s : selected) {
+			for (IWorkingSet s : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isValidWorkingSet(s)) {
 					return EMPTY_WORKING_SET_ARRAY;
 				}
@@ -1795,7 +1795,7 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 		}
 	}
 
-	private IWorkingSet[] getSelectedWorkingSet(IStructuredSelection selection) {
+	private IWorkingSet[] getSelectedWorkingSet(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(selection instanceof ITreeSelection))
 			return EMPTY_WORKING_SET_ARRAY;
 
@@ -1825,8 +1825,8 @@ public class NewJavaProjectWizardPageOne extends WizardPage {
 			return EMPTY_WORKING_SET_ARRAY;
 		}
 
-		ArrayList<IWorkingSet> result= new ArrayList<>();
-		for (Object element : elements) {
+		ArrayList<IWorkingSet> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IWorkingSet && isValidWorkingSet((IWorkingSet) element)) {
 				result.add((IWorkingSet) element);
 			}

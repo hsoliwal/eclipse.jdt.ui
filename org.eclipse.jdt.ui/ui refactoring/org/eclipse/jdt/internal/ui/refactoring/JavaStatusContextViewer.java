@@ -79,13 +79,13 @@ public class JavaStatusContextViewer extends TextStatusContextViewer {
 	private IPackageFragmentRoot getPackageFragmentRoot(IClassFile file) {
 
 		IJavaElement element= file.getParent();
-		while (element != null && element.getElementType() != IJavaElement.PACKAGE_FRAGMENT_ROOT)
+		while (element != null && element.getElementType() != IJavaElement.PACKAGE_FRAGMENT_ROOT) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			element= element.getParent();
 
 		return (IPackageFragmentRoot) element;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setInput(RefactoringStatusContext context) {
 		if (context instanceof JavaStatusContext) {
 			JavaStatusContext jsc= (JavaStatusContext)context;

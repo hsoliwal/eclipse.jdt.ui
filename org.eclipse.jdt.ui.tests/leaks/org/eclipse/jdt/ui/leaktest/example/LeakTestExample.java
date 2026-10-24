@@ -31,9 +31,9 @@ public class LeakTestExample extends LeakTestCase {
 
 	private Object fGlobalReference;
 
-	private final ArrayList<Object> fGlobalList= new ArrayList<>();
+	private final ArrayList<Object> fGlobalList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLeakGlobalReference() throws Exception {
 		fGlobalList.clear();
 
@@ -57,7 +57,7 @@ public class LeakTestExample extends LeakTestCase {
 		assertEqualCount("after clear: ", count1, count3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoLeakGlobalReference() throws Exception {
 		fGlobalList.clear();
 		Class<MyClass> cl= MyClass.class;

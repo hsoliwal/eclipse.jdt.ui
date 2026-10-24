@@ -51,7 +51,7 @@ public final class TemplateInformationControlCreator implements IInformationCont
 	@Override
 	public IInformationControl createInformationControl(Shell parent) {
 		fControl= new SourceViewerInformationControl(parent, false, fOrientation, JavaPlugin.getAdditionalInfoAffordanceString());
-		fControl.addDisposeListener(unused -> fControl= null);
+		fControl.addDisposeListener(unused -> fControl= null); //FLLDCIM: MARK — T01  LAMBDA
 		return fControl;
 	}
 

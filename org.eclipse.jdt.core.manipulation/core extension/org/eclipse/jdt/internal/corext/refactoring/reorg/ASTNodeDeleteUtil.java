@@ -39,7 +39,7 @@ import org.eclipse.jdt.internal.corext.util.JdtFlags;
 
 public class ASTNodeDeleteUtil {
 
-	private static ASTNode[] getNodesToDelete(IJavaElement element, CompilationUnit cuNode) throws JavaModelException {
+	private static ASTNode[] getNodesToDelete(IJavaElement element, CompilationUnit cuNode) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// fields are different because you don't delete the whole declaration but only a fragment of it
 		if (element.getElementType() == IJavaElement.FIELD) {
 			if (JdtFlags.isEnum((IField) element))
@@ -77,7 +77,7 @@ public class ASTNodeDeleteUtil {
 	}
 
 	private static Set<ASTNode> getRemovedNodes(final List<ASTNode> removed, final CompilationUnitRewrite rewrite) {
-		final Set<ASTNode> result= new HashSet<>();
+		final Set<ASTNode> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		rewrite.getRoot().accept(new GenericVisitor(true) {
 
 			@Override
@@ -91,15 +91,15 @@ public class ASTNodeDeleteUtil {
 	}
 
 	public static void markAsDeleted(IJavaElement[] javaElements, CompilationUnitRewrite rewrite, TextEditGroup group) throws JavaModelException {
-		final List<ASTNode> removed= new ArrayList<>();
-		for (IJavaElement javaElement : javaElements) {
+		final List<ASTNode> removed= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			markAsDeleted(removed, javaElement, rewrite, group);
 		}
 		propagateFieldDeclarationNodeDeletions(removed, rewrite, group);
 	}
 
 	private static void markAsDeleted(List<ASTNode> list, IJavaElement element, CompilationUnitRewrite rewrite, TextEditGroup group) throws JavaModelException {
-		for (ASTNode node : getNodesToDelete(element, rewrite.getRoot())) {
+		for (ASTNode node : getNodesToDelete(element, rewrite.getRoot())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node != null) {
 				list.add(node);
 				rewrite.getASTRewrite().remove(node, group);
@@ -110,7 +110,7 @@ public class ASTNodeDeleteUtil {
 
 	private static void propagateFieldDeclarationNodeDeletions(final List<ASTNode> removed, final CompilationUnitRewrite rewrite, final TextEditGroup group) {
 		Set<ASTNode> removedNodes= getRemovedNodes(removed, rewrite);
-		for (ASTNode node : removedNodes) {
+		for (ASTNode node : removedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof VariableDeclarationFragment) {
 				if (node.getParent() instanceof FieldDeclaration) {
 					FieldDeclaration fd= (FieldDeclaration) node.getParent();

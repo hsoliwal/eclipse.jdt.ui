@@ -69,7 +69,7 @@ public class PartitionDoubleClickSelector extends DefaultTextDoubleClickStrategy
 	 * @see org.eclipse.jface.text.DefaultTextDoubleClickStrategy#findExtendedDoubleClickSelection(org.eclipse.jface.text.IDocument, int)
 	 * @since 3.5
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IRegion findExtendedDoubleClickSelection(IDocument document, int offset) {
 		IRegion match= super.findExtendedDoubleClickSelection(document, offset);
 		if (match != null)

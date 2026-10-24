@@ -31,7 +31,7 @@ import org.eclipse.jdt.internal.corext.util.Strings;
 import org.eclipse.jdt.ui.text.java.JavaContentAssistInvocationContext;
 
 
-public class JavaCompletionProposal extends AbstractJavaCompletionProposal {
+public class JavaCompletionProposal extends AbstractJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/**
 	 * Creates a new completion proposal. All fields are initialized based on the provided
@@ -111,7 +111,7 @@ public class JavaCompletionProposal extends AbstractJavaCompletionProposal {
 		setSortString(displayString == null ? replacementString : displayString.getString());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean isValidPrefix(String prefix) {
 		String word= TextProcessor.deprocess(getDisplayString());
 		if (isInJavadoc()) {
@@ -150,7 +150,7 @@ public class JavaCompletionProposal extends AbstractJavaCompletionProposal {
 			return string;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public StyledString getStyledDisplayString(IDocument document, int offset, BoldStylerProvider boldStylerProvider) {
 		StyledString styledDisplayString= new StyledString();
 		styledDisplayString.append(getStyledDisplayString());
@@ -175,7 +175,7 @@ public class JavaCompletionProposal extends AbstractJavaCompletionProposal {
 				int[] matchingRegions= SearchPattern.getMatchingRegions(pattern, displayString, patternMatchRule);
 				if (matchingRegions != null) {
 					int inc= isClosing ? 2 : 1;
-					for (int i= 0; i < matchingRegions.length; i+= 2) {
+					for (int i= 0; i < matchingRegions.length; i+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						matchingRegions[i]= matchingRegions[i] + inc;
 					}
 				}

@@ -109,8 +109,8 @@ public class DialogCheck {
 	 * verifies the text on all labels and widgets.
 	 * @param composite The composite to look through
 	 */
-	private static void verifyCompositeText(Composite composite) {
-		for (Control child : composite.getChildren()) {
+	private static void verifyCompositeText(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Control child : composite.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				//verify the text if the child is a button
 				verifyButtonText((Button) child);
@@ -134,7 +134,7 @@ public class DialogCheck {
 	 * Verifies that a given button is large enough to display its text.
 	 * @param button The button to verify,
 	 */
-	private static void verifyButtonText(Button button) {
+	private static void verifyButtonText(Button button) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String widget = button.toString();
 		Point size = button.getSize();
 
@@ -170,7 +170,7 @@ public class DialogCheck {
 	 * Verifies that a given label is large enough to display its text.
 	 * @param label The label to verify,
 	 */
-	private static void verifyLabelText(Label label) {
+	private static void verifyLabelText(Label label) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String widget = label.toString();
 		Point size = label.getSize();
 
@@ -209,7 +209,7 @@ public class DialogCheck {
 	 */
 	private static int countLines(String text) {
 		int newLines = 1;
-		for (int i = 0; i < text.length(); i++) {
+		for (int i = 0; i < text.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (text.charAt(i) == '\n') {
 				newLines++;
 			}

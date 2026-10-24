@@ -31,7 +31,7 @@ public class LRUWorkingSetsList {
 
 	public LRUWorkingSetsList(int size) {
 		fSize= size;
-		fLRUList= new ArrayList<>(size);
+		fLRUList= new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void add(IWorkingSet[] workingSets) {
@@ -52,16 +52,16 @@ public class LRUWorkingSetsList {
 
 	public Iterator<IWorkingSet[]> sortedIterator() {
 		removeDeletedWorkingSets();
-		ArrayList<IWorkingSet[]> sortedList= new ArrayList<>(fLRUList);
-		Collections.sort(sortedList, fComparator);
+		ArrayList<IWorkingSet[]> sortedList= new ArrayList<>(fLRUList); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Collections.sort(sortedList, fComparator); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		return sortedList.iterator();
 	}
 
 	private void removeDeletedWorkingSets() {
-		Iterator<IWorkingSet[]> iter= new ArrayList<>(fLRUList).iterator();
-		while (iter.hasNext()) {
+		Iterator<IWorkingSet[]> iter= new ArrayList<>(fLRUList).iterator(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet[] workingSets= iter.next();
-			for (IWorkingSet workingSet : workingSets) {
+			for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSet(workingSet.getName()) == null) {
 					fLRUList.remove(workingSets);
 					break;
@@ -71,11 +71,11 @@ public class LRUWorkingSetsList {
 	}
 
 	private IWorkingSet[] find(ArrayList<IWorkingSet[]> list, IWorkingSet[] workingSets) {
-		Set<IWorkingSet> workingSetList= new HashSet<>(Arrays.asList(workingSets));
+		Set<IWorkingSet> workingSetList= new HashSet<>(Arrays.asList(workingSets)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator<IWorkingSet[]> iter= list.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet[] lruWorkingSets= iter.next();
-			Set<IWorkingSet> lruWorkingSetList= new HashSet<>(Arrays.asList(lruWorkingSets));
+			Set<IWorkingSet> lruWorkingSetList= new HashSet<>(Arrays.asList(lruWorkingSets)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			if (lruWorkingSetList.equals(workingSetList))
 				return lruWorkingSets;
 		}

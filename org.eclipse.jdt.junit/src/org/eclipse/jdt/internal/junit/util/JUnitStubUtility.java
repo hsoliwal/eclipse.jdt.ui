@@ -109,9 +109,9 @@ public class JUnitStubUtility {
 	 * @return The unformatted stub
 	 * @throws CoreException if an error occurs
 	 */
-	public static String genStub(ICompilationUnit compilationUnit, String destTypeName, IMethod method, GenStubSettings settings, String extraAnnotations, ImportsManager imports) throws CoreException {
+	public static String genStub(ICompilationUnit compilationUnit, String destTypeName, IMethod method, GenStubSettings settings, String extraAnnotations, ImportsManager imports) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType declaringtype= method.getDeclaringType();
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String[] paramTypes= method.getParameterTypes();
 		String[] paramNames= method.getParameterNames();
 		String[] excTypes= method.getExceptionTypes();
@@ -132,109 +132,109 @@ public class JUnitStubUtility {
 			}
 		}
 		if (comment != null) {
-			buf.append(comment).append('\n');
+			buf.append(comment).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (extraAnnotations != null) {
-			buf.append(extraAnnotations).append('\n');
+			buf.append(extraAnnotations).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		int flags= method.getFlags();
 		if (Flags.isPublic(flags) || (declaringtype.isInterface() && !settings.noBody)) {
-			buf.append("public "); //$NON-NLS-1$
+			buf.append("public "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else if (Flags.isProtected(flags)) {
-			buf.append("protected "); //$NON-NLS-1$
+			buf.append("protected "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else if (Flags.isPrivate(flags)) {
-			buf.append("private "); //$NON-NLS-1$
+			buf.append("private "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (Flags.isSynchronized(flags)) {
-			buf.append("synchronized "); //$NON-NLS-1$
+			buf.append("synchronized "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (Flags.isVolatile(flags)) {
-			buf.append("volatile "); //$NON-NLS-1$
+			buf.append("volatile "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (Flags.isStrictfp(flags)) {
-			buf.append("strictfp "); //$NON-NLS-1$
+			buf.append("strictfp "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (Flags.isStatic(flags)) {
-			buf.append("static "); //$NON-NLS-1$
+			buf.append("static "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (method.isConstructor()) {
-			buf.append(destTypeName);
+			buf.append(destTypeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
 			String retTypeFrm= Signature.toString(retTypeSig);
 			if (!isBuiltInType(retTypeSig)) {
 				resolveAndAdd(retTypeSig, declaringtype, imports);
 			}
-			buf.append(Signature.getSimpleName(retTypeFrm));
-			buf.append(' ');
-			buf.append(method.getElementName());
+			buf.append(Signature.getSimpleName(retTypeFrm)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(method.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append('(');
-		for (int i= 0; i <= lastParam; i++) {
+		buf.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i <= lastParam; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String paramTypeSig= paramTypes[i];
 			String paramTypeFrm= Signature.toString(paramTypeSig);
 			if (!isBuiltInType(paramTypeSig)) {
 				resolveAndAdd(paramTypeSig, declaringtype, imports);
 			}
-			buf.append(Signature.getSimpleName(paramTypeFrm));
-			buf.append(' ');
-			buf.append(paramNames[i]);
+			buf.append(Signature.getSimpleName(paramTypeFrm)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(paramNames[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (i < lastParam) {
-				buf.append(", "); //$NON-NLS-1$
+				buf.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
-		buf.append(')');
+		buf.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		int lastExc= excTypes.length - 1;
 		if (lastExc >= 0) {
-			buf.append(" throws "); //$NON-NLS-1$
-			for (int i= 0; i <= lastExc; i++) {
+			buf.append(" throws "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i= 0; i <= lastExc; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String excTypeSig= excTypes[i];
 				String excTypeFrm= Signature.toString(excTypeSig);
 				resolveAndAdd(excTypeSig, declaringtype, imports);
-				buf.append(Signature.getSimpleName(excTypeFrm));
+				buf.append(Signature.getSimpleName(excTypeFrm)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i < lastExc) {
-					buf.append(", "); //$NON-NLS-1$
+					buf.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		}
 		if (settings.noBody) {
-			buf.append(";\n\n"); //$NON-NLS-1$
+			buf.append(";\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append(" {\n\t"); //$NON-NLS-1$
+			buf.append(" {\n\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (!settings.callSuper) {
 				if (retTypeSig != null && !Signature.SIG_VOID.equals(retTypeSig)) {
-					buf.append('\t');
+					buf.append('\t'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (!isBuiltInType(retTypeSig) || Signature.getArrayCount(retTypeSig) > 0) {
-						buf.append("return null;\n\t"); //$NON-NLS-1$
+						buf.append("return null;\n\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					} else if (Signature.SIG_BOOLEAN.equals(retTypeSig)) {
-						buf.append("return false;\n\t"); //$NON-NLS-1$
+						buf.append("return false;\n\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					} else {
-						buf.append("return 0;\n\t"); //$NON-NLS-1$
+						buf.append("return 0;\n\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 			} else {
-				buf.append('\t');
+				buf.append('\t'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (!method.isConstructor()) {
 					if (!Signature.SIG_VOID.equals(retTypeSig)) {
-						buf.append("return "); //$NON-NLS-1$
+						buf.append("return "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					buf.append("super."); //$NON-NLS-1$
-					buf.append(method.getElementName());
+					buf.append("super."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(method.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					buf.append("super"); //$NON-NLS-1$
+					buf.append("super"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append('(');
-				for (int i= 0; i <= lastParam; i++) {
-					buf.append(paramNames[i]);
+				buf.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				for (int i= 0; i <= lastParam; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buf.append(paramNames[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (i < lastParam) {
-						buf.append(", "); //$NON-NLS-1$
+						buf.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
-				buf.append(");\n\t"); //$NON-NLS-1$
+				buf.append(");\n\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append("}\n\n");			 //$NON-NLS-1$
+			buf.append("}\n\n");			 //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -281,19 +281,19 @@ public class JUnitStubUtility {
 	 *            instead of the fully qualified type name
 	 * @return a comma-separated list of method parameter type names in parentheses
 	 */
-	public static String getParameterTypes(final IMethod method, final boolean useSimpleNames) {
+	public static String getParameterTypes(final IMethod method, final boolean useSimpleNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String paramTypes= ""; //$NON-NLS-1$
 
 		int numOfParams= method.getNumberOfParameters();
 		if (numOfParams > 0) {
 			String[] parameterTypeSignatures= method.getParameterTypes();
-			ArrayList<String> parameterTypeNames= new ArrayList<>(numOfParams);
+			ArrayList<String> parameterTypeNames= new ArrayList<>(numOfParams); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			try {
 				String[] fullNames= null;
-				for (int i= 0; i < parameterTypeSignatures.length; i++) {
+				for (int i= 0; i < parameterTypeSignatures.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String paramTypeSign= parameterTypeSignatures[i];
-					StringBuilder buf= new StringBuilder();
+					StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 					String typeSign= Signature.getTypeErasure(paramTypeSign);
 					String fullName;
@@ -310,10 +310,10 @@ public class JUnitStubUtility {
 					}
 
 					if (fullName != null) {
-						buf.append(fullName);
+						buf.append(fullName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						int dim= Signature.getArrayCount(typeSign);
-						while (dim > 0) {
-							buf.append("[]"); //$NON-NLS-1$
+						while (dim > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							buf.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							dim--;
 						}
 					}
@@ -338,7 +338,7 @@ public class JUnitStubUtility {
 	 * Evaluates if a member (possible from another package) is visible from
 	 * elements in a package.
 	 */
-	public static boolean isVisible(IMember member, IPackageFragment pack) throws JavaModelException {
+	public static boolean isVisible(IMember member, IPackageFragment pack) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int type= member.getElementType();
 		if  (type == IJavaElement.INITIALIZER ||  (type == IJavaElement.METHOD && member.getElementName().startsWith("<"))) { //$NON-NLS-1$
@@ -357,7 +357,7 @@ public class JUnitStubUtility {
 		return (pack != null && otherpack != null && pack.getElementName().equals(otherpack.getElementName()));
 	}
 
-	public static String[] getParameterTypeNamesForSeeTag(IMethod overridden) {
+	public static String[] getParameterTypeNamesForSeeTag(IMethod overridden) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 			parser.setProject(overridden.getJavaProject());
@@ -371,7 +371,7 @@ public class JUnitStubUtility {
 		// fall back code. Not good for generic methods!
 		String[] paramTypes= overridden.getParameterTypes();
 		String[] paramTypeNames= new String[paramTypes.length];
-		for (int i= 0; i < paramTypes.length; i++) {
+		for (int i= 0; i < paramTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paramTypeNames[i]= Signature.toString(Signature.getTypeErasure(paramTypes[i]));
 		}
 		return paramTypeNames;
@@ -380,7 +380,7 @@ public class JUnitStubUtility {
 	private static String[] getParameterTypeNamesForSeeTag(IMethodBinding binding) {
 		ITypeBinding[] typeBindings= binding.getParameterTypes();
 		String[] result= new String[typeBindings.length];
-		for (int i= 0; i < result.length; i++) {
+		for (int i= 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding curr= typeBindings[i];
 			if (curr.isTypeVariable()) {
 				curr= curr.getErasure(); // in Javadoc only use type variable erasure

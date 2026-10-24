@@ -269,7 +269,7 @@ public class JavaElementImageDescriptor extends CompositeImageDescriptor {
 	}
 
 
-	private void drawTopRight() {
+	private void drawTopRight() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point pos= new Point(getSize().x, 0);
 		if ((fFlags & ABSTRACT) != 0) {
 			addTopRightImage(JavaPluginImages.DESC_OVR_ABSTRACT, pos);
@@ -303,7 +303,7 @@ public class JavaElementImageDescriptor extends CompositeImageDescriptor {
 		}
 	}
 
-	private void drawBottomRight() {
+	private void drawBottomRight() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point size= getSize();
 		Point pos= new Point(size.x, size.y);
 
@@ -341,7 +341,7 @@ public class JavaElementImageDescriptor extends CompositeImageDescriptor {
 		}
 	}
 
-	private void drawBottomLeft() {
+	private void drawBottomLeft() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point pos= new Point(0, getSize().y);
 		if ((fFlags & ERROR) != 0) {
 			addBottomLeftImage(JavaPluginImages.DESC_OVR_ERROR, pos);

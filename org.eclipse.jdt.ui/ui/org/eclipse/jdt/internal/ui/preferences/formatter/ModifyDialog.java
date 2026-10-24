@@ -135,13 +135,13 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			return new Section(label, excomposite, inner, previewKey);
 		}
 
-		private Section(String label, ExpandableComposite control, Composite innerComposite, String previewKey) {
+		private Section(String label, ExpandableComposite control, Composite innerComposite, String previewKey) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(label, control, false);
 			fInnerComposite= innerComposite;
 			fPreviewKey= previewKey;
 
 			Control toggle= null;
-			for (Control child : control.getChildren()) {
+			for (Control child : control.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof Twistie)
 					toggle= child;
 			}
@@ -159,8 +159,8 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 					fToggle.setFocus();
 				}
 			};
-			control.addMouseListener(mouseListener);
-			control.getClient().addMouseListener(mouseListener);
+			control.addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			control.getClient().addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		}
 
 		public String getKey() {
@@ -172,7 +172,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 
 		public Preference<?> findChildPreference(String key) {
-			for (PreferenceTreeNode<?> child : getChildren()) {
+			for (PreferenceTreeNode<?> child : getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof Preference && key.equals(((Preference<?>) child).getKey()))
 					return (Preference<?>) child;
 			}
@@ -187,7 +187,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 
 		protected final T fControl;
 
-		public ModifyAll(Section section, Images images) {
+		public ModifyAll(Section section, Images images) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fSection= section;
 
 			final ExpandableComposite excomposite= section.getControl();
@@ -205,7 +205,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			fControl= createControl(fModifyAllPanel);
 
 			ToolItem item= createToolItem(modifyAllParent, images);
-			item.addSelectionListener(new SelectionAdapter() {
+			item.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fModifyAllPanel.setVisible(!fModifyAllPanel.isVisible());
@@ -217,7 +217,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 					}
 				}
 			});
-			fControl.addFocusListener(new FocusAdapter() {
+			fControl.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 				@Override
 				public void focusLost(FocusEvent e) {
 					fModifyAllPanel.setVisible(false);
@@ -230,10 +230,10 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		protected abstract void prepareControl();
 
 		protected <P extends Preference<T>> List<P> findPreferences(Class<P> prefClass) {
-			List<P> result= new ArrayList<>();
-			ArrayDeque<PreferenceTreeNode<?>> queue= new ArrayDeque<>();
+			List<P> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			ArrayDeque<PreferenceTreeNode<?>> queue= new ArrayDeque<>(); //FLLDCIM: MARK — M08 M3_DEQUE_LANES NEW
 			queue.add(fSection);
-			while (!queue.isEmpty()) {
+			while (!queue.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				PreferenceTreeNode<?> node= queue.removeFirst();
 				if (!node.isVisible())
 					continue;
@@ -262,7 +262,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 
 		private String fKey;
 
-		private Map<PreferenceTreeNode<?>, Predicate<String>> fDependants= new HashMap<>();
+		private Map<PreferenceTreeNode<?>, Predicate<String>> fDependants= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		protected PreferenceHighlight fHighlight;
 
@@ -278,7 +278,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			fValueChangeListener= valueChangeListener;
 			updateWidget();
 
-			fControl.addFocusListener(new FocusAdapter() {
+			fControl.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 				@Override
 				public void focusLost(FocusEvent e) {
 					fValueValidator.test(null);
@@ -338,7 +338,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 
 		private void updateDependants() {
-			for (Entry<PreferenceTreeNode<?>, Predicate<String>> entry : fDependants.entrySet()) {
+			for (Entry<PreferenceTreeNode<?>, Predicate<String>> entry : fDependants.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				PreferenceTreeNode<?> dependant= entry.getKey();
 				Predicate<String> dependencyChecker= entry.getValue();
 				dependant.setEnabled(dependencyChecker.test(fWorkingValues.get(fKey)));
@@ -406,7 +406,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			super(button, label, key, FilteredPreferenceTree.CHECK_BOX_MATCHER);
 			fValues= values;
 
-			button.addSelectionListener(new SelectionAdapter() {
+			button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					updateValue();
@@ -426,17 +426,17 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			fControl.setSelection(checked);
 		}
 
-		public static ModifyAll<Button> addModifyAll(Section section, Images images) {
+		public static ModifyAll<Button> addModifyAll(Section section, Images images) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new ModifyAll<>(section, images) {
 				@Override
 				protected Button createControl(Composite parent) {
 					Button checkBox= new Button(parent, SWT.CHECK);
 					checkBox.setFont(parent.getFont());
-					checkBox.addSelectionListener(new SelectionAdapter() {
+					checkBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							boolean selected= fControl.getSelection();
-							for (CheckboxPreference pref : findPreferences(CheckboxPreference.class)) {
+							for (CheckboxPreference pref : findPreferences(CheckboxPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								pref.getControl().setSelection(selected);
 								pref.updateValue();
 							}
@@ -450,7 +450,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 				protected void prepareControl() {
 					List<CheckboxPreference> preferences= findPreferences(CheckboxPreference.class);
 					int count= 0;
-					for (CheckboxPreference pref : preferences) {
+					for (CheckboxPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (pref.getControl().getSelection())
 							count++;
 					}
@@ -496,7 +496,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 
 			fValues= Arrays.asList(values);
 
-			combo.addSelectionListener(new SelectionAdapter() {
+			combo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					updateValue();
@@ -520,20 +520,20 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			return fValues.get(fControl.getSelectionIndex());
 		}
 
-		public static ModifyAll<Combo> addModifyAll(Section section, Images images) {
+		public static ModifyAll<Combo> addModifyAll(Section section, Images images) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new ModifyAll<>(section, images) {
-				ArrayList<String> fItems= new ArrayList<>();
+				ArrayList<String> fItems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected Combo createControl(Composite parent) {
 					Combo combo= new Combo(parent, SWT.SINGLE | SWT.READ_ONLY);
 					combo.setFont(parent.getFont());
 					SWTUtil.setDefaultVisibleItemCount(combo);
-					combo.addSelectionListener(new SelectionAdapter() {
+					combo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							String selected= fItems.get(fControl.getSelectionIndex());
-							for (ComboPreference pref : findPreferences(ComboPreference.class)) {
+							for (ComboPreference pref : findPreferences(ComboPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								int index= pref.fControl.indexOf(selected);
 								if (index >= 0)
 									pref.fControl.select(index);
@@ -545,13 +545,13 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 					return combo;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected void prepareControl() {
-					LinkedHashMap<String, Integer> itemCounts= new LinkedHashMap<>();
+					LinkedHashMap<String, Integer> itemCounts= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					List<ComboPreference> preferences= findPreferences(ComboPreference.class);
-					for (ComboPreference pref : preferences) {
+					for (ComboPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String[] items= pref.getControl().getItems();
-						for (String item : items) {
+						for (String item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!itemCounts.containsKey(item))
 								itemCounts.put(item, 0);
 						}
@@ -564,7 +564,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 					int i= 0;
 					int maxCount= 0;
 					int maxCountIndex= 0;
-					for (Entry<String, Integer> entry : itemCounts.entrySet()) {
+					for (Entry<String, Integer> entry : itemCounts.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String item= entry.getKey();
 						int count= entry.getValue();
 						fItems.add(item);
@@ -621,7 +621,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		private NumberPreference(Spinner spinner, String label, String key) {
 			super(spinner, label, key, FilteredPreferenceTree.SPINNER_VALUE_MATCHER);
 
-			spinner.addSelectionListener(new SelectionAdapter() {
+			spinner.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					updateValue();
@@ -648,11 +648,11 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			return Integer.toString(fControl.getSelection());
 		}
 
-		public static ModifyAll<Spinner> addModifyAll(final int minValue, final int maxValue, Section section, Images images) {
+		public static ModifyAll<Spinner> addModifyAll(final int minValue, final int maxValue, Section section, Images images) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new ModifyAll<>(section, images) {
 				private Label fLabel;
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected Spinner createControl(Composite parent) {
 					GridLayout layout= new GridLayout(2, false);
 					layout.marginWidth= layout.marginHeight= 0;
@@ -660,11 +660,11 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 
 					fLabel= createLabel(1, parent, "", 0); //$NON-NLS-1$
 					Spinner spinner= createSpinner(parent, minValue, maxValue);
-					spinner.addSelectionListener(new SelectionAdapter() {
+					spinner.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							int selected= fControl.getSelection();
-							for (NumberPreference pref : findPreferences(NumberPreference.class)) {
+							for (NumberPreference pref : findPreferences(NumberPreference.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								pref.getControl().setSelection(selected);
 								pref.updateValue();
 							}
@@ -678,9 +678,9 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 				protected void prepareControl() {
 					int modeValue= 0;
 					int modeCount= -1;
-					HashMap<Integer, Integer> counts= new HashMap<>();
+					HashMap<Integer, Integer> counts= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 					List<NumberPreference> preferences= findPreferences(NumberPreference.class);
-					for (NumberPreference pref : preferences) {
+					for (NumberPreference pref : preferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int value= pref.getControl().getSelection();
 						int count= counts.merge(value, 1, Integer::sum);
 						if (count > modeCount) {
@@ -727,9 +727,9 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		private StringPreference(Text control, String label, String key) {
 			super(control, label, key, FilteredPreferenceTree.TEXT_VALUE_MATCHER);
 
-			fControl.addModifyListener(unused -> updateValue());
+			fControl.addModifyListener(unused -> updateValue()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
-			fControl.addFocusListener(new FocusAdapter() {
+			fControl.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 				@Override
 				public void focusGained(FocusEvent e) {
 					fControl.setSelection(0, fControl.getCharCount());
@@ -779,7 +779,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 
 		public class SectionBuilder extends SimpleTreeBuilder<Section> {
-			private ArrayList<SimpleTreeBuilder<?>> fChildren= new ArrayList<>();
+			private ArrayList<SimpleTreeBuilder<?>> fChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			SectionBuilder(String label, String key, Consumer<Section> customizer) {
 				super(label, key, customizer);
@@ -803,19 +803,19 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 				return this;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public Section build(Section parent, PreferenceBuilder prefBuilder) {
 				String key= fKey;
 				if (key != null) {
 					Section ancestorWithKey= parent;
-					while (ancestorWithKey != null && ancestorWithKey.getKey() == null)
+					while (ancestorWithKey != null && ancestorWithKey.getKey() == null) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ancestorWithKey= (Section) ancestorWithKey.getParent();
 					if (ancestorWithKey != null)
-						key= ancestorWithKey.getKey() + key;
+						key= ancestorWithKey.getKey() + key; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 
 				Section section= addSection(parent, fLabel, key);
-				for (SimpleTreeBuilder<?> child : fChildren) {
+				for (SimpleTreeBuilder<?> child : fChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					child.build(section, prefBuilder);
 					if (child.fGap)
 						addGap(section);
@@ -852,7 +852,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			modifyAllToolbar.dispose();
 		}
 
-		public Section addSection(Section parent, String label, String previewKey) {
+		public Section addSection(Section parent, String label, String previewKey) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Section section= Section.create(getParentComposite(parent), label, previewKey);
 
 			ExpandableComposite excomposite= section.getControl();
@@ -862,7 +862,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			Menu expandAllMenu= new Menu(excomposite);
 			MenuItem expandAllItem= new MenuItem(expandAllMenu, SWT.NONE);
 			expandAllItem.setText(PreferencesMessages.FilteredPreferencesTree_expandAll_tooltip);
-			expandAllItem.addSelectionListener(new SelectionAdapter() {
+			expandAllItem.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					setAllExpanded(section, true);
@@ -893,7 +893,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			return addChild(parent, stringPreference);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public <T extends PreferenceTreeNode<?>> T addChild(PreferenceTreeNode<?> parent, T node) {
 			super.addChild(parent, node);
 			fFocusManager.add(node);
@@ -930,7 +930,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 
 		private Composite getParentComposite(PreferenceTreeNode<?> parent) {
-			while (parent != null) {
+			while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parent instanceof Section)
 					return ((Section) parent).fInnerComposite;
 				parent= parent.getParent();
@@ -940,7 +940,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 
 		protected int getIndent(PreferenceTreeNode<?> parent) {
 			int indent= 0;
-			while (parent != null) {
+			while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parent instanceof Section)
 					return indent;
 				indent++;
@@ -962,7 +962,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 
 		private void writeExpansionState(PreferenceTreeNode<?> node, OutputStream output) throws IOException {
-			for (PreferenceTreeNode<?> child : node.getChildren()) {
+			for (PreferenceTreeNode<?> child : node.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof Section) {
 					output.write(((Section) child).getControl().isExpanded() ? '1' : '0');
 					writeExpansionState(child, output);
@@ -985,7 +985,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 
 		private void readExpansionState(PreferenceTreeNode<?> node, InputStream in) throws IOException {
-			for (PreferenceTreeNode<?> child : node.getChildren()) {
+			for (PreferenceTreeNode<?> child : node.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof Section) {
 					int state= in.read();
 					((Section) child).getControl().setExpanded(state == '1');
@@ -995,7 +995,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 				}
 			}
 			int c= in.read();
-			while (c != '.' && c != -1) { // some extra nodes in stored tree
+			while (c != '.' && c != -1) { // some extra nodes in stored tree //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				readExpansionState(new PreferenceTreeNode<>(null, null, false), in);
 				c= in.read();
 			}
@@ -1023,15 +1023,15 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 				restoreExpansionState();
 		}
 
-		public void unifySectionTitlesHeights(Section section) {
+		public void unifySectionTitlesHeights(Section section) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<PreferenceTreeNode<?>> children= section == null ? fRoot.getChildren() : section.getChildren();
 			int maxHeightDiff= 0;
-			for (PreferenceTreeNode<?> child : children) {
+			for (PreferenceTreeNode<?> child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof Section)
 					maxHeightDiff= Math.max(maxHeightDiff, ((Section) child).getControl().getTextClientHeightDifference());
 			}
 			int nextChildIndent= 0;
-			for (PreferenceTreeNode<?> child : children) {
+			for (PreferenceTreeNode<?> child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int indent= nextChildIndent;
 				nextChildIndent= 0;
 				if (child instanceof Section) {
@@ -1049,11 +1049,11 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 	}
 
 	public static class Images {
-		private Map<ImageDescriptor, Image> imagesMap= new HashMap<>();
+		private Map<ImageDescriptor, Image> imagesMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		protected Images(Composite rootComposite) {
-			rootComposite.addDisposeListener(unused -> {
-				for (Image image : imagesMap.values())
+			rootComposite.addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
+				for (Image image : imagesMap.values()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					image.dispose();
 				imagesMap.clear();
 			});
@@ -1077,9 +1077,9 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 	 * created.
 	 */
 	protected final class FocusManager implements FocusListener {
-		private HashMap<Control, PreferenceTreeNode<?>> fControl2node= new HashMap<>();
-		private final Map<Control, Integer> fItemMap= new HashMap<>();
-		private final List<Control> fItemList= new ArrayList<>();
+		private HashMap<Control, PreferenceTreeNode<?>> fControl2node= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		private final Map<Control, Integer> fItemMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
+		private final List<Control> fItemList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private int fIndex= 0;
 		private PreferenceTreeNode<?> fCurrentlyFocused;
 
@@ -1094,7 +1094,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 
 		private void add(Control control) {
-			control.addFocusListener(this);
+			control.addFocusListener(this); //FLLDCIM: MARK — T15 FOCUS CALL
 			fItemList.add(fIndex, control);
 			fItemMap.put(control, fIndex++);
 		}
@@ -1126,12 +1126,12 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 
 		private void changeFont(Control control, boolean italic) {
-			Display.getCurrent().asyncExec(() -> {
+			Display.getCurrent().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				FontData fd= control.getFont().getFontData()[0];
 				int style= italic ? (fd.getStyle() | SWT.ITALIC) : (fd.getStyle() & ~SWT.ITALIC);
 				FontData fontData= new FontData(fd.getName(), fd.getHeight(), style);
 				Font font= new Font(control.getDisplay(), fontData);
-				control.addDisposeListener(unused -> font.dispose());
+				control.addDisposeListener(unused -> font.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				control.setFont(font);
 				if (control instanceof Composite)
 					((Composite) control).layout();
@@ -1202,28 +1202,28 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 	private String fPreviewSources= ""; //$NON-NLS-1$
 	private int fCurrentPreviewType;
 
-	public ModifyDialog(Shell parentShell, Profile profile, ProfileManager profileManager, ProfileStore profileStore, boolean newProfile, String dialogPreferencesKey, String lastSavePathKey) {
+	public ModifyDialog(Shell parentShell, Profile profile, ProfileManager profileManager, ProfileStore profileStore, boolean newProfile, String dialogPreferencesKey, String lastSavePathKey) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parentShell);
 
 		fProfileStore= profileStore;
 		fLastSaveLoadPathKey= lastSavePathKey;
 
-		fKeyPreferredWidth= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERRED_WIDTH;
-		fKeyPreferredHight= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERRED_HEIGHT;
-		fKeyPreferredX= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERRED_X;
-		fKeyPreferredY= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERRED_Y;
-		fKeySashFormLeftWidth= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_SASH_FORM_LEFT_WIDTH;
-		fKeySashFormRightWidth= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_SASH_FORM_RIGHT_WIDTH;
-		fKeyPreferenceTreeExpansion= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERENCE_TREE_EXPANSION;
-		fKeyPreferenceScrollPosition= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERENCE_SCROLL_POSITION;
-		fKeyLastFocusIndex= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_LAST_FOCUS_INDEX;
+		fKeyPreferredWidth= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERRED_WIDTH; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fKeyPreferredHight= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERRED_HEIGHT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fKeyPreferredX= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERRED_X; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fKeyPreferredY= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERRED_Y; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fKeySashFormLeftWidth= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_SASH_FORM_LEFT_WIDTH; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fKeySashFormRightWidth= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_SASH_FORM_RIGHT_WIDTH; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fKeyPreferenceTreeExpansion= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERENCE_TREE_EXPANSION; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fKeyPreferenceScrollPosition= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_PREFERENCE_SCROLL_POSITION; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fKeyLastFocusIndex= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_LAST_FOCUS_INDEX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		fProfileManager= profileManager;
 		fNewProfile= newProfile;
 
 		fProfile= profile;
 		setTitle(Messages.format(FormatterMessages.ModifyDialog_dialog_title, profile.getName()));
-		fWorkingValues= new HashMap<>(fProfile.getSettings());
+		fWorkingValues= new HashMap<>(fProfile.getSettings()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		setStatusLineAboveButtons(false);
 		fDialogSettings= JavaPlugin.getDefault().getDialogSettings();
 
@@ -1255,8 +1255,8 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		return composite;
 	}
 
-	protected void createMainArea(Composite parent) {
-		fSashForm= new SashForm(parent, SWT.HORIZONTAL);
+	protected void createMainArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fSashForm= new SashForm(parent, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		fSashForm.setFont(parent.getFont());
 		fSashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -1290,7 +1290,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		fTree.setExpectMultiWordValueMatch(true);
 
 		// restoring scroll position must wait until layout is complete
-		Display.getCurrent().asyncExec(fTree::restoreScrollPosition);
+		Display.getCurrent().asyncExec(fTree::restoreScrollPosition); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	private void createNameArea(final Composite parent) {
@@ -1376,19 +1376,19 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		if (!fProfile.getName().equals(fProfileNameField.getText())) {
 			fProfile= fProfile.rename(fProfileNameField.getText(), fProfileManager);
 		}
-		fProfile.setSettings(new HashMap<>(fWorkingValues));
+		fProfile.setSettings(new HashMap<>(fWorkingValues)); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		fProfileManager.setSelected(fProfile);
 		doValidate();
 	}
 
-	private void saveButtonPressed() {
-		Profile selected= new CustomProfile(fProfileNameField.getText(), new HashMap<>(fWorkingValues), fProfile.getVersion(), fProfileManager.getProfileVersioner().getProfileKind());
+	private void saveButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Profile selected= new CustomProfile(fProfileNameField.getText(), new HashMap<>(fWorkingValues), fProfile.getVersion(), fProfileManager.getProfileVersioner().getProfileKind()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		final FileDialog dialog= new FileDialog(getShell(), SWT.SAVE | SWT.SHEET);
 		dialog.setText(FormatterMessages.CodingStyleConfigurationBlock_save_profile_dialog_title);
 		dialog.setFilterExtensions(new String [] {"*.xml"}); //$NON-NLS-1$
 
-		final String lastPath= JavaPlugin.getDefault().getDialogSettings().get(fLastSaveLoadPathKey + ".savepath"); //$NON-NLS-1$
+		final String lastPath= JavaPlugin.getDefault().getDialogSettings().get(fLastSaveLoadPathKey + ".savepath"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (lastPath != null) {
 			dialog.setFilterPath(lastPath);
 		}
@@ -1396,17 +1396,17 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		if (path == null)
 			return;
 
-		JavaPlugin.getDefault().getDialogSettings().put(fLastSaveLoadPathKey + ".savepath", dialog.getFilterPath()); //$NON-NLS-1$
+		JavaPlugin.getDefault().getDialogSettings().put(fLastSaveLoadPathKey + ".savepath", dialog.getFilterPath()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		final File file= new File(path);
-		if (file.exists() && !MessageDialog.openQuestion(getShell(), FormatterMessages.CodingStyleConfigurationBlock_save_profile_overwrite_title, Messages.format(FormatterMessages.CodingStyleConfigurationBlock_save_profile_overwrite_message, BasicElementLabels.getPathLabel(file)))) {
+		if (file.exists() && !MessageDialog.openQuestion(getShell(), FormatterMessages.CodingStyleConfigurationBlock_save_profile_overwrite_title, Messages.format(FormatterMessages.CodingStyleConfigurationBlock_save_profile_overwrite_message, BasicElementLabels.getPathLabel(file)))) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			return;
 		}
 		String encoding= ProfileStore.ENCODING;
 		final IContentType type= Platform.getContentTypeManager().getContentType("org.eclipse.core.runtime.xml"); //$NON-NLS-1$
 		if (type != null)
 			encoding= type.getDefaultCharset();
-		final Collection<Profile> profiles= new ArrayList<>();
+		final Collection<Profile> profiles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		profiles.add(selected);
 		try {
 			fProfileStore.writeProfilesToFile(profiles, file, encoding);
@@ -1450,7 +1450,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		}
 	}
 
-	private void doValidate() {
+	private void doValidate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= fProfileNameField.getText().trim();
 		if (name.equals(fProfile.getName()) && fProfile.hasEqualSettings(fWorkingValues, fWorkingValues.keySet())) {
 			updateStatus(StatusInfo.OK_STATUS);
@@ -1476,7 +1476,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		updateStatus(StatusInfo.OK_STATUS);
 	}
 
-	private IStatus validateProfileName() {
+	private IStatus validateProfileName() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String name= fProfileNameField.getText().trim();
 
 		if (fProfile.isBuiltInProfile()) {
@@ -1503,7 +1503,7 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			return true;
 
 		Iterator<Entry<String, String>> iter= fProfile.getSettings().entrySet().iterator();
-		for (;iter.hasNext();) {
+		for (;iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<String, String> curr= iter.next();
 			if (!fWorkingValues.get(curr.getKey()).equals(curr.getValue())) {
 				return true;
@@ -1530,12 +1530,12 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		if (fPreview != null) {
 			String previewCode= getPreviewCode();
 			if (previewCode == null || previewCode.trim().isEmpty())
-				previewCode= "// " + FormatterMessages.ModifyDialog_previewMissing_comment; //$NON-NLS-1$
+				previewCode= "// " + FormatterMessages.ModifyDialog_previewMissing_comment; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fPreview.setPreviewText(previewCode, fCurrentPreviewType);
 		}
 	}
 
-	private String getPreviewCode() {
+	private String getPreviewCode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PreferenceTreeNode<?> currentNode= fFocusManager.fCurrentlyFocused;
 		if (currentNode == null)
 			return null;
@@ -1546,16 +1546,16 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			return previewCode;
 
 		// combine previews from children, if any
-		StringBuilder sb= new StringBuilder();
-		List<PreferenceTreeNode<?>> currentLevel= new ArrayList<>(currentNode.getChildren());
-		List<PreferenceTreeNode<?>> nextLevel= new ArrayList<>();
-		while (!currentLevel.isEmpty()) {
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		List<PreferenceTreeNode<?>> currentLevel= new ArrayList<>(currentNode.getChildren()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<PreferenceTreeNode<?>> nextLevel= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (!currentLevel.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean onlyModuleInfos= true;
-			for (PreferenceTreeNode<?> node : currentLevel) {
+			for (PreferenceTreeNode<?> node : currentLevel) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				previewCode= doGetPreviewCode(node);
 				onlyModuleInfos= onlyModuleInfos && fCurrentPreviewType == CodeFormatter.K_MODULE_INFO;
 				if (previewCode != null && sb.indexOf(previewCode) == -1)
-					sb.append("\n\n").append(previewCode); //$NON-NLS-1$
+					sb.append("\n\n").append(previewCode); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				nextLevel.addAll(node.getChildren());
 			}
 			if (sb.length() > 0) {
@@ -1564,12 +1564,12 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 			}
 
 			currentLevel= nextLevel;
-			nextLevel= new ArrayList<>();
+			nextLevel= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		// try its ancestors
 		PreferenceTreeNode<?> node= currentNode.getParent();
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			previewCode= doGetPreviewCode(node);
 			if (previewCode != null)
 				return previewCode;
@@ -1579,13 +1579,13 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 		return null;
 	}
 
-	private String doGetPreviewCode(PreferenceTreeNode<?> node) {
+	private String doGetPreviewCode(PreferenceTreeNode<?> node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof Section) && !(node instanceof Preference))
 			return null;
 		String key= node instanceof Section ? ((Section) node).getKey() : ((Preference<?>) node).getKey();
 		final String START_PREFIX= "//--PREVIEW--START--"; //$NON-NLS-1$
 		final String END_PREFIX= "//--PREVIEW--END--"; //$NON-NLS-1$
-		int startIndex= fPreviewSources.indexOf(START_PREFIX + key);
+		int startIndex= fPreviewSources.indexOf(START_PREFIX + key); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (startIndex < 0)
 			return null;
 
@@ -1611,15 +1611,15 @@ public abstract class ModifyDialog extends StatusDialog implements IModification
 				return null;
 		}
 
-		int endIndex= fPreviewSources.indexOf(END_PREFIX + key + '\n');
+		int endIndex= fPreviewSources.indexOf(END_PREFIX + key + '\n'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String previewCode= fPreviewSources.substring(startIndex, endIndex);
-		previewCode= previewCode.replaceAll(START_PREFIX + ".*\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$
-		previewCode= previewCode.replaceAll(END_PREFIX + ".*\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		previewCode= previewCode.replaceAll(START_PREFIX + ".*\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		previewCode= previewCode.replaceAll(END_PREFIX + ".*\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		return previewCode;
 	}
 
 	protected void loadPreviews(String previewFile) {
-		String resource= "/preview/" + previewFile; //$NON-NLS-1$
+		String resource= "/preview/" + previewFile; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try (Scanner s= new Scanner(getClass().getResourceAsStream(resource), StandardCharsets.UTF_8)) {
 			fPreviewSources= s.useDelimiter("\\A").next(); //$NON-NLS-1$
 		}

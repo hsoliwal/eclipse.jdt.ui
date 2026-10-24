@@ -79,7 +79,7 @@ public class NewCompactWizardPage extends NewTypeWizardPage {
 		doStatusUpdate();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void initTypePage(IJavaElement elem) {
 		IJavaProject project= null;
 		IPackageFragment pack= null;
@@ -141,7 +141,7 @@ public class NewCompactWizardPage extends NewTypeWizardPage {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -193,32 +193,32 @@ public class NewCompactWizardPage extends NewTypeWizardPage {
 		createMainMethod(type, imports);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IMethod createMainMethod(IType type, ImportsManager imports) throws CoreException{
 		if (type != null ) {
-			StringBuilder buf= new StringBuilder();
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 			final String lineDelim= "\n"; //$NON-NLS-1$
 			if (isAddComments()) {
 				String comment= CodeGeneration.getMethodComment(type.getCompilationUnit(), type.getTypeQualifiedName('.'), "main", new String[] { }, new String[0], Signature.createTypeSignature("void", true), null, lineDelim); //$NON-NLS-1$ //$NON-NLS-2$
 				if (comment != null) {
-					buf.append(comment);
-					buf.append(lineDelim);
+					buf.append(comment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			int modifiers= getModifiers();
-			buf.append(Flags.toString(modifiers));
+			buf.append(Flags.toString(modifiers)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (modifiers != 0) {
-				buf.append(' ');
+				buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
-			buf.append("void main() {"); //$NON-NLS-1$
-			buf.append(lineDelim);
+			buf.append("void main() {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			final String content= CodeGeneration.getMethodBodyContent(type.getCompilationUnit(), type.getTypeQualifiedName('.'), "main", false, "", lineDelim); //$NON-NLS-1$ //$NON-NLS-2$
 			if (content != null && content.length() != 0)
-				buf.append(content);
-			buf.append(lineDelim);
-			buf.append("}"); //$NON-NLS-1$
+				buf.append(content); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			ICompilationUnit cu= type.getCompilationUnit();
 			cu.getBuffer().setContents(buf.toString());
 			return type.getMethod("main", new String[0]); //$NON-NLS-1$

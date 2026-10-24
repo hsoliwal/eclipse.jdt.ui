@@ -73,7 +73,7 @@ public final class CreateTextFileChangePreviewViewer implements IChangePreviewVi
 
 		public CreateTextFilePreviewer(Composite parent, int style) {
 			super(parent, style);
-			addDisposeListener(unused -> disposeImage());
+			addDisposeListener(unused -> disposeImage()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 
 		/*package*/ void disposeImage() {
@@ -107,7 +107,7 @@ public final class CreateTextFileChangePreviewViewer implements IChangePreviewVi
 
 	private static class FileChangeSourceViewer extends SourceViewer {
 
-		private final Map<String, Color> customColors= new HashMap<>();
+		private final Map<String, Color> customColors= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		public FileChangeSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
 			super(parent, ruler, styles);
@@ -123,7 +123,7 @@ public final class CreateTextFileChangePreviewViewer implements IChangePreviewVi
 			super.handleDispose();
 		}
 
-		private void setColors() {
+		private void setColors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPreferenceStore store= EditorsUI.getPreferenceStore();
 			StyledText styledText= getTextWidget();
 			setColor(styledText, store,
@@ -144,7 +144,7 @@ public final class CreateTextFileChangePreviewViewer implements IChangePreviewVi
 							AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND_SYSTEM_DEFAULT));
 		}
 
-		private void setColor(StyledText styledText, IPreferenceStore store,
+		private void setColor(StyledText styledText, IPreferenceStore store, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				String key, boolean useDefault) {
 			Color newColor= useDefault
 					? null
@@ -209,7 +209,7 @@ public final class CreateTextFileChangePreviewViewer implements IChangePreviewVi
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setInput(ChangePreviewViewerInput input) {
 		Change change= input.getChange();
 		if (change != null) {

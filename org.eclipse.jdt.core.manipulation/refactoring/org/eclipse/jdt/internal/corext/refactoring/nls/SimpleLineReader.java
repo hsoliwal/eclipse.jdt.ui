@@ -32,7 +32,7 @@ public class SimpleLineReader {
         fCurrLine= 0;
     }
 
-    public String readLine() {
+    public String readLine() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	int nLines= fInput.getNumberOfLines();
     	if (fCurrLine >= nLines) {
     		return null;
@@ -46,7 +46,7 @@ public class SimpleLineReader {
 
 			boolean continuesOnNext= content.endsWith("\\") && !isCommentOrWhiteSpace(content); //$NON-NLS-1$
 
-			while (continuesOnNext && fCurrLine < nLines) {
+			while (continuesOnNext && fCurrLine < nLines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				region= fInput.getLineInformation(fCurrLine++);
 				content= fInput.get(region.getOffset(), region.getLength());
 				continuesOnNext= content.endsWith("\\") && !isCommentOrWhiteSpace(content); //$NON-NLS-1$

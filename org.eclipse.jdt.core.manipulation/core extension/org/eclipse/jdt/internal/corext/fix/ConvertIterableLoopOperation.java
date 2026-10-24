@@ -88,7 +88,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 	 *            the qualified name of the supertype
 	 * @return the supertype, or <code>null</code>
 	 */
-	private static ITypeBinding getSuperType(final ITypeBinding binding, final String name) {
+	private static ITypeBinding getSuperType(final ITypeBinding binding, final String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding.isArray() || binding.isPrimitive())
 			return null;
 
@@ -101,7 +101,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 			if (result != null)
 				return result;
 		}
-		for (ITypeBinding type2 : binding.getInterfaces()) {
+		for (ITypeBinding type2 : binding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding result= getSuperType(type2, name);
 			if (result != null)
 				return result;
@@ -128,7 +128,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 	private IVariableBinding fIteratorVariable;
 
 	/** The nodes of the element variable occurrences */
-	private final List<Expression> fOccurrences= new ArrayList<>(2);
+	private final List<Expression> fOccurrences= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private EnhancedForStatement fEnhancedForLoop;
 
@@ -156,7 +156,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 		return getVariableNameProposals()[0];
 	}
 
-	private String[] getVariableNameProposals() {
+	private String[] getVariableNameProposals() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] variableNames= getUsedVariableNames();
 		String baseName= FOR_LOOP_ELEMENT_IDENTIFIER;
 		if (fExpression != null) {
@@ -231,7 +231,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 		return getRoot().getAST().resolveWellKnownType(Object.class.getCanonicalName());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Statement convert(CompilationUnitRewrite cuRewrite, final TextEditGroup group, final LinkedProposalModelCore positionGroups) throws CoreException {
 		AST ast= cuRewrite.getAST();
 		ASTRewrite astRewrite= cuRewrite.getASTRewrite();
@@ -251,7 +251,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 		LinkedProposalPositionGroupCore pg= positionGroups.getPositionGroup(name, true);
 		if (fElementVariable != null)
 			pg.addProposal(name, 10);
-		for (String name2 : names) {
+		for (String name2 : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pg.addProposal(name2, 10);
 		}
 
@@ -261,7 +261,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 			ListRewrite list;
 			if (body instanceof Block) {
 				list= astRewrite.getListRewrite(body, Block.STATEMENTS_PROPERTY);
-				for (Expression expression : fOccurrences) {
+				for (Expression expression : fOccurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Statement parent= ASTNodes.getParent(expression, Statement.class);
 					removeorReplaceStatementByTrailingComments(cuRewrite, group, astRewrite, remover, commentList, parent);
 				}
@@ -282,7 +282,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 
 				private void checkChildOperations(Expression newExpression, SimpleName node) {
 					ConvertLoopOperation child= getChildLoopOperation();
-					while (child != null) {
+					while (child != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (child instanceof ConvertIterableLoopOperation) {
 							Expression exp= ((ConvertIterableLoopOperation) child).getExpression();
 							if (newExpression.subtreeMatch(new ASTMatcher(), exp)) {
@@ -293,7 +293,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 					}
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public final boolean visit(final MethodInvocation node) {
 					IMethodBinding binding= node.resolveMethodBinding();
 					if (binding != null && ("next".equals(binding.getName()) || "nextElement".equals(binding.getName()))) { //$NON-NLS-1$ //$NON-NLS-2$
@@ -303,7 +303,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 							if (result != null && result.equals(fIteratorVariable)) {
 								List<ASTNode> siblingNodes = Optional.ofNullable(ASTNodes.getParent(node, Statement.class))
 										.map(it -> ASTNodes.getChildren(it))
-										.orElse(new ArrayList<>());
+										.orElse(new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 								if(siblingNodes.stream().allMatch(node::equals)) {
 									Statement parentStatement = ASTNodes.getParent(node, Statement.class);
 									removeorReplaceStatementByTrailingComments(cuRewrite, group, astRewrite, remover, commentList, parentStatement);
@@ -351,7 +351,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 		fEnhancedForLoop.setParameter(declaration);
 		fEnhancedForLoop.setExpression(getExpression(astRewrite));
 
-		for (Object node : getForStatement().initializers()) {
+		for (Object node : getForStatement().initializers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof VariableDeclarationExpression) {
 				VariableDeclarationExpression variableDeclarationExpression= (VariableDeclarationExpression) node;
 				remover.registerRemovedNode(variableDeclarationExpression.getType());
@@ -360,18 +360,18 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 			}
 		}
 
-		for (Object object : getForStatement().updaters()) {
+		for (Object object : getForStatement().updaters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			remover.registerRemovedNode((ASTNode) object);
 		}
 
 		return fEnhancedForLoop;
 	}
 
-	private void removeorReplaceStatementByTrailingComments(CompilationUnitRewrite cuRewrite, final TextEditGroup group, ASTRewrite astRewrite, ImportRemover remover, List<Comment> commentList, Statement parent) {
+	private void removeorReplaceStatementByTrailingComments(CompilationUnitRewrite cuRewrite, final TextEditGroup group, ASTRewrite astRewrite, ImportRemover remover, List<Comment> commentList, Statement parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parent != null && parent.getParent() instanceof Block) {
 			ListRewrite innerList= astRewrite.getListRewrite(parent.getParent(), Block.STATEMENTS_PROPERTY);
-			List<ASTNode> newComments= new ArrayList<>();
-			for (Comment comment : commentList) {
+			List<ASTNode> newComments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Comment comment : commentList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CompilationUnit cu= (CompilationUnit)parent.getRoot();
 				if (comment.getStartPosition() >= cu.getExtendedStartPosition(parent)
 						&& comment.getStartPosition() + comment.getLength() < parent.getStartPosition()) {
@@ -388,7 +388,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 			if (!newComments.isEmpty()) {
 				ASTNode lastComment= newComments.get(0);
 				innerList.replace(parent, lastComment, group);
-				for (int i= 1; i < newComments.size(); ++i) {
+				for (int i= 1; i < newComments.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode nextComment= newComments.get(i);
 					innerList.insertAfter(nextComment, lastComment, group);
 					lastComment= nextComment;
@@ -414,7 +414,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 	 * @return A status with severity <code>IStatus.Error</code> if not
 	 *         applicable
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus satisfiesPreconditions() {
 		IStatus resultStatus= checkExpressionCondition();
 		if (resultStatus.getSeverity() == IStatus.ERROR)
@@ -427,7 +427,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 			resultStatus= new StatusInfo(IStatus.WARNING, FixMessages.ConvertIterableLoopOperation_RemoveUpdateExpressions_Warning);
 		}
 
-		for (final Object outer : getForStatement().initializers()) {
+		for (final Object outer : getForStatement().initializers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (outer instanceof VariableDeclarationExpression) {
 				VariableDeclarationExpression declaration= (VariableDeclarationExpression) outer;
 				List<VariableDeclarationFragment> fragments= declaration.fragments();
@@ -495,7 +495,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 				ITypeBinding elementType= getElementType(fIteratorVariable.getType());
 				statement.accept(new ASTVisitor() {
 
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public boolean visit(SimpleName node) {
 						IBinding nodeBinding= node.resolveBinding();
 						if (fElementVariable != null && fElementVariable.equals(nodeBinding)) {
@@ -532,7 +532,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 						return true;
 					}
 
-					private boolean visitElementVariable(final Expression node) {
+					private boolean visitElementVariable(final Expression node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						if (node != null) {
 							ITypeBinding binding= node.resolveTypeBinding();
 							if (binding != null && elementType.equals(binding)) {
@@ -617,7 +617,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 		return ERROR_STATUS;
 	}
 
-	private IStatus checkExpressionCondition() {
+	private IStatus checkExpressionCondition() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression expression= getForStatement().getExpression();
 		if (!(expression instanceof MethodInvocation))
 			return SEMANTIC_CHANGE_WARNING_STATUS;
@@ -647,7 +647,7 @@ public final class ConvertIterableLoopOperation extends ConvertLoopOperation {
 		return StatusInfo.OK_STATUS;
 	}
 
-	private IStatus checkIteratorCondition() {
+	private IStatus checkIteratorCondition() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Expression> initializers= getForStatement().initializers();
 		if (initializers.size() != 1)
 			return SEMANTIC_CHANGE_WARNING_STATUS;

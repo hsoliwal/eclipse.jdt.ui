@@ -97,31 +97,31 @@ public class CoreJavaElementLinks {
 		return createURIAsUri(scheme, element, refTypeName, refMemberName, refParameterTypes).toASCIIString();
 	}
 
-	public static URI createURIAsUri(String scheme, IJavaElement element, String refTypeName, String refMemberName, String[] refParameterTypes) throws URISyntaxException {
+	public static URI createURIAsUri(String scheme, IJavaElement element, String refTypeName, String refMemberName, String[] refParameterTypes) throws URISyntaxException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * We use an opaque URI, not ssp and fragments (to work around Safari bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=212527 (wrongly encodes #)).
 		 */
 
-		StringBuilder ssp= new StringBuilder(60);
-		ssp.append(LINK_SEPARATOR); // make sure first character is not a / (would be hierarchical URI)
+		StringBuilder ssp= new StringBuilder(60); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		ssp.append(LINK_SEPARATOR); // make sure first character is not a / (would be hierarchical URI) //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		// replace '[' manually, since URI confuses it for an IPv6 address as per RFC 2732:
-		ssp.append(element.getHandleIdentifier().replace('[', LINK_BRACKET_REPLACEMENT)); // segments[1]
+		ssp.append(element.getHandleIdentifier().replace('[', LINK_BRACKET_REPLACEMENT)); // segments[1] //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (refTypeName != null) {
-			ssp.append(LINK_SEPARATOR);
-			ssp.append(refTypeName); // segments[2]
+			ssp.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			ssp.append(refTypeName); // segments[2] //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			if (refMemberName != null) {
-				ssp.append(LINK_SEPARATOR);
-				ssp.append(refMemberName); // segments[3]
+				ssp.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				ssp.append(refMemberName); // segments[3] //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 				if (refParameterTypes != null) {
-					ssp.append(LINK_SEPARATOR);
-					for (int i= 0; i < refParameterTypes.length; i++) {
-						ssp.append(refParameterTypes[i]); // segments[4|5|..]
+					ssp.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					for (int i= 0; i < refParameterTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						ssp.append(refParameterTypes[i]); // segments[4|5|..] //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						if (i != refParameterTypes.length - 1) {
-							ssp.append(LINK_SEPARATOR);
+							ssp.append(LINK_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 				}
@@ -130,9 +130,9 @@ public class CoreJavaElementLinks {
 		return new URI(scheme, ssp.toString(), null);
 	}
 
-	public static IJavaElement parseURI(URI uri) {
+	public static IJavaElement parseURI(URI uri) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String ssp= uri.getSchemeSpecificPart();
-		String[] segments= ssp.split(String.valueOf(LINK_SEPARATOR), -1);
+		String[] segments= ssp.split(String.valueOf(LINK_SEPARATOR), -1); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String refModuleName= null;
 		// replace '[' manually, since URI confuses it for an IPv6 address as per RFC 2732:
 		IJavaElement element= JavaCore.create(segments[1].replace(LINK_BRACKET_REPLACEMENT, '['));
@@ -206,7 +206,7 @@ public class CoreJavaElementLinks {
 							String refMemberName= segments[3];
 							if (segments.length > 4) {
 								String[] paramSignatures= new String[segments[4].length() == 0 ? 0 : segments.length - 4];
-								for (int i= 0; i < paramSignatures.length; i++) {
+								for (int i= 0; i < paramSignatures.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									paramSignatures[i]= Signature.createTypeSignature(segments[i + 4], false);
 								}
 								IMethod method= type.getMethod(refMemberName, paramSignatures);
@@ -218,7 +218,7 @@ public class CoreJavaElementLinks {
 									// easily, since the Javadoc references are erasures
 
 									//Shortcut: only check name and parameter count:
-									for (IMethod method1 : type.getMethods()) {
+									for (IMethod method1 : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										method= method1;
 										if (method.getElementName().equals(refMemberName) && method.getNumberOfParameters() == paramSignatures.length)
 											return method;
@@ -235,7 +235,7 @@ public class CoreJavaElementLinks {
 								if (field.exists()) {
 									return field;
 								} else {
-									for (IMethod method : type.getMethods()) {
+									for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (method.getElementName().equals(refMemberName))
 											return method;
 									}
@@ -287,7 +287,7 @@ public class CoreJavaElementLinks {
 		return canRefer;
 	}
 
-	private static IType resolvePackageInfoType(IPackageFragment pack, String refTypeName) throws JavaModelException {
+	private static IType resolvePackageInfoType(IPackageFragment pack, String refTypeName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Note: The scoping rules of JLS7 6.3 are broken for package-info.java, see https://bugs.eclipse.org/216451#c4
 		// We follow the javadoc tool's implementation and only support fully-qualified type references:
 		IJavaProject javaProject= pack.getJavaProject();
@@ -366,11 +366,11 @@ public class CoreJavaElementLinks {
 //		return null;
 	}
 
-	private static ITypeParameter resolveTypeVariable(IJavaElement baseElement, String typeVariableName) throws JavaModelException {
-		while (baseElement != null) {
+	private static ITypeParameter resolveTypeVariable(IJavaElement baseElement, String typeVariableName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (baseElement != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (baseElement.getElementType()) {
 				case IJavaElement.METHOD:
-					for (ITypeParameter typeParameter : ((IMethod)baseElement).getTypeParameters()) {
+					for (ITypeParameter typeParameter : ((IMethod)baseElement).getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (typeParameter.getElementName().equals(typeVariableName)) {
 							return typeParameter;
 						}
@@ -379,7 +379,7 @@ public class CoreJavaElementLinks {
 
 
 				case IJavaElement.TYPE:
-					for (ITypeParameter typeParameter : ((IType)baseElement).getTypeParameters()) {
+					for (ITypeParameter typeParameter : ((IType)baseElement).getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (typeParameter.getElementName().equals(typeVariableName)) {
 							return typeParameter;
 						}
@@ -409,7 +409,7 @@ public class CoreJavaElementLinks {
 		return null;
 	}
 
-	private static IType resolveType(IType baseType, String refTypeName) throws JavaModelException {
+	private static IType resolveType(IType baseType, String refTypeName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (refTypeName.length() == 0)
 			return baseType;
 
@@ -422,7 +422,7 @@ public class CoreJavaElementLinks {
 			IType type= baseType.getJavaProject().findType(refTypeName, (IProgressMonitor) null);
 			if (type == null) {
 				// could be unqualified reference:
-				type= baseType.getJavaProject().findType(baseType.getPackageFragment().getElementName() + '.' + refTypeName, (IProgressMonitor) null);
+				type= baseType.getJavaProject().findType(baseType.getPackageFragment().getElementName() + '.' + refTypeName, (IProgressMonitor) null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return type;
 
@@ -440,7 +440,7 @@ public class CoreJavaElementLinks {
 	 * @since 1.21
 	 */
 	public static String createLink(String uri, String label) {
-		return "<a href='" + uri + "'>" + label + "</a>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "<a href='" + uri + "'>" + label + "</a>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -466,8 +466,8 @@ public class CoreJavaElementLinks {
 	 */
 	public static String createHeaderLink(String uri, String label, String title) {
 		if (title.length() > 0) {
-			title= " title='" + title + "'";  //$NON-NLS-1$ //$NON-NLS-2$
+			title= " title='" + title + "'";  //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		return "<a class='header' href='" + uri + "'" + title + ">" + label + "</a>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "<a class='header' href='" + uri + "'" + title + ">" + label + "</a>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

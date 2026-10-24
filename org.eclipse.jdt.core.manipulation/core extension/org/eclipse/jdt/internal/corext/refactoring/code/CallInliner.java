@@ -218,7 +218,7 @@ public class CallInliner {
 		fBuffer= RefactoringFileBuffers.acquire(fCUnit);
 		fSourceProvider= provider;
 		fImportRewrite= StubUtility.createImportRewrite(targetAstRoot, true);
-		fLocals= new ArrayList<>(3);
+		fLocals= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fRewrite= ASTRewrite.create(targetAstRoot.getAST());
 		fRewrite.setTargetSourceRangeComputer(new NoCommentSourceRangeComputer());
 		fTypeEnvironment= new TypeEnvironment();
@@ -254,10 +254,10 @@ public class CallInliner {
 		}
 	}
 
-	public RefactoringStatus initialize(ASTNode invocation, int severity) {
+	public RefactoringStatus initialize(ASTNode invocation, int severity) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		fInvocation= invocation;
-		fLocals= new ArrayList<>(3);
+		fLocals= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		checkMethodDeclaration(result, severity);
 		if (result.getSeverity() >= severity)
@@ -301,7 +301,7 @@ public class CallInliner {
 	private void initializeRewriteState() {
 		fFieldInitializer= false;
 		ASTNode parent= fInvocation.getParent();
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent instanceof FieldDeclaration) {
 				fFieldInitializer= true;
 				return;
@@ -325,7 +325,7 @@ public class CallInliner {
 	}
 
 	// the checks depend on invocation context and therefore can't be done in SourceAnalyzer
-	private void checkMethodDeclaration(RefactoringStatus result, int severity) {
+	private void checkMethodDeclaration(RefactoringStatus result, int severity) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MethodDeclaration methodDeclaration= fSourceProvider.getDeclaration();
 		// it is not allowed to inline constructor invocation only if it is used for class instance creation
 		// if constructor is invoked from another constructor then we can inline such invocation
@@ -373,7 +373,7 @@ public class CallInliner {
 		}
 	}
 
-	private void checkInvocationContext(RefactoringStatus result, int severity) {
+	private void checkInvocationContext(RefactoringStatus result, int severity) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInvocation.getNodeType() == ASTNode.METHOD_INVOCATION) {
 			if (((MethodInvocation)fInvocation).resolveTypeBinding() == null) {
 				addEntry(result, RefactoringCoreMessages.CallInliner_receiver_type,
@@ -421,7 +421,7 @@ public class CallInliner {
 				}
 				if (isFieldDeclaration) {
 					int argumentsCount= fContext.arguments.length;
-					for (int i= 0; i < argumentsCount; i++) {
+					for (int i= 0; i < argumentsCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ParameterData parameter= fSourceProvider.getParameterData(i);
 						if(parameter.isWrite()) {
 							addEntry(result,
@@ -498,7 +498,7 @@ public class CallInliner {
 			code, null));
 	}
 
-	private void flowAnalysis() {
+	private void flowAnalysis() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fInvocationScope= fRootScope.findScope(fTargetNode.getStartPosition(), fTargetNode.getLength());
 		fInvocationScope.setCursor(fTargetNode.getStartPosition());
 		fFlowContext= new FlowContext(0, fNumberOfLocals + 1);
@@ -517,7 +517,7 @@ public class CallInliner {
 		}
 	}
 
-	public RefactoringStatus perform(TextEditGroup textEditGroup) throws CoreException {
+	public RefactoringStatus perform(TextEditGroup textEditGroup) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		String[] blocks= fSourceProvider.getCodeBlocks(fContext, fImportRewrite);
 		if(!fFieldInitializer) {
@@ -549,14 +549,14 @@ public class CallInliner {
 		}
 	}
 
-	private void computeRealArguments() {
+	private void computeRealArguments() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Expression> arguments= Invocations.getArguments(fInvocation);
 		Set<Expression> canNotInline= crossCheckArguments(arguments);
 		boolean needsVarargBoxing= needsVarargBoxing(arguments);
 		int varargIndex= fSourceProvider.getVarargIndex();
 		AST ast= fInvocation.getAST();
 		Expression[] realArguments= new Expression[needsVarargBoxing ? varargIndex + 1 : arguments.size()];
-		for (int i= 0; i < (needsVarargBoxing ? varargIndex : arguments.size()); i++) {
+		for (int i= 0; i < (needsVarargBoxing ? varargIndex : arguments.size()); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression expression= arguments.get(i);
 			ParameterData parameter= fSourceProvider.getParameterData(i);
 			if (canInline(expression, parameter) && !canNotInline.contains(expression)) {
@@ -567,7 +567,7 @@ public class CallInliner {
 				boolean needInstanceofCheck= false;
 				if (expression instanceof CastExpression) {
 					ASTNode ancestor= ASTNodes.getFirstAncestorOrNull(fInvocation, ConditionalExpression.class, Statement.class);
-					while (ancestor instanceof ConditionalExpression condExp) {
+					while (ancestor instanceof ConditionalExpression condExp) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						InstanceofChecker checker= new InstanceofChecker();
 						Expression posExp= condExp.getExpression();
 						try {
@@ -608,7 +608,7 @@ public class CallInliner {
 			VariableDeclarationFragment fragment= ast.newVariableDeclarationFragment();
 			fragment.setName(ast.newSimpleName(name));
 			ArrayInitializer initializer= ast.newArrayInitializer();
-			for (int i= varargIndex; i < arguments.size(); i++) {
+			for (int i= varargIndex; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				initializer.expressions().add(fRewrite.createCopyTarget(arguments.get(i)));
 			}
 			fragment.setInitializer(initializer);
@@ -620,7 +620,7 @@ public class CallInliner {
 		fContext.arguments= realArguments;
 	}
 
-	private boolean needsVarargBoxing(List<Expression> arguments) {
+	private boolean needsVarargBoxing(List<Expression> arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fSourceProvider.isVarargs())
 			return false;
 		/*
@@ -643,7 +643,7 @@ public class CallInliner {
 		return true;
 	}
 
-	private void computeReceiver() throws BadLocationException {
+	private void computeReceiver() throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression receiver= Invocations.getExpression(fInvocation);
 		if (receiver == null)
 			return;
@@ -677,14 +677,14 @@ public class CallInliner {
 		}
 	}
 
-	private void addNewLocals(TextEditGroup textEditGroup) {
+	private void addNewLocals(TextEditGroup textEditGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fBlock = null;
 		if (fLocals.isEmpty())
 			return;
 		if (needToCreateBlockStatement()) {
 			Block block= fTargetNode.getAST().newBlock();
 
-			for (VariableDeclarationStatement variableDeclarationStatement : fLocals) {
+			for (VariableDeclarationStatement variableDeclarationStatement : fLocals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode element= variableDeclarationStatement;
 				block.statements().add(element);
 			}
@@ -692,19 +692,19 @@ public class CallInliner {
 			fBlock = block;
 		}
 		else {
-			for (VariableDeclarationStatement variableDeclarationStatement : fLocals) {
+			for (VariableDeclarationStatement variableDeclarationStatement : fLocals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode element= variableDeclarationStatement;
 				fListRewrite.insertAt(element, fInsertionIndex++, textEditGroup);
 			}
 		}
 	}
 
-	private boolean needToCreateBlockStatement() {
+	private boolean needToCreateBlockStatement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean need = false;
 		if (fContext != null && ASTNode.YIELD_STATEMENT == fContext.callMode) {
 			if (fTargetNode !=  null && fTargetNode instanceof YieldStatement) {
 				ASTNode parent = fTargetNode;
-				while (parent != null) {
+				while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parent instanceof SwitchExpression) {
 						need = true;
 						break;
@@ -719,7 +719,7 @@ public class CallInliner {
 		return need;
 	}
 
-	private void replaceCall(RefactoringStatus status, String[] blocks, TextEditGroup textEditGroup) {
+	private void replaceCall(RefactoringStatus status, String[] blocks, TextEditGroup textEditGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Inline empty body
 		if (blocks.length == 0 && fTargetNode != null) {
 			if (fNeedsStatement) {
@@ -731,14 +731,14 @@ public class CallInliner {
 				} else if (fTargetNode instanceof MethodReference methodRef) {
 					IMethodBinding binding= methodRef.resolveMethodBinding();
 					if (binding != null) {
-						StringBuilder builder= new StringBuilder("("); //$NON-NLS-1$
+						StringBuilder builder= new StringBuilder("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 						String[] parmNames= binding.getParameterNames();
 						String separator= ""; //$NON-NLS-1$
-						for (String parmName : parmNames) {
-							builder.append(separator + parmName);
+						for (String parmName : parmNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							builder.append(separator + parmName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							separator= ", "; //$NON-NLS-1$
 						}
-						builder.append(") -> {}"); //$NON-NLS-1$
+						builder.append(") -> {}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						ASTNode newNode= fRewrite.createStringPlaceholder(builder.toString(), ASTNode.LAMBDA_EXPRESSION);
 						fRewrite.replace(fTargetNode, newNode, textEditGroup);
 					}
@@ -756,45 +756,45 @@ public class CallInliner {
 			}
 			IMethodBinding[] functionClassMethods= typeBinding.getDeclaredMethods();
 
-			StringBuilder builder= new StringBuilder("("); //$NON-NLS-1$
+			StringBuilder builder= new StringBuilder("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			String[] parmNames= binding.getParameterNames();
 			String separator= ""; //$NON-NLS-1$
-			for (String parmName : parmNames) {
-				builder.append(separator + parmName);
+			for (String parmName : parmNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				builder.append(separator + parmName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				separator= ", "; //$NON-NLS-1$
 			}
-			builder.append(") -> {"); //$NON-NLS-1$
+			builder.append(") -> {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String allblocks= ""; //$NON-NLS-1$
-			for (int i= 0; i < blocks.length; ++i) {
+			for (int i= 0; i < blocks.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allblocks += blocks[i];
 			}
-			String[] lines= allblocks.split("\n"); //$NON-NLS-1$
+			String[] lines= allblocks.split("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			separator= lines.length == 1 ? "" : "\n\t"; //$NON-NLS-1$ //$NON-NLS-2$
-			for (int i= 0; i < lines.length - 1; ++i) {
-				builder.append(separator);
-				builder.append(lines[i]);
+			for (int i= 0; i < lines.length - 1; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				builder.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				builder.append(lines[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				separator= "\n\t"; //$NON-NLS-1$
 			}
-			builder.append(separator);
-			String[] statements= lines[lines.length - 1].split(";"); //$NON-NLS-1$
-			for (int i= 0; i < statements.length - 1; ++i) {
-				builder.append(statements[i]);
-				builder.append("; "); //$NON-NLS-1$
+			builder.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			String[] statements= lines[lines.length - 1].split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			for (int i= 0; i < statements.length - 1; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				builder.append(statements[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				builder.append("; "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			if (binding.getReturnType() != null && (!binding.getReturnType().isPrimitive() || !binding.getReturnType().getName().equals("void"))) { //$NON-NLS-1$
 				ITypeBinding functionMethodType= functionClassMethods[0].getReturnType();
 				if (functionMethodType != null && (!functionMethodType.isPrimitive() || !functionMethodType.getName().equals("void"))) { //$NON-NLS-1$
-					builder.append("return "); //$NON-NLS-1$
+					builder.append("return "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
 					// we have a method that returns something but the functional interface is
 					// void so we will copy over the contents in case they modify something external
 					// and instead of a return statement, we will make an unused assignment at the end
-					builder.append("@SuppressWarnings(\"unused\") "); //$NON-NLS-1$
-					builder.append(binding.getReturnType().getName() + " "); //$NON-NLS-1$
+					builder.append("@SuppressWarnings(\"unused\") "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					builder.append(binding.getReturnType().getName() + " "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					Statement body= ASTNodes.getFirstAncestorOrNull(methodRef, Statement.class);
 					if (body != null) {
 						List<String> excludedNames= Arrays.asList(ASTResolving.getUsedVariableNames(body));
-						final List<String> sourceNames= new ArrayList<>();
+						final List<String> sourceNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						ASTVisitor visitor= new ASTVisitor() {
 							@Override
 							public boolean visit(SimpleName node) {
@@ -805,59 +805,59 @@ public class CallInliner {
 						fSourceProvider.getDeclaration().accept(visitor);
 						sourceNames.addAll(excludedNames);
 						String[] varNames= StubUtility.getVariableNameSuggestions(NamingConventions.VK_LOCAL, fImportRewrite.getCompilationUnit().getJavaProject(), functionMethodType, null, sourceNames);
-						builder.append(varNames[0] + " = "); //$NON-NLS-1$
+						builder.append(varNames[0] + " = "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
 			}
-			builder.append(statements[statements.length - 1]);
-			builder.append(";"); //$NON-NLS-1$
+			builder.append(statements[statements.length - 1]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			builder.append(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			separator= lines.length == 1 ? "" : "\n"; //$NON-NLS-1$ //$NON-NLS-2$
-			builder.append(separator + "}"); //$NON-NLS-1$
+			builder.append(separator + "}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			ASTNode newNode= fRewrite.createStringPlaceholder(builder.toString(), ASTNode.LAMBDA_EXPRESSION);
 			fRewrite.replace(fTargetNode, newNode, textEditGroup);
 		} else if (fTargetNode != null && fTargetNode.getLocationInParent() == LambdaExpression.BODY_PROPERTY) {
 			String allblocks= ""; //$NON-NLS-1$
-			for (int i= 0; i < blocks.length; ++i) {
+			for (int i= 0; i < blocks.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allblocks += blocks[i];
 			}
-			StringBuilder builder= new StringBuilder();
-			String[] lines= allblocks.split("\n"); //$NON-NLS-1$
+			StringBuilder builder= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			String[] lines= allblocks.split("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			if (fSourceProvider.getMarkerMode() == SourceProvider.EXPRESSION_MODE) {
-				String[] lastLines= lines[lines.length - 1].split(";"); //$NON-NLS-1$
+				String[] lastLines= lines[lines.length - 1].split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (lastLines.length > 1) {
 					lines= Arrays.copyOf(lines, lines.length + 1);
-					lines[lines.length - 2]= lastLines[0] + ";"; //$NON-NLS-1$
+					lines[lines.length - 2]= lastLines[0] + ";"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					lines[lines.length - 1]= lastLines[1];
 				}
 			}
 			if (lines.length != 1) {
-				builder.append("{"); //$NON-NLS-1$
+				builder.append("{"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			String separator= lines.length == 1 ? "" : "\n\t"; //$NON-NLS-1$ //$NON-NLS-2$
 			boolean expressionMode= fSourceProvider.getMarkerMode() == SourceProvider.EXPRESSION_MODE;
-			for (int i= 0; i < lines.length - (expressionMode ? 1 : 0); ++i) {
-				builder.append(separator);
-				builder.append(lines[i]);
+			for (int i= 0; i < lines.length - (expressionMode ? 1 : 0); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				builder.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				builder.append(lines[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				separator= "\n\t"; //$NON-NLS-1$
 			}
 			if (expressionMode) {
 				if (lines.length == 1) {
-					builder.append(lines[0]);
+					builder.append(lines[0]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					builder.append(separator);
-					builder.append("return " + lines[lines.length - 1] + ";"); //$NON-NLS-1$ //$NON-NLS-2$
+					builder.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					builder.append("return " + lines[lines.length - 1] + ";"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			separator= lines.length == 1 ? "" : "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 			if (lines.length != 1 || !expressionMode) {
-				builder.append(separator + "}"); //$NON-NLS-1$
+				builder.append(separator + "}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			ASTNode newNode= fRewrite.createStringPlaceholder(builder.toString(), ASTNode.BLOCK);
 			fRewrite.replace(fTargetNode, newNode, textEditGroup);
 		} else {
 			ASTNode node= null;
 			boolean needsMethodInvocation= true;
-			for (int i= 0; i < blocks.length - 1; i++) {
+			for (int i= 0; i < blocks.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= fRewrite.createStringPlaceholder(blocks[i], ASTNode.RETURN_STATEMENT);
 				fListRewrite.insertAt(node, fInsertionIndex++, textEditGroup);
 			}
@@ -888,7 +888,7 @@ public class CallInliner {
 					status.addWarning(RefactoringCoreMessages.CallInliner_cannot_synchronize_error,
 							JavaStatusContext.create(fCUnit, fInvocation));
 				}
-				String[] segments= block.split(";"); //$NON-NLS-1$
+				String[] segments= block.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (segments.length == 2 && !segments[1].trim().isEmpty()) {
 					Statement targetStatement= ASTNodes.getFirstAncestorOrNull(fTargetNode, Statement.class);
 					if (targetStatement != null) {
@@ -908,7 +908,7 @@ public class CallInliner {
 								String newTargetStatement= targetStatementString.substring(0, expOffset);
 								newTargetStatement += segments[0];
 								newTargetStatement += targetStatementString.substring(expOffset + fTargetNode.getLength());
-								newTargetStatement += " " + segments[1].trim(); //$NON-NLS-1$
+								newTargetStatement += " " + segments[1].trim(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								fTargetNode= targetStatement;
 								node= fRewrite.createStringPlaceholder(newTargetStatement, targetStatement.getNodeType());
 								needsMethodInvocation= false;
@@ -980,7 +980,7 @@ public class CallInliner {
 		}
 	}
 
-	private ASTNode createSyncBlock(ASTNode node, RefactoringStatus status) {
+	private ASTNode createSyncBlock(ASTNode node, RefactoringStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= fRewrite.getAST();
 		SynchronizedStatement sync=
 				ast.newSynchronizedStatement();
@@ -1012,7 +1012,7 @@ public class CallInliner {
 	 * @param status the status
 	 * @return <code>true</code> if explicit cast is needed otherwise <code>false</code>
 	 */
-	private boolean needsExplicitCast(RefactoringStatus status) {
+	private boolean needsExplicitCast(RefactoringStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// if the return type of the method is the same as the type of the
 		// returned expression then we don't need an explicit cast.
 		if (fSourceProvider.returnTypeMatchesReturnExpressions())
@@ -1048,7 +1048,7 @@ public class CallInliner {
 		ImportRewriteContext context= new ContextSensitiveImportRewriteContext(fTargetNode, fImportRewrite);
 		String typeName= fImportRewrite.addImport(type, context);
 		VariableDeclarationStatement decl= (VariableDeclarationStatement)ASTNodeFactory.newStatement(
-			fInvocation.getAST(), typeName + " " + name + ";"); //$NON-NLS-1$ //$NON-NLS-2$
+			fInvocation.getAST(), typeName + " " + name + ";"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		((VariableDeclarationFragment)decl.fragments().get(0)).setInitializer(initializer);
 		return decl;
 	}
@@ -1065,10 +1065,10 @@ public class CallInliner {
      * @param arguments the arguments
      * @return all arguments that cannot be inlined
      */
-	private Set<Expression> crossCheckArguments(List<Expression> arguments) {
-		final Set<IBinding> assigned= new HashSet<>();
-		final Set<Expression> result= new HashSet<>();
-		for (Expression expression : arguments) {
+	private Set<Expression> crossCheckArguments(List<Expression> arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Set<IBinding> assigned= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final Set<Expression> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Expression expression : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expression.accept(new ASTVisitor() {
 				@Override
 				public boolean visit(Assignment node) {
@@ -1084,7 +1084,7 @@ public class CallInliner {
 				}
 			});
 		}
-		for (Expression expression : arguments) {
+		for (Expression expression : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!result.contains(expression)) {
 				expression.accept(new HierarchicalASTVisitor() {
 					@Override
@@ -1099,7 +1099,7 @@ public class CallInliner {
 		}
 		// if there is only 1 argument that has assignment and no others use it, there is no issue
 		if (result.size() == 1) {
-			return new HashSet<>();
+			return new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 		return result;
 	}
@@ -1110,7 +1110,7 @@ public class CallInliner {
 		return evaluator.getResult();
 	}
 
-	private void initializeInsertionPoint(int nos) {
+	private void initializeInsertionPoint(int nos) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fInsertionIndex= -1;
 		fNeedsStatement= false;
 		// if we have a constructor invocation the invocation itself is already a statement
@@ -1193,7 +1193,7 @@ public class CallInliner {
 		// So there is no need to have an insertion index.
 	}
 
-	private boolean needsBlockAroundDanglingIf() {
+	private boolean needsBlockAroundDanglingIf() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/* see https://bugs.eclipse.org/bugs/show_bug.cgi?id=169331
 		 *
 		 * Situation:

@@ -45,7 +45,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
  * Label provider for the hierarchy viewers. Types in the hierarchy that are not belonging to the
  * input scope are rendered differently.
   */
-public class HierarchyLabelProvider extends AppearanceAwareLabelProvider {
+public class HierarchyLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private Color fSpecialColor;
 
@@ -74,14 +74,14 @@ public class HierarchyLabelProvider extends AppearanceAwareLabelProvider {
 		fFilter= filter;
 	}
 
-	protected boolean isInDifferentHierarchyScope(IType type) {
+	protected boolean isInDifferentHierarchyScope(IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fFilter != null && !fFilter.select(null, null, type)) {
 			return true;
 		}
 		IJavaElement[] input= fHierarchy.getInputElements();
 		if (input == null)
 			return false;
-		for (IJavaElement element : input) {
+		for (IJavaElement element : input) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element == null || element.getElementType() == IJavaElement.TYPE) {
 				return false;
 			}
@@ -115,7 +115,7 @@ public class HierarchyLabelProvider extends AppearanceAwareLabelProvider {
 		return decorateImage(result, element);
 	}
 
-	private ImageDescriptor getTypeImageDescriptor(IType type) {
+	private ImageDescriptor getTypeImageDescriptor(IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeHierarchy hierarchy= fHierarchy.getHierarchy();
 		if (hierarchy == null) {
 			return new JavaElementImageDescriptor(JavaPluginImages.DESC_OBJS_CLASS, 0, JavaElementImageProvider.BIG_SIZE);

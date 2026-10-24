@@ -45,7 +45,7 @@ import org.eclipse.jdt.internal.ui.text.JavaPresentationReconciler;
  *
  * @since 3.0
  */
-public class SemanticHighlightingPresenter extends SemanticHighlightingPresenterCore
+public class SemanticHighlightingPresenter extends SemanticHighlightingPresenterCore //FLLDCIM: MARK — T28  IMPLEMENTS
 	implements ITextPresentationListener, ITextInputListener, IDocumentListener {
 
 	/** The source viewer this semantic highlighting reconciler is installed on */
@@ -88,7 +88,7 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 	 * @param removedPositions the removed positions
 	 * @return the text presentation or <code>null</code>, if reconciliation should be canceled
 	 */
-	public TextPresentation createPresentation(List<Position> addedPositions, List<Position> removedPositions) {
+	public TextPresentation createPresentation(List<Position> addedPositions, List<Position> removedPositions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavaSourceViewer sourceViewer= fSourceViewer;
 		JavaPresentationReconciler presentationReconciler= fPresentationReconciler;
 		if (sourceViewer == null || presentationReconciler == null)
@@ -103,12 +103,12 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 
 		int minStart= Integer.MAX_VALUE;
 		int maxEnd= Integer.MIN_VALUE;
-		for (Position position : removedPositions) {
+		for (Position position : removedPositions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int offset= position.getOffset();
 			minStart= Math.min(minStart, offset);
 			maxEnd= Math.max(maxEnd, offset + position.getLength());
 		}
-		for (Position position : addedPositions) {
+		for (Position position : addedPositions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int offset= position.getOffset();
 			minStart= Math.min(minStart, offset);
 			maxEnd= Math.max(maxEnd, offset + position.getLength());
@@ -161,7 +161,7 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 	 * @param addedPositions the added positions
 	 * @param removedPositions the removed positions
 	 */
-	public void updatePresentation(TextPresentation textPresentation, HighlightedPosition[] addedPositions, HighlightedPosition[] removedPositions) {
+	public void updatePresentation(TextPresentation textPresentation, HighlightedPosition[] addedPositions, HighlightedPosition[] removedPositions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSourceViewer == null)
 			return;
 
@@ -194,14 +194,14 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 				 * removed on the fly. The second of two is the list of added positions. The result
 				 * is stored in newPositions.
 				 */
-				List<Position> newPositions= new ArrayList<>(newSize);
+				List<Position> newPositions= new ArrayList<>(newSize); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				Position position= null;
 				Position addedPosition= null;
-				for (int i= 0, j= 0, n= oldPositions.size(), m= addedPositions.length; i < n || position != null || j < m || addedPosition != null;) {
+				for (int i= 0, j= 0, n= oldPositions.size(), m= addedPositions.length; i < n || position != null || j < m || addedPosition != null;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// loop variant: i + j < old(i + j)
 
 					// a) find the next non-deleted Position from the old list
-					while (position == null && i < n) {
+					while (position == null && i < n) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						position= oldPositions.get(i++);
 						if (position.isDeleted() || contain(removedPositionsList, position)) {
 							document.removePosition(positionCategory, position);
@@ -277,7 +277,7 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 	private int computeIndexAfterOffset(List<Position> positions, int offset) {
 		int i= -1;
 		int j= positions.size();
-		while (j - i > 1) {
+		while (j - i > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int k= (i + j) >> 1;
 			Position position= positions.get(k);
 			if (position.getOffset() > offset)
@@ -291,13 +291,13 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 	/*
 	 * @see org.eclipse.jface.text.ITextPresentationListener#applyTextPresentation(org.eclipse.jface.text.TextPresentation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void applyTextPresentation(TextPresentation textPresentation) {
 		IRegion region= textPresentation.getExtent();
 		int i= computeIndexAtOffset(fPositions, region.getOffset()), n= computeIndexAtOffset(fPositions, region.getOffset() + region.getLength());
 		if (n - i > 2) {
-			List<StyleRange> ranges= new ArrayList<>(n - i);
-			for (; i < n; i++) {
+			List<StyleRange> ranges= new ArrayList<>(n - i); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				HighlightedPosition position= (HighlightedPosition) fPositions.get(i);
 				if (!position.isDeleted())
 					ranges.add(position.createStyleRange());
@@ -306,7 +306,7 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 			array= ranges.toArray(array);
 			textPresentation.replaceStyleRanges(array);
 		} else {
-			for (; i < n; i++) {
+			for (; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				HighlightedPosition position= (HighlightedPosition) fPositions.get(i);
 				if (!position.isDeleted())
 					textPresentation.replaceStyleRange(position.createStyleRange());
@@ -409,7 +409,7 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 		fPresentationReconciler= backgroundPresentationReconciler;
 
 		fSourceViewer.prependTextPresentationListener(this);
-		fSourceViewer.addTextInputListener(this);
+		fSourceViewer.addTextInputListener(this); //FLLDCIM: MARK — T28 DOCUMENT_DELTA CALL
 		manageDocument(fSourceViewer.getDocument());
 	}
 
@@ -452,7 +452,7 @@ public class SemanticHighlightingPresenter extends SemanticHighlightingPresenter
 	private void invalidateTextPresentation(Collection<Highlighting> highlightings) {
 		int start= Integer.MAX_VALUE;
 		int end= -1;
-		for (Position position : fPositions) {
+		for (Position position : fPositions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (highlightings == null || highlightings.contains(((HighlightedPosition) position).getHighlighting())) {
 				start= Math.min(start, position.getOffset());
 				end= Math.max(end, position.getOffset() + position.getLength());

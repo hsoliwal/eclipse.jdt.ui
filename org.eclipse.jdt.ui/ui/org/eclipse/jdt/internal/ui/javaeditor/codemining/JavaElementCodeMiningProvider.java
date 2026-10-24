@@ -103,7 +103,7 @@ public class JavaElementCodeMiningProvider extends AbstractCodeMiningProvider {
 		}
 		try {
 			IJavaElement[] elements= unit.getChildren();
-			List<ICodeMining> minings= new ArrayList<>(elements.length);
+			List<ICodeMining> minings= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			collectMinings(unit, textEditor, unit.getChildren(), minings, viewer, monitor);
 			return minings;
 		} catch (JavaModelException e) {
@@ -123,7 +123,7 @@ public class JavaElementCodeMiningProvider extends AbstractCodeMiningProvider {
 	 * @param monitor the monitor
 	 * @throws JavaModelException thrown when java model error
 	 */
-	private void collectMinings(ITypeRoot unit, ITextEditor textEditor, IJavaElement[] elements,
+	private void collectMinings(ITypeRoot unit, ITextEditor textEditor, IJavaElement[] elements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<ICodeMining> minings, ITextViewer viewer, IProgressMonitor monitor) throws JavaModelException {
 
 		// Only Java editor is supported, see bug 541811
@@ -136,7 +136,7 @@ public class JavaElementCodeMiningProvider extends AbstractCodeMiningProvider {
 			return;
 		}
 
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (monitor.isCanceled()) {
 				return;
 			}

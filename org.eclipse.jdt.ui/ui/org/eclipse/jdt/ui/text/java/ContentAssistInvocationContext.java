@@ -134,7 +134,7 @@ public class ContentAssistInvocationContext {
 	 *         there is no document
 	 * @throws BadLocationException if accessing the document fails
 	 */
-	public CharSequence computeIdentifierPrefix() throws BadLocationException {
+	public CharSequence computeIdentifierPrefix() throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPrefix == null) {
 			IDocument document= getDocument();
 			if (document == null) {
@@ -142,7 +142,7 @@ public class ContentAssistInvocationContext {
 			}
 			int end= getInvocationOffset();
 			int start= end;
-			while (--start >= 0) {
+			while (--start >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Character.isJavaIdentifierPart(document.getChar(start))) {
 					break;
 				}

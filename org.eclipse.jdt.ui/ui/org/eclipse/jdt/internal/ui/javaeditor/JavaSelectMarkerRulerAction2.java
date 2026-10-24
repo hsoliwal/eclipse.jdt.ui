@@ -53,7 +53,7 @@ public class JavaSelectMarkerRulerAction2 extends SelectAnnotationRulerAction {
 	/*
 	 * @see org.eclipse.ui.texteditor.IVerticalRulerListener#annotationDefaultSelected(org.eclipse.ui.texteditor.VerticalRulerEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void annotationDefaultSelected(VerticalRulerEvent event) {
 		Annotation annotation= event.getSelectedAnnotation();
 		IAnnotationModel model= getAnnotationModel();
@@ -108,7 +108,7 @@ public class JavaSelectMarkerRulerAction2 extends SelectAnnotationRulerAction {
 		return JavaCorrectionProcessor.hasCorrections(a) || a instanceof AssistAnnotation;
 	}
 
-	private void triggerAction(String actionID, Event event) {
+	private void triggerAction(String actionID, Event event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAction action= getTextEditor().getAction(actionID);
 		if (action != null) {
 			if (action instanceof IUpdate)

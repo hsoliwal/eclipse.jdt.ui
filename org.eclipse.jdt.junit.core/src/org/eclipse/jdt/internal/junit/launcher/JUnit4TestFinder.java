@@ -77,7 +77,7 @@ public class JUnit4TestFinder implements ITestFinder {
 		}
 
 		private boolean annotates(IAnnotationBinding[] annotations) {
-			for (IAnnotationBinding annotation : annotations) {
+			for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding annotationType= annotation.getAnnotationType();
 				if (annotationType != null && (annotationType.getQualifiedName().equals(fName))) {
 					return true;
@@ -87,7 +87,7 @@ public class JUnit4TestFinder implements ITestFinder {
 		}
 
 		public boolean annotatesTypeOrSuperTypes(ITypeBinding type) {
-			while (type != null) {
+			while (type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (annotates(type.getAnnotations())) {
 					return true;
 				}
@@ -97,9 +97,9 @@ public class JUnit4TestFinder implements ITestFinder {
 		}
 
 		public boolean annotatesAtLeastOneMethod(ITypeBinding type) {
-			while (type != null) {
+			while (type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethodBinding[] declaredMethods= type.getDeclaredMethods();
-				for (IMethodBinding curr : declaredMethods) {
+				for (IMethodBinding curr : declaredMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (annotates(curr.getAnnotations())) {
 						return true;
 					}
@@ -110,7 +110,7 @@ public class JUnit4TestFinder implements ITestFinder {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void findTestsInContainer(IJavaElement element, Set<IType> result, IProgressMonitor pm) throws CoreException {
 		if (element == null || result == null) {
 			throw new IllegalArgumentException();
@@ -131,8 +131,8 @@ public class JUnit4TestFinder implements ITestFinder {
 			IType[] allClasses= hierarchy.getAllClasses();
 
 			// filter out anonymous classes which have no name
-			List<IType> nonAnonymousClasses= new ArrayList<>();
-			for (IType t : allClasses) {
+			List<IType> nonAnonymousClasses= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IType t : allClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!t.getElementName().isEmpty()) {
 					nonAnonymousClasses.add(t);
 				}
@@ -140,7 +140,7 @@ public class JUnit4TestFinder implements ITestFinder {
 			IType[] filteredClasses= nonAnonymousClasses.toArray(new IType[0]);
 
 			// search for all types with references to RunWith and Test and all subclasses
-			HashSet<IType> candidates= new HashSet<>(filteredClasses.length);
+			HashSet<IType> candidates= new HashSet<>(filteredClasses.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			SearchRequestor requestor= new AnnotationSearchRequestor(hierarchy, candidates);
 
 			IJavaSearchScope scope= SearchEngine.createJavaSearchScope(filteredClasses, IJavaSearchScope.SOURCES);
@@ -153,7 +153,7 @@ public class JUnit4TestFinder implements ITestFinder {
 			new SearchEngine().search(annotationsPattern, searchParticipants, scope, requestor, subMon.newChild(2));
 
 			// find all classes in the region
-			for (IType curr : candidates) {
+			for (IType curr : candidates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Flags.isAbstract(curr.getFlags()) && CoreTestSearchEngine.isAccessibleClass(curr) && region.contains(curr)) {
 					result.add(curr);
 				}
@@ -197,7 +197,7 @@ public class JUnit4TestFinder implements ITestFinder {
 		private void addTypeAndSubtypes(IType type) {
 			if (fResult.add(type)) {
 				IType[] subclasses= fHierarchy.getSubclasses(type);
-				for (IType subclasse : subclasses) {
+				for (IType subclasse : subclasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addTypeAndSubtypes(subclasse);
 				}
 			}
@@ -209,7 +209,7 @@ public class JUnit4TestFinder implements ITestFinder {
 		return internalIsTest(type, null);
 	}
 
-	private boolean internalIsTest(IType type, IProgressMonitor monitor) throws JavaModelException {
+	private boolean internalIsTest(IType type, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (CoreTestSearchEngine.isAccessibleClass(type)) {
 			if (CoreTestSearchEngine.hasSuiteMethod(type)) { // since JUnit 4.3.1
 				return true;

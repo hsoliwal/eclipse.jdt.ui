@@ -109,7 +109,7 @@ public class FatJarPackageWizard extends Wizard implements IExportWizard {
 	 * @param wizardPageStatus the status returned by the wizard page
 	 * @return a boolean indicating success or failure
 	 */
-	protected boolean executeExportOperation(IJarExportRunnable op, IStatus wizardPageStatus) {
+	protected boolean executeExportOperation(IJarExportRunnable op, IStatus wizardPageStatus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			getContainer().run(true, true, op);
 		} catch (InterruptedException e) {
@@ -149,13 +149,13 @@ public class FatJarPackageWizard extends Wizard implements IExportWizard {
 	/**
 	 * @return all java projects which contain the selected elements in the active workbench window
 	 */
-	protected IStructuredSelection getSelectedJavaProjects() {
+	protected IStructuredSelection getSelectedJavaProjects() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection currentSelection= JavaPlugin.getActiveWorkbenchWindow().getSelectionService().getSelection();
 		if (currentSelection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection= (IStructuredSelection) currentSelection;
-			HashSet<IJavaProject> selectedElements= new HashSet<>();
+			HashSet<IJavaProject> selectedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			Iterator<?> iter= structuredSelection.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object selectedElement= iter.next();
 				if (selectedElement instanceof IJavaElement) {
 					IJavaProject javaProject= ((IJavaElement) selectedElement).getJavaProject();
@@ -201,7 +201,7 @@ public class FatJarPackageWizard extends Wizard implements IExportWizard {
 		return fInitializeFromJarPackage;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		LibraryHandler libraryHandler= fJarPackageWizardPage.getLibraryHandler();
 		fJarPackage.setJarBuilder(libraryHandler.getBuilder(fJarPackage));
@@ -236,7 +236,7 @@ public class FatJarPackageWizard extends Wizard implements IExportWizard {
 	}
 
 	private boolean hasArchive(Object[] elements) {
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IPackageFragmentRoot) {
 				IPackageFragmentRoot root= (IPackageFragmentRoot) element;
 				if (root.isArchive())

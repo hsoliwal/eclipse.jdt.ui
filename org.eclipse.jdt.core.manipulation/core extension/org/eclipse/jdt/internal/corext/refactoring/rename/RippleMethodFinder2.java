@@ -72,12 +72,12 @@ public class RippleMethodFinder2 {
 	private boolean fSearchOnlyInCompilationUnit = false;
 
 	private static class MultiMap<K, V> {
-		HashMap<K, Collection<V>> fImplementation= new HashMap<>();
+		HashMap<K, Collection<V>> fImplementation= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		public void put(K key, V value) {
 			Collection<V> collection= fImplementation.get(key);
 			if (collection == null) {
-				collection= new HashSet<>();
+				collection= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				fImplementation.put(key, collection);
 			}
 			collection.add(value);
@@ -88,18 +88,18 @@ public class RippleMethodFinder2 {
 		}
 	}
 	private static class UnionFind {
-		HashMap<IType, IType> fElementToRepresentative= new HashMap<>();
+		HashMap<IType, IType> fElementToRepresentative= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		public void init(IType type) {
 			fElementToRepresentative.put(type, type);
 		}
 
 		//path compression:
-		public IType find(IType element) {
+		public IType find(IType element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IType root= element;
 			IType rep= fElementToRepresentative.get(root);
-			Set<IType> visited=new HashSet<>();
-			while (rep != null && visited.add(root)) {
+			Set<IType> visited=new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			while (rep != null && visited.add(root)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				root= rep;
 				rep= fElementToRepresentative.get(root);
 			}
@@ -107,7 +107,7 @@ public class RippleMethodFinder2 {
 				return null;
 
 			rep= fElementToRepresentative.get(element);
-			while (! rep.equals(root)) {
+			while (! rep.equals(root)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IType temp= element;
 				element= rep;
 				fElementToRepresentative.put(temp, root);
@@ -146,7 +146,7 @@ public class RippleMethodFinder2 {
 	private RippleMethodFinder2(IMethod method, ReferencesInBinaryContext binaryRefs) {
 		fMethod= method;
 		fExcludeBinaries= true;
-		fDeclarationToMatch= new HashMap<>();
+		fDeclarationToMatch= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		fBinaryRefs= binaryRefs;
 	}
 
@@ -190,8 +190,8 @@ public class RippleMethodFinder2 {
 		if (fDeclarationToMatch == null)
 			return rippleMethods;
 
-		List<IMethod> filteredMethods= new ArrayList<>(rippleMethods.length / 2);
-		for (IMethod currentMethod : rippleMethods) {
+		List<IMethod> filteredMethods= new ArrayList<>(rippleMethods.length / 2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMethod currentMethod : rippleMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object match= fDeclarationToMatch.get(currentMethod);
 			if (match != null) {
 				fBinaryRefs.add((SearchMatch) match);
@@ -203,7 +203,7 @@ public class RippleMethodFinder2 {
 		return toArray(filteredMethods);
 	}
 
-	private IMethod[] findAllRippleMethods(IProgressMonitor pm, WorkingCopyOwner owner) throws CoreException {
+	private IMethod[] findAllRippleMethods(IProgressMonitor pm, WorkingCopyOwner owner) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask("", 4); //$NON-NLS-1$
 
 		findAllDeclarations(Progress.subMonitor(pm, 1), owner);
@@ -214,7 +214,7 @@ public class RippleMethodFinder2 {
 			if (fSearchOnlyInCompilationUnit) {
 				return new IMethod[0];
 			} else {
-				Assert.isTrue(false, "Search for method declaration did not find original element: " + fMethod.toString()); //$NON-NLS-1$
+				Assert.isTrue(false, "Search for method declaration did not find original element: " + fMethod.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -227,12 +227,12 @@ public class RippleMethodFinder2 {
 		fHierarchy= null;
 		fRootTypes= null;
 
-		Map<IType, List<IType>> partitioning= new HashMap<>();
-		for (IType type : fTypeToMethod.fImplementation.keySet()) {
+		Map<IType, List<IType>> partitioning= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IType type : fTypeToMethod.fImplementation.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType rep= fUnionFind.find(type);
 			List<IType> types= partitioning.get(rep);
 			if (types == null)
-				types= new ArrayList<>();
+				types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			types.add(type);
 			partitioning.put(rep, types);
 		}
@@ -245,8 +245,8 @@ public class RippleMethodFinder2 {
 		IType methodTypeRep= fUnionFind.find(fMethod.getDeclaringType());
 		List<IType> relatedTypes= partitioning.get(methodTypeRep);
 		boolean hasRelatedInterfaces= false;
-		List<IMethod> relatedMethods= new ArrayList<>();
-		for (IType relatedType : relatedTypes) {
+		List<IMethod> relatedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IType relatedType : relatedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			relatedMethods.addAll(fTypeToMethod.get(relatedType));
 			if (relatedType.isInterface())
 				hasRelatedInterfaces= true;
@@ -261,7 +261,7 @@ public class RippleMethodFinder2 {
 		alienDeclarations.removeAll(relatedMethods);
 		Set<IType> alienTypes= new LinkedHashSet<>();
 		boolean hasAlienInterfaces= false;
-		for (IMethod alienDeclaration : alienDeclarations) {
+		for (IMethod alienDeclaration : alienDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType alienType= alienDeclaration.getDeclaringType();
 			alienTypes.add(alienType);
 			if (alienType.isInterface())
@@ -290,11 +290,11 @@ public class RippleMethodFinder2 {
 		}
 
 		//find all subtypes of related types:
-		HashSet<IType> relatedSubTypes= new HashSet<>();
-		List<IType> relatedTypesToProcess= new ArrayList<>(relatedTypes);
-		while (relatedTypesToProcess.size() > 0) {
+		HashSet<IType> relatedSubTypes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		List<IType> relatedTypesToProcess= new ArrayList<>(relatedTypes); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (relatedTypesToProcess.size() > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//TODO: would only need subtype hierarchies of all top-of-ripple relatedTypesToProcess
-			for (IType relatedType : relatedTypesToProcess) {
+			for (IType relatedType : relatedTypesToProcess) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkCanceled(pm);
 				ITypeHierarchy hierarchy= hierarchy(pm, owner, relatedType);
 				IType[] allSubTypes= hierarchy.getAllSubtypes(relatedType);
@@ -302,14 +302,14 @@ public class RippleMethodFinder2 {
 			}
 			relatedTypesToProcess.clear(); //processed; make sure loop terminates
 
-			HashSet<IType> marriedAlienTypeReps= new HashSet<>();
-			for (IType alienType : alienTypes) {
+			HashSet<IType> marriedAlienTypeReps= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IType alienType : alienTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkCanceled(pm);
 				Collection<IMethod> alienMethods= fTypeToMethod.get(alienType);
-				for (IMethod alienMethod : alienMethods) {
+				for (IMethod alienMethod : alienMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeHierarchy hierarchy= hierarchy(pm, owner, alienType);
 
-					for (IType subtype : hierarchy.getAllSubtypes(alienType)) {
+					for (IType subtype : hierarchy.getAllSubtypes(alienType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (relatedSubTypes.contains(subtype)) {
 							if (JavaModelUtil.isVisibleInHierarchy(alienMethod, subtype.getPackageFragment())) {
 								marriedAlienTypeReps.add(fUnionFind.find(alienType));
@@ -324,9 +324,9 @@ public class RippleMethodFinder2 {
 			if (marriedAlienTypeReps.isEmpty())
 				return toArray(relatedMethods);
 
-			for (IType marriedAlienTypeRep : marriedAlienTypeReps) {
+			for (IType marriedAlienTypeRep : marriedAlienTypeReps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<IType> marriedAlienTypes= partitioning.get(marriedAlienTypeRep);
-				for (IType marriedAlienInterfaceType : marriedAlienTypes) {
+				for (IType marriedAlienInterfaceType : marriedAlienTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					relatedMethods.addAll(fTypeToMethod.get(marriedAlienInterfaceType));
 				}
 				alienTypes.removeAll(marriedAlienTypes); //not alien any more
@@ -352,16 +352,16 @@ public class RippleMethodFinder2 {
 	 * @return {@code false} if there can be no married alien types to the method under rename, {@code true} otherwise.
 	 * @throws JavaModelException if creating a type hierarchy fails
 	 */
-	private boolean couldHaveMarriedAlienTypes(IProgressMonitor pm, WorkingCopyOwner owner, ITypeHierarchy methodHierarchy, IType[] methodTypeSubtypes) throws JavaModelException {
-		Set<IType> allTypesInMethodHierarchy= new HashSet<>(Arrays.asList(methodHierarchy.getAllClasses()));
+	private boolean couldHaveMarriedAlienTypes(IProgressMonitor pm, WorkingCopyOwner owner, ITypeHierarchy methodHierarchy, IType[] methodTypeSubtypes) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<IType> allTypesInMethodHierarchy= new HashSet<>(Arrays.asList(methodHierarchy.getAllClasses())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		allTypesInMethodHierarchy.addAll(Arrays.asList(methodHierarchy.getAllInterfaces()));
 
 
-		for (IType methodTypeSubtype : methodTypeSubtypes) {
+		for (IType methodTypeSubtype : methodTypeSubtypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			checkCanceled(pm);
 			ITypeHierarchy subtypeHierarchy= methodTypeSubtype.newTypeHierarchy(owner, pm);
 			IType[] subtypeSuperTypes= subtypeHierarchy.getAllSupertypes(methodTypeSubtype);
-			for (IType subtypeSuperType : subtypeSuperTypes) {
+			for (IType subtypeSuperType : subtypeSuperTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkCanceled(pm);
 				if (!allTypesInMethodHierarchy.contains(subtypeSuperType)) {
 					if (definesSimilarMethod(subtypeSuperType, fMethod)) {
@@ -410,8 +410,8 @@ public class RippleMethodFinder2 {
 	}
 
 	private void addMissedSuperTypes() throws JavaModelException {
-		Set<IMethod> newDeclarations = new HashSet<>();
-		for (IMethod method : fDeclarations) {
+		Set<IMethod> newDeclarations = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMethod method : fDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MethodOverrideTester methodOverrideTester= new MethodOverrideTester(method.getDeclaringType(), fHierarchy);
 			newDeclarations.addAll(methodOverrideTester.findAllOverridenMethods(method));
 		}
@@ -422,7 +422,7 @@ public class RippleMethodFinder2 {
 	private ITypeHierarchy getCachedHierarchy(IType type, WorkingCopyOwner owner, IProgressMonitor monitor) throws JavaModelException {
 		IType rep= fUnionFind.find(type);
 		if (rep != null) {
-			for (IType root : fRootReps.get(rep)) {
+			for (IType root : fRootReps.get(rep)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeHierarchy hierarchy= fRootHierarchies.get(root);
 				if (hierarchy == null) {
 					hierarchy= root.newTypeHierarchy(owner, Progress.subMonitor(monitor, 1));
@@ -435,8 +435,8 @@ public class RippleMethodFinder2 {
 		return null;
 	}
 
-	private void findAllDeclarations(IProgressMonitor monitor, WorkingCopyOwner owner) throws CoreException {
-		fDeclarations= new HashSet<>();
+	private void findAllDeclarations(IProgressMonitor monitor, WorkingCopyOwner owner) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fDeclarations= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		class MethodRequestor extends SearchRequestor {
 			@Override
@@ -483,7 +483,7 @@ public class RippleMethodFinder2 {
 
 	private static ITypeHierarchy createHierarchyOfTypes(IProgressMonitor pm, WorkingCopyOwner owner, Stream<IType> types) throws JavaModelException {
 		IRegion region= JavaCore.newRegion();
-		for (Iterator<IType> iter= types.iterator(); iter.hasNext(); ) {
+		for (Iterator<IType> iter= types.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType type= iter.next();
 			region.add(type);
 		}
@@ -492,31 +492,31 @@ public class RippleMethodFinder2 {
 
 	private void createTypeToMethod() {
 		fTypeToMethod= new MultiMap<>();
-		for (IMethod declaration : fDeclarations) {
+		for (IMethod declaration : fDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTypeToMethod.put(declaration.getDeclaringType(), declaration);
 		}
 	}
 
 	private void createUnionFind() throws JavaModelException {
-		fRootTypes= new HashSet<>(fTypeToMethod.fImplementation.keySet());
+		fRootTypes= new HashSet<>(fTypeToMethod.fImplementation.keySet()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fUnionFind= new UnionFind();
-		for (IType type : fTypeToMethod.fImplementation.keySet()) {
+		for (IType type : fTypeToMethod.fImplementation.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fUnionFind.init(type);
 		}
-		for (IType type : fTypeToMethod.fImplementation.keySet()) {
+		for (IType type : fTypeToMethod.fImplementation.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			uniteWithSupertypes(type, type);
 		}
 		fRootReps= new MultiMap<>();
-		for (IType type : fRootTypes) {
+		for (IType type : fRootTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType rep= fUnionFind.find(type);
 			if (rep != null)
 				fRootReps.put(rep, type);
 		}
-		fRootHierarchies= new HashMap<>();
+		fRootHierarchies= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
-	private void uniteWithSupertypes(IType anchor, IType type) throws JavaModelException {
-		for (IType supertype : fHierarchy.getSupertypes(type)) {
+	private void uniteWithSupertypes(IType anchor, IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IType supertype : fHierarchy.getSupertypes(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType superRep= fUnionFind.find(supertype);
 			if (superRep == null) {
 				//Type doesn't declare method, but maybe supertypes?
@@ -524,7 +524,7 @@ public class RippleMethodFinder2 {
 			} else {
 				//check whether method in supertype is really overridden:
 				Collection<IMethod> superMethods= fTypeToMethod.get(supertype);
-				for (IMethod superMethod : superMethods) {
+				for (IMethod superMethod : superMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (JavaModelUtil.isVisibleInHierarchy(superMethod, anchor.getPackageFragment())) {
 						IType rep= fUnionFind.find(anchor);
 						fUnionFind.union(rep, superRep);

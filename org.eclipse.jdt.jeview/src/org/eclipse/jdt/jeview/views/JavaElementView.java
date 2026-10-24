@@ -177,10 +177,10 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 
 		public JEViewSelectionProvider(TreeViewer viewer) {
 			fViewer= viewer;
-			fViewer.addSelectionChangedListener(unused -> fireSelectionChanged());
+			fViewer.addSelectionChangedListener(unused -> fireSelectionChanged()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 
-		void fireSelectionChanged() {
+		void fireSelectionChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fSelectionChangedListeners != null) {
 				IStructuredSelection selection = getSelection();
 
@@ -189,13 +189,13 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 					List<?> oldSelection = fLastSelection.toList();
 					int size = newSelection.size();
 					if (size == oldSelection.size()){
-						for (int i= 0; i < size; i++) {
+						for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Object newElement = newSelection.get(i);
 							Object oldElement = oldSelection.get(i);
 							if (newElement != oldElement && newElement.equals(oldElement) && newElement instanceof IJavaElement) {
 								// send out a fake selection event to make the Properties view update getKey():
 								SelectionChangedEvent event= new SelectionChangedEvent(this, StructuredSelection.EMPTY);
-								for (ISelectionChangedListener listener : fSelectionChangedListeners) {
+								for (ISelectionChangedListener listener : fSelectionChangedListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									listener.selectionChanged(event);
 								}
 								break;
@@ -207,7 +207,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 
 				SelectionChangedEvent event= new SelectionChangedEvent(this, selection);
 
-				for (ISelectionChangedListener listener : fSelectionChangedListeners) {
+				for (ISelectionChangedListener listener : fSelectionChangedListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					listener.selectionChanged(event);
 				}
 			}
@@ -218,11 +218,11 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 			fSelectionChangedListeners.add(listener);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStructuredSelection getSelection() {
 			IStructuredSelection selection= (IStructuredSelection) fViewer.getSelection();
-			ArrayList<Object> externalSelection= new ArrayList<>();
-			for (Iterator<?> iter= selection.iterator(); iter.hasNext();) {
+			ArrayList<Object> externalSelection= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Iterator<?> iter= selection.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element= iter.next();
 				if (element instanceof JavaElement) {
 					IJavaElement javaElement= ((JavaElement) element).getJavaElement();
@@ -257,10 +257,10 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		//
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 		fViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		fDrillDownAdapter = new DrillDownAdapter(fViewer) {
+		fDrillDownAdapter = new DrillDownAdapter(fViewer) { //FLLDCIM: MARK — T04  ANONYMOUS
 			@Override
 			protected void updateNavigationButtons() {
 				super.updateNavigationButtons();
@@ -273,13 +273,13 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 			}
 		};
 		fViewer.setContentProvider(new JEViewContentProvider());
-		fViewer.setLabelProvider(new JEViewLabelProvider());
+		fViewer.setLabelProvider(new JEViewLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		reset();
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
 		getSite().setSelectionProvider(new JEViewSelectionProvider(fViewer));
-		fViewer.addSelectionChangedListener(event -> fCopyAction.setEnabled(! event.getSelection().isEmpty()));
+		fViewer.addSelectionChangedListener(event -> fCopyAction.setEnabled(! event.getSelection().isEmpty())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		contributeToActionBars();
 	}
 
@@ -297,7 +297,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 
 	void setInput(Collection<?> javaElementsOrResources) {
 		fInput= new JERoot(javaElementsOrResources);
-		fViewer.setInput(fInput);
+		fViewer.setInput(fInput); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		ITreeContentProvider tcp= (ITreeContentProvider) fViewer.getContentProvider();
 		Object[] elements= tcp.getElements(fInput);
 		if (elements.length > 0) {
@@ -316,7 +316,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(this::fillContextMenu);
+		menuMgr.addMenuListener(this::fillContextMenu); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		Menu menu = menuMgr.createContextMenu(fViewer.getControl());
 		fViewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, fViewer);
@@ -341,7 +341,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		manager.add(fRefreshAction);
 	}
 
-	void fillContextMenu(IMenuManager manager) {
+	void fillContextMenu(IMenuManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addFocusActionOrNot(manager);
 		manager.add(fResetAction);
 		manager.add(fRefreshAction);
@@ -378,10 +378,10 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		if (keyBinding == null)
 			keyBinding= ""; //$NON-NLS-1$
 
-		return "Sho&w In" + '\t' + keyBinding;
+		return "Sho&w In" + '\t' + keyBinding; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void addFocusActionOrNot(IMenuManager manager) {
+	private void addFocusActionOrNot(IMenuManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fViewer.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection= (IStructuredSelection) fViewer.getSelection();
 			if (structuredSelection.size() == 1) {
@@ -390,14 +390,14 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 					IJavaElement javaElement = ((JavaElement) first).getJavaElement();
 					if (javaElement != null) {
 						String name= javaElement.getElementName();
-						fFocusAction.setText("Fo&cus On '" + name + '\'');
+						fFocusAction.setText("Fo&cus On '" + name + '\''); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						manager.add(fFocusAction);
 					}
 				} else if (first instanceof JEResource) {
 					IResource resource= ((JEResource) first).getResource();
 					if (resource != null) {
 						String name= resource.getName();
-						fFocusAction.setText("Fo&cus On '" + name + '\'');
+						fFocusAction.setText("Fo&cus On '" + name + '\''); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						manager.add(fFocusAction);
 					}
 				}
@@ -405,7 +405,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		}
 	}
 
-	private void addElementActionsOrNot(IMenuManager manager) {
+	private void addElementActionsOrNot(IMenuManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fViewer.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection= (IStructuredSelection) fViewer.getSelection();
 			if (structuredSelection.size() == 1) {
@@ -446,9 +446,9 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		fDrillDownAdapter.addNavigationActions(manager);
 	}
 
-	private void makeActions() {
+	private void makeActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fCodeSelectAction= new Action("Set Input from Editor (&codeSelect)", JEPluginImages.IMG_SET_FOCUS_CODE_SELECT) {
-			@Override public void run() {
+			@Override public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				IEditorPart editor= getSite().getPage().getActiveEditor();
 				if (editor == null) {
 					setEmptyInput();
@@ -489,7 +489,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		fCodeSelectAction.setToolTipText("Set input from current editor's selection (codeSelect)");
 
 		fElementAtAction= new Action("Set Input from Editor location (&getElementAt)", JEPluginImages.IMG_SET_FOCUS) {
-			@Override public void run() {
+			@Override public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				IEditorPart editor= getSite().getPage().getActiveEditor();
 				if (editor == null) {
 					setEmptyInput();
@@ -553,7 +553,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		fFocusAction.setToolTipText("Focus on Selection");
 
 		fFindTypeAction= new Action() {
-			@Override public void run() {
+			@Override public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Object selected= ((IStructuredSelection) fViewer.getSelection()).getFirstElement();
 				final IJavaProject project= (IJavaProject) ((JavaElement) selected).getJavaElement();
 
@@ -575,7 +575,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		fFindTypeAction.setText("findType(String)...");
 
 		fFindType2Action= new Action() {
-			@Override public void run() {
+			@Override public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Object selected= ((IStructuredSelection) fViewer.getSelection()).getFirstElement();
 				final IJavaProject project= (IJavaProject) ((JavaElement) selected).getJavaElement();
 
@@ -584,7 +584,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 					return;
 				final String fullyQualifiedName= dialog.getValue();
 
-				class Runner implements IRunnableWithProgress {
+				class Runner implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 					IType type;
 					@Override
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
@@ -609,7 +609,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		fFindType2Action.setText("findType(String, IProgressMonitor)...");
 
 		fResolveTypeAction= new Action() {
-			@Override public void run() {
+			@Override public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Object selected= ((IStructuredSelection) fViewer.getSelection()).getFirstElement();
 				final IType type= (IType) ((JavaElement) selected).getJavaElement();
 
@@ -618,16 +618,16 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 					return;
 				final String typeName= dialog.getValue();
 
-				JavaElementChildrenProperty element= new JavaElementChildrenProperty(fInput, "'" + type.getFullyQualifiedName() + "'.resolveType(\"" + typeName +"\")") {
+				JavaElementChildrenProperty element= new JavaElementChildrenProperty(fInput, "'" + type.getFullyQualifiedName() + "'.resolveType(\"" + typeName +"\")") { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					@Override protected JEAttribute[] computeChildren() throws Exception {
 						String[][] resolvedTypes= type.resolveType(typeName);
 						if (resolvedTypes == null) {
 							return new JEAttribute[] { new Null(this, "result") };
 						}
 						JEAttribute[] resolvedJEAttributes= new JEAttribute[resolvedTypes.length];
-						for (int i= 0; i < resolvedTypes.length; i++) {
+						for (int i= 0; i < resolvedTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							String[] resolvedType= resolvedTypes[i];
-							resolvedJEAttributes[i]= new JavaElementProperty(this, null, resolvedType[0] + ", " + resolvedType[1]);
+							resolvedJEAttributes[i]= new JavaElementProperty(this, null, resolvedType[0] + ", " + resolvedType[1]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 						return resolvedJEAttributes;
 					}
@@ -640,7 +640,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		fResolveTypeAction.setText("resolveType(String)...");
 
 		fGetAnnotationAction= new Action() {
-			@Override public void run() {
+			@Override public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Object selected= ((IStructuredSelection) fViewer.getSelection()).getFirstElement();
 				final IAnnotatable annotatable= (IAnnotatable) ((JavaElement) selected).getJavaElement();
 
@@ -649,7 +649,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 					return;
 				final String name= dialog.getValue();
 
-				JavaElementChildrenProperty element= new JavaElementChildrenProperty(fInput, "'" + ((IJavaElement) annotatable).getElementName() + "'.getAnnotation(\"" + name +"\")") {
+				JavaElementChildrenProperty element= new JavaElementChildrenProperty(fInput, "'" + ((IJavaElement) annotatable).getElementName() + "'.getAnnotation(\"" + name +"\")") { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					@Override protected JEAttribute[] computeChildren() throws Exception {
 						IAnnotation annotation= annotatable.getAnnotation(name);
 						return new JEAttribute[] { new JavaElement(this, annotation) };
@@ -663,7 +663,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		fGetAnnotationAction.setText("getAnnotation(String)...");
 
 		fCreateFromBindingKeyAction= new Action("Create From &Binding Key...") {
-			@Override public void run() {
+			@Override public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Object selected= ((IStructuredSelection) fViewer.getSelection()).getFirstElement();
 				final IJavaProject project= (IJavaProject) ((JavaElement) selected).getJavaElement();
 
@@ -672,7 +672,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 					return;
 				final String bindingKey= dialog.getValue();
 
-				class Runner implements IRunnableWithProgress {
+				class Runner implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 					IJavaElement element;
 					@Override
 					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
@@ -704,7 +704,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 
 		fRefreshAction= new Action("Re&fresh", JEPluginImages.IMG_REFRESH) {
 			@Override public void run() {
-				BusyIndicator.showWhile(getSite().getShell().getDisplay(), () -> fViewer.refresh());
+				BusyIndicator.showWhile(getSite().getShell().getDisplay(), () -> fViewer.refresh()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		};
 		fRefreshAction.setToolTipText("Refresh");
@@ -732,7 +732,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		fDoubleClickAction = new Action() {
 			private Object fPreviousDouble;
 
-			@Override public void run() {
+			@Override public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				ISelection selection = fViewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
 
@@ -802,7 +802,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 				boolean equals2= second != null && second.equals(first);
 				boolean inconsistentEquals= equals1 != equals2;
 
-				String msg= "==: " + identical + "\nequals(..): " + (inconsistentEquals ? "INCONSISTENT" : equals1);
+				String msg= "==: " + identical + "\nequals(..): " + (inconsistentEquals ? "INCONSISTENT" : equals1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				MessageDialog.openInformation(fViewer.getTree().getShell(), "Comparison", msg);
 			}
 		};
@@ -811,26 +811,26 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 
 		fLogDeltasAction= new Action("Log Java element deltas", IAction.AS_CHECK_BOX) {
 
-			private IElementChangedListener fListener= new IElementChangedListener() {
-				@Override
+			private IElementChangedListener fListener= new IElementChangedListener() { //FLLDCIM: MARK — T31  ANONYMOUS
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				@SuppressWarnings("deprecation")
 				public void elementChanged(ElementChangedEvent event) {
-					StringBuilder type= new StringBuilder("\nEvent type: ");
+					StringBuilder type= new StringBuilder("\nEvent type: "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					switch (event.getType()) {
 					case ElementChangedEvent.POST_CHANGE:
-						type.append("POST_CHANGE");
+						type.append("POST_CHANGE"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case ElementChangedEvent.POST_RECONCILE:
-						type.append("POST_RECONCILE");
+						type.append("POST_RECONCILE"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case ElementChangedEvent.PRE_AUTO_BUILD:
-						type.append("PRE_AUTO_BUILD");
+						type.append("PRE_AUTO_BUILD"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					default:
-						type.append(event.getType());
+						type.append(event.getType()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					}
-					JEViewPlugin.logMessage(event.getDelta().toString() + type.toString());
+					JEViewPlugin.logMessage(event.getDelta().toString() + type.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			};
 
@@ -840,7 +840,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 					JavaCore.removeElementChangedListener(fListener);
 					message= "Element listener removed";
 				} else {
-					JavaCore.addElementChangedListener(fListener);
+					JavaCore.addElementChangedListener(fListener); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 					message= "Element listener added. Deltas are now written to log.";
 				}
 				MessageDialog.openInformation(fViewer.getTree().getShell(), "Log Java Element Deltas", message);
@@ -862,7 +862,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		return new IJavaElement[0];
 	}
 
-	static IJavaElement getElementAtOffset(IJavaElement input, ITextSelection selection) throws JavaModelException {
+	static IJavaElement getElementAtOffset(IJavaElement input, ITextSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (input instanceof ICompilationUnit) {
 			ICompilationUnit cunit= (ICompilationUnit) input;
 			reconcile(cunit);
@@ -901,7 +901,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 	}
 
 	private void hookDoubleClickAction() {
-		fViewer.addDoubleClickListener(unused -> fDoubleClickAction.run());
+		fViewer.addDoubleClickListener(unused -> fDoubleClickAction.run()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 	}
 
 	void showAndLogError(String message, CoreException e) {
@@ -935,14 +935,14 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		return new ShowInContext(null, getSite().getSelectionProvider().getSelection());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean show(ShowInContext context) {
 		ISelection selection= context.getSelection();
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection= ((IStructuredSelection) selection);
 			if (structuredSelection.size() >= 1) {
-				List<Object> input= new ArrayList<>();
-				for (Iterator<?> iter = structuredSelection.iterator(); iter.hasNext();) {
+				List<Object> input= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (Iterator<?> iter = structuredSelection.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object item= iter.next();
 					if (item instanceof IJavaElement || item instanceof IResource || item instanceof IJarEntryResource) {
 						input.add(item);
@@ -967,7 +967,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		return false;
 	}
 
-	Object getElementOfInput(IEditorInput input) {
+	Object getElementOfInput(IEditorInput input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object adapted= input.getAdapter(IClassFile.class);
 		if (adapted != null) {
 			return adapted;
@@ -1000,7 +1000,7 @@ public class JavaElementView extends ViewPart implements IShowInSource, IShowInT
 		return super.getAdapter(adapter);
 	}
 
-	private PropertySheetPage getPropertySheetPage() {
+	private PropertySheetPage getPropertySheetPage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPropertySheetPage == null) {
 			final PropertySheetPage propertySheetPage= new PropertySheetPage();
 			propertySheetPage.setPropertySourceProvider(object -> {

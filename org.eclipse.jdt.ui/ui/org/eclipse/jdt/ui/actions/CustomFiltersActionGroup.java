@@ -128,14 +128,14 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		@Override
 		public void fill(Menu menu, int index) {
 			MenuItem mi= new MenuItem(menu, SWT.CHECK, index);
-			mi.setText("&" + fItemNumber + " " + fFilterName);  //$NON-NLS-1$  //$NON-NLS-2$
+			mi.setText("&" + fItemNumber + " " + fFilterName);  //$NON-NLS-1$  //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			/*
 			 * XXX: Don't set the image - would look bad because other menu items don't provide image
 			 * XXX: Get working set specific image name from XML - would need to cache icons
 			 */
 //			mi.setImage(JavaPluginImages.get(JavaPluginImages.IMG_OBJS_JAVA_WORKING_SET));
 			mi.setSelection(fState);
-			mi.addSelectionListener(new SelectionAdapter() {
+			mi.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fState= !fState;
@@ -249,7 +249,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	 * @param ownerId	the id of this action group's owner
 	 * @param viewer	the viewer to be filtered
 	 */
-	public CustomFiltersActionGroup(String ownerId, StructuredViewer viewer) {
+	public CustomFiltersActionGroup(String ownerId, StructuredViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(ownerId);
 		Assert.isNotNull(viewer);
 		fTargetId= ownerId;
@@ -262,12 +262,12 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		fUserDefinedPatternsEnabled= false;
 		fPreviousPatterns= new String[0];
 
-		fFilterItems= new HashMap<>();
-		for (FilterDescriptor filterDescriptor : FilterDescriptor.getFilterDescriptors(fTargetId)) {
+		fFilterItems= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (FilterDescriptor filterDescriptor : FilterDescriptor.getFilterDescriptors(fTargetId)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FilterItem item= new FilterItem(filterDescriptor);
 			Object existing= fFilterItems.put(item.id, item);
 			if (existing != null) {
-				JavaPlugin.logErrorMessage("WARNING: Duplicate id for extension-point \"org.eclipse.jdt.ui.javaElementFilters\" in " + ownerId); //$NON-NLS-1$
+				JavaPlugin.logErrorMessage("WARNING: Duplicate id for extension-point \"org.eclipse.jdt.ui.javaElementFilters\" in " + ownerId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -299,8 +299,8 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	 * @noreference This method is not intended to be referenced by clients.
 	 */
 	public String[] internalGetEnabledFilterIds() {
-		ArrayList<String> enabledFilterIds= new ArrayList<>();
-		for (FilterItem item : fFilterItems.values()) {
+		ArrayList<String> enabledFilterIds= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (FilterItem item : fFilterItems.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.enabled) {
 				enabledFilterIds.add(item.id);
 			}
@@ -319,8 +319,8 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	 * @return the array of new filter ids
 	 */
 	public String[] removeFiltersFor(Object parent, Object element, IContentProvider contentProvider) {
-		ArrayList<String> newFilters= new ArrayList<>();
-		for (FilterItem item : fFilterItems.values()) {
+		ArrayList<String> newFilters= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (FilterItem item : fFilterItems.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.enabled) {
 				ViewerFilter filter= item.getFilterInstance();
 				if (filter != null && isSelected(parent, element, contentProvider, filter))
@@ -349,7 +349,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	    if (contentProvider instanceof ITreeContentProvider) {
 	        // the element and all its parents have to be selected
 	        ITreeContentProvider provider = (ITreeContentProvider) contentProvider;
-	        while (element != null && !(element instanceof IJavaModel)) {
+	        while (element != null && !(element instanceof IJavaModel)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	            if (!filter.select(fViewer, parent, element))
 	                return false;
 	            element= provider.getParent( element);
@@ -382,11 +382,11 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	private void setEnabledFilterIds(String[] enabledIds) {
 		// set all to false
 		fUserDefinedPatternsEnabled= false;
-		for (FilterItem item : fFilterItems.values()) {
+		for (FilterItem item : fFilterItems.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.enabled= false;
 		}
 		// set enabled to true
-		for (String enabledId : enabledIds) {
+		for (String enabledId : enabledIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FilterItem item= fFilterItems.get(enabledId);
 			if (item != null) {
 				item.enabled= true;
@@ -411,12 +411,12 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		Stack<String> oldestFirstStack= new Stack<>();
 
 		int length= Math.min(changeHistory.size(), MAX_FILTER_MENU_ENTRIES);
-		for (int i= 0; i < length; i++)
+		for (int i= 0; i < length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			oldestFirstStack.push(changeHistory.pop().getId());
 
 		length= Math.min(fLRUFilterIdsStack.size(), MAX_FILTER_MENU_ENTRIES - oldestFirstStack.size());
 		int NEWEST= 0;
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String filter= fLRUFilterIdsStack.remove(NEWEST);
 			if (!oldestFirstStack.contains(filter))
 				oldestFirstStack.push(filter);
@@ -453,19 +453,19 @@ public class CustomFiltersActionGroup extends ActionGroup {
 			removePreviousLRUFilterActions(manager);
 			addLRUFilterActions(manager);
 		};
-		fMenuManager.addMenuListener(fMenuListener);
+		fMenuManager.addMenuListener(fMenuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 	}
 
 	private void removePreviousLRUFilterActions(IMenuManager mm) {
 		if (fFilterIdsUsedInLastViewMenu == null)
 			return;
 
-		for (String fFilterId : fFilterIdsUsedInLastViewMenu) {
+		for (String fFilterId : fFilterIdsUsedInLastViewMenu) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			mm.remove(fFilterId);
 		}
 	}
 
-	private void addLRUFilterActions(IMenuManager mm) {
+	private void addLRUFilterActions(IMenuManager mm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fLRUFilterIdsStack.isEmpty()) {
 			fFilterIdsUsedInLastViewMenu= null;
 			return;
@@ -475,7 +475,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		String[] recentlyChangedFilterIds= sortedFilters.toArray(new String[sortedFilters.size()]);
 
 		fFilterIdsUsedInLastViewMenu= new String[recentlyChangedFilterIds.length];
-		for (int i= 0; i < recentlyChangedFilterIds.length; i++) {
+		for (int i= 0; i < recentlyChangedFilterIds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= recentlyChangedFilterIds[i];
 			fFilterIdsUsedInLastViewMenu[i]= id;
 			FilterItem filterItem= fFilterItems.get(id);
@@ -499,15 +499,15 @@ public class CustomFiltersActionGroup extends ActionGroup {
 
 	// ---------- viewer filter handling ----------
 
-	private boolean updateViewerFilters() {
+	private boolean updateViewerFilters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerFilter[] installedFilters= fViewer.getFilters();
-		ArrayList<ViewerFilter> viewerFilters= new ArrayList<>(Arrays.asList(installedFilters));
-		HashSet<String> patterns= new HashSet<>();
+		ArrayList<ViewerFilter> viewerFilters= new ArrayList<>(Arrays.asList(installedFilters)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		HashSet<String> patterns= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		boolean hasChange= false;
 		boolean patternChange= false;
 
-		for (FilterItem item : fFilterItems.values()) {
+		for (FilterItem item : fFilterItems.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.descriptor.isCustomFilter()) {
 				if (item.enabled != item.previouslyEnabled) {
 					ViewerFilter filter= item.getFilterInstance(); // only create when changed
@@ -547,7 +547,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 			hasChange= true;
 		}
 		if (hasChange) {
-			fViewer.setFilters(viewerFilters.toArray(new ViewerFilter[viewerFilters.size()])); // will refresh
+			fViewer.setFilters(viewerFilters.toArray(new ViewerFilter[viewerFilters.size()])); // will refresh //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		}
 		return hasChange;
 	}
@@ -555,7 +555,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	private boolean hasChanges(HashSet<String> patterns, String[] oldPatterns) {
 		@SuppressWarnings("unchecked")
 		HashSet<String> copy= (HashSet<String>) patterns.clone();
-		for (String oldPattern : oldPatterns) {
+		for (String oldPattern : oldPatterns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean found= copy.remove(oldPattern);
 			if (!found)
 				return true;
@@ -565,7 +565,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 
 	// ---------- view kind/defaults persistency ----------
 
-	private void initializeWithViewDefaults() {
+	private void initializeWithViewDefaults() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// get default values for view
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 
@@ -576,7 +576,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		fUserDefinedPatternsEnabled= store.getBoolean(getPreferenceKey(TAG_USER_DEFINED_PATTERNS_ENABLED));
 		setUserDefinedPatterns(CustomFiltersDialog.convertFromString(store.getString(getPreferenceKey(TAG_USER_DEFINED_PATTERNS)), SEPARATOR));
 
-		for (FilterItem item : fFilterItems.values()) {
+		for (FilterItem item : fFilterItems.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= item.id;
 			// set default to value from plugin contributions (fixes https://bugs.eclipse.org/bugs/show_bug.cgi?id=73991 ):
 			store.setDefault(id, item.descriptor.isEnabled());
@@ -586,14 +586,14 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		fLRUFilterIdsStack.clear();
 		String lruFilterIds= store.getString(TAG_LRU_FILTERS);
 		StringTokenizer tokenizer= new StringTokenizer(lruFilterIds, SEPARATOR);
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= tokenizer.nextToken();
 			if (fFilterItems.containsKey(id) && !fLRUFilterIdsStack.contains(id))
 				fLRUFilterIdsStack.push(id);
 		}
 	}
 
-	private void storeViewDefaults() {
+	private void storeViewDefaults() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// get default values for view
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 
@@ -603,21 +603,21 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		store.setValue(getPreferenceKey(TAG_USER_DEFINED_PATTERNS_ENABLED), fUserDefinedPatternsEnabled);
 		store.setValue(getPreferenceKey(TAG_USER_DEFINED_PATTERNS), CustomFiltersDialog.convertToString(fUserDefinedPatterns ,SEPARATOR));
 
-		for (FilterItem item : fFilterItems.values()) {
+		for (FilterItem item : fFilterItems.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			store.setValue(item.id, item.enabled);
 		}
 
-		StringBuilder buf= new StringBuilder(fLRUFilterIdsStack.size() * 20);
+		StringBuilder buf= new StringBuilder(fLRUFilterIdsStack.size() * 20); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		Iterator<String> iter= fLRUFilterIdsStack.iterator();
-		while (iter.hasNext()) {
-			buf.append(iter.next());
-			buf.append(SEPARATOR);
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(iter.next()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		store.setValue(TAG_LRU_FILTERS, buf.toString());
 	}
 
 	private String getPreferenceKey(String tag) {
-		return "CustomFiltersActionGroup." + fTargetId + '.' + tag; //$NON-NLS-1$
+		return "CustomFiltersActionGroup." + fTargetId + '.' + tag; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	// ---------- view instance persistency ----------
@@ -638,7 +638,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	private void saveXmlDefinedFilters(IMemento memento) {
 		IMemento xmlDefinedFilters= memento.createChild(TAG_XML_DEFINED_FILTERS);
 
-		for (FilterItem item : fFilterItems.values()) {
+		for (FilterItem item : fFilterItems.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento child= xmlDefinedFilters.createChild(TAG_CHILD);
 			child.putString(TAG_FILTER_ID, item.id);
 			child.putString(TAG_IS_ENABLED, String.valueOf(item.enabled));
@@ -655,7 +655,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		if(fLRUFilterIdsStack != null && !fLRUFilterIdsStack.isEmpty()) {
 			IMemento lruFilters= memento.createChild(TAG_LRU_FILTERS);
 			Iterator<String> iter= fLRUFilterIdsStack.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id= iter.next();
 				IMemento child= lruFilters.createChild(TAG_CHILD);
 				child.putString(TAG_FILTER_ID, id);
@@ -666,7 +666,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	private void saveUserDefinedPatterns(IMemento memento) {
 		if(fUserDefinedPatterns != null && fUserDefinedPatterns.length > 0) {
 			IMemento userDefinedPatterns= memento.createChild(TAG_USER_DEFINED_PATTERNS);
-			for (String fUserDefinedPattern : fUserDefinedPatterns) {
+			for (String fUserDefinedPattern : fUserDefinedPatterns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMemento child= userDefinedPatterns.createChild(TAG_CHILD);
 				child.putString(TAG_PATTERN, fUserDefinedPattern);
 			}
@@ -704,7 +704,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		if(userDefinedPatterns != null) {
 			IMemento children[]= userDefinedPatterns.getChildren(TAG_CHILD);
 			String[] patterns= new String[children.length];
-			for (int i = 0; i < children.length; i++)
+			for (int i = 0; i < children.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				patterns[i]= children[i].getString(TAG_PATTERN);
 
 			setUserDefinedPatterns(patterns);
@@ -715,7 +715,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 	private void restoreXmlDefinedFilters(IMemento memento) {
 		IMemento xmlDefinedFilters= memento.getChild(TAG_XML_DEFINED_FILTERS);
 		if(xmlDefinedFilters != null) {
-			for (IMemento child : xmlDefinedFilters.getChildren(TAG_CHILD)) {
+			for (IMemento child : xmlDefinedFilters.getChildren(TAG_CHILD)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id= child.getString(TAG_FILTER_ID);
 				Boolean isEnabled= Boolean.valueOf(child.getString(TAG_IS_ENABLED));
 				FilterItem item= fFilterItems.get(id);
@@ -730,7 +730,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 		IMemento lruFilters= memento.getChild(TAG_LRU_FILTERS);
 		fLRUFilterIdsStack.clear();
 		if(lruFilters != null) {
-			for (IMemento child : lruFilters.getChildren(TAG_CHILD)) {
+			for (IMemento child : lruFilters.getChildren(TAG_CHILD)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id= child.getString(TAG_FILTER_ID);
 				if (fFilterItems.containsKey(id) && !fLRUFilterIdsStack.contains(id))
 					fLRUFilterIdsStack.push(id);
@@ -740,7 +740,7 @@ public class CustomFiltersActionGroup extends ActionGroup {
 
 	// ---------- dialog related code ----------
 
-	private void openDialog() {
+	private void openDialog() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CustomFiltersDialog dialog= new CustomFiltersDialog(
 			fViewer.getControl().getShell(),
 			fTargetId,

@@ -91,7 +91,7 @@ public final class JarImportWizard extends BinaryRefactoringHistoryWizard implem
 		/** The cached refactoring history delta */
 		private RefactoringDescriptorProxy[] fHistoryDelta= null;
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public RefactoringDescriptorProxy[] getDescriptors() {
 			if (fHistoryDelta != null)
 				return fHistoryDelta;
@@ -104,11 +104,11 @@ public final class JarImportWizard extends BinaryRefactoringHistoryWizard implem
 						final URI uri= getLocationURI(root.getRawClasspathEntry());
 						if (uri != null) {
 							final File file= new File(uri);
-							if (file.exists()) {
-								try (ZipFile zip= new ZipFile(file, ZipFile.OPEN_READ)) {
+							if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+								try (ZipFile zip= new ZipFile(file, ZipFile.OPEN_READ)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 									ZipEntry entry= zip.getEntry(JarPackagerUtil.getRefactoringsEntry());
 									if (entry != null) {
-										try (InputStream stream= zip.getInputStream(entry)) {
+										try (InputStream stream= zip.getInputStream(entry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 											final RefactoringHistory existing= RefactoringCore.getHistoryService().readRefactoringHistory(stream, JavaRefactoringDescriptor.JAR_MIGRATION | JavaRefactoringDescriptor.JAR_REFACTORING);
 											if (existing != null)
 												fHistoryDelta= incoming.removeAll(existing).getDescriptors();
@@ -201,7 +201,7 @@ public final class JarImportWizard extends BinaryRefactoringHistoryWizard implem
 	/**
 	 * Creates a new jar import wizard.
 	 */
-	public JarImportWizard() {
+	public JarImportWizard() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(JarImportMessages.JarImportWizard_window_title, JarImportMessages.RefactoringImportPreviewPage_title, JarImportMessages.RefactoringImportPreviewPage_description);
 		fImportData.setRefactoringAware(true);
 		fImportData.setIncludeDirectoryEntries(true);
@@ -253,14 +253,14 @@ public final class JarImportWizard extends BinaryRefactoringHistoryWizard implem
 		return super.canFinish() && fImportData.getPackageFragmentRoot() != null && fImportData.getRefactoringFileLocation() != null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean deconfigureClasspath(final IClasspathEntry[] entries, final IProgressMonitor monitor) throws CoreException {
 		final boolean rename= fImportData.isRenameJarFile();
 		if (rename && !fCancelled) {
 			final IPackageFragmentRoot root= getPackageFragmentRoot();
 			if (root != null) {
 				final IClasspathEntry entry= root.getRawClasspathEntry();
-				for (int index= 0; index < entries.length; index++) {
+				for (int index= 0; index < entries.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (entries[index].equals(entry)) {
 						final IPath path= getTargetPath(entries[index]);
 						if (path != null)
@@ -309,7 +309,7 @@ public final class JarImportWizard extends BinaryRefactoringHistoryWizard implem
 	 * @throws CoreException
 	 *             if an error occurs
 	 */
-	private IPath getTargetPath(final IClasspathEntry entry) throws CoreException {
+	private IPath getTargetPath(final IClasspathEntry entry) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final URI location= getLocationURI(entry);
 		if (location != null) {
 			final URI target= getTargetURI(location);
@@ -386,7 +386,7 @@ public final class JarImportWizard extends BinaryRefactoringHistoryWizard implem
 	 * @throws CoreException
 	 *             if an error occurs
 	 */
-	private void replaceJarFile(final IProgressMonitor monitor) throws CoreException {
+	private void replaceJarFile(final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(JarImportMessages.JarImportWizard_cleanup_import, 250);
 			final URI location= fImportData.getRefactoringFileLocation();

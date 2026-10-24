@@ -215,7 +215,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 	private final String ADD_IMPORT_ID= "org.eclipse.jdt.ui.correction.addImport"; //$NON-NLS-1$
 
-	@SuppressWarnings({ "deprecation" })
+	@SuppressWarnings({ "deprecation" }) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void collectVariableProposals(IInvocationContext context, IProblemLocation problem, IVariableBinding resolvedField, Collection<T> proposals) throws CoreException {
 
 		ICompilationUnit cu= context.getCompilationUnit();
@@ -270,7 +270,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 						typeKind= TypeKinds.REF_TYPES;
 					}
 					ASTNode outerParent= parent.getParent();
-					while (outerParent instanceof QualifiedName) {
+					while (outerParent instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						outerParent= outerParent.getParent();
 					}
 					if (outerParent instanceof SimpleType || outerParent instanceof NameQualifiedType) {
@@ -365,7 +365,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		}
 	}
 
-	private void addNewVariableProposals(ICompilationUnit cu, Name node, SimpleName simpleName, Collection<T> proposals) {
+	private void addNewVariableProposals(ICompilationUnit cu, Name node, SimpleName simpleName, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= simpleName.getIdentifier();
 		BodyDeclaration bodyDeclaration= ASTResolving.findParentBodyDeclaration(node, true);
 		int type= bodyDeclaration.getNodeType();
@@ -405,7 +405,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		}
 	}
 
-	private void addNewFieldProposals(ICompilationUnit cu, CompilationUnit astRoot, ITypeBinding binding, ITypeBinding declaringTypeBinding, SimpleName simpleName, boolean isWriteAccess, Collection<T> proposals) throws JavaModelException {
+	private void addNewFieldProposals(ICompilationUnit cu, CompilationUnit astRoot, ITypeBinding binding, ITypeBinding declaringTypeBinding, SimpleName simpleName, boolean isWriteAccess, Collection<T> proposals) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// new variables
 		ICompilationUnit targetCU;
 		ITypeBinding senderDeclBinding;
@@ -443,7 +443,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		return false;
 	}
 
-	private void addNewFieldForType(ICompilationUnit targetCU, ITypeBinding binding, ITypeBinding senderDeclBinding, SimpleName simpleName, boolean isWriteAccess, boolean mustBeConst, Collection<T> proposals) {
+	private void addNewFieldForType(ICompilationUnit targetCU, ITypeBinding binding, ITypeBinding senderDeclBinding, SimpleName simpleName, boolean isWriteAccess, boolean mustBeConst, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= simpleName.getIdentifier();
 		String nameLabel= BasicElementLabels.getJavaElementName(name);
 		String label;
@@ -534,7 +534,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		}
 	}
 
-	private void addSimilarVariableProposals(ICompilationUnit cu, CompilationUnit astRoot, ITypeBinding binding, IVariableBinding resolvedField, SimpleName node, boolean isWriteAccess, Collection<T> proposals) {
+	private void addSimilarVariableProposals(ICompilationUnit cu, CompilationUnit astRoot, ITypeBinding binding, IVariableBinding resolvedField, SimpleName node, boolean isWriteAccess, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int kind= ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY;
 		if (!isWriteAccess) {
 			kind |= ScopeAnalyzer.METHODS; // also try to find similar methods
@@ -583,9 +583,9 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 			ITypeBinding objectBinding= astRoot.getAST().resolveWellKnownType("java.lang.Object"); //$NON-NLS-1$
 			String identifier= node.getIdentifier();
 			boolean isInStaticContext= ASTResolving.isInStaticContext(node);
-			ArrayList<T> newProposals= new ArrayList<>(51);
+			ArrayList<T> newProposals= new ArrayList<>(51); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			loop: for (int i= 0; i < varsAndMethodsInScope.length && newProposals.size() <= 50; i++) {
+			loop: for (int i= 0; i < varsAndMethodsInScope.length && newProposals.size() <= 50; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IBinding varOrMeth= varsAndMethodsInScope[i];
 				if (varOrMeth instanceof IVariableBinding curr) {
 					String currName= curr.getName();
@@ -643,7 +643,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 							LinkedCorrectionProposalCore proposal= new LinkedCorrectionProposalCore(label, cu, rewrite, IProposalRelevance.CHANGE_TO_METHOD);
 							MethodInvocation newInv= ast.newMethodInvocation();
 							newInv.setName(ast.newSimpleName(curr.getName()));
-							for (ITypeBinding parameterType : curr.getParameterTypes()) {
+							for (ITypeBinding parameterType : curr.getParameterTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								ASTNode arg= ASTNodeFactory.newDefaultExpression(ast, parameterType);
 								newInv.arguments().add(arg);
 								proposal.addLinkedPosition(rewrite.track(arg), false, null);
@@ -674,7 +674,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	private boolean hasMethodWithName(ITypeBinding typeBinding, String name) {
-		for (IVariableBinding field : typeBinding.getDeclaredFields()) {
+		for (IVariableBinding field : typeBinding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field.getName().equals(name)) {
 				return true;
 			}
@@ -687,7 +687,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	private boolean hasFieldWithName(ITypeBinding typeBinding, String name) {
-		for (IMethodBinding method : typeBinding.getDeclaredMethods()) {
+		for (IMethodBinding method : typeBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.getName().equals(name)) {
 				return true;
 			}
@@ -699,7 +699,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		return false;
 	}
 
-	public void collectTypeProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void collectTypeProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
@@ -707,7 +707,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 			return;
 		}
 
-		while (selectedNode instanceof ParenthesizedExpression parenthesizedExp) {
+		while (selectedNode instanceof ParenthesizedExpression parenthesizedExp) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= parenthesizedExp.getExpression();
 		}
 
@@ -729,7 +729,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 			selectedNode= parameterizedType.getType();
 		}
 
-		while (selectedNode.getLocationInParent() == QualifiedName.NAME_PROPERTY) {
+		while (selectedNode.getLocationInParent() == QualifiedName.NAME_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= selectedNode.getParent();
 		}
 
@@ -791,7 +791,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		// change to similar type proposals
 		addSimilarTypeProposals(kind, cu, node, IProposalRelevance.SIMILAR_TYPE, proposals);
 
-		while (node.getParent() instanceof QualifiedName) {
+		while (node.getParent() instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= (Name) node.getParent();
 		}
 
@@ -827,7 +827,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		getReorgSubProcessor().addProjectSetupFixProposals(context, problem, node.getFullyQualifiedName(), proposals);
 	}
 
-	private SimpleName addEnhancedForWithoutTypeProposals(ICompilationUnit cu, ASTNode selectedNode, Collection<T> proposals) {
+	private SimpleName addEnhancedForWithoutTypeProposals(ICompilationUnit cu, ASTNode selectedNode, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectedNode instanceof SimpleName simpleName && (selectedNode.getLocationInParent() == SimpleType.NAME_PROPERTY || selectedNode.getLocationInParent() == NameQualifiedType.NAME_PROPERTY)) {
 			ASTNode type= selectedNode.getParent();
 			if (type.getLocationInParent() == SingleVariableDeclaration.TYPE_PROPERTY) {
@@ -849,7 +849,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		return null;
 	}
 
-	protected void addNullityAnnotationTypesProposals(ICompilationUnit cu, Name node, Collection<T> proposals) throws CoreException {
+	protected void addNullityAnnotationTypesProposals(ICompilationUnit cu, Name node, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= node.getParent();
 		boolean isAnnotationName= parent instanceof Annotation && ((Annotation) parent).getTypeNameProperty() == node.getLocationInParent();
 		if (!isAnnotationName) {
@@ -864,7 +864,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		String nullityAnnotation= null;
 		String[] annotationNameOptions= { JavaCore.COMPILER_NULLABLE_ANNOTATION_NAME, JavaCore.COMPILER_NONNULL_ANNOTATION_NAME, JavaCore.COMPILER_NONNULL_BY_DEFAULT_ANNOTATION_NAME };
 		Hashtable<String, String> defaultOptions= JavaCore.getDefaultOptions();
-		for (String annotationNameOption : annotationNameOptions) {
+		for (String annotationNameOption : annotationNameOptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String annotationName= javaProject.getOption(annotationNameOption, true);
 			if (! annotationName.equals(defaultOptions.get(annotationNameOption)))
 				return;
@@ -885,19 +885,19 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 500
-	private void addCopyAnnotationsJarProposal(final ICompilationUnit cu, final Name name, final String fullyQualifiedName, Bundle annotationsBundle, Collection<T> proposals) {
+	private void addCopyAnnotationsJarProposal(final ICompilationUnit cu, final Name name, final String fullyQualifiedName, Bundle annotationsBundle, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IJavaProject javaProject= cu.getJavaProject();
 		Optional<File> bundleFileLocation= FileLocator.getBundleFileLocation(annotationsBundle);
 		if (bundleFileLocation.isEmpty()) {
 			return;
 		}
 		File bundleFile= bundleFileLocation.get();
-		if (!bundleFile.isFile() || !bundleFile.canRead())
+		if (!bundleFile.isFile() || !bundleFile.canRead()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			return; // we only support a JAR'd bundle, so this won't work in the runtime if you have org.eclipse.jdt.annotation in source.
 
 		final String changeName= CorrectionMessages.UnresolvedElementsSubProcessor_copy_annotation_jar_description;
 		ChangeCorrectionProposalCore proposal= new ChangeCorrectionProposalCore(changeName, null, IProposalRelevance.COPY_ANNOTATION_JAR) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected Change createChange() throws CoreException {
 				final IFile file= javaProject.getProject().getFile(bundleFile.getName());
 				ResourceChange copyFileChange= new ResourceChange() {
@@ -907,7 +907,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 							if (file.exists()) {
 								file.delete(false, pm);
 							}
-							file.create(new ByteArrayInputStream(Files.readAllBytes(bundleFile.toPath())), false, pm);
+							file.create(new ByteArrayInputStream(Files.readAllBytes(bundleFile.toPath())), false, pm); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 							return new DeleteResourceChange(file.getFullPath(), false);
 						} catch (IOException e) {
 							throw new CoreException(new Status(IStatus.ERROR, JavaManipulationPlugin.getPluginId(), e.getMessage()));
@@ -950,7 +950,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 600
-	private void addSimilarTypeProposals(int kind, ICompilationUnit cu, Name node, int relevance, Collection<T> proposals) throws CoreException {
+	private void addSimilarTypeProposals(int kind, ICompilationUnit cu, Name node, int relevance, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SimilarElement[] elements= SimilarElementsRequestor.findSimilarElement(cu, node, kind);
 
 		// try to resolve type in context -> highest severity
@@ -1005,7 +1005,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		}
 
 		// add all similar elements
-		for (SimilarElement elem : elements) {
+		for (SimilarElement elem : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((elem.getKind() & TypeKinds.ALL_TYPES) != 0) {
 				String fullName= elem.getName();
 				if (!fullName.equals(resolvedTypeName)) {
@@ -1057,7 +1057,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		if (binding.isEqualTo(ancestorBinding)) {
 			return true;
 		}
-		for (ITypeBinding interfaceBinding : binding.getInterfaces()) {
+		for (ITypeBinding interfaceBinding : binding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isInherited(interfaceBinding, ancestorBinding)) {
 				return true;
 			}
@@ -1074,7 +1074,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		return getCompositeChangeProposal(original);
 	}
 
-	private T getCompositeChangeProposal(ChangeCorrectionProposalCore proposal) throws CoreException {
+	private T getCompositeChangeProposal(ChangeCorrectionProposalCore proposal) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ChangeCorrectionProposalCore compositeProposal= null;
 		if (proposal instanceof AddImportCorrectionProposalCore aicpc) {
 			AddModuleRequiresCorrectionProposalCore cp= aicpc.getAdditionalProposal();
@@ -1093,7 +1093,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 					change.initializeValidationData(new NullProgressMonitor());
 					String importChangeName= importChange.getName();
 					String moduleRequiresChangeName= change.getName();
-					moduleRequiresChangeName= moduleRequiresChangeName.substring(0, 1).toLowerCase() + moduleRequiresChangeName.substring(1);
+					moduleRequiresChangeName= moduleRequiresChangeName.substring(0, 1).toLowerCase() + moduleRequiresChangeName.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					String changeName= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_combine_two_proposals_info, new String[] { importChangeName, moduleRequiresChangeName });
 					compositeProposal= new ChangeCorrectionProposalCore(changeName, null, aicpc.getRelevance()) {
 						@Override
@@ -1125,7 +1125,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 800
-	private T createTypeRefChangeProposal(ICompilationUnit cu, String fullName, Name node, int relevance, int maxProposals) {
+	private T createTypeRefChangeProposal(ICompilationUnit cu, String fullName, Name node, int relevance, int maxProposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImportRewrite importRewrite= null;
 		String simpleName= fullName;
 		String packName= Signature.getQualifier(fullName);
@@ -1147,7 +1147,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 			// in which case we should just change the reference to a qualified name
 			try {
 				IType[] types= cu.getAllTypes();
-				for (IType type : types) {
+				for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (type.getFullyQualifiedName('.').equals(fullName)) {
 						String label= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_change_to_qualified_description, fullName);
 						proposal= new QualifyTypeProposalCore(label, cu, relevance + 100, (SimpleName)node, fullName);
@@ -1208,7 +1208,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	protected boolean isLikelyPackageName(String name) {
 		if (name.length() != 0) {
 			int i= 0;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Character.isUpperCase(name.charAt(i))) {
 					return false;
 				}
@@ -1240,9 +1240,9 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		addNewTypeProposalsParams(cu, refNode, kind, relevance, proposals);
 	}
 
-	protected void addNewTypeProposalsInteractive(ICompilationUnit cu, Name refNode, int kind, int relevance, Collection<T> proposals) throws CoreException {
+	protected void addNewTypeProposalsInteractive(ICompilationUnit cu, Name refNode, int kind, int relevance, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Name node= refNode;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String typeName= ASTNodes.getSimpleNameIdentifier(node);
 			Name qualifier= null;
 			// only propose to create types for qualifiers when the name starts with upper case
@@ -1279,7 +1279,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 					rel += 3;
 				}
 
-				if (enclosingPackage != null && !enclosingPackage.getCompilationUnit(typeName + JavaModelUtil.DEFAULT_CU_SUFFIX).exists()
+				if (enclosingPackage != null && !enclosingPackage.getCompilationUnit(typeName + JavaModelUtil.DEFAULT_CU_SUFFIX).exists() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						|| enclosingType != null && !enclosingType.isReadOnly() && !enclosingType.getType(typeName).exists()) { // new member type
 					IJavaElement enclosing= enclosingPackage != null ? (IJavaElement) enclosingPackage : enclosingType;
 					addNewTypeProposalsInteractiveInnerLoop(cu, node, enclosing, rel, kind, refNode, proposals);
@@ -1291,7 +1291,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 	protected abstract void addNewTypeProposalsInteractiveInnerLoop(ICompilationUnit cu, Name node, IJavaElement enclosing, int rel, int kind, Name refNode, Collection<T> proposals) throws CoreException;
 
-	protected void addNewTypeProposalsParams(ICompilationUnit cu, Name refNode, int kind, int relevance, Collection<T> proposals) {
+	protected void addNewTypeProposalsParams(ICompilationUnit cu, Name refNode, int kind, int relevance, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// type parameter proposals
 		if (refNode.isSimpleName() && (kind & TypeKinds.VARIABLES)  != 0) {
 			CompilationUnit root= (CompilationUnit) refNode.getRoot();
@@ -1301,7 +1301,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 			if (isLikelyTypeParameterName(name)) {
 				baseRel += 8;
 			}
-			while (declaration != null) {
+			while (declaration != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IBinding binding= null;
 				int rel= baseRel;
 				if (declaration instanceof MethodDeclaration methodDecl) {
@@ -1329,7 +1329,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 
-	protected boolean canUseRecord(IJavaProject project, Name refNode) {
+	protected boolean canUseRecord(IJavaProject project, Name refNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean canUseRecord= false;
 		if (project != null
 				&& JavaModelUtil.is16OrHigher(project)
@@ -1351,7 +1351,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 1100
-	public void collectRequiresModuleProposals(ICompilationUnit cu, Name node, int relevance, Collection<T> proposals, boolean isOnDemand) throws CoreException {
+	public void collectRequiresModuleProposals(ICompilationUnit cu, Name node, int relevance, Collection<T> proposals, boolean isOnDemand) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (cu == null) {
 			return;
 		}
@@ -1372,7 +1372,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 			typeRule= IJavaSearchConstants.PACKAGE;
 		}
 
-		List<IPackageFragment> matchingPackageFragments= new ArrayList<>();
+		List<IPackageFragment> matchingPackageFragments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (node.isSimpleName() && !isOnDemand) {
 			matchingPackageFragments.add((IPackageFragment) cu.getParent());
 		} else {
@@ -1389,8 +1389,8 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		}
 		IModuleDescription projectModule= null;
 		if (matchingPackageFragments.size() > 0) {
-			HashSet<String> modules= new HashSet<>();
-			for (IPackageFragment enclosingPackage : matchingPackageFragments) {
+			HashSet<String> modules= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IPackageFragment enclosingPackage : matchingPackageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (enclosingPackage.isReadOnly()) { // This is to handle the case where the enclosingPackage belongs to a jar file
 					IPackageFragmentRoot root= (IPackageFragmentRoot) enclosingPackage.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 					projectModule= AddModuleRequiresCorrectionProposalCore.getModuleDescription(root);
@@ -1422,7 +1422,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 
 	// 1200
-	public void collectMethodProposals(IInvocationContext context, IProblemLocation problem, boolean isOnlyParameterMismatch, Collection<T> proposals) throws CoreException {
+	public void collectMethodProposals(IInvocationContext context, IProblemLocation problem, boolean isOnlyParameterMismatch, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ICompilationUnit cu= context.getCompilationUnit();
 
@@ -1456,12 +1456,12 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		// corrections
 		IBinding[] bindings= (new ScopeAnalyzer(astRoot)).getDeclarationsInScope(nameNode, ScopeAnalyzer.METHODS);
 
-		HashSet<String> suggestedRenames= new HashSet<>();
-		Collection<T> deprecatedProposals= new ArrayList<>();
+		HashSet<String> suggestedRenames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Collection<T> deprecatedProposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String depCheckPref= JavaCore.getOption(JavaCore.CODEASSIST_DEPRECATION_CHECK);
 		boolean hideDeprecatedProposals= depCheckPref == null ? false : depCheckPref.equals(JavaCore.ENABLED);
 		boolean hasNonDeprecatedProposals= false;
-		for (IBinding b : bindings) {
+		for (IBinding b : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding binding= (IMethodBinding) b;
 			String curr= binding.getName();
 			if (!curr.equals(methodName) && binding.getParameterTypes().length == nArguments && NameMatcher.isSimilarName(methodName, curr) && suggestedRenames.add(curr)) {
@@ -1491,8 +1491,8 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		suggestedRenames= null;
 
 		if (isOnlyParameterMismatch) {
-			ArrayList<IMethodBinding> parameterMismatchs= new ArrayList<>();
-			for (IBinding binding : bindings) {
+			ArrayList<IMethodBinding> parameterMismatchs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (binding.getName().equals(methodName)) {
 					parameterMismatchs.add((IMethodBinding) binding);
 				}
@@ -1525,13 +1525,13 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 
 	// 1300
-	private void addStaticImportFavoriteProposals(IInvocationContext context, SimpleName node, boolean isMethod, Collection<T> proposals) throws JavaModelException {
+	private void addStaticImportFavoriteProposals(IInvocationContext context, SimpleName node, boolean isMethod, Collection<T> proposals) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project= context.getCompilationUnit().getJavaProject();
 		String pref= JavaManipulation.getPreference(JavaManipulationPlugin.CODEASSIST_FAVORITE_STATIC_MEMBERS, project);
 		if (pref == null  || pref.isBlank()) {
 			return;
 		}
-		String[] favourites= pref.split(";"); //$NON-NLS-1$
+		String[] favourites= pref.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (favourites.length == 0) {
 			return;
 		}
@@ -1540,7 +1540,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		AST ast= root.getAST();
 
 		String name= node.getIdentifier();
-		for (String curr : JavaModelUtil.getStaticImportFavorites(context.getCompilationUnit(), name, isMethod, favourites)) {
+		for (String curr : JavaModelUtil.getStaticImportFavorites(context.getCompilationUnit(), name, isMethod, favourites)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ImportRewrite importRewrite= StubUtility.createImportRewrite(root, true);
 			ASTRewrite astRewrite= ASTRewrite.create(ast);
 
@@ -1574,7 +1574,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 1400
-	private void addNewMethodProposals(ICompilationUnit cu, CompilationUnit astRoot, Expression sender, List<Expression> arguments, boolean isSuperInvocation, ASTNode invocationNode, String methodName, Collection<T> proposals) throws JavaModelException {
+	private void addNewMethodProposals(ICompilationUnit cu, CompilationUnit astRoot, Expression sender, List<Expression> arguments, boolean isSuperInvocation, ASTNode invocationNode, String methodName, Collection<T> proposals) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding nodeParentType= Bindings.getBindingOfParentType(invocationNode);
 		ITypeBinding binding= null;
 		if (sender != null) {
@@ -1662,7 +1662,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 1500
-	private void addMissingCastParentsProposal(ICompilationUnit cu, MethodInvocation invocationNode, Collection<T> proposals) {
+	private void addMissingCastParentsProposal(ICompilationUnit cu, MethodInvocation invocationNode, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression sender= invocationNode.getExpression();
 		if (sender instanceof ThisExpression) {
 			return;
@@ -1678,7 +1678,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		}
 
 		ASTNode parent= invocationNode.getParent();
-		while (parent instanceof Expression && parent.getNodeType() != ASTNode.CAST_EXPRESSION) {
+		while (parent instanceof Expression && parent.getNodeType() != ASTNode.CAST_EXPRESSION) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		boolean hasCastProposal= false;
@@ -1722,7 +1722,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 
 	// 1600
-	private boolean useExistingParentCastProposal(ICompilationUnit cu, CastExpression expression, Expression accessExpression, SimpleName accessSelector, ITypeBinding[] paramTypes, Collection<T> proposals) {
+	private boolean useExistingParentCastProposal(ICompilationUnit cu, CastExpression expression, Expression accessExpression, SimpleName accessSelector, ITypeBinding[] paramTypes, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding castType= expression.getType().resolveBinding();
 		if (castType == null) {
 			return false;
@@ -1764,14 +1764,14 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		return false;
 	}
 
-	private void addParameterMismatchProposals(IInvocationContext context, IProblemLocation problem, List<IMethodBinding> similarElements, ASTNode invocationNode, List<Expression> arguments, Collection<T> proposals) throws CoreException {
+	private void addParameterMismatchProposals(IInvocationContext context, IProblemLocation problem, List<IMethodBinding> similarElements, ASTNode invocationNode, List<Expression> arguments, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nSimilarElements= similarElements.size();
 		ITypeBinding[] argTypes= getArgumentTypes(arguments);
 		if (argTypes == null || nSimilarElements == 0)  {
 			return;
 		}
 
-		for (int i= 0; i < nSimilarElements; i++) {
+		for (int i= 0; i < nSimilarElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding elem= similarElements.get(i);
 			int diff= elem.getParameterTypes().length - argTypes.length;
 			if (diff == 0) {
@@ -1789,12 +1789,12 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 1700
-	private void doMoreParameters(IInvocationContext context, ASTNode invocationNode, ITypeBinding[] argTypes, IMethodBinding methodBinding, Collection<T> proposals) throws CoreException {
+	private void doMoreParameters(IInvocationContext context, ASTNode invocationNode, ITypeBinding[] argTypes, IMethodBinding methodBinding, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] paramTypes= methodBinding.getParameterTypes();
 		int k= 0, nSkipped= 0;
 		int diff= paramTypes.length - argTypes.length;
 		int[] indexSkipped= new int[diff];
-		for (int i= 0; i < paramTypes.length; i++) {
+		for (int i= 0; i < paramTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (k < argTypes.length && canAssign(argTypes[k], paramTypes[i])) {
 				k++; // match
 			} else {
@@ -1835,7 +1835,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 			ChangeDescription[] changeDesc= new ChangeDescription[declParameterTypes.length];
 			ITypeBinding[] changedTypes= new ITypeBinding[diff];
-			for (int i= diff - 1; i >= 0; i--) {
+			for (int i= diff - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int idx= indexSkipped[i];
 				changeDesc[idx]= new RemoveDescription();
 				changedTypes[i]= declParameterTypes[idx];
@@ -1864,12 +1864,12 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	private String getTypeNames(ITypeBinding[] types) {
-		StringBuilder buf= new StringBuilder();
-		for (int i= 0; i < types.length; i++) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
-				buf.append(", "); //$NON-NLS-1$
+				buf.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(ASTResolving.getTypeSignature(types[i]));
+			buf.append(ASTResolving.getTypeSignature(types[i])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return BasicElementLabels.getJavaElementName(buf.toString());
 	}
@@ -1882,21 +1882,21 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 			return def;
 		}
 		ASTMatcher matcher= new ASTMatcher();
-		for (int i= 0; i < arguments.size(); i++) {
+		for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i != index && matcher.safeSubtreeMatch(expr, arguments.get(i))) {
 				return def;
 			}
 		}
-		return '\'' + BasicElementLabels.getJavaElementName(ASTNodes.asString(expr)) + '\'';
+		return '\'' + BasicElementLabels.getJavaElementName(ASTNodes.asString(expr)) + '\''; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	// 1800
-	private void doMoreArguments(IInvocationContext context, ASTNode invocationNode, List<Expression> arguments, ITypeBinding[] argTypes, IMethodBinding methodRef, Collection<T> proposals) throws CoreException {
+	private void doMoreArguments(IInvocationContext context, ASTNode invocationNode, List<Expression> arguments, ITypeBinding[] argTypes, IMethodBinding methodRef, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] paramTypes= methodRef.getParameterTypes();
 		int k= 0, nSkipped= 0;
 		int diff= argTypes.length - paramTypes.length;
 		int[] indexSkipped= new int[diff];
-		for (int i= 0; i < argTypes.length; i++) {
+		for (int i= 0; i < argTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (k < paramTypes.length && canAssign(argTypes[i], paramTypes[k])) {
 				k++; // match
 			} else {
@@ -1914,7 +1914,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		{
 			ASTRewrite rewrite= ASTRewrite.create(astRoot.getAST());
 
-			for (int i= diff - 1; i >= 0; i--) {
+			for (int i= diff - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.remove(arguments.get(indexSkipped[i]), null);
 			}
 			String[] arg= new String[] { ASTResolving.getMethodSignature(methodRef) };
@@ -1946,7 +1946,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 			ChangeDescription[] changeDesc= new ChangeDescription[argTypes.length];
 			ITypeBinding[] changeTypes= new ITypeBinding[diff];
-			for (int i= diff - 1; i >= 0; i--) {
+			for (int i= diff - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int idx= indexSkipped[i];
 				Expression arg= arguments.get(idx);
 				String name= getExpressionBaseName(arg);
@@ -1991,7 +1991,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 	private ITypeBinding[] getParameterTypes(List<Expression> args) {
 		ITypeBinding[] params= new ITypeBinding[args.size()];
-		for (int i= 0; i < args.size(); i++) {
+		for (int i= 0; i < args.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression expr= args.get(i);
 			ITypeBinding curr= Bindings.normalizeTypeBinding(expr.resolveTypeBinding());
 			if (curr != null && curr.isWildcardType()) {
@@ -2006,11 +2006,11 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 1900
-	private void doEqualNumberOfParameters(IInvocationContext context, ASTNode invocationNode, IProblemLocation problem, List<Expression> arguments, ITypeBinding[] argTypes, IMethodBinding methodBinding, Collection<T> proposals) throws CoreException {
+	private void doEqualNumberOfParameters(IInvocationContext context, ASTNode invocationNode, IProblemLocation problem, List<Expression> arguments, ITypeBinding[] argTypes, IMethodBinding methodBinding, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] paramTypes= methodBinding.getParameterTypes();
 		int[] indexOfDiff= new int[paramTypes.length];
 		int nDiffs= 0;
-		for (int n= 0; n < argTypes.length; n++) {
+		for (int n= 0; n < argTypes.length; n++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!canAssign(argTypes[n], paramTypes[n])) {
 				indexOfDiff[nDiffs++]= n;
 			}
@@ -2091,7 +2091,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 					ICompilationUnit targetCU= ASTResolving.findCompilationUnitForBinding(cu, astRoot, declaringTypeDecl);
 					if (targetCU != null) {
 						ChangeDescription[] changeDesc= new ChangeDescription[paramTypes.length];
-						for (int i= 0; i < nDiffs; i++) {
+						for (int i= 0; i < nDiffs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							changeDesc[idx1]= new SwapDescription(idx2);
 						}
 						IMethodBinding methodDecl= methodBinding.getMethodDeclaration();
@@ -2125,11 +2125,11 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 					ITypeBinding[] declParamTypes= methodDecl.getParameterTypes();
 
 					ITypeBinding[] newParamTypes= new ITypeBinding[changeDesc.length];
-					for (int i= 0; i < newParamTypes.length; i++) {
+					for (int i= 0; i < newParamTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						newParamTypes[i]= changeDesc[i] == null ? declParamTypes[i] : ((EditDescription) changeDesc[i]).type;
 					}
 					if (methodDecl.isVarargs() && newParamTypes.length > 0 && !newParamTypes[newParamTypes.length - 1].isArray()) {
-						List<ITypeBinding> newArgs= new ArrayList<>();
+						List<ITypeBinding> newArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						newArgs.addAll(Arrays.asList(argTypes));
 						newArgs.add(paramTypes[paramTypes.length - 1]);
 						doMoreArguments(context, invocationNode, arguments, newArgs.toArray(new ITypeBinding[0]), methodBinding, proposals);
@@ -2156,7 +2156,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 	private ChangeDescription[] createSignatureChangeDescription(int[] indexOfDiff, int nDiffs, ITypeBinding[] paramTypes, List<Expression> arguments, ITypeBinding[] argTypes) {
 		ChangeDescription[] changeDesc= new ChangeDescription[paramTypes.length];
-		for (int i= 0; i < nDiffs; i++) {
+		for (int i= 0; i < nDiffs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int diffIndex= indexOfDiff[i];
 			Expression arg= arguments.get(diffIndex);
 			String name= getExpressionBaseName(arg);
@@ -2189,9 +2189,9 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		return null;
 	}
 
-	private ITypeBinding[] getArgumentTypes(List<Expression> arguments) {
+	private ITypeBinding[] getArgumentTypes(List<Expression> arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] res= new ITypeBinding[arguments.size()];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression expression= arguments.get(i);
 			ITypeBinding curr= expression.resolveTypeBinding();
 			if (curr == null) {
@@ -2209,14 +2209,14 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 2000
-	private void addQualifierToOuterProposal(IInvocationContext context, MethodInvocation invocationNode, IMethodBinding binding, Collection<T> proposals) {
+	private void addQualifierToOuterProposal(IInvocationContext context, MethodInvocation invocationNode, IMethodBinding binding, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding declaringType= binding.getDeclaringClass();
 		ITypeBinding parentType= Bindings.getBindingOfParentType(invocationNode);
 		ITypeBinding currType= parentType;
 
 		boolean isInstanceMethod= !Modifier.isStatic(binding.getModifiers());
 
-		while (currType != null && !Bindings.isSuperType(declaringType, currType)) {
+		while (currType != null && !Bindings.isSuperType(declaringType, currType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isInstanceMethod && Modifier.isStatic(currType.getModifiers())) {
 				return;
 			}
@@ -2255,7 +2255,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 2100
-	public void collectConstructorProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void collectConstructorProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		CompilationUnit astRoot= context.getASTRoot();
@@ -2312,8 +2312,8 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		if (targetBinding == null) {
 			return;
 		}
-		ArrayList<IMethodBinding> similarElements= new ArrayList<>();
-		for (IMethodBinding curr : targetBinding.getDeclaredMethods()) {
+		ArrayList<IMethodBinding> similarElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMethodBinding curr : targetBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isConstructor() && recursiveConstructor != curr) {
 				similarElements.add(curr); // similar elements can contain a implicit default constructor
 			}
@@ -2338,12 +2338,12 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 
 	// 2200
-	public void collectAmbiguosTypeReferenceProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void collectAmbiguosTypeReferenceProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ICompilationUnit cu= context.getCompilationUnit();
 		int offset= problem.getOffset();
 		int len= problem.getLength();
 
-		for (IJavaElement curr : cu.codeSelect(offset, len)) {
+		for (IJavaElement curr : cu.codeSelect(offset, len)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof IType currType && !TypeFilter.isFiltered((IType) curr)) {
 				String qualifiedTypeName= currType.getFullyQualifiedName('.');
 
@@ -2362,7 +2362,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 
 	// 2300
-	public void collectArrayAccessProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void collectArrayAccessProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		CompilationUnit root= context.getASTRoot();
 		ASTNode selectedNode= problem.getCoveringNode(root);
@@ -2373,7 +2373,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 		SimpleName nameNode= decl.getName();
 		String methodName= nameNode.getIdentifier();
 
-		for (IBinding binding : (new ScopeAnalyzer(root)).getDeclarationsInScope(nameNode, ScopeAnalyzer.METHODS)) {
+		for (IBinding binding : (new ScopeAnalyzer(root)).getDeclarationsInScope(nameNode, ScopeAnalyzer.METHODS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String currName= binding.getName();
 			if (NameMatcher.isSimilarName(methodName, currName)) {
 				String label= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_arraychangetomethod_description, BasicElementLabels.getJavaElementName(currName));
@@ -2395,7 +2395,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 	}
 
 	// 2400
-	public void collectAnnotationMemberProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void collectAnnotationMemberProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= context.getASTRoot();
 		ICompilationUnit cu= context.getCompilationUnit();
 		ASTNode selectedNode= problem.getCoveringNode(astRoot);
@@ -2423,7 +2423,7 @@ public abstract class UnresolvedElementsBaseSubProcessor<T> {
 
 		if (annotation instanceof NormalAnnotation) {
 			// similar names
-			for (IMethodBinding binding : annotBinding.getDeclaredMethods()) {
+			for (IMethodBinding binding : annotBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String curr= binding.getName();
 				int relevance= NameMatcher.isSimilarName(memberName, curr) ? IProposalRelevance.CHANGE_TO_ATTRIBUTE_SIMILAR_NAME : IProposalRelevance.CHANGE_TO_ATTRIBUTE;
 				String label= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_UnresolvedElementsSubProcessor_changetoattribute_description, BasicElementLabels.getJavaElementName(curr));

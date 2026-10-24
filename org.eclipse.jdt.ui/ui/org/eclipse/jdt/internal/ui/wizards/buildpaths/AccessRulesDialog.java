@@ -107,7 +107,7 @@ public class AccessRulesDialog extends StatusDialog {
 		return true;
 	}
 
-	private ListDialogField<IAccessRule> createListContents(CPListElement entryToEdit) {
+	private ListDialogField<IAccessRule> createListContents(CPListElement entryToEdit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String label= NewWizardMessages.AccessRulesDialog_rules_label;
 		String[] buttonLabels= new String[] {
 				NewWizardMessages.AccessRulesDialog_rules_add,
@@ -132,7 +132,7 @@ public class AccessRulesDialog extends StatusDialog {
 		patternList.enableButton(IDX_EDIT, false);
 
 		IAccessRule[] rules= (IAccessRule[]) entryToEdit.getAttribute(CPListElement.ACCESSRULES);
-		ArrayList<IAccessRule> elements= new ArrayList<>(rules.length);
+		ArrayList<IAccessRule> elements= new ArrayList<>(rules.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		elements.addAll(Arrays.asList(rules));
 		patternList.setElements(elements);
 		patternList.selectFirstElement();
@@ -140,7 +140,7 @@ public class AccessRulesDialog extends StatusDialog {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 
@@ -257,7 +257,7 @@ public class AccessRulesDialog extends StatusDialog {
 		return NewWizardMessages.AccessRulesDialog_severity_ignore;
 	}
 
-	private String getDescriptionString() {
+	private String getDescriptionString() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String desc;
 		String name= BasicElementLabels.getResourceName(fCurrElement.getPath().lastSegment());
 		switch (fCurrElement.getEntryKind()) {
@@ -387,7 +387,7 @@ public class AccessRulesDialog extends StatusDialog {
 	}
 
 	public void performPageSwitch(IWorkbenchPreferenceContainer pageContainer) {
-		HashMap<String, String> data= new HashMap<>();
+		HashMap<String, String> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		data.put(ProblemSeveritiesPreferencePage.DATA_SELECT_OPTION_KEY, JavaCore.COMPILER_PB_FORBIDDEN_REFERENCE);
 		data.put(ProblemSeveritiesPreferencePage.DATA_SELECT_OPTION_QUALIFIER, JavaCore.PLUGIN_ID);
 		pageContainer.openPage(ProblemSeveritiesPreferencePage.PROP_ID, data);

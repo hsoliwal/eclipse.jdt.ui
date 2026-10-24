@@ -293,27 +293,27 @@ public class JavaFilterTable {
 		createFilterButtons(container);
 	}
 
-	private void createFilterTableViewer(Composite container) {
+	private void createFilterTableViewer(Composite container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (config.checkable) {
 			fTableViewer= CheckboxTableViewer.newCheckList(container, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
 		} else {
 			fTableViewer= new TableViewer(container, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
 		}
 		fTableViewer.getTable().setFont(container.getFont());
-		fTableViewer.setLabelProvider(new FilterLabelProvider());
+		fTableViewer.setLabelProvider(new FilterLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTableViewer.setComparator(new FilterViewerComparator());
 		fTableViewer.setContentProvider(new FilterContentProvider());
 		fTableViewer.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 		if (fTableViewer instanceof CheckboxTableViewer) {
 			CheckboxTableViewer checkableViewer = (CheckboxTableViewer) fTableViewer;
-			checkableViewer.addCheckStateListener(new ICheckStateListener() {
+			checkableViewer.addCheckStateListener(new ICheckStateListener() { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 				@Override
 				public void checkStateChanged(CheckStateChangedEvent event) {
 					((Filter) event.getElement()).setChecked(event.getChecked());
 				}
 			});
 		}
-		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				boolean hasSelection= !event.getSelection().isEmpty();
@@ -321,7 +321,7 @@ public class JavaFilterTable {
 				setEnabled(fEditFilterButton, hasSelection);
 			}
 		});
-		fTableViewer.getControl().addKeyListener(new KeyAdapter() {
+		fTableViewer.getControl().addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent event) {
 				handleFilterViewerKeyPress(event);
@@ -335,7 +335,7 @@ public class JavaFilterTable {
 	 *
 	 * @param container the parent container
 	 */
-	private void createFilterButtons(Composite container) {
+	private void createFilterButtons(Composite container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// button container
 		Composite buttonContainer= new Composite(container, SWT.NONE);
 		GridData gd= new GridData(GridData.FILL_VERTICAL);
@@ -382,7 +382,7 @@ public class JavaFilterTable {
 	private static Button createPushButton(Composite parent, ButtonLabel buttonLabels, Listener listener, boolean enabled) {
 		if (buttonLabels != null && buttonLabels.label != null && !buttonLabels.label.isBlank()) {
 			Button button= SWTFactory.createPushButton(parent, buttonLabels.label, buttonLabels.tooltip, null);
-			button.addListener(SWT.Selection, listener);
+			button.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			button.setEnabled(enabled);
 			return button;
 		}
@@ -427,8 +427,8 @@ public class JavaFilterTable {
 
 	private List<String> getExistingFilters() {
 		TableItem[] items= fTableViewer.getTable().getItems();
-		List<String> existingEntries= new ArrayList<>(items.length);
-		for (TableItem item : items) {
+		List<String> existingEntries= new ArrayList<>(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Filter data= (Filter) item.getData();
 			existingEntries.add(data.getName());
 		}
@@ -450,14 +450,14 @@ public class JavaFilterTable {
 		dialog.setInitialString(editedEntry.getName());
 		if (dialog.open() == Window.OK) {
 			editedEntry.setName((String) dialog.getResult());
-			fTableViewer.refresh(editedEntry);
+			fTableViewer.refresh(editedEntry); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
 	/**
 	 * add a new type to the listing of available filters
 	 */
-	private void addType() {
+	private void addType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			int searchType = config.considerAllTypes ? IJavaElementSearchConstants.CONSIDER_ALL_TYPES : IJavaElementSearchConstants.CONSIDER_CLASSES;
 			SelectionDialog dialog= JavaUI.createTypeDialog(fAddTypeButton.getShell(),
@@ -481,7 +481,7 @@ public class JavaFilterTable {
 	/**
 	 * add a new package to the list of all available package filters
 	 */
-	private void addPackage() {
+	private void addPackage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int packageSelectionFlags = PackageSelectionDialog.F_REMOVE_DUPLICATES;
 		if (!config.showDefaultPackage) {
 			packageSelectionFlags |= PackageSelectionDialog.F_HIDE_DEFAULT_PACKAGE;
@@ -499,9 +499,9 @@ public class JavaFilterTable {
 			Object[] packages= dialog.getResult();
 			if (packages != null) {
 				IJavaElement pkg= null;
-				for (int i= 0; i < packages.length; i++) {
+				for (int i= 0; i < packages.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pkg= (IJavaElement) packages[i];
-					String filter= pkg.getElementName() + ".*"; //$NON-NLS-1$
+					String filter= pkg.getElementName() + ".*"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					addFilter(filter, true);
 				}
 			}
@@ -532,7 +532,7 @@ public class JavaFilterTable {
 	 */
 	private void initTableState(boolean defaults) {
 		Filter[] filters= getAllStoredFilters(defaults);
-		for (int i= 0; i < filters.length; i++) {
+		for (int i= 0; i < filters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTableViewer.add(filters[i]);
 			setChecked(filters[i], filters[i].isChecked());
 		}
@@ -572,7 +572,7 @@ public class JavaFilterTable {
 	protected void addFilter(String filter, boolean checked) {
 		if (filter != null) {
 			Filter filterObj = new Filter(filter, checked);
-			for (var item : fTableViewer.getTable().getItems()) {
+			for (var item : fTableViewer.getTable().getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				var current = (Filter) item.getData();
 				if (filterObj.equals(current)) {
 					item.setChecked(checked);
@@ -593,7 +593,7 @@ public class JavaFilterTable {
 	protected Filter[] getAllFiltersFromTable() {
 		TableItem[] items= fTableViewer.getTable().getItems();
 		Filter[] filters= new Filter[items.length];
-		for (int i= 0; i < items.length; i++) {
+		for (int i= 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			filters[i]= (Filter) items[i].getData();
 			filters[i].setChecked(items[i].getChecked());
 		}

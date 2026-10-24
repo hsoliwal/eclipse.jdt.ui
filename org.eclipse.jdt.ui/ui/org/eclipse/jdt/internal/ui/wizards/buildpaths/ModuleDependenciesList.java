@@ -92,7 +92,7 @@ class ModuleDependenciesList {
 		public String getColumnText(Object element, int columnIndex) {
 			String moduleName= element.toString();
 			if (fHasConfiguredDetails.test(moduleName)) {
-				return "> " + moduleName; //$NON-NLS-1$
+				return "> " + moduleName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return moduleName;
 		}
@@ -115,20 +115,20 @@ class ModuleDependenciesList {
 			}
 		}
 	}
-	public final List<String> fNames= new ArrayList<>();
+	public final List<String> fNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private FocusAwareStringComparator fNamesComparator;
-	public final Map<String,CPListElement> fModule2Element= new HashMap<>();
-	private List<String> fInitialNames= new ArrayList<>();
+	public final Map<String,CPListElement> fModule2Element= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private List<String> fInitialNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private TableViewer fViewer;
-	private Map<CPListElement,String> fElem2ModName= new HashMap<>();
-	private Map<CPListElement,IModuleDescription> fModules= new HashMap<>();
-	private Map<CPListElement,ModuleKind> fKinds= new HashMap<>();
+	private Map<CPListElement,String> fElem2ModName= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<CPListElement,IModuleDescription> fModules= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<CPListElement,ModuleKind> fKinds= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public void createViewer(Composite left, PixelConverter converter) {
 		TableViewer tableViewer= new TableViewer(left, SWT.MULTI | SWT.BORDER);
 		tableViewer.setContentProvider(new ListContentProvider());
-		tableViewer.setLabelProvider(new ModulesLabelProvider(this::getModuleKind, this::hasConfiguredDetails));
-		tableViewer.setInput(fNames);
+		tableViewer.setLabelProvider(new ModulesLabelProvider(this::getModuleKind, this::hasConfiguredDetails)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		tableViewer.setInput(fNames); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		GridData gd= new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.widthHint= converter.convertWidthInCharsToPixels(30);
@@ -146,7 +146,7 @@ class ModuleDependenciesList {
 		fKinds.clear();
 	}
 
-	private boolean hasConfiguredDetails(String module) {
+	private boolean hasConfiguredDetails(String module) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPListElement element= fModule2Element.get(module);
 		if (element == null)
 			return false;
@@ -156,7 +156,7 @@ class ModuleDependenciesList {
 		}
 		Object value= element.getAttribute(CPListElement.MODULE);
 		if (value instanceof ModuleEncapsulationDetail[]) {
-			for (ModuleEncapsulationDetail detail : (ModuleEncapsulationDetail[])value) {
+			for (ModuleEncapsulationDetail detail : (ModuleEncapsulationDetail[])value) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (detail.affects(module)) {
 					return true;
 				}
@@ -166,10 +166,10 @@ class ModuleDependenciesList {
 	}
 
 	public void setSelectionChangedListener(BiConsumer<List<CPListElement>,IModuleDescription> listener) {
-		fViewer.addSelectionChangedListener(unused -> listener.accept(getSelectedElements(), getSelectedModule()));
+		fViewer.addSelectionChangedListener(unused -> listener.accept(getSelectedElements(), getSelectedModule())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
-	public void addModule(IModuleDescription module, CPListElement cpe, ModuleKind kind) {
+	public void addModule(IModuleDescription module, CPListElement cpe, ModuleKind kind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String moduleName= module.getElementName();
 		fNames.add(moduleName);
 		fModule2Element.put(moduleName, cpe);
@@ -221,7 +221,7 @@ class ModuleDependenciesList {
 
 	public void refresh() {
 		fNames.sort(fNamesComparator);
-		fViewer.refresh(true, true);
+		fViewer.refresh(true, true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	public void setEnabled(boolean enable) {
@@ -241,8 +241,8 @@ class ModuleDependenciesList {
 	}
 
 	public List<CPListElement> getSelectedElements() {
-		List<CPListElement> selectedElements= new ArrayList<>();
-		for (Object selected : fViewer.getStructuredSelection().toList()) {
+		List<CPListElement> selectedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object selected : fViewer.getStructuredSelection().toList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedElements.add(fModule2Element.get(selected));
 		}
 		return selectedElements;

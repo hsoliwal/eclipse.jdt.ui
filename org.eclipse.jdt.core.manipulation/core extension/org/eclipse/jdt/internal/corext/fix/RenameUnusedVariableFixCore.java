@@ -106,7 +106,7 @@ public class RenameUnusedVariableFixCore extends CompilationUnitRewriteOperation
 
 		IProblem[] problems= compilationUnit.getProblems();
 		IProblemLocation[] locations= new IProblemLocation[problems.length];
-		for (int i= 0; i < problems.length; i++) {
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			locations[i]= new ProblemLocation(problems[i]);
 		}
 
@@ -115,11 +115,11 @@ public class RenameUnusedVariableFixCore extends CompilationUnitRewriteOperation
 	}
 
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean removeUnusedLocalVariables) {
 
-		List<CompilationUnitRewriteOperation> result= new ArrayList<>();
-		for (IProblemLocation problem : problems) {
+		List<CompilationUnitRewriteOperation> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int id= problem.getProblemId();
 
 			if ((removeUnusedLocalVariables && id == IProblem.LocalVariableIsNeverUsed)
@@ -142,7 +142,7 @@ public class RenameUnusedVariableFixCore extends CompilationUnitRewriteOperation
 		return new RenameUnusedVariableFixCore(FixMessages.UnusedCodeFix_change_name, compilationUnit, result.toArray(new CompilationUnitRewriteOperation[result.size()]));
 	}
 
-	public static boolean canRenameToUnnamedVariable(CompilationUnit compilationUnit, SimpleName name) {
+	public static boolean canRenameToUnnamedVariable(CompilationUnit compilationUnit, SimpleName name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (JavaModelUtil.is22OrHigher(compilationUnit.getJavaElement().getJavaProject())) {
 			if (name.getParent() instanceof SingleVariableDeclaration nameParent) {
 				if (nameParent.getParent() instanceof Pattern || nameParent.getParent() instanceof EnhancedForStatement) {

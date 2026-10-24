@@ -73,7 +73,7 @@ public class SuperTypeHierarchyCache {
 
 		@Override
 		public String toString() {
-			return "Super hierarchy of: " + fTypeHierarchy.getType().getElementName(); //$NON-NLS-1$
+			return "Super hierarchy of: " + fTypeHierarchy.getType().getElementName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}
@@ -81,7 +81,7 @@ public class SuperTypeHierarchyCache {
 
 	private static final int CACHE_SIZE= 8;
 
-	private static ArrayList<HierarchyCacheEntry> fgHierarchyCache= new ArrayList<>(CACHE_SIZE);
+	private static ArrayList<HierarchyCacheEntry> fgHierarchyCache= new ArrayList<>(CACHE_SIZE); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private static Map<IType, MethodOverrideTester> fgMethodOverrideTesterCache= new LRUMap<>(CACHE_SIZE);
 
 	private static int fgCacheHits= 0;
@@ -102,7 +102,7 @@ public class SuperTypeHierarchyCache {
 		return getTypeHierarchy(type, null);
 	}
 
-	public static MethodOverrideTester getMethodOverrideTester(IType type) throws JavaModelException {
+	public static MethodOverrideTester getMethodOverrideTester(IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		purgeStaleEntries();
 		MethodOverrideTester test= null;
 		synchronized (fgMethodOverrideTesterCache) {
@@ -123,7 +123,7 @@ public class SuperTypeHierarchyCache {
 
 	private static void removeMethodOverrideTester(ITypeHierarchy hierarchy) {
 		synchronized (fgMethodOverrideTesterCache) {
-			for (Iterator<MethodOverrideTester> iter= fgMethodOverrideTesterCache.values().iterator(); iter.hasNext();) {
+			for (Iterator<MethodOverrideTester> iter= fgMethodOverrideTesterCache.values().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MethodOverrideTester curr= iter.next();
 				if (curr.getTypeHierarchy().equals(hierarchy)) {
 					iter.remove();
@@ -156,14 +156,14 @@ public class SuperTypeHierarchyCache {
 		return hierarchy;
 	}
 
-	private static void addTypeHierarchyToCache(ITypeHierarchy hierarchy) {
+	private static void addTypeHierarchyToCache(ITypeHierarchy hierarchy) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		synchronized (fgHierarchyCache) {
 			int nEntries= fgHierarchyCache.size();
 			if (nEntries >= CACHE_SIZE) {
 				// find obsolete entries or remove entry that was least recently accessed
 				HierarchyCacheEntry oldest= null;
-				ArrayList<HierarchyCacheEntry> obsoleteHierarchies= new ArrayList<>(CACHE_SIZE);
-				for (HierarchyCacheEntry entry : fgHierarchyCache) {
+				ArrayList<HierarchyCacheEntry> obsoleteHierarchies= new ArrayList<>(CACHE_SIZE); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (HierarchyCacheEntry entry : fgHierarchyCache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeHierarchy curr= entry.getTypeHierarchy();
 					if (entry.isStale() || !curr.exists() || hierarchy.contains(curr.getType())) {
 						obsoleteHierarchies.add(entry);
@@ -174,7 +174,7 @@ public class SuperTypeHierarchyCache {
 					}
 				}
 				if (!obsoleteHierarchies.isEmpty()) {
-					for (HierarchyCacheEntry obsoleteHierarchie : obsoleteHierarchies) {
+					for (HierarchyCacheEntry obsoleteHierarchie : obsoleteHierarchies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						removeHierarchyEntryFromCache(obsoleteHierarchie);
 					}
 				} else if (oldest != null) {
@@ -199,7 +199,7 @@ public class SuperTypeHierarchyCache {
 
 	private static ITypeHierarchy findTypeHierarchyInCache(IType type) {
 		synchronized (fgHierarchyCache) {
-			for (int i= fgHierarchyCache.size() - 1; i>= 0; i--) {
+			for (int i= fgHierarchyCache.size() - 1; i>= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				HierarchyCacheEntry curr= fgHierarchyCache.get(i);
 				ITypeHierarchy hierarchy= curr.getTypeHierarchy();
 				if (curr.isStale() || !hierarchy.exists()) {
@@ -220,7 +220,7 @@ public class SuperTypeHierarchyCache {
 	 */
 	private static void purgeStaleEntries() {
 		synchronized (fgHierarchyCache) {
-			for (int i= fgHierarchyCache.size() - 1; i >= 0; i--) {
+			for (int i= fgHierarchyCache.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				HierarchyCacheEntry curr= fgHierarchyCache.get(i);
 				if (curr.isStale() || !curr.getTypeHierarchy().exists()) {
 					removeHierarchyEntryFromCache(curr);

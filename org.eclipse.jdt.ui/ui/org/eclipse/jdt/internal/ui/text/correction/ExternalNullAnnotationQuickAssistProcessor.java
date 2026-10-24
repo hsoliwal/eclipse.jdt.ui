@@ -77,7 +77,7 @@ public class ExternalNullAnnotationQuickAssistProcessor implements IQuickAssistP
 		return JavaCore.ENABLED.equals(classFile.getJavaProject().getOption(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, true));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICompletionProposal[] computeQuickAssistProposals(IQuickAssistInvocationContext quickAssistContext) {
 		ICompilationUnit cu= null;
 		try {
@@ -95,7 +95,7 @@ public class ExternalNullAnnotationQuickAssistProcessor implements IQuickAssistP
 			int length= viewer != null ? viewer.getSelectedRange().y : 0;
 			AssistContext context= new AssistContext(cu, viewer, part, documentOffset, length);
 
-			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			// shortcut (we only have one processor):
 			ExternalNullAnnotationChangeProposals.collectExternalAnnotationProposals(context.getCompilationUnit(),
@@ -123,10 +123,10 @@ public class ExternalNullAnnotationQuickAssistProcessor implements IQuickAssistP
 	 * @param proposals list of proposals to which new proposals may be added
 	 */
 	public static void getAnnotateProposals(IInvocationContext context, List<ICommandAccess> proposals) {
-		List<IJavaCompletionProposal> eeaList= new ArrayList<>();
+		List<IJavaCompletionProposal> eeaList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ExternalNullAnnotationChangeProposals.collectExternalAnnotationProposals(context.getCompilationUnit(),
 				context.getCoveringNode(), context.getSelectionOffset(), eeaList);
-		for (IJavaCompletionProposal proposal : eeaList)
+		for (IJavaCompletionProposal proposal : eeaList) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			proposals.add((ICommandAccess) proposal);
 	}
 

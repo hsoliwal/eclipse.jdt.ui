@@ -57,9 +57,9 @@ public class MyJavadocExportWizardPage extends JavadocExportWizardPage {
 	public MyJavadocExportWizardPage() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createContents(Composite parent) {
-		ModifyListener modifyListener= unused -> validateInputs();
+		ModifyListener modifyListener= unused -> validateInputs(); //FLLDCIM: MARK — T02  LAMBDA
 
 		Composite composite= new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -68,7 +68,7 @@ public class MyJavadocExportWizardPage extends JavadocExportWizardPage {
 		fButton= new Button(composite, SWT.CHECK);
 		fButton.setLayoutData(new GridData(SWT.LEAD, SWT.TOP, false, false, 2, 1));
 		fButton.setText("Use taglet");
-		fButton.addSelectionListener(new SelectionListener() {
+		fButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				validateInputs();
@@ -90,7 +90,7 @@ public class MyJavadocExportWizardPage extends JavadocExportWizardPage {
 		fText= new Text(composite, SWT.SINGLE | SWT.LEAD | SWT.BORDER);
 		fText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		fText.setText("");
-		fText.addModifyListener(modifyListener);
+		fText.addModifyListener(modifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		fText.setEnabled(false);
 
 		fLabel2= new Label(composite, SWT.NONE);
@@ -101,13 +101,13 @@ public class MyJavadocExportWizardPage extends JavadocExportWizardPage {
 		fText2= new Text(composite, SWT.SINGLE | SWT.LEAD | SWT.BORDER);
 		fText2.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		fText2.setText("");
-		fText2.addModifyListener(modifyListener);
+		fText2.addModifyListener(modifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		fText2.setEnabled(false);
 
 		return composite;
 	}
 
-	protected void validateInputs() {
+	protected void validateInputs() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isEnabled= fButton.getSelection();
 
 		fLabel.setEnabled(isEnabled);
@@ -138,7 +138,7 @@ public class MyJavadocExportWizardPage extends JavadocExportWizardPage {
 			String description= fText2.getText().trim();
 
 			toolOptions.add(0, "-tag");
-			toolOptions.add(1, tag + ":a:"+ description); // do not quote here, Javadoc wizard will quote if necessary
+			toolOptions.add(1, tag + ":a:"+ description); // do not quote here, Javadoc wizard will quote if necessary //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

@@ -98,7 +98,7 @@ public class TextMatchUpdater {
 			IProject[] projectsInScope= getProjectsInScope();
 
 			pm.beginTask("", projectsInScope.length); //$NON-NLS-1$
-			for (IProject project : projectsInScope) {
+			for (IProject project : projectsInScope) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (pm.isCanceled())
 					throw new OperationCanceledException();
 				addTextMatches(project, Progress.subMonitor(pm, 1));
@@ -110,9 +110,9 @@ public class TextMatchUpdater {
 
 	private IProject[] getProjectsInScope() {
 		IPath[] enclosingProjects= fScope.enclosingProjectsAndJars();
-		Set<IPath> enclosingProjectSet= new HashSet<>(Arrays.asList(enclosingProjects));
-		ArrayList<IProject> projectsInScope= new ArrayList<>();
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		Set<IPath> enclosingProjectSet= new HashSet<>(Arrays.asList(enclosingProjects)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		ArrayList<IProject> projectsInScope= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (enclosingProjectSet.contains(project.getFullPath())) {
 				projectsInScope.add(project);
 			}
@@ -121,9 +121,9 @@ public class TextMatchUpdater {
 		return projectsInScope.toArray(new IProject[projectsInScope.size()]);
 	}
 
-	private void addTextMatches(IResource resource, IProgressMonitor pm) throws JavaModelException{
+	private void addTextMatches(IResource resource, IProgressMonitor pm) throws JavaModelException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try{
-			String task= RefactoringCoreMessages.TextMatchUpdater_searching + resource.getFullPath();
+			String task= RefactoringCoreMessages.TextMatchUpdater_searching + resource.getFullPath(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (resource instanceof IFile){
 				IJavaElement element= JavaCore.create(resource);
 				// don't start pm task (flickering label updates; finally {pm.done()} is enough)
@@ -139,7 +139,7 @@ public class TextMatchUpdater {
 				IResource[] members= ((IContainer) resource).members();
 				pm.beginTask(task, members.length);
 				pm.subTask(task);
-				for (IResource member : members) {
+				for (IResource member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (pm.isCanceled())
 						throw new OperationCanceledException();
 					addTextMatches(member, Progress.subMonitor(pm, 1));
@@ -166,7 +166,7 @@ public class TextMatchUpdater {
 	}
 
 	private void removeReferences(ICompilationUnit cu, Set<TextMatch> matches) {
-		for (SearchResultGroup group : fReferences) {
+		for (SearchResultGroup group : fReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cu.equals(group.getCompilationUnit())) {
 				removeReferences(matches, group);
 			}
@@ -174,10 +174,10 @@ public class TextMatchUpdater {
 	}
 
 	private void removeReferences(Set<TextMatch> matches, SearchResultGroup group) {
-		for (SearchMatch searchResult : group.getSearchResults()) {
+		for (SearchMatch searchResult : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//int start= searchResults[r].getStart(); // doesn't work for pack.ReferencedType
 			int unqualifiedStart= searchResult.getOffset() + searchResult.getLength() - fCurrentNameLength;
-			for (Iterator<TextMatch> iter= matches.iterator(); iter.hasNext();) {
+			for (Iterator<TextMatch> iter= matches.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TextMatch element= iter.next();
 				if (element.getStartPosition() == unqualifiedStart)
 					iter.remove();
@@ -186,7 +186,7 @@ public class TextMatchUpdater {
 	}
 
 	private void addTextUpdates(ICompilationUnit cu, Set<TextMatch> matches) {
-		for (TextMatch match : matches) {
+		for (TextMatch match : matches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!match.isQualified() && fOnlyQualified)
 				continue;
 			int matchStart= match.getStartPosition();

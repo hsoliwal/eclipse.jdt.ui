@@ -143,7 +143,7 @@ public class CodeTemplatePreferencePage extends PropertyAndPreferencePage {
 			Object id= ((Map<?, ?>) data).get(DATA_SELECT_TEMPLATE);
 			if (id instanceof String) {
 				TemplatePersistenceData template= null;
-				for (TemplatePersistenceData t : fCodeTemplateConfigurationBlock.fTemplateStore.getTemplateData()) {
+				for (TemplatePersistenceData t : fCodeTemplateConfigurationBlock.fTemplateStore.getTemplateData()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					template= t;
 					if (template.getId().equals(id)) {
 						fCodeTemplateConfigurationBlock.postSetSelection(template);

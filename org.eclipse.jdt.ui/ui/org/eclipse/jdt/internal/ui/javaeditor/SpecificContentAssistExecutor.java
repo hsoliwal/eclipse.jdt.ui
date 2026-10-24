@@ -55,14 +55,14 @@ public final class SpecificContentAssistExecutor {
 	 * @param editor the editor to invoke code assist on
 	 * @param categoryId the id of the proposal category to show proposals for
 	 */
-	public void invokeContentAssist(final ITextEditor editor, String categoryId) {
+	public void invokeContentAssist(final ITextEditor editor, String categoryId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Collection<CompletionProposalCategory> categories= fRegistry.getProposalCategories();
 		boolean[] inclusionState= new boolean[categories.size()];
 		boolean[] separateState= new boolean[categories.size()];
 		boolean[] enabledState= new boolean[categories.size()];
 		IJavaProject javaProject = EditorUtility.getJavaProject(editor.getEditorInput());
 		int i= 0;
-		for (Iterator<CompletionProposalCategory> it= categories.iterator(); it.hasNext(); i++) {
+		for (Iterator<CompletionProposalCategory> it= categories.iterator(); it.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CompletionProposalCategory cat= it.next();
 			inclusionState[i]= cat.isIncluded();
 			cat.setIncluded(cat.getId().equals(categoryId));
@@ -78,7 +78,7 @@ public final class SpecificContentAssistExecutor {
 				target.doOperation(ISourceViewer.CONTENTASSIST_PROPOSALS);
 		} finally {
 			i= 0;
-			for (Iterator<CompletionProposalCategory> it= categories.iterator(); it.hasNext(); i++) {
+			for (Iterator<CompletionProposalCategory> it= categories.iterator(); it.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CompletionProposalCategory cat= it.next();
 				cat.setIncluded(inclusionState[i]);
 				cat.setSeparateCommand(separateState[i]);

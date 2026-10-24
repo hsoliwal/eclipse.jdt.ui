@@ -60,7 +60,7 @@ public class SourceTestCase {
 
 	protected IPackageFragmentRoot fRoot;
 
-	private void initCodeTemplates() {
+	private void initCodeTemplates() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.TAB);
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE, "4");

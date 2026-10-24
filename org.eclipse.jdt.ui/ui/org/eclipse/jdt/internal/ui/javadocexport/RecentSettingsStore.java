@@ -52,7 +52,7 @@ public class RecentSettingsStore {
 	 * @param settings the settings to load from
 	 */
 	public RecentSettingsStore(IDialogSettings settings) {
-		fPerProjectSettings= new HashMap<>();
+		fPerProjectSettings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		if (settings != null) {
 			load(settings);
 		}
@@ -64,13 +64,13 @@ public class RecentSettingsStore {
 	* project in the workspace.Defaults are created for new project.
 	 * @param settings the settings to load from
 	*/
-	private void load(IDialogSettings settings) {
+	private void load(IDialogSettings settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 
 		IDialogSettings projectsSection= settings.getSection(SECTION_PROJECTS);
 		if (projectsSection != null) {
-			for (IDialogSettings curr : projectsSection.getSections()) {
+			for (IDialogSettings curr : projectsSection.getSections()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String projectName= curr.getName();
 				IProject project= root.getProject(projectName);
 				//make sure project has not been removed
@@ -100,7 +100,7 @@ public class RecentSettingsStore {
 		}
 		//finds projects in the workspace that have been added since the
 		//last time the wizard was run
-		for (IProject project : root.getProjects()) {
+		for (IProject project : root.getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (project.isAccessible()) {
 				IJavaProject curr= JavaCore.create(project);
 				if (!fPerProjectSettings.containsKey(curr)) {
@@ -114,13 +114,13 @@ public class RecentSettingsStore {
 		}
 	}
 
-	public void store(IDialogSettings settings) {
+	public void store(IDialogSettings settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IDialogSettings projectsSection= settings.addNewSection(SECTION_PROJECTS);
 
 		//Write all project information to DialogSettings.
 		Set<IJavaProject> keys= fPerProjectSettings.keySet();
-		for (IJavaProject curr : keys) {
+		for (IJavaProject curr : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			IDialogSettings proj= projectsSection.addNewSection(curr.getElementName());
 			if (!keys.contains(curr)) {
@@ -151,7 +151,7 @@ public class RecentSettingsStore {
 	public static String[] getRefTokens(String refs) {
 		StringTokenizer tok= new StringTokenizer(refs, String.valueOf(REF_SEPARATOR));
 		String[] res= new String[tok.countTokens()];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res[i]= tok.nextToken();
 		}
 		return res;
@@ -203,7 +203,7 @@ public class RecentSettingsStore {
 		return ""; //$NON-NLS-1$
 	}
 
-	private String getDefaultDestination(IJavaProject project) {
+	private String getDefaultDestination(IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (project != null) {
 			URL url= JavaUI.getProjectJavadocLocation(project);
 			//uses default if source is has http protocol

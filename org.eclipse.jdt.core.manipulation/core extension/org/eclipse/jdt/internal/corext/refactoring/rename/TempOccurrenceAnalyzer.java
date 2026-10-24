@@ -45,8 +45,8 @@ public class TempOccurrenceAnalyzer extends ASTVisitor {
 
 	public TempOccurrenceAnalyzer(VariableDeclaration tempDeclaration, boolean analyzeJavadoc){
 		Assert.isNotNull(tempDeclaration);
-		fReferenceNodes= new HashSet<>();
-		fJavadocNodes= new HashSet<>();
+		fReferenceNodes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		fJavadocNodes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fAnalyzeJavadoc= analyzeJavadoc;
 		fTempDeclaration= tempDeclaration;
 		fTempBinding= tempDeclaration.resolveBinding();
@@ -73,7 +73,7 @@ public class TempOccurrenceAnalyzer extends ASTVisitor {
 
 	private void addOffsets(int[] offsets, int start, Set<SimpleName> nodeSet) {
 		int i= start;
-		for (Iterator<SimpleName> iter= nodeSet.iterator(); iter.hasNext(); i++) {
+		for (Iterator<SimpleName> iter= nodeSet.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= iter.next();
 			offsets[i]= node.getStartPosition();
 		}

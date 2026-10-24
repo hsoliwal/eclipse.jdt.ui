@@ -96,7 +96,7 @@ import org.eclipse.jdt.internal.corext.util.Messages;
 public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor {
 
 	private final class ParameterObjectCreator implements IDefaultValueAdvisor {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Expression createDefaultExpression(List<Expression> invocationArguments, ParameterInfo addedInfo, List<ParameterInfo> parameterInfos, MethodDeclaration enclosingMethod, boolean isRecursive, CompilationUnitRewrite cuRewrite) {
 			final AST ast= cuRewrite.getAST();
 			final ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -109,7 +109,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 			ContextSensitiveImportRewriteContext context= fParameterObjectFactory.createParameterClassAwareContext(fCreateAsTopLevel, cuRewrite, startPosition);
 			classCreation.setType(fParameterObjectFactory.createType(fCreateAsTopLevel, cuRewrite, startPosition));
 			List<Expression> constructorArguments= classCreation.arguments();
-			for (Iterator<ParameterInfo> iter= parameterInfos.iterator(); iter.hasNext();) {
+			for (Iterator<ParameterInfo> iter= parameterInfos.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ParameterInfo pi= iter.next();
 				if (isValidField(pi)) {
 					if (pi.isOldVarargs()) {
@@ -133,7 +133,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		private boolean canReuseParameterObject(List<Expression> invocationArguments, ParameterInfo addedInfo, List<ParameterInfo> parameterInfos, MethodDeclaration enclosingMethod) {
 			Assert.isNotNull(enclosingMethod);
 			List<SingleVariableDeclaration> parameters= enclosingMethod.parameters();
-			for (ParameterInfo pi : parameterInfos) {
+			for (ParameterInfo pi : parameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isValidField(pi)) {
 					if (!pi.isInlined())
 						return false;
@@ -146,12 +146,12 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 			return true;
 		}
 
-		private List<Expression> computeVarargs(List<Expression> invocationArguments, ParameterInfo varArgPI, boolean isLastParameter, CompilationUnitRewrite cuRewrite, ContextSensitiveImportRewriteContext context) {
+		private List<Expression> computeVarargs(List<Expression> invocationArguments, ParameterInfo varArgPI, boolean isLastParameter, CompilationUnitRewrite cuRewrite, ContextSensitiveImportRewriteContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean isEmptyVarArg= varArgPI.getOldIndex() >= invocationArguments.size();
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getAST();
 			ASTNode lastNode= isEmptyVarArg ? null : invocationArguments.get(varArgPI.getOldIndex());
-			List<Expression> constructorArguments= new ArrayList<>();
+			List<Expression> constructorArguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (lastNode instanceof ArrayCreation) {
 				ArrayCreation creation= (ArrayCreation) lastNode;
 				ITypeBinding arrayType= creation.resolveTypeBinding();
@@ -162,7 +162,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 			}
 			if (isLastParameter) {
 				// copy all varargs
-				for (int i= varArgPI.getOldIndex(); i < invocationArguments.size(); i++) {
+				for (int i= varArgPI.getOldIndex(); i < invocationArguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Expression node= invocationArguments.get(i);
 					importNodeTypes(node, cuRewrite, context);
 					constructorArguments.add(moveNode(node, rewrite));
@@ -176,7 +176,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 					creation.setType((ArrayType) importBinding(varArgPI.getNewTypeBinding(), cuRewrite, context));
 					ArrayInitializer initializer= ast.newArrayInitializer();
 					List<Expression> expressions= initializer.expressions();
-					for (int i= varArgPI.getOldIndex(); i < invocationArguments.size(); i++) {
+					for (int i= varArgPI.getOldIndex(); i < invocationArguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Expression node= invocationArguments.get(i);
 						importNodeTypes(node, cuRewrite, context);
 						expressions.add(moveNode(node, rewrite));
@@ -222,7 +222,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 	}
 
 	private final class RewriteParameterBody extends BodyUpdater {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void updateBody(MethodDeclaration methodDeclaration, final CompilationUnitRewrite cuRewrite, RefactoringStatus result) throws CoreException {
 			// ensure that the parameterObject is imported
 			fParameterObjectFactory.createType(fCreateAsTopLevel, cuRewrite, methodDeclaration.getStartPosition());
@@ -236,7 +236,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 				final ASTRewrite rewriter= cuRewrite.getASTRewrite();
 				ListRewrite bodyStatements= rewriter.getListRewrite(body, Block.STATEMENTS_PROPERTY);
 				ImportRewriteContext context=new ContextSensitiveImportRewriteContext(body, cuRewrite.getImportRewrite());
-				for (ParameterInfo pi : getParameterInfos()) {
+				for (ParameterInfo pi : getParameterInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isValidField(pi)) {
 						if (isReadOnly(pi, body, parameters, null)) {
 							body.accept(new ASTVisitor(false) {
@@ -260,7 +260,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 
 		}
 
-		private void updateSimpleName(ASTRewrite rewriter, ParameterInfo pi, SimpleName node, List<SingleVariableDeclaration> enclosingParameters, IJavaProject project) {
+		private void updateSimpleName(ASTRewrite rewriter, ParameterInfo pi, SimpleName node, List<SingleVariableDeclaration> enclosingParameters, IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			AST ast= rewriter.getAST();
 			IBinding binding= node.resolveBinding();
 			Expression replacementNode= fParameterObjectFactory.createFieldReadAccess(pi, getParameterName(), ast, project, false, null);
@@ -281,7 +281,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 			}
 		}
 
-		private boolean isReadOnly(final ParameterInfo pi, Block block, final List<SingleVariableDeclaration> enclosingMethodParameters, final String qualifier) {
+		private boolean isReadOnly(final ParameterInfo pi, Block block, final List<SingleVariableDeclaration> enclosingMethodParameters, final String qualifier) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			class NotWrittenDetector extends ASTVisitor {
 				boolean notWritten= true;
 
@@ -335,7 +335,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		configureRefactoring(descriptor, this);
 	}
 
-	private void configureRefactoring(final IntroduceParameterObjectDescriptor parameter, IntroduceParameterObjectProcessor ref) {
+	private void configureRefactoring(final IntroduceParameterObjectDescriptor parameter, IntroduceParameterObjectProcessor ref) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ref.setCreateAsTopLevel(parameter.isTopLevel());
 		ref.setCreateGetter(parameter.isGetters());
 		ref.setCreateSetter(parameter.isSetters());
@@ -351,13 +351,13 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		Parameter[] parameters= parameter.getParameters();
 		if (parameters == null)
 			parameters= IntroduceParameterObjectDescriptor.createParameters(getMethod());
-		Map<Integer, ParameterInfo> paramIndex= new HashMap<>();
-		for (ParameterInfo pi : pis) {
+		Map<Integer, ParameterInfo> paramIndex= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (ParameterInfo pi : pis) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paramIndex.put(pi.getOldIndex(), pi);
 		}
 		paramIndex.put(ParameterInfo.INDEX_FOR_ADDED, fParameterObjectReference);
 		pis.clear();
-		for (Parameter param : parameters) {
+		for (Parameter param : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ParameterInfo pi= paramIndex.get(Integer.valueOf(param.getIndex()));
 			pis.add(pi);
 			if (param != IntroduceParameterObjectDescriptor.PARAMETER_OBJECT) {
@@ -402,7 +402,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		return status;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		RefactoringStatus status= new RefactoringStatus();
 		status.merge(super.checkInitialConditions(pm));
@@ -432,7 +432,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 			fParameterObjectFactory.setEnclosingType(declaringClass.getQualifiedName());
 
 		List<ParameterInfo> parameterInfos= super.getParameterInfos();
-		for (ParameterInfo pi : parameterInfos) {
+		for (ParameterInfo pi : parameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!pi.isAdded()) {
 				if (pi.getOldName().equals(pi.getNewName())) // may have been
 					// set to
@@ -445,12 +445,12 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		if (!parameterInfos.contains(fParameterObjectReference)) {
 			parameterInfos.add(0, fParameterObjectReference);
 		}
-		Map<String, IVariableBinding> bindingMap= new HashMap<>();
-		for (Iterator<SingleVariableDeclaration> iter= fMethodDeclaration.parameters().iterator(); iter.hasNext();) {
+		Map<String, IVariableBinding> bindingMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Iterator<SingleVariableDeclaration> iter= fMethodDeclaration.parameters().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration sdv= iter.next();
 			bindingMap.put(sdv.getName().getIdentifier(), sdv.resolveBinding());
 		}
-		for (ParameterInfo pi : parameterInfos) {
+		for (ParameterInfo pi : parameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pi != fParameterObjectReference)
 				pi.setOldBinding(bindingMap.get(pi.getOldName()));
 		}
@@ -458,7 +458,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		return status;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean shouldReport(IProblem problem, CompilationUnit cu) {
 		if (!super.shouldReport(problem, cu))
 			return false;
@@ -506,7 +506,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 
 	@Override
 	public Change[] getAllChanges() {
-		ArrayList<Change> changes= new ArrayList<>(Arrays.asList(super.getAllChanges()));
+		ArrayList<Change> changes= new ArrayList<>(Arrays.asList(super.getAllChanges())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		changes.addAll(fOtherChanges);
 		return changes.toArray(new Change[changes.size()]);
 	}
@@ -514,7 +514,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 	@Override
 	protected void clearManagers() {
 		super.clearManagers();
-		fOtherChanges= new ArrayList<>();
+		fOtherChanges= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fParameterClassCreated= false;
 	}
 
@@ -528,7 +528,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		return IRefactoringProcessorIds.INTRODUCE_PARAMETER_OBJECT_PROCESSOR;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public JavaRefactoringDescriptor createDescriptor() {
 		IntroduceParameterObjectDescriptor ipod= RefactoringSignatureDescriptorFactory.createIntroduceParameterObjectDescriptor();
 		ipod.setMethod(getMethod());
@@ -541,9 +541,9 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		ipod.setParameterName(getParameterName());
 		ipod.setTopLevel(isCreateAsTopLevel());
 
-		ArrayList<Parameter> parameters= new ArrayList<>();
+		ArrayList<Parameter> parameters= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<ParameterInfo> pis= getParameterInfos();
-		for (ParameterInfo pi : pis) {
+		for (ParameterInfo pi : pis) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pi.isAdded()) {
 				parameters.add(IntroduceParameterObjectDescriptor.PARAMETER_OBJECT);
 			} else {
@@ -568,7 +568,7 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		return ipod;
 	}
 
-	private JDTRefactoringDescriptorComment createComment(String project) throws JavaModelException {
+	private JDTRefactoringDescriptorComment createComment(String project) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String header= Messages.format(RefactoringCoreMessages.IntroduceParameterObjectRefactoring_descriptor_description, getOldMethodSignature());
 		JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(project, this, header);
 		comment.addSetting(Messages.format(RefactoringCoreMessages.IntroduceParameterObjectRefactoring_descriptor_object_class, BasicElementLabels.getJavaElementName(fParameterObjectFactory.getClassName())));
@@ -577,9 +577,9 @@ public class IntroduceParameterObjectProcessor extends ChangeSignatureProcessor 
 		} else {
 			comment.addSetting(Messages.format(RefactoringCoreMessages.IntroduceParameterObjectRefactoring_descriptor_enclosing_type, BasicElementLabels.getJavaElementName(fParameterObjectFactory.getEnclosingType())));
 		}
-		List<String> kept= new ArrayList<>();
-		List<String> fields= new ArrayList<>();
-		for (ParameterInfo pi : getParameterInfos()) {
+		List<String> kept= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> fields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ParameterInfo pi : getParameterInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pi.isCreateField()) {
 				fields.add(pi.getNewName());
 			} else {

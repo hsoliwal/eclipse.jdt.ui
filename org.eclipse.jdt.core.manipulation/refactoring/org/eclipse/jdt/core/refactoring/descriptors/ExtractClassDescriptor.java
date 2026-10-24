@@ -137,7 +137,7 @@ public class ExtractClassDescriptor extends JavaRefactoringDescriptor {
 
 		@Override
 		public String toString() {
-			return "Field:" + fFieldName + " new name:" + fNewFieldName + " create field:" + fCreateField; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return "Field:" + fFieldName + " new name:" + fNewFieldName + " create field:" + fCreateField; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 
@@ -196,7 +196,7 @@ public class ExtractClassDescriptor extends JavaRefactoringDescriptor {
 			String[] oldFieldNames= JavaRefactoringDescriptorUtil.getStringArray(arguments, OLD_FIELD_COUNT, OLD_FIELD_NAME, 0);
 			boolean[] createField= JavaRefactoringDescriptorUtil.getBooleanArray(arguments, CREATE_FIELD_COUNT, CREATE_FIELD, 0);
 			fFields= new Field[oldFieldNames.length];
-			for (int i= 0; i < oldFieldNames.length; i++) {
+			for (int i= 0; i < oldFieldNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fFields[i]= new Field(oldFieldNames[i]);
 				fFields[i].setCreateField(createField[i]);
 				if (createField[i])
@@ -213,8 +213,8 @@ public class ExtractClassDescriptor extends JavaRefactoringDescriptor {
 	 * @throws JavaModelException if the type does not exist or if an exception occurs while accessing its corresponding resource.
 	 */
 	public static Field[] getFields(IType type) throws JavaModelException {
-		ArrayList<Field> result= new ArrayList<>();
-		for (IField field : type.getFields()) {
+		ArrayList<Field> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IField field : type.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Flags.isStatic(field.getFlags()) && !field.isEnumConstant())
 				result.add(new Field(field.getElementName()));
 		}
@@ -232,7 +232,7 @@ public class ExtractClassDescriptor extends JavaRefactoringDescriptor {
 	 * @throws IllegalArgumentException if one of the fields is <code>null</code>
 	 */
 	public void setFields(Field[] fields) throws IllegalArgumentException {
-		for (Field field : fields) {
+		for (Field field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field == null)
 				throw new IllegalArgumentException("Field can not be null"); //$NON-NLS-1$
 		}
@@ -367,14 +367,14 @@ public class ExtractClassDescriptor extends JavaRefactoringDescriptor {
 		return JavaRefactoringDescriptorUtil.getBoolean(fArguments, CREATE_GETTER_SETTER, false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void populateArgumentMap() {
 		super.populateArgumentMap();
 		if (fFields != null) {
 			String[] oldFieldNames= new String[fFields.length];
 			String[] newFieldNames= new String[fFields.length];
 			boolean[] createField= new boolean[fFields.length];
-			for (int i= 0; i < fFields.length; i++) {
+			for (int i= 0; i < fFields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Field field= fFields[i];
 				Assert.isNotNull(field);
 				oldFieldNames[i]= field.getFieldName();

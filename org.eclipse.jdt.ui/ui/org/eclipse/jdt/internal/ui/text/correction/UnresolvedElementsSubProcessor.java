@@ -80,7 +80,7 @@ public class UnresolvedElementsSubProcessor extends UnresolvedElementsBaseSubPro
 	UnresolvedElementsSubProcessor() {
 	}
 
-	private static Image findImage(int id) {
+	private static Image findImage(int id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch( id) {
 			case NewVariableProposal1:
 			case NewVariableProposal2:
@@ -219,7 +219,7 @@ public class UnresolvedElementsSubProcessor extends UnresolvedElementsBaseSubPro
 
 	@Override
 	protected ICommandAccess changeCorrectionProposalToT(final ChangeCorrectionProposalCore proposal, int uid) {
-		ChangeCorrectionProposal ret= new ChangeCorrectionProposal(proposal.getName(), null, proposal.getRelevance()) {
+		ChangeCorrectionProposal ret= new ChangeCorrectionProposal(proposal.getName(), null, proposal.getRelevance()) { //FLLDCIM: MARK — T30  ANONYMOUS
 			@Override
 			protected Change createChange() throws CoreException {
 				return proposal.getChange();
@@ -284,7 +284,7 @@ public class UnresolvedElementsSubProcessor extends UnresolvedElementsBaseSubPro
 		return new RenameNodeCorrectionProposal(core);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addNewTypeProposalsInteractiveInnerLoop(ICompilationUnit cu, Name node, IJavaElement enclosing, int rel, int kind, Name refNode, Collection<ICommandAccess> proposals) throws CoreException {
 		if ((kind & TypeKinds.CLASSES) != 0) {
 			proposals.add(new NewCUUsingWizardProposal(cu, node, NewCUUsingWizardProposal.K_CLASS, enclosing, rel+3));

@@ -69,7 +69,7 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 		setMessage(PreferencesMessages.ProjectSelectionDialog_desciption);
 		fProjectsWithSpecifics= projectsWithSpecifics;
 
-		fFilter= new ViewerFilter() {
+		fFilter= new ViewerFilter() { //FLLDCIM: MARK — T23  ANONYMOUS
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				return fProjectsWithSpecifics.contains(element);
@@ -78,7 +78,7 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// page group
 		Composite composite= (Composite) super.createDialogArea(parent);
@@ -89,14 +89,14 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 		createMessageArea(composite);
 
 		fTableViewer= new TableViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		fTableViewer.addSelectionChangedListener(event -> doSelectionChanged(((IStructuredSelection) event.getSelection()).toArray()));
-		fTableViewer.addDoubleClickListener(unused -> okPressed());
+		fTableViewer.addSelectionChangedListener(event -> doSelectionChanged(((IStructuredSelection) event.getSelection()).toArray())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fTableViewer.addDoubleClickListener(unused -> okPressed()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		GridData data= new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.heightHint= SIZING_SELECTION_WIDGET_HEIGHT;
 		data.widthHint= SIZING_SELECTION_WIDGET_WIDTH;
 		fTableViewer.getTable().setLayoutData(data);
 
-		fTableViewer.setLabelProvider(new JavaElementLabelProvider());
+		fTableViewer.setLabelProvider(new JavaElementLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fTableViewer.setContentProvider(new StandardJavaElementContentProvider());
 		fTableViewer.setComparator(new JavaElementComparator());
 		fTableViewer.getControl().setFont(font);
@@ -104,7 +104,7 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 		Button checkbox= new Button(composite, SWT.CHECK);
 		checkbox.setText(PreferencesMessages.ProjectSelectionDialog_filter);
 		checkbox.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false));
-		checkbox.addSelectionListener(new SelectionListener() {
+		checkbox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateFilter(((Button) e.widget).getSelection());
@@ -120,7 +120,7 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 		updateFilter(doFilter);
 
 		IJavaModel input= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
-		fTableViewer.setInput(input);
+		fTableViewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		doSelectionChanged(new Object[0]);
 		Dialog.applyDialogFont(composite);
@@ -129,7 +129,7 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 
 	protected void updateFilter(boolean selected) {
 		if (selected) {
-			fTableViewer.addFilter(fFilter);
+			fTableViewer.addFilter(fFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		} else {
 			fTableViewer.removeFilter(fFilter);
 		}

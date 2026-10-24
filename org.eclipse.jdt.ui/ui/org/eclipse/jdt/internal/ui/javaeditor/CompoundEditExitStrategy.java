@@ -59,7 +59,7 @@ public final class CompoundEditExitStrategy {
 	/**
 	 * Listens for events that may trigger the end of a compound edit.
 	 */
-	private final class EventListener implements MouseListener, FocusListener, VerifyKeyListener, IExecutionListener {
+	private final class EventListener implements MouseListener, FocusListener, VerifyKeyListener, IExecutionListener { //FLLDCIM: MARK — T26  IMPLEMENTS
 
 		/*
 		 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.MouseEvent)
@@ -109,7 +109,7 @@ public final class CompoundEditExitStrategy {
 		@Override
 		public void preExecute(String commandId, ExecutionEvent event) {
 			// any command other than the known ones end the compound change
-			for (String fCommandId : fCommandIds) {
+			for (String fCommandId : fCommandIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (commandId.equals(fCommandId)) {
 					return;
 				}
@@ -156,9 +156,9 @@ public final class CompoundEditExitStrategy {
 	 * @param commandIds the ids of the repeatable commands
 	 */
 	public CompoundEditExitStrategy(String[] commandIds) {
-		for (int i= 0; i < commandIds.length; i++) {
+		for (int i= 0; i < commandIds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commandIds[i] == null)
-				throw new NullPointerException("commandIds[" + i + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+				throw new NullPointerException("commandIds[" + i + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fCommandIds= new String[commandIds.length];
 		System.arraycopy(commandIds, 0, fCommandIds, 0, commandIds.length);
@@ -198,8 +198,8 @@ public final class CompoundEditExitStrategy {
 		fWidgetEventSource= fViewer.getTextWidget();
 		if (fWidgetEventSource != null) {
 			fWidgetEventSource.addVerifyKeyListener(fEventListener);
-			fWidgetEventSource.addMouseListener(fEventListener);
-			fWidgetEventSource.addFocusListener(fEventListener);
+			fWidgetEventSource.addMouseListener(fEventListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			fWidgetEventSource.addFocusListener(fEventListener); //FLLDCIM: MARK — T15 FOCUS CALL
 		}
 
 		ICommandService commandService= PlatformUI.getWorkbench().getAdapter(ICommandService.class);
@@ -226,7 +226,7 @@ public final class CompoundEditExitStrategy {
 
 	private void fireEndCompoundEdit() {
 		disarm();
-		for (ICompoundEditListener listener : fListenerList) {
+		for (ICompoundEditListener listener : fListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				listener.endCompoundEdit();
 			} catch (Exception e) {

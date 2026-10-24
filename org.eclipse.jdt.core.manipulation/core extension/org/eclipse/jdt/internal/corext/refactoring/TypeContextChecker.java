@@ -108,7 +108,7 @@ public class TypeContextChecker {
 		abstract IType getDeclaringType();
 
 		boolean needSecondPass(String[] types, ITypeBinding[] typeBindings, RefactoringStatus[] semanticsResults) {
-			for (int i= 0; i < types.length; i++)
+			for (int i= 0; i < types.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (typeBindings[i] == null || !semanticsResults[i].isOK())
 					return true;
 			return false;
@@ -118,26 +118,26 @@ public class TypeContextChecker {
 			//For methodDeclarations arraySize = parameterCount+1 (it adds the return type),
 			//but for RecordDeclaration there is no return type, arraySize will be same as parameterCount
 			String[] types= new String[arraySize];
-			for (int i= 0; i < parameterCount; i++)
+			for (int i= 0; i < parameterCount; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				types[i]= ParameterInfo.stripEllipsis((parameterInfos.get(i)).getNewTypeName());
 			return types;
 		}
 
 		int appendTypeDeclarations(String[] types, StringBuilder cuString, int parameterCount) {
 			int offsetBeforeName= cuString.length();
-			cuString.append(PLACEHOLDER_NAME).append(OPENING_QUOTE);
-			for (int i= 0; i < parameterCount; i++) {
+			cuString.append(PLACEHOLDER_NAME).append(OPENING_QUOTE); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i= 0; i < parameterCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0)
-					cuString.append(',');
-				cuString.append(types[i]).append(" p").append(i); //$NON-NLS-1$
+					cuString.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				cuString.append(types[i]).append(" p").append(i); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			cuString.append(CLOSING_QUOTE);
+			cuString.append(CLOSING_QUOTE); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return offsetBeforeName;
 		}
 
-		ITypeBinding[] populateAndCheckTypeBindings(String[] types, Type[] typeNodes, RefactoringStatus[] results, boolean firstPass) throws CoreException {
+		ITypeBinding[] populateAndCheckTypeBindings(String[] types, Type[] typeNodes, RefactoringStatus[] results, boolean firstPass) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ITypeBinding[] typeBindings= new ITypeBinding[types.length];
-			for (int i= 0; i < types.length; i++) {
+			for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type type= typeNodes[i];
 				if (type == null) {
 					String msg= Messages.format(RefactoringCoreMessages.TypeContextChecker_couldNotResolveType, BasicElementLabels.getJavaElementName(types[i]));
@@ -145,7 +145,7 @@ public class TypeContextChecker {
 					continue;
 				}
 				results[i]= new RefactoringStatus();
-				for (IProblem problem : ASTNodes.getProblems(type, ASTNodes.NODE_ONLY, ASTNodes.PROBLEMS)) {
+				for (IProblem problem : ASTNodes.getProblems(type, ASTNodes.NODE_ONLY, ASTNodes.PROBLEMS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					results[i].addError(problem.getMessage());
 				}
 				ITypeBinding binding= handleBug84585(type.resolveBinding());
@@ -157,8 +157,8 @@ public class TypeContextChecker {
 			return typeBindings;
 		}
 
-		void updateParameterInfosBindings(List<ParameterInfo> parameterInfos, ITypeBinding[] typeBindings, RefactoringStatus[] semanticsResults, RefactoringStatus[] results, boolean needsSecondPass) {
-			for (int i= 0; i < parameterInfos.size(); i++) {
+		void updateParameterInfosBindings(List<ParameterInfo> parameterInfos, ITypeBinding[] typeBindings, RefactoringStatus[] semanticsResults, RefactoringStatus[] results, boolean needsSecondPass) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			for (int i= 0; i < parameterInfos.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ParameterInfo parameterInfo= parameterInfos.get(i);
 				if (!parameterInfo.isResolve())
 					continue;
@@ -176,16 +176,16 @@ public class TypeContextChecker {
 			}
 		}
 
-		private static List<TypeNameMatch> findTypeInfos(String typeName, IType contextType, IProgressMonitor pm) throws JavaModelException {
+		private static List<TypeNameMatch> findTypeInfos(String typeName, IType contextType, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaSearchScope scope= SearchEngine.createJavaSearchScope(new IJavaProject[] { contextType.getJavaProject() }, true);
 			IPackageFragment currPackage= contextType.getPackageFragment();
-			ArrayList<TypeNameMatch> collectedInfos= new ArrayList<>();
+			ArrayList<TypeNameMatch> collectedInfos= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			TypeNameMatchCollector requestor= new TypeNameMatchCollector(collectedInfos);
 			int matchMode= SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE;
 			new SearchEngine().searchAllTypeNames(null, matchMode, typeName.toCharArray(), matchMode, IJavaSearchConstants.TYPE, scope, requestor, IJavaSearchConstants.WAIT_UNTIL_READY_TO_SEARCH, pm);
 
-			List<TypeNameMatch> result= new ArrayList<>();
-			for (TypeNameMatch curr : collectedInfos) {
+			List<TypeNameMatch> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (TypeNameMatch curr : collectedInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IType type= curr.getType();
 				if (type != null) {
 					boolean visible= true;
@@ -202,7 +202,7 @@ public class TypeContextChecker {
 			return result;
 		}
 
-		String qualifyTypes(Type type, final RefactoringStatus result) throws CoreException {
+		String qualifyTypes(Type type, final RefactoringStatus result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			class NestedException extends RuntimeException {
 				private static final long serialVersionUID= 1L;
 
@@ -253,7 +253,7 @@ public class TypeContextChecker {
 			return flattener.getResult();
 		}
 
-		private static String resolveType(String elementTypeName, RefactoringStatus status, IType declaringType, IProgressMonitor pm) throws CoreException {
+		private static String resolveType(String elementTypeName, RefactoringStatus status, IType declaringType, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[][] fqns= declaringType.resolveType(elementTypeName);
 			if (fqns != null) {
 				if (fqns.length == 1) {
@@ -301,9 +301,9 @@ public class TypeContextChecker {
 			fReturnTypeInfo= returnTypeInfo;
 		}
 
-		public RefactoringStatus[] checkAndResolveMethodTypes() throws CoreException {
+		public RefactoringStatus[] checkAndResolveMethodTypes() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			RefactoringStatus[] results= new ParameterTypesSyntaxChecker(fMethod, fParameterInfos, fReturnTypeInfo).checkSyntax();
-			for (RefactoringStatus result : results) {
+			for (RefactoringStatus result : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result != null && result.hasFatalError()) {
 					return results;
 				}
@@ -336,16 +336,16 @@ public class TypeContextChecker {
 			return results;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] resolveBindings(String[] types, RefactoringStatus[] results, boolean firstPass) throws CoreException {
 			//TODO: split types into parameterTypes and returnType
 			int parameterCount= types.length - 1;
 			ITypeBinding[] typeBindings= new ITypeBinding[types.length];
 
-			StringBuilder cuString= new StringBuilder();
-			cuString.append(fStubTypeContext.getBeforeString());
+			StringBuilder cuString= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			cuString.append(fStubTypeContext.getBeforeString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			int offsetBeforeMethodName= appendMethodDeclaration(cuString, types, parameterCount);
-			cuString.append(fStubTypeContext.getAfterString());
+			cuString.append(fStubTypeContext.getAfterString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			// need a working copy to tell the parser where to resolve (package visible) types
 			ICompilationUnit wc= fMethod.getCompilationUnit().getWorkingCopy(new WorkingCopyOwner() {
@@ -359,14 +359,14 @@ public class TypeContextChecker {
 					MethodDeclaration methodDeclaration= (MethodDeclaration) method;
 					typeNodes[parameterCount]= methodDeclaration.getReturnType2();
 					List<SingleVariableDeclaration> parameters= methodDeclaration.parameters();
-					for (int i= 0; i < parameterCount; i++)
+					for (int i= 0; i < parameterCount; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						typeNodes[i]= parameters.get(i).getType();
 
 				} else if (method instanceof AnnotationTypeMemberDeclaration) {
 					typeNodes[0]= ((AnnotationTypeMemberDeclaration) method).getType();
 				}
 
-				for (int i= 0; i < types.length; i++) {
+				for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type type= typeNodes[i];
 					if (type == null) {
 						String msg= Messages.format(RefactoringCoreMessages.TypeContextChecker_couldNotResolveType, BasicElementLabels.getJavaElementName(types[i]));
@@ -374,7 +374,7 @@ public class TypeContextChecker {
 						continue;
 					}
 					results[i]= new RefactoringStatus();
-					for (IProblem problem : ASTNodes.getProblems(type, ASTNodes.NODE_ONLY, ASTNodes.PROBLEMS)) {
+					for (IProblem problem : ASTNodes.getProblems(type, ASTNodes.NODE_ONLY, ASTNodes.PROBLEMS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						results[i].addError(problem.getMessage());
 					}
 					ITypeBinding binding= handleBug84585(type.resolveBinding());
@@ -389,35 +389,35 @@ public class TypeContextChecker {
 			}
 		}
 
-		private int appendMethodDeclaration(StringBuilder cuString, String[] types, int parameterCount) throws JavaModelException {
+		private int appendMethodDeclaration(StringBuilder cuString, String[] types, int parameterCount) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int flags= fMethod.getFlags();
 			if (Flags.isStatic(flags)) {
-				cuString.append("static "); //$NON-NLS-1$
+				cuString.append("static "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else if (Flags.isDefaultMethod(flags)) {
-				cuString.append("default "); //$NON-NLS-1$
+				cuString.append("default "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			ITypeParameter[] methodTypeParameters= fMethod.getTypeParameters();
 			if (methodTypeParameters.length != 0) {
-				cuString.append('<');
-				for (int i= 0; i < methodTypeParameters.length; i++) {
+				cuString.append('<'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				for (int i= 0; i < methodTypeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeParameter typeParameter= methodTypeParameters[i];
 					if (i > 0)
-						cuString.append(',');
-					cuString.append(typeParameter.getElementName());
+						cuString.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					cuString.append(typeParameter.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				cuString.append("> "); //$NON-NLS-1$
+				cuString.append("> "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
-			cuString.append(types[parameterCount]).append(' ');
+			cuString.append(types[parameterCount]).append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			int offsetBeforeMethodName= cuString.length();
-			cuString.append(PLACEHOLDER_NAME).append('(');
-			for (int i= 0; i < parameterCount; i++) {
+			cuString.append(PLACEHOLDER_NAME).append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i= 0; i < parameterCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0)
-					cuString.append(',');
-				cuString.append(types[i]).append(" p").append(i); //$NON-NLS-1$
+					cuString.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				cuString.append(types[i]).append(" p").append(i); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			cuString.append(");"); //$NON-NLS-1$
+			cuString.append(");"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			return offsetBeforeMethodName;
 		}
@@ -458,7 +458,7 @@ public class TypeContextChecker {
 			RefactoringStatus[] results= new RefactoringStatus[parameterCount + 1];
 			if (fMethod != null)
 				results[parameterCount]= checkReturnTypeSyntax();
-			for (int i= 0; i < parameterCount; i++) {
+			for (int i= 0; i < parameterCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ParameterInfo info= fParameterInfos.get(i);
 				if (!info.isDeleted())
 					results[i]= checkParameterTypeSyntax(info);
@@ -475,13 +475,13 @@ public class TypeContextChecker {
 			return TypeContextChecker.checkParameterTypeSyntax(info.getNewTypeName(), fMethod.getJavaProject());
 		}
 
-		private RefactoringStatus checkReturnTypeSyntax() {
+		private RefactoringStatus checkReturnTypeSyntax() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String newTypeName= fReturnTypeInfo.getNewTypeName();
 			if ("".equals(newTypeName.trim())) { //$NON-NLS-1$
 				String msg= RefactoringCoreMessages.TypeContextChecker_return_type_not_empty;
 				return RefactoringStatus.createFatalErrorStatus(msg);
 			}
-			List<String> problemsCollector= new ArrayList<>(0);
+			List<String> problemsCollector= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			Type parsedType= parseType(newTypeName, fMethod.getJavaProject(), problemsCollector);
 			if (parsedType == null) {
 				String msg= Messages.format(RefactoringCoreMessages.TypeContextChecker_invalid_return_type, BasicElementLabels.getJavaElementName(newTypeName));
@@ -491,7 +491,7 @@ public class TypeContextChecker {
 				return null;
 
 			RefactoringStatus result= new RefactoringStatus();
-			for (String problem : problemsCollector) {
+			for (String problem : problemsCollector) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String[] keys= new String[] { BasicElementLabels.getJavaElementName(newTypeName), BasicElementLabels.getJavaElementName(problem) };
 				String msg= Messages.format(RefactoringCoreMessages.TypeContextChecker_invalid_return_type_syntax, keys);
 				result.addError(msg);
@@ -528,16 +528,16 @@ public class TypeContextChecker {
 		}
 
 		private int appendRecordDeclaration(StringBuilder cuString, String[] types, int parameterCount) {
-			cuString.append("record "); //$NON-NLS-1$
+			cuString.append("record "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			int offsetBeforeRecordName= cuString.length();
 			appendTypeDeclarations(types, cuString, parameterCount);
 			return offsetBeforeRecordName;
 		}
 
-		public RefactoringStatus[] checkAndResolveRecordTypes() throws CoreException {
+		public RefactoringStatus[] checkAndResolveRecordTypes() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			RefactoringStatus[] results= new ParameterTypesSyntaxChecker(fType, fParameterInfos).checkSyntax();
 
-			for (RefactoringStatus result : results) {
+			for (RefactoringStatus result : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (result != null && result.hasFatalError()) {
 					return results;
 				}
@@ -554,14 +554,14 @@ public class TypeContextChecker {
 			return results;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] resolveBindings(String[] types, RefactoringStatus[] results, boolean firstPass) throws CoreException {
 			int parameterCount= types.length;
 			//ITypeBinding[] typeBindings= new ITypeBinding[types.length];
-			StringBuilder cuString= new StringBuilder();
-			cuString.append(fStubTypeContext.getBeforeString());
+			StringBuilder cuString= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			cuString.append(fStubTypeContext.getBeforeString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			int offsetBeforeRecordName= appendRecordDeclaration(cuString, types, parameterCount);
-			cuString.append(fStubTypeContext.getAfterString());
+			cuString.append(fStubTypeContext.getAfterString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			// need a working copy to tell the parser where to resolve (package visible) types
 			ICompilationUnit wc= fType.getCompilationUnit().getWorkingCopy(new WorkingCopyOwner() {
 				/*subclass*/}, new NullProgressMonitor());
@@ -573,7 +573,7 @@ public class TypeContextChecker {
 				if (record instanceof RecordDeclaration) {
 					RecordDeclaration rDecl= (RecordDeclaration) record;
 					List<SingleVariableDeclaration> parameters= rDecl.recordComponents();
-					for (int i= 0; i < parameterCount; i++) {
+					for (int i= 0; i < parameterCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						typeNodes[i]= parameters.get(i).getType();
 					}
 				}
@@ -591,16 +591,16 @@ public class TypeContextChecker {
 
 	}
 
-	private static Type parseType(String typeString, IJavaProject javaProject, List<String> problemsCollector) {
+	private static Type parseType(String typeString, IJavaProject javaProject, List<String> problemsCollector) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ("".equals(typeString.trim())) //speed up for a common case //$NON-NLS-1$
 			return null;
 		if (!typeString.trim().equals(typeString))
 			return null;
 
-		StringBuilder cuBuff= new StringBuilder();
-		cuBuff.append("interface A{"); //$NON-NLS-1$
+		StringBuilder cuBuff= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		cuBuff.append("interface A{"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		int offset= cuBuff.length();
-		cuBuff.append(typeString).append(" m();}"); //$NON-NLS-1$
+		cuBuff.append(typeString).append(" m();}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		ASTParser p= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 		p.setSource(cuBuff.toString().toCharArray());
@@ -615,7 +615,7 @@ public class TypeContextChecker {
 		Type type= (Type) selected;
 		if (ParameterTypesSyntaxChecker.isVoidArrayType(type))
 			return null;
-		for (IProblem problem : ASTNodes.getProblems(type, ASTNodes.NODE_ONLY, ASTNodes.PROBLEMS)) {
+		for (IProblem problem : ASTNodes.getProblems(type, ASTNodes.NODE_ONLY, ASTNodes.PROBLEMS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			problemsCollector.add(problem.getMessage());
 		}
 		String typeNodeRange= cuBuff.substring(type.getStartPosition(), ASTNodes.getExclusiveEnd(type));
@@ -657,7 +657,7 @@ public class TypeContextChecker {
 		return checker.checkSyntax();
 	}
 
-	public static RefactoringStatus checkParameterTypeSyntax(String type, IJavaProject project) {
+	public static RefactoringStatus checkParameterTypeSyntax(String type, IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String newTypeName= ParameterInfo.stripEllipsis(type.trim()).trim();
 		String typeLabel= BasicElementLabels.getJavaElementName(type);
 
@@ -666,7 +666,7 @@ public class TypeContextChecker {
 			return RefactoringStatus.createFatalErrorStatus(msg);
 		}
 
-		List<String> problemsCollector= new ArrayList<>(0);
+		List<String> problemsCollector= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Type parsedType= parseType(newTypeName, project, problemsCollector);
 		boolean valid= parsedType != null;
 		if (valid && parsedType instanceof PrimitiveType)
@@ -679,7 +679,7 @@ public class TypeContextChecker {
 			return null;
 
 		RefactoringStatus result= new RefactoringStatus();
-		for (String problem : problemsCollector) {
+		for (String problem : problemsCollector) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String msg= Messages.format(RefactoringCoreMessages.TypeContextChecker_invalid_type_syntax,
 					new String[] { BasicElementLabels.getJavaElementName(newTypeName), BasicElementLabels.getJavaElementName(problem) });
 			result.addError(msg);
@@ -687,9 +687,9 @@ public class TypeContextChecker {
 		return result;
 	}
 
-	public static StubTypeContext createStubTypeContext(ICompilationUnit cu, CompilationUnit root, int focalPosition) throws CoreException {
-		StringBuilder bufBefore= new StringBuilder();
-		StringBuilder bufAfter= new StringBuilder();
+	public static StubTypeContext createStubTypeContext(ICompilationUnit cu, CompilationUnit root, int focalPosition) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder bufBefore= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		StringBuilder bufAfter= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		int introEnd= 0;
 		PackageDeclaration pack= root.getPackage();
@@ -700,17 +700,17 @@ public class TypeContextChecker {
 			ImportDeclaration lastImport= imports.get(imports.size() - 1);
 			introEnd= lastImport.getStartPosition() + lastImport.getLength();
 		}
-		bufBefore.append(cu.getBuffer().getText(0, introEnd));
+		bufBefore.append(cu.getBuffer().getText(0, introEnd)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		fillWithTypeStubs(bufBefore, bufAfter, focalPosition, root.types());
-		bufBefore.append(' ');
+		bufBefore.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		bufAfter.insert(0, ' ');
 		return new StubTypeContext(cu, bufBefore.toString(), bufAfter.toString());
 	}
 
-	private static void fillWithTypeStubs(final StringBuilder bufBefore, final StringBuilder bufAfter, final int focalPosition, List<? extends BodyDeclaration> types) {
+	private static void fillWithTypeStubs(final StringBuilder bufBefore, final StringBuilder bufAfter, final int focalPosition, List<? extends BodyDeclaration> types) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuilder buf;
-		for (BodyDeclaration bodyDeclaration : types) {
+		for (BodyDeclaration bodyDeclaration : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(bodyDeclaration instanceof AbstractTypeDeclaration)) {
 				//account for local classes:
 				if (!(bodyDeclaration instanceof MethodDeclaration))
@@ -723,9 +723,9 @@ public class TypeContextChecker {
 				buf= bufBefore;
 				appendModifiers(buf, methodDeclaration.modifiers());
 				appendTypeParameters(buf, methodDeclaration.typeParameters());
-				buf.append(" void "); //$NON-NLS-1$
-				buf.append(methodDeclaration.getName().getIdentifier());
-				buf.append("(){\n"); //$NON-NLS-1$
+				buf.append(" void "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(methodDeclaration.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("(){\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				Block body= methodDeclaration.getBody();
 				body.accept(new HierarchicalASTVisitor() {
 					@Override
@@ -743,16 +743,16 @@ public class TypeContextChecker {
 						int anonEnd= anonDecl.getStartPosition() + anonDecl.getLength();
 						if ((anonStart >= focalPosition) || (focalPosition >= anonEnd))
 							return false;
-						bufBefore.append(" new "); //$NON-NLS-1$
-						bufBefore.append(node.getType().toString());
-						bufBefore.append("(){\n"); //$NON-NLS-1$
+						bufBefore.append(" new "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						bufBefore.append(node.getType().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						bufBefore.append("(){\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						fillWithTypeStubs(bufBefore, bufAfter, focalPosition, anonDecl.bodyDeclarations());
-						bufAfter.append("};\n"); //$NON-NLS-1$
+						bufAfter.append("};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						return false;
 					}
 				});
 				buf= bufAfter;
-				buf.append("}\n"); //$NON-NLS-1$
+				buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				continue;
 			}
 
@@ -762,56 +762,56 @@ public class TypeContextChecker {
 
 			if (decl instanceof TypeDeclaration) {
 				TypeDeclaration type= (TypeDeclaration) decl;
-				buf.append(type.isInterface() ? "interface " : "class "); //$NON-NLS-1$//$NON-NLS-2$
-				buf.append(type.getName().getIdentifier());
+				buf.append(type.isInterface() ? "interface " : "class "); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(type.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				appendTypeParameters(buf, type.typeParameters());
 				if (type.getSuperclassType() != null) {
-					buf.append(" extends "); //$NON-NLS-1$
-					buf.append(ASTNodes.asString(type.getSuperclassType()));
+					buf.append(" extends "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(ASTNodes.asString(type.getSuperclassType())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				List<Type> superInterfaces= type.superInterfaceTypes();
 				appendSuperInterfaces(buf, superInterfaces);
 
 			} else if (decl instanceof AnnotationTypeDeclaration) {
 				AnnotationTypeDeclaration annotation= (AnnotationTypeDeclaration) decl;
-				buf.append("@interface "); //$NON-NLS-1$
-				buf.append(annotation.getName().getIdentifier());
+				buf.append("@interface "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(annotation.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			} else if (decl instanceof EnumDeclaration) {
 				EnumDeclaration enumDecl= (EnumDeclaration) decl;
-				buf.append("enum "); //$NON-NLS-1$
-				buf.append(enumDecl.getName().getIdentifier());
+				buf.append("enum "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(enumDecl.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				List<Type> superInterfaces= enumDecl.superInterfaceTypes();
 				appendSuperInterfaces(buf, superInterfaces);
 			} else if (decl instanceof RecordDeclaration) {
 				RecordDeclaration recordDecl= (RecordDeclaration) decl;
-				buf.append("record "); //$NON-NLS-1$
-				buf.append(recordDecl.getName().getIdentifier());
-				buf.append("("); //$NON-NLS-1$
+				buf.append("record "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(recordDecl.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				appendRecordComponents(buf, recordDecl.recordComponents());
-				buf.append(")"); //$NON-NLS-1$
+				buf.append(")"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				appendTypeParameters(buf, recordDecl.typeParameters());
 				List<Type> superInterfaces= recordDecl.superInterfaceTypes();
 				appendSuperInterfaces(buf, superInterfaces);
 			}
 
-			buf.append("{\n"); //$NON-NLS-1$
+			buf.append("{\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (decl instanceof EnumDeclaration)
-				buf.append(";\n"); //$NON-NLS-1$
+				buf.append(";\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			fillWithTypeStubs(bufBefore, bufAfter, focalPosition, decl.bodyDeclarations());
 			buf= decl.getStartPosition() + decl.getLength() < focalPosition ? bufBefore : bufAfter;
-			buf.append("}\n"); //$NON-NLS-1$
+			buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 	}
 
 	private static void appendRecordComponents(StringBuilder buf, List<SingleVariableDeclaration> recordComponents) {
 		int recCompsCount= recordComponents.size();
 		if (recCompsCount > 0) {
-			for (int i= 0; i < recCompsCount; i++) {
+			for (int i= 0; i < recCompsCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SingleVariableDeclaration recComp= recordComponents.get(i);
-				buf.append(ASTNodes.asString(recComp));
+				buf.append(ASTNodes.asString(recComp)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i < recCompsCount - 1)
-					buf.append(',');
+					buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 	}
@@ -819,22 +819,22 @@ public class TypeContextChecker {
 	private static void appendTypeParameters(StringBuilder buf, List<TypeParameter> typeParameters) {
 		int typeParametersCount= typeParameters.size();
 		if (typeParametersCount > 0) {
-			buf.append('<');
-			for (int i= 0; i < typeParametersCount; i++) {
+			buf.append('<'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i= 0; i < typeParametersCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeParameter typeParameter= typeParameters.get(i);
-				buf.append(ASTNodes.asString(typeParameter));
+				buf.append(ASTNodes.asString(typeParameter)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i < typeParametersCount - 1)
-					buf.append(',');
+					buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append('>');
+			buf.append('>'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 	}
 
 	private static void appendModifiers(StringBuilder buf, List<IExtendedModifier> modifiers) {
-		for (IExtendedModifier extendedModifier : modifiers) {
+		for (IExtendedModifier extendedModifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (extendedModifier.isModifier()) {
 				Modifier modifier= (Modifier) extendedModifier;
-				buf.append(modifier.getKeyword().toString()).append(' ');
+				buf.append(modifier.getKeyword().toString()).append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 	}
@@ -842,12 +842,12 @@ public class TypeContextChecker {
 	private static void appendSuperInterfaces(StringBuilder buf, List<Type> superInterfaces) {
 		int superInterfaceCount= superInterfaces.size();
 		if (superInterfaceCount > 0) {
-			buf.append(" implements "); //$NON-NLS-1$
-			for (int i= 0; i < superInterfaceCount; i++) {
+			buf.append(" implements "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i= 0; i < superInterfaceCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type superInterface= superInterfaces.get(i);
-				buf.append(ASTNodes.asString(superInterface));
+				buf.append(ASTNodes.asString(superInterface)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i < superInterfaceCount - 1)
-					buf.append(',');
+					buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 	}
@@ -860,9 +860,9 @@ public class TypeContextChecker {
 		return createSupertypeStubTypeContext(typeName, false, enclosingType, packageFragment);
 	}
 
-	private static StubTypeContext createSupertypeStubTypeContext(String typeName, boolean isInterface, IType enclosingType, IPackageFragment packageFragment) {
+	private static StubTypeContext createSupertypeStubTypeContext(String typeName, boolean isInterface, IType enclosingType, IPackageFragment packageFragment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StubTypeContext stubTypeContext;
-		String prolog= "class " + typeName + (isInterface ? " implements " : " extends "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String prolog= "class " + typeName + (isInterface ? " implements " : " extends "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String epilog= " {} "; //$NON-NLS-1$
 		if (enclosingType != null) {
 			try {
@@ -877,8 +877,8 @@ public class TypeContextChecker {
 
 				stubTypeContext= createStubTypeContext(cu, compilationUnit, focalPosition);
 				stubTypeContext= new StubTypeContext(stubTypeContext.getCuHandle(),
-						stubTypeContext.getBeforeString() + prolog,
-						epilog + stubTypeContext.getAfterString());
+						stubTypeContext.getBeforeString() + prolog, //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+						epilog + stubTypeContext.getAfterString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} catch (CoreException e) {
 				JavaManipulationPlugin.log(e);
 				stubTypeContext= new StubTypeContext(null, null, null);
@@ -886,7 +886,7 @@ public class TypeContextChecker {
 
 		} else if (packageFragment != null) {
 			ICompilationUnit cu= packageFragment.getCompilationUnit(JavaTypeCompletionProcessorCore.DUMMY_CU_NAME);
-			stubTypeContext= new StubTypeContext(cu, "package " + packageFragment.getElementName() + ";" + prolog, epilog); //$NON-NLS-1$//$NON-NLS-2$
+			stubTypeContext= new StubTypeContext(cu, "package " + packageFragment.getElementName() + ";" + prolog, epilog); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		} else {
 			stubTypeContext= new StubTypeContext(null, null, null);
@@ -896,7 +896,7 @@ public class TypeContextChecker {
 
 	public static StubTypeContext createAnnotationStubTypeContext(/*@NonNull*/ IProject project) {
 		try {
-			for (IPackageFragmentRoot root : JavaCore.create(project).getPackageFragmentRoots()) {
+			for (IPackageFragmentRoot root : JavaCore.create(project).getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!root.isReadOnly()) {
 					IPackageFragment packageFragment= root.getPackageFragment(""); //$NON-NLS-1$
 					String prolog= "abstract class __X__ {\n\tabstract @"; //$NON-NLS-1$
@@ -919,22 +919,22 @@ public class TypeContextChecker {
 		return parseSuperType(superInterface, true);
 	}
 
-	private static Type parseSuperType(String superType, boolean isInterface) {
+	private static Type parseSuperType(String superType, boolean isInterface) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!superType.trim().equals(superType)) {
 			return null;
 		}
 
-		StringBuilder cuBuff= new StringBuilder();
+		StringBuilder cuBuff= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (isInterface)
-			cuBuff.append("class __X__ implements "); //$NON-NLS-1$
+			cuBuff.append("class __X__ implements "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else
-			cuBuff.append("class __X__ extends "); //$NON-NLS-1$
+			cuBuff.append("class __X__ extends "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		int offset= cuBuff.length();
-		cuBuff.append(superType).append(" {}"); //$NON-NLS-1$
+		cuBuff.append(superType).append(" {}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		ASTParser p= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 		p.setSource(cuBuff.toString().toCharArray());
-		Map<String, String> options= new HashMap<>();
+		Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		JavaModelUtil.setComplianceOptions(options, JavaModelUtil.VERSION_LATEST);
 		p.setCompilerOptions(options);
 		CompilationUnit cu= (CompilationUnit) p.createAST(null);
@@ -956,11 +956,11 @@ public class TypeContextChecker {
 		return type;
 	}
 
-	public static ITypeBinding resolveSuperClass(String superclass, IType typeHandle, StubTypeContext superClassContext) {
-		StringBuilder cuString= new StringBuilder();
-		cuString.append(superClassContext.getBeforeString());
-		cuString.append(superclass);
-		cuString.append(superClassContext.getAfterString());
+	public static ITypeBinding resolveSuperClass(String superclass, IType typeHandle, StubTypeContext superClassContext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder cuString= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		cuString.append(superClassContext.getBeforeString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuString.append(superclass); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		cuString.append(superClassContext.getAfterString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		try {
 			ICompilationUnit wc= typeHandle.getCompilationUnit().getWorkingCopy(new WorkingCopyOwner() {
@@ -985,20 +985,20 @@ public class TypeContextChecker {
 		}
 	}
 
-	public static ITypeBinding[] resolveSuperInterfaces(String[] interfaces, IType typeHandle, StubTypeContext superInterfaceContext) {
+	public static ITypeBinding[] resolveSuperInterfaces(String[] interfaces, IType typeHandle, StubTypeContext superInterfaceContext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] result= new ITypeBinding[interfaces.length];
 
 		int[] interfaceOffsets= new int[interfaces.length];
-		StringBuilder cuString= new StringBuilder();
-		cuString.append(superInterfaceContext.getBeforeString());
+		StringBuilder cuString= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		cuString.append(superInterfaceContext.getBeforeString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		int last= interfaces.length - 1;
-		for (int i= 0; i <= last; i++) {
+		for (int i= 0; i <= last; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			interfaceOffsets[i]= cuString.length();
-			cuString.append(interfaces[i]);
+			cuString.append(interfaces[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (i != last)
-				cuString.append(", "); //$NON-NLS-1$
+				cuString.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		cuString.append(superInterfaceContext.getAfterString());
+		cuString.append(superInterfaceContext.getAfterString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		try {
 			ICompilationUnit wc= typeHandle.getCompilationUnit().getWorkingCopy(new WorkingCopyOwner() {
@@ -1006,7 +1006,7 @@ public class TypeContextChecker {
 			try {
 				wc.getBuffer().setContents(cuString.toString());
 				CompilationUnit compilationUnit= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(wc, true);
-				for (int i= 0; i <= last; i++) {
+				for (int i= 0; i <= last; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode type= NodeFinder.perform(compilationUnit, interfaceOffsets[i], interfaces[i].length());
 					if (type instanceof Type) {
 						result[i]= handleBug84585(((Type) type).resolveBinding());

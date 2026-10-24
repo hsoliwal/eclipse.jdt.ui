@@ -33,7 +33,7 @@ public class JarEntryResourceProperties implements IPropertySource {
 
 	protected IJarEntryResource fJarEntryResource;
 
-	private static final ArrayList<IPropertyDescriptor> JAR_ENTRY_RESOURCE_PROPERTY_DESCRIPTORS= new ArrayList<>();
+	private static final ArrayList<IPropertyDescriptor> JAR_ENTRY_RESOURCE_PROPERTY_DESCRIPTORS= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	static {
 		addResourceDescriptor(new PropertyDescriptor(P_NAME, "name"));
 		addResourceDescriptor(new PropertyDescriptor(P_FULL_PATH, "fullPath"));
@@ -54,7 +54,7 @@ public class JarEntryResourceProperties implements IPropertySource {
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		ArrayList<IPropertyDescriptor> result= new ArrayList<>(JAR_ENTRY_RESOURCE_PROPERTY_DESCRIPTORS);
+		ArrayList<IPropertyDescriptor> result= new ArrayList<>(JAR_ENTRY_RESOURCE_PROPERTY_DESCRIPTORS); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return result.toArray(new IPropertyDescriptor[result.size()]);
 	}
 

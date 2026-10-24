@@ -69,7 +69,7 @@ public class JavaStringDoubleClickStrategyTest {
 		IDocument document= new Document(text);
 		TestStrategy strategy= new TestStrategy(partition, delimiterLength);
 		IRegion selection= strategy.findWord(document, offset);
-		assertEquals(expected, selection, "Click at " + offset + " in: " + text);
+		assertEquals(expected, selection, "Click at " + offset + " in: " + text); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void assertDoubleClick(String text, int offset, IRegion expected, String version) {
@@ -77,7 +77,7 @@ public class JavaStringDoubleClickStrategyTest {
 		TestStrategy strategy= new TestStrategy(null, 1);
 		strategy.setSourceVersion(version);
 		IRegion selection= strategy.findWord(document, offset);
-		assertEquals(expected, selection, "Click at " + offset + " in: " + text);
+		assertEquals(expected, selection, "Click at " + offset + " in: " + text); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
@@ -169,7 +169,7 @@ public class JavaStringDoubleClickStrategyTest {
 		assertDoubleClick("\"bye\\u004nbye\"", 3, new Region(1, 3));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWithPartition() {
 		assertDoubleClick("hello \"bye\\nbye\" world", 21, new Region(17, 5), new Region(6, 10));
 		assertDoubleClick("hello \"bye\\nbye\" world", 20, new Region(17, 5), new Region(6, 10));

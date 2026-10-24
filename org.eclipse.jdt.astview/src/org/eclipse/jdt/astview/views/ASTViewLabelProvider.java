@@ -50,7 +50,7 @@ public class ASTViewLabelProvider extends LabelProvider implements IColorProvide
 	private final Color fLightRed;
 	private Color fSelectedElemBGColor;
 
-	public ASTViewLabelProvider() {
+	public ASTViewLabelProvider() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSelectionStart= -1;
 		fSelectionLength= -1;
 
@@ -64,7 +64,7 @@ public class ASTViewLabelProvider extends LabelProvider implements IColorProvide
 
 		fSelectedElemBGColor= new Color(232, 242, 254);
 		String currLineColor= EditorsUI.getPreferenceStore().getString(AbstractDecoratedTextEditorPreferenceConstants.EDITOR_CURRENT_LINE_COLOR);
-		String[] rgb= currLineColor.split(","); //$NON-NLS-1$
+		String[] rgb= currLineColor.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (rgb.length == 3) {
 			try {
 				fSelectedElemBGColor= new Color(Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2]));
@@ -76,7 +76,7 @@ public class ASTViewLabelProvider extends LabelProvider implements IColorProvide
 
 		fBold= PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
 		FontData[] fontData= fBold.getFontData();
-		for (FontData fd : fontData) {
+		for (FontData fd : fontData) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fd.setStyle(fd.getStyle() | SWT.ITALIC);
 		}
 		fAllocatedBoldItalic= new Font(display, fontData);
@@ -132,7 +132,7 @@ public class ASTViewLabelProvider extends LabelProvider implements IColorProvide
 //		return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Color getForeground(Object element) {
 		if ((element instanceof Error))
 			return fRed;
@@ -178,7 +178,7 @@ public class ASTViewLabelProvider extends LabelProvider implements IColorProvide
 		return null;
 	}
 
-	private boolean isNotProperlyNested(Object element) {
+	private boolean isNotProperlyNested(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof ASTNode) {
 			ASTNode node= (ASTNode) element;
 			int start= node.getStartPosition();
@@ -206,7 +206,7 @@ public class ASTViewLabelProvider extends LabelProvider implements IColorProvide
 		return false;
 	}
 
-	private boolean isInside(Object element) {
+	private boolean isInside(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof ASTNode) {
 			return isInsideNode((ASTNode) element);
 		} else if (element instanceof NodeProperty) {
@@ -215,7 +215,7 @@ public class ASTViewLabelProvider extends LabelProvider implements IColorProvide
 			if (object instanceof ASTNode) {
 				return isInsideNode((ASTNode) object);
 			} else if (object instanceof List) {
-				for (Object child : (List<?>) object) {
+				for (Object child : (List<?>) object) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isInside(child)) {
 						return true;
 					}

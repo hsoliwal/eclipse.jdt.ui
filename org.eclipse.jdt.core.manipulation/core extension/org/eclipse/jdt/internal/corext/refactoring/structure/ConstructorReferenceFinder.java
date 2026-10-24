@@ -102,16 +102,16 @@ public class ConstructorReferenceFinder {
 	}
 
 	//XXX this method is a workaround for jdt core bug 27236
-	private SearchResultGroup[] removeUnrealReferences(SearchResultGroup[] groups) {
-		List<SearchResultGroup> result= new ArrayList<>(groups.length);
-		for (SearchResultGroup group : groups) {
+	private SearchResultGroup[] removeUnrealReferences(SearchResultGroup[] groups) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<SearchResultGroup> result= new ArrayList<>(groups.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SearchResultGroup group : groups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= group.getCompilationUnit();
 			if (cu == null)
 				continue;
 			CompilationUnit cuNode= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(cu, false);
 			SearchMatch[] allSearchResults= group.getSearchResults();
-			List<SearchMatch> realConstructorReferences= new ArrayList<>(Arrays.asList(allSearchResults));
-			for (SearchMatch searchResult : allSearchResults) {
+			List<SearchMatch> realConstructorReferences= new ArrayList<>(Arrays.asList(allSearchResults)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (SearchMatch searchResult : allSearchResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! isRealConstructorReferenceNode(ASTNodeSearchUtil.getAstNode(searchResult, cuNode)))
 					realConstructorReferences.remove(searchResult);
 			}
@@ -122,7 +122,7 @@ public class ConstructorReferenceFinder {
 	}
 
 	//XXX this method is a workaround for jdt core bug 27236
-	private boolean isRealConstructorReferenceNode(ASTNode node){
+	private boolean isRealConstructorReferenceNode(ASTNode node){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String typeName= fConstructors[0].getDeclaringType().getElementName();
 		if (node.getParent() instanceof AbstractTypeDeclaration
 				&& ((AbstractTypeDeclaration) node.getParent()).getNameProperty().equals(node.getLocationInParent())) {
@@ -162,7 +162,7 @@ public class ConstructorReferenceFinder {
 		Assert.isTrue(fConstructors.length > 0);
 		IMethod candidate= fConstructors[0];
 		int visibility= JdtFlags.getVisibilityCode(fConstructors[0]);
-		for (int i= 1; i < fConstructors.length; i++) {
+		for (int i= 1; i < fConstructors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod constructor= fConstructors[i];
 			if (JdtFlags.isHigherVisibility(JdtFlags.getVisibilityCode(constructor), visibility))
 				candidate= constructor;
@@ -172,14 +172,14 @@ public class ConstructorReferenceFinder {
 
 	private SearchResultGroup[] getImplicitConstructorReferences(IProgressMonitor pm, WorkingCopyOwner owner, RefactoringStatus status) throws JavaModelException {
 		pm.beginTask("", 2); //$NON-NLS-1$
-		List<SearchMatch> searchMatches= new ArrayList<>(getImplicitConstructorReferencesFromHierarchy(owner, Progress.subMonitor(pm, 1)));
+		List<SearchMatch> searchMatches= new ArrayList<>(getImplicitConstructorReferencesFromHierarchy(owner, Progress.subMonitor(pm, 1))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		searchMatches.addAll(getImplicitConstructorReferencesInClassCreations(owner, Progress.subMonitor(pm, 1), status));
 		pm.done();
 		return RefactoringSearchEngine.groupByCu(searchMatches.toArray(new SearchMatch[searchMatches.size()]), status);
 	}
 
 	//List of SearchResults
-	private List<SearchMatch> getImplicitConstructorReferencesInClassCreations(WorkingCopyOwner owner, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException {
+	private List<SearchMatch> getImplicitConstructorReferencesInClassCreations(WorkingCopyOwner owner, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//XXX workaround for jdt core bug 23112
 		SearchPattern pattern= SearchPattern.createPattern(fType, IJavaSearchConstants.REFERENCES, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 		if (pattern == null) {
@@ -187,13 +187,13 @@ public class ConstructorReferenceFinder {
 		}
 		IJavaSearchScope scope= RefactoringScopeFactory.create(fType);
 		SearchResultGroup[] refs= RefactoringSearchEngine.search(pattern, owner, scope, pm, status);
-		List<SearchMatch> result= new ArrayList<>();
-		for (SearchResultGroup group : refs) {
+		List<SearchMatch> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SearchResultGroup group : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= group.getCompilationUnit();
 			if (cu == null)
 				continue;
 			CompilationUnit cuNode= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(cu, false);
-			for (SearchMatch searchResult : group.getSearchResults()) {
+			for (SearchMatch searchResult : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode node= ASTNodeSearchUtil.getAstNode(searchResult, cuNode);
 				if (isImplicitConstructorReferenceNodeInClassCreations(node))
 					result.add(searchResult);
@@ -221,8 +221,8 @@ public class ConstructorReferenceFinder {
 	//List of SearchResults
 	private List<SearchMatch> getImplicitConstructorReferencesFromHierarchy(WorkingCopyOwner owner, IProgressMonitor pm) throws JavaModelException{
 		IType[] subTypes= getNonBinarySubtypes(owner, fType, pm);
-		List<SearchMatch> result= new ArrayList<>(subTypes.length);
-		for (IType subType : subTypes) {
+		List<SearchMatch> result= new ArrayList<>(subTypes.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IType subType : subTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(getAllSuperConstructorInvocations(subType));
 		}
 		return result;
@@ -235,8 +235,8 @@ public class ConstructorReferenceFinder {
 		else
 			hierarchy= type.newSupertypeHierarchy(owner, monitor);
 		IType[] subTypes= hierarchy.getAllSubtypes(type);
-		List<IType> result= new ArrayList<>(subTypes.length);
-		for (IType subType : subTypes) {
+		List<IType> result= new ArrayList<>(subTypes.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IType subType : subTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! subType.isBinary()) {
 				result.add(subType);
 			}
@@ -248,8 +248,8 @@ public class ConstructorReferenceFinder {
 	private static Collection<SearchMatch> getAllSuperConstructorInvocations(IType type) throws JavaModelException {
 		IMethod[] constructors= JavaElementUtil.getAllConstructors(type);
 		CompilationUnit cuNode= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(type.getCompilationUnit(), false);
-		List<SearchMatch> result= new ArrayList<>(constructors.length);
-		for (IMethod constructor : constructors) {
+		List<SearchMatch> result= new ArrayList<>(constructors.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMethod constructor : constructors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode superCall= getSuperConstructorCallNode(constructor, cuNode);
 			if (superCall != null)
 				result.add(createSearchResult(superCall, constructor));

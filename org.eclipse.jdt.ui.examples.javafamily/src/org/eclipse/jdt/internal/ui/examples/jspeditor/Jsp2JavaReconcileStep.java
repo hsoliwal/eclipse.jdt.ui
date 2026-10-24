@@ -90,7 +90,7 @@ public class Jsp2JavaReconcileStep extends AbstractReconcileStep {
 		return fModel;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IReconcileResult[] convertToInputModel(IReconcileResult[] inputResults) {
 
 		if (inputResults == null)
@@ -99,7 +99,7 @@ public class Jsp2JavaReconcileStep extends AbstractReconcileStep {
 		// the "only" thing we need to do is to adapt the positions
 		int[] smap= fJspTranslator.getLineMapping();
 
-		for (IReconcileResult inputResult : inputResults) {
+		for (IReconcileResult inputResult : inputResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isCanceled())
 				return null;
 			if (!(inputResult instanceof AnnotationAdapter)) {

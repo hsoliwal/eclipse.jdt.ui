@@ -83,11 +83,11 @@ class SearchInDialog extends TrayDialog {
 	 * @param str the array of strings
 	 * @return the integer value of the strings
 	 */
-	private int getInt(String[] str) {
+	private int getInt(String[] str) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean value;
 		int mask= 0;
 		int val= 0;
-		for (int i= 0; i < str.length; i++) {
+		for (int i= 0; i < str.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			value= fSettings.getBoolean(str[i]);
 			if (value) {
 				switch (i) {
@@ -137,7 +137,7 @@ class SearchInDialog extends TrayDialog {
 	 * @param parent the parent composite
 	 * @return the group control
 	 */
-	private Control createIncludeMask(Composite parent) {
+	private Control createIncludeMask(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Group result= new Group(parent, SWT.NONE);
 		result.setText(SearchMessages.SearchPage_searchIn_label);
 		result.setLayout(new GridLayout(4, false));
@@ -154,8 +154,8 @@ class SearchInDialog extends TrayDialog {
 				updateOKStatus();
 			}
 		};
-		for (Button b : fIncludeMasks) {
-			b.addSelectionListener(listener);
+		for (Button b : fIncludeMasks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			b.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 
 		return result;
@@ -178,7 +178,7 @@ class SearchInDialog extends TrayDialog {
 		if (fIncludeMasks == null || fIncludeMasks[0].isDisposed())
 			return fIncludeMask;
 		int mask= 0;
-		for (Button button : fIncludeMasks) {
+		for (Button button : fIncludeMasks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (button.getSelection()) {
 				mask|= getIntData(button);
 			}
@@ -220,7 +220,7 @@ class SearchInDialog extends TrayDialog {
 		int mask= getIncludeMask();
 		if (mask != fIncludeMask) {
 			fIncludeMask= mask;
-			for (int i= 0; i < fIncludeMasks.length; i++) {
+			for (int i= 0; i < fIncludeMasks.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fSettings.put(fKeys[i], fIncludeMasks[i].getSelection());
 			}
 			fIncludeMaskChanged= true;

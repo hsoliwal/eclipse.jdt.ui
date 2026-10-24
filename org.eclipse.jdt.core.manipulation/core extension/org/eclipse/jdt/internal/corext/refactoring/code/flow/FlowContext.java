@@ -43,12 +43,12 @@ public class FlowContext {
 	private IVariableBinding[] fLocals;
 	private List<List<CatchClause>> fExceptionStack;
 
-	private static final List<CatchClause> EMPTY_CATCH_CLAUSE= new ArrayList<>(0);
+	private static final List<CatchClause> EMPTY_CATCH_CLAUSE= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	public FlowContext(int start, int length) {
 		fStart= start;
 		fLength= length;
-		fExceptionStack= new ArrayList<>(3);
+		fExceptionStack= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void setConsiderAccessMode(boolean b) {
@@ -104,7 +104,7 @@ public class FlowContext {
 	public int getIndexFromLocal(IVariableBinding local) {
 		if (fLocals == null)
 			return -1;
-		for (int i= 0; i < fLocals.length; i++) {
+		for (int i= 0; i < fLocals.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fLocals[i] == local)
 				return i;
 		}
@@ -132,14 +132,14 @@ public class FlowContext {
 	}
 
 	boolean isExceptionCaught(ITypeBinding excpetionType) {
-		for (List<CatchClause> exceptions : fExceptionStack) {
-			for (CatchClause catchClause : exceptions) {
+		for (List<CatchClause> exceptions : fExceptionStack) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (CatchClause catchClause : exceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SingleVariableDeclaration caughtException= catchClause.getException();
 				IVariableBinding binding= caughtException.resolveBinding();
 				if (binding == null)
 					continue;
 				ITypeBinding caughtype= binding.getType();
-				while (caughtype != null) {
+				while (caughtype != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (caughtype == excpetionType)
 						return true;
 					caughtype= caughtype.getSuperclass();

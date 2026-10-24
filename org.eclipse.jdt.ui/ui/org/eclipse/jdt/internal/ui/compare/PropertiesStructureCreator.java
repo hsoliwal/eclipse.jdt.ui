@@ -85,7 +85,7 @@ public class PropertiesStructureCreator extends StructureCreator {
 
 	private static final String WHITESPACE= " \t\r\n\f"; //$NON-NLS-1$
 	private static final String SEPARATORS= "=:"; //$NON-NLS-1$
-	private static final String SEPARATORS2= SEPARATORS + WHITESPACE;
+	private static final String SEPARATORS2= SEPARATORS + WHITESPACE; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	public PropertiesStructureCreator() {
@@ -96,7 +96,7 @@ public class PropertiesStructureCreator extends StructureCreator {
 		return CompareMessages.PropertyCompareViewer_title;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IStructureComparator createStructureComparator(Object input,
 			IDocument document, ISharedDocumentAdapter sharedDocumentAdapter,
 			IProgressMonitor monitor) throws CoreException {
@@ -142,7 +142,7 @@ public class PropertiesStructureCreator extends StructureCreator {
 		return null;
 	}
 
-	private String readLine(int[] args, IDocument doc) {
+	private String readLine(int[] args, IDocument doc) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int line= args[0]++;
 		try {
 			IRegion region= doc.getLineInformation(line);
@@ -163,7 +163,7 @@ public class PropertiesStructureCreator extends StructureCreator {
 		return null;
 	}
 
-	private void parsePropertyFile(DocumentRangeNode root, IDocument doc, IProgressMonitor monitor) {
+	private void parsePropertyFile(DocumentRangeNode root, IDocument doc, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int start= -1;
 		int lineStart= 0;
@@ -172,7 +172,7 @@ public class PropertiesStructureCreator extends StructureCreator {
 		args[0]= 0;	// here we return the line number
 		args[1]= 0;	// and here the offset of the first character of the line
 
-		for (;;) {
+		for (;;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			worked(monitor);
 			lineStart= args[1];	// start of current line
             String line= readLine(args, doc);
@@ -190,30 +190,30 @@ public class PropertiesStructureCreator extends StructureCreator {
 			}
 
 			// find continuation lines
-			while (needNextLine(line)) {
+			while (needNextLine(line)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String nextLine= readLine(args, doc);
 				if (nextLine == null)
 					nextLine= ""; //$NON-NLS-1$
 				String line2= line.substring(0, line.length()-1);
 				int startPos= 0;
-				for (; startPos < nextLine.length(); startPos++)
+				for (; startPos < nextLine.length(); startPos++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (WHITESPACE.indexOf(nextLine.charAt(startPos)) == -1)
 						break;
 				nextLine= nextLine.substring(startPos, nextLine.length());
-				line= line2 + nextLine;
+				line= line2 + nextLine; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
     		// key start
     		int len= line.length();
     		int keyPos= 0;
-    		for (; keyPos < len; keyPos++) {
+    		for (; keyPos < len; keyPos++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
        			if (WHITESPACE.indexOf(line.charAt(keyPos)) == -1)
             		break;
     		}
 
     		// key/value separator
     		int separatorPos;
-    		for (separatorPos= keyPos; separatorPos < len; separatorPos++) {
+    		for (separatorPos= keyPos; separatorPos < len; separatorPos++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         		char c= line.charAt(separatorPos);
         		if (c == '\\')
             		separatorPos++;
@@ -222,7 +222,7 @@ public class PropertiesStructureCreator extends StructureCreator {
     		}
 
      		int valuePos;
-    		for (valuePos= separatorPos; valuePos < len; valuePos++)
+    		for (valuePos= separatorPos; valuePos < len; valuePos++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         		if (WHITESPACE.indexOf(line.charAt(valuePos)) == -1)
             		break;
 
@@ -230,7 +230,7 @@ public class PropertiesStructureCreator extends StructureCreator {
         		if (SEPARATORS.indexOf(line.charAt(valuePos)) != -1)
             		valuePos++;
 
-     		while (valuePos < len) {
+     		while (valuePos < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         		if (WHITESPACE.indexOf(line.charAt(valuePos)) == -1)
             		break;
         		valuePos++;
@@ -246,7 +246,7 @@ public class PropertiesStructureCreator extends StructureCreator {
 
 				try {
 					String s= doc.get(start, length);
-					for (int i= s.length()-1; i >= 0; i--) {
+					for (int i= s.length()-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						char c= s.charAt(i);
 						if (c !='\r' && c != '\n')
 							break;
@@ -265,7 +265,7 @@ public class PropertiesStructureCreator extends StructureCreator {
 	private boolean needNextLine(String line) {
 		int slashes= 0;
 		int ix= line.length() - 1;
-		while ((ix >= 0) && (line.charAt(ix--) == '\\'))
+		while ((ix >= 0) && (line.charAt(ix--) == '\\')) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			slashes++;
 		return slashes % 2 == 1;
 	}
@@ -273,18 +273,18 @@ public class PropertiesStructureCreator extends StructureCreator {
 	/*
 	 * Converts escaped characters to Unicode.
 	 */
-	private String convert(String s) {
+	private String convert(String s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int l= s.length();
-		StringBuilder buf= new StringBuilder(l);
+		StringBuilder buf= new StringBuilder(l); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int i= 0;
 
-		while (i < l) {
+		while (i < l) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= s.charAt(i++);
 			if (c == '\\') {
 				c= s.charAt(i++);
 				if (c == 'u') {
 					int v= 0;
-					for (int j= 0; j < 4; j++) {
+					for (int j= 0; j < 4; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						c= s.charAt(i++);
 				        switch (c) {
 				        case '0': case '1': case '2': case '3': case '4':
@@ -303,7 +303,7 @@ public class PropertiesStructureCreator extends StructureCreator {
 		             		throw new IllegalArgumentException(CompareMessages.PropertyCompareViewer_malformedEncoding);
 		                }
 					}
-					buf.append((char)v);
+					buf.append((char)v); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
 					switch (c) {
 					case 't':
@@ -319,10 +319,10 @@ public class PropertiesStructureCreator extends StructureCreator {
 		    			c= '\f';
 						break;
 					}
-		            buf.append(c);
+		            buf.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			} else
-				buf.append(c);
+				buf.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

@@ -65,7 +65,7 @@ public class RenameStaticMethodTests extends GenericRefactoringTest {
 		helper1_0("m", "k", new String[0]);
 	}
 
-	private void helper2_0(String methodName, String newMethodName, String[] signatures, boolean updateReferences, boolean createDelegate) throws Exception{
+	private void helper2_0(String methodName, String newMethodName, String[] signatures, boolean updateReferences, boolean createDelegate) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType classA= getType(cu, "A");
 		IMethod method= classA.getMethod(methodName, signatures);
@@ -220,7 +220,7 @@ public class RenameStaticMethodTests extends GenericRefactoringTest {
 		assertEqualLines("invalid renaming in B", getFileContents(getOutputTestFileName("B")), cuB.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test11() throws Exception{
 //		printTestDisabledMessage("bug 40452");
 //		if (true)	return;

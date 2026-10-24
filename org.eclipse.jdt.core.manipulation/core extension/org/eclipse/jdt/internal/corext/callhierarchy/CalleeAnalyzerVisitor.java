@@ -127,7 +127,7 @@ class CalleeAnalyzerVisitor extends HierarchicalASTVisitor {
     /**
      * @see HierarchicalASTVisitor#visit(org.eclipse.jdt.core.dom.AbstractTypeDeclaration)
      */
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(AbstractTypeDeclaration node) {
     	progressMonitorWorked(1);
     	if (!isFurtherTraversalNecessary(node)) {
@@ -136,7 +136,7 @@ class CalleeAnalyzerVisitor extends HierarchicalASTVisitor {
 
     	if (isNodeWithinMethod(node)) {
     		List<BodyDeclaration> bodyDeclarations= node.bodyDeclarations();
-    		for (BodyDeclaration bodyDeclaration : bodyDeclarations) {
+    		for (BodyDeclaration bodyDeclaration : bodyDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (bodyDeclaration instanceof MethodDeclaration) {
 					MethodDeclaration child= (MethodDeclaration) bodyDeclaration;
 					if (child.isConstructor()) {
@@ -268,7 +268,7 @@ class CalleeAnalyzerVisitor extends HierarchicalASTVisitor {
 	 * @param calledMethodBinding the called method binding
 	 * @param node the AST node
 	 */
-    protected void addMethodCall(IMethodBinding calledMethodBinding, ASTNode node) {
+    protected void addMethodCall(IMethodBinding calledMethodBinding, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         try {
             if (calledMethodBinding != null) {
                 fProgressMonitor.worked(1);
@@ -289,7 +289,7 @@ class CalleeAnalyzerVisitor extends HierarchicalASTVisitor {
                 IMethod calledMethod = findIncludingSupertypes(calledMethodBinding,
                         calledType, fProgressMonitor);
 
-                List<IMember> referencedMembers= new ArrayList<>();
+                List<IMember> referencedMembers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
                 boolean implementationResults = false;
                 if (calledMethod == null) {
                     if (calledMethodBinding.isConstructor() && calledMethodBinding.getParameterTypes().length == 0) {
@@ -300,7 +300,7 @@ class CalleeAnalyzerVisitor extends HierarchicalASTVisitor {
                     if (node instanceof MethodDeclaration && (calledType.isInterface() || Flags.isAbstract(calledType.getFlags()))) {
                         Collection<IJavaElement> implementingMethods= CallHierarchyCore.getDefault().getImplementingMethods(calledMethod);
                         implementationResults = true;
-                        for (IJavaElement element : implementingMethods) {
+                        for (IJavaElement element : implementingMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if(element instanceof IMethod) {
 								if(!isIgnoredBySearchScope((IMethod) element)) {
 									referencedMembers.add((IMethod) element);
@@ -345,12 +345,12 @@ class CalleeAnalyzerVisitor extends HierarchicalASTVisitor {
         }
     }
 
-    private void resolveViaSearch(String methodName,
+    private void resolveViaSearch(String methodName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
             List<Expression> arguments, ASTNode node) {
         String[] argTypes= null;
         if (arguments != null && !arguments.isEmpty()) {
             argTypes= new String[arguments.size()];
-            for (int i= 0; i < arguments.size(); i++) {
+            for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 ITypeBinding binding=
                         arguments.get(i).resolveTypeBinding();
                 if (binding != null) {
@@ -380,7 +380,7 @@ class CalleeAnalyzerVisitor extends HierarchicalASTVisitor {
 		IMethod inThisType= Bindings.findMethod(method, type);
 		if (inThisType != null)
 			return inThisType;
-		for (IType superType : JavaModelUtil.getAllSuperTypes(type, pm)) {
+		for (IType superType : JavaModelUtil.getAllSuperTypes(type, pm)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod m= Bindings.findMethod(method, superType);
 			if (m != null)
 				return m;

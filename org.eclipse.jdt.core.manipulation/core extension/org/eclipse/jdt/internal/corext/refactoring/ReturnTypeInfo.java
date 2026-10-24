@@ -56,6 +56,6 @@ public class ReturnTypeInfo {
 
 	@Override
 	public String toString() {
-		return fOldTypeName + " -> " + fNewTypeName; //$NON-NLS-1$
+		return fOldTypeName + " -> " + fNewTypeName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

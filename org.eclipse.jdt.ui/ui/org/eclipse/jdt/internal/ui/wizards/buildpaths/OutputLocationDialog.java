@@ -81,7 +81,7 @@ public class OutputLocationDialog extends StatusDialog {
 	private final boolean fAllowInvalidClasspath;
 	private CPJavaProject fCPJavaProject;
 
-	public OutputLocationDialog(Shell parent, CPListElement entryToEdit, List<CPListElement> classPathList, IPath defaultOutputFolder, boolean allowInvalidClasspath) {
+	public OutputLocationDialog(Shell parent, CPListElement entryToEdit, List<CPListElement> classPathList, IPath defaultOutputFolder, boolean allowInvalidClasspath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 		fEntryToEdit= entryToEdit;
 		fAllowInvalidClasspath= allowInvalidClasspath;
@@ -118,7 +118,7 @@ public class OutputLocationDialog extends StatusDialog {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite)super.createDialogArea(parent);
 
@@ -182,7 +182,7 @@ public class OutputLocationDialog extends StatusDialog {
 		updateStatus(fContainerFieldStatus);
 	}
 
-	protected void checkIfPathValid() {
+	protected void checkIfPathValid() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fOutputLocation= null;
 		fContainerFieldStatus= StatusInfo.OK_STATUS;
 
@@ -220,12 +220,12 @@ public class OutputLocationDialog extends StatusDialog {
 
 	// ---------- util method ------------
 
-	private IContainer chooseOutputLocation() {
+	private IContainer chooseOutputLocation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspaceRoot root= fCurrProject.getWorkspace().getRoot();
 		final Class<?>[] acceptedClasses= new Class[] { IProject.class, IFolder.class };
 		IProject[] allProjects= root.getProjects();
-		ArrayList<IProject> rejectedElements= new ArrayList<>(allProjects.length);
-		for (IProject project : allProjects) {
+		ArrayList<IProject> rejectedElements= new ArrayList<>(allProjects.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProject project : allProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.equals(fCurrProject)) {
 				rejectedElements.add(project);
 			}
@@ -263,7 +263,7 @@ public class OutputLocationDialog extends StatusDialog {
             }
         });
 		dialog.setMessage(NewWizardMessages.OutputLocationDialog_ChooseOutputFolder_description);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(root);
 		dialog.setInitialSelection(initSelection);
 		dialog.setComparator(new ResourceComparator(ResourceComparator.NAME));

@@ -50,7 +50,7 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantTypeArguments1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -90,7 +90,7 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHash() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String input= """
@@ -257,10 +257,10 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 			}
 			""";
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { output },
-				new HashSet<>(Arrays.asList(MultiFixMessages.HashCleanup_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.HashCleanup_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testKeepHash() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -314,7 +314,7 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testObjectsEquals() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -406,7 +406,7 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotRefactorObjectsEquals() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -458,7 +458,7 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUseTryWithResource() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String given= """
@@ -570,10 +570,10 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(MultiFixMessages.TryWithResourceCleanup_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.TryWithResourceCleanup_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseTryWithResource() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -663,7 +663,7 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultiCatch() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -961,10 +961,10 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(MultiFixMessages.MultiCatchCleanUp_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.MultiCatchCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseMultiCatch() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1065,7 +1065,7 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testObjectsEqualsWithImportConflict() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1155,7 +1155,7 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJava50ForLoop563267() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=563267
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=565282
@@ -1196,10 +1196,10 @@ public class CleanUpTest1d7 extends CleanUpTestCase {
 		String expected1= sample;
 
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 },
-				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description)));
+				new HashSet<>(Arrays.asList(FixMessages.Java50Fix_ConvertToEnhancedForLoop_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInstanceVarToLocal() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """

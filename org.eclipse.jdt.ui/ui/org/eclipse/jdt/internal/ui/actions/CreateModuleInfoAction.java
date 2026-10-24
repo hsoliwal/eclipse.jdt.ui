@@ -111,7 +111,7 @@ public class CreateModuleInfoAction implements IObjectActionDelegate {
 		// not used
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IAction action) {
 		IJavaProject javaProject= null;
 
@@ -152,8 +152,8 @@ public class CreateModuleInfoAction implements IObjectActionDelegate {
 				}
 
 				IPackageFragmentRoot[] packageFragmentRoots= javaProject.getPackageFragmentRoots();
-				List<IPackageFragmentRoot> packageFragmentRootsAsList= new ArrayList<>(Arrays.asList(packageFragmentRoots));
-				for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) {
+				List<IPackageFragmentRoot> packageFragmentRootsAsList= new ArrayList<>(Arrays.asList(packageFragmentRoots)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IResource res= packageFragmentRoot.getCorrespondingResource();
 					if (res == null || res.getType() != IResource.FOLDER || packageFragmentRoot.getKind() != IPackageFragmentRoot.K_SOURCE) {
 						packageFragmentRootsAsList.remove(packageFragmentRoot);
@@ -168,7 +168,7 @@ public class CreateModuleInfoAction implements IObjectActionDelegate {
 
 				IPackageFragmentRoot targetPkgFragmentRoot= null;
 
-				for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) {
+				for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (packageFragmentRoot.getPackageFragment("").getCompilationUnit(MODULE_INFO_JAVA_FILENAME).exists()) { //$NON-NLS-1$
 						String message= Messages.format(ActionMessages.CreateModuleInfoAction_question_message_overwrite_module_info, packageFragmentRoot.getElementName());
 						boolean overwrite= MessageDialog.openQuestion(getDisplay().getActiveShell(), ActionMessages.CreateModuleInfoAction_error_title, message);
@@ -209,10 +209,10 @@ public class CreateModuleInfoAction implements IObjectActionDelegate {
 	}
 
 	private void updateComplianceSettings(IJavaProject project, String compliance) {
-		HashMap<String, String> defaultOptions= new HashMap<>();
+		HashMap<String, String> defaultOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		JavaCore.setComplianceOptions(compliance, defaultOptions);
 		Iterator<Map.Entry<String, String>> it= defaultOptions.entrySet().iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<String, String> pair= it.next();
 			project.setOption(pair.getKey(), pair.getValue());
 		}

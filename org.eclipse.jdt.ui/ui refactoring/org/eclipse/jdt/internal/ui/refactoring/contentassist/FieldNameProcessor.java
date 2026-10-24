@@ -112,17 +112,17 @@ public class FieldNameProcessor implements ISubjectControlContentAssistProcessor
 	/*
 	 * @see org.eclipse.jface.contentassist.IContentAssistProcessorExtension#computeCompletionProposals(org.eclipse.jface.contentassist.IContentAssistSubject, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICompletionProposal[] computeCompletionProposals(IContentAssistSubjectControl contentAssistSubject, int documentOffset) {
 		if (fFieldNameProposals.length == 0)
 			return null;
 		String input= contentAssistSubject.getDocument().get();
 
-		ArrayList<JavaCompletionProposal> proposals= new ArrayList<>();
+		ArrayList<JavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String prefix= input.substring(0, documentOffset);
 		ImageDescriptor imageDescriptor= JavaElementImageProvider.getFieldImageDescriptor(false, fRefactoring.getVisibility());
 		Image image= fImageRegistry.get(imageDescriptor);
-		for (String tempName : fFieldNameProposals) {
+		for (String tempName : fFieldNameProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tempName.length() == 0 || ! tempName.startsWith(prefix))
 				continue;
 			JavaCompletionProposal proposal= new JavaCompletionProposal(tempName, 0, input.length(), image, tempName, 0);

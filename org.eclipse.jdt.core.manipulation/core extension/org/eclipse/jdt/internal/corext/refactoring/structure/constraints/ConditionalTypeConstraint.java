@@ -97,6 +97,6 @@ public final class ConditionalTypeConstraint implements ITypeConstraint2 {
 	 */
 	@Override
 	public String toString() {
-		return fThenVariable.toString() + " <?= " + fElseVariable.toString(); //$NON-NLS-1$
+		return fThenVariable.toString() + " <?= " + fElseVariable.toString(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

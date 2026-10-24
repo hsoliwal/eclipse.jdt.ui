@@ -74,38 +74,38 @@ public class CodeTemplateContextType extends TemplateContextType {
 	public static final String COMMENT_SUFFIX= "comment"; //$NON-NLS-1$
 	public static final String MARKDOWN_COMMENT_PREFIX= "markdown"; //$NON-NLS-1$
 
-	public static final String CATCHBLOCK_ID= CODETEMPLATES_PREFIX + "catchblock"; //$NON-NLS-1$
-	public static final String METHODSTUB_ID= CODETEMPLATES_PREFIX + "methodbody"; //$NON-NLS-1$
-	public static final String METHODSTUB_ALTERNATIVE_ID= CODETEMPLATES_PREFIX + "methodbodyalternative"; //$NON-NLS-1$
-	public static final String NEWTYPE_ID= CODETEMPLATES_PREFIX + "newtype"; //$NON-NLS-1$
-	public static final String CONSTRUCTORSTUB_ID= CODETEMPLATES_PREFIX + "constructorbody"; //$NON-NLS-1$
-	public static final String GETTERSTUB_ID= CODETEMPLATES_PREFIX + "getterbody"; //$NON-NLS-1$
-	public static final String SETTERSTUB_ID= CODETEMPLATES_PREFIX + "setterbody"; //$NON-NLS-1$
-	public static final String FILECOMMENT_ID= CODETEMPLATES_PREFIX + "file" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String TYPECOMMENT_ID= CODETEMPLATES_PREFIX + "type" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String CLASSBODY_ID= CODETEMPLATES_PREFIX + "classbody"; //$NON-NLS-1$
-	public static final String INTERFACEBODY_ID= CODETEMPLATES_PREFIX + "interfacebody"; //$NON-NLS-1$
-	public static final String ENUMBODY_ID= CODETEMPLATES_PREFIX + "enumbody"; //$NON-NLS-1$
-	public static final String RECORDBODY_ID= CODETEMPLATES_PREFIX + "recordbody"; //$NON-NLS-1$
-	public static final String ANNOTATIONBODY_ID= CODETEMPLATES_PREFIX + "annotationbody"; //$NON-NLS-1$
-	public static final String FIELDCOMMENT_ID= CODETEMPLATES_PREFIX + "field" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String METHODCOMMENT_ID= CODETEMPLATES_PREFIX + "method" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String CONSTRUCTORCOMMENT_ID= CODETEMPLATES_PREFIX + "constructor" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String OVERRIDECOMMENT_ID= CODETEMPLATES_PREFIX + "override" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String DELEGATECOMMENT_ID= CODETEMPLATES_PREFIX + "delegate" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String GETTERCOMMENT_ID= CODETEMPLATES_PREFIX + "getter" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String SETTERCOMMENT_ID= CODETEMPLATES_PREFIX + "setter" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MODULECOMMENT_ID= CODETEMPLATES_PREFIX + "module" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNFILECOMMENT_ID= CODETEMPLATES_PREFIX + "markdownfile" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNTYPECOMMENT_ID= CODETEMPLATES_PREFIX + "markdowntype" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNFIELDCOMMENT_ID= CODETEMPLATES_PREFIX + "markdownfield" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNMETHODCOMMENT_ID= CODETEMPLATES_PREFIX + "markdownmethod" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNCONSTRUCTORCOMMENT_ID= CODETEMPLATES_PREFIX + "markdownconstructor" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNDELEGATECOMMENT_ID= CODETEMPLATES_PREFIX + "markdowndelegate" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNGETTERCOMMENT_ID= CODETEMPLATES_PREFIX + "markdowngetter" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNSETTERCOMMENT_ID= CODETEMPLATES_PREFIX + "markdownsetter" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNMODULECOMMENT_ID= CODETEMPLATES_PREFIX + "markdownmodule" + COMMENT_SUFFIX; //$NON-NLS-1$
-	public static final String MARKDOWNOVERRIDECOMMENT_ID= CODETEMPLATES_PREFIX + "markdownoverride" + COMMENT_SUFFIX; //$NON-NLS-1$
+	public static final String CATCHBLOCK_ID= CODETEMPLATES_PREFIX + "catchblock"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String METHODSTUB_ID= CODETEMPLATES_PREFIX + "methodbody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String METHODSTUB_ALTERNATIVE_ID= CODETEMPLATES_PREFIX + "methodbodyalternative"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String NEWTYPE_ID= CODETEMPLATES_PREFIX + "newtype"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String CONSTRUCTORSTUB_ID= CODETEMPLATES_PREFIX + "constructorbody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String GETTERSTUB_ID= CODETEMPLATES_PREFIX + "getterbody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String SETTERSTUB_ID= CODETEMPLATES_PREFIX + "setterbody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String FILECOMMENT_ID= CODETEMPLATES_PREFIX + "file" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String TYPECOMMENT_ID= CODETEMPLATES_PREFIX + "type" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String CLASSBODY_ID= CODETEMPLATES_PREFIX + "classbody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String INTERFACEBODY_ID= CODETEMPLATES_PREFIX + "interfacebody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String ENUMBODY_ID= CODETEMPLATES_PREFIX + "enumbody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String RECORDBODY_ID= CODETEMPLATES_PREFIX + "recordbody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String ANNOTATIONBODY_ID= CODETEMPLATES_PREFIX + "annotationbody"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String FIELDCOMMENT_ID= CODETEMPLATES_PREFIX + "field" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String METHODCOMMENT_ID= CODETEMPLATES_PREFIX + "method" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String CONSTRUCTORCOMMENT_ID= CODETEMPLATES_PREFIX + "constructor" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String OVERRIDECOMMENT_ID= CODETEMPLATES_PREFIX + "override" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String DELEGATECOMMENT_ID= CODETEMPLATES_PREFIX + "delegate" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String GETTERCOMMENT_ID= CODETEMPLATES_PREFIX + "getter" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String SETTERCOMMENT_ID= CODETEMPLATES_PREFIX + "setter" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MODULECOMMENT_ID= CODETEMPLATES_PREFIX + "module" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNFILECOMMENT_ID= CODETEMPLATES_PREFIX + "markdownfile" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNTYPECOMMENT_ID= CODETEMPLATES_PREFIX + "markdowntype" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNFIELDCOMMENT_ID= CODETEMPLATES_PREFIX + "markdownfield" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNMETHODCOMMENT_ID= CODETEMPLATES_PREFIX + "markdownmethod" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNCONSTRUCTORCOMMENT_ID= CODETEMPLATES_PREFIX + "markdownconstructor" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNDELEGATECOMMENT_ID= CODETEMPLATES_PREFIX + "markdowndelegate" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNGETTERCOMMENT_ID= CODETEMPLATES_PREFIX + "markdowngetter" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNSETTERCOMMENT_ID= CODETEMPLATES_PREFIX + "markdownsetter" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNMODULECOMMENT_ID= CODETEMPLATES_PREFIX + "markdownmodule" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String MARKDOWNOVERRIDECOMMENT_ID= CODETEMPLATES_PREFIX + "markdownoverride" + COMMENT_SUFFIX; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/* resolver types */
 	public static final String EXCEPTION_TYPE= "exception_type"; //$NON-NLS-1$
@@ -190,7 +190,7 @@ public class CodeTemplateContextType extends TemplateContextType {
 
 	private boolean fIsComment;
 
-	public CodeTemplateContextType(String contextName) {
+	public CodeTemplateContextType(String contextName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(contextName);
 
 		fIsComment= false;
@@ -347,15 +347,15 @@ public class CodeTemplateContextType extends TemplateContextType {
 	/*
 	 * @see org.eclipse.jdt.internal.corext.template.ContextType#validateVariables(org.eclipse.jdt.internal.corext.template.TemplateVariable[])
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void validateVariables(TemplateVariable[] variables) throws TemplateException {
-		ArrayList<String> required=  new ArrayList<>(5);
+		ArrayList<String> required=  new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String contextName= getId();
 		if (NEWTYPE_CONTEXTTYPE.equals(contextName)) {
 			required.add(PACKAGE_DECLARATION);
 			required.add(TYPE_DECLARATION);
 		}
-		for (TemplateVariable variable : variables) {
+		for (TemplateVariable variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String type= variable.getType();
 			if (getResolver(type) == null) {
 				String unknown= BasicElementLabels.getJavaElementName(type);
@@ -374,7 +374,7 @@ public class CodeTemplateContextType extends TemplateContextType {
 		return null;
 	}
 
-	public static void registerContextTypes(ContextTypeRegistry registry) {
+	public static void registerContextTypes(ContextTypeRegistry registry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		registry.addContextType(new CodeTemplateContextType(CodeTemplateContextType.CATCHBLOCK_CONTEXTTYPE));
 		registry.addContextType(new CodeTemplateContextType(CodeTemplateContextType.METHODBODY_CONTEXTTYPE));
 		registry.addContextType(new CodeTemplateContextType(CodeTemplateContextType.CONSTRUCTORBODY_CONTEXTTYPE));
@@ -427,7 +427,7 @@ public class CodeTemplateContextType extends TemplateContextType {
 		scanner.setSource(template.toCharArray());
 		try {
 			int next= scanner.getNextToken();
-			while (TokenScanner.isComment(next)) {
+			while (TokenScanner.isComment(next)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				next= scanner.getNextToken();
 			}
 			return next == ITerminalSymbols.TokenNameEOF;

@@ -75,7 +75,7 @@ public class InlineMethodTests extends AbstractJunit4SelectionTestCase {
 
 	@Override
 	protected String adaptName(String name) {
-		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java";
+		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void performTestInlineCall(IPackageFragment packageFragment, String id, TestMode mode, String outputFolder) throws Exception {
@@ -104,7 +104,7 @@ public class InlineMethodTests extends AbstractJunit4SelectionTestCase {
 	}
 
 	private IMethod getMethodToInline(IType type) throws CoreException {
-		for (IMethod method : type.getMethods()) {
+		for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("toInline".equals(method.getElementName())) {
 				return method;
 			}
@@ -126,7 +126,7 @@ public class InlineMethodTests extends AbstractJunit4SelectionTestCase {
 	}
 
 	private IMethod getFirstConstructor(IType type) throws CoreException {
-		for (IMethod method : type.getMethods()) {
+		for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.isConstructor()) {
 				return method;
 			}
@@ -1459,7 +1459,7 @@ public class InlineMethodTests extends AbstractJunit4SelectionTestCase {
 		performOperatorTest();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOperatorPredence() throws Exception {
 		AST ast= AST.newAST(AST.getJLSLatest(), false);
 

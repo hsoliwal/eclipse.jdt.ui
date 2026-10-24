@@ -41,26 +41,26 @@ import org.eclipse.jdt.internal.junit.model.TestRunSession;
 public class ImportedTestRunReloadTest {
 
 	private Path fTemporaryDirectory;
-	private final List<TestRunSession> fSessionsToRemove= new ArrayList<>();
+	private final List<TestRunSession> fSessionsToRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	@Before
 	public void setUp() throws Exception {
 		fTemporaryDirectory= Files.createTempDirectory("junit-reload-test"); //$NON-NLS-1$
 	}
 
-	@After
+	@After //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void tearDown() throws Exception {
 		JUnitModel model= JUnitCorePlugin.getModel();
-		for (TestRunSession session : fSessionsToRemove) {
+		for (TestRunSession session : fSessionsToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (session != null && model.getTestRunSessions().contains(session)) {
 				model.removeTestRunSession(session);
 			}
 		}
 		if (fTemporaryDirectory != null) {
-			try (Stream<Path> paths= Files.walk(fTemporaryDirectory)) {
+			try (Stream<Path> paths= Files.walk(fTemporaryDirectory)) { //FLLDCIM: MARK — M24 M3FILE_STREAMS CALL
 				paths.sorted(Comparator.reverseOrder()).forEach(path -> {
 					try {
-						Files.deleteIfExists(path);
+						Files.deleteIfExists(path); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					} catch (Exception e) {
 						// Best-effort cleanup.
 					}
@@ -69,7 +69,7 @@ public class ImportedTestRunReloadTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReloadReplacesSessionAtSameHistoryPosition() throws Exception {
 		Path firstFile= fTemporaryDirectory.resolve("first.xml"); //$NON-NLS-1$
 		Path secondFile= fTemporaryDirectory.resolve("second.xml"); //$NON-NLS-1$
@@ -116,7 +116,7 @@ public class ImportedTestRunReloadTest {
 		assertFalse(model.getTestRunSessions().contains(imported));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFailedReloadKeepsPreviousSession() throws Exception {
 		Path resultFile= fTemporaryDirectory.resolve("results.xml"); //$NON-NLS-1$
 		writeTestRun(resultFile, "valid run", "test"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -143,7 +143,7 @@ public class ImportedTestRunReloadTest {
 	}
 
 	private static void writeTestRun(Path file, String runName, String testName) throws Exception {
-		String xml= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" //$NON-NLS-1$
+		String xml= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "<testrun name=\"" + runName //$NON-NLS-1$
 				+ "\" tests=\"1\" started=\"1\" failures=\"0\" errors=\"0\" ignored=\"0\">\n" //$NON-NLS-1$
 				+ "  <testsuite name=\"example.Tests\" time=\"0.0\">\n" //$NON-NLS-1$

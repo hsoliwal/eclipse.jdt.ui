@@ -70,16 +70,16 @@ public class ConvertAnonymousToNestedTests extends GenericRefactoringTest {
 	}
 
 	private String getSimpleTestFileName(boolean canInline, boolean input){
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (canInline)
-			fileName.append(input ? "_in": "_out");
-		return fileName.append(".java").toString();
+			fileName.append(input ? "_in": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private String getTestFileName(boolean canConvert, boolean input){
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canConvert ? "canConvert/": "cannotConvert/");
-		return fileName.append(getSimpleTestFileName(canConvert, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canConvert ? "canConvert/": "cannotConvert/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canConvert, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	protected ICompilationUnit createCUfromTestFile(IPackageFragment pack, boolean canConvert, boolean input) throws Exception {
@@ -109,7 +109,7 @@ public class ConvertAnonymousToNestedTests extends GenericRefactoringTest {
 		JavaCore.setOptions(options);
 	}
 
-	protected void helper1(int startLine, int startColumn, int endLine, int endColumn, boolean makeFinal, String className, int visibility) throws Exception{
+	protected void helper1(int startLine, int startColumn, int endLine, int endColumn, boolean makeFinal, String className, int visibility) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		ISourceRange selection= TextRangeUtil.getSelection(cu, startLine, startColumn, endLine, endColumn);
 		ConvertAnonymousToNestedRefactoring ref= new ConvertAnonymousToNestedRefactoring(cu, selection.getOffset(), selection.getLength());
@@ -130,11 +130,11 @@ public class ConvertAnonymousToNestedTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines(getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 
-	private void helper1(int startLine, int startColumn, int endLine, int endColumn, boolean makeFinal, boolean makeStatic, String className, int visibility) throws Exception{
+	private void helper1(int startLine, int startColumn, int endLine, int endColumn, boolean makeFinal, boolean makeStatic, String className, int visibility) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		ISourceRange selection= TextRangeUtil.getSelection(cu, startLine, startColumn, endLine, endColumn);
 		ConvertAnonymousToNestedRefactoring ref= new ConvertAnonymousToNestedRefactoring(cu, selection.getOffset(), selection.getLength());
@@ -156,7 +156,7 @@ public class ConvertAnonymousToNestedTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines(getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 

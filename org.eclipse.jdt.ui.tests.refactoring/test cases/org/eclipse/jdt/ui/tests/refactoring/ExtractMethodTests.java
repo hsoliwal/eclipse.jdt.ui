@@ -68,7 +68,7 @@ public class ExtractMethodTests extends AbstractJunit4SelectionTestCase {
 
 	@Override
 	protected String adaptName(String name) {
-		return name + "_" + getName() + ".java";
+		return name + "_" + getName() + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void selectionTest(int startLine, int startColumn, int endLine, int endColumn) throws Exception{
@@ -95,7 +95,7 @@ public class ExtractMethodTests extends AbstractJunit4SelectionTestCase {
 		performTest(packageFragment, id, mode, outputFolder, newNames, newOrder, destination, visibility, false, false);
 	}
 
-	protected void performTest(IPackageFragment packageFragment, String id, TestMode mode, String outputFolder, String[] newNames, int[] newOrder, int destination, int visibility,
+	protected void performTest(IPackageFragment packageFragment, String id, TestMode mode, String outputFolder, String[] newNames, int[] newOrder, int destination, int visibility, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean makeFinal, boolean makeSynchronized) throws Exception {
 		ICompilationUnit unit= createCU(packageFragment, id);
 		int[] selection= getSelection();
@@ -124,15 +124,15 @@ public class ExtractMethodTests extends AbstractJunit4SelectionTestCase {
 		}
 		List<ParameterInfo> parameters= refactoring.getParameterInfos();
 		if (newNames != null && newNames.length > 0) {
-			for (int i= 0; i < newNames.length; i++) {
+			for (int i= 0; i < newNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (newNames[i] != null)
 					parameters.get(i).setNewName(newNames[i]);
 			}
 		}
 		if (newOrder != null && newOrder.length > 0) {
 			assertEquals(newOrder.length, parameters.size());
-			List<ParameterInfo> current= new ArrayList<>(parameters);
-			for (int i= 0; i < newOrder.length; i++) {
+			List<ParameterInfo> current= new ArrayList<>(parameters); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i= 0; i < newOrder.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameters.set(newOrder[i], current.get(i));
 			}
 		}

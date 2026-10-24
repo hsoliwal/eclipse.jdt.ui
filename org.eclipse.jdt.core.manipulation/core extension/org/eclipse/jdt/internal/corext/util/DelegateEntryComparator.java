@@ -45,7 +45,7 @@ import org.eclipse.jdt.internal.corext.codemanipulation.AddDelegateMethodsOperat
  */
 public class DelegateEntryComparator implements Comparator<DelegateEntry> {
 
-	@SuppressWarnings("null")
+	@SuppressWarnings("null") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public int compare(DelegateEntry firstEntry, DelegateEntry secondEntry) {
 		IVariableBinding firstVariable= firstEntry.field;

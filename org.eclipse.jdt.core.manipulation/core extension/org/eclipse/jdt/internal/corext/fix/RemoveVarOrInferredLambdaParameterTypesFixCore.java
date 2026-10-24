@@ -42,7 +42,7 @@ public class RemoveVarOrInferredLambdaParameterTypesFixCore extends CompilationU
 		super(name, compilationUnit, operation);
 	}
 
-	public static RemoveVarOrInferredLambdaParameterTypesFixCore createRemoveVarOrInferredLambdaParameterTypesFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static RemoveVarOrInferredLambdaParameterTypesFixCore createRemoveVarOrInferredLambdaParameterTypesFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement root= compilationUnit.getJavaElement();
 		ASTNode parent= node.getParent();
 		if (parent == null || root == null) {
@@ -101,7 +101,7 @@ public class RemoveVarOrInferredLambdaParameterTypesFixCore extends CompilationU
 			this.checkForVarTypes= checkForVarTypes;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			AST ast= cuRewrite.getAST();
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -109,7 +109,7 @@ public class RemoveVarOrInferredLambdaParameterTypesFixCore extends CompilationU
 			ImportRemover remover= cuRewrite.getImportRemover();
 
 			rewrite.set(lambda, LambdaExpression.PARENTHESES_PROPERTY, Boolean.TRUE, null);
-			for (int i= 0; i < noOfLambdaParams; i++) {
+			for (int i= 0; i < noOfLambdaParams; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclaration param= lambdaParameters.get(i);
 				Type oldType= null;
 				if (param instanceof SingleVariableDeclaration) {

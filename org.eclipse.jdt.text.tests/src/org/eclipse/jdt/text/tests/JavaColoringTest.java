@@ -47,7 +47,7 @@ public class JavaColoringTest {
 	protected IDocument fDocument;
 	protected JavaTextTools fTextTools;
 
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() {
 		IPreferenceStore store= new PreferenceStore();
 		fTextTools= new JavaTextTools(store);
@@ -78,22 +78,22 @@ public class JavaColoringTest {
 		fDocument= null;
 	}
 
-	String print(TextPresentation presentation) {
+	String print(TextPresentation presentation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (presentation != null) {
 
-			buf.append("Default style range: ");
+			buf.append("Default style range: "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			StyleRange range= presentation.getDefaultStyleRange();
 			if (range != null)
-				buf.append(range.toString());
-			buf.append('\n');
+				buf.append(range.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			Iterator<StyleRange> e= presentation.getAllStyleRangeIterator();
-			while (e.hasNext()) {
-				buf.append(e.next().toString());
-				buf.append('\n');
+			while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(e.next().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 

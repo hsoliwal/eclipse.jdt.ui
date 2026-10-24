@@ -57,7 +57,7 @@ public abstract class JDTQuickMenuCreator extends QuickMenuCreator {
 		return computeWordStart();
 	}
 
-	private Point computeWordStart() {
+	private Point computeWordStart() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITextSelection selection= (ITextSelection)fEditor.getSelectionProvider().getSelection();
 		IRegion textRegion= JavaWordFinder.findWord(fEditor.getViewer().getDocument(), selection.getOffset());
 		if (textRegion == null)

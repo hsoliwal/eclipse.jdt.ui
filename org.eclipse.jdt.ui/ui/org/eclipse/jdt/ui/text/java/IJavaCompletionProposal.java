@@ -26,7 +26,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
  * @see org.eclipse.jface.text.contentassist.ICompletionProposal
  * @since 2.1
  */
-public interface IJavaCompletionProposal extends ICompletionProposal {
+public interface IJavaCompletionProposal extends ICompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/**
 	 * Returns the relevance of this completion proposal.

@@ -39,7 +39,7 @@ import org.eclipse.jdt.internal.ui.text.java.hover.SourceViewerInformationContro
  *
  * @since 3.0
  */
-class ChangeHoverInformationControl extends SourceViewerInformationControl {
+class ChangeHoverInformationControl extends SourceViewerInformationControl { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 	/** The font name for the viewer font - the same as the java editor's. */
 	private static final String SYMBOLIC_FONT_NAME= "org.eclipse.jdt.ui.editors.textfont"; //$NON-NLS-1$
@@ -93,7 +93,7 @@ class ChangeHoverInformationControl extends SourceViewerInformationControl {
 	/**
 	 * Sets the font for this viewer sustaining selection and scroll position.
 	 */
-	private void setViewerFont() {
+	private void setViewerFont() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font= JFaceResources.getFont(SYMBOLIC_FONT_NAME);
 
 		if (getViewer().getDocument() != null) {
@@ -143,7 +143,7 @@ class ChangeHoverInformationControl extends SourceViewerInformationControl {
 	/*
 	 * @see org.eclipse.jface.text.IInformationControl#setInformation(java.lang.String)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setInformation(String content) {
 		super.setInformation(content);
 		IDocument doc= getViewer().getDocument();
@@ -155,9 +155,9 @@ class ChangeHoverInformationControl extends SourceViewerInformationControl {
 
 		String start= null;
 		if (IJavaPartitions.JAVA_DOC.equals(fPartition)) {
-			start= "/**" + doc.getLegalLineDelimiters()[0]; //$NON-NLS-1$
+			start= "/**" + doc.getLegalLineDelimiters()[0]; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (IJavaPartitions.JAVA_MULTI_LINE_COMMENT.equals(fPartition)) {
-			start= "/*" + doc.getLegalLineDelimiters()[0]; //$NON-NLS-1$
+			start= "/*" + doc.getLegalLineDelimiters()[0]; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (start != null) {
 			try {
@@ -178,7 +178,7 @@ class ChangeHoverInformationControl extends SourceViewerInformationControl {
 	 * <code>fHorizontalScrollPixel</code> and adjusts <code>fMaxWidth</code>
 	 * accordingly.
 	 */
-	private void ensureScrollable() {
+	private void ensureScrollable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDocument doc= getViewer().getDocument();
 		if (doc == null)
 			return;
@@ -193,7 +193,7 @@ class ChangeHoverInformationControl extends SourceViewerInformationControl {
 		int maxWidth= 0;
 
 		try {
-			for (int i= 0; i <= last; i++) {
+			for (int i= 0; i <= last; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IRegion line;
 				line= doc.getLineInformation(i);
 				String content= doc.get(line.getOffset(), line.getLength());

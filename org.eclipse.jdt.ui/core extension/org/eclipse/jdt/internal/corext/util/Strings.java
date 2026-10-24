@@ -40,11 +40,11 @@ public class Strings extends org.eclipse.jdt.internal.core.manipulation.util.Str
 	 * @param matchingRegions the regions to mark
 	 * @param styler the styler to use for marking
 	 */
-	public static void markMatchingRegions(StyledString styledString, int index, int[] matchingRegions, Styler styler) {
+	public static void markMatchingRegions(StyledString styledString, int index, int[] matchingRegions, Styler styler) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (matchingRegions != null) {
 			int offset= -1;
 			int length= 0;
-			for (int i= 0; i + 1 < matchingRegions.length; i= i + 2) {
+			for (int i= 0; i + 1 < matchingRegions.length; i= i + 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (offset == -1)
 					offset= index + matchingRegions[i];
 
@@ -133,7 +133,7 @@ public class Strings extends org.eclipse.jdt.internal.core.manipulation.util.Str
 		int originalLength= originalString.length();
 		int processedStringLength= processedString.length();
 		char orig= originalLength > 0 ? originalString.charAt(0) : '\0';
-		for (int o= 0, p= 0; p < processedStringLength; p++) {
+		for (int o= 0, p= 0; p < processedStringLength; p++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char processed= processedString.charAt(p);
 			if (o < originalLength) {
 				if (orig == processed) {

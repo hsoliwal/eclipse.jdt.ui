@@ -172,7 +172,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 			return matchLocations;
 		}
 
-		public void store(IDialogSettings settings) {
+		public void store(IDialogSettings settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			settings.put("searchFor", searchFor); //$NON-NLS-1$
 			settings.put("scope", scope); //$NON-NLS-1$
 			settings.put("pattern", pattern); //$NON-NLS-1$
@@ -182,7 +182,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 			settings.put("isCaseSensitive", isCaseSensitive); //$NON-NLS-1$
 			if (workingSets != null) {
 				String[] wsIds= new String[workingSets.length];
-				for (int i= 0; i < workingSets.length; i++) {
+				for (int i= 0; i < workingSets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					wsIds[i]= workingSets[i].getName();
 				}
 				settings.put("workingSets", wsIds); //$NON-NLS-1$
@@ -192,7 +192,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 			settings.put("includeMask", includeMask); //$NON-NLS-1$
 		}
 
-		public static SearchPatternData create(IDialogSettings settings) {
+		public static SearchPatternData create(IDialogSettings settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String pattern= settings.get("pattern"); //$NON-NLS-1$
 			if (pattern.length() == 0) {
 				return null;
@@ -210,7 +210,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 			if (wsIds != null && wsIds.length > 0) {
 				IWorkingSetManager workingSetManager= PlatformUI.getWorkbench().getWorkingSetManager();
 				workingSets= new IWorkingSet[wsIds.length];
-				for (int i= 0; workingSets != null && i < wsIds.length; i++) {
+				for (int i= 0; workingSets != null && i < wsIds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					workingSets[i]= workingSetManager.getWorkingSet(wsIds[i]);
 					if (workingSets[i] == null) {
 						workingSets= null;
@@ -300,7 +300,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	private Link fMatchLocationsLink;
 
 	public JavaSearchPage() {
-		fPreviousSearchPatterns= new ArrayList<>();
+		fPreviousSearchPatterns= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 
@@ -311,7 +311,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		return performNewSearch();
 	}
 
-	private boolean performNewSearch() {
+	private boolean performNewSearch() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SearchPatternData data= getPatternData();
 
 		// Setup search scope
@@ -379,7 +379,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	}
 
 	private int getLimitTo() {
-		for (Button button : fLimitTo) {
+		for (Button button : fLimitTo) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (button.getSelection()) {
 				return getIntData(button);
 			}
@@ -405,7 +405,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 
 	private int getIncludeMask() {
 		int mask= 0;
-		for (Button button : fIncludeMasks) {
+		for (Button button : fIncludeMasks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (button.getSelection()) {
 				mask |= getIntData(button);
 			}
@@ -414,7 +414,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	}
 
 	private void setIncludeMask(int includeMask) {
-		for (Button button : fIncludeMasks) {
+		for (Button button : fIncludeMasks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			button.setSelection((includeMask & getIntData(button)) != 0);
 		}
 	}
@@ -428,13 +428,13 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		// Search results are not persistent
 		int patternCount= fPreviousSearchPatterns.size();
 		String [] patterns= new String[patternCount];
-		for (int i= 0; i < patternCount; i++)
+		for (int i= 0; i < patternCount; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			patterns[i]= fPreviousSearchPatterns.get(i).getPattern();
 		return patterns;
 	}
 
 	private int getSearchFor() {
-		for (Button button : fSearchFor) {
+		for (Button button : fSearchFor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (button.getSelection()) {
 				return getIntData(button);
 			}
@@ -444,7 +444,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	}
 
 	private void setSearchFor(int searchFor) {
-		for (Button button : fSearchFor) {
+		for (Button button : fSearchFor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			button.setSelection(searchFor == getIntData(button));
 		}
 	}
@@ -459,7 +459,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 
 
 	private SearchPatternData findInPrevious(String pattern) {
-		for (SearchPatternData element : fPreviousSearchPatterns) {
+		for (SearchPatternData element : fPreviousSearchPatterns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pattern.equals(element.getPattern())) {
 				return element;
 			}
@@ -472,7 +472,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	 * An existing entry will be updated.
 	 * @return the pattern data
 	 */
-	private SearchPatternData getPatternData() {
+	private SearchPatternData getPatternData() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String pattern= getPattern();
 		SearchPatternData match= findInPrevious(pattern);
 		if (match != null) {
@@ -523,7 +523,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	//---- Widget creation ------------------------------------------------
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		readConfiguration();
@@ -570,8 +570,8 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 			}
 		};
 
-		for (Button b : fSearchFor) {
-			b.addSelectionListener(javaElementInitializer);
+		for (Button b : fSearchFor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			b.addSelectionListener(javaElementInitializer); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 
 		setControl(result);
@@ -603,7 +603,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	}*/
 
 
-	private Control createMessageLabel(Composite parent) {
+	private Control createMessageLabel(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite result= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout(2, false);
 		layout.marginWidth= 5;
@@ -622,7 +622,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		return result;
 	}
 
-	private Control createExpression(Composite parent) {
+	private Control createExpression(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite result= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout(2, false);
 		layout.marginWidth= 0;
@@ -637,14 +637,14 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		// Pattern combo
 		fPattern= new Combo(result, SWT.SINGLE | SWT.BORDER);
 		SWTUtil.setDefaultVisibleItemCount(fPattern);
-		fPattern.addSelectionListener(new SelectionAdapter() {
+		fPattern.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handlePatternSelected();
 				updateOKStatus();
 			}
 		});
-		fPattern.addModifyListener(unused -> {
+		fPattern.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			doPatternModified();
 			updateOKStatus();
 
@@ -657,7 +657,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		// Ignore case checkbox
 		fCaseSensitive= new Button(result, SWT.CHECK);
 		fCaseSensitive.setText(SearchMessages.SearchPage_expression_caseSensitive);
-		fCaseSensitive.addSelectionListener(new SelectionAdapter() {
+		fCaseSensitive.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fIsCaseSensitive= fCaseSensitive.getSelection();
@@ -668,7 +668,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		return result;
 	}
 
-	final void updateOKStatus() {
+	final void updateOKStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isValidPattern= isValidSearchPattern();
 		boolean isValidMask= getIncludeMask() != 0;
 		fMessageImageLabel.setVisible(false);
@@ -739,7 +739,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		}
 	}
 
-	private void handlePatternSelected() {
+	private void handlePatternSelected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int selectionIndex= fPattern.getSelectionIndex();
 		if (selectionIndex < 0 || selectionIndex >= fPreviousSearchPatterns.size())
 			return;
@@ -794,14 +794,14 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		return fLimitToGroup;
 	}
 
-	private void fillLimitToGroup(int searchFor, int limitTo) {
-		for (Control child : fLimitToGroup.getChildren()) {
+	private void fillLimitToGroup(int searchFor, int limitTo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Control child : fLimitToGroup.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			child.dispose();
 		}
 		fMatchLocationsLink= null;
 
 
-		ArrayList<Button> buttons= new ArrayList<>();
+		ArrayList<Button> buttons= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		buttons.add(createButton(fLimitToGroup, SWT.RADIO, SearchMessages.SearchPage_limitTo_allOccurrences, ALL_OCCURRENCES, limitTo == ALL_OCCURRENCES));
 		buttons.add(createButton(fLimitToGroup, SWT.RADIO, SearchMessages.SearchPage_limitTo_declarations, DECLARATIONS, limitTo == DECLARATIONS));
 
@@ -831,8 +831,8 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 				performLimitToSelectionChanged((Button) e.widget);
 			}
 		};
-		for (Button b : fLimitTo) {
-			b.addSelectionListener(listener);
+		for (Button b : fLimitTo) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			b.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 		Dialog.applyDialogFont(fLimitToGroup); // re-apply font as we disposed the previous widgets
 
@@ -842,14 +842,14 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	}
 
 
-	private Button createMethodLocationRadio(boolean isSelected) {
+	private Button createMethodLocationRadio(boolean isSelected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fLimitToGroup.getChildren().length % 2 != 0)
 			new Label(fLimitToGroup, SWT.NONE);
 
 		Button button= createButton(fLimitToGroup, SWT.RADIO, SearchMessages.JavaSearchPage_match_locations_label, SPECIFIC_REFERENCES, isSelected);
 		fMatchLocationsLink= new Link(fLimitToGroup, SWT.NONE);
 		fMatchLocationsLink.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		fMatchLocationsLink.addSelectionListener(new SelectionAdapter() {
+		fMatchLocationsLink.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				performConfigureMatchLocation();
@@ -888,7 +888,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 
 	protected final void performLimitToSelectionChanged(Button button) {
 		if (button.getSelection()) {
-			for (Button curr : fLimitTo) {
+			for (Button curr : fLimitTo) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr != button) {
 					curr.setSelection(false);
 				}
@@ -899,7 +899,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 
 
 	protected final void performConfigureMatchLocation() {
-		for (Button curr : fLimitTo) {
+		for (Button curr : fLimitTo) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			curr.setSelection(getIntData(curr) == SPECIFIC_REFERENCES);
 		}
 
@@ -910,7 +910,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	}
 
 
-	private Control createIncludeMask(Composite parent) {
+	private Control createIncludeMask(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Group result= new Group(parent, SWT.NONE);
 		result.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		result.setText(SearchMessages.SearchPage_searchIn_label);
@@ -928,8 +928,8 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 				updateOKStatus();
 			}
 		};
-		for (Button fIncludeMask : fIncludeMasks) {
-			fIncludeMask.addSelectionListener(listener);
+		for (Button fIncludeMask : fIncludeMasks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			fIncludeMask.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 
 		return result;
@@ -944,7 +944,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		return button;
 	}
 
-	private void initSelections() {
+	private void initSelections() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection sel= getContainer().getSelection();
 
 		IWorkbenchPage activePage= JavaPlugin.getActivePage();
@@ -1003,7 +1003,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		return elem != null && (limitTo == DECLARATIONS || limitTo == IMPLEMENTORS);
 	}
 
-	private SearchPatternData tryStructuredSelection(IStructuredSelection selection) {
+	private SearchPatternData tryStructuredSelection(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection == null || selection.size() > 1)
 			return null;
 
@@ -1043,7 +1043,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		return false;
 	}
 
-	private SearchPatternData determineInitValuesFrom(IJavaElement element) {
+	private SearchPatternData determineInitValuesFrom(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			//JavaSearchScopeFactory factory= JavaSearchScopeFactory.getInstance();
 			//boolean isInsideJRE= factory.isInsideJRE(element);
@@ -1113,7 +1113,7 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 		String selectedText= selection.getText();
 		if (selectedText != null && selectedText.length() > 0) {
 			int i= 0;
-			while (i < selectedText.length() && !IndentManipulation.isLineDelimiterChar(selectedText.charAt(i))) {
+			while (i < selectedText.length() && !IndentManipulation.isLineDelimiterChar(selectedText.charAt(i))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i++;
 			}
 			if (i > 0) {
@@ -1183,14 +1183,14 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 	/**
 	 * Initializes itself from the stored page settings.
 	 */
-	private void readConfiguration() {
+	private void readConfiguration() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings s= getDialogSettings();
 		fIsCaseSensitive= s.getBoolean(STORE_CASE_SENSITIVE);
 
 		try {
 			int historySize= s.getInt(STORE_HISTORY_SIZE);
-			for (int i= 0; i < historySize; i++) {
-				IDialogSettings histSettings= s.getSection(STORE_HISTORY + i);
+			for (int i= 0; i < historySize; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				IDialogSettings histSettings= s.getSection(STORE_HISTORY + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (histSettings != null) {
 					SearchPatternData data= SearchPatternData.create(histSettings);
 					if (data != null) {
@@ -1213,8 +1213,8 @@ public class JavaSearchPage extends DialogPage implements ISearchPage {
 
 		int historySize= Math.min(fPreviousSearchPatterns.size(), HISTORY_SIZE);
 		s.put(STORE_HISTORY_SIZE, historySize);
-		for (int i= 0; i < historySize; i++) {
-			IDialogSettings histSettings= s.addNewSection(STORE_HISTORY + i);
+		for (int i= 0; i < historySize; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			IDialogSettings histSettings= s.addNewSection(STORE_HISTORY + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			SearchPatternData data= fPreviousSearchPatterns.get(i);
 			data.store(histSettings);
 		}

@@ -96,7 +96,7 @@ abstract class JavaHistoryActionImpl /* extends Action implements IActionDelegat
 		return JavaElementHistoryPageSource.getInstance().getFile(input);
 	}
 
-	final ITypedElement[] buildEditions(ITypedElement target, IFile file) {
+	final ITypedElement[] buildEditions(ITypedElement target, IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// setup array of editions
 		IFileState[] states= null;
@@ -114,7 +114,7 @@ abstract class JavaHistoryActionImpl /* extends Action implements IActionDelegat
 		ITypedElement[] editions= new ITypedElement[count];
 		editions[0]= new ResourceNode(file);
 		if (states != null)
-			for (int i= 0; i < states.length; i++)
+			for (int i= 0; i < states.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				editions[i+1]= new HistoryItem(target, states[i]);
 		return editions;
 	}
@@ -138,7 +138,7 @@ abstract class JavaHistoryActionImpl /* extends Action implements IActionDelegat
 	final ASTNode getBodyContainer(CompilationUnit root, IMember parent) throws JavaModelException {
 		ISourceRange sourceRange= parent.getNameRange();
 		ASTNode parentNode= NodeFinder.perform(root, sourceRange);
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parentNode instanceof TypeDeclaration || parentNode instanceof EnumDeclaration || parentNode instanceof AnnotationTypeDeclaration)
 				return parentNode;
 			parentNode= parentNode.getParent();
@@ -196,7 +196,7 @@ abstract class JavaHistoryActionImpl /* extends Action implements IActionDelegat
 		return true;
 	}
 
-	static void applyChanges(ASTRewrite rewriter, final IDocument document, final ITextFileBuffer textFileBuffer, boolean inEditor, Map<String, String> options)
+	static void applyChanges(ASTRewrite rewriter, final IDocument document, final ITextFileBuffer textFileBuffer, boolean inEditor, Map<String, String> options) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 							throws InvocationTargetException, InterruptedException {
 
 		MultiTextEdit edit= new MultiTextEdit();
@@ -213,7 +213,7 @@ abstract class JavaHistoryActionImpl /* extends Action implements IActionDelegat
 			JavaPlugin.log(e);
 		}
 
-		IRunnableWithProgress r= pm -> {
+		IRunnableWithProgress r= pm -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				textFileBuffer.commit(pm, false);
 			} catch (CoreException ex) {
@@ -243,9 +243,9 @@ abstract class JavaHistoryActionImpl /* extends Action implements IActionDelegat
 	final JavaEditor getEditor(IFile file) {
 		FileEditorInput fei= new FileEditorInput(file);
 		IWorkbench workbench= PlatformUI.getWorkbench();
-		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-			for (IWorkbenchPage page : window.getPages()) {
-				for (IEditorPart ep : page.getDirtyEditors()) {
+		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IWorkbenchPage page : window.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IEditorPart ep : page.getDirtyEditors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (ep instanceof JavaEditor) {
 						JavaEditor je= (JavaEditor) ep;
 						if (fei.equals(je.getEditorInput()))
@@ -278,7 +278,7 @@ abstract class JavaHistoryActionImpl /* extends Action implements IActionDelegat
 		return fEditor;
 	}
 
-	public final void runFromEditor(IAction uiProxy) {
+	public final void runFromEditor(IAction uiProxy) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// this run is called from Editor
 		IJavaElement element= null;
@@ -322,7 +322,7 @@ abstract class JavaHistoryActionImpl /* extends Action implements IActionDelegat
 		run(fSelection);
 	}
 
-	static CompilationUnit parsePartialCompilationUnit(ICompilationUnit unit) {
+	static CompilationUnit parsePartialCompilationUnit(ICompilationUnit unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (unit == null) {
 			throw new IllegalArgumentException();

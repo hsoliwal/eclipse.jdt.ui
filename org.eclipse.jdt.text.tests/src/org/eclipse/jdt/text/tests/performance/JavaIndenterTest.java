@@ -76,12 +76,12 @@ public class JavaIndenterTest extends TextPerformanceTestCase {
 		assertAllPerformance();
 	}
 
-	private void measureJavaIndenter(PerformanceMeter performanceMeter, int runs) {
+	private void measureJavaIndenter(PerformanceMeter performanceMeter, int runs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IDocument document= EditorTestHelper.getDocument(fEditor);
 		Display display= EditorTestHelper.getActiveDisplay();
 		IAction undo= fEditor.getAction(ITextEditorActionConstants.UNDO);
 		final int originalNumberOfLines= document.getNumberOfLines();
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayHelper helper= new DisplayHelper() {
 				@Override
 				protected boolean condition() {

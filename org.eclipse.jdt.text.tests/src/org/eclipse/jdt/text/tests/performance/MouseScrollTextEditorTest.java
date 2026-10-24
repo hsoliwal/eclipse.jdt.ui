@@ -25,15 +25,15 @@ public class MouseScrollTextEditorTest extends MouseScrollEditorTest {
 
 	private static final String THUMB_SCROLLING_FILE_PREFIX= "/org.eclipse.swt/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/StyledText";
 
-	private static final String THUMB_SCROLLING_ORIG_FILE= THUMB_SCROLLING_FILE_PREFIX + ".java";
+	private static final String THUMB_SCROLLING_ORIG_FILE= THUMB_SCROLLING_FILE_PREFIX + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String THUMB_SCROLLING_FILE= THUMB_SCROLLING_FILE_PREFIX + ".txt";
+	private static final String THUMB_SCROLLING_FILE= THUMB_SCROLLING_FILE_PREFIX + ".txt"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String AUTO_SCROLLING_FILE_PREFIX= "/org.eclipse.swt/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout";
 
-	private static final String AUTO_SCROLLING_ORIG_FILE= AUTO_SCROLLING_FILE_PREFIX + ".java";
+	private static final String AUTO_SCROLLING_ORIG_FILE= AUTO_SCROLLING_FILE_PREFIX + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String AUTO_SCROLLING_FILE= AUTO_SCROLLING_FILE_PREFIX + ".txt";
+	private static final String AUTO_SCROLLING_FILE= AUTO_SCROLLING_FILE_PREFIX + ".txt"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final int WARM_UP_RUNS= 3;
 

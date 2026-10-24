@@ -28,7 +28,7 @@ public abstract class ASTAttribute {
 
 	public ASTNode getParentASTNode() {
 		Object parent= getParent();
-		while (parent instanceof ASTAttribute) {
+		while (parent instanceof ASTAttribute) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= ((ASTAttribute) parent).getParent();
 		}
 		if (parent instanceof ASTNode) {

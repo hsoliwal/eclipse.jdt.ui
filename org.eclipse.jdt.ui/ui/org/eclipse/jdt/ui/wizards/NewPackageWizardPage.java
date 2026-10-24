@@ -122,7 +122,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	/**
 	 * Creates a new <code>NewPackageWizardPage</code>
 	 */
-	public NewPackageWizardPage() {
+	public NewPackageWizardPage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(false, PAGE_NAME);
 
 		setTitle(NewWizardMessages.NewPackageWizardPage_title);
@@ -152,7 +152,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	 *
 	 * @param selection used to initialize the fields
 	 */
-	public void init(IStructuredSelection selection) {
+	public void init(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement jelem= getInitialJavaElement(selection);
 
 		initContainerPage(jelem);
@@ -201,7 +201,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	/*
 	 * @see WizardPage#createControl
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -255,7 +255,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createPackageControls(Composite composite, int nColumns) {
 		fPackageDialogField.doFillIntoGrid(composite, nColumns - 1);
 		Text text= fPackageDialogField.getTextControl(null);
@@ -266,7 +266,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 		TextFieldNavigationHandler.install(text);
 		Control[] doFillIntoGrid= fCreatePackageInfoJavaDialogField.doFillIntoGrid(composite, nColumns);
 		Button createPackageButton= (Button) doFillIntoGrid[0];
-		createPackageButton.addSelectionListener(new SelectionListener() {
+		createPackageButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fAddCommentButton != null)
@@ -331,7 +331,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	 *
 	 * @return the status of the validation
 	 */
-	private IStatus getPackageStatus(String packName) {
+	private IStatus getPackageStatus(String packName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		if (packName.length() > 0) {
 			IStatus val= validatePackageName(packName);
@@ -397,7 +397,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 		if (packageInfoJava.exists()) {
 			return true;
 		}
-		for (Object resource : pack.getNonJavaResources()) {
+		for (Object resource : pack.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource instanceof IFile) {
 				IFile file= (IFile) resource;
 				String fileName= file.getName();
@@ -473,7 +473,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	 */
 	@Override
 	public IRunnableWithProgress getRunnable() {
-		return monitor -> {
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				createPackage(monitor);
 			} catch (CoreException e) {
@@ -502,7 +502,7 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	 * @throws InterruptedException Thrown when the operation has been canceled.
 	 * @since 2.1
 	 */
-	public void createPackage(IProgressMonitor monitor) throws CoreException, InterruptedException {
+	public void createPackage(IProgressMonitor monitor) throws CoreException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null) {
 			monitor= new NullProgressMonitor();
 		}
@@ -536,10 +536,10 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	}
 
 	private void createPackageInfoJava(IProgressMonitor monitor) throws CoreException {
-		StringBuilder fileContent= new StringBuilder();
-		fileContent.append("package "); //$NON-NLS-1$
-		fileContent.append(fCreatedPackageFragment.getElementName());
-		fileContent.append(";"); //$NON-NLS-1$
+		StringBuilder fileContent= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		fileContent.append("package "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileContent.append(fCreatedPackageFragment.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileContent.append(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		InfoFilesUtil.createInfoJavaFile(PACKAGE_INFO_JAVA_FILENAME, fileContent.toString(), fCreatedPackageFragment,this.isAddComments(), monitor);
 	}

@@ -81,9 +81,9 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 		static final class Variable {
 			private final Expression name;
 			private final List<Expression> constantValues;
-			private final List<Boolean> tagValues;
+			private final List<Boolean> tagValues; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
-			private Variable(final Expression firstOp, final List<Expression> constantValues, final List<Boolean> tagValues) {
+			private Variable(final Expression firstOp, final List<Expression> constantValues, final List<Boolean> tagValues) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				this.name= firstOp;
 				this.constantValues= constantValues;
 				this.tagValues= tagValues;
@@ -94,9 +94,9 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 			}
 
 			private Variable mergeValues(final Variable other) {
-				List<Expression> values= new ArrayList<>(constantValues);
+				List<Expression> values= new ArrayList<>(constantValues); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				values.addAll(other.constantValues);
-				List<Boolean> tags= new ArrayList<>(tagValues);
+				List<Boolean> tags= new ArrayList<>(tagValues); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 				tags.addAll(other.tagValues);
 				return new Variable(name, values, tags);
 			}
@@ -186,7 +186,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				return startNode == visited;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final IfStatement visited) {
 				if (!isWithinRegion(visited)) {
 					return true;
@@ -202,8 +202,8 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				}
 
 				Expression switchExpression= variable.name;
-				List<IfStatement> ifStatements= new ArrayList<>();
-				List<SwitchCaseSection> cases= new ArrayList<>();
+				List<IfStatement> ifStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				List<SwitchCaseSection> cases= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				Statement remainingStatement= null;
 
 				IfStatement ifStatement= visited;
@@ -211,10 +211,10 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				ThrowStatement throwStatement= null;
 				boolean isFallingThrough= true;
 
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IfStatement currentNode= ifStatement;
 
-					while (ASTNodes.isSameVariable(switchExpression, variable.name)) {
+					while (ASTNodes.isSameVariable(switchExpression, variable.name)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						cases.add(new SwitchCaseSection(variable.constantValues,
 								variable.tagValues,
 								ASTNodes.asList(currentNode.getThenStatement())));
@@ -289,15 +289,15 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 			 * @param sourceCases The source cases
 			 * @return The filtered cases
 			 */
-			private List<SwitchCaseSection> filterDuplicateCaseValues(final List<SwitchCaseSection> sourceCases) {
-				List<SwitchCaseSection> results= new ArrayList<>();
-				Set<Object> alreadyProccessedValues= new HashSet<>();
+			private List<SwitchCaseSection> filterDuplicateCaseValues(final List<SwitchCaseSection> sourceCases) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+				List<SwitchCaseSection> results= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				Set<Object> alreadyProccessedValues= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-				for (SwitchCaseSection sourceCase : sourceCases) {
-					List<Expression> filteredExprs= new ArrayList<>();
-					List<Boolean> filteredTagList= new ArrayList<>();
+				for (SwitchCaseSection sourceCase : sourceCases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					List<Expression> filteredExprs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					List<Boolean> filteredTagList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 
-					for (int i= 0; i < sourceCase.literalExpressions.size(); ++i) {
+					for (int i= 0; i < sourceCase.literalExpressions.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Expression expression= sourceCase.literalExpressions.get(i);
 						Boolean hasTag= sourceCase.tagList.get(i);
 						Object constantValue= expression.resolveConstantExpressionValue();
@@ -329,7 +329,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				return null;
 			}
 
-			private Variable extractVariableAndValues(final Expression expression) {
+			private Variable extractVariableAndValues(final Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				InfixExpression infixExpression= ASTNodes.as(expression, InfixExpression.class);
 
 				if (infixExpression != null) {
@@ -360,12 +360,12 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				return variable != null ? variable : extractVariableWithConstantStringValue(rightOperand, leftOperand);
 			}
 
-			private Variable extractVariableAndValuesFromInfixExpression(final InfixExpression infixExpression) {
+			private Variable extractVariableAndValuesFromInfixExpression(final InfixExpression infixExpression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (ASTNodes.hasOperator(infixExpression, InfixExpression.Operator.CONDITIONAL_OR, InfixExpression.Operator.OR, InfixExpression.Operator.XOR)) {
 					List<Expression> operands= ASTNodes.allOperands(infixExpression);
 					Variable mergedVariable= null;
 
-					for (Expression operand : operands) {
+					for (Expression operand : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Variable variable= extractVariableAndValues(operand);
 
 						if (variable == null) {
@@ -395,7 +395,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				return null;
 			}
 
-			private Variable extractVariableWithConstantValue(final Expression variable, final Expression constant) {
+			private Variable extractVariableWithConstantValue(final Expression variable, final Expression constant) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (!(variable instanceof Name || variable instanceof FieldAccess || variable instanceof SuperFieldAccess)) {
 					return null;
 				}
@@ -421,7 +421,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				return null;
 			}
 
-			private Variable extractVariableWithConstantStringValue(final Expression variable, final Expression constant) {
+			private Variable extractVariableWithConstantStringValue(final Expression variable, final Expression constant) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if ((variable instanceof Name || variable instanceof FieldAccess || variable instanceof SuperFieldAccess)
 						&& ASTNodes.hasType(variable, String.class.getCanonicalName())
 						&& constant.resolveTypeBinding() != null
@@ -431,7 +431,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 					NLSLine nlsLine= CleanUpNLSUtils.scanCurrentLine(icu, variable);
 					boolean hasTag= false;
 					if (nlsLine != null) {
-						for (NLSElement element : nlsLine.getElements()) {
+						for (NLSElement element : nlsLine.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							String value= element.getValue();
 							if (value.length() >= 2) {
 								value= value.substring(1, value.length() - 1);
@@ -463,7 +463,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 			this.remainingStatement= remainingStatement;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -482,9 +482,9 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 			boolean useNewStyleCase= false;
 			boolean useSwitchExpression= false;
 			useNewStyleCase= useSwitchExpression= JavaModelUtil.is14OrHigher(cuRewrite.getCu().getJavaProject());
-			for (SwitchCaseSection aCase : cases) {
+			for (SwitchCaseSection aCase : cases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!aCase.tagList.isEmpty()) {
-					for (Boolean hasTag : aCase.tagList) {
+					for (Boolean hasTag : aCase.tagList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (hasTag) {
 							useNewStyleCase= false;
 						}
@@ -539,7 +539,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 			}
 
 
-			for (SwitchCaseSection aCase : cases) {
+			for (SwitchCaseSection aCase : cases) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addCaseWithStatements(rewrite, ast, switchStatement, newSwitchExpression, aCase.literalExpressions, aCase.tagList, aCase.statements, isEnum, useNewStyleCase);
 			}
 
@@ -559,7 +559,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				addCaseWithStatements(rewrite, ast, switchStatement, newSwitchExpression, null, null, Collections.emptyList(), isEnum, useNewStyleCase);
 			}
 
-			for (int i= 0; i < ifStatements.size() - 1; i++) {
+			for (int i= 0; i < ifStatements.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNodes.removeButKeepComment(rewrite, ifStatements.get(i), group);
 			}
 
@@ -570,8 +570,8 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 			ASTNodes.replaceButKeepComment(rewrite, ifStatements.get(ifStatements.size() - 1), newStatement, group);
 		}
 
-		private void addCaseWithStatements(final ASTRewrite rewrite, final AST ast, final SwitchStatement newSwitchStatement,
-				final SwitchExpression newSwitchExpression, final List<Expression> caseValuesOrNullForDefault, final List<Boolean> tagList,
+		private void addCaseWithStatements(final ASTRewrite rewrite, final AST ast, final SwitchStatement newSwitchStatement, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+				final SwitchExpression newSwitchExpression, final List<Expression> caseValuesOrNullForDefault, final List<Boolean> tagList, //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				final List<Statement> innerStatements, boolean isEnum, boolean useNewStyleCase) {
 			List<Statement> switchStatements= newSwitchExpression != null ? newSwitchExpression.statements() : newSwitchStatement.statements();
 			boolean needBlock= checkForLocalDeclarations(innerStatements) || (useNewStyleCase
@@ -584,7 +584,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				ICompilationUnit cu= (ICompilationUnit)unit.getJavaElement();
 				String spaceBefore= getCoreOption(cu.getJavaProject(), DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_BEFORE_COLON_IN_CASE, false) ? " " : ""; //$NON-NLS-1$ //$NON-NLS-2$
 				SwitchCase newSwitchCase= null;
-				for (int i= 0; i < caseValuesOrNullForDefault.size(); ++i) {
+				for (int i= 0; i < caseValuesOrNullForDefault.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				    Expression caseValue= caseValuesOrNullForDefault.get(i);
 				    if (isEnum && caseValue instanceof QualifiedName qName) {
 				    	caseValue= qName.getName();
@@ -594,7 +594,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 				    	try {
 							IBuffer buffer= cu.getBuffer();
 							String newline= i == caseValuesOrNullForDefault.size() - 1 && needBlock ? "\n" : ""; //$NON-NLS-1$ //$NON-NLS-2$
-							String caseString= "case " + buffer.getText(caseValue.getStartPosition(), caseValue.getLength()) + spaceBefore + ": //$NON-NLS-1$" + newline; //$NON-NLS-1$ //$NON-NLS-2$
+							String caseString= "case " + buffer.getText(caseValue.getStartPosition(), caseValue.getLength()) + spaceBefore + ": //$NON-NLS-1$" + newline; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
  							newSwitchCase= (SwitchCase)rewrite.createStringPlaceholder(caseString, ASTNode.SWITCH_CASE);
  							switchStatements.add(newSwitchCase);
 						} catch (JavaModelException e) {
@@ -646,7 +646,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 			// Add the statement(s) for this case(s)
 			if (!innerStatements.isEmpty()) {
-				for (Statement statement : innerStatements) {
+				for (Statement statement : innerStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (newSwitchExpression != null && statement instanceof ReturnStatement returnStmt) {
 						if (innerStatements.size() > 1) {
 							YieldStatement yieldStatement= ast.newYieldStatement();
@@ -676,7 +676,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 		}
 
 		private boolean checkForLocalDeclarations(final List<Statement> statements) {
-			for (Statement statement : statements) {
+			for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (statement instanceof VariableDeclarationStatement) {
 					return true;
 				}
@@ -703,7 +703,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<SwitchFixOperation> operations= new ArrayList<>();
+		List<SwitchFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SwitchStatementsFinder finder= new SwitchStatementsFinder(operations);
 		compilationUnit.accept(finder);
 
@@ -716,7 +716,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 	}
 
 	public static IProposableFix createSwitchFix(final Block block, int start, int length) {
-		List<SwitchFixOperation> operations= new ArrayList<>();
+		List<SwitchFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SwitchStatementsFinder finder= new SwitchStatementsFinder(operations, start, start + length);
 		block.accept(finder);
 
@@ -745,7 +745,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 		 * build.
 		 */
 		private final List<Expression> literalExpressions;
-		private final List<Boolean> tagList;
+		private final List<Boolean> tagList; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		/** The statements executed for the switch cases. */
 		private final List<Statement> statements;
 
@@ -755,7 +755,7 @@ public class SwitchFixCore extends CompilationUnitRewriteOperationsFixCore {
 		 * @param literalExpressions The constant expressions
 		 * @param statements The statements
 		 */
-		private SwitchCaseSection(final List<Expression> literalExpressions, final List<Boolean> tagList,
+		private SwitchCaseSection(final List<Expression> literalExpressions, final List<Boolean> tagList, //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 				final List<Statement> statements) {
 			this.literalExpressions= literalExpressions;
 			this.statements= statements;

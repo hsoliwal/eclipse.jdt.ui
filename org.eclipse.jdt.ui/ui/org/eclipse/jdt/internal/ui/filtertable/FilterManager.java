@@ -47,7 +47,7 @@ public class FilterManager {
 		return parseList(store.getString(inactiveListKey));
 	}
 
-	public Filter[] getAllStoredFilters(IPreferenceStore store, boolean defaults) {
+	public Filter[] getAllStoredFilters(IPreferenceStore store, boolean defaults) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] activefilters, inactivefilters;
 		if (defaults) {
 			activefilters = getDefaultActiveFilters(store);
@@ -57,10 +57,10 @@ public class FilterManager {
 			inactivefilters = getInactiveList(store);
 		}
 		Filter[] filters = new Filter[activefilters.length + inactivefilters.length];
-		for (int i = 0; i < activefilters.length; i++) {
+		for (int i = 0; i < activefilters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			filters[i] = new Filter(activefilters[i], true);
 		}
-		for (int i = 0; i < inactivefilters.length; i++) {
+		for (int i = 0; i < inactivefilters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			filters[i + activefilters.length] = new Filter(inactivefilters[i], false);
 		}
 		return filters;
@@ -75,10 +75,10 @@ public class FilterManager {
 	}
 
 	public void save(IPreferenceStore store, Filter[] filters) {
-		ArrayList<String> active = new ArrayList<>();
-		ArrayList<String> inactive = new ArrayList<>();
+		ArrayList<String> active = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<String> inactive = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String name = ""; //$NON-NLS-1$
-		for (int i = 0; i < filters.length; i++) {
+		for (int i = 0; i < filters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			name = filters[i].getName();
 			if (filters[i].isChecked()) {
 				active.add(name);
@@ -100,9 +100,9 @@ public class FilterManager {
 	 * @return list
 	 */
 	public String[] parseList(String listString) {
-		List<String> list = new ArrayList<>(10);
+		List<String> list = new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		StringTokenizer tokenizer = new StringTokenizer(listString, separatorString);
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token = tokenizer.nextToken();
 			list.add(token);
 		}

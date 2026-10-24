@@ -72,7 +72,7 @@ public class VariableDeclarationCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL) && isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL_PRIVATE_FIELDS))
 			result.add(MultiFixMessages.VariableDeclarationCleanUp_AddFinalField_description);
 		if (isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL) && isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL_PARAMETERS))
@@ -83,29 +83,29 @@ public class VariableDeclarationCleanUpCore extends AbstractCleanUp {
 		return result.toArray(new String[result.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL) && isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL_PRIVATE_FIELDS)) {
-			bld.append("private final int i= 0;\n"); //$NON-NLS-1$
+			bld.append("private final int i= 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("private int i= 0;\n"); //$NON-NLS-1$
+			bld.append("private int i= 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL) && isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL_PARAMETERS)) {
-			bld.append("public void foo(final int j) {\n"); //$NON-NLS-1$
+			bld.append("public void foo(final int j) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("public void foo(int j) {\n"); //$NON-NLS-1$
+			bld.append("public void foo(int j) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL) && isEnabled(CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL_LOCAL_VARIABLES)) {
-			bld.append("    final int k;\n"); //$NON-NLS-1$
-			bld.append("    int h;\n"); //$NON-NLS-1$
-			bld.append("    h= 0;\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
+			bld.append("    final int k;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    int h;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    h= 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("    int k, h;\n"); //$NON-NLS-1$
-			bld.append("    h= 0;\n"); //$NON-NLS-1$
-			bld.append("}\n\n"); //$NON-NLS-1$
+			bld.append("    int k, h;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    h= 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();

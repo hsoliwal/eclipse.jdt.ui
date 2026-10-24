@@ -72,9 +72,9 @@ public class HierarchicalContentProviderTests {
 		}
 
 		private static List<String> getExpected(IPackageFragmentRoot root) throws JavaModelException {
-			ArrayList<String> res= new ArrayList<>();
-			for (IJavaElement p : root.getChildren()) {
-				for (IJavaElement file : ((IPackageFragment) p).getChildren()) {
+			ArrayList<String> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IJavaElement p : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IJavaElement file : ((IPackageFragment) p).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					testAndAdd(file, res);
 				}
 			}
@@ -101,7 +101,7 @@ public class HierarchicalContentProviderTests {
 	private static void testAndAdd(Object curr, List<String> res) {
 		if (curr instanceof ICompilationUnit || curr instanceof IClassFile) {
 			IJavaElement par= (IJavaElement) curr;
-			res.add(par.getParent().getElementName() + '/' + par.getElementName());
+			res.add(par.getParent().getElementName() + '/' + par.getElementName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -138,10 +138,10 @@ public class HierarchicalContentProviderTests {
 
 
 	private String getString(List<String> list) {
-		Collections.sort(list, Collator.getInstance());
-		StringBuilder buf= new StringBuilder();
-		for (String element : list) {
-			buf.append(element).append('\n');
+		Collections.sort(list, Collator.getInstance()); //FLLDCIM: MARK — M16 SORT_LANE CALL
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(element).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -150,7 +150,7 @@ public class HierarchicalContentProviderTests {
 	private List<String> collectChildren(Object elem, boolean fold, boolean flatLayout) {
 		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.APPEARANCE_FOLD_PACKAGES_IN_PACKAGE_EXPLORER, fold);
 
-		ArrayList<String> result= new ArrayList<>();
+		ArrayList<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		PackageExplorerContentProvider provider= new PackageExplorerContentProvider(false);
 		provider.setIsFlatLayout(flatLayout);
@@ -161,7 +161,7 @@ public class HierarchicalContentProviderTests {
 
 
 	private void collectChildren(PackageExplorerContentProvider provider, Object elem, List<String> result) {
-		for (Object curr : provider.getChildren(elem)) {
+		for (Object curr : provider.getChildren(elem)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			testAndAdd(curr, result);
 			if (curr instanceof IPackageFragment) {
 				collectChildren(provider, curr, result);

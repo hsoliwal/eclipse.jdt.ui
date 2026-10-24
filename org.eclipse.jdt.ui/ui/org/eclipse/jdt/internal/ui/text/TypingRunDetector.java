@@ -118,7 +118,7 @@ public class TypingRunDetector {
 		 */
 		@Override
 		public String toString() {
-			return fType.toString() + "@" + fNextOffset; //$NON-NLS-1$
+			return fType.toString() + "@" + fNextOffset; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		/**
@@ -136,7 +136,7 @@ public class TypingRunDetector {
 	 * the editor. Since text events may start a new run, this listener is
 	 * always registered if the detector is connected.
 	 */
-	private class TextListener implements ITextListener {
+	private class TextListener implements ITextListener { //FLLDCIM: MARK — T28  IMPLEMENTS
 
 		/*
 		 * @see org.eclipse.jface.text.ITextListener#textChanged(org.eclipse.jface.text.TextEvent)
@@ -223,7 +223,7 @@ public class TypingRunDetector {
 	}
 
 	/** The listeners. */
-	private final Set<ITypingRunListener> fListeners= new HashSet<>();
+	private final Set<ITypingRunListener> fListeners= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	/**
 	 * The viewer we work upon. Set to <code>null</code> in
 	 * <code>uninstall</code>.
@@ -328,7 +328,7 @@ public class TypingRunDetector {
 	 * @param event the text event to analyze
 	 * @return a change object describing the event
 	 */
-	private Change computeChange(TextEvent event) {
+	private Change computeChange(TextEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DocumentEvent e= event.getDocumentEvent();
 		if (e == null)
 			return new Change(TypingRun.NO_CHANGE, -1);
@@ -371,7 +371,7 @@ public class TypingRunDetector {
 			return;
 
 		if (DEBUG)
-			System.err.println("Last change: " + fLastChange); //$NON-NLS-1$
+			System.err.println("Last change: " + fLastChange); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (!change.canFollow(fLastChange))
 			endIfStarted(change);
@@ -380,7 +380,7 @@ public class TypingRunDetector {
 			startOrContinue();
 
 		if (DEBUG)
-			System.err.println("New change: " + change); //$NON-NLS-1$
+			System.err.println("New change: " + change); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -432,9 +432,9 @@ public class TypingRunDetector {
 		if (fSelectionListener == null) {
 			fSelectionListener= new SelectionListener();
 			StyledText textWidget= fViewer.getTextWidget();
-			textWidget.addFocusListener(fSelectionListener);
-			textWidget.addKeyListener(fSelectionListener);
-			textWidget.addMouseListener(fSelectionListener);
+			textWidget.addFocusListener(fSelectionListener); //FLLDCIM: MARK — T15 FOCUS CALL
+			textWidget.addKeyListener(fSelectionListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			textWidget.addMouseListener(fSelectionListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		}
 	}
 
@@ -458,7 +458,7 @@ public class TypingRunDetector {
 	 * @param run the new run
 	 */
 	private void fireRunBegun(TypingRun run) {
-		for (ITypingRunListener listener : new ArrayList<>(fListeners)) {
+		for (ITypingRunListener listener : new ArrayList<>(fListeners)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.typingRunStarted(fRun);
 		}
 	}
@@ -470,7 +470,7 @@ public class TypingRunDetector {
 	 * @param reason the type of change that caused the run to be ended
 	 */
 	private void fireRunEnded(TypingRun run, ChangeType reason) {
-		for (ITypingRunListener listener : new ArrayList<>(fListeners)) {
+		for (ITypingRunListener listener : new ArrayList<>(fListeners)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.typingRunEnded(fRun, reason);
 		}
 	}

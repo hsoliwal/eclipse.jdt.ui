@@ -28,10 +28,10 @@ public class LeakTestVmArgumentsTest {
 				.forEach(reference -> {
 					String moduleName= reference.descriptor().name();
 					Module module= ModuleLayer.boot().findModule(moduleName)
-							.orElseThrow(() -> new AssertionError("System module is not resolved: " + moduleName));
+							.orElseThrow(() -> new AssertionError("System module is not resolved: " + moduleName)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					reference.descriptor().packages().stream().sorted().forEach(packageName ->
 						assertTrue(module.isOpen(packageName, targetModule),
-								() -> moduleName + "/" + packageName + " is not open to " + targetModule));
+								() -> moduleName + "/" + packageName + " is not open to " + targetModule)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				});
 	}
 }

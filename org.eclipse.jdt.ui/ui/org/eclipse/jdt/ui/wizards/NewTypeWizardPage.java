@@ -194,7 +194,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringDialogField;
  */
 public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 
-	private static final Pattern NUM_PATTERN= Pattern.compile("[0-9]+$"); //$NON-NLS-1$
+	private static final Pattern NUM_PATTERN= Pattern.compile("[0-9]+$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * Class used in stub creation routines to add needed imports to a
@@ -331,24 +331,24 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	private final static String PAGE_NAME= "NewTypeWizardPage"; //$NON-NLS-1$
 
 	/** Field ID of the package input field. */
-	protected final static String PACKAGE= PAGE_NAME + ".package";	 //$NON-NLS-1$
+	protected final static String PACKAGE= PAGE_NAME + ".package";	 //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Field ID of the enclosing type input field. */
-	protected final static String ENCLOSING= PAGE_NAME + ".enclosing"; //$NON-NLS-1$
+	protected final static String ENCLOSING= PAGE_NAME + ".enclosing"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Field ID of the enclosing type checkbox. */
-	protected final static String ENCLOSINGSELECTION= ENCLOSING + ".selection"; //$NON-NLS-1$
+	protected final static String ENCLOSINGSELECTION= ENCLOSING + ".selection"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Field ID of the type name input field. */
-	protected final static String TYPENAME= PAGE_NAME + ".typename"; //$NON-NLS-1$
+	protected final static String TYPENAME= PAGE_NAME + ".typename"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Field ID of the super type input field. */
-	protected final static String SUPER= PAGE_NAME + ".superclass"; //$NON-NLS-1$
+	protected final static String SUPER= PAGE_NAME + ".superclass"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Field ID of the super interfaces input field. */
-	protected final static String INTERFACES= PAGE_NAME + ".interfaces"; //$NON-NLS-1$
+	protected final static String INTERFACES= PAGE_NAME + ".interfaces"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Field ID of the modifier check boxes. */
-	protected final static String MODIFIERS= PAGE_NAME + ".modifiers"; //$NON-NLS-1$
+	protected final static String MODIFIERS= PAGE_NAME + ".modifiers"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Field ID of the modifier check boxes.
 	 * @since 3.25*/
-	protected final static String SEALEDMODIFIERS= PAGE_NAME + ".sealedmodifiers"; //$NON-NLS-1$
+	protected final static String SEALEDMODIFIERS= PAGE_NAME + ".sealedmodifiers"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Field ID of the method stubs check boxes. */
-	protected final static String METHODS= PAGE_NAME + ".methods"; //$NON-NLS-1$
+	protected final static String METHODS= PAGE_NAME + ".methods"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static class InterfaceWrapper {
 		private String interfaceName;
@@ -539,7 +539,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @param pageName the wizard page's name
 	 * @since 3.1
 	 */
-	public NewTypeWizardPage(int typeKind, String pageName) {
+	public NewTypeWizardPage(int typeKind, String pageName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    super(pageName);
 	    fTypeKind= typeKind;
 
@@ -650,7 +650,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		fSealedSuperInterfacesStatus= new StatusInfo();
 	}
 
-	private void initOtherButtons() {
+	private void initOtherButtons() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] buttonNames3= null;
 		switch (fTypeKind) {
 			case CLASS_TYPE:
@@ -704,9 +704,9 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @param elem the selection used to initialize this page or <code>
 	 * null</code> if no selection was available
 	 */
-	protected void initTypePage(IJavaElement elem) {
+	protected void initTypePage(IJavaElement elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String initSuperclass= "java.lang.Object"; //$NON-NLS-1$
-		ArrayList<String> initSuperinterfaces= new ArrayList<>(5);
+		ArrayList<String> initSuperinterfaces= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IJavaProject project= null;
 		IPackageFragment pack= null;
@@ -781,15 +781,15 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *         type name is not unique, it is suffixed with a number greater than or equal to 2.
 	 * @since 3.17
 	 */
-	protected String getUniqueJavaTypeName(IPackageFragment pack, String name) {
+	protected String getUniqueJavaTypeName(IPackageFragment pack, String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String typeName= name;
 		if (pack != null) {
 			IResource resource= null;
 			boolean initial= true;
-			while (resource == null || resource.exists()) {
+			while (resource == null || resource.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				typeName= Signature.getSimpleName(typeName);
-				Matcher m= NUM_PATTERN.matcher(typeName);
-				if (m.find()) {
+				Matcher m= NUM_PATTERN.matcher(typeName); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+				if (m.find()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					// String ends with a number: increment it by 1
 					BigDecimal newNumber= null;
 					try {
@@ -824,7 +824,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @since 3.9
 	 */
-	private IPackageFragment getPackage(IJavaProject javaProject) {
+	private IPackageFragment getPackage(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String packName= null;
 		final IPackageFragmentRoot pkgFragmentRoot= getPackageFragmentRoot();
 		IJavaElement[] packages= null;
@@ -841,7 +841,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 				} else {
 					int noOfPackages= 0;
 					IPackageFragment thePackage= null;
-					for (final IJavaElement pack : packages) {
+					for (final IJavaElement pack : packages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IPackageFragment pkg= (IPackageFragment) pack;
 						// ignoring empty parent packages and default package
 						if ((!pkg.hasSubpackages() || pkg.hasChildren()) && !pkg.isDefaultPackage()) {
@@ -874,7 +874,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	/**
 	 * @since 3.37
 	 */
-	protected Composite createScrollableContainer(Composite parent) {
+	protected Composite createScrollableContainer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ScrolledComposite sc= new ScrolledComposite(parent, SWT.V_SCROLL);
 		sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		sc.setExpandHorizontal(true);
@@ -882,7 +882,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		Composite content= new Composite(sc, SWT.NONE);
 		sc.setContent(content);
 
-		sc.addControlListener(new ControlAdapter() {
+		sc.addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlResized(ControlEvent e) {
 				int width= sc.getClientArea().width;
@@ -1000,7 +1000,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @param composite the parent composite
 	 * @param nColumns number of columns to span
 	 */
-	protected void createEnclosingTypeControls(Composite composite, int nColumns) {
+	protected void createEnclosingTypeControls(Composite composite, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// #6891
 		Composite tabGroup= new Composite(composite, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -1033,7 +1033,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @param composite the parent composite
 	 * @param nColumns number of columns to span
 	 */
-	protected void createTypeNameControls(Composite composite, int nColumns) {
+	protected void createTypeNameControls(Composite composite, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTypeNameDialogField.doFillIntoGrid(composite, nColumns - 1);
 		DialogField.createEmptySpace(composite);
 
@@ -1041,7 +1041,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		LayoutUtil.setWidthHint(text, getMaxFieldWidth());
 		TextFieldNavigationHandler.install(text);
 
-		text.addVerifyListener(e -> {
+		text.addVerifyListener(e -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			if (fCanModifyPackage && ! fEnclosingTypeSelection.isSelected() && e.start == 0 && e.end == ((Text) e.widget).getCharCount()) {
 				String typeNameWithoutParameters= getTypeNameWithoutParameters(getTypeNameWithoutExtension(e.text));
 				int lastDot= typeNameWithoutParameters.lastIndexOf('.');
@@ -1065,7 +1065,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @param composite the parent composite
 	 * @param nColumns number of columns to span
 	 */
-	protected void createModifierControls(Composite composite, int nColumns) {
+	protected void createModifierControls(Composite composite, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LayoutUtil.setHorizontalSpan(fAccMdfButtons.getLabelControl(composite), 1);
 
 		Control control= fAccMdfButtons.getSelectionButtonsGroup(composite);
@@ -1139,7 +1139,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @param composite the parent composite
 	 * @param nColumns number of columns to span
 	 */
-	protected void createSuperInterfacesControls(Composite composite, int nColumns) {
+	protected void createSuperInterfacesControls(Composite composite, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String INTERFACE= "interface"; //$NON-NLS-1$
 		fSuperInterfacesDialogField.doFillIntoGrid(composite, nColumns);
 		final TableViewer tableViewer= fSuperInterfacesDialogField.getTableViewer();
@@ -1203,7 +1203,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 				return true;
 			}
 		});
-		tableViewer.getTable().addKeyListener(new KeyAdapter() {
+		tableViewer.getTable().addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent event) {
 				if (event.keyCode == SWT.F2 && event.stateMask == 0) {
@@ -1237,7 +1237,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	protected void createCommentControls(Composite composite, int nColumns) {
     	Link link= new Link(composite, SWT.NONE);
     	link.setText(NewWizardMessages.NewTypeWizardPage_addcomment_description);
-    	link.addSelectionListener(new TypeFieldsAdapter());
+    	link.addSelectionListener(new TypeFieldsAdapter()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
     	link.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, false, false, nColumns, 1));
 		DialogField.createEmptySpace(composite);
 		fAddCommentButton.doFillIntoGrid(composite, nColumns - 1);
@@ -1262,7 +1262,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		if(!isModule) {
 			fAddCommentButton.setEnabled(false);
 		}
-		link.addSelectionListener(new TypeFieldsAdapter());
+		link.addSelectionListener(new TypeFieldsAdapter()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return link;
 	}
 
@@ -1364,7 +1364,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * A field on the type has changed. The fields' status and all dependent
 	 * status are updated.
 	 */
-	private void typePageDialogFieldChanged(DialogField field) {
+	private void typePageDialogFieldChanged(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String fieldName= null;
 		if (field == fPackageDialogField) {
 			fPackageStatus= packageChanged();
@@ -1587,7 +1587,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @return the selected modifiers
 	 * @see Flags
 	 */
-	public int getModifiers() {
+	public int getModifiers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int mdf= 0;
 		if (fAccMdfButtons.isSelected(PUBLIC_INDEX)) {
 			mdf+= F_PUBLIC;
@@ -1629,7 +1629,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * editable; otherwise they are read-only
 	 * @see Flags
 	 */
-	public void setModifiers(int modifiers, boolean canBeModified) {
+	public void setModifiers(int modifiers, boolean canBeModified) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Flags.isPublic(modifiers)) {
 			fAccMdfButtons.setSelection(PUBLIC_INDEX, true);
 		} else if (Flags.isPrivate(modifiers)) {
@@ -1731,8 +1731,8 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 */
 	public List<String> getSuperInterfaces() {
 		List<InterfaceWrapper> interfaces= fSuperInterfacesDialogField.getElements();
-		ArrayList<String> result= new ArrayList<>(interfaces.size());
-		for (InterfaceWrapper wrapper : interfaces) {
+		ArrayList<String> result= new ArrayList<>(interfaces.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (InterfaceWrapper wrapper : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(wrapper.getInterfaceName());
 		}
 		return result;
@@ -1747,8 +1747,8 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * editable; otherwise it is read-only.
 	 */
 	public void setSuperInterfaces(List<String> interfacesNames, boolean canBeModified) {
-		ArrayList<InterfaceWrapper> interfaces= new ArrayList<>(interfacesNames.size());
-		for (String string : interfacesNames) {
+		ArrayList<InterfaceWrapper> interfaces= new ArrayList<>(interfacesNames.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String string : interfacesNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			interfaces.add(new InterfaceWrapper(string));
 		}
 		fSuperInterfacesDialogField.setElements(interfaces);
@@ -1765,8 +1765,8 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @since 3.25
 	 */
 	public void setSuperInterfacesList(List<ITypeBinding> interfaceBindings, boolean canBeModified) {
-		ArrayList<InterfaceWrapper> interfaces= new ArrayList<>(interfaceBindings.size());
-		for (ITypeBinding typeBinding : interfaceBindings) {
+		ArrayList<InterfaceWrapper> interfaces= new ArrayList<>(interfaceBindings.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ITypeBinding typeBinding : interfaceBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement jElem= typeBinding.getJavaElement();
 			if (jElem instanceof IType)
 				interfaces.add(new InterfaceWrapper(typeBinding.getQualifiedName(), (IType) jElem));
@@ -1869,7 +1869,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	/*
 	 * @see org.eclipse.jdt.ui.wizards.NewContainerWizardPage#containerChanged()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IStatus containerChanged() {
 		IStatus status= super.containerChanged();
 	    IPackageFragmentRoot root= getPackageFragmentRoot();
@@ -1925,7 +1925,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @return the status of the validation
 	 */
-	protected IStatus packageChanged() {
+	protected IStatus packageChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		IPackageFragmentRoot root= getPackageFragmentRoot();
 		fPackageDialogField.enableButton(root != null);
@@ -2028,7 +2028,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @return the status of the validation
 	 */
-	protected IStatus enclosingTypeChanged() {
+	protected IStatus enclosingTypeChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		fCurrEnclosingType= null;
 
@@ -2104,7 +2104,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @since 3.2
 	 */
 	protected String getCompilationUnitName(String typeName) {
-		return typeName + JavaModelUtil.DEFAULT_CU_SUFFIX;
+		return typeName + JavaModelUtil.DEFAULT_CU_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 
@@ -2117,7 +2117,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @return the status of the validation
 	 */
-	protected IStatus typeNameChanged() {
+	protected IStatus typeNameChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		fCurrType= null;
 
@@ -2193,7 +2193,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		}
 
 		if (!typeNameWithParameters.equals(typeName) && project != null) {
-			String typeDeclaration= "class " + typeNameWithParameters + " {}"; //$NON-NLS-1$//$NON-NLS-2$
+			String typeDeclaration= "class " + typeNameWithParameters + " {}"; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 			parser.setSource(typeDeclaration.toCharArray());
 			parser.setProject(project);
@@ -2216,7 +2216,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @return the status of the validation
 	 */
-	protected IStatus superClassChanged() {
+	protected IStatus superClassChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		IPackageFragmentRoot root= getPackageFragmentRoot();
 		fSuperClassDialogField.enableButton(root != null);
@@ -2280,7 +2280,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		return status;
 	}
 
-	private void enableSealedModifierButtonsIfRequired() {
+	private void enableSealedModifierButtonsIfRequired() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSealedMdfButtons != null) {
 			if (fIsSealedSupported) {
 				if (fSealedSuperClassStatus != null && fSealedSuperClassStatus.isOK()
@@ -2330,7 +2330,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		return selected;
 	}
 
-	private StatusInfo canSuperTypeBeExtended(IType type) {
+	private StatusInfo canSuperTypeBeExtended(IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		IJavaProject currJavaProject= getJavaProject();
 		if (fIsSealedSupported && type != null && currJavaProject != null) {
@@ -2406,7 +2406,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @return returns if any of the super types is sealed or not
 	 * @since 3.25
 	 */
-	protected boolean isSuperTypeSealed() {
+	protected boolean isSuperTypeSealed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isSealed= false;
 		if (fIsSealedSupported && fSuperClass != null) {
 			try {
@@ -2419,7 +2419,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		}
 		if (!isSealed) {
 			List<InterfaceWrapper> interfaces= fSuperInterfacesDialogField.getElements();
-			for (InterfaceWrapper intWrap : interfaces) {
+			for (InterfaceWrapper intWrap : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					IType type= intWrap.getType();
 					if (type != null && type.isSealed()) {
@@ -2500,7 +2500,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @return the status of the validation
 	 */
-	protected IStatus superInterfacesChanged() {
+	protected IStatus superInterfacesChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 
 		IPackageFragmentRoot root= getPackageFragmentRoot();
@@ -2508,7 +2508,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 
 		if (root != null) {
 			List<InterfaceWrapper> elements= fSuperInterfacesDialogField.getElements();
-			for (InterfaceWrapper element : elements) {
+			for (InterfaceWrapper element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String intfname= element.getInterfaceName();
 				Type type= TypeContextChecker.parseSuperInterface(intfname);
 				if (type == null) {
@@ -2535,7 +2535,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	protected IStatus validateSealedSuperInterfacesStatus() {
 		StatusInfo status= new StatusInfo();
 		List<InterfaceWrapper> elements= fSuperInterfacesDialogField.getElements();
-		for (InterfaceWrapper element : elements) {
+		for (InterfaceWrapper element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType eType= element.getType();
 			if (eType != null) {
 				StatusInfo validStatus= canSuperTypeBeExtended(eType);
@@ -2605,7 +2605,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @since 3.2
 	 */
-	protected IPackageFragment choosePackage() {
+	protected IPackageFragment choosePackage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot froot= getPackageFragmentRoot();
 		IJavaElement[] packages= null;
 		try {
@@ -2649,7 +2649,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @since 3.2
 	 */
-	protected IType chooseEnclosingType() {
+	protected IType chooseEnclosingType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot root= getPackageFragmentRoot();
 		if (root == null) {
 			return null;
@@ -2680,7 +2680,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *
 	 * @since 3.2
 	 */
-	protected IType chooseSuperClass() {
+	protected IType chooseSuperClass() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project= getJavaProject();
 		if (project == null) {
 			return null;
@@ -2754,7 +2754,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @throws CoreException Thrown when the creation failed.
 	 * @throws InterruptedException Thrown when the operation was canceled.
 	 */
-	public void createType(IProgressMonitor monitor) throws CoreException, InterruptedException {
+	public void createType(IProgressMonitor monitor) throws CoreException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null) {
 			monitor= new NullProgressMonitor();
 		}
@@ -2846,25 +2846,25 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 
 
 				// add imports that will be removed again. Having the imports solves 14661
-				for (IType topLevelType : parentCU.getTypes()) {
+				for (IType topLevelType : parentCU.getTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					imports.addImport(topLevelType.getFullyQualifiedName('.'));
 				}
 
 				lineDelimiter= StubUtility.getLineDelimiterUsed(enclosingType);
-				StringBuilder content= new StringBuilder();
+				StringBuilder content= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 				String comment= getTypeComment(parentCU, lineDelimiter);
 				if (comment != null) {
-					content.append(comment);
-					content.append(lineDelimiter);
+					content.append(comment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 
-				content.append(constructTypeStub(parentCU, imports, lineDelimiter));
+				content.append(constructTypeStub(parentCU, imports, lineDelimiter)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				IJavaElement sibling= null;
 				if (enclosingType.isEnum()) {
 					IField[] fields = enclosingType.getFields();
 					if (fields.length > 0) {
-						for (IField field : fields) {
+						for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!field.isEnumConstant()) {
 								sibling = field;
 								break;
@@ -2920,7 +2920,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 			if (!isInnerClass) {
 				String fileComment= getFileComment(cu);
 				if (fileComment != null && fileComment.length() > 0) {
-					buf.replace(0, 0, fileComment + lineDelimiter);
+					buf.replace(0, 0, fileComment + lineDelimiter); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 
@@ -2953,14 +2953,14 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 
 	private Set<String> getExistingImports(CompilationUnit root) {
 		List<ImportDeclaration> imports= root.imports();
-		Set<String> res= new HashSet<>(imports.size());
-		for (ImportDeclaration import1 : imports) {
+		Set<String> res= new HashSet<>(imports.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ImportDeclaration import1 : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res.add(ASTNodes.asString(import1));
 		}
 		return res;
 	}
 
-	private void removeUnusedImports(ICompilationUnit cu, Set<String> existingImports, boolean needsSave) throws CoreException {
+	private void removeUnusedImports(ICompilationUnit cu, Set<String> existingImports, boolean needsSave) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 		parser.setSource(cu);
 		parser.setResolveBindings(true);
@@ -2977,12 +2977,12 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		ImportsManager imports= new ImportsManager(root);
 
 		int importsEnd= ASTNodes.getExclusiveEnd(importsDecls.get(importsDecls.size() - 1));
-		for (IProblem curr : root.getProblems()) {
+		for (IProblem curr : root.getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getSourceEnd() < importsEnd) {
 				int id= curr.getID();
 				if (id == IProblem.UnusedImport || id == IProblem.NotVisibleType) { // not visible problems hide unused -> remove both
 					int pos= curr.getSourceStart();
-					for (ImportDeclaration decl : importsDecls) {
+					for (ImportDeclaration decl : importsDecls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (decl.getStartPosition() <= pos && pos < decl.getStartPosition() + decl.getLength()) {
 							if (existingImports.isEmpty() || !existingImports.contains(ASTNodes.asString(decl))) {
 								String name= decl.getName().getFullyQualifiedName();
@@ -3018,7 +3018,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 *             new compilation unit fails
 	 * @since 2.1
 	 */
-	protected String constructCUContent(ICompilationUnit cu, String typeContent, String lineDelimiter) throws CoreException {
+	protected String constructCUContent(ICompilationUnit cu, String typeContent, String lineDelimiter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String fileComment= getFileComment(cu, lineDelimiter);
 		String typeComment= getTypeComment(cu, lineDelimiter);
 		IPackageFragment pack= (IPackageFragment) cu.getParent();
@@ -3032,15 +3032,15 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 				return content;
 			}
 		}
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (!pack.isDefaultPackage()) {
-			buf.append("package ").append(pack.getElementName()).append(';'); //$NON-NLS-1$
+			buf.append("package ").append(pack.getElementName()).append(';'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(lineDelimiter).append(lineDelimiter);
+		buf.append(lineDelimiter).append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (typeComment != null) {
-			buf.append(typeComment).append(lineDelimiter);
+			buf.append(typeComment).append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(typeContent);
+		buf.append(typeContent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -3075,7 +3075,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		}
 	}
 
-	private void writeSuperInterfaces(StringBuffer buf, ImportsManager imports) {
+	private void writeSuperInterfaces(StringBuffer buf, ImportsManager imports) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<String> interfaces= getSuperInterfaces();
 		int last= interfaces.size() - 1;
 		if (last >= 0) {
@@ -3091,7 +3091,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 			} else {
 				bindings= new ITypeBinding[intfs.length];
 			}
-			for (int i= 0; i <= last; i++) {
+			for (int i= 0; i <= last; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding binding= bindings[i];
 				if (binding != null) {
 					buf.append(imports.addImport(binding));
@@ -3110,9 +3110,9 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		if (fTypeKind == COMPACT_TYPE) {
 			return ""; //$NON-NLS-1$
 		}
-		StringBuilder buf= new StringBuilder("public class "); //$NON-NLS-1$
-		buf.append(getTypeName());
-		buf.append("{ }"); //$NON-NLS-1$
+		StringBuilder buf= new StringBuilder("public class "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(getTypeName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("{ }"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 
 
@@ -3121,7 +3121,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	/*
 	 * Called from createType to construct the source for this type
 	 */
-	private String constructTypeStub(ICompilationUnit parentCU, ImportsManager imports, String lineDelimiter) throws CoreException {
+	private String constructTypeStub(ICompilationUnit parentCU, ImportsManager imports, String lineDelimiter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer buf= new StringBuffer();
 		if(fTypeKind == COMPACT_TYPE) {
 			return buf.toString();
@@ -3241,7 +3241,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		scanner.setSource(template.toCharArray());
 		try {
 			int next= scanner.getNextToken();
-			while (TokenScanner.isComment(next)) {
+			while (TokenScanner.isComment(next)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				next= scanner.getNextToken();
 			}
 			return next == ITerminalSymbols.TokenNameEOF;
@@ -3262,14 +3262,14 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
      *
      * @since 3.0
 	 */
-	protected String getTypeComment(ICompilationUnit parentCU, String lineDelimiter) {
+	protected String getTypeComment(ICompilationUnit parentCU, String lineDelimiter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isAddComments()) {
 			try {
-				StringBuilder typeName= new StringBuilder();
+				StringBuilder typeName= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (isEnclosingTypeSelected()) {
-					typeName.append(getEnclosingType().getTypeQualifiedName('.')).append('.');
+					typeName.append(getEnclosingType().getTypeQualifiedName('.')).append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				typeName.append(getTypeNameWithoutParameters());
+				typeName.append(getTypeNameWithoutParameters()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				String[] typeParamNames= new String[0];
 				String comment= CodeGeneration.getTypeComment(parentCU, typeName.toString(), typeParamNames, lineDelimiter);
 				if (comment != null && isValidComment(comment)) {
@@ -3340,26 +3340,26 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @throws CoreException thrown when the creation fails.
 	 * @since 3.25
 	 */
-	protected IMethod createMainMethod(IType type, ImportsManager imports) throws CoreException{
+	protected IMethod createMainMethod(IType type, ImportsManager imports) throws CoreException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type != null ) {
-			StringBuilder buf= new StringBuilder();
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			final String lineDelim= "\n"; // OK, since content is formatted afterwards //$NON-NLS-1$
 			if (isAddComments()) {
 				String comment= CodeGeneration.getMethodComment(type.getCompilationUnit(), type.getTypeQualifiedName('.'), "main", new String[] { "args" }, new String[0], Signature.createTypeSignature("void", true), null, lineDelim); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				if (comment != null) {
-					buf.append(comment);
-					buf.append(lineDelim);
+					buf.append(comment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
-			buf.append("public static void main("); //$NON-NLS-1$
-			buf.append(imports.addImport("java.lang.String")); //$NON-NLS-1$
-			buf.append("[] args) {"); //$NON-NLS-1$
-			buf.append(lineDelim);
+			buf.append("public static void main("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(imports.addImport("java.lang.String")); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("[] args) {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			final String content= CodeGeneration.getMethodBodyContent(type.getCompilationUnit(), type.getTypeQualifiedName('.'), "main", false, "", lineDelim); //$NON-NLS-1$ //$NON-NLS-2$
 			if (content != null && content.length() != 0)
-				buf.append(content);
-			buf.append(lineDelim);
-			buf.append("}"); //$NON-NLS-1$
+				buf.append(content); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return type.createMethod(buf.toString(), null, false, null);
 		}
 		return null;
@@ -3378,16 +3378,16 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @return the created methods.
 	 * @throws CoreException thrown when the creation fails.
 	 */
-	protected IMethod[] createInheritedMethods(IType type, boolean doConstructors, boolean doUnimplementedMethods, ImportsManager imports, IProgressMonitor monitor) throws CoreException {
+	protected IMethod[] createInheritedMethods(IType type, boolean doConstructors, boolean doUnimplementedMethods, ImportsManager imports, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, 3);
 		final ICompilationUnit cu= type.getCompilationUnit();
 		JavaModelUtil.reconcile(cu);
 		IMethod[] typeMethods= type.getMethods();
-		Set<String> handleIds= new HashSet<>(typeMethods.length);
-		for (IMethod typeMethod : typeMethods) {
+		Set<String> handleIds= new HashSet<>(typeMethods.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMethod typeMethod : typeMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			handleIds.add(typeMethod.getHandleIdentifier());
 		}
-		ArrayList<IMethod> newMethods= new ArrayList<>();
+		ArrayList<IMethod> newMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CodeGenerationSettings settings= JavaPreferencesSettings.getCodeGenerationSettings(type.getJavaProject());
 		settings.createComments= isAddComments();
 		ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
@@ -3411,7 +3411,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 			}
 		}
 		JavaModelUtil.reconcile(cu);
-		for (IMethod typeMethod : type.getMethods()) {
+		for (IMethod typeMethod : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!handleIds.contains(typeMethod.getHandleIdentifier())) {
 				newMethods.add(typeMethod);
 			}
@@ -3422,12 +3422,12 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	}
 
 	private void createImports(ImportsManager imports, String[] createdImports) {
-		for (String createdImport : createdImports) {
+		for (String createdImport : createdImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			imports.addImport(createdImport);
 		}
 	}
 
-	private ITypeBinding getCreatedTypeBinding(boolean reset) {
+	private ITypeBinding getCreatedTypeBinding(boolean reset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCreatedTypeBinding != null && !reset)
 			return fCreatedTypeBinding;
 		if (fCreatedType != null) {
@@ -3454,7 +3454,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 
 	private void updateSealedSuperInterfaces() {
 		List<InterfaceWrapper> elements= fSuperInterfacesDialogField.getElements();
-		for (InterfaceWrapper element : elements) {
+		for (InterfaceWrapper element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updateSealedSuperType(element.getType());
 		}
 	}
@@ -3475,7 +3475,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		return val;
 	}
 
-	private void updateSealedSuperType(IType superType) {
+	private void updateSealedSuperType(IType superType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (superType != null
 					&& superType.isSealed() && fCreatedType != null && !isSuperTypeEnclosingType(superType)) {
@@ -3539,7 +3539,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 	 * @return the runnable to create the new type
 	 */
 	public IRunnableWithProgress getRunnable() {
-		return monitor -> {
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				if (monitor == null) {
 					monitor= new NullProgressMonitor();

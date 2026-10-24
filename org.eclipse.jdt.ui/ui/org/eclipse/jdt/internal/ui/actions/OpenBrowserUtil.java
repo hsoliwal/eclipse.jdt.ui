@@ -36,7 +36,7 @@ public class OpenBrowserUtil {
 	 * @since 3.6
 	 */
 	public static void open(final URL url, Display display) {
-		display.syncExec(() -> internalOpen(url, false));
+		display.syncExec(() -> internalOpen(url, false)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class OpenBrowserUtil {
 	 * @param display the display
 	 */
 	public static void openAsync(final URL url, Display display) {
-		display.asyncExec(() -> internalOpen(url, false));
+		display.asyncExec(() -> internalOpen(url, false)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	/**
@@ -57,10 +57,10 @@ public class OpenBrowserUtil {
 	 * @since 3.6
 	 */
 	public static void openExternal(final URL url, Display display) {
-		display.syncExec(() -> internalOpen(url, true));
+		display.syncExec(() -> internalOpen(url, true)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
-	private static void internalOpen(final URL url, final boolean useExternalBrowser) {
+	private static void internalOpen(final URL url, final boolean useExternalBrowser) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BusyIndicator.showWhile(null, () -> {
 			URL helpSystemUrl= PlatformUI.getWorkbench().getHelpSystem().resolve(url.toExternalForm(), true);
 			if (helpSystemUrl == null) { // can happen if org.eclipse.help.ui is not available

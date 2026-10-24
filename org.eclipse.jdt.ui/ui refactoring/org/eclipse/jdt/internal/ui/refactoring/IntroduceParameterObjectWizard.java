@@ -114,8 +114,8 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 				if (inputElement instanceof IntroduceParameterObjectProcessor) {
 					IntroduceParameterObjectProcessor refactoring= (IntroduceParameterObjectProcessor) inputElement;
 					List<ParameterInfo> parameterInfos= refactoring.getParameterInfos();
-					List<ParameterInfo> result= new ArrayList<>(parameterInfos.size());
-					for (ParameterInfo pi : parameterInfos) {
+					List<ParameterInfo> result= new ArrayList<>(parameterInfos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (ParameterInfo pi : parameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!pi.isAdded())
 							result.add(pi);
 					}
@@ -194,7 +194,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			setDescription(RefactoringMessages.IntroduceParameterObjectWizard_wizardpage_description);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			initializeDialogUnits(parent);
 			Composite result= new Composite(parent, SWT.NONE);
@@ -223,7 +223,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			l.setText(RefactoringMessages.IntroduceParameterObjectWizard_parameterfield_label);
 			final Text text= new Text(group, SWT.BORDER);
 			text.setText(fProcessor.getParameterName());
-			text.addModifyListener(unused -> {
+			text.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				fProcessor.setParameterName(text.getText());
 				updateSignaturePreview();
 				validateRefactoring();
@@ -231,8 +231,8 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		}
 
-		protected void validateRefactoring() {
-			List<String> names= new ArrayList<>();
+		protected void validateRefactoring() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			List<String> names= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			boolean oneChecked= false;
 			setMessage(null);
 			setErrorMessage(null);
@@ -242,7 +242,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			String compliance= project.getOption(JavaCore.COMPILER_COMPLIANCE, true);
 			String previewEnabled= project.getOption(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, true);
 
-			for (ParameterInfo pi : fProcessor.getParameterInfos()) {
+			for (ParameterInfo pi : fProcessor.getParameterInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (names.contains(pi.getNewName())) {
 					setErrorMessage(Messages.format(RefactoringMessages.IntroduceParameterObjectWizard_parametername_check_notunique, BasicElementLabels.getJavaElementName(pi.getNewName())));
 					setPageComplete(false);
@@ -322,7 +322,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			updateSignaturePreview();
 		}
 
-		private void createDelegateInput(Group group) {
+		private void createDelegateInput(Group group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fLeaveDelegateCheckBox= DelegateUIHelper.generateLeaveDelegateCheckbox(group, getRefactoring(), false);
 			GridData gridData= new GridData(GridData.FILL_HORIZONTAL);
 			gridData.horizontalSpan= 2;
@@ -339,7 +339,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 				final ChangeSignatureProcessor refactoring= fProcessor;
 				fDeprecateDelegateCheckBox.setSelection(DelegateUIHelper.loadDeprecateDelegateSetting(refactoring));
 				refactoring.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
-				fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+				fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						refactoring.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
@@ -347,7 +347,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 					}
 				});
 				fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
-				fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+				fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
@@ -366,7 +366,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			return group;
 		}
 
-		private void createLocationInput(Composite parent) {
+		private void createLocationInput(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Label l= new Label(parent, SWT.NONE);
 			l.setText(RefactoringMessages.IntroduceParameterObjectWizard_destination_label);
 
@@ -380,7 +380,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 
 			final Button topLvlRadio= new Button(composite, SWT.RADIO);
 			topLvlRadio.setText(RefactoringMessages.IntroduceParameterObjectWizard_createastoplevel_radio);
-			topLvlRadio.addSelectionListener(new SelectionAdapter() {
+			topLvlRadio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					boolean fAsTopLevel= topLvlRadio.getSelection();
@@ -399,7 +399,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 
 		}
 
-		private void createTable(Composite parent) {
+		private void createTable(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite result= new Composite(parent, SWT.NONE);
 			GridLayout layout= new GridLayout(2, false);
 			layout.marginHeight= 0;
@@ -426,12 +426,12 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			table.setHeaderVisible(true);
 			gridData= new GridData(GridData.FILL_BOTH);
 			table.setLayoutData(gridData);
-			tv.setInput(fProcessor);
+			tv.setInput(fProcessor); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			List<ParameterInfo> parameterInfos= fProcessor.getParameterInfos();
-			for (ParameterInfo pi : parameterInfos) {
+			for (ParameterInfo pi : parameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tv.setChecked(pi, pi.isCreateField());
 			}
-			tv.refresh(true);
+			tv.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			gridData= new GridData(GridData.FILL_BOTH);
 			gridData.heightHint= SWTUtil.getTableHeightHint(table, parameterInfos.size());
 			gridData.widthHint= convertWidthInCharsToPixels(30);
@@ -465,8 +465,8 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			editButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			editButton.setEnabled(!tv.getSelection().isEmpty());
 			SWTUtil.setButtonDimensionHint(editButton);
-			editButton.addSelectionListener(new SelectionAdapter() {
-				@Override
+			editButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void widgetSelected(SelectionEvent e) {
 					ISelection selection= tv.getSelection();
 					if (selection instanceof IStructuredSelection) {
@@ -482,7 +482,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 						});
 						if (inputDialog.open() == Window.OK) {
 							selected.setNewName(inputDialog.getValue());
-							tv.refresh(selected);
+							tv.refresh(selected); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 							updateSignaturePreview();
 						}
 
@@ -490,37 +490,37 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 				}
 			});
 
-			downButton.addSelectionListener(new SelectionAdapter() {
+			downButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int[] indices= tv.getTable().getSelectionIndices();
 					Arrays.sort(indices);
-					for (int i= indices.length-1; i >=0; i--) {
+					for (int i= indices.length-1; i >=0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int idx= indices[i];
 						ParameterInfo pi= (ParameterInfo) tv.getElementAt(idx);
 						fProcessor.moveFieldDown(pi);
 					}
-					tv.refresh();
+					tv.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					updateButtons(tv, upButton, downButton, editButton);
 				}
 
 			});
-			upButton.addSelectionListener(new SelectionAdapter() {
+			upButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int[] indices= tv.getTable().getSelectionIndices();
 					Arrays.sort(indices);
-					for (int idx : indices) {
+					for (int idx : indices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ParameterInfo pi= (ParameterInfo) tv.getElementAt(idx);
 						fProcessor.moveFieldUp(pi);
 					}
-					tv.refresh();
+					tv.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					updateButtons(tv, upButton, downButton, editButton);
 				}
 
 			});
-			tv.addCheckStateListener(new ICheckStateListener() {
-				Map<ParameterInfo, String> fLastNames=new HashMap<>();
+			tv.addCheckStateListener(new ICheckStateListener() { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
+				Map<ParameterInfo, String> fLastNames=new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				@Override
 				public void checkStateChanged(CheckStateChangedEvent event) {
 					ParameterInfo element= (ParameterInfo) event.getElement();
@@ -541,7 +541,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 				}
 
 			});
-			tv.addSelectionChangedListener(unused -> updateButtons(tv, upButton, downButton, editButton));
+			tv.addSelectionChangedListener(unused -> updateButtons(tv, upButton, downButton, editButton)); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 
 		private void addSpacer(Composite parent) {
@@ -551,11 +551,11 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			label.setLayoutData(gd);
 		}
 
-		private void createColumns(final CheckboxTableViewer tv) {
+		private void createColumns(final CheckboxTableViewer tv) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			TextCellEditor cellEditor= new TextCellEditor(tv.getTable());
 
 			TableViewerColumn viewerColumn= new TableViewerColumn(tv, SWT.LEAD);
-			viewerColumn.setLabelProvider(new ParameterInfoLabelProvider() {
+			viewerColumn.setLabelProvider(new ParameterInfoLabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				@Override
 				protected String doGetValue(ParameterInfo pi) {
 					return pi.getNewTypeName();
@@ -565,7 +565,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			TableColumn columnType= viewerColumn.getColumn();
 			columnType.setText(RefactoringMessages.IntroduceParameterObjectWizard_type_column);
 			viewerColumn= new TableViewerColumn(tv, SWT.LEAD);
-			viewerColumn.setLabelProvider(new ParameterInfoLabelProvider() {
+			viewerColumn.setLabelProvider(new ParameterInfoLabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				@Override
 				protected String doGetValue(ParameterInfo pi) {
 					return pi.getNewName();
@@ -591,7 +591,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			tv.getTable().getParent().setLayout(layout);
 		}
 
-		private void createGetterInput(Composite result) {
+		private void createGetterInput(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite buttons= new Composite(result, SWT.NONE);
 			GridLayout gridLayout= new GridLayout(2, true);
 			gridLayout.marginHeight= 0;
@@ -603,7 +603,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 
 			final Button button= new Button(buttons, SWT.CHECK);
 			button.setText(RefactoringMessages.IntroduceParameterObjectWizard_creategetter_checkbox);
-			button.addSelectionListener(new SelectionAdapter() {
+			button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -621,7 +621,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 		private void createSetterInput(Composite result) {
 			final Button button= new Button(result, SWT.CHECK);
 			button.setText(RefactoringMessages.IntroduceParameterObjectWizard_createsetter_checkbox);
-			button.addSelectionListener(new SelectionAdapter() {
+			button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -643,7 +643,7 @@ public class IntroduceParameterObjectWizard extends RefactoringWizard {
 			text.setText(fProcessor.getClassName());
 			text.selectAll();
 			text.setFocus();
-			text.addModifyListener(unused -> {
+			text.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				fProcessor.setClassName(text.getText());
 				updateSignaturePreview();
 				validateRefactoring();

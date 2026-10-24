@@ -101,7 +101,7 @@ public class UnusedCodeCleanUpCore extends AbstractMultiFix {
 				isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_METHOD_PARAMETERS));
 	}
 
-	public Map<String, String> getRequiredOptions() {
+	public Map<String, String> getRequiredOptions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, String> result= new Hashtable<>();
 
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_IMPORTS) && !isEnabled(CleanUpConstants.ORGANIZE_IMPORTS))
@@ -126,9 +126,9 @@ public class UnusedCodeCleanUpCore extends AbstractMultiFix {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_IMPORTS))
 			result.add(MultiFixMessages.UnusedCodeMultiFix_RemoveUnusedImport_description);
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_MEMBERS) && isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_METHODS))
@@ -146,32 +146,32 @@ public class UnusedCodeCleanUpCore extends AbstractMultiFix {
 			return result.toArray(new String[0]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (!isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_IMPORTS)) {
-			buf.append("import pack.Bar;\n"); //$NON-NLS-1$
+			buf.append("import pack.Bar;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("class Example {\n"); //$NON-NLS-1$
+		buf.append("class Example {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (!isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_MEMBERS) || !isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_TYPES)) {
-			buf.append("    private class Sub {}\n"); //$NON-NLS-1$
+			buf.append("    private class Sub {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("    public Example(boolean b) {}\n"); //$NON-NLS-1$
+		buf.append("    public Example(boolean b) {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (!isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_MEMBERS) || !isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_CONSTRUCTORS)) {
-			buf.append("    private Example() {}\n"); //$NON-NLS-1$
+			buf.append("    private Example() {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (!isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_MEMBERS) || !isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_FELDS)) {
-			buf.append("    private int fField;\n"); //$NON-NLS-1$
+			buf.append("    private int fField;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (!isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_MEMBERS) || !isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_METHODS)) {
-			buf.append("    private void foo() {}\n"); //$NON-NLS-1$
+			buf.append("    private void foo() {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("    public void bar() {\n"); //$NON-NLS-1$
+		buf.append("    public void bar() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (!isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_LOCAL_VARIABLES)) {
-			buf.append("        int i= 10;\n"); //$NON-NLS-1$
+			buf.append("        int i= 10;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("    }\n"); //$NON-NLS-1$
+		buf.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_METHOD_PARAMETERS)) {
@@ -185,7 +185,7 @@ public class UnusedCodeCleanUpCore extends AbstractMultiFix {
 				    };
 				"""; //$NON-NLS-1$
 
-			buf.append(code);
+			buf.append(code); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
 			String code= """
 				    public void zoz() {
@@ -196,35 +196,35 @@ public class UnusedCodeCleanUpCore extends AbstractMultiFix {
 				        System.out.println("");
 				    };
 				"""; //$NON-NLS-1$
-			buf.append(code);
+			buf.append(code); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		buf.append("}\n"); //$NON-NLS-1$
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_IMPORTS)) {
-			buf.append("\n"); //$NON-NLS-1$
+			buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_MEMBERS)) {
 			if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_TYPES)) {
-				buf.append("\n"); //$NON-NLS-1$
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_CONSTRUCTORS)) {
-				buf.append("\n"); //$NON-NLS-1$
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_FELDS)) {
-				buf.append("\n"); //$NON-NLS-1$
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_METHODS)) {
-				buf.append("\n"); //$NON-NLS-1$
+				buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_LOCAL_VARIABLES)) {
-			buf.append("\n"); //$NON-NLS-1$
+			buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return buf.toString();
@@ -249,12 +249,12 @@ public class UnusedCodeCleanUpCore extends AbstractMultiFix {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int computeNumberOfFixes(CompilationUnit compilationUnit) {
 		int result= 0;
 		IProblem[] problems= compilationUnit.getProblems();
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_IMPORTS) && !isEnabled(CleanUpConstants.ORGANIZE_IMPORTS)) {
-			for (IProblem problem : problems) {
+			for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int id= problem.getID();
 				if (id == IProblem.UnusedImport || id == IProblem.DuplicateImport || id == IProblem.ConflictingImport ||
 					    id == IProblem.CannotImportPackage || id == IProblem.ImportNotFound)
@@ -270,7 +270,7 @@ public class UnusedCodeCleanUpCore extends AbstractMultiFix {
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_MEMBERS) && isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_PRIVATE_FELDS))
 			result+= getNumberOfProblems(problems, IProblem.UnusedPrivateField);
 		if (isEnabled(CleanUpConstants.REMOVE_UNUSED_CODE_LOCAL_VARIABLES)) {
-			for (IProblem problem : problems) {
+			for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int id= problem.getID();
 				if (id == IProblem.LocalVariableIsNeverUsed) {
 					ProblemLocation location= new ProblemLocation(problem);

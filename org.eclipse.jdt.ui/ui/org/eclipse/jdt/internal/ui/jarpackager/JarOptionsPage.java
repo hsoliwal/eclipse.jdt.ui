@@ -86,12 +86,12 @@ class JarOptionsPage extends WizardPage implements IJarPackageWizardPage {
 	// dialog store id constants
 	private final static String PAGE_NAME= "jarOptionsWizardPage"; //$NON-NLS-1$
 
-	private final static String STORE_EXPORT_WARNINGS= PAGE_NAME + ".EXPORT_WARNINGS"; //$NON-NLS-1$
-	private final static String STORE_EXPORT_ERRORS= PAGE_NAME + ".EXPORT_ERRORS"; //$NON-NLS-1$
-	private final static String STORE_SAVE_DESCRIPTION= PAGE_NAME + ".SAVE_DESCRIPTION"; //$NON-NLS-1$
-	private final static String STORE_DESCRIPTION_LOCATION= PAGE_NAME + ".DESCRIPTION_LOCATION"; //$NON-NLS-1$
-	private final static String STORE_USE_SRC_FOLDERS= PAGE_NAME + ".STORE_USE_SRC_FOLDERS"; //$NON-NLS-1$
-	private final static String STORE_BUILD_IF_NEEDED= PAGE_NAME + ".BUILD_IF_NEEDED"; //$NON-NLS-1$
+	private final static String STORE_EXPORT_WARNINGS= PAGE_NAME + ".EXPORT_WARNINGS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_EXPORT_ERRORS= PAGE_NAME + ".EXPORT_ERRORS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_SAVE_DESCRIPTION= PAGE_NAME + ".SAVE_DESCRIPTION"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_DESCRIPTION_LOCATION= PAGE_NAME + ".DESCRIPTION_LOCATION"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_USE_SRC_FOLDERS= PAGE_NAME + ".STORE_USE_SRC_FOLDERS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_BUILD_IF_NEEDED= PAGE_NAME + ".BUILD_IF_NEEDED"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 *	Create an instance of this class
@@ -128,7 +128,7 @@ class JarOptionsPage extends WizardPage implements IJarPackageWizardPage {
 	 *
 	 *	@param parent org.eclipse.swt.widgets.Composite
 	 */
-	protected void createOptionsGroup(Composite parent) {
+	protected void createOptionsGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		initializeDialogUnits(parent);
 
@@ -143,30 +143,30 @@ class JarOptionsPage extends WizardPage implements IJarPackageWizardPage {
 
 		fExportErrorsCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fExportErrorsCheckbox.setText(JarPackagerMessages.JarOptionsPage_exportErrors_text);
-		fExportErrorsCheckbox.addListener(SWT.Selection, selectionListener);
+		fExportErrorsCheckbox.addListener(SWT.Selection, selectionListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		fExportWarningsCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fExportWarningsCheckbox.setText(JarPackagerMessages.JarOptionsPage_exportWarnings_text);
-		fExportWarningsCheckbox.addListener(SWT.Selection, selectionListener);
+		fExportWarningsCheckbox.addListener(SWT.Selection, selectionListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		createSpacer(optionsGroup);
 
 		fUseSourceFoldersCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fUseSourceFoldersCheckbox.setText(JarPackagerMessages.JarOptionsPage_useSourceFoldersHierarchy);
-		fUseSourceFoldersCheckbox.addListener(SWT.Selection, selectionListener);
+		fUseSourceFoldersCheckbox.addListener(SWT.Selection, selectionListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		fUseSourceFoldersCheckbox.setEnabled(fJarPackage.areJavaFilesExported() && !fJarPackage.areGeneratedFilesExported());
 
 		createSpacer(optionsGroup);
 
 		fBuildIfNeededCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fBuildIfNeededCheckbox.setText(JarPackagerMessages.JarOptionsPage_buildIfNeeded);
-		fBuildIfNeededCheckbox.addListener(SWT.Selection, selectionListener);
+		fBuildIfNeededCheckbox.addListener(SWT.Selection, selectionListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		createSpacer(optionsGroup);
 
 		fSaveDescriptionCheckbox= new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
 		fSaveDescriptionCheckbox.setText(JarPackagerMessages.JarOptionsPage_saveDescription_text);
-		fSaveDescriptionCheckbox.addListener(SWT.Selection, selectionListener);
+		fSaveDescriptionCheckbox.addListener(SWT.Selection, selectionListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		createDescriptionFileGroup(parent);
 	}
 
@@ -292,7 +292,7 @@ class JarOptionsPage extends WizardPage implements IJarPackageWizardPage {
 	/*
 	 * Implements method from IJarPackageWizardPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isPageComplete() {
 		if (fJarPackage.isDescriptionSaved()){
 			if (fJarPackage.getDescriptionLocation().toString().length() == 0) {
@@ -332,7 +332,7 @@ class JarOptionsPage extends WizardPage implements IJarPackageWizardPage {
 	/*
 	 * Overrides method from WizardDataTransferPage
 	 */
-	protected void createDescriptionFileGroup(Composite parent) {
+	protected void createDescriptionFileGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// destination specification group
 		fDescriptionFileGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -345,7 +345,7 @@ class JarOptionsPage extends WizardPage implements IJarPackageWizardPage {
 
 		// destination name entry field
 		fDescriptionFileText= new Text(fDescriptionFileGroup, SWT.SINGLE | SWT.BORDER);
-		fDescriptionFileText.addListener(SWT.Modify, new UntypedListener());
+		fDescriptionFileText.addListener(SWT.Modify, new UntypedListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		GridData data= new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		data.widthHint= convertWidthInCharsToPixels(40);
 		fDescriptionFileText.setLayoutData(data);
@@ -355,7 +355,7 @@ class JarOptionsPage extends WizardPage implements IJarPackageWizardPage {
 		fDescriptionFileBrowseButton.setText(JarPackagerMessages.JarOptionsPage_browseButton_text);
 		fDescriptionFileBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		SWTUtil.setButtonDimensionHint(fDescriptionFileBrowseButton);
-		fDescriptionFileBrowseButton.addSelectionListener(new SelectionAdapter() {
+		fDescriptionFileBrowseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDescriptionFileBrowseButtonPressed();

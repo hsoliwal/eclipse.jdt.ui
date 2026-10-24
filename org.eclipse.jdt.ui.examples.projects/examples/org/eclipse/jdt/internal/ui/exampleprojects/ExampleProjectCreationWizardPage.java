@@ -46,7 +46,7 @@ public class ExampleProjectCreationWizardPage extends WizardPage {
 	private Text fTextControl;
 
 	public ExampleProjectCreationWizardPage(int pageNumber, IConfigurationElement elem) {
-		super("page" + pageNumber); //$NON-NLS-1$
+		super("page" + pageNumber); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fCurrStatus= createStatus(IStatus.OK, ""); //$NON-NLS-1$
 
 		fConfigurationElement= elem;
@@ -62,12 +62,12 @@ public class ExampleProjectCreationWizardPage extends WizardPage {
 	private String getAttribute(IConfigurationElement elem, String tag) {
 		String res= elem.getAttribute(tag);
 		if (res == null) {
-			return '!' + tag + '!';
+			return '!' + tag + '!'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return res;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Composite composite= new Composite(parent, SWT.NONE);
 		GridLayout gd= new GridLayout();
@@ -81,7 +81,7 @@ public class ExampleProjectCreationWizardPage extends WizardPage {
 		fTextControl= new Text(composite, SWT.SINGLE | SWT.BORDER);
 		fTextControl.setText(fProjectName);
 		fTextControl.setSelection(fProjectName.length());
-		fTextControl.addModifyListener(unused -> {
+		fTextControl.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			if (!fTextControl.isDisposed()) {
 				validateText(fTextControl.getText());
 			}

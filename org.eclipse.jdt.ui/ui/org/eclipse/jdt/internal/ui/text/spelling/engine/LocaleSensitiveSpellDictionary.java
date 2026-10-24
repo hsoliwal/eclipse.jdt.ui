@@ -55,7 +55,7 @@ public class LocaleSensitiveSpellDictionary extends AbstractSpellDictionary {
 
 	@Override
 	protected final URL getURL() throws MalformedURLException {
-		return new URL(fLocation, fLocale.toString() + ".dictionary");  //$NON-NLS-1$
+		return new URL(fLocation, fLocale.toString() + ".dictionary");  //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class ExtractClassTests1d8 extends ExtractClassTests {
 	}
 
 	/* Test that @NonNull annotations ARE created if no @NonNullByDefault is in effect for the target location */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoRedundantNonNull1() throws Exception {
 		IJavaProject javaProject= getRoot().getJavaProject();
 		Map<String, String> originalOptions= javaProject.getOptions(false);
@@ -71,7 +71,7 @@ public class ExtractClassTests1d8 extends ExtractClassTests {
 	}
 
 	/* Test that @NonNull annotations ARE NOT created if @NonNullByDefault is in effect for the target location */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoRedundantNonNull2() throws Exception {
 		IJavaProject javaProject= getRoot().getJavaProject();
 		Map<String, String> originalOptions= javaProject.getOptions(false);

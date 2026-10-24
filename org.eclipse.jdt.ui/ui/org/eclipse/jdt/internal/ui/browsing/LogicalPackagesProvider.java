@@ -39,7 +39,7 @@ import org.eclipse.jdt.core.JavaModelException;
 
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
-abstract class LogicalPackagesProvider implements IPropertyChangeListener, IElementChangedListener, IContentProvider {
+abstract class LogicalPackagesProvider implements IPropertyChangeListener, IElementChangedListener, IContentProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	protected static final Object[] NO_CHILDREN= new Object[0];
 
@@ -53,8 +53,8 @@ abstract class LogicalPackagesProvider implements IPropertyChangeListener, IElem
 		fViewer= viewer;
 		fCompoundState= isInCompoundState();
 		fInputIsProject= true;
-		fMapToLogicalPackage= new HashMap<>();
-		fMapToPackageFragments= new HashMap<>();
+		fMapToLogicalPackage= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fMapToPackageFragments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		JavaPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(this);
 	}
 
@@ -65,14 +65,14 @@ abstract class LogicalPackagesProvider implements IPropertyChangeListener, IElem
 	 * @param packageFragments the package fragments to add
 	 */
 	protected void addFragmentsToMap(IPackageFragment[] packageFragments) {
-		for (IPackageFragment fragment : packageFragments) {
+		for (IPackageFragment fragment : packageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= getKey(fragment);
 			fMapToPackageFragments.put(key, fragment);
 		}
 	}
 
 	protected String getKey(IPackageFragment fragment) {
-		return fragment.getElementName() + fragment.getJavaProject().getElementName();
+		return fragment.getElementName() + fragment.getJavaProject().getElementName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -98,14 +98,14 @@ abstract class LogicalPackagesProvider implements IPropertyChangeListener, IElem
 	 * @param packageFragments the package fragments to combine
 	 * @return an array with combined (logical) packages and package fragments
 	 */
-	protected Object[] combineSamePackagesIntoLogialPackages(IPackageFragment[] packageFragments) {
+	protected Object[] combineSamePackagesIntoLogialPackages(IPackageFragment[] packageFragments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!fCompoundState)
 			return packageFragments;
 
-		List<IAdaptable> newChildren= new ArrayList<>();
+		List<IAdaptable> newChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IPackageFragment fragment : packageFragments) {
+		for (IPackageFragment fragment : packageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fragment == null)
 				continue;
 
@@ -140,7 +140,7 @@ abstract class LogicalPackagesProvider implements IPropertyChangeListener, IElem
 	/**
 	 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void propertyChange(PropertyChangeEvent event) {
 		if (fCompoundState == isInCompoundState())
 			return;
@@ -155,10 +155,10 @@ abstract class LogicalPackagesProvider implements IPropertyChangeListener, IElem
 		if(fViewer instanceof TreeViewer){
 			TreeViewer viewer= (TreeViewer) fViewer;
 			Object[] expandedObjects= viewer.getExpandedElements();
-			viewer.refresh();
+			viewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			viewer.setExpandedElements(expandedObjects);
 		} else
-			fViewer.refresh();
+			fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	protected boolean isInCompoundState() {
@@ -177,7 +177,7 @@ abstract class LogicalPackagesProvider implements IPropertyChangeListener, IElem
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		if (newInput != null) {
-			JavaCore.addElementChangedListener(this);
+			JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		} else {
 			JavaCore.removeElementChangedListener(this);
 		}

@@ -56,7 +56,7 @@ public class VariableDeclarationRewrite {
 		listRewrite.setModifiers(includedModifiers, excludedModifiers, group);
 	}
 
-	public static void rewriteModifiers(final FieldDeclaration declarationNode, final VariableDeclarationFragment[] toChange, final int includedModifiers, final int excludedModifiers, final ASTRewrite rewrite, final TextEditGroup group) {
+	public static void rewriteModifiers(final FieldDeclaration declarationNode, final VariableDeclarationFragment[] toChange, final int includedModifiers, final int excludedModifiers, final ASTRewrite rewrite, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final List<VariableDeclarationFragment> fragmentsToChange= Arrays.asList(toChange);
 		AST ast= declarationNode.getAST();
 /*
@@ -91,13 +91,13 @@ public class VariableDeclarationRewrite {
 		}
 
 		ListRewrite fragmentsRewrite= null;
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment currentFragment= iter.next();
 
 			@SuppressWarnings("unchecked")
 			Map<VariableDeclarationFragment, MovedFragment> lookup= (Map<VariableDeclarationFragment, MovedFragment>) rewrite.getProperty(MovedFragment.class.getName());
 			if (lookup == null) {
-				lookup= new HashMap<>();
+				lookup= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				rewrite.setProperty(MovedFragment.class.getName(), lookup);
 			}
 			MovedFragment currentMovedFragment= lookup.get(currentFragment);
@@ -114,7 +114,7 @@ public class VariableDeclarationRewrite {
 						modifierRewrite= ModifierRewrite.create(rewrite, currentMovedFragment.fDeclaration);
 						ListRewrite listRewrite= rewrite.getListRewrite(currentMovedFragment.fDeclaration, FieldDeclaration.MODIFIERS2_PROPERTY);
 						List<IExtendedModifier> extendedList= listRewrite.getRewrittenList();
-						for (IExtendedModifier element : extendedList) {
+						for (IExtendedModifier element : extendedList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ASTNode curr= (ASTNode)element;
 							if (curr instanceof Modifier)
 								rewrite.remove(curr, group);
@@ -178,7 +178,7 @@ public class VariableDeclarationRewrite {
 		}
 	}
 
-	public static void rewriteModifiers(final VariableDeclarationStatement declarationNode, final VariableDeclarationFragment[] toChange, final int includedModifiers, final int excludedModifiers, ASTRewrite rewrite, final TextEditGroup group) {
+	public static void rewriteModifiers(final VariableDeclarationStatement declarationNode, final VariableDeclarationFragment[] toChange, final int includedModifiers, final int excludedModifiers, ASTRewrite rewrite, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final List<VariableDeclarationFragment> fragmentsToChange= Arrays.asList(toChange);
 		AST ast= declarationNode.getAST();
 
@@ -207,7 +207,7 @@ public class VariableDeclarationRewrite {
 		}
 
 		ListRewrite fragmentsRewrite= null;
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment currentFragment= iter.next();
 
 			if (fragmentsToChange.contains(lastFragment) != fragmentsToChange.contains(currentFragment)) {

@@ -120,7 +120,7 @@ public class JavaTemplatePreferencePage extends TemplatePreferencePage {
 	/*
 	 * @see org.eclipse.ui.texteditor.templates.TemplatePreferencePage#createViewer(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected SourceViewer createViewer(Composite parent) {
 		IDocument document= new Document();
 		JavaTextTools tools= JavaPlugin.getDefault().getJavaTextTools();
@@ -147,7 +147,7 @@ public class JavaTemplatePreferencePage extends TemplatePreferencePage {
 	/*
 	 * @see org.eclipse.ui.texteditor.templates.TemplatePreferencePage#updateViewerInput()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updateViewerInput() {
 		IStructuredSelection selection= (IStructuredSelection) getTableViewer().getSelection();
 		SourceViewer viewer= getViewer();
@@ -163,11 +163,11 @@ public class JavaTemplatePreferencePage extends TemplatePreferencePage {
 
 			String start= null;
 			if ("javadoc".equals(contextId)) { //$NON-NLS-1$
-				start= "/**" + doc.getLegalLineDelimiters()[0]; //$NON-NLS-1$
+				start= "/**" + doc.getLegalLineDelimiters()[0]; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else
 				start= ""; //$NON-NLS-1$
 
-			doc.set(start + template.getPattern());
+			doc.set(start + template.getPattern()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			int startLen= start.length();
 			viewer.setDocument(doc, startLen, doc.getLength() - startLen);
 

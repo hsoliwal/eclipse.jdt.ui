@@ -28,10 +28,10 @@ public class TypeSetEnvironment {
 	private final TypeUniverseSet fUniverse;
 	private final EmptyTypeSet fEmptyTypeSet;
 
-	private final Map<TType, SubTypesOfSingleton> fSubtypesOfSingletons= new LinkedHashMap<>();//@perf
-	private final Map<TypeSet, SubTypesSet> fSubTypesSets= new LinkedHashMap<>();//@perf
-	private final Map<TType, SuperTypesOfSingleton> fSuperTypesOfSingletons= new LinkedHashMap<>();//@perf
-	private final Map<Object, SuperTypesSet> fSuperTypesSets= new LinkedHashMap<>();//@perf
+	private final Map<TType, SubTypesOfSingleton> fSubtypesOfSingletons= new LinkedHashMap<>();//@perf //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+	private final Map<TypeSet, SubTypesSet> fSubTypesSets= new LinkedHashMap<>();//@perf //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+	private final Map<TType, SuperTypesOfSingleton> fSuperTypesOfSingletons= new LinkedHashMap<>();//@perf //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+	private final Map<Object, SuperTypesSet> fSuperTypesSets= new LinkedHashMap<>();//@perf //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	private int fgCommonExprHits= 0;
 	private int fgCommonExprMisses= 0;
@@ -120,8 +120,8 @@ public class TypeSetEnvironment {
 	}
 
 	public void dumpStats() {
-		System.out.println("Common expression hits:   " + fgCommonExprHits); //$NON-NLS-1$
-		System.out.println("Common expression misses: " + fgCommonExprMisses); //$NON-NLS-1$
+		System.out.println("Common expression hits:   " + fgCommonExprHits); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		System.out.println("Common expression misses: " + fgCommonExprMisses); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

@@ -31,13 +31,13 @@ import junit.framework.TestCase;
  */
 public class InvocationCountExampleTest extends TestCase {
 
-	public void test() throws Exception {
+	public void test() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InvocationCountPerformanceMeter performanceMeter= new InvocationCountPerformanceMeter(Performance.getDefault().getDefaultScenarioId(this), new Method[] {
 			Double.class.getDeclaredMethod("hashCode"),
 			Double.class.getDeclaredMethod("equals", Object.class),
 		});
 		try {
-			Set<Double> set= new HashSet<>();
+			Set<Double> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			performanceMeter.start();
 			set.add(10.0);
 			set.add(9.0);

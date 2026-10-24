@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.refactoring.actions.InlineMethodAction;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class InlineAction extends SelectionDispatchAction {
+public class InlineAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 	private final InlineTempAction fInlineTemp;
@@ -104,7 +104,7 @@ public class InlineAction extends SelectionDispatchAction {
 	/*
 	 * @see org.eclipse.jdt.ui.actions.SelectionDispatchAction#run(org.eclipse.jface.text.ITextSelection)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		if (!ActionUtil.isEditable(fEditor))
 			return;

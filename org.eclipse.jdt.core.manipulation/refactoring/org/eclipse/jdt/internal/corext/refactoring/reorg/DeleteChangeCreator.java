@@ -76,7 +76,7 @@ class DeleteChangeCreator {
 	 *        <code>javaElements</code> does not contain package fragments
 	 * @return the created change
 	 */
-	static Change createDeleteChange(TextChangeManager manager, IResource[] resources,
+	static Change createDeleteChange(TextChangeManager manager, IResource[] resources, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement[] javaElements, String changeName, List<IResource> packageDeletes) throws CoreException {
 		/*
 		 * Problem: deleting a package and subpackages can result in
@@ -92,18 +92,18 @@ class DeleteChangeCreator {
 			result= new DynamicValidationStateChange(changeName);
 		}
 
-		for (IJavaElement element : javaElements) {
+		for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! ReorgUtilsCore.isInsideCompilationUnit(element))
 				result.add(createDeleteChange(element));
 		}
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(createDeleteChange(resource));
 		}
 
 		Map<ICompilationUnit, List<IJavaElement>> grouped= ReorgUtilsCore.groupByCompilationUnit(getElementsSmallerThanCu(javaElements));
 		if (!grouped.isEmpty() ){
 			Assert.isNotNull(manager);
-			for (Map.Entry<ICompilationUnit, List<IJavaElement>> entry : grouped.entrySet()) {
+			for (Map.Entry<ICompilationUnit, List<IJavaElement>> entry : grouped.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu = entry.getKey();
 				result.add(createDeleteChange(cu, entry.getValue(), manager));
 			}
@@ -148,15 +148,15 @@ class DeleteChangeCreator {
 
 	//List<IJavaElement>
 	private static List<IJavaElement> getElementsSmallerThanCu(IJavaElement[] javaElements){
-		List<IJavaElement> result= new ArrayList<>();
-		for (IJavaElement element : javaElements) {
+		List<IJavaElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ReorgUtilsCore.isInsideCompilationUnit(element))
 				result.add(element);
 		}
 		return result;
 	}
 
-	private static Change createDeleteChange(IJavaElement javaElement) throws JavaModelException {
+	private static Change createDeleteChange(IJavaElement javaElement) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(! ReorgUtilsCore.isInsideCompilationUnit(javaElement));
 
 		switch(javaElement.getElementType()){
@@ -206,7 +206,7 @@ class DeleteChangeCreator {
 		return new DeleteSourceManipulationChange(element, true);
 	}
 
-	private static Change createPackageFragmentRootDeleteChange(IPackageFragmentRoot root) throws JavaModelException {
+	private static Change createPackageFragmentRootDeleteChange(IPackageFragmentRoot root) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= root.getResource();
 		if (resource != null && resource.isLinked()){
 			//XXX using this code is a workaround for jcore bug 31998

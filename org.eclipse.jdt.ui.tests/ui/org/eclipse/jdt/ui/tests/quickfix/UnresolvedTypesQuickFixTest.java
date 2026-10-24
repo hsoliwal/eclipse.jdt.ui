@@ -60,7 +60,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 	private IJavaProject fJProject1;
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -86,7 +86,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInFieldDecl() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -146,7 +146,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInMethodArguments() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -216,7 +216,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3, expected4, expected5, expected6 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInMethodReturnType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -290,7 +290,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3, expected4, expected5, expected6 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInExceptionType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -329,7 +329,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInVarDeclWithWildcard() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -405,7 +405,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3, expected4, expected5, expected6 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInStatement() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -447,7 +447,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testArrayTypeInStatement() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -539,7 +539,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3, expected4, expected5, expected6, expected7});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testQualifiedType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -583,7 +583,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInnerType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -641,7 +641,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInCatchBlock() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -671,7 +671,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInSuperType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -696,7 +696,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInSuperInterface() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -721,7 +721,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInAnnotation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -747,7 +747,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInAnnotation_bug153881() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("a", false, null);
 		String str= """
@@ -776,7 +776,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPrimitiveTypeInFieldDecl() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -846,7 +846,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3, expected4, expected5, expected6, expected7});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInTypeArguments1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -922,7 +922,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeInTypeArguments2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1009,7 +1009,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testParameterizedType1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1048,7 +1048,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testParameterizedType2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1105,14 +1105,14 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	private void createSomeAmbiguity(boolean ifc, boolean isException) throws Exception {
+	private void createSomeAmbiguity(boolean ifc, boolean isException) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IPackageFragment pack3= fSourceFolder.createPackageFragment("test3", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test3;\n");
-		buf.append("public "); buf.append(ifc ? "interface" : "class");
-		buf.append(" A "); buf.append(isException ? "extends Exception " : ""); buf.append("{\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test3;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public "); buf.append(ifc ? "interface" : "class"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" A "); buf.append(isException ? "extends Exception " : ""); buf.append("{\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		pack3.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		String str= """
@@ -1123,11 +1123,11 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		pack3.createCompilationUnit("B.java", str, false, null);
 
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
-		buf= new StringBuilder();
-		buf.append("package test2;\n");
-		buf.append("public "); buf.append(ifc ? "interface" : "class");
-		buf.append(" A "); buf.append(isException ? "extends Exception " : ""); buf.append("{\n");
-		buf.append("}\n");
+		buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public "); buf.append(ifc ? "interface" : "class"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" A "); buf.append(isException ? "extends Exception " : ""); buf.append("{\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		pack2.createCompilationUnit("A.java", buf.toString(), false, null);
 
 		String str1= """
@@ -1139,7 +1139,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAmbiguousTypeInSuperClass() throws Exception {
 		createSomeAmbiguity(false, false);
 
@@ -1192,7 +1192,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAmbiguousTypeInInterface() throws Exception {
 		createSomeAmbiguity(true, false);
 
@@ -1245,7 +1245,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAmbiguousTypeInField() throws Exception {
 		createSomeAmbiguity(true, false);
 
@@ -1301,7 +1301,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAmbiguousTypeInArgument() throws Exception {
 		createSomeAmbiguity(true, false);
 
@@ -1360,7 +1360,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAmbiguousTypeInReturnType() throws Exception {
 		createSomeAmbiguity(false, false);
 
@@ -1422,7 +1422,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAmbiguousTypeInExceptionType() throws Exception {
 		createSomeAmbiguity(false, true);
 
@@ -1481,7 +1481,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAmbiguousTypeInCatchBlock() throws Exception {
 		createSomeAmbiguity(false, true);
 
@@ -1557,7 +1557,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 	 * @throws Exception if anything goes wrong
 	 * @since 3.9
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndirectRefDefaultClass() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
@@ -1612,7 +1612,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testForEachMissingType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -1651,7 +1651,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 
 		assertExpectedExistInProposals(proposals, expected);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue2180() throws Exception {  // https://bugs.eclipse.org/bugs/show_bug.cgi?id=468454
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -1692,7 +1692,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 
 		assertExpectedExistInProposals(proposals, expected);
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug530193() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragmentRoot testSourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src-tests", new Path[0], new Path[0], "bin-tests",
@@ -1720,7 +1720,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertFalse(proposals.stream().anyMatch(p -> "Import 'Tests' (pt)".equals(p.getDisplayString())));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug321464() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -1751,7 +1751,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue485() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -1790,7 +1790,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue649() throws Exception {
 		IPackageFragment defaultPackage= fSourceFolder.createPackageFragment("", false, null);
 		String str= """
@@ -1831,7 +1831,7 @@ public class UnresolvedTypesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue2119() throws Exception {
 		IPackageFragment other = fSourceFolder.createPackageFragment("other", false, null);
 		String source1 = """

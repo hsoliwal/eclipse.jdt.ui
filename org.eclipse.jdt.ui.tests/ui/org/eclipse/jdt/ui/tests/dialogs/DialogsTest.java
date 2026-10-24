@@ -112,7 +112,7 @@ public class DialogsTest extends TestCase {
 	}
 	*/
 
-	public void testElementTreeSelectionDialog() throws Exception {
+	public void testElementTreeSelectionDialog() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject jproject= JavaProjectHelper.createJavaProject(PROJECT_NAME, "bin");
 		JavaProjectHelper.addSourceContainer(jproject, "src1");
 		Object initSelection= JavaProjectHelper.addSourceContainer(jproject, "src2");
@@ -165,11 +165,11 @@ public class DialogsTest extends TestCase {
 		@Override
 		public String getText(Object element) {
 			Integer i= (Integer) element;
-			return "e-" + i.toString();
+			return "e-" + i.toString(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	public void testElementListSelectionDialog2() throws Exception {
+	public void testElementListSelectionDialog2() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] elements= new Integer[] {
 			0,
 			1,

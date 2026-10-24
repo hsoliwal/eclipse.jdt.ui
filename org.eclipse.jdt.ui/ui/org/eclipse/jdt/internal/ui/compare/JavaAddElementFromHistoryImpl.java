@@ -84,7 +84,7 @@ class JavaAddElementFromHistoryImpl extends JavaHistoryActionImpl {
 		super(true);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ISelection selection) {
 
 		String errorTitle= CompareMessages.AddFromHistory_title;
@@ -172,7 +172,7 @@ class JavaAddElementFromHistoryImpl extends JavaHistoryActionImpl {
 			CompilationUnit root= parsePartialCompilationUnit(cu2);
 			ASTRewrite rewriter= ASTRewrite.create(root.getAST());
 
-			for (ITypedElement result : d.getSelection()) {
+			for (ITypedElement result : d.getSelection()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// create an AST node
 				ASTNode newNode= createASTNode(rewriter, result, TextUtilities.getDefaultLineDelimiter(document), cu.getJavaProject());
 				if (newNode == null) {
@@ -206,7 +206,7 @@ class JavaAddElementFromHistoryImpl extends JavaHistoryActionImpl {
 							lw.insertAt(newNode, index, null);
 						}
 					} else {
-						JavaPlugin.logErrorMessage("JavaAddElementFromHistoryImpl: unknown container " + parent); //$NON-NLS-1$
+						JavaPlugin.logErrorMessage("JavaAddElementFromHistoryImpl: unknown container " + parent); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 
 				}
@@ -262,7 +262,7 @@ class JavaAddElementFromHistoryImpl extends JavaHistoryActionImpl {
 	 * Returns the corresponding place holder type for the given element.
 	 * @return a place holder type (see ASTRewrite) or -1 if there is no corresponding placeholder
 	 */
-	private int getPlaceHolderType(ITypedElement element) {
+	private int getPlaceHolderType(ITypedElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (element instanceof DocumentRangeNode) {
 			JavaNode jn= (JavaNode) element;
@@ -302,7 +302,7 @@ class JavaAddElementFromHistoryImpl extends JavaHistoryActionImpl {
 		return -1;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean isEnabled(ISelection selection) {
 
 		if (selection.isEmpty()) {

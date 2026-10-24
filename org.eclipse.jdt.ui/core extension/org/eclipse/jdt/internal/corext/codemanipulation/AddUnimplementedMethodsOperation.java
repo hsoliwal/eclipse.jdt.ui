@@ -58,7 +58,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @since 3.1
  */
-public final class AddUnimplementedMethodsOperation implements IWorkspaceRunnable {
+public final class AddUnimplementedMethodsOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/** Should the resulting edit be applied? */
 	private final boolean fApply;
@@ -67,7 +67,7 @@ public final class AddUnimplementedMethodsOperation implements IWorkspaceRunnabl
 	private String[] fCreatedImports;
 
 	/** The method binding keys for which a method was generated */
-	private final List<String> fCreatedMethods= new ArrayList<>();
+	private final List<String> fCreatedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/** Should the import edits be applied? */
 	private final boolean fImports;
@@ -101,7 +101,7 @@ public final class AddUnimplementedMethodsOperation implements IWorkspaceRunnabl
 	 * @param apply <code>true</code> if the resulting edit should be applied, <code>false</code> otherwise
 	 * @param save <code>true</code> if the changed compilation unit should be saved, <code>false</code> otherwise
 	 */
-	public AddUnimplementedMethodsOperation(CompilationUnit astRoot, ITypeBinding type, IMethodBinding[] methodsToImplement, int insertPos, final boolean imports, final boolean apply, final boolean save) {
+	public AddUnimplementedMethodsOperation(CompilationUnit astRoot, ITypeBinding type, IMethodBinding[] methodsToImplement, int insertPos, final boolean imports, final boolean apply, final boolean save) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (astRoot == null || !(astRoot.getJavaElement() instanceof ICompilationUnit)) {
 			throw new IllegalArgumentException("AST must not be null and has to be created from a ICompilationUnit"); //$NON-NLS-1$
 		}
@@ -165,7 +165,7 @@ public final class AddUnimplementedMethodsOperation implements IWorkspaceRunnabl
 	/*
 	 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor monitor) throws CoreException {
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
@@ -216,7 +216,7 @@ public final class AddUnimplementedMethodsOperation implements IWorkspaceRunnabl
 				}
 			}
 
-			for (IMethodBinding curr : methodsToImplement) {
+			for (IMethodBinding curr : methodsToImplement) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MethodDeclaration stub= StubUtility2Core.createImplementationStub(cu, astRewrite, importRewrite, context, curr, currTypeBinding, settings, currTypeBinding.isInterface(), insertion);
 				if (stub != null) {
 					fCreatedMethods.add(curr.getKey());
@@ -246,7 +246,7 @@ public final class AddUnimplementedMethodsOperation implements IWorkspaceRunnabl
 	private ASTNode getNodeToInsertBefore(ListRewrite rewriter) {
 		if (fInsertPos != -1) {
 			List<?> members= rewriter.getOriginalList();
-			for (Object member : members) {
+			for (Object member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode curr= (ASTNode) member;
 				if (curr.getStartPosition() >= fInsertPos) {
 					return curr;

@@ -91,7 +91,7 @@ public final class JavaSynchronizationLabelProvider extends AbstractSynchronizat
 		final ISynchronizationContext context= getContext();
 		final IResource resource= JavaModelProvider.getResource(element);
 		if (context != null && resource != null) {
-			for (IDiff d : JavaSynchronizationContentProvider.getDiffs(context, element)) {
+			for (IDiff d : JavaSynchronizationContentProvider.getDiffs(context, element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (context.getDiffTree().getResource(d).equals(resource)) {
 					return d;
 				}
@@ -136,7 +136,7 @@ public final class JavaSynchronizationLabelProvider extends AbstractSynchronizat
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void updateLabel(ViewerLabel label, TreePath elementPath) {
 		Object firstSegment = elementPath.getFirstSegment();
 		if (firstSegment instanceof IProject && elementPath.getSegmentCount() == 2) {

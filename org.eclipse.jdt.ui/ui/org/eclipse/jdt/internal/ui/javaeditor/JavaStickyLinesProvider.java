@@ -69,17 +69,17 @@ import org.eclipse.jdt.ui.JavaUI;
 public class JavaStickyLinesProvider implements IStickyLinesProvider {
 
 	private final static int IGNORE_LINE_INDENTATION= -1;
-	private final static Pattern ELSE_PATTERN= Pattern.compile("else[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern DO_PATTERN= Pattern.compile("do[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern WHILE_PATTERN= Pattern.compile("while[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern FOR_PATTERN= Pattern.compile("for[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern TRY_PATTERN= Pattern.compile("try[\\s,{]"); //$NON-NLS-1$
-	private final static Pattern NEW_PATTERN= Pattern.compile("new[\\s,{]"); //$NON-NLS-1$
+	private final static Pattern ELSE_PATTERN= Pattern.compile("else[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern DO_PATTERN= Pattern.compile("do[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern WHILE_PATTERN= Pattern.compile("while[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern FOR_PATTERN= Pattern.compile("for[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern TRY_PATTERN= Pattern.compile("try[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private final static Pattern NEW_PATTERN= Pattern.compile("new[\\s,{]"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-	private static Map<ITypeRoot, CompilationUnit> cuMap= new HashMap<>();
-	private static Map<ITypeRoot, Long> timeMap= new HashMap<>();
+	private static Map<ITypeRoot, CompilationUnit> cuMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private static Map<ITypeRoot, Long> timeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public List<IStickyLine> getStickyLines(ISourceViewer sourceViewer, int lineNumber, StickyLinesProperties properties) {
 		final LinkedList<IStickyLine> stickyLines= new LinkedList<>();
 		JavaEditor javaEditor= (JavaEditor) properties.editor();
@@ -94,7 +94,7 @@ public class JavaStickyLinesProvider implements IStickyLinesProvider {
 		try {
 			line = textWidget.getLine(textWidgetLineNumber);
 			startIndentation= getIndentation(line);
-			while (startIndentation == IGNORE_LINE_INDENTATION) {
+			while (startIndentation == IGNORE_LINE_INDENTATION) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				textWidgetLineNumber--;
 				if (textWidgetLineNumber <= 0) {
 					break;
@@ -134,10 +134,10 @@ public class JavaStickyLinesProvider implements IStickyLinesProvider {
 					cuMap.put(typeRoot, cu);
 					timeMap.put(typeRoot, Long.valueOf(currTime));
 					node= getASTNode(cu, mapWidgetToLineNumber(sourceViewer, textWidgetLineNumber)+1, line);
-					while (node == null && textWidgetLineNumber > 0) {
+					while (node == null && textWidgetLineNumber > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						line= textWidget.getLine(--textWidgetLineNumber);
 						startIndentation= getIndentation(line);
-						while (startIndentation == IGNORE_LINE_INDENTATION && textWidgetLineNumber > 0) {
+						while (startIndentation == IGNORE_LINE_INDENTATION && textWidgetLineNumber > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							line= textWidget.getLine(--textWidgetLineNumber);
 							startIndentation= getIndentation(line);
 						}
@@ -151,7 +151,7 @@ public class JavaStickyLinesProvider implements IStickyLinesProvider {
 					if (node != null) {
 						boolean addStickyLine= false;
 						int nodeLineNumber= 0;
-						while (node != null) {
+						while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							addStickyLine= false;
 							switch (node.getNodeType()) {
 								case ASTNode.ANNOTATION_TYPE_DECLARATION:
@@ -202,20 +202,20 @@ public class JavaStickyLinesProvider implements IStickyLinesProvider {
 												break;
 											}
 											String stmtLine= textWidget.getLine(lineIndex);
-											Matcher m= p.matcher(stmtLine);
-											while (!m.find() && nodeLineNumber > 1) {
+											Matcher m= p.matcher(stmtLine); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+											while (!m.find() && nodeLineNumber > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 												nodeLineNumber--;
 												lineIndex = mapLineNumberToWidget(sourceViewer, nodeLineNumber - 1);
 												if (lineIndex < 0) {
 													continue;
 												}
 												stmtLine= textWidget.getLine(lineIndex );
-												m= p.matcher(stmtLine);
+												m= p.matcher(stmtLine); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 											}
 											node= node.getParent();
 										}
 									}
-									while (node.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) {
+									while (node.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										node= node.getParent();
 									}
 									break;
@@ -271,15 +271,15 @@ public class JavaStickyLinesProvider implements IStickyLinesProvider {
 											break;
 										}
 										String stmtLine= textWidget.getLine(lineIndex);
-										Matcher m= pattern.matcher(stmtLine);
-										while (!m.find() && nodeLineNumber > 1) {
+										Matcher m= pattern.matcher(stmtLine); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+										while (!m.find() && nodeLineNumber > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 											nodeLineNumber--;
 											lineIndex = mapLineNumberToWidget(sourceViewer, nodeLineNumber - 1);
 											if (lineIndex < 0) {
 												continue;
 											}
 											stmtLine= textWidget.getLine(lineIndex);
-											m= pattern.matcher(stmtLine);
+											m= pattern.matcher(stmtLine); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 										}
 									}
 									break;

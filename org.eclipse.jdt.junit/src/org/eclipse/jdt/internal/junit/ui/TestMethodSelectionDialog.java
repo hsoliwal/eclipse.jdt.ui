@@ -63,7 +63,7 @@ public class TestMethodSelectionDialog extends ElementListSelectionDialog {
 	private IJavaElement fElement;
 
 	public static class TestReferenceCollector extends SearchRequestor {
-		Set<IJavaElement> fResult= new HashSet<>(200);
+		Set<IJavaElement> fResult= new HashSet<>(200); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		@Override
 		public void acceptSearchMatch(SearchMatch match) throws CoreException {
@@ -94,7 +94,7 @@ public class TestMethodSelectionDialog extends ElementListSelectionDialog {
 	/*
 	 * @see Window#open()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int open() {
 		Object[] elements;
 		IType testType= findTestType();
@@ -120,13 +120,13 @@ public class TestMethodSelectionDialog extends ElementListSelectionDialog {
 		return super.open();
 	}
 
-	private IType findTestType() {
+	private IType findTestType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String qualifiedName= JUnitCorePlugin.TEST_INTERFACE_NAME;
 		IJavaProject[] projects;
-		Set<IType> result= new HashSet<>();
+		Set<IType> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		try {
 			projects= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()).getJavaProjects();
-			for (IJavaProject project : projects) {
+			for (IJavaProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IType type= project.findType(qualifiedName);
 				if (type != null)
 					result.add(type);
@@ -146,7 +146,7 @@ public class TestMethodSelectionDialog extends ElementListSelectionDialog {
 		return selectTestType(result);
 	}
 
-	private IType selectTestType(Set<IType> result) {
+	private IType selectTestType(Set<IType> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ILabelProvider labelProvider= new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_PARAMETERS | JavaElementLabelProvider.SHOW_ROOT);
 		ElementListSelectionDialog dialog= new ElementListSelectionDialog(getParentShell(), labelProvider);
 		dialog.setTitle(JUnitMessages.TestMethodSelectionDialog_dialog_title);
@@ -154,13 +154,13 @@ public class TestMethodSelectionDialog extends ElementListSelectionDialog {
 		dialog.setMessage(msg);
 		IJavaProject[] projects= new IJavaProject[result.size()];
 		IType[] testTypes= result.toArray(new IType[result.size()]);
-		for (int i= 0; i < projects.length; i++)
+		for (int i= 0; i < projects.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			projects[i]= testTypes[i].getJavaProject();
 		dialog.setElements(projects);
 		if (dialog.open() == Window.CANCEL)
 			return null;
 		IJavaProject project= (IJavaProject) dialog.getFirstResult();
-		for (IType testType : testTypes) {
+		for (IType testType : testTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (testType.getJavaProject().equals(project))
 				return testType;
 		}
@@ -170,7 +170,7 @@ public class TestMethodSelectionDialog extends ElementListSelectionDialog {
 	public Object[] searchTestMethods(final IJavaElement element, final IType testType) throws InvocationTargetException, InterruptedException  {
 		final AtomicReference<TestReferenceCollector> col= new AtomicReference<>();
 
-		IRunnableWithProgress runnable= progressMonitor -> {
+		IRunnableWithProgress runnable= progressMonitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				col.set(doSearchTestMethods(element, testType, progressMonitor));
 			} catch (CoreException e) {

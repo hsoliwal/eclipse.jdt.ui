@@ -34,7 +34,7 @@ import org.eclipse.jdt.core.dom.TypeParameter;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ImportRewrite.ImportRewriteContext;
 
-public class NewMethodCorrectionProposal extends AbstractMethodCorrectionProposal {
+public class NewMethodCorrectionProposal extends AbstractMethodCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public NewMethodCorrectionProposal(NewMethodCorrectionProposalCore core, Image image) {
 		super(core.getName(), core.getCompilationUnit(), core.getRelevance(), image, core);
 	}

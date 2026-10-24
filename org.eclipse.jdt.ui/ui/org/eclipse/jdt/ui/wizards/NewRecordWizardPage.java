@@ -84,7 +84,7 @@ public class NewRecordWizardPage extends NewTypeWizardPage {
 	 * @param selection used to initialize the fields
 	 * @since 3.25
 	 */
-	public void init(IStructuredSelection selection) {
+	public void init(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement jelem= getInitialJavaElement(selection);
 		initContainerPage(jelem);
 		initTypePage(jelem);
@@ -133,7 +133,7 @@ public class NewRecordWizardPage extends NewTypeWizardPage {
 
 	// ------ UI --------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -233,7 +233,7 @@ public class NewRecordWizardPage extends NewTypeWizardPage {
 	/*
 	 * @see NewTypeWizardPage#createTypeMembers
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createTypeMembers(IType type, ImportsManager imports, IProgressMonitor monitor) throws CoreException {
 		boolean doInherited= isCreateInherited();
 		boolean doMain= isCreateMain();

@@ -38,7 +38,7 @@ public class JavaUIPreferenceInitializer extends AbstractPreferenceInitializer {
 		PreferenceConstants.initializeDefaultValues(store);
 	}
 
-	public static void setThemeBasedPreferences(IPreferenceStore store, boolean fireEvent) {
+	public static void setThemeBasedPreferences(IPreferenceStore store, boolean fireEvent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ColorRegistry registry= null;
 		if (PlatformUI.isWorkbenchRunning())
 			registry= PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getColorRegistry();

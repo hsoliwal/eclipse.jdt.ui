@@ -56,15 +56,15 @@ public class RefreshElementAction extends Action {
 	/**
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IStructuredSelection selection= (IStructuredSelection)getSelection();
 		if (selection.isEmpty()) {
 			fViewer.getPart().refresh();
 			return;
 		}
-		List<MethodWrapper> toExpand= new ArrayList<>();
-		for (Object object : selection) {
+		List<MethodWrapper> toExpand= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object object : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MethodWrapper element= (MethodWrapper) object;
 			boolean isExpanded= fViewer.getExpandedState(element);
 			element.removeFromCache();
@@ -72,9 +72,9 @@ public class RefreshElementAction extends Action {
 				fViewer.setExpandedState(element, false);
 				toExpand.add(element);
 			}
-			fViewer.refresh(element);
+			fViewer.refresh(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
-		for (MethodWrapper elem : toExpand) {
+		for (MethodWrapper elem : toExpand) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fViewer.setExpandedState(elem, true);
 		}
 	}

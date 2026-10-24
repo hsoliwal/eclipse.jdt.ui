@@ -65,7 +65,7 @@ class CallSearchResultCollector {
     }
 
     protected Map<String, MethodCall> createCalledMethodsData() {
-        return new HashMap<>();
+        return new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
     }
 
     /**

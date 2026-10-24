@@ -48,7 +48,7 @@ public class JavaBrowsingPerspectiveFactory implements IPerspectiveFactory {
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createInitialLayout(IPageLayout layout) {
 		if (stackBrowsingViewsVertically())
 			createVerticalLayout(layout);
@@ -108,7 +108,7 @@ public class JavaBrowsingPerspectiveFactory implements IPerspectiveFactory {
 
 	}
 
-	private void createVerticalLayout(IPageLayout layout) {
+	private void createVerticalLayout(IPageLayout layout) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String relativePartId= IPageLayout.ID_EDITOR_AREA;
 		int relativePos= IPageLayout.LEFT;
 
@@ -141,7 +141,7 @@ public class JavaBrowsingPerspectiveFactory implements IPerspectiveFactory {
 		placeHolderBottom.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
 	}
 
-	private void createHorizontalLayout(IPageLayout layout) {
+	private void createHorizontalLayout(IPageLayout layout) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String relativePartId= IPageLayout.ID_EDITOR_AREA;
 		int relativePos= IPageLayout.TOP;
 

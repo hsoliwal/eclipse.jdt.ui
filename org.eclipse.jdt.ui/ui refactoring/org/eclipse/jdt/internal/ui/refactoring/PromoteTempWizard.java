@@ -76,7 +76,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 			setDescription(DESCRIPTION);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			Composite result= new Composite(parent, SWT.NONE);
 			setControl(result);
@@ -97,7 +97,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 			updateStatus();
 		}
 
-		private void addFieldNameField(Composite result) {
+		private void addFieldNameField(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Label nameLabel= new Label(result, SWT.NONE);
 			nameLabel.setText(RefactoringMessages.PromoteTempInputPage_Field_name);
 			nameLabel.setLayoutData(new GridData());
@@ -110,7 +110,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 			getPromoteTempRefactoring().setFieldName(firstGuessedFieldName);
 			fNameField.selectAll();
 			fNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			fNameField.addModifyListener(unused -> {
+			fNameField.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				PromoteTempInputPage.this.getPromoteTempRefactoring().setFieldName(fNameField.getText());
 				PromoteTempInputPage.this.updateStatus();
 			});
@@ -123,7 +123,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 			setPageComplete(getPromoteTempRefactoring().validateInput());
 		}
 
-		private void addInitizeInRadioButtonGroup(Composite result) {
+		private void addInitizeInRadioButtonGroup(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			GridData gd;
 			Group initializeIn= new Group(result, SWT.NONE);
 			initializeIn.setText(RefactoringMessages.PromoteTempInputPage_Initialize);
@@ -134,7 +134,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 
 			Assert.isTrue(RADIO_BUTTON_LABELS.length == RADIO_BUTTON_DATA.length);
 			fInitializeInRadioButtons= new Button[RADIO_BUTTON_LABELS.length];
-			for (int i= 0; i < RADIO_BUTTON_LABELS.length; i++) {
+			for (int i= 0; i < RADIO_BUTTON_LABELS.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Integer dataItem= RADIO_BUTTON_DATA[i];
 				fInitializeInRadioButtons[i]= new Button(initializeIn, SWT.RADIO);
 				fInitializeInRadioButtons[i].setEnabled(canEnable(dataItem));
@@ -143,7 +143,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 				fInitializeInRadioButtons[i].setLayoutData(new GridData());
 				fInitializeInRadioButtons[i].setData(dataItem);
 				final int j= i;
-				fInitializeInRadioButtons[i].addSelectionListener(new SelectionAdapter(){
+				fInitializeInRadioButtons[i].addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						getPromoteTempRefactoring().setInitializeIn(getDataAsInt(fInitializeInRadioButtons[j]));
@@ -156,7 +156,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 		private void updateButtonsEnablement() {
 			fDeclareFinalCheckbox.setEnabled(getPromoteTempRefactoring().canEnableSettingFinal());
 			fDeclareStaticCheckbox.setEnabled(getPromoteTempRefactoring().canEnableSettingStatic());
-			for (Button initializeInRadioButton : fInitializeInRadioButtons) {
+			for (Button initializeInRadioButton : fInitializeInRadioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				initializeInRadioButton.setEnabled(canEnable(getDataAsInt(initializeInRadioButton)));
 			}
 		}
@@ -186,7 +186,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 			gd= new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan= 2;
 			fDeclareStaticCheckbox.setLayoutData(gd);
-			fDeclareStaticCheckbox.addSelectionListener(new SelectionAdapter(){
+			fDeclareStaticCheckbox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					getPromoteTempRefactoring().setDeclareStatic(fDeclareStaticCheckbox.getSelection());
@@ -204,7 +204,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 			gd= new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan= 2;
 			fDeclareFinalCheckbox.setLayoutData(gd);
-			fDeclareFinalCheckbox.addSelectionListener(new SelectionAdapter(){
+			fDeclareFinalCheckbox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					getPromoteTempRefactoring().setDeclareFinal(fDeclareFinalCheckbox.getSelection());
@@ -213,7 +213,7 @@ public class PromoteTempWizard extends RefactoringWizard {
 			});
 		}
 
-		private void addVisibilityControl(Composite result) {
+		private void addVisibilityControl(Composite result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int[] availableVisibilities= getPromoteTempRefactoring().getAvailableVisibilities();
 			int currectVisibility= getPromoteTempRefactoring().getVisibility();
 			IVisibilityChangeListener visibilityChangeListener= new IVisibilityChangeListener(){

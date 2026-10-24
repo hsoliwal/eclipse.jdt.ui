@@ -42,7 +42,7 @@ import org.eclipse.jdt.core.JavaCore;
 
 import org.eclipse.jdt.internal.ui.workingsets.WorkingSetModel;
 
-public class WorkingSetAwareContentProvider extends PackageExplorerContentProvider implements IMultiElementTreeContentProvider {
+public class WorkingSetAwareContentProvider extends PackageExplorerContentProvider implements IMultiElementTreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	private WorkingSetModel fWorkingSetModel;
 	private IPropertyChangeListener fListener;
@@ -81,10 +81,10 @@ public class WorkingSetAwareContentProvider extends PackageExplorerContentProvid
 		return children;
 	}
 
-	private Object[] getWorkingSetChildren(IWorkingSet set) {
+	private Object[] getWorkingSetChildren(IWorkingSet set) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAdaptable[] children= fWorkingSetModel.getChildren(set);
-		Set<IAdaptable> result= new HashSet<>(children.length);
-		for (IAdaptable child : children) {
+		Set<IAdaptable> result= new HashSet<>(children.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IAdaptable child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IProject) {
 				processResource((IProject) child, result); // also add closed projects
 			} else if (child instanceof IResource) {
@@ -133,20 +133,20 @@ public class WorkingSetAwareContentProvider extends PackageExplorerContentProvid
 			return new TreePath[] {path};
 		}
 		List<Object> modelParents= getModelPath(element);
-		List<TreePath> result= new ArrayList<>();
-		for (int i= 0; i < modelParents.size(); i++) {
+		List<TreePath> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < modelParents.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(getTreePaths(modelParents, i));
 		}
 		return result.toArray(new TreePath[result.size()]);
 	}
 
 	private List<Object> getModelPath(Object element) {
-		List<Object> result= new ArrayList<>();
+		List<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.add(element);
 		Object parent= super.getParent(element);
 		Object input= getViewerInput();
 		// stop at input or on JavaModel. We never visualize it anyway.
-		while (parent != null && !parent.equals(input) && !(parent instanceof IJavaModel)) {
+		while (parent != null && !parent.equals(input) && !(parent instanceof IJavaModel)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(parent);
 			parent= super.getParent(parent);
 		}
@@ -155,15 +155,15 @@ public class WorkingSetAwareContentProvider extends PackageExplorerContentProvid
 	}
 
 	private List<TreePath> getTreePaths(List<Object> modelParents, int index) {
-		List<TreePath> result= new ArrayList<>();
+		List<TreePath> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Object input= getViewerInput();
 		Object element= modelParents.get(index);
-		for (Object parent : fWorkingSetModel.getAllParents(element)) {
-			List<Object> chain= new ArrayList<>();
+		for (Object parent : fWorkingSetModel.getAllParents(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			List<Object> chain= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (!parent.equals(input)) {
 				chain.add(parent);
 			}
-			for (int m= index; m < modelParents.size(); m++) {
+			for (int m= index; m < modelParents.size(); m++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				chain.add(modelParents.get(m));
 			}
 			result.add(new TreePath(chain.toArray()));
@@ -180,7 +180,7 @@ public class WorkingSetAwareContentProvider extends PackageExplorerContentProvid
 		return first;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void augmentElementToRefresh(List<Object> toRefresh, int relation, Object affectedElement) {
 		// we are refreshing the JavaModel and are in working set mode.
 		if (JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()).equals(affectedElement)) {
@@ -195,8 +195,8 @@ public class WorkingSetAwareContentProvider extends PackageExplorerContentProvid
 		List<IAdaptable> nonProjetTopLevelElemens= fWorkingSetModel.getNonProjectTopLevelElements();
 		if (nonProjetTopLevelElemens.isEmpty())
 			return;
-		List<Object> toAdd= new ArrayList<>();
-		for (IAdaptable iAdaptable : nonProjetTopLevelElemens) {
+		List<Object> toAdd= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IAdaptable iAdaptable : nonProjetTopLevelElemens) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= iAdaptable;
 			if (isChildOf(element, toRefresh))
 				toAdd.add(element);
@@ -204,10 +204,10 @@ public class WorkingSetAwareContentProvider extends PackageExplorerContentProvid
 		toRefresh.addAll(toAdd);
 	}
 
-	private void workingSetModelChanged(PropertyChangeEvent event) {
+	private void workingSetModelChanged(PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String property= event.getProperty();
 		Object newValue= event.getNewValue();
-		List<Object> toRefresh= new ArrayList<>(1);
+		List<Object> toRefresh= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (property != null) {
 			switch (property) {
 				case WorkingSetModel.CHANGE_WORKING_SET_MODEL_CONTENT:
@@ -221,7 +221,7 @@ public class WorkingSetAwareContentProvider extends PackageExplorerContentProvid
 					break;
 			}
 		}
-		ArrayList<Runnable> runnables= new ArrayList<>();
+		ArrayList<Runnable> runnables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		postRefresh(toRefresh, true, runnables);
 		executeRunnables(runnables);
 	}
@@ -231,8 +231,8 @@ public class WorkingSetAwareContentProvider extends PackageExplorerContentProvid
 		Object parent= super.getParent(element);
 		if (parent == null)
 			return false;
-		for (Object potentialParent : potentialParents) {
-			while(parent != null) {
+		for (Object potentialParent : potentialParents) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while(parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parent.equals(potentialParent))
 					return true;
 				parent= super.getParent(parent);

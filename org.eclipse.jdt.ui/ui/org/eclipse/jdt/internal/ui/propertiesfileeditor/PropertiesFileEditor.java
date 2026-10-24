@@ -84,7 +84,7 @@ public class PropertiesFileEditor extends TextEditor {
 	 */
 	private IPropertyChangeListener fPropertyChangeListener;
 
-	private Map<IEditorInput, IType> fAccessorTypes= new HashMap<>();
+	private Map<IEditorInput, IType> fAccessorTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private Job fJob;
 
@@ -94,7 +94,7 @@ public class PropertiesFileEditor extends TextEditor {
 	 * @see org.eclipse.ui.editors.text.TextEditor#initializeEditor()
 	 * @since 3.4
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void initializeEditor() {
 		setDocumentProvider(JavaPlugin.getDefault().getPropertiesFileDocumentProvider());
 		IPreferenceStore store= JavaPlugin.getDefault().getCombinedPreferenceStore();
@@ -108,14 +108,14 @@ public class PropertiesFileEditor extends TextEditor {
 		setInsertMode(INSERT);
 
 		// Need to listen on Editors UI preference store because JDT disables this functionality in its preferences.
-		fPropertyChangeListener= event -> {
+		fPropertyChangeListener= event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (AbstractDecoratedTextEditorPreferenceConstants.EDITOR_SPACES_FOR_TABS.equals(event.getProperty()))
 				handlePreferenceStoreChanged(event);
 		};
 		EditorsUI.getPreferenceStore().addPropertyChangeListener(fPropertyChangeListener);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doSetInput(IEditorInput input) throws CoreException {
 		super.doSetInput(input);
 		if (fJob != null)
@@ -306,7 +306,7 @@ public class PropertiesFileEditor extends TextEditor {
 		return fAccessorTypes.get(getEditorInput());
 	}
 
-	private IType findAccessorType(IProgressMonitor pm) throws JavaModelException {
+	private IType findAccessorType(IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType accessorType= FindBrokenNLSKeysAction.getAccessorType(fFile);
 		if (accessorType != null)
 			return accessorType;
@@ -321,7 +321,7 @@ public class PropertiesFileEditor extends TextEditor {
 			return null;
 
 		ICompilationUnit[] compilationUnits= ((IPackageFragment) javaElement).getCompilationUnits();
-		for (ICompilationUnit compilationUnit : compilationUnits) {
+		for (ICompilationUnit compilationUnit : compilationUnits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (evaluateCU(compilationUnit, fFile)) {
 				return compilationUnit.getTypes()[0];
 			}

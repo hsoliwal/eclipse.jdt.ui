@@ -100,7 +100,7 @@ class BreadcrumbItemDropDown {
 			fLTR= ltr;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void drawCompositeImage(int width, int height) {
 			Display display= fParentComposite.getDisplay();
 
@@ -125,23 +125,23 @@ class BreadcrumbItemDropDown {
 				ImageData imageData= image.getImageData(zoom);
 				image.dispose();
 				int zoomedArrowSize= ARROW_SIZE * zoom / 100;
-				for (int y1= 0; y1 < zoomedArrowSize; y1++) {
+				for (int y1= 0; y1 < zoomedArrowSize; y1++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// set opaque pixels for top half of the breadcrumb arrow
-					for (int x1= 0; x1 <= y1; x1++) {
+					for (int x1= 0; x1 <= y1; x1++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						imageData.setAlpha(fLTR ? x1 : zoomedArrowSize - x1 - 1, y1, 255);
 					}
 					// set transparent pixels for top half of the breadcrumbe arrow
-					for (int x1= y1+1; x1 < zoomedArrowSize; x1++) {
+					for (int x1= y1+1; x1 < zoomedArrowSize; x1++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						imageData.setAlpha(fLTR ? x1 : zoomedArrowSize - x1 - 1, y1, 0);
 					}
 				}
-				for (int y2= 0; y2 < zoomedArrowSize; y2++) {
+				for (int y2= 0; y2 < zoomedArrowSize; y2++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// set opaque pixels for bottom half of the breadcrumb arrow
-					for (int x2= 0; x2 <= y2; x2++) {
+					for (int x2= 0; x2 <= y2; x2++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						imageData.setAlpha(fLTR ? x2 : zoomedArrowSize - x2 - 1, zoomedArrowSize * 2 - y2 - 1, 255);
 					}
 					// set transparent pixels for bottom half of the breadcrumbe arrow
-					for (int x2= y2+1; x2 < zoomedArrowSize; x2++) {
+					for (int x2= y2+1; x2 < zoomedArrowSize; x2++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						imageData.setAlpha(fLTR ? x2 : zoomedArrowSize - x2 - 1, zoomedArrowSize * 2 - y2 - 1, 0);
 					}
 				}
@@ -184,7 +184,7 @@ class BreadcrumbItemDropDown {
 	private Shell fShell;
 	private boolean isResizingProgrammatically;
 
-	public BreadcrumbItemDropDown(BreadcrumbItem parent, Composite composite) {
+	public BreadcrumbItemDropDown(BreadcrumbItem parent, Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fParent= parent;
 		fParentComposite= composite;
 		fMenuIsShown= false;
@@ -218,7 +218,7 @@ class BreadcrumbItemDropDown {
 
 		manager.update(true);
 		if (IS_MAC_WORKAROUND) {
-			manager.getControl().addMouseListener(new MouseAdapter() {
+			manager.getControl().addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				// see also BreadcrumbItemDetails#addElementListener(Control)
 				@Override
 				public void mouseDown(MouseEvent e) {
@@ -286,7 +286,7 @@ class BreadcrumbItemDropDown {
 	/**
 	 * Opens the drop down menu.
 	 */
-	public void showMenu() {
+	public void showMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN)
 			System.out.println("BreadcrumbItemDropDown.showMenu()"); //$NON-NLS-1$
 
@@ -319,11 +319,11 @@ class BreadcrumbItemDropDown {
 
 		Object input= fParent.getData();
 		fParent.getViewer().configureDropDownViewer(fDropDownViewer, input);
-		fDropDownViewer.setInput(input);
+		fDropDownViewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		setShellBounds(fShell);
 
-		fShell.addControlListener(new ControlAdapter() {
+		fShell.addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			/*
 			 * @see org.eclipse.swt.events.ControlAdapter#controlResized(org.eclipse.swt.events.ControlEvent)
 			 */
@@ -337,7 +337,7 @@ class BreadcrumbItemDropDown {
 			}
 		});
 
-		fDropDownViewer.addOpenListener(event -> {
+		fDropDownViewer.addOpenListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN)
 				System.out.println("BreadcrumbItemDropDown.showMenu()$treeViewer>open"); //$NON-NLS-1$
 
@@ -352,7 +352,7 @@ class BreadcrumbItemDropDown {
 			openElement(element);
 		});
 
-		tree.addMouseListener(new MouseListener() {
+		tree.addMouseListener(new MouseListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseUp(MouseEvent e) {
 				if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN)
@@ -380,10 +380,10 @@ class BreadcrumbItemDropDown {
 			}
 		});
 
-		tree.addMouseMoveListener(new MouseMoveListener() {
+		tree.addMouseMoveListener(new MouseMoveListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			TreeItem fLastItem= null;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void mouseMove(MouseEvent e) {
 				if (tree.equals(e.getSource())) {
 					TreeItem o= tree.getItem(new Point(e.x, e.y));
@@ -452,7 +452,7 @@ class BreadcrumbItemDropDown {
 			}
 		});
 
-		tree.addKeyListener(new KeyListener() {
+		tree.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.ARROW_UP) {
@@ -473,7 +473,7 @@ class BreadcrumbItemDropDown {
 			}
 		});
 
-		fDropDownViewer.addTreeListener(new ITreeViewerListener() {
+		fDropDownViewer.addTreeListener(new ITreeViewerListener() { //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 			@Override
 			public void treeCollapsed(TreeExpansionEvent event) {
 			}
@@ -481,7 +481,7 @@ class BreadcrumbItemDropDown {
 			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
 				tree.setRedraw(false);
-				fShell.getDisplay().asyncExec(() -> {
+				fShell.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					if (fShell.isDisposed())
 						return;
 
@@ -511,7 +511,7 @@ class BreadcrumbItemDropDown {
 		installCloser(fShell);
 	}
 
-	private void openElement(Object data) {
+	private void openElement(Object data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (data == null)
 			return;
 
@@ -521,9 +521,9 @@ class BreadcrumbItemDropDown {
 		boolean treeHasFocus= !fShell.isDisposed() && fDropDownViewer.getTree().isFocusControl();
 
 		if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN) {
-			System.out.println("	isDisposed: " + fShell.isDisposed()); //$NON-NLS-1$
-			System.out.println("	shell hasFocus: " + (!fShell.isDisposed() && fShell.isFocusControl())); //$NON-NLS-1$
-			System.out.println("	tree hasFocus: " + treeHasFocus); //$NON-NLS-1$
+			System.out.println("	isDisposed: " + fShell.isDisposed()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("	shell hasFocus: " + (!fShell.isDisposed() && fShell.isFocusControl())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("	tree hasFocus: " + treeHasFocus); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		if (fShell.isDisposed())
@@ -557,7 +557,7 @@ class BreadcrumbItemDropDown {
 	 *
 	 * @param shell the shell to install the closer to
 	 */
-	private void installCloser(final Shell shell) {
+	private void installCloser(final Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Listener focusListener= event -> {
 			Widget focusElement= event.widget;
 			boolean isFocusBreadcrumbTreeFocusWidget= focusElement == shell || focusElement instanceof Tree && ((Tree)focusElement).getShell() == shell;
@@ -566,7 +566,7 @@ class BreadcrumbItemDropDown {
 			switch (event.type) {
 				case SWT.FocusIn:
 					if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN)
-						System.out.println("focusIn - is breadcrumb tree: " + isFocusBreadcrumbTreeFocusWidget); //$NON-NLS-1$
+						System.out.println("focusIn - is breadcrumb tree: " + isFocusBreadcrumbTreeFocusWidget); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 					if (!isFocusBreadcrumbTreeFocusWidget && !isFocusWidgetParentShell) {
 						if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN)
@@ -577,7 +577,7 @@ class BreadcrumbItemDropDown {
 
 				case SWT.FocusOut:
 					if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN)
-						System.out.println("focusOut - is breadcrumb tree: " + isFocusBreadcrumbTreeFocusWidget); //$NON-NLS-1$
+						System.out.println("focusOut - is breadcrumb tree: " + isFocusBreadcrumbTreeFocusWidget); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 					if (event.display.getActiveShell() == null) {
 						if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN)
@@ -592,10 +592,10 @@ class BreadcrumbItemDropDown {
 		};
 
 		final Display display= shell.getDisplay();
-		display.addFilter(SWT.FocusIn, focusListener);
-		display.addFilter(SWT.FocusOut, focusListener);
+		display.addFilter(SWT.FocusIn, focusListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+		display.addFilter(SWT.FocusOut, focusListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
-		final ControlListener controlListener= new ControlListener() {
+		final ControlListener controlListener= new ControlListener() { //FLLDCIM: MARK — T11  ANONYMOUS
 			@Override
 			public void controlMoved(ControlEvent e) {
 				shell.close();
@@ -606,9 +606,9 @@ class BreadcrumbItemDropDown {
 				shell.close();
 			}
 		};
-		fToolBar.getShell().addControlListener(controlListener);
+		fToolBar.getShell().addControlListener(controlListener); //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 
-		shell.addDisposeListener(unused -> {
+		shell.addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			if (JavaPlugin.DEBUG_BREADCRUMB_ITEM_DROP_DOWN)
 				System.out.println("==> shell disposed"); //$NON-NLS-1$
 
@@ -671,7 +671,7 @@ class BreadcrumbItemDropDown {
 	 *
 	 * @param shell the shell to calculate the size for.
 	 */
-	private void setShellBounds(Shell shell) {
+	private void setShellBounds(Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Rectangle rect= fParentComposite.getBounds();
 		Rectangle toolbarBounds= fToolBar.getBounds();
 
@@ -711,7 +711,7 @@ class BreadcrumbItemDropDown {
 	 *
 	 * @param shell the shell to resize
 	 */
-	private void resizeShell(final Shell shell) {
+	private void resizeShell(final Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point size= shell.getSize();
 		int currentWidth= size.x;
 		int currentHeight= size.y;

@@ -51,7 +51,7 @@ public abstract class JavaRenameProcessor extends RenameProcessor implements INa
 		RefactoringStatus result= doCheckFinalConditions(pm, context);
 		if (result.hasFatalError())
 			return result;
-		for (IFile f : getChangedFiles()) {
+		for (IFile f : getChangedFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			deltaFactory.change(f);
 		}
 		fRenameModifications= computeRenameModifications();

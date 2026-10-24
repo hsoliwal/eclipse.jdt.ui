@@ -30,7 +30,7 @@ class ASTMatchingFragmentFinder extends GenericVisitor {
 	}
 
 	private ASTFragment fFragmentToMatch;
-	private Set<IASTFragment> fMatches= new HashSet<>();
+	private Set<IASTFragment> fMatches= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private ASTMatchingFragmentFinder(ASTFragment toMatch) {
 		super(true);

@@ -87,7 +87,7 @@ public class ImplementorsSearchGroup extends ActionGroup  {
 	 *
 	 * @since 3.4
 	 */
-	public ImplementorsSearchGroup(IWorkbenchSite site, ISelectionProvider specialSelectionProvider) {
+	public ImplementorsSearchGroup(IWorkbenchSite site, ISelectionProvider specialSelectionProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSite= site;
 		fGroupId= IContextMenuConstants.GROUP_SEARCH;
 
@@ -134,7 +134,7 @@ public class ImplementorsSearchGroup extends ActionGroup  {
 
 	private void registerAction(SelectionDispatchAction action, ISelectionProvider provider, ISelection selection, ISelectionProvider specialSelectionProvider) {
 		action.update(selection);
-		provider.addSelectionChangedListener(action);
+		provider.addSelectionChangedListener(action); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		if (specialSelectionProvider != null)
 			action.setSpecialSelectionProvider(specialSelectionProvider);
 	}
@@ -165,7 +165,7 @@ public class ImplementorsSearchGroup extends ActionGroup  {
 		javaSearchMM.add(new Separator());
 
 		Iterator<IWorkingSet[]> iter= SearchUtil.getLRUWorkingSets().sortedIterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addWorkingSetAction(iter.next(), javaSearchMM);
 		}
 		addAction(fFindImplementorsInWorkingSetAction, javaSearchMM);

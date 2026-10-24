@@ -31,7 +31,7 @@ import org.eclipse.jdt.internal.ui.preferences.formatter.ProfileManager;
 public class CleanUpProfileManager extends ProfileManager {
 
 	public static KeySet[] KEY_SETS= {
-		new KeySet(JavaUI.ID_PLUGIN, new ArrayList<>(JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS).getKeys()))
+		new KeySet(JavaUI.ID_PLUGIN, new ArrayList<>(JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS).getKeys())) //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	};
 
 	private final PreferencesAccess fPreferencesAccess;

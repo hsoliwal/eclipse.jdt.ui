@@ -97,7 +97,7 @@ public final class BufferedDocumentScanner implements ICharacterScanner {
 
 		String[] delimiters= document.getLegalLineDelimiters();
 		fDelimiters= new char[delimiters.length][];
-		for (int i= 0; i < delimiters.length; i++)
+		for (int i= 0; i < delimiters.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fDelimiters[i]= delimiters[i].toCharArray();
 
 		updateBuffer(offset);
@@ -107,7 +107,7 @@ public final class BufferedDocumentScanner implements ICharacterScanner {
 	/*
 	 * @see ICharacterScanner#read()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int read() {
 
 		if (fOffset == fBufferLength) {
@@ -123,18 +123,18 @@ public final class BufferedDocumentScanner implements ICharacterScanner {
 		try {
 			return fBuffer[fOffset++];
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			StringBuilder buf= new StringBuilder();
-			buf.append("Detailed state of 'BufferedDocumentScanner:'"); //$NON-NLS-1$
-			buf.append("\n\tfOffset= "); //$NON-NLS-1$
-			buf.append(fOffset);
-			buf.append("\n\tfBufferOffset= "); //$NON-NLS-1$
-			buf.append(fBufferOffset);
-			buf.append("\n\tfBufferLength= "); //$NON-NLS-1$
-			buf.append(fBufferLength);
-			buf.append("\n\tfRangeOffset= "); //$NON-NLS-1$
-			buf.append(fRangeOffset);
-			buf.append("\n\tfRangeLength= "); //$NON-NLS-1$
-			buf.append(fRangeLength);
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append("Detailed state of 'BufferedDocumentScanner:'"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n\tfOffset= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(fOffset); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n\tfBufferOffset= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(fBufferOffset); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n\tfBufferLength= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(fBufferLength); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n\tfRangeOffset= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(fRangeOffset); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("\n\tfRangeLength= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(fRangeLength); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			JavaManipulationPlugin.logErrorMessage(buf.toString());
 			throw ex;
 		}

@@ -65,15 +65,15 @@ public class ChangeTypeRefactoringTests extends GenericRefactoringTest {
 	}
 
 	protected String getSimpleTestFileName(boolean input) {
-		String fileName= "A_" + getName() + (input ? "_in" : "_out") + ".java";
+		String fileName= "A_" + getName() + (input ? "_in" : "_out") + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return fileName;
 	}
 
 	protected String getTestFileName(boolean positive, boolean input) {
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		fileName.append(positive ? "positive/": "negative/");
-		fileName.append(getSimpleTestFileName(input));
+		fileName.append(positive ? "positive/": "negative/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(getSimpleTestFileName(input)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return fileName.toString();
 	}
 
@@ -82,16 +82,16 @@ public class ChangeTypeRefactoringTests extends GenericRefactoringTest {
 	}
 
 	private ICompilationUnit createAdditionalCU(String fileName, IPackageFragment pack) throws Exception {
-		String fullName= TEST_PATH_PREFIX + getRefactoringPath() + "positive/" + fileName + ".java";
-		return createCU(pack, fileName + ".java", getFileContents(fullName));
+		String fullName= TEST_PATH_PREFIX + getRefactoringPath() + "positive/" + fileName + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		return createCU(pack, fileName + ".java", getFileContents(fullName)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private ICompilationUnit createAdditionalCUForNegative(String fileName, IPackageFragment pack) throws Exception {
-		String fullName= TEST_PATH_PREFIX + getRefactoringPath() + "negative/" + fileName + ".java";
-		return createCU(pack, fileName + ".java", getFileContents(fullName));
+		String fullName= TEST_PATH_PREFIX + getRefactoringPath() + "negative/" + fileName + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		return createCU(pack, fileName + ".java", getFileContents(fullName)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	protected ChangeTypeRefactoring helper1(int startLine, int startColumn, int endLine, int endColumn, String selectedTypeName)
+	protected ChangeTypeRefactoring helper1(int startLine, int startColumn, int endLine, int endColumn, String selectedTypeName) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		throws Exception {
 		ICompilationUnit	cu= createCUfromTestFile(getPackageP(), true, true);
 		ISourceRange		selection= TextRangeUtil.getSelection(cu, startLine, startColumn, endLine, endColumn);
@@ -101,7 +101,7 @@ public class ChangeTypeRefactoringTests extends GenericRefactoringTest {
 
 		RefactoringStatus	activationResult= ref.checkInitialConditions(new NullProgressMonitor());
 
-		assertTrue("activation was supposed to be successful:" + activationResult.toString(), activationResult.isOK());
+		assertTrue("activation was supposed to be successful:" + activationResult.toString(), activationResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		Collection<ITypeBinding> validTypes= ref.computeValidTypes(new NullProgressMonitor());
 		if (validTypes.isEmpty())
@@ -109,13 +109,13 @@ public class ChangeTypeRefactoringTests extends GenericRefactoringTest {
 
 		RefactoringStatus	checkInputResult= ref.checkFinalConditions(new NullProgressMonitor());
 
-		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK());
+		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		performChange(ref, false);
 
 		String newSource= cu.getSource();
 
-		assertEqualLines(getName() + ": ", getFileContents(getTestFileName(true, false)), newSource);
+		assertEqualLines(getName() + ": ", getFileContents(getTestFileName(true, false)), newSource); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 		return ref;

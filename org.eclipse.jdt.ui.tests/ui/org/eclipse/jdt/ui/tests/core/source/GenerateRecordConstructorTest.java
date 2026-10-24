@@ -62,7 +62,7 @@ public class GenerateRecordConstructorTest extends SourceTestCase {
 		JavaModelUtil.reconcile(type.getCompilationUnit());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGenerateCompactConstructorForRecord() throws Exception {
 
 		ICompilationUnit cu= fPackageP.createCompilationUnit(

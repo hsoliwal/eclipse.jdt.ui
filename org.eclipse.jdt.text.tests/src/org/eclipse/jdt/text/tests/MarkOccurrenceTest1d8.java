@@ -93,7 +93,7 @@ public class MarkOccurrenceTest1d8 {
 		assertEquals("number of selections", expected.length, selectedNodes.length);
 		sortByStartIndex(selectedNodes);
 		sortByStartIndex(expected);
-		for (int i= 0; i < selectedNodes.length; i++) {
+		for (int i= 0; i < selectedNodes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertEquals(expected[i].getOffset(), selectedNodes[i].getOffset());
 			assertEquals(expected[i].getLength(), selectedNodes[i].getLength());
 		}
@@ -106,22 +106,22 @@ public class MarkOccurrenceTest1d8 {
 	//pattern must be found - otherwise it's assumed to be an error
 	private OccurrenceLocation find(String s, String pattern, int ithOccurrence) {
 		if (ithOccurrence < 1)
-			throw new IllegalStateException("ithOccurrence = " + ithOccurrence);
+			throw new IllegalStateException("ithOccurrence = " + ithOccurrence); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return find(s, pattern, ithOccurrence, 0);
 	}
 
 	private OccurrenceLocation find(String s, String pattern, int ithOccurrence, int startIdx) {
 		if (startIdx < 0 || startIdx > s.length())
-			throw new IllegalStateException("startIdx = " + startIdx);
+			throw new IllegalStateException("startIdx = " + startIdx); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int idx= s.indexOf(pattern, startIdx);
 		if (idx == -1)
-			throw new IllegalStateException("not found \"" + pattern + "\" in \"" + s.substring(startIdx));
+			throw new IllegalStateException("not found \"" + pattern + "\" in \"" + s.substring(startIdx)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (ithOccurrence == 1)
 			return new OccurrenceLocation(idx, pattern.length(), 0, "");
 		return find(s, pattern, ithOccurrence - 1, idx + 1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrowingAnnotatedException1() throws Exception {
 		String s= """
 			package test1;
@@ -203,7 +203,7 @@ public class MarkOccurrenceTest1d8 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testThrownExceptionInLambda() throws Exception {
 		String s= """
 			package test1;
@@ -233,7 +233,7 @@ public class MarkOccurrenceTest1d8 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTryCatchInLambda() throws Exception {
 		String s= """
 			package test1;
@@ -258,7 +258,7 @@ public class MarkOccurrenceTest1d8 {
 		checkSelection(s, offset, length, ranges);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMarkMethodExitsBug565387() throws Exception {
 		fFinder= new MethodExitsFinder();
 		String s= """

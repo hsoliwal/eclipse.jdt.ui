@@ -71,7 +71,7 @@ public class TestUtils {
 	 * @param timeout wait timeout in milliseconds
 	 * @throws RuntimeException if a timeout occurs while waiting
 	 */
-	@SuppressWarnings("restriction")
+	@SuppressWarnings("restriction") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static void waitForEditorJobs(long timeout, boolean cancelJobs) throws Exception {
 		/*
 		 * The decoration job opens and closes buffers in BufferManager,
@@ -97,8 +97,8 @@ public class TestUtils {
 	 * @return the reconcilers of all open Java editors, never <code>null</code>
 	 */
 	private static List<AbstractReconciler> collectReconcilers() {
-		List<AbstractReconciler> reconcilers= new ArrayList<>();
-		for (IEditorReference editorReference : JavaPlugin.getActivePage().getEditorReferences()) {
+		List<AbstractReconciler> reconcilers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IEditorReference editorReference : JavaPlugin.getActivePage().getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorPart editor= editorReference.getEditor(false);
 			if (editor instanceof JavaEditor javaEditor && getReconciler(javaEditor) instanceof AbstractReconciler reconciler) {
 				reconcilers.add(reconciler);
@@ -116,7 +116,7 @@ public class TestUtils {
 	 */
 	private static void waitForReconcilers(Collection<AbstractReconciler> reconcilers, long timeout) throws InterruptedException {
 		long deadline= System.currentTimeMillis() + timeout;
-		for (AbstractReconciler reconciler : reconcilers) {
+		for (AbstractReconciler reconciler : reconcilers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			waitUntil(reconciler::isIdle, deadline, "Timeout occurred while waiting on reconciler");
 		}
 	}
@@ -164,7 +164,7 @@ public class TestUtils {
 	 */
 	public static void waitForReconciler(JavaEditor editor, long timeout) throws InterruptedException {
 		waitUntil(() -> isReconcilerIdle(editor), System.currentTimeMillis() + timeout,
-				"Timeout occurred while waiting on reconciler of editor: " + editor.getTitle());
+				"Timeout occurred while waiting on reconciler of editor: " + editor.getTitle()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class TestUtils {
 	 */
 	private static void waitUntil(BooleanSupplier condition, long deadline, String timeoutMessage) throws InterruptedException {
 		Display display= Display.getCurrent();
-		while (!condition.getAsBoolean()) {
+		while (!condition.getAsBoolean()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (System.currentTimeMillis() > deadline) {
 				throw new RuntimeException(timeoutMessage);
 			}
@@ -199,7 +199,7 @@ public class TestUtils {
 	 */
 	public static void waitForJobFamily(long timeout, Object family) throws InterruptedException {
 		long s= System.currentTimeMillis();
-		while (System.currentTimeMillis() - s < timeout) {
+		while (System.currentTimeMillis() - s < timeout) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Job[] jobs = Job.getJobManager().find(family);
 			if (jobs.length == 0) {
 				break;
@@ -207,7 +207,7 @@ public class TestUtils {
 			Thread.sleep(50);
 		}
 		if (System.currentTimeMillis() - s > timeout) {
-			throw new RuntimeException("Timeout occurred while waiting on job family: " + family);
+			throw new RuntimeException("Timeout occurred while waiting on job family: " + family); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -246,8 +246,8 @@ public class TestUtils {
 		try {
 			DebugOptions options= context.getService(reference);
 			options.setDebugEnabled(enable);
-			for (String debugOption : debugOptions) {
-				String key= bundle.getSymbolicName() + debugOption;
+			for (String debugOption : debugOptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				String key= bundle.getSymbolicName() + debugOption; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				options.setOption(key, enable ? Boolean.TRUE.toString() : Boolean.FALSE.toString());
 			}
 		} finally {

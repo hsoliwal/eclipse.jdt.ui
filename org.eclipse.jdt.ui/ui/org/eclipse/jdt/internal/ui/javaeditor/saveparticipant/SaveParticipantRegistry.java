@@ -111,7 +111,7 @@ public final class SaveParticipantRegistry {
 	 * </p>
 	 */
 	private void reloadDescriptors() {
-		Map<String, SaveParticipantDescriptor> map= new HashMap<>();
+		Map<String, SaveParticipantDescriptor> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		SaveParticipantDescriptor desc= new SaveParticipantDescriptor(new CleanUpPostSaveListener()) {
 			@Override
 			public ISaveParticipantPreferenceConfiguration createPreferenceConfiguration() {
@@ -135,7 +135,7 @@ public final class SaveParticipantRegistry {
 	public synchronized boolean hasSettingsInScope(IScopeContext context) {
 		ensureRegistered();
 
-		for (SaveParticipantDescriptor descriptor : fDescriptors.values()) {
+		for (SaveParticipantDescriptor descriptor : fDescriptors.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getPreferenceConfiguration().hasSettingsInScope(context))
 				return true;
 		}
@@ -154,14 +154,14 @@ public final class SaveParticipantRegistry {
 	 * @param context the context from which to retrieve the settings from, not null
 	 * @return the current enabled post save listeners according to the preferences
 	 */
-	public synchronized IPostSaveListener[] getEnabledPostSaveListeners(IScopeContext context) {
+	public synchronized IPostSaveListener[] getEnabledPostSaveListeners(IScopeContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ensureRegistered();
 
 		ArrayList<IPostSaveListener> result= null;
-		for (SaveParticipantDescriptor descriptor : fDescriptors.values()) {
+		for (SaveParticipantDescriptor descriptor : fDescriptors.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getPreferenceConfiguration().isEnabled(context)) {
 				if (result == null) {
-					result= new ArrayList<>();
+					result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				result.add(descriptor.getPostSaveListener());
 			}
@@ -183,14 +183,14 @@ public final class SaveParticipantRegistry {
 	 * @throws CoreException if something went wrong
 	 * @since 3.4
 	 */
-	public static boolean isChangedRegionsRequired(final ICompilationUnit unit) throws CoreException {
+	public static boolean isChangedRegionsRequired(final ICompilationUnit unit) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String message= SaveParticipantMessages.SaveParticipantRegistry_needsChangedRegionFailed;
 		final MultiStatus errorStatus= new MultiStatus(JavaUI.ID_PLUGIN, IJavaStatusConstants.EDITOR_CHANGED_REGION_CALCULATION, message, null);
 
 		IPostSaveListener[] listeners= JavaPlugin.getDefault().getSaveParticipantRegistry().getEnabledPostSaveListeners(unit.getJavaProject().getProject());
 		try {
 			final boolean result[]= new boolean[] {false};
-			for (IPostSaveListener listener : listeners) {
+			for (IPostSaveListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new ISafeRunnable() {
 
 					@Override

@@ -38,7 +38,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.EditorHighlightingSynchronizer;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 
-public class JavaLambdaCompletionProposal extends LazyJavaCompletionProposal {
+public class JavaLambdaCompletionProposal extends LazyJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	private int[] fArgumentLengths;
 
 	private int[] fArgumentOffsets;
@@ -58,9 +58,9 @@ public class JavaLambdaCompletionProposal extends LazyJavaCompletionProposal {
 		return Signature.getParameterCount(this.fProposal.getSignature());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String computeReplacementString() {
-		StringBuilder buffer= new StringBuilder();
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		FormatterPrefs prefs= getFormatterPrefs();
 
 		final int parameterCount= getParameterCount();
@@ -68,7 +68,7 @@ public class JavaLambdaCompletionProposal extends LazyJavaCompletionProposal {
 		this.fArgumentOffsets= new int[parameterCount];
 
 		if (parameterCount > 1 || parameterCount == 0) {
-			buffer.append(LPAREN);
+			buffer.append(LPAREN); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (parameterCount > 0) {
@@ -76,36 +76,36 @@ public class JavaLambdaCompletionProposal extends LazyJavaCompletionProposal {
 		}
 
 		if (parameterCount > 1 || parameterCount == 0) {
-			buffer.append(RPAREN);
+			buffer.append(RPAREN); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buffer.append(SPACE);
-		buffer.append(this.fProposal.getCompletion());
-		buffer.append(SPACE);
+		buffer.append(SPACE); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(this.fProposal.getCompletion()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(SPACE); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buffer.toString();
 	}
 
-	private void appendParameterNames(StringBuilder buffer, FormatterPrefs prefs) {
+	private void appendParameterNames(StringBuilder buffer, FormatterPrefs prefs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char[][] parameterNames= this.fProposal.findParameterNames(null);
 
-		for (int i= 0; i < parameterNames.length; i++) {
+		for (int i= 0; i < parameterNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char[] pname= parameterNames[i];
 
 			if (i != 0) {
 				if (prefs.beforeComma) {
-					buffer.append(SPACE);
+					buffer.append(SPACE); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buffer.append(COMMA);
+				buffer.append(COMMA); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (prefs.afterComma) {
-					buffer.append(SPACE);
+					buffer.append(SPACE); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			this.fArgumentOffsets[i]= buffer.length();
-			buffer.append(pname);
+			buffer.append(pname); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			this.fArgumentLengths[i]= pname.length;
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document, char trigger, int offset) {
 		super.apply(document, trigger, offset);
 		int baseOffset= getReplacementOffset();
@@ -114,7 +114,7 @@ public class JavaLambdaCompletionProposal extends LazyJavaCompletionProposal {
 		if (fArgumentOffsets != null && fArgumentOffsets.length > 0 && getTextViewer() != null) {
 			try {
 				LinkedModeModel model= new LinkedModeModel();
-				for (int i= 0; i != fArgumentOffsets.length; i++) {
+				for (int i= 0; i != fArgumentOffsets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					LinkedPositionGroup group= new LinkedPositionGroup();
 					group.addPosition(new LinkedPosition(document, baseOffset + fArgumentOffsets[i], fArgumentLengths[i], LinkedPositionGroup.NO_STOP));
 					model.addGroup(group);

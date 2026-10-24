@@ -42,7 +42,7 @@ class AddClassFileMarkerAction extends AddMarkerAction {
 	/**
 	 * @see AddMarkerAction#getResource()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IResource getResource() {
 
 		IResource resource= null;

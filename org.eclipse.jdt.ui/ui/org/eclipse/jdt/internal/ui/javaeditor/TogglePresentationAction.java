@@ -44,7 +44,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
  * connected text editor. The editor shows either the highlight range
  * only or always the whole document.
  */
-public class TogglePresentationAction extends TextEditorAction implements IPropertyChangeListener {
+public class TogglePresentationAction extends TextEditorAction implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private IPreferenceStore fStore;
 
@@ -61,7 +61,7 @@ public class TogglePresentationAction extends TextEditorAction implements IPrope
 	/*
 	 * @see IAction#actionPerformed
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 
 		ITextEditor editor= getTextEditor();
@@ -86,7 +86,7 @@ public class TogglePresentationAction extends TextEditorAction implements IPrope
 	/*
 	 * @see TextEditorAction#update
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update() {
 		ITextEditor editor= getTextEditor();
 		boolean checked= (editor != null && editor.showsHighlightRangeOnly());
@@ -109,7 +109,7 @@ public class TogglePresentationAction extends TextEditorAction implements IPrope
 	/*
 	 * @see TextEditorAction#setEditor(ITextEditor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setEditor(ITextEditor editor) {
 
 		super.setEditor(editor);

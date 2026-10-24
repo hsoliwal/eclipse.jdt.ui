@@ -33,7 +33,7 @@ import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class SurroundWithTryMultiCatchAction extends SurroundWithTryCatchAction {
+public class SurroundWithTryMultiCatchAction extends SurroundWithTryCatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * Note: This constructor is for internal use only. Clients should not call this constructor.

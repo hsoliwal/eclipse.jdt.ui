@@ -64,7 +64,7 @@ public class NLSHint {
 	 * a line terminator. A text block cannot be on a single line, nor can the contents of the text block follow
 	 * the three opening double-quotes (and maybe whitespace) immediately without a line terminator.
 	 */
-	private static final Pattern TEXT_BLOCK_START_PATTERN = Pattern.compile("^\"\"\"\\s*\r?\n"); //$NON-NLS-1$
+	private static final Pattern TEXT_BLOCK_START_PATTERN = Pattern.compile("^\"\"\"\\s*\r?\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	private String fAccessorName;
 	private IPackageFragment fAccessorPackage;
@@ -72,7 +72,7 @@ public class NLSHint {
 	private IPackageFragment fResourceBundlePackage;
 	private NLSSubstitution[] fSubstitutions;
 
-	public NLSHint(ICompilationUnit cu, CompilationUnit astRoot) {
+	public NLSHint(ICompilationUnit cu, CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(cu);
 		Assert.isNotNull(astRoot);
 
@@ -80,7 +80,7 @@ public class NLSHint {
 
 		fAccessorName= NLSRefactoring.DEFAULT_ACCESSOR_CLASSNAME;
 		fAccessorPackage= cuPackage;
-		fResourceBundleName= NLSRefactoring.DEFAULT_PROPERTY_FILENAME + NLSRefactoring.PROPERTY_FILE_EXT;
+		fResourceBundleName= NLSRefactoring.DEFAULT_PROPERTY_FILENAME + NLSRefactoring.PROPERTY_FILE_EXT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fResourceBundlePackage= cuPackage;
 
 		IJavaProject project= cu.getJavaProject();
@@ -90,7 +90,7 @@ public class NLSHint {
 
 		if (accessClassRef == null) {
 			// Look for Eclipse NLS approach
-			List<NLSLine> eclipseNLSLines= new ArrayList<>();
+			List<NLSLine> eclipseNLSLines= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			accessClassRef= createEclipseNLSLines(getDocument(cu), astRoot, eclipseNLSLines);
 			if (!eclipseNLSLines.isEmpty()) {
 				NLSLine[] rawLines= lines;
@@ -98,7 +98,7 @@ public class NLSHint {
 				int eclipseLinesLength= eclipseNLSLines.size();
 				lines= new NLSLine[rawLinesLength + eclipseLinesLength];
 				System.arraycopy(rawLines, 0, lines, 0, rawLinesLength);
-				for (int i= 0; i < eclipseLinesLength; i++)
+				for (int i= 0; i < eclipseLinesLength; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					lines[i+rawLinesLength]= eclipseNLSLines.get(i);
 			}
 		}
@@ -124,7 +124,7 @@ public class NLSHint {
 
 				String fullBundleName= accessClassRef.getResourceBundleName();
 				if (fullBundleName != null) {
-					fResourceBundleName= Signature.getSimpleName(fullBundleName) + NLSRefactoring.PROPERTY_FILE_EXT;
+					fResourceBundleName= Signature.getSimpleName(fullBundleName) + NLSRefactoring.PROPERTY_FILE_EXT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					String packName= Signature.getQualifier(fullBundleName);
 
 					IPackageFragment pack= NLSHintHelper.getResourceBundlePackage(project, packName, fResourceBundleName);
@@ -137,17 +137,17 @@ public class NLSHint {
 		}
 	}
 
-	private AccessorClassReference createEclipseNLSLines(final IDocument document, CompilationUnit astRoot, List<NLSLine> nlsLines) {
+	private AccessorClassReference createEclipseNLSLines(final IDocument document, CompilationUnit astRoot, List<NLSLine> nlsLines) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final AccessorClassReference[] firstAccessor= new AccessorClassReference[1];
-		final SortedMap<Integer, NLSLine> lineToNLSLine= new TreeMap<>();
+		final SortedMap<Integer, NLSLine> lineToNLSLine= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 
 		astRoot.accept(new ASTVisitor() {
 
 			private ICompilationUnit fCache_CU;
 			private CompilationUnit fCache_AST;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(QualifiedName node) {
 				ITypeBinding type= node.getQualifier().resolveTypeBinding();
 				if (type != null) {
@@ -193,7 +193,7 @@ public class NLSHint {
 		return firstAccessor[0];
 	}
 
-	private IDocument getDocument(ICompilationUnit cu) {
+	private IDocument getDocument(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath path= cu.getPath();
 		ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
 		try {
@@ -216,11 +216,11 @@ public class NLSHint {
 		return null;
 	}
 
-	private NLSSubstitution[] createSubstitutions(NLSLine[] lines, Properties props, CompilationUnit astRoot) {
-		List<NLSSubstitution> result= new ArrayList<>();
+	private NLSSubstitution[] createSubstitutions(NLSLine[] lines, Properties props, CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<NLSSubstitution> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (NLSLine line : lines) {
-			for (NLSElement nlsElement : line.getElements()) {
+		for (NLSLine line : lines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (NLSElement nlsElement : line.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (nlsElement.hasTag()) {
 					AccessorClassReference accessorClassReference= NLSHintHelper.getAccessorClassReference(astRoot, nlsElement);
 					if (accessorClassReference == null) {
@@ -242,9 +242,9 @@ public class NLSHint {
 		return result.toArray(new NLSSubstitution[result.size()]);
 	}
 
-	private static AccessorClassReference findFirstAccessorReference(NLSLine[] lines, CompilationUnit astRoot) {
-		for (NLSLine line : lines) {
-			for (NLSElement nlsElement : line.getElements()) {
+	private static AccessorClassReference findFirstAccessorReference(NLSLine[] lines, CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (NLSLine line : lines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (NLSElement nlsElement : line.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (nlsElement.hasTag()) {
 					AccessorClassReference accessorClassReference= NLSHintHelper.getAccessorClassReference(astRoot, nlsElement);
 					if (accessorClassReference != null) {
@@ -254,8 +254,8 @@ public class NLSHint {
 			}
 		}
 		// try to find a access with missing //non-nls tag (bug 75155)
-		for (NLSLine line : lines) {
-			for (NLSElement nlsElement : line.getElements()) {
+		for (NLSLine line : lines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (NLSElement nlsElement : line.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!nlsElement.hasTag()) {
 					AccessorClassReference accessorClassReference= NLSHintHelper.getAccessorClassReference(astRoot, nlsElement);
 					if (accessorClassReference != null) {
@@ -270,7 +270,7 @@ public class NLSHint {
 	public static String stripQuotes(String str, IJavaProject project) {
 		// Test if the given string is a text block and start with the "cheapest" check
 		if (str.endsWith("\"\"\"") //$NON-NLS-1$
-				&& TEXT_BLOCK_START_PATTERN.matcher(str).find()
+				&& TEXT_BLOCK_START_PATTERN.matcher(str).find() //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				&& JavaModelUtil.is15OrHigher(project)) {
 					return getTextBlock(str.substring(3, str.length() - 3));
 		}
@@ -305,23 +305,23 @@ public class NLSHint {
 		return fSubstitutions;
 	}
 
-	private static char[] normalize(char[] content) {
-		StringBuilder result = new StringBuilder();
+	private static char[] normalize(char[] content) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder result = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean isCR = false;
-		for (char c : content) {
+		for (char c : content) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (c) {
 				case '\r':
-					result.append(c);
+					result.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					isCR = true;
 					break;
 				case '\n':
 					if (!isCR) {
-						result.append(c);
+						result.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					isCR = false;
 					break;
 				default:
-					result.append(c);
+					result.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					isCR = false;
 					break;
 			}
@@ -329,14 +329,14 @@ public class NLSHint {
 		return result.toString().toCharArray();
 	}
 
-	private static String getTextBlock(String x) {
+	private static String getTextBlock(String x) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// 1. Normalize line endings
 		char[] all = normalize(x.toCharArray());
 		// 2. Split into lines. Consider both \n and \r as line separators
 		char[][] lines = CharOperation.splitOn('\n', all);
 		int size = lines.length;
-		List<char[]> list = new ArrayList<>(lines.length);
-		for(int i = 1; i < lines.length; i++) {
+		List<char[]> list = new ArrayList<>(lines.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for(int i = 1; i < lines.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char[] line = lines[i];
 			if (i + 1 == size && line.length == 0) {
 				list.add(line);
@@ -346,7 +346,7 @@ public class NLSHint {
 			if (sub.length == 0) {
 				list.add(line);
 			} else {
-				for (char[] cs : sub) {
+				for (char[] cs : sub) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					list.add(cs);
 				}
 			}
@@ -357,11 +357,11 @@ public class NLSHint {
 		// 	3. Handle incidental white space
 		//  3.1. Split into lines and identify determining lines
 		int prefix = -1;
-		for(int i = 0; i < size; i++) {
+		for(int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char[] line = lines[i];
 			boolean blank = true;
 			int whitespaces = 0;
-	 		for (char c : line) {
+	 		for (char c : line) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (blank) {
 					if (Character.isWhitespace(c)) {
 						whitespaces++;
@@ -382,29 +382,29 @@ public class NLSHint {
 		// 4. Handle escape sequences  that are not already done in getNextToken0()
 		if (prefix == -1)
 			prefix = 0;
-		StringBuilder result = new StringBuilder();
+		StringBuilder result = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean newLine = false;
-		for(int i = 0; i < lines.length; i++) {
+		for(int i = 0; i < lines.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char[] l  = lines[i];
 			// Remove the common prefix from each line
 			// And remove all trailing whitespace
 			// Finally append the \n at the end of the line (except the last line)
 			int length = l.length;
 			int trail = length;
-			for(;trail > 0;) {
+			for(;trail > 0;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Character.isWhitespace(l[trail-1])) {
 					break;
 				}
 				trail--;
 			}
 			if (i >= (size -1)) {
-				if (newLine) result.append('\n');
+				if (newLine) result.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (trail < prefix)
 					continue;
 				newLine = getLineContent(result, l, prefix, trail-1, false, true);
 			} else {
 				if (i > 0 && newLine)
-					result.append('\n');
+					result.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (trail <= prefix) {
 					newLine = true;
 				} else {
@@ -420,9 +420,9 @@ public class NLSHint {
 	// scanning (scanForStringLiteral). Admittedly this goes over the text block
 	// content again char by char, but this is required in order to correctly
 	// treat all the white space and line endings
-	private static boolean getLineContent(StringBuilder result, char[] line, int start, int end, boolean merge, boolean lastLine) {
+	private static boolean getLineContent(StringBuilder result, char[] line, int start, int end, boolean merge, boolean lastLine) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int lastPointer = 0;
-		for(int i = start; i < end;) {
+		for(int i = start; i < end;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c = line[i];
 			if (c != '\\') {
 				i++;
@@ -430,35 +430,35 @@ public class NLSHint {
 			}
 			if (i < end) {
 				if (lastPointer + 1 <= i) {
-					result.append(CharOperation.subarray(line, lastPointer == 0 ? start : lastPointer, i));
+					result.append(CharOperation.subarray(line, lastPointer == 0 ? start : lastPointer, i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				char next = line[++i];
 				switch (next) {
 					case '\\' :
-						result.append('\\');
+						result.append('\\'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						if (i == end)
 							merge = false;
 						break;
 					case 's' :
-						result.append(' ');
+						result.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case '"':
-						result.append('"');
+						result.append('"'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case 'b' :
-						result.append('\b');
+						result.append('\b'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case 'n' :
-						result.append('\n');
+						result.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case 'r' :
-						result.append('\r');
+						result.append('\r'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case 't' :
-						result.append('\t');
+						result.append('\t'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					case 'f' :
-						result.append('\f');
+						result.append('\f'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						break;
 					default :
 						// Direct copy from scanEscapeCharacter
@@ -495,12 +495,12 @@ public class NLSHint {
 							if (number < 255) {
 								next = (char) number;
 							}
-							result.append(next);
+							result.append(next); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							lastPointer = i = pos;
 							continue;
 						} else {
 							// Dealing with just '\'
-							result.append(c);
+							result.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							lastPointer = i;
 							continue;
 						}
@@ -515,10 +515,10 @@ public class NLSHint {
 		// The below check is because CharOperation.subarray tend to return null when the
 		// boundaries produce a zero sized char[]
 		if (chars != null && chars.length > 0)
-			result.append(chars);
+			result.append(chars); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return (!merge && !lastLine);
 	}
-	private static int getHexadecimalValue(char c) {
+	private static int getHexadecimalValue(char c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch(c) {
 			case '0' :
 				return 0;

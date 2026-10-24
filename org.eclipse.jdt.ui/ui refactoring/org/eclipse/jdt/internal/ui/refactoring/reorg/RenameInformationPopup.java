@@ -99,19 +99,19 @@ import org.eclipse.jdt.internal.ui.preferences.JavaBasePreferencePage;
 
 public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenKeeperExtension {
 
-	private class PopupVisibilityManager implements IPartListener2, ControlListener, MouseListener, KeyListener, ITextListener, IViewportListener {
+	private class PopupVisibilityManager implements IPartListener2, ControlListener, MouseListener, KeyListener, ITextListener, IViewportListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 
-		public void start() {
+		public void start() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fEditor.getSite().getWorkbenchWindow().getPartService().addPartListener(this);
 			final ISourceViewer viewer= fEditor.getViewer();
 			final StyledText textWidget= viewer.getTextWidget();
-			textWidget.addControlListener(this);
-			textWidget.addMouseListener(this);
-			textWidget.addKeyListener(this);
-			fEditor.getSite().getShell().addControlListener(this);
+			textWidget.addControlListener(this); //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
+			textWidget.addMouseListener(this); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			textWidget.addKeyListener(this); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			fEditor.getSite().getShell().addControlListener(this); //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			viewer.addTextListener(this);
 			viewer.addViewportListener(this);
-			fPopup.addDisposeListener(unused -> {
+			fPopup.addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				IWorkbenchWindow workbenchWindow= fEditor.getSite().getWorkbenchWindow();
 				if (workbenchWindow == null) {
 					return; // happens on eclipse restart
@@ -317,7 +317,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		return JavaPlugin.getDefault().getDialogSettingsSection(DIALOG_SETTINGS_SECTION);
 	}
 
-	public void open() {
+	public void open() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Must cache here, since editor context is not available in menu from popup shell:
 		fOpenDialogBinding= getOpenDialogBinding();
 
@@ -345,7 +345,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 					return;
 
 				final Shell editorShell= fEditor.getSite().getShell();
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					Shell activeShell= display.getActiveShell();
 					if (activeShell != editorShell) {
 						fRenameLinkedMode.cancel();
@@ -355,14 +355,14 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		});
 
 		if (! MAC) { // carbon and cocoa draw their own border...
-			fPopup.addPaintListener(pe -> pe.gc.drawPolygon(getPolygon(true)));
+			fPopup.addPaintListener(pe -> pe.gc.drawPolygon(getPolygon(true))); //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 		}
 
 //		fPopup.moveBelow(null); // make sure hovers are on top of the info popup
 // XXX workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=170774
 //		fPopup.moveBelow(workbenchShell.getShells()[0]);
 
-		UIJob delayJob= new UIJob(display, ReorgMessages.RenameInformationPopup_delayJobName) {
+		UIJob delayJob= new UIJob(display, ReorgMessages.RenameInformationPopup_delayJobName) { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				fDelayJobFinished= true;
@@ -409,7 +409,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		}
 	}
 
-	private void updateVisibility() {
+	private void updateVisibility() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPopup != null && !fPopup.isDisposed() && fDelayJobFinished) {
 			boolean visible= false;
 			//TODO: Check for visibility of linked position, not whether popup is outside of editor?
@@ -450,7 +450,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 	 * @param snapPosition one of the SNAP_POSITION_* constants
 	 * @return the location in display coordinates or <code>null</code> iff not visible
 	 */
-	private Point computePopupLocation(int snapPosition) {
+	private Point computePopupLocation(int snapPosition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPopup == null || fPopup.isDisposed())
 			return null;
 
@@ -521,10 +521,10 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		}
 	}
 
-	private void addMoveSupport(final Shell popupShell, final Control movedControl) {
-		movedControl.addMouseListener(new MouseAdapter() {
+	private void addMoveSupport(final Shell popupShell, final Control movedControl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		movedControl.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void mouseDown(final MouseEvent downEvent) {
 				if (downEvent.button != 1) {
 					return;
@@ -564,8 +564,8 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 				tracker.setRectangles(new Rectangle[] { MOUSE_MOVE_SOURCE, DROP_TARGETS[fSnapPosition] });
 				tracker.setStippled(true);
 
-				ControlListener moveListener= new ControlAdapter() {
-					@Override
+				ControlListener moveListener= new ControlAdapter() { //FLLDCIM: MARK — T11  ANONYMOUS
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public void controlMoved(ControlEvent moveEvent) {
 						Rectangle[] currentRects= tracker.getRectangles();
 						final Rectangle mouseMoveCurrent= currentRects[0];
@@ -577,7 +577,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 
 						Point ePopupLoc= textWidget.toControl(popupLoc);
 						int minDist= Integer.MAX_VALUE;
-						for (int snapPos= 0; snapPos < DROP_TARGETS.length; snapPos++) {
+						for (int snapPos= 0; snapPos < DROP_TARGETS.length; snapPos++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							int dist= Geometry.distanceSquared(ePopupLoc, LOCATIONS[snapPos]);
 							if (dist < minDist) {
 								minDist= dist;
@@ -589,7 +589,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 						tracker.setRectangles(currentRects);
 					}
 				};
-				tracker.addControlListener(moveListener);
+				tracker.addControlListener(moveListener); //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 				boolean committed= tracker.open();
 				tracker.close();
 				tracker.dispose();
@@ -605,7 +605,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		});
 	}
 
-	private void packPopup() {
+	private void packPopup() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fSnapPositionChanged) {
 			return;
 		}
@@ -647,7 +647,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		return e;
 	}
 
-	private int[] getPolygon(boolean border) {
+	private int[] getPolygon(boolean border) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point e = getExtent();
 		int b = border ? 1 : 0;
 		boolean isRTL= (fPopup.getStyle() & SWT.RIGHT_TO_LEFT) != 0;
@@ -692,7 +692,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		return poly;
 	}
 
-	private void createContent(Composite parent) {
+	private void createContent(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Display display= parent.getDisplay();
 		Color foreground= getInformationForegroundColor(display);
 		Color background= getInformationBackgroundColor(display);
@@ -719,7 +719,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		Link link= new Link(parent, SWT.NONE);
 		link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		link.setText(ReorgMessages.RenameInformationPopup_OptionsLink);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				activateEditor();
@@ -728,19 +728,19 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		});
 	}
 
-	private ToolBar addViewMenu(final Composite parent) {
+	private ToolBar addViewMenu(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fToolBar= new ToolBar(parent, SWT.FLAT);
 		final ToolItem menuButton = new ToolItem(fToolBar, SWT.PUSH, 0);
 		fMenuImage= JavaPluginImages.DESC_ELCL_VIEW_MENU.createImage();
 		menuButton.setImage(fMenuImage);
 		menuButton.setToolTipText(ReorgMessages.RenameInformationPopup_menu);
-		fToolBar.addMouseListener(new MouseAdapter() {
+		fToolBar.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDown(MouseEvent e) {
 				showMenu(fToolBar);
 			}
 		});
-		menuButton.addSelectionListener(new SelectionAdapter() {
+		menuButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				showMenu(fToolBar);
@@ -758,7 +758,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		menu.setVisible(true);
 	}
 
-	private MenuManager getMenuManager() {
+	private MenuManager getMenuManager() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fMenuManager != null) {
 			return fMenuManager;
 		}
@@ -766,12 +766,12 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 		fMenuManager= new MenuManager();
 		fMenuManager.setRemoveAllWhenShown(true);
 
-		fMenuManager.addMenuListener(new IMenuListener2() {
+		fMenuManager.addMenuListener(new IMenuListener2() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			@Override
 			public void menuAboutToHide(IMenuManager manager) {
 				fIsMenuUp= false;
 			}
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void menuAboutToShow(IMenuManager manager) {
 				boolean canRefactor= ! fRenameLinkedMode.isOriginalName();
 
@@ -797,7 +797,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 				previewAction.setEnabled(canRefactor);
 				manager.add(previewAction);
 
-				IAction openDialogAction= new Action(ReorgMessages.RenameInformationPopup_OpenDialog + '\t' + fOpenDialogBinding) {
+				IAction openDialogAction= new Action(ReorgMessages.RenameInformationPopup_OpenDialog + '\t' + fOpenDialogBinding) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					@Override
 					public void run() {
 						activateEditor();
@@ -865,7 +865,7 @@ public class RenameInformationPopup implements IWidgetTokenKeeper, IWidgetTokenK
 	private static void recursiveSetBackgroundColor(Control control, Color color) {
 		control.setBackground(color);
 		if (control instanceof Composite) {
-			for (Control child : ((Composite) control).getChildren()) {
+			for (Control child : ((Composite) control).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				recursiveSetBackgroundColor(child, color);
 			}
 		}

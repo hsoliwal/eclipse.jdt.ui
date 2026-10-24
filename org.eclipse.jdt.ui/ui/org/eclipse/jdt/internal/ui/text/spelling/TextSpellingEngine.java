@@ -36,7 +36,7 @@ public class TextSpellingEngine extends SpellingEngine {
 	@Override
 	protected void check(IDocument document, IRegion[] regions, ISpellChecker checker, ISpellingProblemCollector collector, IProgressMonitor monitor) {
 		SpellEventListener listener= new SpellEventListener(collector, document);
-		for (IRegion region : regions) {
+		for (IRegion region : regions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (monitor != null && monitor.isCanceled())
 				return;
 			if (listener.isProblemsThresholdReached())

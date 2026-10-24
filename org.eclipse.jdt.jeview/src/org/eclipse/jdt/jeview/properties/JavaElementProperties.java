@@ -51,8 +51,8 @@ import org.eclipse.jdt.jeview.JEViewPlugin;
 
 public class JavaElementProperties implements IPropertySource {
 
-	private static HashMap<String, Property> fgIdToProperty= new HashMap<>();
-	private static LinkedHashMap<Class<?>, List<Property>> fgTypeToProperty= new LinkedHashMap<>();
+	private static HashMap<String, Property> fgIdToProperty= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private static LinkedHashMap<Class<?>, List<Property>> fgTypeToProperty= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 
 	private static abstract class Property {
@@ -64,7 +64,7 @@ public class JavaElementProperties implements IPropertySource {
 		public Property(Class<?> type, String name) {
 			fType= type;
 			fName= name;
-			fId= "org.eclipse.jdt.jeview." + type.getSimpleName() + "." + name;
+			fId= "org.eclipse.jdt.jeview." + type.getSimpleName() + "." + name; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fDescriptor= new PropertyDescriptor(fId, fName);
 			fDescriptor.setAlwaysIncompatible(true);
 			fDescriptor.setCategory(type.getSimpleName());
@@ -111,7 +111,7 @@ public class JavaElementProperties implements IPropertySource {
 		addOpenableProperties();
 	}
 
-	private static void addJavaElementProperties() {
+	private static void addJavaElementProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addProperty(new Property(IJavaElement.class, "elementName") {
 			@Override public Object compute(IJavaElement element) {
 				return element.getElementName();
@@ -243,7 +243,7 @@ public class JavaElementProperties implements IPropertySource {
 		});
 	}
 
-	private static void addMemberProperties() {
+	private static void addMemberProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addProperty(new Property(IMember.class, "javadocRange") {
 			@Override public Object compute(IJavaElement element) throws JavaModelException {
 				return getSourceRangeString(((IMember) element).getJavadocRange());
@@ -266,7 +266,7 @@ public class JavaElementProperties implements IPropertySource {
 		});
 	}
 
-	private static void addFieldProperties() {
+	private static void addFieldProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addProperty(new Property(IField.class, "isResolved") {
 			@Override public Object compute(IJavaElement element) {
 				return ((IField) element).isResolved();
@@ -294,7 +294,7 @@ public class JavaElementProperties implements IPropertySource {
 		});
 	}
 
-	private static void addMethodProperties() {
+	private static void addMethodProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addProperty(new Property(IMethod.class, "isResolved") {
 			@Override public Object compute(IJavaElement element) {
 				return ((IMethod) element).isResolved();
@@ -346,7 +346,7 @@ public class JavaElementProperties implements IPropertySource {
 		});
 	}
 
-	private static void addTypeProperties() {
+	private static void addTypeProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addProperty(new Property(IType.class, "isResolved") {
 			@Override public Object compute(IJavaElement element) {
 				return ((IType) element).isResolved();
@@ -424,7 +424,7 @@ public class JavaElementProperties implements IPropertySource {
 		});
 	}
 
-	private static void addPackageFragmentProperties() {
+	private static void addPackageFragmentProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addProperty(new Property(IPackageFragment.class, "containsJavaResources") {
 			@Override public Object compute(IJavaElement element) throws JavaModelException {
 				return ((IPackageFragment) element).containsJavaResources();
@@ -447,7 +447,7 @@ public class JavaElementProperties implements IPropertySource {
 		});
 	}
 
-	private static void addPackageFragmentRootProperties() {
+	private static void addPackageFragmentRootProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addProperty(new Property(IPackageFragmentRoot.class, "kind") {
 			@Override public Object compute(IJavaElement element) throws JavaModelException {
 				return getPFRKindString(((IPackageFragmentRoot) element).getKind());
@@ -496,7 +496,7 @@ public class JavaElementProperties implements IPropertySource {
 		});
 	}
 
-	private static void addOpenableProperties() {
+	private static void addOpenableProperties() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addProperty(new Property(IOpenable.class, "hasUnsavedChanges") {
 			@Override public Object compute(IJavaElement element) throws JavaModelException {
 				return ((IOpenable) element).hasUnsavedChanges();
@@ -525,7 +525,7 @@ public class JavaElementProperties implements IPropertySource {
 		fgIdToProperty.put(property.getId(), property);
 		List<Property> properties= fgTypeToProperty.get(property.getType());
 		if (properties == null) {
-			properties= new ArrayList<>();
+			properties= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fgTypeToProperty.put(property.getType(), properties);
 		}
 		properties.add(property);
@@ -539,10 +539,10 @@ public class JavaElementProperties implements IPropertySource {
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		List<IPropertyDescriptor> result= new ArrayList<>();
-		for (Entry<Class<?>, List<Property>> entry : fgTypeToProperty.entrySet()) {
+		List<IPropertyDescriptor> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Entry<Class<?>, List<Property>> entry : fgTypeToProperty.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.getKey().isAssignableFrom(fJavaElement.getClass())) {
-				for (Property property : entry.getValue()) {
+				for (Property property : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.add(property.getDescriptor());
 				}
 			}
@@ -560,16 +560,16 @@ public class JavaElementProperties implements IPropertySource {
 				return property.compute(fJavaElement);
 			} catch (JavaModelException e) {
 				if (e.isDoesNotExist()) {
-					return "JavaModelException: " + e.getLocalizedMessage();
+					return "JavaModelException: " + e.getLocalizedMessage(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
-					JEViewPlugin.log("error calculating property '" + property.getType().getSimpleName() + '#' + property.getName() + '\'', e);
-					return "Error: " + e.getLocalizedMessage();
+					JEViewPlugin.log("error calculating property '" + property.getType().getSimpleName() + '#' + property.getName() + '\'', e); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					return "Error: " + e.getLocalizedMessage(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
 	}
 
-	static String getElementTypeString(int elementType) {
+	static String getElementTypeString(int elementType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name;
 		switch (elementType) {
 			case IJavaElement.JAVA_MODEL :
@@ -624,14 +624,14 @@ public class JavaElementProperties implements IPropertySource {
 				name= "UNKNOWN";
 				break;
 		}
-		return elementType + " (" + name + ")";
+		return elementType + " (" + name + ")"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	static String getSourceRangeString(ISourceRange range) {
-		return range == null ? "null" : range.getOffset() + " + " + range.getLength();
+		return range == null ? "null" : range.getOffset() + " + " + range.getLength(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	static String getFlagsString(int flags, Class<? extends IJavaElement> clazz) {
+	static String getFlagsString(int flags, Class<? extends IJavaElement> clazz) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer sb = new StringBuffer().append("0x").append(Integer.toHexString(flags)).append(" (");
 		int prologLen= sb.length();
 		int rest= flags;
@@ -703,7 +703,7 @@ public class JavaElementProperties implements IPropertySource {
 		if (schedulingRule == null)
 			return null;
 		else
-			return schedulingRule.getClass().getSimpleName() + ": " + schedulingRule.toString();
+			return schedulingRule.getClass().getSimpleName() + ": " + schedulingRule.toString(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

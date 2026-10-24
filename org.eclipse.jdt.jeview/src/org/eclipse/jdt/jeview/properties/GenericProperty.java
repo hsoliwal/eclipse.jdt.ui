@@ -27,7 +27,7 @@ public abstract class GenericProperty<T> {
 	public GenericProperty(Class<T> type, String name) {
 		fType= type;
 		fName= name;
-		fId= "org.eclipse.jdt.jeview." + type.getSimpleName() + "." + name;
+		fId= "org.eclipse.jdt.jeview." + type.getSimpleName() + "." + name; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fDescriptor= new PropertyDescriptor(fId, fName);
 		fDescriptor.setAlwaysIncompatible(true);
 		fDescriptor.setCategory(type.getSimpleName());

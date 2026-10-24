@@ -128,16 +128,16 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.SourceAttachmentBlock;
  */
 public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProvider.InputChangeListener {
 
-	private final class LoadJob extends Job implements IElementChangedListener {
+	private final class LoadJob extends Job implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 		private final IJavaElement fElement;
 		private volatile boolean continueListening;
 
 		private LoadJob(IJavaElement element) {
-			super("Restoring editor input for " + element.getElementName()); //$NON-NLS-1$
+			super("Restoring editor input for " + element.getElementName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fElement= element;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected IStatus run(IProgressMonitor monitor) {
 			try {
 				if(monitor.isCanceled() || disposed) {
@@ -160,7 +160,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 						continueListening = false;
 						IJavaElement javaElement= type.getParent();
 						IEditorInput editorInput= EditorUtility.getEditorInput(javaElement);
-						PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+						PlatformUI.getWorkbench().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							if (!disposed) {
 								setInput(editorInput);
 								if(javaElement instanceof ISourceReference ref) {
@@ -171,7 +171,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 					} else {
 						if (!continueListening) {
 							continueListening= true;
-							JavaCore.addElementChangedListener(this);
+							JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 						}
 					}
 				}
@@ -199,14 +199,14 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 	/**
 	 * A form to attach source to a class file.
 	 */
-	private class SourceAttachmentForm implements IPropertyChangeListener {
+	private class SourceAttachmentForm implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 		private final IClassFile fFile;
 		private Composite fComposite;
 		private Color fBackgroundColor;
 		private Color fForegroundColor;
 		private Color fSeparatorColor;
-		private List<Label> fBannerLabels= new ArrayList<>();
-		private List<Label> fHeaderLabels= new ArrayList<>();
+		private List<Label> fBannerLabels= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		private List<Label> fHeaderLabels= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		/**
 		 * Creates a source attachment form for a class file.
@@ -225,7 +225,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 		 */
 		private IPackageFragmentRoot getPackageFragmentRoot(IClassFile file) {
 			IJavaElement element= file.getParent();
-			while (element != null && element.getElementType() != IJavaElement.PACKAGE_FRAGMENT_ROOT) {
+			while (element != null && element.getElementType() != IJavaElement.PACKAGE_FRAGMENT_ROOT) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				element= element.getParent();
 			}
 
@@ -238,17 +238,17 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 		 * @param parent the parent composite
 		 * @return the creates source attachment form
 		 */
-		public Control createControl(Composite parent) {
+		public Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Display display= parent.getDisplay();
 			fBackgroundColor= display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
 			fForegroundColor= display.getSystemColor(SWT.COLOR_LIST_FOREGROUND);
 			fSeparatorColor= new Color(152, 170, 203);
 
-			JFaceResources.getFontRegistry().addListener(this);
+			JFaceResources.getFontRegistry().addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			fComposite= createComposite(parent);
 			fComposite.setLayout(new GridLayout());
-			fComposite.addDisposeListener(unused -> {
+			fComposite.addDisposeListener(unused -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				JFaceResources.getFontRegistry().removeListener(SourceAttachmentForm.this);
 				fComposite= null;
 				fSeparatorColor= null;
@@ -292,7 +292,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 			return fComposite;
 		}
 
-		private void createSourceAttachmentControls(Composite composite, IPackageFragmentRoot root) throws JavaModelException {
+		private void createSourceAttachmentControls(Composite composite, IPackageFragmentRoot root) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IClasspathEntry entry;
 			try {
 				entry= JavaModelUtil.getClasspathEntry(root);
@@ -353,10 +353,10 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 				button= createButton(composite, JavaEditorMessages.SourceAttachmentForm_button_changeAttachedSource);
 			}
 
-			button.addSelectionListener(getButtonListener(entry, containerPath, jproject, canEditEncoding));
+			button.addSelectionListener(getButtonListener(entry, containerPath, jproject, canEditEncoding)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 
-		private SelectionListener getButtonListener(final IClasspathEntry entry, final IPath containerPath, final IJavaProject jproject, final boolean canEditEncoding) {
+		private SelectionListener getButtonListener(final IClasspathEntry entry, final IPath containerPath, final IJavaProject jproject, final boolean canEditEncoding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent event) {
@@ -397,11 +397,11 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 		 */
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
-			for (Label label : fBannerLabels) {
+			for (Label label : fBannerLabels) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				label.setFont(JFaceResources.getBannerFont());
 			}
 
-			for (Label label : fHeaderLabels) {
+			for (Label label : fHeaderLabels) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				label.setFont(JFaceResources.getHeaderFont());
 			}
 
@@ -542,7 +542,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 		 *
 		 * @param input the input to be set when executed
 		 */
-		public void post(IClassFileEditorInput input) {
+		public void post(IClassFileEditorInput input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			synchronized(this) {
 				if (fPosted) {
 					if (isEqualInput(input, fClassFileEditorInput)) {
@@ -561,7 +561,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 							fPosted= true;
 							fClassFileEditorInput= input;
 						}
-						textWidget.getDisplay().asyncExec(this);
+						textWidget.getDisplay().asyncExec(this); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					}
 				}
 			}
@@ -623,7 +623,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 	/*
 	 * @see AbstractTextEditor#createActions()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createActions() {
 		super.createActions();
 
@@ -767,7 +767,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 	protected void doSetInput(IEditorInput input) throws CoreException {
 		JavaCore.runReadOnly(() -> doSetInputCached(input));
 	}
-	private void doSetInputCached(IEditorInput input) throws CoreException {
+	private void doSetInputCached(IEditorInput input) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		uninstallOccurrencesFinder();
 
 		input= transformEditorInput(input);
@@ -804,7 +804,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 	 * @see org.eclipse.jdt.internal.ui.javaeditor.JavaEditor#installSemanticHighlighting()
 	 * @since 3.7
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void installSemanticHighlighting() {
 		cancelInstallSemanticHighlightingJob();
 		super.installSemanticHighlighting();
@@ -815,7 +815,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 		}
 
 		Job job= new Job(JavaEditorMessages.OverrideIndicatorManager_intallJob) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
 					if (!isCurrentInstallSemanticHighlightingJob(this, monitor)) {
@@ -878,7 +878,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 		JavaCore.runReadOnly(() -> createPartControlCached(parent));
 	}
 
-	private void createPartControlCached(Composite parent) {
+	private void createPartControlCached(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fParent= new Composite(parent, SWT.NONE);
 		fStackLayout= new StackLayout();
 		fParent.setLayout(fStackLayout);
@@ -906,7 +906,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 	 * @param input the editor input
 	 * @throws JavaModelException if an exception occurs while accessing its corresponding resource
 	 */
-	private void verifyInput(IEditorInput input) throws JavaModelException {
+	private void verifyInput(IEditorInput input) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fParent == null || input == null) {
 			return;
 		}
@@ -943,7 +943,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 				copyAction.setActionDefinitionId(IWorkbenchCommandConstants.EDIT_COPY);
 				setAction(ITextEditorActionConstants.COPY, copyAction);
 				copyAction.setEnabled(!fNoSourceTextWidget.getSelectionText().isEmpty());
-				fNoSourceTextWidget.addSelectionListener(new SelectionListener() {
+				fNoSourceTextWidget.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						copyAction.setEnabled(!fNoSourceTextWidget.getSelectionText().isEmpty());
@@ -997,7 +997,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 			if (isUsingSourceCopyAction) {
 				createNavigationActions();
 			} else {
-				for (IdMapEntry entry : ACTION_MAP) {
+				for (IdMapEntry entry : ACTION_MAP) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionBars.setGlobalActionHandler(entry.getActionId(), null);
 					setAction(entry.getActionId(), null);
 				}
@@ -1039,7 +1039,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 	 * @param signature The bytecode signature of the method, e.g. ()V for void methods with no parameters
 	 * @param codeIndex the "code index" identifying the bytcode instruction to highlight
 	 */
-	public void highlightInstruction(String methodName, String signature, long codeIndex) {
+	public void highlightInstruction(String methodName, String signature, long codeIndex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (disposed || fNoSourceTextWidget == null || fNoSourceTextWidget.isDisposed()) {
 			return;
 		}
@@ -1065,17 +1065,17 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 		return methodsToInstructionRegions = Objects.requireNonNullElseGet(methodsToInstructionRegions, this::createCache);
 	}
 
-	private Map<MethodIdentifier, LineRegion> createCache() {
+	private Map<MethodIdentifier, LineRegion> createCache() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String message = NLS.bind(org.eclipse.jdt.internal.core.util.Messages.classfileformat_methoddescriptor, "\\d+", "(.+)");  //$NON-NLS-1$//$NON-NLS-2$
-		Pattern methodDescriptorPattern = Pattern.compile("^\\s+" + message + "$"); //$NON-NLS-1$ //$NON-NLS-2$
+		Pattern methodDescriptorPattern = Pattern.compile("^\\s+" + message + "$"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		StyledTextContent content= fNoSourceTextWidget.getContent();
-		Map<MethodIdentifier, LineRegion> cache = new HashMap<>();
-		for(int currentLine = 0; currentLine < content.getLineCount(); currentLine++) {
+		Map<MethodIdentifier, LineRegion> cache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for(int currentLine = 0; currentLine < content.getLineCount(); currentLine++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String line= content.getLine(currentLine);
-			Matcher descriptorMatcher= methodDescriptorPattern.matcher(line);
-			if (descriptorMatcher.matches()) {
+			Matcher descriptorMatcher= methodDescriptorPattern.matcher(line); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			if (descriptorMatcher.matches()) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				String methodSignature = descriptorMatcher.group(1);
-				for(; currentLine < content.getLineCount(); currentLine++) {
+				for(; currentLine < content.getLineCount(); currentLine++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// skip lines with leading slashes
 					line = content.getLine(currentLine);
 					if (!line.trim().startsWith("//")) { //$NON-NLS-1$
@@ -1089,7 +1089,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 					String methodName= line.substring(methodNameStart + 1, methodNameEnd);
 					int indentation = getIndentation(line);
 					int startLine = ++currentLine;
-					for(; currentLine < content.getLineCount() && getIndentation(content.getLine(currentLine)) > indentation; currentLine++) {
+					for(; currentLine < content.getLineCount() && getIndentation(content.getLine(currentLine)) > indentation; currentLine++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						// find end of method
 					}
 					int endLine = currentLine;
@@ -1105,9 +1105,9 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 	}
 
 	private Region findInstruction(LineRegion methodBounds, StyledTextContent content, long codeIndex) {
-		for(int currentLine = methodBounds.startLine(); currentLine < methodBounds.endLine(); currentLine++) {
+		for(int currentLine = methodBounds.startLine(); currentLine < methodBounds.endLine(); currentLine++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String line= content.getLine(currentLine);
-			if (line.trim().startsWith(codeIndex + " ")) { //$NON-NLS-1$
+			if (line.trim().startsWith(codeIndex + " ")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return new Region(content.getOffsetAtLine(currentLine), line.length());
 			}
 		}
@@ -1116,7 +1116,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 
 	private void initInstructionPointerColor() {
 		String color= getPreferenceStore().getString(IUIConstants.INSTRUCTION_POINTER_COLOR_PREFERENCE_KEY);
-		String[] splitColor = color.split(","); //$NON-NLS-1$
+		String[] splitColor = color.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (splitColor.length != 3) {
 			return;
 		}
@@ -1138,9 +1138,9 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 	/*
 	 * @see JavaEditor#createJavaSourceViewer(Composite, IVerticalRuler, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ISourceViewer createJavaSourceViewer(Composite parent, IVerticalRuler ruler, IOverviewRuler overviewRuler, boolean isOverviewRulerVisible, int styles, IPreferenceStore store) {
-		return new JavaSourceViewer(parent, ruler, overviewRuler, isOverviewRulerVisible, styles, store) {
+		return new JavaSourceViewer(parent, ruler, overviewRuler, isOverviewRulerVisible, styles, store) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public boolean requestWidgetToken(IWidgetTokenKeeper requester) {
 				return !PlatformUI.getWorkbench().getHelpSystem().isContextHelpDisplayed() && super.requestWidgetToken(requester);
@@ -1160,7 +1160,7 @@ public class ClassFileEditor extends JavaEditor implements ClassFileDocumentProv
 			public void doOperation(int operation) {
 				if (operation == JavaSourceViewer.ANNOTATE_CLASS_FILE) {
 					fQuickAssistAssistant.setStatusLineVisible(true);
-					fQuickAssistAssistant.setStatusMessage(JavaEditorMessages.ClassFileEditor_changeExternalAnnotations_caption + ' ');
+					fQuickAssistAssistant.setStatusMessage(JavaEditorMessages.ClassFileEditor_changeExternalAnnotations_caption + ' '); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					String msg= fQuickAssistAssistant.showPossibleQuickAssists();
 					setStatusLineErrorMessage(msg);
 					return;

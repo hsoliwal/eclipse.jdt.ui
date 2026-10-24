@@ -81,6 +81,6 @@ public class UndoDeleteResourceChange extends Change {
 
 	@Override
 	public String toString() {
-		return "Remove " + fResourceDescription.getName(); //$NON-NLS-1$
+		return "Remove " + fResourceDescription.getName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

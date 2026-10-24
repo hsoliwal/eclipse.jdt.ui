@@ -91,7 +91,7 @@ public class InputFlowAnalyzer extends FlowAnalyzer {
 			// No need to merge the condition. It was already considered by the InputFlowAnalyzer.
 			info.removeLabel(null);
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void endVisit(EnhancedForStatement node) {
 			if (skipNode(node))
 				return;
@@ -113,7 +113,7 @@ public class InputFlowAnalyzer extends FlowAnalyzer {
 			}
 			forInfo.removeLabel(null);
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void endVisit(ForStatement node) {
 			if (skipNode(node))
 				return;
@@ -257,7 +257,7 @@ public class InputFlowAnalyzer extends FlowAnalyzer {
 	public SwitchData preEndVisit(ASTNode node, List<Statement> statements, Expression expression) {
 		SwitchData data= createSwitchData(statements);
 		IRegion[] ranges= data.getRanges();
-		for (int i= 0; i < ranges.length; i++) {
+		for (int i= 0; i < ranges.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IRegion range= ranges[i];
 			if (fSelection.coveredBy(range)) {
 				GenericSequentialFlowInfo info= createSequential();
@@ -279,7 +279,7 @@ public class InputFlowAnalyzer extends FlowAnalyzer {
 
 	private void endVisitConditional(GenericSequentialFlowInfo info, ASTNode condition, ASTNode[] branches) {
 		info.merge(getFlowInfo(condition), fFlowContext);
-		for (ASTNode branch : branches) {
+		for (ASTNode branch : branches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (branch != null && fSelection.coveredBy(branch)) {
 				info.merge(getFlowInfo(branch), fFlowContext);
 				break;

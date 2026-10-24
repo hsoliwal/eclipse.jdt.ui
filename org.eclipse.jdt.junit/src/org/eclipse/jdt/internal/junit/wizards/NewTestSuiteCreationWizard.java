@@ -65,10 +65,10 @@ public class NewTestSuiteCreationWizard extends JUnitWizard {
 	/*
 	 * @see Wizard#performFinish
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		IPackageFragment pack= fPage.getPackageFragment();
-		String filename= fPage.getTypeName() + ".java"; //$NON-NLS-1$
+		String filename= fPage.getTypeName() + ".java"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ICompilationUnit cu= pack.getCompilationUnit(filename);
 		if (cu.exists()) {
 			IEditorPart cu_ep= EditorUtility.isOpenInEditor(cu);
@@ -141,7 +141,7 @@ public class NewTestSuiteCreationWizard extends JUnitWizard {
 	}
 
 	public IRunnableWithProgress getRunnableSave(final IEditorPart cu_ep) {
-		return monitor -> {
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				if (monitor == null) {
 					monitor= new NullProgressMonitor();
 				}

@@ -62,7 +62,7 @@ public class JarWriter {
 	private JarOutputStream fJarOutputStream;
 	private JarPackageData fJarPackage;
 
-	private Set<String> fDirectories= new HashSet<>();
+	private Set<String> fDirectories= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Creates an instance which is used to create a JAR based
@@ -76,7 +76,7 @@ public class JarWriter {
 	 * 								This can also be used to return information
 	 * 								in the status object.
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public JarWriter(JarPackageData jarPackage, Shell parent) throws CoreException {
 		Assert.isNotNull(jarPackage, "The JAR specification is null"); //$NON-NLS-1$
 		fJarPackage= jarPackage;
@@ -87,9 +87,9 @@ public class JarWriter {
 		try {
 			if (fJarPackage.usesManifest() && fJarPackage.areGeneratedFilesExported()) {
 				Manifest manifest=  fJarPackage.getManifestProvider().create(fJarPackage);
-				fJarOutputStream= new JarOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile()), manifest);
+				fJarOutputStream= new JarOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile()), manifest); //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			} else
-				fJarOutputStream= new JarOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile()));
+				fJarOutputStream= new JarOutputStream(new FileOutputStream(fJarPackage.getAbsoluteJarLocation().toFile())); //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			String comment= jarPackage.getComment();
 			if (comment != null)
 				fJarOutputStream.setComment(comment);
@@ -125,22 +125,22 @@ public class JarWriter {
 	 * 								This can also be used to return information
 	 * 								in the status object.
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void write(IFile resource, IPath destinationPath) throws CoreException {
 		try (ByteArrayOutputStream output= new ByteArrayOutputStream();
 				BufferedInputStream contentStream= new BufferedInputStream(resource.getContents(false))) {
 			int chunkSize= 4096;
 			byte[] readBuffer= new byte[chunkSize];
 			int count;
-			while ((count= contentStream.read(readBuffer, 0, chunkSize)) != -1)
+			while ((count= contentStream.read(readBuffer, 0, chunkSize)) != -1) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				output.write(readBuffer, 0, count);
 			IPath fileLocation= resource.getLocation();
 			long lastModified= System.currentTimeMillis();
 			File file= null;
 			if (fileLocation != null) {
 				file= fileLocation.toFile();
-				if (file.exists()) {
-					lastModified= file.lastModified();
+				if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+					lastModified= file.lastModified(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				}
 			}
 			if (fJarPackage.areDirectoryEntriesIncluded())
@@ -166,7 +166,7 @@ public class JarWriter {
 	 * @param	lastModified	a long which represents the last modification date
      * @throws	IOException		if an I/O error has occurred
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void write(IPath path, byte[] contents, long lastModified) throws IOException {
 		JarEntry newEntry= new JarEntry(path.toString().replace(File.separatorChar, '/'));
 		if (fJarPackage.isCompressed())
@@ -205,19 +205,19 @@ public class JarWriter {
 	 *  or <code>null</code> if it doesn't exist
 	 * @throws IOException if an I/O error has occurred
 	 */
-	private void addDirectories(IPath destinationPath, File correspondingFile) throws IOException {
+	private void addDirectories(IPath destinationPath, File correspondingFile) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String path= destinationPath.toString().replace(File.separatorChar, '/');
 		int lastSlash= path.lastIndexOf('/');
-		List<JarEntry> directories= new ArrayList<>(2);
-		while(lastSlash != -1) {
+		List<JarEntry> directories= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while(lastSlash != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			path= path.substring(0, lastSlash + 1);
 			if (!fDirectories.add(path))
 				break;
 
 			if (correspondingFile != null)
 				correspondingFile= correspondingFile.getParentFile();
-			long timeStamp= correspondingFile != null && correspondingFile.exists()
-				? correspondingFile.lastModified()
+			long timeStamp= correspondingFile != null && correspondingFile.exists() //FLLDCIM: MARK — M31 M3FILE_IO CALL
+				? correspondingFile.lastModified() //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				: System.currentTimeMillis();
 
 			JarEntry newEntry= new JarEntry(path);
@@ -230,7 +230,7 @@ public class JarWriter {
 			lastSlash= path.lastIndexOf('/', lastSlash - 1);
 		}
 
-		for(int i= directories.size() - 1; i >= 0; --i) {
+		for(int i= directories.size() - 1; i >= 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fJarOutputStream.putNextEntry(directories.get(i));
 		}
 	}
@@ -244,11 +244,11 @@ public class JarWriter {
 	 * 			or <code>null</code> if no dialog should be presented
 	 * @return	<code>true</code> if it is OK to create the JAR
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canCreateJar(Shell parent) {
 		File file= fJarPackage.getAbsoluteJarLocation().toFile();
-		if (file.exists()) {
-			if (!file.canWrite())
+		if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (!file.canWrite()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return false;
 			if (fJarPackage.allowOverwrite())
 				return true;
@@ -261,18 +261,18 @@ public class JarWriter {
 		if (separatorIndex == -1) // i.e.- default directory, which is fine
 			return true;
 		File directory= new File(path.substring(0, separatorIndex));
-		if (!directory.exists()) {
+		if (!directory.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			if (JarPackagerUtil.askToCreateDirectory(parent, directory))
-				return directory.mkdirs();
+				return directory.mkdirs(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			else
 				return false;
 		}
 		return true;
 	}
 
-	private void registerInWorkspaceIfNeeded() {
+	private void registerInWorkspaceIfNeeded() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath jarPath= fJarPackage.getAbsoluteJarLocation();
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// The Jar is always put into the local file system. So it can only be
 			// part of a project if the project is local as well. So using getLocation
 			// is currently save here.

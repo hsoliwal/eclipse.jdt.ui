@@ -69,7 +69,7 @@ public class UseStringIsBlankCleanUp extends AbstractCleanUp {
 	@Override
 	public String getPreview() {
 		boolean isEnabled= isEnabled(CleanUpConstants.USE_STRING_IS_BLANK);
-		return (isEnabled
+		return (isEnabled //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				? "if (input.isBlank()) {\n" //$NON-NLS-1$
 				: "if (\"\".equals(input.strip())) {\n") //$NON-NLS-1$
 
@@ -96,7 +96,7 @@ public class UseStringIsBlankCleanUp extends AbstractCleanUp {
 	}
 
 	private static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<UseStringIsBlankFixOperation> operations= new ArrayList<>();
+		List<UseStringIsBlankFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		compilationUnit.accept(new UseStringIsBlankFinder(operations));
 
 		if (operations.isEmpty()) {
@@ -115,7 +115,7 @@ public class UseStringIsBlankCleanUp extends AbstractCleanUp {
 			fResult= ops;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(MethodInvocation visited) {
 			// s.strip().isEmpty()
 			if (isStringMethodInvocation(visited, "isEmpty") //$NON-NLS-1$
@@ -153,7 +153,7 @@ public class UseStringIsBlankCleanUp extends AbstractCleanUp {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final InfixExpression visited) {
 			OrderedInfixExpression<MethodInvocation, Expression> orderedInfix= ASTNodes.orderedInfix(visited, MethodInvocation.class, Expression.class);
 
@@ -214,7 +214,7 @@ public class UseStringIsBlankCleanUp extends AbstractCleanUp {
 			this.isPositive= isPositive;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();

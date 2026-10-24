@@ -79,7 +79,7 @@ public class NewTypeWizardTest25 {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateCompactType() throws Exception {
 		NewCompactWizardPage wizardPage= new NewCompactWizardPage();
 		wizardPage.setPackageFragmentRoot(fSourceFolder, true);
@@ -104,7 +104,7 @@ public class NewTypeWizardTest25 {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateCompactTypeWithComments() throws Exception {
 		NewCompactWizardPage wizardPage= new NewCompactWizardPage();
 		wizardPage.setPackageFragmentRoot(fSourceFolder, true);

@@ -157,10 +157,10 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 	private IPackageFragmentRoot[] fAllSystemRoots; // unfiltered
 	private Collection<String> fAllDefaultSystemModules; // if current is unnamed module: transitive closure of default root modules (names)
 
-	public final Map<String,String> fPatchMap= new HashMap<>();
+	public final Map<String,String> fPatchMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private boolean needReInit= false;
 
-	public ModuleDependenciesPage(IStatusChangeListener context, CheckedListDialogField<CPListElement> classPathList) {
+	public ModuleDependenciesPage(IStatusChangeListener context, CheckedListDialogField<CPListElement> classPathList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fClassPathList= classPathList;
 		fContext= context;
 		fSWTControl= null;
@@ -190,7 +190,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		fDetailsList.setViewerComparator(new ModuleDependenciesAdapter.ElementSorter());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control getControl(Composite parent) {
 		PixelConverter converter= new PixelConverter(parent);
 
@@ -220,7 +220,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 
 		fAddSystemModuleButton= new Button(left, SWT.NONE);
 		fAddSystemModuleButton.setText(NewWizardMessages.ModuleDependenciesPage_addSystemModule_button);
-		fAddSystemModuleButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> addSystemModules()));
+		fAddSystemModuleButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> addSystemModules())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		// === right: ===
 		Composite right= new Composite(composite, SWT.NONE);
@@ -239,7 +239,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 
 		fDetailsList.setViewerComparator(new CPListElementSorter());
 
-		((CTabFolder) parent).addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
+		((CTabFolder) parent).addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			if (e.item.getData() == this && fCurrJProject != null)
 				init(fCurrJProject);
 		}));
@@ -254,11 +254,11 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		if (Display.getCurrent() != null) {
 			scanModules();
 		} else {
-			Display.getDefault().asyncExec(this::scanModules);
+			Display.getDefault().asyncExec(this::scanModules); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
-	protected void scanModules() {
+	protected void scanModules() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fModuleList.clear();
 		if (!JavaModelUtil.is9OrHigher(fCurrJProject)) {
 			fModuleList.fNames.add(NewWizardMessages.ModuleDependenciesPage_nonModularProject_dummy);
@@ -272,18 +272,18 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		}
 		fModuleList.setEnabled(true);
 		fAddSystemModuleButton.setEnabled(true);
-		fModule2RequiredModules= new HashMap<>();
-		fModuleRequiredByModules= new HashMap<>();
-		Set<String> recordedModules= new HashSet<>();
+		fModule2RequiredModules= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fModuleRequiredByModules= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Set<String> recordedModules= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		List<CPListElement> cpelements= fClassPathList.getElements();
 
-		for (CPListElement cpe : cpelements) {
+		for (CPListElement cpe : cpelements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (cpe.getEntryKind()) {
 				case IClasspathEntry.CPE_SOURCE:
 					IPackageFragmentRoot[] fragmentRoots= fCurrJProject.findPackageFragmentRoots(cpe.getClasspathEntry());
 					if (fragmentRoots != null && fragmentRoots.length == 1) {
-						for (IPackageFragmentRoot fragmentRoot : fragmentRoots) {
+						for (IPackageFragmentRoot fragmentRoot : fragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IModuleDescription module= fragmentRoot.getModuleDescription();
 							if (module != null) {
 								recordModule(module, recordedModules, cpe, ModuleKind.Focus);
@@ -313,7 +313,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 					ModuleKind kind= LibrariesWorkbookPage.isJREContainer(cpe.getPath()) ? ModuleKind.System : ModuleKind.Normal;
 					int shownModules= 0;
 					boolean isModular= cpe.getAttribute(CPListElement.MODULE) instanceof ModuleEncapsulationDetail[];
-					for (Object object : cpe.getChildren(true)) {
+					for (Object object : cpe.getChildren(true)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (object instanceof CPListElement) {
 							CPListElement childElement= (CPListElement) object;
 							IModuleDescription childModule= childElement.getModule();
@@ -321,7 +321,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 								fModuleList.addModule(childModule, childElement, kind);
 								shownModules++;
 							} else if (isModular && kind != ModuleKind.System) {
-								for (IPackageFragmentRoot packageRoot : fCurrJProject.findUnfilteredPackageFragmentRoots(childElement.getClasspathEntry())) {
+								for (IPackageFragmentRoot packageRoot : fCurrJProject.findUnfilteredPackageFragmentRoots(childElement.getClasspathEntry())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									try {
 										IModuleDescription autoModule= JavaCore.getAutomaticModuleDescription(packageRoot);
 										recordModule(autoModule, recordedModules, childElement, ModuleKind.Automatic);
@@ -335,7 +335,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 					if (kind == ModuleKind.System) {
 						// additionally capture dependency information about all system module disregarding --limit-modules
 						fAllSystemRoots= fCurrJProject.findUnfilteredPackageFragmentRoots(cpe.getClasspathEntry());
-						for (IPackageFragmentRoot packageRoot : fAllSystemRoots) {
+						for (IPackageFragmentRoot packageRoot : fAllSystemRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IModuleDescription module= packageRoot.getModuleDescription();
 							if (module != null) {
 								recordModule(module, recordedModules, null/*don't add to fModuleList*/, kind);
@@ -362,7 +362,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 						fContext.statusChanged(new StatusInfo(IStatus.WARNING, NewWizardMessages.ModuleDependenciesPage_outOfSync_warning));
 						break;
 					}
-					for (IPackageFragmentRoot packageRoot : roots) {
+					for (IPackageFragmentRoot packageRoot : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IModuleDescription module= packageRoot.getModuleDescription();
 						kind= ModuleKind.Normal;
 						if (module == null) {
@@ -389,15 +389,15 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		return fModuleList.fNames;
 	}
 
-	public void buildPatchMap() {
+	public void buildPatchMap() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fPatchMap.clear();
-		for (CPListElement cpe : fClassPathList.getElements()) {
+		for (CPListElement cpe : fClassPathList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object value= cpe.getAttribute(CPListElement.MODULE);
 			if (value instanceof ModuleEncapsulationDetail[]) {
-				for (ModuleEncapsulationDetail detail : (ModuleEncapsulationDetail[]) value) {
+				for (ModuleEncapsulationDetail detail : (ModuleEncapsulationDetail[]) value) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (detail instanceof ModulePatch) {
 						ModulePatch patch= (ModulePatch) detail;
-						for (String path : patch.getPathArray()) {
+						for (String path : patch.getPathArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fPatchMap.put(path, patch.fModule);
 							if (path.startsWith(fCurrJProject.getPath().toString())) {
 								fModuleList.setFocusModule(patch.fModule);
@@ -409,7 +409,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		}
 	}
 
-	private void recordModule(IModuleDescription module, Set<String> moduleNames, CPListElement cpe, ModuleKind kind) {
+	private void recordModule(IModuleDescription module, Set<String> moduleNames, CPListElement cpe, ModuleKind kind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (module.getElementName().isEmpty()) return; // assume this to be an ill-configured auto module
 		if (cpe != null) {
 			fModuleList.addModule(module, cpe, kind);
@@ -417,17 +417,17 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		String moduleName= module.getElementName();
 		if (moduleNames.add(moduleName)) {
 			try {
-				for (String required : module.getRequiredModuleNames()) {
+				for (String required : module.getRequiredModuleNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<String> otherModules= fModule2RequiredModules.get(moduleName);
 					if (otherModules == null) {
-						otherModules= new ArrayList<>();
+						otherModules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						fModule2RequiredModules.put(moduleName, otherModules);
 					}
 					otherModules.add(required);
 
 					otherModules= fModuleRequiredByModules.get(required);
 					if (otherModules == null) {
-						otherModules= new ArrayList<>();
+						otherModules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						fModuleRequiredByModules.put(required, otherModules);
 					}
 					otherModules.add(moduleName);
@@ -448,7 +448,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 	public void setSelection(List<?> selElements, boolean expand) {
 		fDetailsList.selectElements(new StructuredSelection(selElements));
 		if (expand) {
-			for (Object selElement : selElements) {
+			for (Object selElement : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDetailsList.expandElement(selElement, 1);
 			}
 		}
@@ -461,7 +461,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		}
 	}
 
-	private void selectModule(List<CPListElement> elements, IModuleDescription module) {
+	private void selectModule(List<CPListElement> elements, IModuleDescription module) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fDetailsList.removeAllElements();
 		boolean enableAddExport= true;
 		if (elements.size() == 1) {
@@ -521,7 +521,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 	}
 
 	void addSystemModules(CPListElement cpListElement, List<IModuleDescription> modulesToAdd) {
-		for (IModuleDescription addedModule : modulesToAdd) {
+		for (IModuleDescription addedModule : modulesToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fModuleList.addModule(addedModule, getOrCreateModuleCPE(cpListElement, addedModule), ModuleKind.System);
 		}
 		updateLimitModules(cpListElement.findAttributeElement(CPListElement.MODULE));
@@ -550,19 +550,19 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		}
 	}
 	public CPListElement findSystemLibraryElement() throws JavaModelException {
-		for (CPListElement cpListElement : fClassPathList.getElements()) {
+		for (CPListElement cpListElement : fClassPathList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (LibrariesWorkbookPage.isJREContainer(cpListElement.getPath()))
 				return cpListElement;
 		}
-		throw new JavaModelException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Project "+fCurrJProject.getElementName()+" has no system library"));  //$NON-NLS-1$//$NON-NLS-2$
+		throw new JavaModelException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), "Project "+fCurrJProject.getElementName()+" has no system library"));  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	void removeModules() {
+	void removeModules() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<CPListElement> selectedElements= fModuleList.getSelectedElements();
-		List<String> selectedModuleNames= new ArrayList<>();
-		Set<String> allModulesToRemove= new HashSet<>();
+		List<String> selectedModuleNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<String> allModulesToRemove= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		boolean removeConfirmed= false;
-		for (CPListElement selectedElement : selectedElements) {
+		for (CPListElement selectedElement : selectedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fModuleList.getModuleKind(selectedElement) == ModuleKind.Focus) {
 				MessageDialog.openError(getShell(), NewWizardMessages.ModuleDependenciesPage_removeModule_dialog_title,
 						NewWizardMessages.ModuleDependenciesPage_removeCurrentModule_error);
@@ -576,7 +576,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 				boolean isLibrary;
 				switch (selectedEntry.getEntryKind()) {
 					case IClasspathEntry.CPE_LIBRARY:
-						for (IPackageFragmentRoot packageRoot : fCurrJProject.findPackageFragmentRoots(selectedEntry)) {
+						for (IPackageFragmentRoot packageRoot : fCurrJProject.findPackageFragmentRoots(selectedEntry)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IModuleDescription module= packageRoot.getModuleDescription();
 							if (module == null) {
 								try {
@@ -633,10 +633,10 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 				fModuleList.refresh();
 			}
 		} else {
-			StringBuilder message= new StringBuilder(
+			StringBuilder message= new StringBuilder( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					MessageFormat.format(NewWizardMessages.ModuleDependenciesPage_removingModuleTransitive_message, seedModules));
 			// append sorted list minus the selected module:
-			message.append(allModulesToRemove.stream()
+			message.append(allModulesToRemove.stream() //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					.filter(m -> !seedModules.contains(m))
 					.sorted()
 					.collect(Collectors.joining("\n\t", "\t", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -645,7 +645,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 			fModuleList.fNames.removeAll(allModulesToRemove);
 			fModuleList.refresh();
 		}
-		for (CPListElement elem: selectedElements) {
+		for (CPListElement elem: selectedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object container= elem.getParentContainer();
 			if (container instanceof CPListElement) {
 				CPListElement containerElement= (CPListElement) container;
@@ -670,12 +670,12 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		}
 	}
 	private Set<String> computeForwardClosure(List<String> seeds) {
-		Set<String> closure= new HashSet<>();
+		Set<String> closure= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		collectForwardClosure(seeds, closure);
 		return closure;
 	}
 	private void collectForwardClosure(List<String> seeds, Set<String> closure) {
-		for (String seed : seeds) {
+		for (String seed : seeds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (closure.add(seed) && !fModuleList.fNames.contains(seed)) {
 				List<String> deps= fModule2RequiredModules.get(seed);
 				if (deps != null) {
@@ -685,20 +685,20 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		}
 	}
 
-	private String collectModulesToRemove(String mod, Set<String> modulesToRemove) {
+	private String collectModulesToRemove(String mod, Set<String> modulesToRemove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fModuleList.fNames.contains(mod) && modulesToRemove.add(mod)) {
 			String problemModules= null; // at most one path is detected, even if several exist
 			List<String> requireds= fModuleRequiredByModules.get(mod);
 			if (requireds != null) {
-				for (String required : requireds) {
+				for (String required : requireds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fModuleList.getModuleKind(required) == ModuleKind.Focus) {
 						// direct dependency beats any indirect one:
-						problemModules= required + "->" + mod; //$NON-NLS-1$
+						problemModules= required + "->" + mod; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						continue; // do not attempt to remove the focus module
 					}
 					String probMods= collectModulesToRemove(required, modulesToRemove);
 					if (probMods != null && problemModules == null)
-						problemModules= probMods + "->" + mod; //$NON-NLS-1$
+						problemModules= probMods + "->" + mod; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			return problemModules;
@@ -713,7 +713,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		return answer == 0;
 	}
 
-	private void updateLimitModules(CPListElementAttribute moduleAttribute) {
+	private void updateLimitModules(CPListElementAttribute moduleAttribute) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object value= moduleAttribute.getValue();
 		if (value instanceof ModuleEncapsulationDetail[]) {
 			Collection<String> allSystemModules= allDefaultSystemModules();
@@ -721,7 +721,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 				// no longer relevant, remove:
 				ModuleEncapsulationDetail[] details= (ModuleEncapsulationDetail[]) value;
 				int retainCount= 0;
-				for (ModuleEncapsulationDetail detail : details) {
+				for (ModuleEncapsulationDetail detail : details) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!(detail instanceof LimitModules)) {
 						details[retainCount++]= detail;
 					}
@@ -734,7 +734,7 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		LimitModules limitModules= new ModuleEncapsulationDetail.LimitModules(reduceNames(fModuleList.fNames), moduleAttribute);
 		if (value instanceof ModuleEncapsulationDetail[]) {
 			ModuleEncapsulationDetail[] details= (ModuleEncapsulationDetail[]) value;
-			for (int i= 0; i < details.length; i++) {
+			for (int i= 0; i < details.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (details[i] instanceof LimitModules) {
 					// replace existing --limit-modules
 					details[i]= limitModules;
@@ -764,14 +764,14 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 		return Collections.emptyList();
 	}
 
-	Collection<String> reduceNames(Collection<String> names) {
-		List<String> reduced= new ArrayList<>();
+	Collection<String> reduceNames(Collection<String> names) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<String> reduced= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		outer:
-		for (String name : names) {
+		for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fModuleList.getModuleKind(name) == ModuleKind.System) {
 				List<String> dominators= fModuleRequiredByModules.get(name);
 				if (dominators != null) {
-					for (String dominator : dominators) {
+					for (String dominator : dominators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (names.contains(dominator) && fModuleList.getModuleKind(dominator) == ModuleKind.System) {
 							continue outer;
 						}
@@ -784,13 +784,13 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 	}
 
 	Collection<String> closure(Collection<String> selected) {
-		HashSet<String> copy= new HashSet<>();
+		HashSet<String> copy= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		collectRequired(selected, copy);
 		return copy;
 	}
 
 	private void collectRequired(Collection<String> src, Set<String> tgt) {
-		for (String mod : src) {
+		for (String mod : src) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tgt.add(mod)) {
 				List<String> required= fModule2RequiredModules.get(mod);
 				if (required != null) {
@@ -806,10 +806,10 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 	 * @return if a predicate match was found the enclosing module attribute will be returned, else {@code null}
 	 */
 	public CPListElementAttribute findModuleAttribute(Predicate<ModuleEncapsulationDetail> predicate) {
-		for (CPListElement element : fClassPathList.getElements()) {
+		for (CPListElement element : fClassPathList.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElementAttribute attribute= element.findAttributeElement(CPListElement.MODULE);
 			if (attribute != null && attribute.getValue() instanceof ModuleEncapsulationDetail[]) {
-				for (ModuleEncapsulationDetail detail : (ModuleEncapsulationDetail[]) attribute.getValue()) {
+				for (ModuleEncapsulationDetail detail : (ModuleEncapsulationDetail[]) attribute.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (predicate.test(detail)) {
 						return attribute;
 					}

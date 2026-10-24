@@ -92,33 +92,33 @@ public class RedundantFallingThroughBlockEndCleanUp extends AbstractMultiFix imp
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("if (0 < i) {\n"); //$NON-NLS-1$
-		bld.append("  System.out.println(\"Doing something\");\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("if (0 < i) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("  System.out.println(\"Doing something\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (!isEnabled(CleanUpConstants.REDUNDANT_FALLING_THROUGH_BLOCK_END)) {
-			bld.append("  return i + 10;\n"); //$NON-NLS-1$
+			bld.append("  return i + 10;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("}\n"); //$NON-NLS-1$
-		bld.append("return i + 10;\n"); //$NON-NLS-1$
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("return i + 10;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.REDUNDANT_FALLING_THROUGH_BLOCK_END)) {
-			bld.append("\n"); //$NON-NLS-1$
+			bld.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.REDUNDANT_FALLING_THROUGH_BLOCK_END)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -153,7 +153,7 @@ public class RedundantFallingThroughBlockEndCleanUp extends AbstractMultiFix imp
 
 				private boolean visitStatement(final Statement node) {
 					if (result) {
-						List<Statement> redundantStatements= new ArrayList<>();
+						List<Statement> redundantStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						collectStatements(node, redundantStatements);
 						return maybeRemoveRedundantCode(node, redundantStatements);
 					}
@@ -169,7 +169,7 @@ public class RedundantFallingThroughBlockEndCleanUp extends AbstractMultiFix imp
 						if (ts != null && ts.getFinally() == null) {
 							List<CatchClause> catchClauses= ts.catchClauses();
 
-							for (CatchClause catchClause : catchClauses) {
+							for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								doCollectStatements(catchClause.getBody(), redundantStatements);
 							}
 						} else if (is != null) {
@@ -190,14 +190,14 @@ public class RedundantFallingThroughBlockEndCleanUp extends AbstractMultiFix imp
 					}
 				}
 
-				private boolean maybeRemoveRedundantCode(final Statement node, final List<Statement> redundantStatements) {
+				private boolean maybeRemoveRedundantCode(final Statement node, final List<Statement> redundantStatements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					List<Statement> referenceStatements= ASTNodes.getNextSiblings(node);
 
 					if (redundantStatements.isEmpty() || isEmpty(referenceStatements)) {
 						return true;
 					}
 
-					for (Statement redundantStatement : redundantStatements) {
+					for (Statement redundantStatement : redundantStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						List<Statement> statements= ASTNodes.asList(redundantStatement);
 
 						if (isEmpty(statements) || !ASTNodes.fallsThrough(statements.get(statements.size() - 1))) {
@@ -211,7 +211,7 @@ public class RedundantFallingThroughBlockEndCleanUp extends AbstractMultiFix imp
 							stmtsToCompare= statements.subList(statements.size() - referenceStatements.size(),
 									statements.size());
 						} else {
-							stmtsToCompare= new ArrayList<>(statements);
+							stmtsToCompare= new ArrayList<>(statements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						}
 
 						ASTSemanticMatcher matcher= new ASTSemanticMatcher() {
@@ -263,7 +263,7 @@ public class RedundantFallingThroughBlockEndCleanUp extends AbstractMultiFix imp
 				}
 
 				private boolean isIn(final Statement node, final Class<?>... domClasses) {
-					for (Class<?> domClass : domClasses) {
+					for (Class<?> domClass : domClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (node.getParent().getClass().isAssignableFrom(domClass)
 								|| (node.getParent() instanceof Block && node.getParent().getParent().getClass().isAssignableFrom(domClass))) {
 							return true;
@@ -309,14 +309,14 @@ public class RedundantFallingThroughBlockEndCleanUp extends AbstractMultiFix imp
 			this.lastStatement= lastStatement;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.RedundantFallingThroughBlockEndCleanup_description, cuRewrite);
 
 			if (redundantStatement instanceof Block) {
-				for (Statement stmtToCompare : stmtsToCompare) {
+				for (Statement stmtToCompare : stmtsToCompare) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					rewrite.remove(stmtToCompare, group);
 				}
 

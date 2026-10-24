@@ -135,7 +135,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Change perform(IProgressMonitor pm) throws CoreException {
 			if (isValid(pm).hasFatalError())
 				return new NullChange();
@@ -184,7 +184,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 
 					synchronized (runnable) {
 						fileBufferManager.execute(runnable);
-						while (! runnable.fDone) {
+						while (! runnable.fDone) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							try {
 								runnable.wait(500);
 							} catch (InterruptedException x) {
@@ -217,7 +217,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 			}
 		}
 
-		private void performEdit(IDocument document, long oldFileValue, LinkedList<UndoEdit> editCollector, long[] oldDocValue, boolean[] setContentStampSuccess) throws MalformedTreeException, BadLocationException, CoreException {
+		private void performEdit(IDocument document, long oldFileValue, LinkedList<UndoEdit> editCollector, long[] oldDocValue, boolean[] setContentStampSuccess) throws MalformedTreeException, BadLocationException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (document instanceof IDocumentExtension4) {
 				oldDocValue[0]= ((IDocumentExtension4)document).getModificationStamp();
 			} else {
@@ -225,7 +225,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 			}
 
 			// perform the changes
-			for (UndoEdit edit : fUndos) {
+			for (UndoEdit edit : fUndos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				UndoEdit redo= edit.apply(document, TextEdit.CREATE_UNDO);
 				editCollector.addFirst(redo);
 			}
@@ -252,7 +252,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 			fCleanUpNames= cleanUpNames;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createMessageArea(Composite parent) {
 			initializeDialogUnits(parent);
 
@@ -287,7 +287,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 			link.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 			link.setText(FixMessages.CleanUpPostSaveListener_SlowCleanUpDialog_link);
 
-			link.addSelectionListener(new SelectionAdapter() {
+			link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				/*
 				 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 				 */
@@ -312,7 +312,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 		return requiresChangedRegions(cleanUps);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saved(ICompilationUnit unit, IRegion[] changedRegions, IProgressMonitor monitor) throws CoreException {
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
@@ -331,27 +331,27 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 			CompositeChange result= new CompositeChange(FixMessages.CleanUpPostSaveListener_SaveAction_ChangeName);
 			LinkedList<UndoEdit> undoEdits= new LinkedList<>();
 
-			HashSet<ICleanUp> slowCleanUps= new HashSet<>();
+			HashSet<ICleanUp> slowCleanUps= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			IUndoManager manager= RefactoringCore.getUndoManager();
 
 			boolean success= false;
 			try {
     			manager.aboutToPerformChange(result);
 
-    			do {
+    			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     				RefactoringStatus preCondition= new RefactoringStatus();
-					for (ICleanUp cleanUp : cleanUps) {
+					for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						RefactoringStatus conditions= cleanUp.checkPreConditions(unit.getJavaProject(), new ICompilationUnit[] {unit}, Progress.subMonitor(monitor, 5));
 						preCondition.merge(conditions);
 					}
     				if (showStatus(preCondition) != Window.OK)
     					return;
 
-    				Map<String, String> options= new HashMap<>();
+    				Map<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
     				if (cleanUps[0].getRequirements().requiresSeparateOptions()) {
     					options.putAll(cleanUps[0].getRequirements().getCompilerOptions());
     				} else {
-    					for (ICleanUp cleanUp : cleanUps) {
+    					for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     						CleanUpRequirements requirements= cleanUp.getRequirements();
     						Map<String, String> map= requirements.getCompilerOptions();
     						if (map != null && !requirements.requiresSeparateOptions()) {
@@ -372,11 +372,11 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
     					context= new MultiLineCleanUpContext(unit, ast, changedRegions);
     				}
 
-    				ArrayList<ICleanUp> undoneCleanUps= new ArrayList<>();
+    				ArrayList<ICleanUp> undoneCleanUps= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					CleanUpChange change= CleanUpRefactoring.calculateChange(context, cleanUps, undoneCleanUps, slowCleanUps);
 
     				RefactoringStatus postCondition= new RefactoringStatus();
-					for (ICleanUp cleanUp : cleanUps) {
+					for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						RefactoringStatus conditions= cleanUp.checkPostConditions(Progress.subMonitor(monitor, 1));
 						postCondition.merge(conditions);
 					}
@@ -422,7 +422,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 		}
 	}
 
-	private static ICleanUp[] getCleanUps(IProject project) throws CoreException {
+	private static ICleanUp[] getCleanUps(IProject project) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICleanUp[] cleanUps;
 		Map<String, String> settings= CleanUpPreferenceUtil.loadSaveParticipantOptions(new ProjectScope(project));
 		if (settings == null) {
@@ -437,11 +437,11 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 		if (CleanUpOptions.TRUE.equals(settings.get(CleanUpConstants.CLEANUP_ON_SAVE_ADDITIONAL_OPTIONS))) {
 			cleanUps= getCleanUps(settings, null);
 		} else {
-			HashMap<String, String> filteredSettins= new HashMap<>();
+			HashMap<String, String> filteredSettins= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			filteredSettins.put(CleanUpConstants.FORMAT_SOURCE_CODE, settings.get(CleanUpConstants.FORMAT_SOURCE_CODE));
 			filteredSettins.put(CleanUpConstants.FORMAT_SOURCE_CODE_CHANGES_ONLY, settings.get(CleanUpConstants.FORMAT_SOURCE_CODE_CHANGES_ONLY));
 			filteredSettins.put(CleanUpConstants.ORGANIZE_IMPORTS, settings.get(CleanUpConstants.ORGANIZE_IMPORTS));
-			Set<String> ids= new HashSet<>(2);
+			Set<String> ids= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			ids.add("org.eclipse.jdt.ui.cleanup.format"); //$NON-NLS-1$
 			ids.add("org.eclipse.jdt.ui.cleanup.imports"); //$NON-NLS-1$
 			cleanUps= getCleanUps(filteredSettins, ids);
@@ -453,7 +453,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 	private static ICleanUp[] getCleanUps(Map<String, String> settings, Set<String> ids) {
 		ICleanUp[] result= JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps(ids);
 
-		for (ICleanUp cleanUp : result) {
+		for (ICleanUp cleanUp : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cleanUp.setOptions(new MapCleanUpOptions(settings));
 		}
 
@@ -471,7 +471,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 		return dialog.open();
     }
 
-	private long getDocumentStamp(IFile file, IProgressMonitor monitor) throws CoreException {
+	private long getDocumentStamp(IFile file, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    final ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
 	    final IPath path= file.getFullPath();
 
@@ -495,7 +495,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 	    }
     }
 
-	private IRegion[] performWithChangedRegionUpdate(PerformChangeOperation performChangeOperation, IRegion[] changedRegions, ICompilationUnit unit, IProgressMonitor monitor) throws CoreException {
+	private IRegion[] performWithChangedRegionUpdate(PerformChangeOperation performChangeOperation, IRegion[] changedRegions, ICompilationUnit unit, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
 		final IPath path= unit.getResource().getFullPath();
 
@@ -513,7 +513,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 				document.addPositionUpdater(updater);
 
 				Position[] positions= new Position[changedRegions.length];
-				for (int i= 0; i < changedRegions.length; i++) {
+				for (int i= 0; i < changedRegions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						Position position= new Position(changedRegions[i].getOffset(), changedRegions[i].getLength());
 						document.addPosition(CHANGED_REGION_POSITION_CATEGORY, position);
@@ -528,8 +528,8 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 
 				performChangeOperation.run(Progress.subMonitor(monitor, 5));
 
-				ArrayList<Region> result= new ArrayList<>();
-				for (Position position : positions) {
+				ArrayList<Region> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (Position position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!position.isDeleted())
 						result.add(new Region(position.getOffset(), position.getLength()));
 				}
@@ -551,7 +551,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 	}
 
 	private boolean requiresAST(ICleanUp[] cleanUps) {
-		for (ICleanUp cleanUp : cleanUps) {
+		for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cleanUp.getRequirements().requiresAST()) {
 				return true;
 			}
@@ -561,7 +561,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
     }
 
 	private boolean requiresChangedRegions(ICleanUp[] cleanUps) {
-		for (ICleanUp cleanUp : cleanUps) {
+		for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CleanUpRequirements requirements= cleanUp.getRequirements();
 			if (requirements.requiresChangedRegions())
 				return true;
@@ -594,7 +594,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 
 		Map<String, String> projectOptions= project.getOptions(true);
 
-		for (Map.Entry<String, String> entry : cleanUpOptions.entrySet()) {
+		for (Map.Entry<String, String> entry : cleanUpOptions.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			String projectOption= projectOptions.get(key);
 			String cleanUpOption= entry.getValue();
@@ -642,16 +642,16 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 		return new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, message, e));
 	}
 
-	private void showSlowCleanUpsWarning(HashSet<ICleanUp> slowCleanUps) {
+	private void showSlowCleanUpsWarning(HashSet<ICleanUp> slowCleanUps) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		final StringBuilder cleanUpNames= new StringBuilder();
-		for (ICleanUp cleanUp : slowCleanUps) {
+		final StringBuilder cleanUpNames= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (ICleanUp cleanUp : slowCleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] descriptions= cleanUp.getStepDescriptions();
 			if (descriptions != null) {
-				for (String description : descriptions) {
+				for (String description : descriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (cleanUpNames.length() > 0)
-						cleanUpNames.append('\n');
-					cleanUpNames.append(description);
+						cleanUpNames.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					cleanUpNames.append(description); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		}
@@ -659,7 +659,7 @@ public class CleanUpPostSaveListener implements IPostSaveListener {
 		if (Display.getCurrent() != null) {
 			showSlowCleanUpDialog(cleanUpNames);
 		} else {
-			Display.getDefault().asyncExec(() -> showSlowCleanUpDialog(cleanUpNames));
+			Display.getDefault().asyncExec(() -> showSlowCleanUpDialog(cleanUpNames)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 

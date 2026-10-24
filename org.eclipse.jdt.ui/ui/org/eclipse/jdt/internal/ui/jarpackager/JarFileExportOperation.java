@@ -97,7 +97,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
 /**
  * Operation for exporting a resource and its children to a new  JAR file.
  */
-public class JarFileExportOperation extends WorkspaceModifyOperation implements IJarExportRunnable {
+public class JarFileExportOperation extends WorkspaceModifyOperation implements IJarExportRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	private static class MessageMultiStatus extends MultiStatus {
 		MessageMultiStatus(String pluginId, int code, String message, Throwable exception) {
@@ -197,12 +197,12 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 	 *
 	 * @return int
 	 */
-	private int countSelectedElements() {
-		Set<IJavaProject> enclosingJavaProjects= new HashSet<>(10);
+	private int countSelectedElements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<IJavaProject> enclosingJavaProjects= new HashSet<>(10); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		int count= 0;
 
 		int n= fJarPackage.getElements().length;
-		for (int i= 0; i < n; i++) {
+		for (int i= 0; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= fJarPackage.getElements()[i];
 
 			IJavaProject javaProject= getEnclosingJavaProject(element);
@@ -251,7 +251,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 			if (!fJarPackage.areJavaFilesExported())
 				count= 0;
 			Iterator<IJavaProject> iter= enclosingJavaProjects.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaProject javaProject= iter.next();
 				IContainer[] outputContainers;
 				try {
@@ -260,7 +260,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 					addToStatus(ex);
 					continue;
 				}
-				for (IContainer outputContainer : outputContainers) {
+				for (IContainer outputContainer : outputContainers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					count += getTotalChildCount(outputContainer);
 				}
 
@@ -272,7 +272,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 
 	private int getClassFileCount(IJavaElement[] children) throws JavaModelException {
 		int result= 0;
-		for (IJavaElement child : children) {
+		for (IJavaElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IClassFile) {
 				result++;
 			} else if (child instanceof IPackageFragment) {
@@ -291,7 +291,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 			return 0;
 		}
 		int count= 0;
-		for (IResource member : members) {
+		for (IResource member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member.getType() == IResource.FILE) {
 				count++;
 			} else {
@@ -308,7 +308,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 	 * @param progressMonitor the progress monitor
 	 * @throws InterruptedException thrown on cancel
 	 */
-	private void exportElement(Object element, IProgressMonitor progressMonitor) throws InterruptedException {
+	private void exportElement(Object element, IProgressMonitor progressMonitor) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int leadSegmentsToRemove= 1;
 		IPackageFragmentRoot pkgRoot= null;
 		boolean isInJavaProject= false;
@@ -390,7 +390,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 			exportContainer(progressMonitor, (IContainer)resource);
 	}
 
-	private void exportJavaElement(IProgressMonitor progressMonitor, IJavaElement je) throws InterruptedException {
+	private void exportJavaElement(IProgressMonitor progressMonitor, IJavaElement je) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (je.getElementType() == IJavaElement.PACKAGE_FRAGMENT_ROOT && ((IPackageFragmentRoot) je).isArchive()) {
 			IPackageFragmentRoot root= (IPackageFragmentRoot) je;
 			try (ZipFile jarFile= JarPackagerUtil.createZipFile(root.getPath())) {
@@ -413,14 +413,14 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 			return;
 		}
 
-		for (Object child : fJavaElementContentProvider.getChildren(je)) {
+		for (Object child : fJavaElementContentProvider.getChildren(je)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			exportElement(child, progressMonitor);
 		}
 	}
 
 	private void exportExternalClassFolder(IPackageFragmentRoot classFolder, IProgressMonitor progressMonitor) throws InterruptedException {
 		try {
-			for (IJavaElement child : classFolder.getChildren()) {
+			for (IJavaElement child : classFolder.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				exportExternalClassFolderElement(child, classFolder.getPath(), progressMonitor);
 			}
 		} catch (JavaModelException e) {
@@ -428,7 +428,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		}
 	}
 
-	private void exportExternalClassFolderElement(IJavaElement javaElement, IPath classFolderPath, IProgressMonitor progressMonitor) throws JavaModelException, InterruptedException {
+	private void exportExternalClassFolderElement(IJavaElement javaElement, IPath classFolderPath, IProgressMonitor progressMonitor) throws JavaModelException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (javaElement instanceof IClassFile) {
 			IClassFile classFile= (IClassFile) javaElement;
 			IPath path= classFile.getPath();
@@ -444,13 +444,13 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 				ModalContext.checkCanceled(progressMonitor);
 			}
 		} else if (javaElement instanceof IPackageFragment) {
-			for (IJavaElement child : ((IPackageFragment) javaElement).getChildren()) {
+			for (IJavaElement child : ((IPackageFragment) javaElement).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				exportExternalClassFolderElement(child, classFolderPath, progressMonitor);
 			}
 		}
 	}
 
-	private void exportResource(IProgressMonitor progressMonitor, IResource resource, int leadingSegmentsToRemove) throws InterruptedException {
+	private void exportResource(IProgressMonitor progressMonitor, IResource resource, int leadingSegmentsToRemove) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resource instanceof IContainer) {
 			IContainer container= (IContainer)resource;
 			IResource[] children;
@@ -461,7 +461,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 				addWarning(Messages.format(JarPackagerMessages.JarFileExportOperation_errorDuringExport, BasicElementLabels.getPathLabel(container.getFullPath(), false)), e);
 				return;
 			}
-			for (IResource child : children) {
+			for (IResource child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				exportResource(progressMonitor, child, leadingSegmentsToRemove);
 			}
 		} else if (resource instanceof IFile) {
@@ -478,7 +478,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		}
 	}
 
-	private void exportContainer(IProgressMonitor progressMonitor, IContainer container) throws InterruptedException {
+	private void exportContainer(IProgressMonitor progressMonitor, IContainer container) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (container.getType() == IResource.FOLDER && isOutputFolder((IFolder)container))
 			return;
 
@@ -494,7 +494,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		if (children != null) {
 			IJavaProject javaProject= JavaCore.create(container.getProject());
 			boolean isOnCP= javaProject.isOnClasspath(container);
-			for (IResource child : children) {
+			for (IResource child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isOnCP || !javaProject.isOnClasspath(child) || isInternalJar(child))
 					exportElement(child, progressMonitor);
 			}
@@ -530,7 +530,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 			return findPackageFragmentRoot(jProject, path.removeLastSegments(1));
 	}
 
-	private void exportResource(IProgressMonitor progressMonitor, IPackageFragmentRoot pkgRoot, boolean isInJavaProject, IResource resource, IPath destinationPath) {
+	private void exportResource(IProgressMonitor progressMonitor, IPackageFragmentRoot pkgRoot, boolean isInJavaProject, IResource resource, IPath destinationPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Handle case where META-INF/MANIFEST.MF is part of the exported files
 		if (fJarPackage.areClassFilesExported() && "META-INF/MANIFEST.MF".equals(destinationPath.toString())) {//$NON-NLS-1$
@@ -569,7 +569,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		}
 	}
 
-	private void exportClassFiles(IProgressMonitor progressMonitor, ITypeRoot typeRootElement, IPath destinationPath) {
+	private void exportClassFiles(IProgressMonitor progressMonitor, ITypeRoot typeRootElement, IPath destinationPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJarPackage.areClassFilesExported()) {
 			try {
 				if (!typeRootElement.exists())
@@ -578,7 +578,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 				// find corresponding file(s) on classpath and export
 				Iterator<? extends IResource> iter= filesOnClasspath(typeRootElement, destinationPath, progressMonitor);
 				IPath baseDestinationPath= destinationPath.removeLastSegments(1);
-				while (iter.hasNext()) {
+				while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IFile file= (IFile)iter.next();
 					IPath classFilePath= baseDestinationPath.append(file.getName());
 					progressMonitor.subTask(Messages.format(JarPackagerMessages.JarFileExportOperation_exporting, BasicElementLabels.getPathLabel(classFilePath, false)));
@@ -600,10 +600,10 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 	 * @throws InterruptedException thrown when cancelled
 	 */
 	private void exportSelectedElements(IProgressMonitor progressMonitor) throws InterruptedException {
-		fExportedClassContainers= new HashSet<>(10);
-		Set<IJavaProject> enclosingJavaProjects= new HashSet<>(10);
+		fExportedClassContainers= new HashSet<>(10); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<IJavaProject> enclosingJavaProjects= new HashSet<>(10); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		int n= fJarPackage.getElements().length;
-		for (int i= 0; i < n; i++) {
+		for (int i= 0; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= fJarPackage.getElements()[i];
 			exportElement(element, progressMonitor);
 			if (fJarPackage.areOutputFoldersExported()) {
@@ -631,12 +631,12 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		return null;
 	}
 
-	private void exportOutputFolders(IProgressMonitor progressMonitor, Set<IJavaProject> javaProjects) throws InterruptedException {
+	private void exportOutputFolders(IProgressMonitor progressMonitor, Set<IJavaProject> javaProjects) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (javaProjects == null)
 			return;
 
 		Iterator<IJavaProject> iter= javaProjects.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject javaProject= iter.next();
 			IContainer[] outputContainers;
 			try {
@@ -645,17 +645,17 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 				addToStatus(ex);
 				continue;
 			}
-			for (IContainer outputContainer : outputContainers) {
+			for (IContainer outputContainer : outputContainers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				exportResource(progressMonitor, outputContainer, outputContainer.getFullPath().segmentCount());
 			}
 
 		}
 	}
 
-	private IContainer[] getOutputContainers(IJavaProject javaProject) throws CoreException {
-		Set<IPath> outputPaths= new HashSet<>();
+	private IContainer[] getOutputContainers(IJavaProject javaProject) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<IPath> outputPaths= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		boolean includeDefaultOutputPath= false;
-		for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (root != null) {
 				IClasspathEntry cpEntry = root.getRawClasspathEntry();
 				if (cpEntry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
@@ -674,9 +674,9 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		}
 
 		// Convert paths to containers
-		Set<IContainer> outputContainers= new HashSet<>(outputPaths.size());
+		Set<IContainer> outputContainers= new HashSet<>(outputPaths.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator<IPath> iter= outputPaths.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath path= iter.next();
 			if (javaProject.getProject().getFullPath().equals(path))
 				outputContainers.add(javaProject.getProject());
@@ -702,7 +702,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 	 * @return	the iterator over the corresponding classpath files for the given file
 	 * @throws CoreException if an exception occurs when looking for the files
 	 */
-	private Iterator<? extends IResource> filesOnClasspath(ITypeRoot typeRootElement, IPath pathInJar, IProgressMonitor progressMonitor) throws CoreException {
+	private Iterator<? extends IResource> filesOnClasspath(ITypeRoot typeRootElement, IPath pathInJar, IProgressMonitor progressMonitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFile file= (IFile) typeRootElement.getResource();
 		IJavaProject javaProject= typeRootElement.getJavaProject();
 		IPackageFragmentRoot pkgRoot= JavaModelUtil.getPackageFragmentRoot(typeRootElement);
@@ -785,8 +785,8 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 
 	private Iterator<IResource> getClassesIn(IContainer classContainer) throws CoreException {
 		IResource[] resources= classContainer.members();
-		List<IResource> files= new ArrayList<>(resources.length);
-		for (IResource resource : resources) {
+		List<IResource> files= new ArrayList<>(resources.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.getType() == IResource.FILE && isClassFile(resource)) {
 				files.add(resource);
 			}
@@ -827,16 +827,16 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 	 * Builds and returns a map that has the class files
 	 * for each java file in a given directory
 	 */
-	private Map<String, ArrayList<IResource>> buildJavaToClassMap(IContainer container, IProgressMonitor monitor) throws CoreException {
+	private Map<String, ArrayList<IResource>> buildJavaToClassMap(IContainer container, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (container == null || !container.isAccessible())
-			return new HashMap<>(0);
+			return new HashMap<>(0); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		/*
 		 * XXX: Bug 6584: Need a way to get class files for a java file (or CU)
 		 */
 		IClassFileReader cfReader= null;
 		IResource[] members= container.members();
-		Map<String, ArrayList<IResource>> map= new HashMap<>(members.length);
-		for (IResource member : members) {
+		Map<String, ArrayList<IResource>> map= new HashMap<>(members.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IResource member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isClassFile(member)) {
 				IFile classFile = (IFile) member;
 				URI location= classFile.getLocationURI();
@@ -864,7 +864,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 						String javaName= new String(sourceAttribute.getSourceFileName());
 						ArrayList<IResource> classFiles= map.get(javaName);
 						if (classFiles == null) {
-							classFiles= new ArrayList<>(3);
+							classFiles= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							map.put(javaName, classFiles);
 						}
 						classFiles.add(classFile);
@@ -910,7 +910,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 	 *
 	 * @return the status of this operation
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus getStatus() {
 		String message= null;
 		switch (fStatus.getSeverity()) {
@@ -970,7 +970,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		int count= fJarPackages.length;
 		progressMonitor.beginTask("", count); //$NON-NLS-1$
 		try {
-			for (int i= 0; i < count; i++) {
+			for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IProgressMonitor subProgressMonitor= Progress.subMonitorPrepend(progressMonitor, 1);
 				fJarPackage= fJarPackages[i];
 				if (fJarPackage != null)
@@ -981,7 +981,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		}
 	}
 
-	private void singleRun(IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException {
+	private void singleRun(IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (!preconditionsOK())
 				throw new InvocationTargetException(null, JarPackagerMessages.JarFileExportOperation_jarCreationFailedSeeDetails);
@@ -1018,7 +1018,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		}
 	}
 
-	private boolean preconditionsOK() {
+	private boolean preconditionsOK() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fJarPackage.areGeneratedFilesExported() && !fJarPackage.areJavaFilesExported()) {
 			addError(JarPackagerMessages.JarFileExportOperation_noExportTypeChosen, null);
 			return false;
@@ -1032,7 +1032,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 			return false;
 		}
 		File targetFile= fJarPackage.getAbsoluteJarLocation().toFile();
-		if (targetFile.exists() && !targetFile.canWrite()) {
+		if (targetFile.exists() && !targetFile.canWrite()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			addError(JarPackagerMessages.JarFileExportOperation_jarFileExistsAndNotWritable, null);
 			return false;
 		}
@@ -1047,7 +1047,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 
 		if (fParentShell != null) {
 			final boolean[] res= { false };
-			fParentShell.getDisplay().syncExec(() -> {
+			fParentShell.getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				RefactoringSaveHelper refactoringSaveHelper= new RefactoringSaveHelper(IRefactoringSaveModes.SAVE_ALL_ALWAYS_ASK);
 				res[0]= refactoringSaveHelper.saveEditors(fParentShell);
 				fFilesSaved= refactoringSaveHelper.didSaveFiles();
@@ -1061,7 +1061,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		return true;
 	}
 
-	private void saveFiles() {
+	private void saveFiles() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Save the manifest
 		if (fJarPackage.areGeneratedFilesExported() && fJarPackage.isManifestGenerated() && fJarPackage.isManifestSaved()) {
 			try {
@@ -1081,7 +1081,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		}
 	}
 
-	private void saveDescription() throws CoreException, IOException {
+	private void saveDescription() throws CoreException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Adjust JAR package attributes
 		if (fJarPackage.isManifestReused())
 			fJarPackage.setGenerateManifest(false);
@@ -1128,9 +1128,9 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 		return ResourcesPlugin.getWorkspace().getDescription().isAutoBuilding();
 	}
 
-	private void buildProjects(IProgressMonitor progressMonitor) {
-		Set<IProject> builtProjects= new HashSet<>(10);
-		for (Object e : fJarPackage.getElements()) {
+	private void buildProjects(IProgressMonitor progressMonitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<IProject> builtProjects= new HashSet<>(10); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object e : fJarPackage.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject project= null;
 			Object element= e;
 			if (element instanceof IResource)
@@ -1160,7 +1160,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 	 * @throws CoreException import org.eclipse.core.runtime.CoreException if there's a marker problem
 	 */
 	private boolean hasCompileErrors(IResource resource) throws CoreException {
-		for (IMarker problemMarker : resource.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE)) {
+		for (IMarker problemMarker : resource.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problemMarker.getAttribute(IMarker.SEVERITY, -1) == IMarker.SEVERITY_ERROR) {
 				return true;
 			}
@@ -1177,7 +1177,7 @@ public class JarFileExportOperation extends WorkspaceModifyOperation implements 
 	 * @throws CoreException import org.eclipse.core.runtime.CoreException if there's a marker problem
 	 */
 	private boolean hasCompileWarnings(IResource resource) throws CoreException {
-		for (IMarker problemMarker : resource.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE)) {
+		for (IMarker problemMarker : resource.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problemMarker.getAttribute(IMarker.SEVERITY, -1) == IMarker.SEVERITY_WARNING) {
 				return true;
 			}

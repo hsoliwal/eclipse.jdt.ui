@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.selectionactions.StructureSelectio
  */
 public class BasicJavaEditorActionContributor extends BasicTextEditorActionContributor {
 
-	private List<RetargetAction> fPartListeners= new ArrayList<>();
+	private List<RetargetAction> fPartListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private TogglePresentationAction fTogglePresentation;
 	private ToggleMarkOccurrencesAction fToggleMarkOccurrencesAction;
@@ -72,7 +72,7 @@ public class BasicJavaEditorActionContributor extends BasicTextEditorActionContr
 
 	private RetargetTextEditorAction fRemoveOccurrenceAnnotationsAction;
 
-	public BasicJavaEditorActionContributor() {
+	public BasicJavaEditorActionContributor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 
 		ResourceBundle b= JavaEditorMessages.getBundleForConstructedKeys();
@@ -126,7 +126,7 @@ public class BasicJavaEditorActionContributor extends BasicTextEditorActionContr
 	public void init(IActionBars bars, IWorkbenchPage page) {
 		fToggleBreadcrumbAction= new ToggleBreadcrumbAction(page);
 		Iterator<RetargetAction> e= fPartListeners.iterator();
-		while (e.hasNext())
+		while (e.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			page.addPartListener(e.next());
 
 		super.init(bars, page);
@@ -139,7 +139,7 @@ public class BasicJavaEditorActionContributor extends BasicTextEditorActionContr
 	/*
 	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void contributeToMenu(IMenuManager menu) {
 
 		super.contributeToMenu(menu);
@@ -175,7 +175,7 @@ public class BasicJavaEditorActionContributor extends BasicTextEditorActionContr
 	/*
 	 * @see EditorActionBarContributor#setActiveEditor(IEditorPart)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setActiveEditor(IEditorPart part) {
 
 		super.setActiveEditor(part);
@@ -239,7 +239,7 @@ public class BasicJavaEditorActionContributor extends BasicTextEditorActionContr
 	public void dispose() {
 
 		Iterator<RetargetAction> e= fPartListeners.iterator();
-		while (e.hasNext())
+		while (e.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			getPage().removePartListener(e.next());
 		fPartListeners.clear();
 

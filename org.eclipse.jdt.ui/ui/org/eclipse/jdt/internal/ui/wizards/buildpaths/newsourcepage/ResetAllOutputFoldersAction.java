@@ -43,7 +43,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElementAttribute;
 
-public class ResetAllOutputFoldersAction extends BuildpathModifierAction {
+public class ResetAllOutputFoldersAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 	private final IJavaProject fJavaProject;
@@ -68,9 +68,9 @@ public class ResetAllOutputFoldersAction extends BuildpathModifierAction {
 		return NewWizardMessages.PackageExplorerActionGroup_FormText_Default_ResetAllOutputFolders;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
-		final IRunnableWithProgress runnable= monitor -> {
+		final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				resetOutputFolders(fJavaProject, monitor);
 			} catch (CoreException e) {
@@ -89,14 +89,14 @@ public class ResetAllOutputFoldersAction extends BuildpathModifierAction {
         }
 	}
 
-	private List<Object> resetOutputFolders(IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	private List<Object> resetOutputFolders(IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		try {
 			IPackageFragmentRoot[] roots= project.getPackageFragmentRoots();
 			monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_ResetOutputFolder, roots.length + 10);
-			List<CPListElementAttribute> entries= new ArrayList<>();
-			for (IPackageFragmentRoot root : roots) {
+			List<CPListElementAttribute> entries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				monitor.worked(1);
 				if (root.isArchive() || root.isExternal())
 					continue;
@@ -111,14 +111,14 @@ public class ResetAllOutputFoldersAction extends BuildpathModifierAction {
 		}
 	}
 
-	private List<Object> reset(List<CPListElementAttribute> selection, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	private List<Object> reset(List<CPListElementAttribute> selection, IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    if (monitor == null)
         	monitor= new NullProgressMonitor();
         try {
         	monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_Resetting, selection.size());
         	List<CPListElement> entries= ClasspathModifier.getExistingEntries(project);
-        	List<Object> result= new ArrayList<>();
-        	for (CPListElementAttribute element : selection) {
+        	List<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+        	for (CPListElementAttribute element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         		if (element instanceof IJavaElement) {
         			IJavaElement javaElement= (IJavaElement) element;
         			IPackageFragmentRoot root;

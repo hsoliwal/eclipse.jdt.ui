@@ -72,7 +72,7 @@ public class JUnitRenameParticipantTest {
 	private IJavaProject fRenamedProject;
 	private IPackageFragmentRoot fSourceFolder;
 	private IPackageFragment fPackage;
-	private final List<ILaunchConfiguration> fLaunchConfigurations= new ArrayList<>();
+	private final List<ILaunchConfiguration> fLaunchConfigurations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private Change fUndoChange;
 
 	@AfterEach
@@ -80,7 +80,7 @@ public class JUnitRenameParticipantTest {
 		if (fUndoChange != null) {
 			fUndoChange.dispose();
 		}
-		for (ILaunchConfiguration configuration : fLaunchConfigurations) {
+		for (ILaunchConfiguration configuration : fLaunchConfigurations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			configuration.delete();
 		}
 		if (fProject != null && fProject.exists()) {
@@ -91,15 +91,15 @@ public class JUnitRenameParticipantTest {
 		}
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@ValueSource(ints= { 4, 5, 6 })
 	public void testProjectRenameUpdatesTestContainers(int junitVersion) throws Exception {
 		createProject(junitVersion);
 		List<IJavaElement> originalContainers= List.of(fProject, fSourceFolder, fPackage);
-		for (IJavaElement container : originalContainers) {
+		for (IJavaElement container : originalContainers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createLaunchConfiguration(container, junitVersion);
 		}
-		String newName= fProject.getElementName() + "Renamed";
+		String newName= fProject.getElementName() + "Renamed"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fRenamedProject= fProject.getJavaModel().getJavaProject(newName);
 		assertFalse(fRenamedProject.exists());
 		IPackageFragmentRoot renamedSourceFolder= fRenamedProject.getPackageFragmentRoot("src");
@@ -142,8 +142,8 @@ public class JUnitRenameParticipantTest {
 		assertEquals(1, participants.length, "The JUnit type rename participant must be loaded");
 	}
 
-	private IType createProject(int junitVersion) throws Exception {
-		fProject= JavaProjectHelper.createJavaProject("JUnitRenameParticipantTest" + junitVersion, "bin");
+	private IType createProject(int junitVersion) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fProject= JavaProjectHelper.createJavaProject("JUnitRenameParticipantTest" + junitVersion, "bin"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		JavaProjectHelper.addRTJar_17(fProject, false);
 		JavaProjectHelper.set17CompilerOptions(fProject, false);
 		if (junitVersion == 4) {
@@ -179,21 +179,21 @@ public class JUnitRenameParticipantTest {
 	private void createLaunchConfiguration(IJavaElement container, int junitVersion) throws CoreException {
 		ILaunchManager manager= DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationWorkingCopy configuration= manager.getLaunchConfigurationType(JUnitLaunchConfigurationConstants.ID_JUNIT_APPLICATION)
-				.newInstance(null, manager.generateLaunchConfigurationName("JUnit rename " + container.getElementName()));
+				.newInstance(null, manager.generateLaunchConfigurationName("JUnit rename " + container.getElementName())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		configuration.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, fProject.getElementName());
 		configuration.setAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_CONTAINER, container.getHandleIdentifier());
 		String testKindId= switch (junitVersion) {
 			case 4 -> TestKindRegistry.JUNIT4_TEST_KIND_ID;
 			case 5 -> TestKindRegistry.JUNIT5_TEST_KIND_ID;
 			case 6 -> TestKindRegistry.JUNIT6_TEST_KIND_ID;
-			default -> throw new IllegalArgumentException("Unsupported JUnit version: " + junitVersion);
+			default -> throw new IllegalArgumentException("Unsupported JUnit version: " + junitVersion); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		};
 		configuration.setAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_RUNNER_KIND, testKindId);
 		fLaunchConfigurations.add(configuration.doSave());
 	}
 
 	private void assertTestContainers(List<IJavaElement> containers) throws CoreException {
-		for (int i= 0; i < containers.size(); i++) {
+		for (int i= 0; i < containers.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement expected= containers.get(i);
 			ILaunchConfiguration configuration= fLaunchConfigurations.get(i);
 			assertEquals(expected.getJavaProject().getElementName(), configuration.getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, ""));

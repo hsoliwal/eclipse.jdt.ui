@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.ui.JavaElementLabels;
 
 
-public class PostfixLabelProvider extends SearchLabelProvider {
+public class PostfixLabelProvider extends SearchLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 	private ITreeContentProvider fContentProvider;
 
 	public PostfixLabelProvider(JavaSearchResultPage page) {
@@ -45,19 +45,19 @@ public class PostfixLabelProvider extends SearchLabelProvider {
 	@Override
 	public String getText(Object element) {
 		String labelWithCounts= getLabelWithCounts(element, internalGetText(element));
-		return labelWithCounts + getQualification(element);
+		return labelWithCounts + getQualification(element); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getQualification(Object element) {
-		StringBuilder res= new StringBuilder();
+		StringBuilder res= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		ITreeContentProvider provider= (ITreeContentProvider) fPage.getViewer().getContentProvider();
 		Object visibleParent= provider.getParent(element);
 		Object realParent= fContentProvider.getParent(element);
 		Object lastElement= element;
-		while (realParent != null && !(realParent instanceof IJavaModel) && !realParent.equals(visibleParent)) {
+		while (realParent != null && !(realParent instanceof IJavaModel) && !realParent.equals(visibleParent)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isSameInformation(realParent, lastElement))  {
-				res.append(JavaElementLabels.CONCAT_STRING).append(internalGetText(realParent));
+				res.append(JavaElementLabels.CONCAT_STRING).append(internalGetText(realParent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			lastElement= realParent;
 			realParent= fContentProvider.getParent(realParent);

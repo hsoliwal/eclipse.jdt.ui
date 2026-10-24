@@ -225,7 +225,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		return new Object[] { fField};
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RenameModifications computeRenameModifications() throws CoreException {
 		RenameModifications result= new RenameModifications();
 		result.rename(fField, new RenameArguments(getNewElementName(), getUpdateReferences()));
@@ -270,7 +270,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		return fField.getDeclaringType().getFullyQualifiedName('.');
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkNewElementName(String newName) throws CoreException {
 		Assert.isNotNull(newName, "new name"); //$NON-NLS-1$
 		RefactoringStatus result= Checks.checkFieldName(newName, fField);
@@ -402,13 +402,13 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		return JavaModelUtil.findMethod(fField.getElementName(), new String[0], false, fField.getDeclaringType());
 	}
 
-	private void setLocalVariableProcessor() {
+	private void setLocalVariableProcessor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fIsRecordComponent && fField != null) {
 			IType parent= fField.getDeclaringType();
 			try {
 				if (parent != null && parent.isRecord()) {
 					fCompUnit= SharedASTProviderCore.getAST(fField.getCompilationUnit(), SharedASTProviderCore.WAIT_YES, null);
-					for (IJavaElement elem : parent.getChildren()) {
+					for (IJavaElement elem : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (elem instanceof IMethod
 								&& ((IMethod) elem).isConstructor()) {
 							IMethod method= (IMethod) elem;
@@ -417,7 +417,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 								IMethodBinding mBinding= mDecl.resolveBinding();
 								if (mBinding != null && mBinding.isCanonicalConstructor()) {
 									ILocalVariable[] localVars= method.getParameters();
-									for (ILocalVariable lVar : localVars) {
+									for (ILocalVariable lVar : localVars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (lVar.getElementName().equals(fField.getElementName())) {
 											fLocalVariable= lVar;
 											fIsCompactConstructor= mBinding.isCompactConstructor();
@@ -514,7 +514,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		return Checks.checkIfCuBroken(fField);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException {
 		try{
 			pm.beginTask("", 18); //$NON-NLS-1$
@@ -624,7 +624,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		return result;
 	}
 
-	private RefactoringStatus checkAccessorDeclarations(IProgressMonitor pm, IMethod existingAccessor) throws CoreException{
+	private RefactoringStatus checkAccessorDeclarations(IProgressMonitor pm, IMethod existingAccessor) throws CoreException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		SearchPattern pattern= SearchPattern.createPattern(existingAccessor, IJavaSearchConstants.DECLARATIONS, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 		if (pattern == null) {
@@ -661,7 +661,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		if (nestedTypes == null)
 			return null;
 		RefactoringStatus result= new RefactoringStatus();
-		for (IType nestedType : nestedTypes) {
+		for (IType nestedType : nestedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IField otherField= nestedType.getField(getNewElementName());
 			if (otherField.exists()) {
 				String msg= Messages.format(RefactoringCoreMessages.RenameFieldRefactoring_hiding, new String[]{BasicElementLabels.getJavaElementName(fField.getElementName()), BasicElementLabels.getJavaElementName(getNewElementName()), BasicElementLabels.getJavaElementName(nestedType.getFullyQualifiedName('.'))});
@@ -677,7 +677,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		if (Checks.isTopLevel(current))
 			return null;
 		RefactoringStatus result= new RefactoringStatus();
-		while (current != null){
+		while (current != null){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IField otherField= current.getField(getNewElementName());
 			if (otherField.exists()){
 				String msg= Messages.format(RefactoringCoreMessages.RenameFieldRefactoring_hiding2,
@@ -733,13 +733,13 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 	 *            component accessor methods.
 	 * @return the filtered list
 	 */
-	private SearchResultGroup[] filterAccessorMethods(SearchResultGroup[] grouped, boolean filterOut) {
+	private SearchResultGroup[] filterAccessorMethods(SearchResultGroup[] grouped, boolean filterOut) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (this.fIsRecordComponent) {
-			List<SearchResultGroup> result= new ArrayList<>();
-			for (SearchResultGroup g : grouped) {
+			List<SearchResultGroup> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (SearchResultGroup g : grouped) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SearchMatch[] matches= g.getSearchResults();
-				List<SearchMatch> newList= new ArrayList<>();
-				for (SearchMatch match : matches) {
+				List<SearchMatch> newList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (SearchMatch match : matches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (match instanceof MethodReferenceMatch) {
 						if (filterOut) {
 							continue;
@@ -778,7 +778,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 	 * Overridden by subclasses.
 	 * @return return the refactoring descriptor for this refactoring
 	 */
-	protected RenameJavaElementDescriptor createRefactoringDescriptor() {
+	protected RenameJavaElementDescriptor createRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String project= null;
 		IJavaProject javaProject= fField.getJavaProject();
 		if (javaProject != null)
@@ -820,7 +820,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		return descriptor;
 	}
 
-	private RefactoringStatus createChanges(IProgressMonitor pm) throws CoreException {
+	private RefactoringStatus createChanges(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask(RefactoringCoreMessages.RenameFieldRefactoring_checking, 10);
 		RefactoringStatus result= new RefactoringStatus();
 		if (!fIsComposite)
@@ -880,7 +880,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		addTextEdit(fChangeManager.get(cu), groupName, textEdit);
 	}
 
-	private RefactoringStatus addDelegates() throws JavaModelException, CoreException {
+	private RefactoringStatus addDelegates() throws JavaModelException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringStatus status= new RefactoringStatus();
 		CompilationUnitRewrite rewrite= new CompilationUnitRewrite(fField.getCompilationUnit());
@@ -946,11 +946,11 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 	private void addReferenceUpdates(IProgressMonitor pm) {
 		pm.beginTask("", fReferences.length); //$NON-NLS-1$
 		String editName= RefactoringCoreMessages.RenameFieldRefactoring_Update_field_reference;
-		for (SearchResultGroup reference : fReferences) {
+		for (SearchResultGroup reference : fReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= reference.getCompilationUnit();
 			if (cu == null)
 				continue;
-			for (SearchMatch result : reference.getSearchResults()) {
+			for (SearchMatch result : reference.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addTextEdit(fChangeManager.get(cu), editName, createTextChange(result));
 			}
 			pm.worked(1);
@@ -977,7 +977,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		}
 	}
 
-	private void addAccessorOccurrences(IProgressMonitor pm, IMethod accessor, String editName, String newAccessorName, RefactoringStatus status) throws CoreException {
+	private void addAccessorOccurrences(IProgressMonitor pm, IMethod accessor, String editName, String newAccessorName, RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(accessor.exists());
 
 		IJavaSearchScope scope= RefactoringScopeFactory.create(accessor);
@@ -988,12 +988,12 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		SearchResultGroup[] groupedResults= RefactoringSearchEngine.search(
 			pattern, scope, new MethodOccurenceCollector(accessor.getElementName()), pm, status);
 
-		for (SearchResultGroup groupedResult : groupedResults) {
+		for (SearchResultGroup groupedResult : groupedResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= groupedResult.getCompilationUnit();
 			if (cu == null)
 				continue;
 			SearchMatch[] results= groupedResult.getSearchResults();
-			for (SearchMatch searchResult : results) {
+			for (SearchMatch searchResult : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TextEdit edit= new ReplaceEdit(searchResult.getOffset(), searchResult.getLength(), newAccessorName);
 				addTextEdit(fChangeManager.get(cu), editName, edit);
 			}
@@ -1008,7 +1008,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		RenameAnalyzeUtil.LocalAnalyzePackage[] analyzePackages= new RenameAnalyzeUtil.LocalAnalyzePackage[1];
 		RenameAnalyzeUtil.LocalAnalyzePackage analyzePackage= fRenameLocalVariableProcessor.getLocalAnalyzePackage();
 		analyzePackages[current]= analyzePackage;
-		for (TextEdit occurenceEdit : analyzePackage.fOccurenceEdits) {
+		for (TextEdit occurenceEdit : analyzePackage.fOccurenceEdits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addTextEdit(fChangeManager.get(cu), newName, occurenceEdit);
 		}
 		if (!fIsCompactConstructor) {
@@ -1019,7 +1019,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 	}
 
 
-	private void addFieldAccessorOccurrences(IProgressMonitor pm, String editName, String newAccessorName, RefactoringStatus status) throws CoreException {
+	private void addFieldAccessorOccurrences(IProgressMonitor pm, String editName, String newAccessorName, RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(fField.exists());
 		String fieldName= fField.getElementName();
 		IJavaSearchScope scope= RefactoringScopeFactory.create(fField.getDeclaringType());
@@ -1035,12 +1035,12 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 				new CuCollectingSearchRequestor(binaryRefs), pm, status);
 		binaryRefs.addErrorIfNecessary(status);
 		result= filterAccessorMethods(result, false);
-		for (SearchResultGroup groupedResult : result) {
+		for (SearchResultGroup groupedResult : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= groupedResult.getCompilationUnit();
 			if (cu == null)
 				continue;
 			SearchMatch[] results= groupedResult.getSearchResults();
-			for (SearchMatch searchResult : results) {
+			for (SearchMatch searchResult : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TextEdit edit= new ReplaceEdit(searchResult.getOffset(), fieldName.length(), newAccessorName);
 				addTextEdit(fChangeManager.get(cu), editName, edit);
 			}
@@ -1067,7 +1067,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 	}
 
 	//----------------
-	private RefactoringStatus analyzeRenameChanges(IProgressMonitor pm) throws CoreException {
+	private RefactoringStatus analyzeRenameChanges(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit[] newWorkingCopies= null;
 		WorkingCopyOwner newWCOwner= new WorkingCopyOwner() { /* must subclass */ };
 		try {
@@ -1075,10 +1075,10 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 			RefactoringStatus result= new RefactoringStatus();
 			SearchResultGroup[] oldReferences= fReferences;
 
-			List<ICompilationUnit> compilationUnitsToModify= new ArrayList<>();
+			List<ICompilationUnit> compilationUnitsToModify= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (fIsComposite) {
 				// limited change set, no accessors.
-				for (SearchResultGroup oldReference : oldReferences) {
+				for (SearchResultGroup oldReference : oldReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					compilationUnitsToModify.add(oldReference.getCompilationUnit());
 				}
 				compilationUnitsToModify.add(fField.getCompilationUnit());
@@ -1096,14 +1096,14 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		} finally{
 			pm.done();
 			if (newWorkingCopies != null){
-				for (ICompilationUnit newWorkingCopy : newWorkingCopies) {
+				for (ICompilationUnit newWorkingCopy : newWorkingCopies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newWorkingCopy.discardWorkingCopy();
 				}
 			}
 		}
 	}
 
-	private SearchResultGroup[] getNewReferences(IProgressMonitor pm, RefactoringStatus status, WorkingCopyOwner owner, ICompilationUnit[] newWorkingCopies) throws CoreException {
+	private SearchResultGroup[] getNewReferences(IProgressMonitor pm, RefactoringStatus status, WorkingCopyOwner owner, ICompilationUnit[] newWorkingCopies) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask("", 2); //$NON-NLS-1$
 		ICompilationUnit declaringCuWorkingCopy= RenameAnalyzeUtil.findWorkingCopyForCu(newWorkingCopies, fField.getCompilationUnit());
 		if (declaringCuWorkingCopy == null)
@@ -1145,7 +1145,7 @@ public class RenameFieldProcessor extends JavaRenameProcessor implements IRefere
 		return typeWc.getField(elementName);
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);

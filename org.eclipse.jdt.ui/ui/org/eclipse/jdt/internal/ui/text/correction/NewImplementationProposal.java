@@ -31,7 +31,7 @@ import org.eclipse.jdt.ui.text.java.correction.ChangeCorrectionProposal;
 import org.eclipse.jdt.internal.ui.wizards.NewTypeDropDownAction;
 import org.eclipse.jdt.internal.ui.wizards.NewTypeDropDownAction.OpenTypeWizardAction;
 
-public class NewImplementationProposal extends ChangeCorrectionProposal {
+public class NewImplementationProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	private static final String NEW_CLASS_CREATION_ID= "org.eclipse.jdt.ui.wizards.NewClassCreationWizard"; //$NON-NLS-1$
 	private ICompilationUnit fCompilationUnit;
 

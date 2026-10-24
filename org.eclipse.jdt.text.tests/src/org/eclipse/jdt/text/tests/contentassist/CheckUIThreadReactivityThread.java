@@ -34,9 +34,9 @@ public class CheckUIThreadReactivityThread extends Thread {
 
 	@Override
 	public void run() {
-		while (!isInterrupted()) {
+		while (!isInterrupted()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			long duration = System.currentTimeMillis();
-			fDisplay.syncExec(() -> {}); // do nothing, but in UI Thread
+			fDisplay.syncExec(() -> {}); // do nothing, but in UI Thread //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			duration = System.currentTimeMillis() - duration;
 			maxDuration = Math.max(duration, maxDuration);
 			try {

@@ -39,7 +39,7 @@ import org.eclipse.jdt.internal.ui.dialogs.SortMembersMessageDialog;
 import org.eclipse.jdt.internal.ui.fix.SortMembersCleanUp;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 
-public class MultiSortMembersAction extends CleanUpAction {
+public class MultiSortMembersAction extends CleanUpAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public MultiSortMembersAction(IWorkbenchSite site) {
 		super(site);
@@ -61,7 +61,7 @@ public class MultiSortMembersAction extends CleanUpAction {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this, IJavaHelpContextIds.SORT_MEMBERS_ACTION);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUp[] getCleanUps(ICompilationUnit[] units) {
 		try {
 	        if (!hasMembersToSort(units)) {
@@ -99,7 +99,7 @@ public class MultiSortMembersAction extends CleanUpAction {
 	}
 
 	private boolean hasMembersToSort(ICompilationUnit[] units) throws JavaModelException {
-		for (ICompilationUnit unit : units) {
+		for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasMembersToSort(unit.getTypes())) {
 				return true;
 			}

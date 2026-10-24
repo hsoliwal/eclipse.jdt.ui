@@ -52,7 +52,7 @@ public class ClassPathElementsOrderTest {
 
 	private static final String NEW_JAR_PATH= "/data/test.jar";
 
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws CoreException, BackingStoreException {
 		IWorkspaceRoot wsRoot= ResourcesPlugin.getWorkspace().getRoot();
 		IProject genProj= wsRoot.getProject("java proj");
@@ -80,9 +80,9 @@ public class ClassPathElementsOrderTest {
 	 * This test invokes addElement API to add new class path entry. In this case also class path
 	 * elements orders must be preserved and newly added entry should be added at the end.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testClassPathOrder() {
-		Collection<CPListElement> elements= new ArrayList<>();
+		Collection<CPListElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CPListElement cont1= new CPListElement(javaProject, IClasspathEntry.CPE_CONTAINER,
 				new Path("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17"), null);
 		cont1.createAttributeElement(CPListElement.MODULE, Boolean.TRUE.toString(), false);
@@ -108,9 +108,9 @@ public class ClassPathElementsOrderTest {
 	 * This test case adds an external jar to the Libraries Tab of the Java Build Path properties
 	 * page. And test if the class path order is as expected after adding new jar
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIntegrationClassPathOrderAddingLibrary() {
-		Collection<CPListElement> elements= new ArrayList<>();
+		Collection<CPListElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CPListElement cont1= new CPListElement(javaProject, IClasspathEntry.CPE_CONTAINER,
 				new Path("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17"), null);
 		cont1.createAttributeElement(CPListElement.MODULE, Boolean.TRUE.toString(), false);
@@ -169,7 +169,7 @@ public class ClassPathElementsOrderTest {
 		 */
 		@Override
 		protected List<Object> getSelectedLibraryElements() {
-			List<Object> rootList= new ArrayList<>();
+			List<Object> rootList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			List<CPListElement> allEle= getLibraryElements();
 			//There are 2 root nodes in Library tab. ModulePath and ClassPath
 			if (allEle.size() >= 2) {

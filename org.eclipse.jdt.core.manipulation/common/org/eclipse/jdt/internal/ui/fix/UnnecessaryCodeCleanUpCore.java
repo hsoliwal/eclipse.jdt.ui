@@ -91,7 +91,7 @@ public class UnnecessaryCodeCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.REMOVE_UNNECESSARY_CASTS))
 			result.add(MultiFixMessages.UnusedCodeCleanUp_RemoveUnusedCasts_description);
 		return result.toArray(new String[result.size()]);
@@ -99,12 +99,12 @@ public class UnnecessaryCodeCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.REMOVE_UNNECESSARY_CASTS)) {
-			buf.append("Boolean b= Boolean.TRUE;\n"); //$NON-NLS-1$
+			buf.append("Boolean b= Boolean.TRUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("Boolean b= (Boolean) Boolean.TRUE;\n"); //$NON-NLS-1$
+			buf.append("Boolean b= (Boolean) Boolean.TRUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return buf.toString();

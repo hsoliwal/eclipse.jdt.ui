@@ -145,13 +145,13 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	private final static String PAGE_NAME= "JarManifestWizardPage"; //$NON-NLS-1$
 
 	// Manifest creation
-	private final static String STORE_GENERATE_MANIFEST= PAGE_NAME + ".GENERATE_MANIFEST"; //$NON-NLS-1$
-	private final static String STORE_SAVE_MANIFEST= PAGE_NAME + ".SAVE_MANIFEST"; //$NON-NLS-1$
-	private final static String STORE_REUSE_MANIFEST= PAGE_NAME + ".REUSE_MANIFEST"; //$NON-NLS-1$
-	private final static String STORE_MANIFEST_LOCATION= PAGE_NAME + ".MANIFEST_LOCATION"; //$NON-NLS-1$
+	private final static String STORE_GENERATE_MANIFEST= PAGE_NAME + ".GENERATE_MANIFEST"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_SAVE_MANIFEST= PAGE_NAME + ".SAVE_MANIFEST"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_REUSE_MANIFEST= PAGE_NAME + ".REUSE_MANIFEST"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_MANIFEST_LOCATION= PAGE_NAME + ".MANIFEST_LOCATION"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// Sealing
-	private final static String STORE_SEAL_JAR= PAGE_NAME + ".SEAL_JAR"; //$NON-NLS-1$
+	private final static String STORE_SEAL_JAR= PAGE_NAME + ".SEAL_JAR"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Creates an instance of this class.
@@ -170,7 +170,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	/*
 	 * Method declared on IDialogPage.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -208,7 +208,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	 *
 	 *	@param parent org.eclipse.swt.widgets.Composite
 	 */
-	protected void createManifestGroup(Composite parent) {
+	protected void createManifestGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fManifestGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
 		fManifestGroup.setLayout(layout);
@@ -216,7 +216,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 
 		fGenerateManifestRadioButton= new Button(fManifestGroup, SWT.RADIO | SWT.LEFT);
 		fGenerateManifestRadioButton.setText(JarPackagerMessages.JarManifestWizardPage_genetateManifest_text);
-		fGenerateManifestRadioButton.addListener(SWT.Selection, fUntypedListener);
+		fGenerateManifestRadioButton.addListener(SWT.Selection, fUntypedListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		Composite saveOptions= new Composite(fManifestGroup, SWT.NONE);
 		GridLayout saveOptionsLayout= new GridLayout();
@@ -229,11 +229,11 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 
 		fSaveManifestCheckbox= new Button(saveOptions, SWT.CHECK | SWT.LEFT);
 		fSaveManifestCheckbox.setText(JarPackagerMessages.JarManifestWizardPage_saveManifest_text);
-		fSaveManifestCheckbox.addListener(SWT.MouseUp, fUntypedListener);
+		fSaveManifestCheckbox.addListener(SWT.MouseUp, fUntypedListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		fReuseManifestCheckbox= new Button(saveOptions, SWT.CHECK | SWT.LEFT);
 		fReuseManifestCheckbox.setText(JarPackagerMessages.JarManifestWizardPage_reuseManifest_text);
-		fReuseManifestCheckbox.addListener(SWT.MouseUp, fUntypedListener);
+		fReuseManifestCheckbox.addListener(SWT.MouseUp, fUntypedListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		createNewManifestFileGroup(saveOptions);
 
@@ -251,7 +251,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		createManifestFileGroup(existingManifestGroup);
 	}
 
-	protected void createNewManifestFileGroup(Composite parent) {
+	protected void createNewManifestFileGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// destination specification group
 		Composite manifestFileGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -265,7 +265,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 
 		// entry field
 		fNewManifestFileText= new Text(manifestFileGroup, SWT.SINGLE | SWT.BORDER);
-		fNewManifestFileText.addListener(SWT.Modify, fUntypedListener);
+		fNewManifestFileText.addListener(SWT.Modify, fUntypedListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		GridData data= new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		data.widthHint= convertWidthInCharsToPixels(40);
@@ -275,7 +275,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		fNewManifestFileBrowseButton= new Button(manifestFileGroup, SWT.PUSH);
 		fNewManifestFileBrowseButton.setText(JarPackagerMessages.JarManifestWizardPage_newManifestFileBrowseButton_text);
 		fNewManifestFileBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		fNewManifestFileBrowseButton.addSelectionListener(new SelectionAdapter() {
+		fNewManifestFileBrowseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleNewManifestFileBrowseButtonPressed();
@@ -283,7 +283,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		});
 	}
 
-	protected void createManifestFileGroup(Composite parent) {
+	protected void createManifestFileGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// destination specification group
 		Composite manifestFileGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -298,7 +298,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 
 		// entry field
 		fManifestFileText= new Text(manifestFileGroup, SWT.SINGLE | SWT.BORDER);
-		fManifestFileText.addListener(SWT.Modify, fUntypedListener);
+		fManifestFileText.addListener(SWT.Modify, fUntypedListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		GridData data= new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		data.widthHint= convertWidthInCharsToPixels(40);
 		fManifestFileText.setLayoutData(data);
@@ -307,7 +307,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		fManifestFileBrowseButton= new Button(manifestFileGroup, SWT.PUSH);
 		fManifestFileBrowseButton.setText(JarPackagerMessages.JarManifestWizardPage_manifestFileBrowse_text);
 		fManifestFileBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		fManifestFileBrowseButton.addSelectionListener(new SelectionAdapter() {
+		fManifestFileBrowseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleManifestFileBrowseButtonPressed();
@@ -336,10 +336,10 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	 *
 	 * @param sealGroup the parent control
 	 */
-	protected void createSealJarGroup(Composite sealGroup) {
+	protected void createSealJarGroup(Composite sealGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSealJarRadioButton= new Button(sealGroup, SWT.RADIO);
 		fSealJarRadioButton.setText(JarPackagerMessages.JarManifestWizardPage_sealJar_text);
-		fSealJarRadioButton.addListener(SWT.Selection, fUntypedListener);
+		fSealJarRadioButton.addListener(SWT.Selection, fUntypedListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		fSealJarLabel= new Label(sealGroup, SWT.RIGHT);
 		fSealJarLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
@@ -348,7 +348,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		fUnSealedPackagesDetailsButton= new Button(sealGroup, SWT.PUSH);
 		fUnSealedPackagesDetailsButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		fUnSealedPackagesDetailsButton.setText(JarPackagerMessages.JarManifestWizardPage_unsealPackagesButton_text);
-		fUnSealedPackagesDetailsButton.addSelectionListener(new SelectionAdapter() {
+		fUnSealedPackagesDetailsButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleUnSealPackagesDetailsButtonPressed();
@@ -361,7 +361,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	 *
 	 * @param sealGroup the parent control
 	 */
-	protected void createSealPackagesGroup(Composite sealGroup) {
+	protected void createSealPackagesGroup(Composite sealGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSealPackagesRadioButton= new Button(sealGroup, SWT.RADIO);
 		fSealPackagesRadioButton.setText(JarPackagerMessages.JarManifestWizardPage_sealPackagesButton_text);
 
@@ -372,7 +372,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		fSealedPackagesDetailsButton= new Button(sealGroup, SWT.PUSH);
 		fSealedPackagesDetailsButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		fSealedPackagesDetailsButton.setText(JarPackagerMessages.JarManifestWizardPage_sealedPackagesDetailsButton_text);
-		fSealedPackagesDetailsButton.addSelectionListener(new SelectionAdapter() {
+		fSealedPackagesDetailsButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleSealPackagesDetailsButtonPressed();
@@ -380,7 +380,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		});
 	}
 
-	protected void createMainClassGroup(Composite parent) {
+	protected void createMainClassGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// main type group
 		Composite mainClassGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -393,11 +393,11 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 
 		// entry field
 		fMainClassText= new Text(mainClassGroup, SWT.SINGLE | SWT.BORDER);
-		fMainClassText.addListener(SWT.Modify, fUntypedListener);
+		fMainClassText.addListener(SWT.Modify, fUntypedListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		GridData data= new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		data.widthHint= convertWidthInCharsToPixels(40);
 		fMainClassText.setLayoutData(data);
-		fMainClassText.addKeyListener(new KeyAdapter() {
+		fMainClassText.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			/*
 			 * @see KeyListener#keyReleased(KeyEvent)
 			 */
@@ -412,7 +412,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		fMainClassBrowseButton= new Button(mainClassGroup, SWT.PUSH);
 		fMainClassBrowseButton.setText(JarPackagerMessages.JarManifestWizardPage_mainClassBrowseButton_text);
 		fMainClassBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		fMainClassBrowseButton.addSelectionListener(new SelectionAdapter() {
+		fMainClassBrowseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleMainClassBrowseButtonPressed();
@@ -461,7 +461,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		}
 	}
 
-	private IType findMainMethodByName(String name) {
+	private IType findMainMethodByName(String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fMainTypes == null) {
 			List<IResource> resources= JarPackagerUtil.asResources(fJarPackage.getElements());
 			if (resources == null) {
@@ -476,7 +476,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 				// null
 			}
 		}
-		for (IType mainType : fMainTypes) {
+		for (IType mainType : fMainTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (mainType.getFullyQualifiedName().equals(name)) {
 				return mainType;
 			}
@@ -484,7 +484,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		return null;
 	}
 
-	protected void handleMainClassBrowseButtonPressed() {
+	protected void handleMainClassBrowseButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<IResource> resources= JarPackagerUtil.asResources(fJarPackage.getElements());
 		if (resources == null) {
 			setErrorMessage(JarPackagerMessages.JarManifestWizardPage_error_noResourceSelected);
@@ -529,7 +529,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	/**
 	 * Updates the enable state of this page's controls. Subclasses may extend.
 	 */
-	protected void updateEnableState() {
+	protected void updateEnableState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean generate= fGenerateManifestRadioButton.getSelection();
 
 		boolean save= generate && fSaveManifestCheckbox.getSelection();
@@ -560,7 +560,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		updateSealingInfo();
 	}
 
-	protected void updateSealingInfo() {
+	protected void updateSealingInfo() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJarPackage.isJarSealed()) {
 			fSealPackagesLabel.setText(""); //$NON-NLS-1$
 			int i= fJarPackage.getPackagesToUnseal().length;
@@ -596,7 +596,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	/*
 	 * Implements method from IJarPackageWizardPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isPageComplete() {
 		boolean isPageComplete= true;
 		setMessage(null);
@@ -716,7 +716,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	 *	Hook method for restoring widget values to the values that they held
 	 *	last time this wizard was used to completion.
 	 */
-	protected void restoreWidgetValues() {
+	protected void restoreWidgetValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!((JarPackageWizard)getWizard()).isInitializingFromJarPackage())
 			initializeJarPackage();
 
@@ -761,7 +761,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	/**
 	 *	Stores the widget values in the JAR package.
 	 */
-	protected void updateModel() {
+	protected void updateModel() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getControl() == null)
 			return;
 
@@ -843,7 +843,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	/**
 	 * Makes the size of all buttons equal.
 	 */
-	protected void setEqualButtonSizes() {
+	protected void setEqualButtonSizes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int width= SWTUtil.getButtonWidthHint(fManifestFileBrowseButton);
 		int width2= SWTUtil.getButtonWidthHint(fNewManifestFileBrowseButton);
 		width= Math.max(width, width2);
@@ -905,9 +905,9 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	 * @param packageFragments the package fragments
 	 * @return a new selection dialog
 	 */
-	protected SelectionDialog createPackageDialog(Set<IJavaElement> packageFragments) {
-		List<IPackageFragment> packages= new ArrayList<>(packageFragments.size());
-		for (IJavaElement iJavaElement : packageFragments) {
+	protected SelectionDialog createPackageDialog(Set<IJavaElement> packageFragments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IPackageFragment> packages= new ArrayList<>(packageFragments.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement iJavaElement : packageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment fragment= (IPackageFragment)iJavaElement;
 			boolean containsJavaElements= false;
 			int kind;
@@ -921,7 +921,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 			if (kind != IPackageFragmentRoot.K_BINARY && containsJavaElements)
 				packages.add(fragment);
 		}
-		StandardJavaElementContentProvider cp= new StandardJavaElementContentProvider() {
+		StandardJavaElementContentProvider cp= new StandardJavaElementContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public boolean hasChildren(Object element) {
 				// prevent the + from being shown in front of packages
@@ -933,12 +933,12 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 		dialog.setDoubleClickSelects(false);
 		dialog.setComparator(new JavaElementComparator());
 		dialog.setInput(JavaCore.create(JavaPlugin.getWorkspace().getRoot()));
-		dialog.addFilter(new EmptyInnerPackageFilter());
-		dialog.addFilter(new LibraryFilter());
-		dialog.addFilter(new SealPackagesFilter(packages));
+		dialog.addFilter(new EmptyInnerPackageFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+		dialog.addFilter(new LibraryFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+		dialog.addFilter(new SealPackagesFilter(packages)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setValidator(selection -> {
 			StatusInfo res= new StatusInfo();
-			for (Object s : selection) {
+			for (Object s : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(s instanceof IPackageFragment)) {
 					res.setError(JarPackagerMessages.JarManifestWizardPage_error_mustContainPackages);
 					return res;
@@ -968,7 +968,7 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	 * @param message the dialog message
 	 * @return the dialog
 	 */
-	protected ElementTreeSelectionDialog createWorkspaceFileSelectionDialog(String title, String message) {
+	protected ElementTreeSelectionDialog createWorkspaceFileSelectionDialog(String title, String message) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int labelFlags= JavaElementLabelProvider.SHOW_BASICS
 						| JavaElementLabelProvider.SHOW_OVERLAY_ICONS
 						| JavaElementLabelProvider.SHOW_SMALL_ICONS;
@@ -985,8 +985,8 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 				res.setError(""); //$NON-NLS-1$
 			return res;
 		});
-		dialog.addFilter(new EmptyInnerPackageFilter());
-		dialog.addFilter(new LibraryFilter());
+		dialog.addFilter(new EmptyInnerPackageFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+		dialog.addFilter(new LibraryFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setTitle(title);
 		dialog.setMessage(message);
 		dialog.setStatusLineAboveButtons(true);
@@ -999,8 +999,8 @@ class JarManifestWizardPage extends WizardPage implements IJarPackageWizardPage 
 	 * @return	the Set of IPackageFragments which contain all the selected resources
 	 */
 	private Set<IJavaElement> getPackagesForSelectedResources() {
-		Set<IJavaElement> packages= new HashSet<>();
-		for (Object element : fJarPackage.getElements()) {
+		Set<IJavaElement> packages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object element : fJarPackage.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				packages.add(((ICompilationUnit) element).getParent());
 			}

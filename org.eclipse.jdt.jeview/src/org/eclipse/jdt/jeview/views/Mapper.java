@@ -22,14 +22,14 @@ public abstract class Mapper<I, O> {
 	public abstract O map(I element);
 
 	public static <I, O> List<O> build(Collection<? extends I> elements, Mapper<I, O> mapper) {
-		ArrayList<O> result = new ArrayList<>(elements.size());
-		for (I element : elements)
+		ArrayList<O> result = new ArrayList<>(elements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (I element : elements) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(mapper.map(element));
 		return result;
 	}
 	public List<O> mapToList(Collection<? extends I> elements) {
-		ArrayList<O> result = new ArrayList<>(elements.size());
-		for (I element : elements)
+		ArrayList<O> result = new ArrayList<>(elements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (I element : elements) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(map(element));
 		return result;
 	}

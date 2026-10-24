@@ -122,7 +122,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 			fTypes= types;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore positionGroups) throws CoreException {
 			InferTypeArgumentsTCModel model= new InferTypeArgumentsTCModel();
 			InferTypeArgumentsConstraintCreator creator= new InferTypeArgumentsConstraintCreator(model, true);
@@ -139,12 +139,12 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 				return;
 
 			ASTRewrite astRewrite= cuRewrite.getASTRewrite();
-			for (int i= 0; i < nodes.length; i++) {
+			for (int i= 0; i < nodes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ParameterizedType type= nodes[i];
 				List<Type> args= type.typeArguments();
 				int j= 0;
-				for (Type argType : args) {
-					LinkedProposalPositionGroupCore group= new LinkedProposalPositionGroupCore("G" + i + "_" + j); //$NON-NLS-1$ //$NON-NLS-2$
+				for (Type argType : args) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					LinkedProposalPositionGroupCore group= new LinkedProposalPositionGroupCore("G" + i + "_" + j); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					if (!positionGroups.hasLinkedPositions()) {
 						group.addPosition(astRewrite.track(argType), true);
 					} else {
@@ -173,7 +173,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		return id == IProblem.MissingOverrideAnnotation || id == IProblem.MissingOverrideAnnotationForInterfaceMethodImplementation;
 	}
 
-	public static Java50FixCore createAddDeprectatedAnnotation(CompilationUnit compilationUnit, IProblemLocation problem) {
+	public static Java50FixCore createAddDeprectatedAnnotation(CompilationUnit compilationUnit, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isMissingDeprecationProblem(problem.getProblemId()))
 			return null;
 
@@ -217,7 +217,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 	}
 
 	public static Java50FixCore createRawTypeReferenceFix(CompilationUnit compilationUnit, IProblemLocation problem) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SimpleType node= createRawTypeReferenceOperations(compilationUnit, new IProblemLocation[] {problem}, operations);
 		if (operations.isEmpty())
 			return null;
@@ -225,7 +225,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		return new Java50FixCore(Messages.format(FixMessages.Java50Fix_AddTypeArguments_description,  BasicElementLabels.getJavaElementName(node.getName().getFullyQualifiedName())), compilationUnit, operations.toArray(new CompilationUnitRewriteOperation[operations.size()]));
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean addOverrideAnnotation,
 			boolean addOverrideInterfaceAnnotation,
 			boolean addDeprecatedAnnotation,
@@ -234,11 +234,11 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		if (!addOverrideAnnotation && !addDeprecatedAnnotation && !rawTypeReference)
 			return null;
 
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IProblem[] problems= compilationUnit.getProblems();
 		IProblemLocation[] locations= new IProblemLocation[problems.length];
-		for (int i= 0; i < problems.length; i++) {
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			locations[i]= new ProblemLocation(problems[i]);
 		}
 
@@ -265,7 +265,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		return new Java50FixCore(fixName, compilationUnit, operationsArray);
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, IProblemLocation[] problems, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean addOverrideAnnotation,
 			boolean addOverrideInterfaceAnnotation,
 			boolean addDeprecatedAnnotation,
@@ -274,7 +274,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		if (!addOverrideAnnotation && !addDeprecatedAnnotation && !rawTypeReferences)
 			return null;
 
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (addOverrideAnnotation)
 			createAddOverrideAnnotationOperations(compilationUnit, addOverrideInterfaceAnnotation, problems, operations);
@@ -293,8 +293,8 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		return new Java50FixCore(FixMessages.Java50Fix_add_annotations_change_name, compilationUnit, operationsArray);
 	}
 
-	private static void createAddDeprecatedAnnotationOperations(CompilationUnit compilationUnit, IProblemLocation[] locations, List<CompilationUnitRewriteOperation> result) {
-		for (IProblemLocation problem : locations) {
+	private static void createAddDeprecatedAnnotationOperations(CompilationUnit compilationUnit, IProblemLocation[] locations, List<CompilationUnitRewriteOperation> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IProblemLocation problem : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isMissingDeprecationProblem(problem.getProblemId())) {
 				ASTNode selectedNode= problem.getCoveringNode(compilationUnit);
 				if (selectedNode != null) {
@@ -320,7 +320,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		AbstractTypeDeclaration typeDecl= ASTNodes.getFirstAncestorOrNull(declaringNode, AbstractTypeDeclaration.class);
 		if (typeDecl != null) {
 			List<IExtendedModifier> modifiers= typeDecl.modifiers();
-			for (IExtendedModifier modifier : modifiers) {
+			for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (modifier instanceof Annotation annotation2
 						&& annotation2.getTypeName().getFullyQualifiedName().equals(annotation)
 						&& !annotation2.isMarkerAnnotation()) {
@@ -331,8 +331,8 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		return copyAnnotation;
 	}
 
-	private static void createAddOverrideAnnotationOperations(CompilationUnit compilationUnit, boolean addOverrideInterfaceAnnotation, IProblemLocation[] locations, List<CompilationUnitRewriteOperation> result) {
-		for (IProblemLocation problem : locations) {
+	private static void createAddOverrideAnnotationOperations(CompilationUnit compilationUnit, boolean addOverrideInterfaceAnnotation, IProblemLocation[] locations, List<CompilationUnitRewriteOperation> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IProblemLocation problem : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int problemId= problem.getProblemId();
 
 			if (isMissingOverrideAnnotationProblem(problemId)) {
@@ -352,12 +352,12 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		}
 	}
 
-	private static SimpleType createRawTypeReferenceOperations(CompilationUnit compilationUnit, IProblemLocation[] locations, List<CompilationUnitRewriteOperation> operations) {
+	private static SimpleType createRawTypeReferenceOperations(CompilationUnit compilationUnit, IProblemLocation[] locations, List<CompilationUnitRewriteOperation> operations) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hasFatalError(compilationUnit))
 			return null;
 
-		List<SimpleType> result= new ArrayList<>();
-		for (IProblemLocation problem : locations) {
+		List<SimpleType> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProblemLocation problem : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isRawTypeReferenceProblem(problem.getProblemId())) {
 				ASTNode node= problem.getCoveredNode(compilationUnit);
 				if (node instanceof ClassInstanceCreation) {
@@ -393,7 +393,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		return types[0];
 	}
 
-	private static boolean hasFatalError(CompilationUnit compilationUnit) {
+	private static boolean hasFatalError(CompilationUnit compilationUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (!compilationUnit.getJavaElement().isStructureKnown())
 				return true;
@@ -402,7 +402,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 			return true;
 		}
 
-		for (IProblem problem : compilationUnit.getProblems()) {
+		for (IProblem problem : compilationUnit.getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem.isError()) {
 				if (!(problem instanceof CategorizedProblem)) {
 					return true;
@@ -439,7 +439,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		}
 	}
 
-	public static SimpleType getRawReference(MethodInvocation invocation, CompilationUnit compilationUnit) {
+	public static SimpleType getRawReference(MethodInvocation invocation, CompilationUnit compilationUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Name name1= (Name)invocation.getStructuralProperty(MethodInvocation.NAME_PROPERTY);
 		if (name1 instanceof SimpleName) {
 			SimpleType rawReference= getRawReference((SimpleName)name1, compilationUnit);
@@ -456,7 +456,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 			}
 		} else if (expr instanceof QualifiedName) {
 			Name name= (Name)expr;
-			while (name instanceof QualifiedName) {
+			while (name instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SimpleName simpleName= (SimpleName)name.getStructuralProperty(QualifiedName.NAME_PROPERTY);
 				SimpleType rawReference= getRawReference(simpleName, compilationUnit);
 				if (rawReference != null) {
@@ -479,8 +479,8 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		return null;
 	}
 
-	public static SimpleType getRawReference(SimpleName name, CompilationUnit compilationUnit) {
-		for (SimpleName n : LinkedNodeFinder.findByNode(compilationUnit, name)) {
+	public static SimpleType getRawReference(SimpleName name, CompilationUnit compilationUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (SimpleName n : LinkedNodeFinder.findByNode(compilationUnit, name)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (n.getParent() instanceof VariableDeclarationFragment) {
 				VariableDeclarationFragment fragment= (VariableDeclarationFragment) n.getParent();
 				if (fragment.getParent() instanceof VariableDeclarationStatement) {
@@ -509,7 +509,7 @@ public class Java50FixCore extends CompilationUnitRewriteOperationsFixCore {
 		return null;
 	}
 
-	public static boolean isRawTypeReference(ASTNode node) {
+	public static boolean isRawTypeReference(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof SimpleType))
 			return false;
 

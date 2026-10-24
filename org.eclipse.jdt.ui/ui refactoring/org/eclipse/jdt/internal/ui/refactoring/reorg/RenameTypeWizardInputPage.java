@@ -54,7 +54,7 @@ class RenameTypeWizardInputPage extends RenameInputWizardPage {
 		super(description, contextHelpId, isLastUserPage, initialValue);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addAdditionalOptions(Composite composite, RowLayouter layouter) {
 
 		if (getSimilarElementUpdating() == null || !getSimilarElementUpdating().canEnableSimilarDeclarationUpdating())
@@ -81,7 +81,7 @@ class RenameTypeWizardInputPage extends RenameInputWizardPage {
 		fUpdateSimilarElements.setSelection(updateSimilarElements);
 		getSimilarElementUpdating().setUpdateSimilarDeclarations(updateSimilarElements);
 		fUpdateSimilarElements.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		fUpdateSimilarElements.addSelectionListener(new SelectionAdapter() {
+		fUpdateSimilarElements.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -96,7 +96,7 @@ class RenameTypeWizardInputPage extends RenameInputWizardPage {
 		d.horizontalAlignment= SWT.RIGHT;
 		fUpdateSimilarElementsButton.setText(RefactoringMessages.RenameTypeWizardInputPage_update_similar_elements_configure);
 		fUpdateSimilarElementsButton.setEnabled(updateSimilarElements);
-		fUpdateSimilarElementsButton.addSelectionListener(new SelectionAdapter() {
+		fUpdateSimilarElementsButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -154,7 +154,7 @@ class RenameTypeWizardInputPage extends RenameInputWizardPage {
 		return returner;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IWizardPage getNextPage() {
 		RenameTypeWizard wizard= (RenameTypeWizard) getWizard();
 		IWizardPage nextPage;
@@ -162,7 +162,7 @@ class RenameTypeWizardInputPage extends RenameInputWizardPage {
 		if (wizard.isRenameType()) {
 			final RenameTypeProcessor renameTypeProcessor= wizard.getRenameTypeProcessor();
 			try {
-				getContainer().run(true, true, pm -> {
+				getContainer().run(true, true, pm -> { //FLLDCIM: MARK — T09  LAMBDA
 					try {
 						renameTypeProcessor.initializeReferences(pm);
 					} catch (OperationCanceledException e1) {

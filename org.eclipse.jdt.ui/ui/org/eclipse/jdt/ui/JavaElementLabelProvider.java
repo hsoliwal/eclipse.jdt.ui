@@ -202,7 +202,7 @@ public class JavaElementLabelProvider extends LabelProvider implements IStyledLa
 		}
 	}
 
-	private void updateTextProviderFlags() {
+	private void updateTextProviderFlags() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTextFlags= JavaElementLabels.T_TYPE_PARAMETERS;
 		if (getFlag(SHOW_RETURN_TYPE)) {
 			fTextFlags |= JavaElementLabels.M_APP_RETURNTYPE;

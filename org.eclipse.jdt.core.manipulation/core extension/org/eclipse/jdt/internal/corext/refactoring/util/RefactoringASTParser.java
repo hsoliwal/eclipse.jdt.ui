@@ -100,7 +100,7 @@ public class RefactoringASTParser {
 		fParser.setBindingsRecovery(recovery);
 		fParser.setSource(newCfSource.toCharArray());
 		String cfName= originalCf.getElementName();
-		fParser.setUnitName(cfName.substring(0, cfName.length() - 6) + JavaModelUtil.DEFAULT_CU_SUFFIX);
+		fParser.setUnitName(cfName.substring(0, cfName.length() - 6) + JavaModelUtil.DEFAULT_CU_SUFFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fParser.setProject(originalCf.getJavaProject());
 		fParser.setCompilerOptions(getCompilerOptions(originalCf));
 		CompilationUnit newCUNode= (CompilationUnit) fParser.createAST(pm);
@@ -149,7 +149,7 @@ public class RefactoringASTParser {
 	public static Map<String, String> getCompilerOptions(IJavaElement element) {
 		IJavaProject project= element.getJavaProject();
 		Map<String, String> options= project.getOptions(true);
-		for (Entry<String, String> entry : options.entrySet()) {
+		for (Entry<String, String> entry : options.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			String value= entry.getValue();
 			if (JavaCore.ERROR.equals(value) || JavaCore.WARNING.equals(value) || JavaCore.INFO.equals(value)) {

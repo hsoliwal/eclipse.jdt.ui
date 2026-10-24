@@ -115,9 +115,9 @@ public class CompletionProposalCollector extends CompletionRequestor {
 	private final CompletionProposalLabelProvider fLabelProvider= new CompletionProposalLabelProvider();
 	private final ImageDescriptorRegistry fRegistry= JavaPlugin.getImageDescriptorRegistry();
 
-	private final List<IJavaCompletionProposal> fJavaProposals= new ArrayList<>();
-	private final List<IJavaCompletionProposal> fKeywords= new ArrayList<>();
-	private final Set<String> fSuggestedMethodNames= new HashSet<>();
+	private final List<IJavaCompletionProposal> fJavaProposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final List<IJavaCompletionProposal> fKeywords= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final Set<String> fSuggestedMethodNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private final ICompilationUnit fCompilationUnit;
 	private final IJavaProject fJavaProject;
@@ -185,11 +185,11 @@ public class CompletionProposalCollector extends CompletionRequestor {
 		}
 	}
 
-	private boolean isTestSource(IJavaProject project, ICompilationUnit cu) {
+	private boolean isTestSource(IJavaProject project, ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IClasspathEntry[] resolvedClasspath= project.getResolvedClasspath(true);
 			final IPath resourcePath= cu.getResource().getFullPath();
-			for (IClasspathEntry e : resolvedClasspath) {
+			for (IClasspathEntry e : resolvedClasspath) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (e.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					if (e.isTest()) {
 						if (e.getPath().isPrefixOf(resourcePath)) {
@@ -278,7 +278,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 	 * instead.
 	 * </p>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void accept(CompletionProposal proposal) {
 		long start= JavaPlugin.DEBUG_RESULT_COLLECTOR ? System.currentTimeMillis() : 0;
 		try {
@@ -300,7 +300,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 			// all signature processing method may throw IAEs
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=84657
 			// don't abort, but log and show all the valid proposals
-			JavaPlugin.log(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, "Exception when processing proposal for: " + String.valueOf(proposal.getCompletion()), e)); //$NON-NLS-1$
+			JavaPlugin.log(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, "Exception when processing proposal for: " + String.valueOf(proposal.getCompletion()), e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		if (JavaPlugin.DEBUG_RESULT_COLLECTOR) fUITime += System.currentTimeMillis() - start;
@@ -356,8 +356,8 @@ public class CompletionProposalCollector extends CompletionRequestor {
 	public void endReporting() {
 		if (JavaPlugin.DEBUG_RESULT_COLLECTOR) {
 			long total= System.currentTimeMillis() - fStartTime;
-			System.err.println("Core Collector (core):\t" + (total - fUITime)); //$NON-NLS-1$
-			System.err.println("Core Collector (ui):\t" + fUITime); //$NON-NLS-1$
+			System.err.println("Core Collector (core):\t" + (total - fUITime)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.err.println("Core Collector (ui):\t" + fUITime); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -440,7 +440,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 	 * @return the created java completion proposal, or <code>null</code> if
 	 *         no proposal should be displayed
 	 */
-	protected IJavaCompletionProposal createJavaCompletionProposal(CompletionProposal proposal) {
+	protected IJavaCompletionProposal createJavaCompletionProposal(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (proposal.getKind()) {
 			case CompletionProposal.KEYWORD:
 				return createKeywordProposal(proposal);
@@ -621,7 +621,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 	 * @return the type signature of the declaring type, or <code>null</code> if there is none
 	 * @see Signature#toCharArray(char[])
 	 */
-	protected final char[] getDeclaringType(CompletionProposal proposal) {
+	protected final char[] getDeclaringType(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (proposal.getKind()) {
 			case CompletionProposal.METHOD_DECLARATION:
 			case CompletionProposal.METHOD_NAME_REFERENCE:
@@ -665,7 +665,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 		}
 	}
 
-	private void acceptPotentialMethodDeclaration(CompletionProposal proposal) {
+	private void acceptPotentialMethodDeclaration(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IJavaElement enclosingElement= null;
 			if (getContext().isExtended()) {
@@ -702,7 +702,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 		return javaProposal;
 	}
 
-	private IJavaCompletionProposal createAnonymousTypeProposal(CompletionProposal proposal, JavaContentAssistInvocationContext invocationContext) {
+	private IJavaCompletionProposal createAnonymousTypeProposal(CompletionProposal proposal, JavaContentAssistInvocationContext invocationContext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCompilationUnit == null || fJavaProject == null)
 			return null;
 
@@ -776,7 +776,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 		return javaProposal;
 	}
 
-	private IJavaCompletionProposal createJavadocSimpleProposal(CompletionProposal javadocProposal) {
+	private IJavaCompletionProposal createJavadocSimpleProposal(CompletionProposal javadocProposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// TODO do better with javadoc proposals
 //		String completion= String.valueOf(proposal.getCompletion());
 //		int start= proposal.getReplaceStart();
@@ -834,13 +834,13 @@ public class CompletionProposalCollector extends CompletionRequestor {
 		return javaProposal;
 	}
 
-	private IJavaCompletionProposal createMethodDeclarationProposal(CompletionProposal proposal) {
+	private IJavaCompletionProposal createMethodDeclarationProposal(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCompilationUnit == null || fJavaProject == null)
 			return null;
 
 		String name= String.valueOf(proposal.getName());
 		String[] paramTypes= Signature.getParameterTypes(String.valueOf(proposal.getSignature()));
-		for (int index= 0; index < paramTypes.length; index++)
+		for (int index= 0; index < paramTypes.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paramTypes[index]= Signature.toString(paramTypes[index]);
 		int start= proposal.getReplaceStart();
 		int length= getLength(proposal);

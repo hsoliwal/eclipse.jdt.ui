@@ -84,7 +84,7 @@ public class TypeNameMatchLabelProvider extends LabelProvider {
 			return packName;
 	}
 
-	public static String getText(TypeNameMatch typeRef, int flags) {
+	public static String getText(TypeNameMatch typeRef, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer buf= new StringBuffer();
 		if (isSet(SHOW_TYPE_ONLY, flags)) {
 			buf.append(typeRef.getSimpleTypeName());
@@ -147,7 +147,7 @@ public class TypeNameMatchLabelProvider extends LabelProvider {
 		return origModifiers;
 	}
 
-	public static ImageDescriptor getImageDescriptor(TypeNameMatch typeRef, int flags) {
+	public static ImageDescriptor getImageDescriptor(TypeNameMatch typeRef, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isSet(SHOW_TYPE_CONTAINER_ONLY, flags)) {
 			if (typeRef.getPackageName().equals(typeRef.getTypeContainerName()))
 				return JavaPluginImages.DESC_OBJS_PACKAGE;

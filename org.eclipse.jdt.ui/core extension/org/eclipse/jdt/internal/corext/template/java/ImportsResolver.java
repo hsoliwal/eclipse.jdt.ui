@@ -42,7 +42,7 @@ public class ImportsResolver extends TemplateVariableResolver {
 
 		if (context instanceof JavaContext) {
 			JavaContext jc= (JavaContext) context;
-			for (String typeName : variable.getVariableType().getParams()) {
+			for (String typeName : variable.getVariableType().getParams()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				jc.addImport(typeName);
 			}
 		} else {

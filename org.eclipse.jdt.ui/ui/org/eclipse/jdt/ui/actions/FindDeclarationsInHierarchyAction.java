@@ -50,7 +50,7 @@ import org.eclipse.jdt.internal.ui.search.SearchMessages;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class FindDeclarationsInHierarchyAction extends FindDeclarationsAction {
+public class FindDeclarationsInHierarchyAction extends FindDeclarationsAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private boolean onlySubtypes;
 

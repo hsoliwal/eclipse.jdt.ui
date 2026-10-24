@@ -64,13 +64,13 @@ public class EditVariableEntryDialog extends StatusDialog {
 	private CLabel fFullPathResolvedLabel;
 
 
-	public EditVariableEntryDialog(Shell parent, IPath initialEntry, IPath[] existingEntries) {
+	public EditVariableEntryDialog(Shell parent, IPath initialEntry, IPath[] existingEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 		setTitle(NewWizardMessages.EditVariableEntryDialog_title);
 
-		fExistingEntries= new HashSet<>();
+		fExistingEntries= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (existingEntries != null) {
-			for (IPath curr : existingEntries) {
+			for (IPath curr : existingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!curr.equals(initialEntry)) {
 					fExistingEntries.add(curr);
 				}
@@ -102,7 +102,7 @@ public class EditVariableEntryDialog extends StatusDialog {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		initializeDialogUnits(parent);
 		Composite composite= (Composite) super.createDialogArea(parent);
@@ -170,7 +170,7 @@ public class EditVariableEntryDialog extends StatusDialog {
 	}
 
 
-	private IPath chooseExtJarFile() {
+	private IPath chooseExtJarFile() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath currPath= getPath();
 		IPath resolvedPath= getResolvedPath(currPath);
 		File initialSelection= resolvedPath != null ? resolvedPath.toFile() : null;
@@ -210,7 +210,7 @@ public class EditVariableEntryDialog extends StatusDialog {
 	 * @param varName the variable name
 	 * @return the modified path
 	 */
-	private IPath modifyPath(IPath path, String varName) {
+	private IPath modifyPath(IPath path, String varName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (varName == null || path == null) {
 			return null;
 		}
@@ -231,7 +231,7 @@ public class EditVariableEntryDialog extends StatusDialog {
 		return new Path(varName).append(path);
 	}
 
-	private IStatus updateFileNameStatus() {
+	private IStatus updateFileNameStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		fFileVariablePath= null;
 
@@ -269,16 +269,16 @@ public class EditVariableEntryDialog extends StatusDialog {
 			if (resolvedPath.isEmpty()) {
 				String message= NewWizardMessages.EditVariableEntryDialog_filename_warning_varempty;
 				if (deprecationMessage != null) {
-					message= deprecationMessage + "\n" + message; //$NON-NLS-1$
+					message= deprecationMessage + "\n" + message; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				status.setWarning(message);
 				return status;
 			}
 			File file= resolvedPath.toFile();
-			if (!file.exists()) {
+			if (!file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				String message= Messages.format(NewWizardMessages.EditVariableEntryDialog_filename_error_filenotexists, BasicElementLabels.getPathLabel(resolvedPath, true));
 				if (deprecationMessage != null) {
-					message= deprecationMessage + "\n" + message; //$NON-NLS-1$
+					message= deprecationMessage + "\n" + message; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					status.setWarning(message);
 				} else {
 					status.setInfo(message);
@@ -304,12 +304,12 @@ public class EditVariableEntryDialog extends StatusDialog {
 	private boolean canBrowseFileName() {
 		// to browse with a variable JAR, the variable name must point to a directory
 		if (fFileVariablePath != null) {
-			return fFileVariablePath.toFile().isDirectory();
+			return fFileVariablePath.toFile().isDirectory(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 		return false;
 	}
 
-	private void doStatusLineUpdate() {
+	private void doStatusLineUpdate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fFileNameField.enableButton(canBrowseFileName());
 
 		// set the resolved path for variable jars

@@ -88,7 +88,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 		fFirstTime= true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		fRefactoring= (ExtractMethodRefactoring)getRefactoring();
 		loadSettings();
@@ -122,12 +122,12 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 			label.setText(RefactoringMessages.ExtractMethodInputPage_destination_type);
 			final Combo combo= new Combo(result, SWT.READ_ONLY | SWT.DROP_DOWN);
 			SWTUtil.setDefaultVisibleItemCount(combo);
-			for (ASTNode declaration : destinations) {
+			for (ASTNode declaration : destinations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				combo.add(getLabel(declaration));
 			}
 			combo.select(0);
 			combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			combo.addSelectionListener(new SelectionAdapter() {
+			combo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fRefactoring.setDestination(combo.getSelectionIndex());
@@ -161,13 +161,13 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 		};
 		Integer[] data= new Integer[] {Modifier.PUBLIC, Modifier.PROTECTED, Modifier.NONE, Modifier.PRIVATE};
 		int visibility= fRefactoring.getVisibility();
-		for (int i= 0; i < labels.length; i++) {
+		for (int i= 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button radio= new Button(accessModifiersGroup, SWT.RADIO);
 			radio.setText(labels[i]);
 			radio.setData(data[i]);
 			if (data[i].equals(visibility))
 				radio.setSelection(true);
-			radio.addSelectionListener(new SelectionAdapter() {
+			radio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent event) {
 					final Integer selectedModifier= (Integer)event.widget.getData();
@@ -178,7 +178,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 		}
 
 		Button finalButton= new Button(accessModifiersGroup, SWT.CHECK);
-		finalButton.addSelectionListener(new SelectionAdapter() {
+		finalButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				setFinal(((Button)event.widget).getSelection());
@@ -189,7 +189,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 		finalButton.setText(RefactoringMessages.ExtractMethodInputPage_final);
 
 		Button synchronizedButton= new Button(accessModifiersGroup, SWT.CHECK);
-		synchronizedButton.addSelectionListener(new SelectionAdapter() {
+		synchronizedButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				setSynchronized(((Button)event.widget).getSelection());
@@ -228,7 +228,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 		Button checkBox= new Button(result, SWT.CHECK);
 		checkBox.setText(RefactoringMessages.ExtractMethodInputPage_throwRuntimeExceptions);
 		checkBox.setSelection(fSettings.getBoolean(THROW_RUNTIME_EXCEPTIONS));
-		checkBox.addSelectionListener(new SelectionAdapter() {
+		checkBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setRethrowRuntimeException(((Button)e.widget).getSelection());
@@ -241,7 +241,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 		boolean generate= computeGenerateJavadoc();
 		setGenerateJavadoc(generate);
 		checkBox.setSelection(generate);
-		checkBox.addSelectionListener(new SelectionAdapter() {
+		checkBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setGenerateJavadoc(((Button)e.widget).getSelection());
@@ -266,7 +266,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 		}
 		checkBox.setSelection(fRefactoring.getReplaceDuplicates());
 		checkBox.setEnabled(duplicates > 0);
-		checkBox.addSelectionListener(new SelectionAdapter() {
+		checkBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				fRefactoring.setReplaceDuplicates(((Button)e.widget).getSelection());
@@ -285,12 +285,12 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.EXTRACT_METHOD_WIZARD_PAGE);
 	}
 
-	private void updateAccessModifiers() {
+	private void updateAccessModifiers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Control[] radioButtons= accessModifiersGroup.getChildren();
 		if (fRefactoring.isDestinationInterface()) {
 			int visibility= Modifier.PUBLIC;
 			fRefactoring.setVisibility(visibility);
-			for (Control radioButton : radioButtons) {
+			for (Control radioButton : radioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				radioButton.setEnabled(false);
 				if (radioButton.getData() != null) {
 					if (radioButton.getData().equals(visibility)) {
@@ -306,7 +306,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 			final String accessModifier= fSettings.get(ACCESS_MODIFIER);
 			int visibility= accessModifier != null ? Integer.parseInt(accessModifier) : fRefactoring.getVisibility();
 			fRefactoring.setVisibility(visibility);
-			for (Control radioButton : radioButtons) {
+			for (Control radioButton : radioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (radioButton instanceof Button button && button.getData() != null) {
 					radioButton.setEnabled(true);
 					if (radioButton.getData().equals(visibility)) {
@@ -338,7 +338,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 
 	private Text createTextInputField(Composite parent, int style) {
 		Text result= new Text(parent, style);
-		result.addModifyListener(unused -> textModified(getText()));
+		result.addModifyListener(unused -> textModified(getText())); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		TextFieldNavigationHandler.install(result);
 		return result;
 	}
@@ -488,7 +488,7 @@ public class ExtractMethodInputPage extends UserInputWizardPage {
 
 	private RefactoringStatus validateParameters() {
 		RefactoringStatus result= new RefactoringStatus();
-		for (ParameterInfo info : fRefactoring.getParameterInfos()) {
+		for (ParameterInfo info : fRefactoring.getParameterInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("".equals(info.getNewName())) { //$NON-NLS-1$
 				result.addFatalError(RefactoringMessages.ExtractMethodInputPage_validation_emptyParameterName);
 				return result;

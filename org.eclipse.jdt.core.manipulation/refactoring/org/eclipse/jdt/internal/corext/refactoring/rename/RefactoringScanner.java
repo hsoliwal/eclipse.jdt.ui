@@ -70,9 +70,9 @@ public class RefactoringScanner {
 		fQualifier= qualifier;
 	}
 
-	public void scan(ICompilationUnit cu)	throws JavaModelException {
+	public void scan(ICompilationUnit cu)	throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char[] chars= cu.getBuffer().getCharacters();
-		fMatches= new HashSet<>();
+		fMatches= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IJavaProject javaProject= cu.getJavaProject();
         if (javaProject != null) {
             String sourceLevel = javaProject.getOption(JavaCore.COMPILER_SOURCE, true);
@@ -103,7 +103,7 @@ public class RefactoringScanner {
 	 */
 	public void scan(String text) {
 		char[] chars= text.toCharArray();
-		fMatches= new HashSet<>();
+		fMatches= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fScanner= ToolFactory.createScanner(true, true, false, true);
 		fScanner.setSource(chars);
 		doScan();
@@ -113,7 +113,7 @@ public class RefactoringScanner {
 	private void doScan() {
 		try{
 			int token = fScanner.getNextToken();
-			while (token != ITerminalSymbols.TokenNameEOF) {
+			while (token != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				switch (token) {
 					case ITerminalSymbols.TokenNameStringLiteral :
 					case ITerminalSymbols.TokenNameCOMMENT_JAVADOC :
@@ -149,7 +149,7 @@ public class RefactoringScanner {
 		String value = new String(fScanner.getRawTokenSource());
 		int start= fScanner.getCurrentTokenStartPosition();
 		int index= value.indexOf(fName);
-		while (index != -1) {
+		while (index != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isWholeWord(value, index, index + fName.length())) {
 				int ok= isQualifierOK(value, index);
 				if (ok > NO_MATCH)
@@ -159,7 +159,7 @@ public class RefactoringScanner {
 		}
 	}
 
-	private int isQualifierOK(String value, int nameStart) {
+	private int isQualifierOK(String value, int nameStart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// only works for references without whitespace
 		int qualifierAfter= nameStart - 1;
 		if (qualifierAfter < 0)
@@ -173,7 +173,7 @@ public class RefactoringScanner {
 
 		boolean canFinish= charBeforeName == '#';
 		// work through the qualifier from back to front
-		for (int i= 0; i < fQualifier.length() ; i++) {
+		for (int i= 0; i < fQualifier.length() ; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int qualifierCharPos= qualifierAfter - 1 - i;
 			if (qualifierCharPos < 0)
 				// the position does not exist, return OK if last read char was a non-separator

@@ -43,7 +43,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.editors.text.TextEditorPreferenceConstants;
 
 
-public class JspUIPlugin extends AbstractUIPlugin implements IResourceChangeListener {
+public class JspUIPlugin extends AbstractUIPlugin implements IResourceChangeListener { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 	/**
 	 * The id of the JavaFamilyExample plugin (value <code>"org.eclipse.jdt.ui.examples.javafamily"</code>).
@@ -68,14 +68,14 @@ public class JspUIPlugin extends AbstractUIPlugin implements IResourceChangeList
 		return fgDefault;
 	}
 
-	void controlJSPIndexing(boolean enable) {
+	void controlJSPIndexing(boolean enable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fgJSPIndexingIsEnabled != enable) {
 			fgJSPIndexingIsEnabled= enable;
 			IWorkspace workspace= ResourcesPlugin.getWorkspace();
 			if (enable) {
 
 				IResourceProxyVisitor visitor=
-					proxy -> {
+					proxy -> { //FLLDCIM: MARK — T07  LAMBDA
 					String name= proxy.getName();
 					int pos= name.lastIndexOf('.');
 					if (pos >= 0) {
@@ -111,7 +111,7 @@ public class JspUIPlugin extends AbstractUIPlugin implements IResourceChangeList
 		return fgJSPIndexingIsEnabled;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resourceChanged(IResourceChangeEvent event) {
 		if ( !fgJSPIndexingIsEnabled || event == null)
 			return;
@@ -120,7 +120,7 @@ public class JspUIPlugin extends AbstractUIPlugin implements IResourceChangeList
 			return;
 		try {
 			d.accept(
-				delta -> {
+				delta -> { //FLLDCIM: MARK — T07  LAMBDA
 					if (delta != null) {
 						IResource r= delta.getResource();
 						if (r instanceof IFile) {
@@ -156,13 +156,13 @@ public class JspUIPlugin extends AbstractUIPlugin implements IResourceChangeList
 	}
 
 	void jspAdded(IFile jspFile) {
-		if (DEBUG) System.out.println("Added: " + jspFile); //$NON-NLS-1$
+		if (DEBUG) System.out.println("Added: " + jspFile); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		JspIndexParser indexer= new JspIndexParser(jspFile);
 		fSearchEngine.add(jspFile.getProject().getFullPath(), indexer);
 	}
 
 	void jspRemoved(IFile jspFile) {
-		if (DEBUG) System.out.println("Removed: " + jspFile); //$NON-NLS-1$
+		if (DEBUG) System.out.println("Removed: " + jspFile); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fSearchEngine.remove(jspFile.getFullPath().toString(), jspFile.getProject().getFullPath());
 	}
 

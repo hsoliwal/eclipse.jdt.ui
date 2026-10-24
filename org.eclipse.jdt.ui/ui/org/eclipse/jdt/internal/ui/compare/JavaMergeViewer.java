@@ -115,7 +115,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 		super.handleDispose(event);
 	}
 
-	public IJavaProject getJavaProject(ICompareInput input) {
+	public IJavaProject getJavaProject(ICompareInput input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (input == null)
 			return null;
@@ -157,7 +157,7 @@ public class JavaMergeViewer extends TextMergeViewer {
     }
 
     private ChainedPreferenceStore createChainedPreferenceStore(IJavaProject project) {
-    	ArrayList<IPreferenceStore> stores= new ArrayList<>(4);
+    	ArrayList<IPreferenceStore> stores= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
     	if (project != null)
     		stores.add(new EclipsePreferencesAdapter(new ProjectScope(project.getProject()), JavaCore.PLUGIN_ID));
 		stores.add(JavaPlugin.getDefault().getPreferenceStore());
@@ -168,7 +168,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 
 	private void handlePropertyChange(PropertyChangeEvent event) {
 		if (fSourceViewerConfiguration != null) {
-			for (Entry<SourceViewer, JavaSourceViewerConfiguration> entry : fSourceViewerConfiguration.entrySet()) {
+			for (Entry<SourceViewer, JavaSourceViewerConfiguration> entry : fSourceViewerConfiguration.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				JavaSourceViewerConfiguration configuration= entry.getValue();
 				if (configuration.affectsTextPresentation(event)) {
 					configuration.handlePropertyChangeEvent(event);
@@ -214,12 +214,12 @@ public class JavaMergeViewer extends TextMergeViewer {
 		return IJavaPartitions.JAVA_PARTITIONING;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void configureTextViewer(TextViewer viewer) {
 		if (viewer instanceof SourceViewer) {
 			SourceViewer sourceViewer= (SourceViewer)viewer;
 			if (fSourceViewer == null)
-				fSourceViewer= new ArrayList<>();
+				fSourceViewer= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (!fSourceViewer.contains(sourceViewer))
 				fSourceViewer.add(sourceViewer);
 			JavaTextTools tools= JavaCompareUtilities.getJavaTextTools();
@@ -279,9 +279,9 @@ public class JavaMergeViewer extends TextMergeViewer {
 		return fSite;
 	}
 
-	private JavaSourceViewerConfiguration getSourceViewerConfiguration(SourceViewer sourceViewer, IEditorInput editorInput) {
+	private JavaSourceViewerConfiguration getSourceViewerConfiguration(SourceViewer sourceViewer, IEditorInput editorInput) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSourceViewerConfiguration == null) {
-			fSourceViewerConfiguration= new HashMap<>(3);
+			fSourceViewerConfiguration= new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		if (fPreferenceStore == null)
 			getPreferenceStore();
@@ -302,7 +302,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 		return fSourceViewerConfiguration.get(sourceViewer);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected int findInsertionPosition(char type, ICompareInput input) {
 
 		int pos= super.findInsertionPosition(type, input);
@@ -362,7 +362,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 					children= javaContainer.getChildren();
 					if (children.length > 0) {
 						JavaNode packageDecl= null;
-						for (JavaNode child : (JavaNode[])children) {
+						for (JavaNode child : (JavaNode[])children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							switch (child.getTypeCode()) {
 								case JavaNode.PACKAGE:
 									packageDecl= child;
@@ -386,7 +386,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 				case JavaNode.CLASS:
 					// append after last class
 					children= javaContainer.getChildren();
-					for (int i= children.length-1; i >= 0; i--) {
+					for (int i= children.length-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						JavaNode child= (JavaNode) children[i];
 						switch (child.getTypeCode()) {
 						case JavaNode.CLASS:
@@ -415,7 +415,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 					children= javaContainer.getChildren();
 					if (children.length > 0) {
 						JavaNode method= null;
-						for (int i= children.length-1; i >= 0; i--) {
+						for (int i= children.length-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							JavaNode child= (JavaNode) children[i];
 							switch (child.getTypeCode()) {
 							case JavaNode.METHOD:
@@ -444,7 +444,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 		return 0;
 	}
 
-	private int findEndOfLine(JavaNode container, int pos) {
+	private int findEndOfLine(JavaNode container, int pos) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int line;
 		IDocument doc= container.getDocument();
 		try {
@@ -483,7 +483,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 	 * @see org.eclipse.compare.contentmergeviewer.TextMergeViewer#createSourceViewer(org.eclipse.swt.widgets.Composite, int)
 	 * @since 3.5
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected SourceViewer createSourceViewer(Composite parent, int textOrientation) {
 		SourceViewer sourceViewer;
 		if (getSite() != null) {
@@ -494,19 +494,19 @@ public class JavaMergeViewer extends TextMergeViewer {
 			Assert.isTrue(iSourceViewer instanceof SourceViewer);
 			sourceViewer= (SourceViewer)iSourceViewer;
 			if (fEditor == null)
-				fEditor= new HashMap<>(3);
+				fEditor= new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			fEditor.put(sourceViewer, editor);
 		} else
 			sourceViewer= super.createSourceViewer(parent, textOrientation);
 
 		if (fSourceViewer == null)
-			fSourceViewer= new ArrayList<>();
+			fSourceViewer= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fSourceViewer.add(sourceViewer);
 
 		return sourceViewer;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setActionsActivated(SourceViewer sourceViewer, boolean state) {
 		if (fEditor != null) {
 			CompilationUnitEditorAdapter editor= fEditor.get(sourceViewer);
@@ -544,7 +544,7 @@ public class JavaMergeViewer extends TextMergeViewer {
 		if (adapter == ITextEditorExtension3.class) {
 			IEditorInput activeInput= super.getAdapter(IEditorInput.class);
 			if (activeInput != null) {
-				for (CompilationUnitEditorAdapter editor : fEditor.values()) {
+				for (CompilationUnitEditorAdapter editor : fEditor.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (activeInput.equals(editor.getEditorInput()))
 						return (T) editor;
 				}
@@ -589,13 +589,13 @@ public class JavaMergeViewer extends TextMergeViewer {
 			SourceViewer sourceViewer= (SourceViewer)createJavaSourceViewer(composite, new CompositeRuler(), null, false, fTextOrientation | SWT.H_SCROLL | SWT.V_SCROLL, createChainedPreferenceStore(null));
 			setSourceViewer(this, sourceViewer);
 			createNavigationActions();
-			getSelectionProvider().addSelectionChangedListener(getSelectionChangedListener());
+			getSelectionProvider().addSelectionChangedListener(getSelectionChangedListener()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected ISourceViewer createJavaSourceViewer(Composite parent, IVerticalRuler verticalRuler, IOverviewRuler overviewRuler, boolean isOverviewRulerVisible, int styles,
 				IPreferenceStore store) {
-			return new AdaptedSourceViewer(parent, verticalRuler, overviewRuler, isOverviewRulerVisible, styles, store) {
+			return new AdaptedSourceViewer(parent, verticalRuler, overviewRuler, isOverviewRulerVisible, styles, store) { //FLLDCIM: MARK — T06  ANONYMOUS
 				@Override
 				protected void handleDispose() {
 					super.handleDispose();

@@ -97,7 +97,7 @@ public class ProblemHover extends AbstractAnnotationHover {
 			return NO_PROPOSALS;
 		}
 
-		private ICompletionProposal[] getJavaAnnotationFixes(IJavaAnnotation javaAnnotation) {
+		private ICompletionProposal[] getJavaAnnotationFixes(IJavaAnnotation javaAnnotation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ProblemLocation location= new ProblemLocation(position.getOffset(), position.getLength(), javaAnnotation);
 			ICompilationUnit cu= javaAnnotation.getCompilationUnit();
 			if (cu == null)
@@ -111,22 +111,22 @@ public class ProblemHover extends AbstractAnnotationHover {
 			if (!SpellingAnnotation.TYPE.equals(javaAnnotation.getType()) && !hasProblem(context.getASTRoot().getProblems(), location))
 				return NO_PROPOSALS;
 
-			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			JavaCorrectionProcessor.collectCorrections(context, new IProblemLocation[] { location }, proposals);
-			Collections.sort(proposals, new CompletionProposalComparator());
+			Collections.sort(proposals, new CompletionProposalComparator()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 			return proposals.toArray(new ICompletionProposal[proposals.size()]);
 		}
 
 		private static boolean hasProblem(IProblem[] problems, IProblemLocation location) {
-			for (IProblem problem : problems) {
+			for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (problem.getID() == location.getProblemId() && problem.getSourceStart() == location.getOffset())
 					return true;
 			}
 			return false;
 		}
 
-		private ICompletionProposal[] getMarkerAnnotationFixes(MarkerAnnotation markerAnnotation) {
+		private ICompletionProposal[] getMarkerAnnotationFixes(MarkerAnnotation markerAnnotation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (markerAnnotation.isQuickFixableStateSet() && !markerAnnotation.isQuickFixable())
 				return NO_PROPOSALS;
 
@@ -150,9 +150,9 @@ public class ProblemHover extends AbstractAnnotationHover {
 
 			AssistContext context= new AssistContext(cu, sourceViewer, position.getOffset(), position.getLength());
 
-			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>();
+			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			JavaCorrectionProcessor.collectProposals(context, model, new Annotation[] { markerAnnotation }, true, false, proposals);
-			Collections.sort(proposals, new CompletionProposalComparator());
+			Collections.sort(proposals, new CompletionProposalComparator()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 			return proposals.toArray(new ICompletionProposal[proposals.size()]);
 		}

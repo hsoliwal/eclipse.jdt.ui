@@ -140,7 +140,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 	public MyTestSetup stup= new MyTestSetup();
 
 	private void addAllCUs(CleanUpRefactoring cleanUp, IJavaElement[] children) throws JavaModelException {
-		for (IJavaElement element : children) {
+		for (IJavaElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				cleanUp.addCompilationUnit((ICompilationUnit)element);
 			} else if (element instanceof IPackageFragmentRoot) {
@@ -154,9 +154,9 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 	}
 
 	private static Map<String, String> getNullSettings() {
-		Map<String, String> result= new HashMap<>();
+		Map<String, String> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (String key : JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS).getKeys()) {
+		for (String key : JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS).getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.put(key, CleanUpOptions.FALSE);
 		}
 
@@ -193,7 +193,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 		doCleanUp(cleanUpRefactoring);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAllCleanUps() throws Exception {
 		CleanUpRefactoring cleanUpRefactoring= new CleanUpRefactoring();
 		addAllCUs(cleanUpRefactoring, MyTestSetup.fJProject1.getChildren());
@@ -254,7 +254,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 
 		storeSettings(node);
 
-		for (ICleanUp cleanUp : JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps()) {
+		for (ICleanUp cleanUp : JavaPlugin.getDefault().getCleanUpRegistry().createCleanUps()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cleanUpRefactoring.addCleanUp(cleanUp);
 		}
 
@@ -280,7 +280,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 		doCleanUp(cleanUpRefactoring);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCodeStyleCleanUp() throws Exception {
 		tagAsSummary("Clean Up - Code Style", Dimension.ELAPSED_PROCESS);
 
@@ -439,7 +439,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 		doCleanUp(cleanUpRefactoring);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnusedCodeCleanUpCore() throws Exception {
 		CleanUpRefactoring cleanUpRefactoring= new CleanUpRefactoring();
 		addAllCUs(cleanUpRefactoring, MyTestSetup.fJProject1.getChildren());
@@ -545,7 +545,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 		doCleanUp(cleanUpRefactoring);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSystemPropertiesCleanUp() throws Exception {
 		CleanUpRefactoring cleanUpRefactoring= new CleanUpRefactoring();
 		addAllCUs(cleanUpRefactoring, MyTestSetup.fJProject1.getChildren());
@@ -1020,7 +1020,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 		performRefactoring(refactoring, false, IStatus.WARNING, true);
 		performRefactoring(refactoring, false, IStatus.WARNING, true);
 
-		for (int i= 0; i < 10; i++) {
+		for (int i= 0; i < 10; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			performRefactoring(refactoring, true, IStatus.WARNING, true);
 		}
 
@@ -1028,7 +1028,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 		assertPerformanceInRelativeBand(Dimension.ELAPSED_PROCESS, -100, +10);
 	}
 
-	private void performRefactoring(CleanUpRefactoring refactoring, boolean measure, int maxSeverity, boolean checkUndo) throws CoreException {
+	private void performRefactoring(CleanUpRefactoring refactoring, boolean measure, int maxSeverity, boolean checkUndo) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Need to clear the options field as we reuse the clean ups, which is not expected
 		clearOptions(refactoring.getCleanUps());
@@ -1057,7 +1057,7 @@ public class CleanUpPerfTest extends JdtPerformanceTestCaseCommon {
 	}
 
 	private void clearOptions(ICleanUp[] cleanUps) {
-		for (ICleanUp cleanUp : cleanUps) {
+		for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cleanUp instanceof AbstractCleanUp) {
 				Accessor<AbstractCleanUp> accessor= new Accessor<>(cleanUp, AbstractCleanUp.class);
 				accessor.set("fOptions", null);

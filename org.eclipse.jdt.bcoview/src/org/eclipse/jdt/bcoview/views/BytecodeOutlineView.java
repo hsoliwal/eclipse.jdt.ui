@@ -269,8 +269,8 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 	public BytecodeOutlineView() {
 		super();
 		modes = new BitSet();
-		globalActions = new HashMap<>();
-		selectionActions = new ArrayList<>();
+		globalActions = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		selectionActions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -291,7 +291,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		return isEnabled;
 	}
 
-	private void setEnabled(boolean on) {
+	private void setEnabled(boolean on) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.isEnabled = on;
 		if (tableControl != null && !tableControl.isDisposed()) {
 			tableControl.setEnabled(on);
@@ -314,7 +314,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		expandStackMapAction.setEnabled(on);
 		setRawModeAction.setEnabled(on && !toggleASMifierModeAction.isChecked());
 		boolean showAnalyzer = on && toggleVerifierAction.isChecked();
-		for (ToggleOrientationAction toggleOrientationAction : toggleOrientationActions) {
+		for (ToggleOrientationAction toggleOrientationAction : toggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			toggleOrientationAction.setEnabled(showAnalyzer);
 		}
 	}
@@ -332,7 +332,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		this.bufferIsDirty = bufferIsDirty;
 	}
 
-	private void setInput(ITextEditor editor) {
+	private void setInput(ITextEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		javaEditor = null;
 		setJavaInput(null);
 		lastDecompiledResult = null;
@@ -351,7 +351,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 	}
 
-	private void checkVerifyMode() {
+	private void checkVerifyMode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (toggleVerifierAction == null) {
 			return;
 		}
@@ -406,10 +406,10 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 		errorColor = parent.getDisplay().getSystemColor(SWT.COLOR_RED);
-		parent.addControlListener(new ControlListener() {
+		parent.addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 
 			@Override
 			public void controlMoved(ControlEvent e) {
@@ -472,7 +472,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		modes.set(BCOConstants.F_SHOW_HEX_VALUES, store.getBoolean(BCOConstants.SHOW_HEX_VALUES));
 	}
 
-	private void createToolbarActions() {
+	private void createToolbarActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		createTextActions();
 
 		final IActionBars bars = getViewSite().getActionBars();
@@ -507,7 +507,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		linkWithEditorAction = new DefaultToggleAction(BCOConstants.LINK_VIEW_TO_EDITOR) {
+		linkWithEditorAction = new DefaultToggleAction(BCOConstants.LINK_VIEW_TO_EDITOR) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_LINK_VIEW_TO_EDITOR, newState);
@@ -528,7 +528,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		showSelectedOnlyAction = new DefaultToggleAction(BCOConstants.SHOW_ONLY_SELECTED_ELEMENT) {
+		showSelectedOnlyAction = new DefaultToggleAction(BCOConstants.SHOW_ONLY_SELECTED_ELEMENT) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_SHOW_ONLY_SELECTED_ELEMENT, newState);
@@ -537,7 +537,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		setRawModeAction = new DefaultToggleAction(BCOConstants.SHOW_RAW_BYTECODE) {
+		setRawModeAction = new DefaultToggleAction(BCOConstants.SHOW_RAW_BYTECODE) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_SHOW_RAW_BYTECODE, newState);
@@ -546,7 +546,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		hideLineInfoAction = new DefaultToggleAction(BCOConstants.SHOW_LINE_INFO) {
+		hideLineInfoAction = new DefaultToggleAction(BCOConstants.SHOW_LINE_INFO) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_SHOW_LINE_INFO, newState);
@@ -555,7 +555,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		hideLocalsAction = new DefaultToggleAction(BCOConstants.SHOW_VARIABLES) {
+		hideLocalsAction = new DefaultToggleAction(BCOConstants.SHOW_VARIABLES) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_SHOW_VARIABLES, newState);
@@ -564,7 +564,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		hideStackMapAction = new DefaultToggleAction(BCOConstants.SHOW_STACKMAP) {
+		hideStackMapAction = new DefaultToggleAction(BCOConstants.SHOW_STACKMAP) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_SHOW_STACKMAP, newState);
@@ -573,7 +573,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		expandStackMapAction = new DefaultToggleAction(BCOConstants.EXPAND_STACKMAP) {
+		expandStackMapAction = new DefaultToggleAction(BCOConstants.EXPAND_STACKMAP) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_EXPAND_STACKMAP, newState);
@@ -582,7 +582,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		showHexValuesAction = new DefaultToggleAction(BCOConstants.SHOW_HEX_VALUES) {
+		showHexValuesAction = new DefaultToggleAction(BCOConstants.SHOW_HEX_VALUES) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_SHOW_HEX_VALUES, newState);
@@ -591,7 +591,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		toggleASMifierModeAction = new DefaultToggleAction(BCOConstants.SHOW_ASMIFIER_CODE) {
+		toggleASMifierModeAction = new DefaultToggleAction(BCOConstants.SHOW_ASMIFIER_CODE) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				setMode(BCOConstants.F_SHOW_ASMIFIER_CODE, newState);
@@ -606,7 +606,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		};
 
-		toggleVerifierAction = new DefaultToggleAction(BCOConstants.SHOW_ANALYZER) {
+		toggleVerifierAction = new DefaultToggleAction(BCOConstants.SHOW_ANALYZER) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				toggleVerifyMode(mmanager, newState);
@@ -632,7 +632,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 				new ToggleOrientationAction(VIEW_ORIENTATION_VERTICAL),
 				new ToggleOrientationAction(VIEW_ORIENTATION_HORIZONTAL),
 				new ToggleOrientationAction(VIEW_ORIENTATION_AUTOMATIC) };
-		for (ToggleOrientationAction toggleOrientationAction : toggleOrientationActions) {
+		for (ToggleOrientationAction toggleOrientationAction : toggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			mmanager.add(toggleOrientationAction);
 		}
 
@@ -645,9 +645,9 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		tmanager.add(toggleVerifierAction);
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unused") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private void createVerifyControl() {
-		verifyControl = new SashForm(stackComposite, SWT.VERTICAL);
+		verifyControl = new SashForm(stackComposite, SWT.VERTICAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		tableControl = new Table(verifyControl, SWT.SINGLE | SWT.FULL_SELECTION);
 		tableControlViewer = new TableViewer(tableControl);
 
@@ -667,7 +667,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		tableControl.setLinesVisible(false);
 		tableControl.setHeaderVisible(true);
 
-		stackAndLvt = new SashForm(verifyControl, SWT.HORIZONTAL);
+		stackAndLvt = new SashForm(verifyControl, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 
 		lvtTable = new Table(stackAndLvt, SWT.SINGLE | SWT.FULL_SELECTION);
 		lvtTable.setLinesVisible(false);
@@ -686,7 +686,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		stackAndLvt.setWeights(50, 50);
 		verifyControl.setWeights(75, 25);
 
-		tableControl.addSelectionListener(new SelectionAdapter() {
+		tableControl.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (modes.get(BCOConstants.F_LINK_VIEW_TO_EDITOR)) {
@@ -718,14 +718,14 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		String id = "org.eclipse.jdt.bcoview.views.BytecodeOutlineView#ContextMenu"; //$NON-NLS-1$
 		contextMenuManager = new MenuManager("#ContextMenu", id); //$NON-NLS-1$
 		contextMenuManager.setRemoveAllWhenShown(true);
-		contextMenuManager.addMenuListener(this::contextMenuAboutToShow);
+		contextMenuManager.addMenuListener(this::contextMenuAboutToShow); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		Menu menu = contextMenuManager.createContextMenu(textControl);
 		textControl.setMenu(menu);
 
 		getSite().registerContextMenu(id, contextMenuManager, textViewer);
 	}
 
-	private void createTextControl() {
+	private void createTextControl() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store = JavaPlugin.getDefault().getCombinedPreferenceStore();
 		final JavaSourceViewer viewer = new JavaSourceViewer(stackComposite, null, null, true, SWT.V_SCROLL | SWT.H_SCROLL, store);
 
@@ -739,23 +739,23 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		IDocument document = new Document(""); //$NON-NLS-1$
 		textViewer.setDocument(document);
 
-		textSelectionListener = unused -> {
-			for (String selectionAction : selectionActions) {
+		textSelectionListener = unused -> { //FLLDCIM: MARK — T04  LAMBDA
+			for (String selectionAction : selectionActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				updateAction(selectionAction);
 			}
 		};
 
-		textListener = unused -> {
+		textListener = unused -> { //FLLDCIM: MARK — T28  LAMBDA
 			IUpdate findReplace = (IUpdate) globalActions.get(ActionFactory.FIND.getId());
 			if (findReplace != null) {
 				findReplace.update();
 			}
 		};
 
-		textViewer.getSelectionProvider().addSelectionChangedListener(textSelectionListener);
-		textViewer.addTextListener(textListener);
+		textViewer.getSelectionProvider().addSelectionChangedListener(textSelectionListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		textViewer.addTextListener(textListener); //FLLDCIM: MARK — T28 DOCUMENT_DELTA CALL
 
-		textControl.addMouseListener(new MouseAdapter() {
+		textControl.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDown(MouseEvent e) {
 				if (modes.get(BCOConstants.F_LINK_VIEW_TO_EDITOR)) {
@@ -771,7 +771,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		});
 
-		textControl.addKeyListener(new KeyListener() {
+		textControl.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// ignored
@@ -786,7 +786,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		deActivateView();
 		if (editorListener != null) {
@@ -882,7 +882,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 	}
 
-	protected void handleBufferIsDirty(boolean isDirty) {
+	protected void handleBufferIsDirty(boolean isDirty) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!modes.get(BCOConstants.F_LINK_VIEW_TO_EDITOR) || !isActive()) {
 			return;
 		}
@@ -915,7 +915,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 	}
 
-	protected void handlePartVisible(IWorkbenchPart part) {
+	protected void handlePartVisible(IWorkbenchPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!modes.get(BCOConstants.F_LINK_VIEW_TO_EDITOR)) {
 			if (this == part) {
 				isVisible = true;
@@ -953,7 +953,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 	}
 
-	protected void handleSelectionChanged(IWorkbenchPart part, ISelection selection) {
+	protected void handleSelectionChanged(IWorkbenchPart part, ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!modes.get(BCOConstants.F_LINK_VIEW_TO_EDITOR) || !isActive() || !isVisible || !(part instanceof IEditorPart)) {
 			return;
 		}
@@ -989,7 +989,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 	/**
 	 * Does nothing if view is already deactivated
 	 */
-	private void deActivateView() {
+	private void deActivateView() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isActive()) {
 			return;
 		}
@@ -1027,7 +1027,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		isActive = false;
 	}
 
-	protected void refreshView() {
+	protected void refreshView() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isActive()) {
 			return;
 		}
@@ -1093,25 +1093,25 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 
 	private void refreshVerifyView(DecompiledClass result) {
 		setVerifyTableItems(result.getTextTable());
-		List<Integer> errors = result.getErrorLines();
+		List<Integer> errors = result.getErrorLines(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		if (errors.size() > 0) {
 			// TODO this only changes color of status line -
 			// but it is possible also to provide useful info here...
 			hasAnalyzerError = true;
 			// currentErrorMessage = ...
 		}
-		for (Integer error : errors) {
+		for (Integer error : errors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int l = error.intValue();
 			tableControl.getItem(l).setForeground(errorColor);
 		}
 		toggleVerifierAction.setEnabled(true);
 	}
 
-	private void updateStatus(DecompiledClass result, int bytecodeOffsetStart, int bytecodeOffsetEnd) {
+	private void updateStatus(DecompiledClass result, int bytecodeOffsetStart, int bytecodeOffsetEnd) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// clear error messages, if any
 		statusLineManager.setErrorMessage(null);
 		if (result != null) {
-			currentStatusMessage = "Java:" //$NON-NLS-1$
+			currentStatusMessage = "Java:" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ result.getJavaVersion() + " | class size:" //$NON-NLS-1$
 					+ result.getClassSize();
 			ClassNode classNode = result.getClassNode();
@@ -1124,15 +1124,15 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 		String selectionInfo = ""; //$NON-NLS-1$
 		if (bytecodeOffsetStart >= 0) {
-			selectionInfo = " | offset:" + bytecodeOffsetStart; //$NON-NLS-1$
+			selectionInfo = " | offset:" + bytecodeOffsetStart; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (bytecodeOffsetEnd >= 0) {
-				selectionInfo += "-" + bytecodeOffsetEnd; //$NON-NLS-1$
+				selectionInfo += "-" + bytecodeOffsetEnd; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		if (hasAnalyzerError) {
-			statusLineManager.setErrorMessage(currentStatusMessage + selectionInfo);
+			statusLineManager.setErrorMessage(currentStatusMessage + selectionInfo); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
-			statusLineManager.setMessage(currentStatusMessage + selectionInfo);
+			statusLineManager.setMessage(currentStatusMessage + selectionInfo); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}
@@ -1148,7 +1148,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 	/**
 	 * @return IJavaElement which fits in the current selection in java editor
 	 */
-	private IJavaElement getCurrentJavaElement() {
+	private IJavaElement getCurrentJavaElement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement childEl = null;
 		try {
 			childEl = JdtUtils.getElementAtOffset(javaInput, currentSelection);
@@ -1179,7 +1179,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		return childEl;
 	}
 
-	private void setSelectionInBytecodeView() {
+	private void setSelectionInBytecodeView() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (lastDecompiledResult == null) {
 			return;
 		}
@@ -1241,7 +1241,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		updateStatus(lastDecompiledResult, bytecodeOffset, -1);
 	}
 
-	private void setMultiLineSelectionInBytecodeView(ITextSelection multiLineSelection) {
+	private void setMultiLineSelectionInBytecodeView(ITextSelection multiLineSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LineRange range = lastDecompiledResult.getDecompiledRange(multiLineSelection);
 		int firstDecompiledLine = range.startLine;
 		if (firstDecompiledLine > 0) {
@@ -1289,18 +1289,18 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		updateVerifierControl(frame);
 	}
 
-	private void updateVerifierControl(String[][][] frame) {
+	private void updateVerifierControl(String[][][] frame) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		lvtTable.removeAll();
 		stackTable.removeAll();
 		if (frame == null) {
 			return;
 		}
-		for (int i = 0; i < frame[0].length; ++i) {
+		for (int i = 0; i < frame[0].length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (frame[0][i] != null) {
 				new TableItem(lvtTable, SWT.NONE).setText(frame[0][i]);
 			}
 		}
-		for (int i = 0; i < frame[1].length; ++i) {
+		for (int i = 0; i < frame[1].length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (frame[1][i] != null) {
 				new TableItem(stackTable, SWT.NONE).setText(frame[1][i]);
 			}
@@ -1313,7 +1313,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		stackTable.getColumn(1).pack();
 	}
 
-	protected void setSelectionInJavaEditor(Point selection) {
+	protected void setSelectionInJavaEditor(Point selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (javaEditor != null && javaEditor.getEditorInput() == null) {
 			// editor was closed - we should clean the reference
 			javaEditor = null;
@@ -1396,7 +1396,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 	 * @return true if java element selection was changed (means, that previous selection do not
 	 *         match to the given element)
 	 */
-	private boolean isSelectedElementChanged(IJavaElement childEl) {
+	private boolean isSelectedElementChanged(IJavaElement childEl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (lastChildElement == null && childEl == null) {
 			// no selected child before - and no new selection now => no changes
@@ -1424,7 +1424,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 	 * @param childEl can be null
 	 * @return return null if type is not known or bytecode is not written or cannot be found
 	 */
-	private DecompiledClass decompileBytecode(IJavaElement childEl) {
+	private DecompiledClass decompileBytecode(IJavaElement childEl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// check here for inner classes too
 		IJavaElement type = JdtUtils.getEnclosingType(childEl);
 		if (type == null) {
@@ -1457,7 +1457,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			try {
 				// check if compilation unit is ok - then this is the user problem
 				if (type.isStructureKnown()) {
-					BytecodeOutlinePlugin.error("Cannot decompile: " + type, e); //$NON-NLS-1$
+					BytecodeOutlinePlugin.error("Cannot decompile: " + type, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
 					BytecodeOutlinePlugin.log(e, IStatus.ERROR);
 				}
@@ -1466,7 +1466,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 				BytecodeOutlinePlugin.log(e1, IStatus.WARNING);
 			}
 		} catch (UnsupportedClassVersionError e) {
-			BytecodeOutlinePlugin.error("Cannot decompile: " + type //$NON-NLS-1$
+			BytecodeOutlinePlugin.error("Cannot decompile: " + type //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ ". Error was caused by attempt to " //$NON-NLS-1$
 					+ "load a class compiled with the Java version which is not " //$NON-NLS-1$
 					+ "supported by the current JVM. ", e); //$NON-NLS-1$
@@ -1478,12 +1478,12 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		return decompiledClass;
 	}
 
-	private void setVerifyTableItems(String[][] items) {
+	private void setVerifyTableItems(String[][] items) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		tableControl.removeAll();
 		if (items != null) {
-			for (int i = 0; i < items.length; ++i) {
+			for (int i = 0; i < items.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TableItem item = new TableItem(tableControl, SWT.NONE);
-				for (int j = 0; j < items[i].length; ++j) {
+				for (int j = 0; j < items[i].length; ++j) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String s = items[i][j];
 					if (s.endsWith("\n")) { //$NON-NLS-1$
 						s = s.substring(0, s.length() - 1);
@@ -1541,7 +1541,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 	}
 
-	protected void createTextActions() {
+	protected void createTextActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IActionBars actionBars = getViewSite().getActionBars();
 		TextViewerAction action = new TextViewerAction(textViewer, ITextOperationTarget.SELECT_ALL);
 
@@ -1577,7 +1577,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		boolean horizontal = orientation == VIEW_ORIENTATION_HORIZONTAL;
 		verifyControl.setOrientation(horizontal ? SWT.HORIZONTAL : SWT.VERTICAL);
 
-		for (ToggleOrientationAction toggleOrientationAction : toggleOrientationActions) {
+		for (ToggleOrientationAction toggleOrientationAction : toggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			toggleOrientationAction.setChecked(orientation == toggleOrientationAction.getOrientation());
 		}
 
@@ -1618,7 +1618,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 		stackComposite.layout();
 
-		for (ToggleOrientationAction toggleOrientationAction : toggleOrientationActions) {
+		for (ToggleOrientationAction toggleOrientationAction : toggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			toggleOrientationAction.setEnabled(showAnalyzer);
 		}
 		mmanager.markDirty();
@@ -1630,7 +1630,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 
 		private final int actionOrientation;
 
-		public ToggleOrientationAction(int orientation) {
+		public ToggleOrientationAction(int orientation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super("", AS_RADIO_BUTTON); //$NON-NLS-1$
 
 			String symbolicName = BytecodeOutlinePlugin.getDefault().getBundle().getSymbolicName();
@@ -1666,7 +1666,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 		}
 	}
 
-	protected IJavaElement[] guessTypesFromSelectionInView(IRegion wordRegion) throws JavaModelException {
+	protected IJavaElement[] guessTypesFromSelectionInView(IRegion wordRegion) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (wordRegion == null || wordRegion.getLength() == 0 || javaInput == null) {
 			return null;
 		}
@@ -1688,7 +1688,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 
 	private class JavaElementHyperlinkDetectorInView extends JavaElementHyperlinkDetector {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IHyperlink[] detectHyperlinks(ITextViewer textViewer1, IRegion region, boolean canShowMultipleHyperlinks) {
 			if (region == null || javaInput == null) {
 				return null;
@@ -1699,7 +1699,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 
 			IDocument document = textViewer1.getDocument();
 			IRegion wordRegion = JavaWordFinder.findWord(document, offset);
-			List<IHyperlink> links = new ArrayList<>();
+			List<IHyperlink> links = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IJavaElement[] elements;
 			try {
 				elements = guessTypesFromSelectionInView(wordRegion);
@@ -1716,7 +1716,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			if (elements.length == 0) {
 				return null;
 			}
-			for (IJavaElement element : elements) {
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element == null) {
 					continue;
 				}
@@ -1774,7 +1774,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 
 	private final class JavadocHoverExtension extends JavadocHover {
 
-		private final Set<String> OPCODES = new HashSet<>(Arrays.asList(Printer.OPCODES));
+		private final Set<String> OPCODES = new HashSet<>(Arrays.asList(Printer.OPCODES)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 
 		@Override
@@ -1786,7 +1786,7 @@ public class BytecodeOutlineView extends ViewPart implements IBytecodePart {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object getHoverInfo2(ITextViewer viewer, IRegion region) {
 			String typeName;
 			IDocument document = viewer.getDocument();

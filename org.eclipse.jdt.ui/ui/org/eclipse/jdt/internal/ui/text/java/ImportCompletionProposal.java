@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
  *
  * @since 3.3
   */
-public class ImportCompletionProposal extends AbstractJavaCompletionProposal {
+public class ImportCompletionProposal extends AbstractJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private final ICompilationUnit fCompilationUnit;
 	private final int fParentProposalKind;
@@ -82,7 +82,7 @@ public class ImportCompletionProposal extends AbstractJavaCompletionProposal {
 	 *
 	 * @return the replacement string
 	 */
-	private String computeReplacementString() {
+	private String computeReplacementString() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int proposalKind= fProposal.getKind();
 		String qualifiedTypeName= null;
 		char[] qualifiedType= null;
@@ -106,13 +106,13 @@ public class ImportCompletionProposal extends AbstractJavaCompletionProposal {
 	 		if (proposalKind == CompletionProposal.TYPE_IMPORT) {
 	 			String simpleType= fImportRewrite.addImport(qualifiedTypeName, fImportContext);
 		 		if (fParentProposalKind == CompletionProposal.METHOD_REF)
-		 			return simpleType + "."; //$NON-NLS-1$
+		 			return simpleType + "."; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
  			} else {
 				String res= fImportRewrite.addStaticImport(qualifiedTypeName, String.valueOf(fProposal.getName()), proposalKind == CompletionProposal.FIELD_IMPORT, fImportContext);
 				int dot= res.lastIndexOf('.');
 				if (dot != -1) {
 					String typeName= fImportRewrite.addImport(res.substring(0, dot), fImportContext);
-					return typeName + '.';
+					return typeName + '.'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 	 		return ""; //$NON-NLS-1$
@@ -128,13 +128,13 @@ public class ImportCompletionProposal extends AbstractJavaCompletionProposal {
 			qualifiedTypeName= String.valueOf(Signature.getSignatureSimpleName(qualifiedType));
 		}
 
-		return qualifiedTypeName + "."; //$NON-NLS-1$
+		return qualifiedTypeName + "."; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.AbstractJavaCompletionProposal#apply(org.eclipse.jface.text.IDocument, char, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document, char trigger, int offset) {
 		try {
 			super.apply(document, trigger, offset);
@@ -160,7 +160,7 @@ public class ImportCompletionProposal extends AbstractJavaCompletionProposal {
 	 *
 	 * @return the import rewrite or <code>null</code> if no imports can or should be added
 	 */
-	private ImportRewrite createImportRewrite() {
+	private ImportRewrite createImportRewrite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCompilationUnit != null && shouldAddImports()) {
 			try {
 				CompilationUnit cu= getASTRoot(fCompilationUnit);

@@ -37,7 +37,7 @@ import org.eclipse.jdt.core.IType;
 
 import org.eclipse.jdt.ui.StandardJavaElementContentProvider;
 
-public class LevelTreeContentProvider extends JavaSearchContentProvider implements ITreeContentProvider {
+public class LevelTreeContentProvider extends JavaSearchContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 	private Map<Object, Set<Object>> fChildrenMap;
 	private StandardJavaElementContentProvider fContentProvider;
 
@@ -60,7 +60,7 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 
 	private static final int MAX_LEVEL= JAVA_ELEMENT_TYPES.length - 1;
 	private int fCurrentLevel;
-	static class FastJavaElementProvider extends StandardJavaElementContentProvider {
+	static class FastJavaElementProvider extends StandardJavaElementContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		@Override
 		public Object getParent(Object element) {
 			Object parent= internalGetParent(element);
@@ -86,13 +86,13 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 		fContentProvider= new FastJavaElementProvider();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getParent(Object child) {
 		Object possibleParent= internalGetParent(child);
 		if (possibleParent instanceof IJavaElement) {
 			IJavaElement javaElement= (IJavaElement) possibleParent;
-			for (int j= fCurrentLevel; j < MAX_LEVEL + 1; j++) {
-				for (int i= 0; i < JAVA_ELEMENT_TYPES[j].length; i++) {
+			for (int j= fCurrentLevel; j < MAX_LEVEL + 1; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (int i= 0; i < JAVA_ELEMENT_TYPES[j].length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (javaElement.getElementType() == JAVA_ELEMENT_TYPES[j][i]) {
 						return null;
 					}
@@ -100,8 +100,8 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 			}
 		} else if (possibleParent instanceof IResource) {
 			IResource resource= (IResource) possibleParent;
-			for (int j= fCurrentLevel; j < MAX_LEVEL + 1; j++) {
-				for (int i= 0; i < RESOURCE_TYPES[j].length; i++) {
+			for (int j= fCurrentLevel; j < MAX_LEVEL + 1; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (int i= 0; i < RESOURCE_TYPES[j].length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (resource.getType() == RESOURCE_TYPES[j][i]) {
 						return null;
 					}
@@ -129,9 +129,9 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 	@Override
 	protected synchronized void initialize(AbstractTextSearchResult result) {
 		super.initialize(result);
-		fChildrenMap= new HashMap<>();
+		fChildrenMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		if (result != null) {
-			for (Object element : result.getElements()) {
+			for (Object element : result.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (getPage().getDisplayedMatchCount(element) > 0) {
 					insert(null, null, element);
 				}
@@ -139,9 +139,9 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 		}
 	}
 
-	protected void insert(Map<Object, Set<Object>> toAdd, Set<Object> toUpdate, Object child) {
+	protected void insert(Map<Object, Set<Object>> toAdd, Set<Object> toUpdate, Object child) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object parent= getParent(child);
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (insertChild(parent, child)) {
 				if (toAdd != null)
 					insertInto(parent, child, toAdd);
@@ -166,13 +166,13 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 	private boolean insertInto(Object parent, Object child, Map<Object, Set<Object>> map) {
 		Set<Object> children= map.get(parent);
 		if (children == null) {
-			children= new HashSet<>();
+			children= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			map.put(parent, children);
 		}
 		return children.add(child);
 	}
 
-	protected void remove(Set<Object> toRemove, Set<Object> toUpdate, Object element) {
+	protected void remove(Set<Object> toRemove, Set<Object> toUpdate, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// precondition here:  fResult.getMatchCount(child) <= 0
 
 		if (hasChildren(element) || getPage().getDisplayedMatchCount(element) != 0) {
@@ -219,7 +219,7 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 		if (limit != -1 && limit < children.size()) {
 			Object[] limitedArray= new Object[limit];
 			Iterator<Object> iterator= children.iterator();
-			for (int i= 0; i < limit; i++) {
+			for (int i= 0; i < limit; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				limitedArray[i]= iterator.next();
 			}
 			return limitedArray;
@@ -234,17 +234,17 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 		return children != null && !children.isEmpty();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public synchronized void elementsChanged(Object[] updatedElements) {
 		if (getSearchResult() == null)
 			return;
 
 		AbstractTreeViewer viewer= (AbstractTreeViewer) getPage().getViewer();
 
-		Set<Object> toRemove= new HashSet<>();
-		Set<Object> toUpdate= new HashSet<>();
-		Map<Object, Set<Object>> toAdd= new HashMap<>();
-		for (Object updatedElement : updatedElements) {
+		Set<Object> toRemove= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<Object> toUpdate= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Map<Object, Set<Object>> toAdd= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Object updatedElement : updatedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getPage().getDisplayedMatchCount(updatedElement) > 0) {
 				insert(toAdd, toUpdate, updatedElement);
 			} else {
@@ -253,13 +253,13 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 		}
 
 		viewer.remove(toRemove.toArray());
-		for (Map.Entry<Object, Set<Object>> entry : toAdd.entrySet()) {
+		for (Map.Entry<Object, Set<Object>> entry : toAdd.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object parent = entry.getKey();
 			HashSet<Object> children= (HashSet<Object>) entry.getValue();
 			viewer.add(parent, children.toArray());
 		}
-		for (Object object : toUpdate) {
-			viewer.refresh(object);
+		for (Object object : toUpdate) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			viewer.refresh(object); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 	}
@@ -267,13 +267,13 @@ public class LevelTreeContentProvider extends JavaSearchContentProvider implemen
 	@Override
 	public void clear() {
 		initialize(getSearchResult());
-		getPage().getViewer().refresh();
+		getPage().getViewer().refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	public void setLevel(int level) {
 		fCurrentLevel= level;
 		initialize(getSearchResult());
-		getPage().getViewer().refresh();
+		getPage().getViewer().refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 }

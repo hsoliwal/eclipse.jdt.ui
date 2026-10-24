@@ -48,7 +48,7 @@ public class FocusOnTypeAction extends Action {
 	/*
 	 * @see Action#run
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		Shell parent= fViewPart.getSite().getShell();
 		FilteredTypesSelectionDialog dialog= new FilteredTypesSelectionDialog(parent, false,

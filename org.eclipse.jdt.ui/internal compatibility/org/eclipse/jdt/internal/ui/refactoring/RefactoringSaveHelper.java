@@ -108,7 +108,7 @@ public class RefactoringSaveHelper {
 	 * @return <code>true</code> if save was successful and refactoring can proceed;
 	 * 		false if the refactoring must be cancelled
 	 */
-	public boolean saveEditors(Shell shell) {
+	public boolean saveEditors(Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IEditorPart[] dirtyEditors;
 		switch (fSaveMode) {
 			case SAVE_ALL_ALWAYS_ASK:
@@ -147,10 +147,10 @@ public class RefactoringSaveHelper {
 					if (!JavaPlugin.getActiveWorkbenchWindow().getWorkbench().saveAllEditors(false))
 						return false;
 				} else {
-					IRunnableWithProgress runnable= pm -> {
+					IRunnableWithProgress runnable= pm -> { //FLLDCIM: MARK — T09  LAMBDA
 						int count= dirtyEditors.length;
 						pm.beginTask("", count); //$NON-NLS-1$
-						for (int i= 0; i < count; i++) {
+						for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IEditorPart editor= dirtyEditors[i];
 							editor.doSave(Progress.subMonitor(pm, 1));
 							if (pm.isCanceled())
@@ -187,7 +187,7 @@ public class RefactoringSaveHelper {
 		}
 	}
 
-	private boolean askSaveAllDirtyEditors(Shell shell, IEditorPart[] dirtyEditors) {
+	private boolean askSaveAllDirtyEditors(Shell shell, IEditorPart[] dirtyEditors) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final boolean canSaveAutomatically= fSaveMode != SAVE_ALL_ALWAYS_ASK;
 		if (canSaveAutomatically && RefactoringSavePreferences.getSaveAllEditors()) //must save everything
 			return true;
@@ -202,7 +202,7 @@ public class RefactoringSaveHelper {
 					final Button check= new Button(result, SWT.CHECK);
 					check.setText(RefactoringMessages.RefactoringStarter_always_save);
 					check.setSelection(RefactoringSavePreferences.getSaveAllEditors());
-					check.addSelectionListener(new SelectionAdapter() {
+					check.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							RefactoringSavePreferences.setSaveAllEditors(check.getSelection());
@@ -215,7 +215,7 @@ public class RefactoringSaveHelper {
 		};
 		dialog.setTitle(RefactoringMessages.RefactoringStarter_save_all_resources);
 		dialog.setAddCancelButton(true);
-		dialog.setLabelProvider(createDialogLabelProvider());
+		dialog.setLabelProvider(createDialogLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		dialog.setMessage(RefactoringMessages.RefactoringStarter_must_save);
 		dialog.setContentProvider(ArrayContentProvider.getInstance());
 		dialog.setInput(Arrays.asList(dirtyEditors));

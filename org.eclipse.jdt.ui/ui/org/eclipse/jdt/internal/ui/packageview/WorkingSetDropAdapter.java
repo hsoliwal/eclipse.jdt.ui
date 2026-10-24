@@ -112,7 +112,7 @@ public class WorkingSetDropAdapter extends JdtViewerDropAdapter implements Trans
 
 	}
 
-	private int validateTarget(Object target, int operation) {
+	private int validateTarget(Object target, int operation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		setFeedbackEnabled(false);
 		setScrollEnabled(true);
 		setExpandEnabled(true);
@@ -137,16 +137,16 @@ public class WorkingSetDropAdapter extends JdtViewerDropAdapter implements Trans
 			if (isOthersWorkingSet(fWorkingSet) && operation == DND.DROP_COPY)
 				return DND.DROP_NONE;
 
-			List<IJavaElement> realJavaElements= new ArrayList<>();
-			List<IResource> realResource= new ArrayList<>();
+			List<IJavaElement> realJavaElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<IResource> realResource= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			ReorgUtilsCore.splitIntoJavaElementsAndResources(fElementsToAdds, realJavaElements, realResource);
 			if (fElementsToAdds.length != realJavaElements.size() + realResource.size())
 				return DND.DROP_NONE;
-			for (IJavaElement element : realJavaElements) {
+			for (IJavaElement element : realJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ReorgUtilsCore.containsElementOrParent(fCurrentElements, element))
 					return DND.DROP_NONE;
 			}
-			for (IResource element : realResource) {
+			for (IResource element : realResource) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ReorgUtilsCore.containsElementOrParent(fCurrentElements, element))
 					return DND.DROP_NONE;
 			}
@@ -155,7 +155,7 @@ public class WorkingSetDropAdapter extends JdtViewerDropAdapter implements Trans
 			}
 			ITreeSelection treeSelection= (ITreeSelection)fSelection;
 			TreePath[] paths= treeSelection.getPaths();
-			for (TreePath path : paths) {
+			for (TreePath path : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (path.getSegmentCount() != 2)
 					return DND.DROP_COPY;
 				if (!(path.getSegment(0) instanceof IWorkingSet))
@@ -188,11 +188,11 @@ public class WorkingSetDropAdapter extends JdtViewerDropAdapter implements Trans
 		fWorkingSet= (IWorkingSet)target;
 		fSelection= (IStructuredSelection)s;
 		fElementsToAdds= fSelection.toArray();
-		fCurrentElements= new HashSet<>(Arrays.asList(fWorkingSet.getElements()));
+		fCurrentElements= new HashSet<>(Arrays.asList(fWorkingSet.getElements())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	private boolean isWorkingSetSelection() {
-		for (Object fElementsToAdd : fElementsToAdds) {
+		for (Object fElementsToAdd : fElementsToAdds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(fElementsToAdd instanceof IWorkingSet)) {
 				return false;
 			}
@@ -210,19 +210,19 @@ public class WorkingSetDropAdapter extends JdtViewerDropAdapter implements Trans
 		return true;
 	}
 
-	private void performWorkingSetReordering() {
+	private void performWorkingSetReordering() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		WorkingSetModel model= fPackageExplorer.getWorkingSetModel();
-		List<IWorkingSet> allWorkingSets= new ArrayList<>(Arrays.asList(model.getAllWorkingSets()));
+		List<IWorkingSet> allWorkingSets= new ArrayList<>(Arrays.asList(model.getAllWorkingSets())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int index= allWorkingSets.indexOf(fWorkingSet);
 		if (index != -1) {
 			if (getCurrentLocation() == LOCATION_AFTER)
 				index++;
-			List<IWorkingSet> result= new ArrayList<>(allWorkingSets.size());
+			List<IWorkingSet> result= new ArrayList<>(allWorkingSets.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			@SuppressWarnings("unchecked") // isWorkingSetSelection() ensures that all elements are IWorkingSets
-			List<IWorkingSet> selected= new ArrayList<>((List<IWorkingSet>) (List<?>) Arrays.asList(fElementsToAdds));
-			List<IWorkingSet> activeWorkingSets= new ArrayList<>(Arrays.asList(model.getActiveWorkingSets()));
-			List<IWorkingSet> active= new ArrayList<>(activeWorkingSets.size());
-			for (int i= 0; i < allWorkingSets.size(); i++) {
+			List<IWorkingSet> selected= new ArrayList<>((List<IWorkingSet>) (List<?>) Arrays.asList(fElementsToAdds)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<IWorkingSet> activeWorkingSets= new ArrayList<>(Arrays.asList(model.getActiveWorkingSets())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<IWorkingSet> active= new ArrayList<>(activeWorkingSets.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i= 0; i < allWorkingSets.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i == index) {
 					result.addAll(selected);
 					active.addAll(selected);
@@ -242,21 +242,21 @@ public class WorkingSetDropAdapter extends JdtViewerDropAdapter implements Trans
 		}
 	}
 
-	private void performElementRearrange(int eventDetail) {
+	private void performElementRearrange(int eventDetail) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// only move if target isn't the other working set. If this is the case
 		// the move will happenn automatically by refreshing the other working set
 		if (!isOthersWorkingSet(fWorkingSet)) {
-			List<Object> elements= new ArrayList<>(Arrays.asList(fWorkingSet.getElements()));
+			List<Object> elements= new ArrayList<>(Arrays.asList(fWorkingSet.getElements())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			elements.addAll(Arrays.asList(fElementsToAdds));
 			fWorkingSet.setElements(elements.toArray(new IAdaptable[elements.size()]));
 		}
 		if (eventDetail == DND.DROP_MOVE) {
 			ITreeSelection treeSelection= (ITreeSelection)fSelection;
 			Map<IWorkingSet, List<Object>> workingSets= groupByWorkingSets(treeSelection.getPaths());
-			for (Map.Entry<IWorkingSet, List<Object>> entry : workingSets.entrySet()) {
+			for (Map.Entry<IWorkingSet, List<Object>> entry : workingSets.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkingSet ws = entry.getKey();
 				List<Object> toRemove= entry.getValue();
-				List<IAdaptable> currentElements= new ArrayList<>(Arrays.asList(ws.getElements()));
+				List<IAdaptable> currentElements= new ArrayList<>(Arrays.asList(ws.getElements())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				currentElements.removeAll(toRemove);
 				ws.setElements(currentElements.toArray(new IAdaptable[currentElements.size()]));
 			}
@@ -264,12 +264,12 @@ public class WorkingSetDropAdapter extends JdtViewerDropAdapter implements Trans
 	}
 
 	private Map<IWorkingSet, List<Object>> groupByWorkingSets(TreePath[] paths) {
-		Map<IWorkingSet, List<Object>> result= new HashMap<>();
-		for (TreePath path : paths) {
+		Map<IWorkingSet, List<Object>> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (TreePath path : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet ws= (IWorkingSet)path.getSegment(0);
 			List<Object> l= result.get(ws);
 			if (l == null) {
-				l= new ArrayList<>();
+				l= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				result.put(ws, l);
 			}
 			l.add(path.getSegment(1));

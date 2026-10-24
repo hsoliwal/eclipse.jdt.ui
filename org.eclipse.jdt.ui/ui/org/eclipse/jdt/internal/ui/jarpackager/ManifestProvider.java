@@ -89,12 +89,12 @@ public class ManifestProvider implements IManifestProvider {
 		manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, jarPackage.getManifestVersion());
 	}
 
-	private void putSealing(Manifest manifest, JarPackageData jarPackage) {
+	private void putSealing(Manifest manifest, JarPackageData jarPackage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (jarPackage.isJarSealed()) {
 			manifest.getMainAttributes().put(Attributes.Name.SEALED, SEALED_VALUE);
 			IPackageFragment[] packages= jarPackage.getPackagesToUnseal();
 			if (packages != null) {
-				for (IPackageFragment p : packages) {
+				for (IPackageFragment p : packages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Attributes attributes= new Attributes();
 					attributes.put(Attributes.Name.SEALED, UNSEALED_VALUE);
 					manifest.getEntries().put(getInManifestFormat(p), attributes);
@@ -104,7 +104,7 @@ public class ManifestProvider implements IManifestProvider {
 		else {
 			IPackageFragment[] packages= jarPackage.getPackagesToSeal();
 			if (packages != null)
-				for (IPackageFragment p : packages) {
+				for (IPackageFragment p : packages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Attributes attributes= new Attributes();
 					attributes.put(Attributes.Name.SEALED, SEALED_VALUE);
 					manifest.getEntries().put(getInManifestFormat(p), attributes);
@@ -119,7 +119,7 @@ public class ManifestProvider implements IManifestProvider {
 
 	private String getInManifestFormat(IPackageFragment packageFragment) {
 		String name= packageFragment.getElementName();
-		return name.replace('.', '/') + '/';
+		return name.replace('.', '/') + '/'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private Manifest createSuppliedManifest(JarPackageData jarPackage) throws CoreException, IOException {

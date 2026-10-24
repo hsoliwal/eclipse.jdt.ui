@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * Filters out all compilation units and class files elements.
  */
-public class JavaFileFilter extends ViewerFilter {
+public class JavaFileFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	@Override
 	public boolean select(Viewer viewer, Object parent, Object element) {

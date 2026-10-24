@@ -72,13 +72,13 @@ public class JavadocHoverTests extends CoreTests {
 		fJProject1= pts.getProject();
 		JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		assertNotNull(JavaProjectHelper.addRTJar_16(fJProject1, false));
-		workingCopies = new ArrayList<>();
+		workingCopies = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		try {
-			for (ICompilationUnit workingCopy : workingCopies) {
+			for (ICompilationUnit workingCopy : workingCopies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				workingCopy.discardWorkingCopy();
 			}
 		} finally {
@@ -102,7 +102,7 @@ public class JavadocHoverTests extends CoreTests {
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 		return root.getFile(new Path(path));
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testValueTag() throws Exception {
 		String source=
 				"""
@@ -129,7 +129,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("TestClass");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -140,7 +140,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumWithAnonymousClass() throws Exception {
 		String myEnumSource = "package test;\n"
 				+ "public enum MyEnum {\n"
@@ -164,7 +164,7 @@ public class JavadocHoverTests extends CoreTests {
 		JavadocHover.getHoverInfo(elements, myEnumCu, new Region(range.getOffset(), range.getLength()), null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCodeTagWithPre() throws Exception {
 		String source=
 				"""
@@ -201,7 +201,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("TestClass");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -228,7 +228,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCodeTagWithPre_2() throws Exception {
 		String source=
 				"""
@@ -258,7 +258,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("TestClass");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -279,7 +279,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnicode() throws Exception {
 		String source=
 				"""
@@ -316,7 +316,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("TestClass");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -342,7 +342,7 @@ public class JavadocHoverTests extends CoreTests {
 			assertEquals("sequence doesn't match", expectedCodeSequence, actualSnippet);
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordComponentAccessor() throws Exception {
 		// https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/931
 		String source=
@@ -360,18 +360,18 @@ public class JavadocHoverTests extends CoreTests {
 		assertNotNull("TestClass.java", cu);
 
 		IType type= cu.getType("FooBar");
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
 			String actualHtmlContent= hoverInfo.getHtml();
 
 			int index= actualHtmlContent.indexOf(member.getElementName().equals("foo") ? "The foo." : "The bar.");
-			assertNotEquals("Expected HTML not found, instead found : " + actualHtmlContent,  -1, index);
+			assertNotEquals("Expected HTML not found, instead found : " + actualHtmlContent,  -1, index); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordConstructor1() throws Exception {
 		// https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/931
 		String source=
@@ -396,7 +396,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType recordType= cu.getType("FooBar");
 		boolean found= false;
-		for (IJavaElement member : recordType.getChildren()) {
+		for (IJavaElement member : recordType.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member.getElementName().equals("FooBar")) {
 				assertTrue("not a constructor", member instanceof IMethod method && method.isConstructor());
 				found= true;
@@ -410,13 +410,13 @@ public class JavadocHoverTests extends CoreTests {
 				JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
 				String actualHtmlContent= hoverInfo.getHtml();
 				int index= actualHtmlContent.indexOf("A foo bar.");
-				assertNotEquals("Expected HTML not found, instead found : " + actualHtmlContent,  -1, index);
+				assertNotEquals("Expected HTML not found, instead found : " + actualHtmlContent,  -1, index); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		assertTrue("constructor not found", found);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordConstructor2() throws Exception {
 		// https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/931
 		String source=
@@ -444,7 +444,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType recordType= cu.getType("FooBar");
 		boolean found= false;
-		for (IJavaElement member : recordType.getChildren()) {
+		for (IJavaElement member : recordType.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member.getElementName().equals("FooBar")) {
 				assertTrue("not a constructor", member instanceof IMethod method && method.isConstructor());
 				found= true;
@@ -458,13 +458,13 @@ public class JavadocHoverTests extends CoreTests {
 				JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
 				String actualHtmlContent= hoverInfo.getHtml();
 				int index= actualHtmlContent.indexOf("Foobar constructor");
-				assertNotEquals("Expected HTML not found, instead found : " + actualHtmlContent,  -1, index);
+				assertNotEquals("Expected HTML not found, instead found : " + actualHtmlContent,  -1, index); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		assertTrue("constructor not found", found);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLinkTagWithHttp_01() throws Exception {
 		String source=
 				"""
@@ -481,7 +481,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("Javadoc");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -496,7 +496,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLinkTagWithHttp_02() throws Exception {
 		String source=
 				"""
@@ -513,7 +513,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("Javadoc");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -528,7 +528,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCharConstant() throws Exception {
 		String source=
 				"""
@@ -542,7 +542,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("Javadoc");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -558,7 +558,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSnippetWringIndentation() throws Exception {
 		String source=
 				"""
@@ -577,7 +577,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("Javadoc");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -593,7 +593,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSnippetInlineLinkAppliedOnCorrectSubstring() throws Exception {
 		String source="""
 					package p;
@@ -617,27 +617,27 @@ public class JavadocHoverTests extends CoreTests {
 		options.put(JavaCore.COMPILER_DOC_COMMENT_SUPPORT, JavaCore.ENABLED);
 		fJProject1.setOptions(options);
 		IType type= cu.getType("Javadoc");
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
 			String actualHtmlContent= hoverInfo.getHtml();
-			Pattern pattern = Pattern.compile("<a\\b[^>]*>.*?</a>", Pattern.DOTALL);
-	        Matcher matcher = pattern.matcher(actualHtmlContent);
+			Pattern pattern = Pattern.compile("<a\\b[^>]*>.*?</a>", Pattern.DOTALL); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	        Matcher matcher = pattern.matcher(actualHtmlContent); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	        String lastAnchor = null;
-	        while (matcher.find()) {
+	        while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	            lastAnchor = matcher.group();
 	        }
 	        assertNotNull("Anchor tag not found", lastAnchor);
-            Pattern codePattern = Pattern.compile("<code>(.*?)</code>");
-            Matcher codeMatcher = codePattern.matcher(lastAnchor);
+            Pattern codePattern = Pattern.compile("<code>(.*?)</code>"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+            Matcher codeMatcher = codePattern.matcher(lastAnchor); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-            assertTrue("Code tag not found inside anchor", codeMatcher.find());
+            assertTrue("Code tag not found inside anchor", codeMatcher.find()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
         	assertEquals("sequence doesn't match", "ArrayList", codeMatcher.group(1));
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLinkInInlineReturn1() throws Exception {
 		String source=
 				"""
@@ -654,7 +654,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("Javadoc");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -668,7 +668,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLinkInInlineReturn2() throws Exception {
 		String source=
 				"""
@@ -685,7 +685,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("Javadoc");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -699,7 +699,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndexInDescription() throws Exception {
 		String source=
 				"""
@@ -717,7 +717,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("Javadoc");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -731,7 +731,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavadocCodeTagRenderingIssue_01() throws Exception {
 		String source = """
 				package p;
@@ -748,7 +748,7 @@ public class JavadocHoverTests extends CoreTests {
 
 		IType type= cu.getType("Javadoc");
 		// check javadoc on each member:
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -763,7 +763,7 @@ public class JavadocHoverTests extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavadocCodeTagRenderingIssue_02() throws Exception {
 		String source=
 				"""
@@ -781,7 +781,7 @@ public class JavadocHoverTests extends CoreTests {
 		assertNotNull("TestClass.java", cu);
 
 		IType type= cu.getType("TestClass");
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);
@@ -789,12 +789,12 @@ public class JavadocHoverTests extends CoreTests {
 				continue;
 			String actualHtmlContent= hoverInfo.getHtml();
 			// must contain "<code>code</code>." with no space before the dot
-			assertTrue("Expected <code>code</code>. without extra space, got: " + actualHtmlContent,
+			assertTrue("Expected <code>code</code>. without extra space, got: " + actualHtmlContent, //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					actualHtmlContent.contains("<code>code</code>."));
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavadocCodeTagRenderingIssue_03() throws Exception {
 		String source = """
 				public class TestClass {
@@ -812,7 +812,7 @@ public class JavadocHoverTests extends CoreTests {
 		assertNotNull("TestClass.java", cu);
 
 		IType type= cu.getType("TestClass");
-		for (IJavaElement member : type.getChildren()) {
+		for (IJavaElement member : type.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elements= { member };
 			ISourceRange range= ((ISourceReference) member).getNameRange();
 			JavadocBrowserInformationControlInput hoverInfo= JavadocHover.getHoverInfo(elements, cu, new Region(range.getOffset(), range.getLength()), null);

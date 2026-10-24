@@ -42,7 +42,7 @@ public class JEJarEntryResource extends JEAttribute {
 		return fParent;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -78,9 +78,9 @@ public class JEJarEntryResource extends JEAttribute {
 		return fJarEntryResource;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public JEAttribute[] getChildren() {
-		ArrayList<JEAttribute> result= new ArrayList<>();
+		ArrayList<JEAttribute> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		Object parent= fJarEntryResource.getParent();
 		if (parent instanceof IJarEntryResource)
@@ -94,7 +94,7 @@ public class JEJarEntryResource extends JEAttribute {
 			@Override protected JEAttribute[] computeChildren() throws CoreException {
 				IJarEntryResource[] jarEntryResources= getJarEntryResource().getChildren();
 				JEAttribute[] children= new JEAttribute[jarEntryResources.length];
-				for (int i= 0; i < jarEntryResources.length; i++) {
+				for (int i= 0; i < jarEntryResources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JEJarEntryResource(this, null, jarEntryResources[i]);
 				}
 				return children;
@@ -105,12 +105,12 @@ public class JEJarEntryResource extends JEAttribute {
 
 	@Override
 	public String getLabel() {
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (fName != null)
-			sb.append(fName).append(": ");
+			sb.append(fName).append(": "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String classname= fJarEntryResource.getClass().getName();
-		sb.append(classname.substring(classname.lastIndexOf('.') + 1)).append(": ");
-		sb.append(fJarEntryResource.getName());
+		sb.append(classname.substring(classname.lastIndexOf('.') + 1)).append(": "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		sb.append(fJarEntryResource.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return sb.toString();
 	}
 

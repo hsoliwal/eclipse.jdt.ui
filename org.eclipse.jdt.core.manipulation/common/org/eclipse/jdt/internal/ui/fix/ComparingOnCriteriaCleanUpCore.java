@@ -132,7 +132,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.COMPARING_ON_CRITERIA)) {
 			return "Comparator<Date> comparator = Comparator.nullsFirst(Comparator.comparing(Date::toString));\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; //$NON-NLS-1$
@@ -161,16 +161,16 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 		return obj1 != null && obj1.equals(obj2);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.COMPARING_ON_CRITERIA)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final LambdaExpression visited) {
 				ITypeBinding targetType= ASTNodes.getTargetType(visited);
 
@@ -197,7 +197,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 				return true;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final ClassInstanceCreation visited) {
 				AnonymousClassDeclaration anonymousClassDecl= visited.getAnonymousClassDeclaration();
 				Type type= visited.getType();
@@ -245,7 +245,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean maybeRefactorBody(final Expression visited, final ITypeBinding typeArgument,
+			private boolean maybeRefactorBody(final Expression visited, final ITypeBinding typeArgument, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final VariableDeclaration object1, final VariableDeclaration object2, final List<Statement> statements) {
 				SimpleName name1= object1.getName();
 				SimpleName name2= object2.getName();
@@ -356,7 +356,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean isComparable(ITypeBinding classBinding) {
+			private boolean isComparable(ITypeBinding classBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if ("java.lang.Comparable".equals(classBinding.getErasure().getQualifiedName())) { //$NON-NLS-1$
 					return true;
 				}
@@ -367,7 +367,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 					return true;
 				}
 
-				for (ITypeBinding binding : classBinding.getInterfaces()) {
+				for (ITypeBinding binding : classBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isComparable(binding)) {
 						return true;
 					}
@@ -376,7 +376,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 				return false;
 			}
 
-			private boolean isReturnedExpressionToRefactor(final Expression returnExpression, final AtomicReference<Expression> criteria,
+			private boolean isReturnedExpressionToRefactor(final Expression returnExpression, final AtomicReference<Expression> criteria, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final AtomicBoolean isForward, final SimpleName name1,
 					final SimpleName name2) {
 				PrefixExpression negativeExpression= ASTNodes.as(returnExpression, PrefixExpression.class);
@@ -409,7 +409,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 				return false;
 			}
 
-			private boolean isRefactorComparisonToRefactor(final AtomicReference<Expression> criteria,
+			private boolean isRefactorComparisonToRefactor(final AtomicReference<Expression> criteria, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final AtomicBoolean isForward, final SimpleName name1, final SimpleName name2, final Expression expr1,
 					final Expression expr2) {
 				MethodInvocation method1= ASTNodes.as(expr1, MethodInvocation.class);
@@ -509,7 +509,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 			this.isNullFirst= isNullFirst;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -562,7 +562,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 			return typeMethodRef;
 		}
 
-		private LambdaExpression buildField(final Expression node, final ITypeBinding type, final boolean straightOrder,
+		private LambdaExpression buildField(final Expression node, final ITypeBinding type, final boolean straightOrder, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				final Boolean isNullValuesFirst, final QualifiedName field, final SimpleName name, final ASTRewrite rewrite, final AST ast, final ImportRewrite importRewrite) {
 			LambdaExpression lambdaExpression= ast.newLambdaExpression();
 			ITypeBinding destinationType= ASTNodes.getTargetType(node);
@@ -601,7 +601,7 @@ public class ComparingOnCriteriaCleanUpCore extends AbstractMultiFix {
 				} else {
 					try {
 						IType[] cuTypes= importRewrite.getCompilationUnit().getTypes();
-						for (IType cuType : cuTypes) {
+						for (IType cuType : cuTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (importedName.startsWith(cuType.getFullyQualifiedName())) {
 								importRewrite.removeImport(importedName);
 							}

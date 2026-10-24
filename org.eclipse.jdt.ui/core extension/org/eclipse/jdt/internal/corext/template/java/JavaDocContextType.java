@@ -35,7 +35,7 @@ public class JavaDocContextType extends CompilationUnitContextType {
 	/**
 	 * Creates a java context type.
 	 */
-	public JavaDocContextType() {
+	public JavaDocContextType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// global
 		addResolver(new GlobalTemplateVariables.Cursor());

@@ -105,7 +105,7 @@ public class JUnitTestFinderTest {
 	 * Copy from {@link JUnit3TestFinderTest}: All tests must work in Junit 4 as well
 	 * @throws Exception if it fails
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTestCase() throws Exception {
 		Assume.assumeFalse("Vintage engine is deprecated in JUnit6, JDT doesn't support it", JUNIT6.equals(fScenario.name));
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
@@ -171,26 +171,26 @@ public class JUnitTestFinderTest {
 		// Only private classes are invisible for JUnit5
 		String testKindId= fScenario.testKindId();
 		String innerClassVisibility= TestKindRegistry.JUNIT5_TEST_KIND_ID.equals(testKindId) || TestKindRegistry.JUNIT6_TEST_KIND_ID.equals(testKindId) ? "private" : "";
-		StringBuilder buf= new StringBuilder();
-		buf.append("package p;\n");
-		buf.append("import junit.framework.TestCase;\n");
-		buf.append("\n");
-		buf.append("public class Outer2 {\n");
-		buf.append("    public class NonStaticInnerTest extends TestCase {\n");
-		buf.append("        public void testFoo() {\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("    " + innerClassVisibility + " static class NonVisibleInnerTest extends TestCase {\n");
-		buf.append("        public void testFoo() {\n");
-		buf.append("            class LocalTest extends TestCase {\n");
-		buf.append("                public void testFoo() {\n");
-		buf.append("                }\n");
-		buf.append("            }\n");
-		buf.append("        }\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package p;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import junit.framework.TestCase;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class Outer2 {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public class NonStaticInnerTest extends TestCase {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        public void testFoo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    " + innerClassVisibility + " static class NonVisibleInnerTest extends TestCase {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        public void testFoo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            class LocalTest extends TestCase {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("                public void testFoo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("                }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("            }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		IType[] invalidTests= p.createCompilationUnit("Outer2.java", buf.toString(), false, null).getAllTypes();
-		for (IType invalidTest : invalidTests) {
+		for (IType invalidTest : invalidTests) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTestFound(invalidTest, new String[] {});
 		}
 		assertTestFound(invalidTests[0].getCompilationUnit(), new String[] {});
@@ -231,7 +231,7 @@ public class JUnitTestFinderTest {
 		assertTestFound(fProject, validTests);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSuiteFinder() throws Exception {
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
 		String str= """
@@ -255,7 +255,7 @@ public class JUnitTestFinderTest {
 		assertTestFound(fProject, validTests);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRunWith() throws Exception {
 		Assume.assumeFalse("Vintage engine is deprecated in JUnit6, JDT doesn't support it", JUNIT6.equals(fScenario.name));
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
@@ -390,7 +390,7 @@ public class JUnitTestFinderTest {
 		assertTestFound(fProject, validTests);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTestAnnotation() throws Exception {
 		Assume.assumeFalse("Vintage engine is deprecated in JUnit6, JDT doesn't support it", JUNIT6.equals(fScenario.name));
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
@@ -462,7 +462,7 @@ public class JUnitTestFinderTest {
 		assertTestFound(fProject, validTests);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTestAnnotation_bug204682() throws Exception {
 
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
@@ -486,7 +486,7 @@ public class JUnitTestFinderTest {
 		assertTestFound(validTest1.getCompilationUnit(), new String[] { });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTestAnnotation2() throws Exception {
 		Assume.assumeFalse("Vintage engine is deprecated in JUnit6, JDT doesn't support it", JUNIT6.equals(fScenario.name));
 		IPackageFragment p= fRoot.createPackageFragment("p", true, null);
@@ -509,7 +509,7 @@ public class JUnitTestFinderTest {
 		assertTestFound(validTest1.getCompilationUnit(), new String[] { "p.Test1" });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInnerClassWithNestedAnnotationIsFound() throws Exception {
 
 		Assume.assumeTrue("@Nested only works with JUnit Jupiter", fScenario.testKindId().equals(TestKindRegistry.JUNIT5_TEST_KIND_ID) || fScenario.testKindId().equals(TestKindRegistry.JUNIT6_TEST_KIND_ID));
@@ -534,7 +534,7 @@ public class JUnitTestFinderTest {
 		assertTestFound(validTest1.getCompilationUnit(), new String[] { "p.Test1",  "p.Test1.NestedClass" });
 	}
 
-	private void assertTestFound(IJavaElement container, String[] expectedTypes) throws CoreException {
+	private void assertTestFound(IJavaElement container, String[] expectedTypes) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITestKind testKind= TestKindRegistry.getContainerTestKind(container);
 		assertEquals(fScenario.testKindId(), testKind.getId());
 
@@ -546,9 +546,9 @@ public class JUnitTestFinderTest {
 			assertEquals(type.getFullyQualifiedName(), isTest, finder.isTest(type));
 		}
 
-		HashSet<IType> set= new HashSet<>(Arrays.asList(JUnitCore.findTestTypes(container, null)));
-		HashSet<String> namesFound= new HashSet<>();
-		for (IType curr : set) {
+		HashSet<IType> set= new HashSet<>(Arrays.asList(JUnitCore.findTestTypes(container, null))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		HashSet<String> namesFound= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IType curr : set) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			namesFound.add(curr.getFullyQualifiedName('.'));
 		}
 		String[] actuals= namesFound.toArray(new String[namesFound.size()]);

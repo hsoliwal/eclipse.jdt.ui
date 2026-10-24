@@ -72,7 +72,7 @@ public class WorkspaceScopeTest {
 		return project;
 	}
 
-	private String getSource() {
+	private String getSource() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return """
 			package test;
 			
@@ -101,8 +101,8 @@ public class WorkspaceScopeTest {
 
 		assertTrue(scope.encloses(fCompilationUnit));
 
-		for (IPackageFragmentRoot root : fProject1.getAllPackageFragmentRoots()) {
-			for (IJavaElement fragment : root.getChildren()) {
+		for (IPackageFragmentRoot root : fProject1.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IJavaElement fragment : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assertFalse(scope.encloses(fragment));
 			}
 		}
@@ -115,7 +115,7 @@ public class WorkspaceScopeTest {
 		return JavaSearchScopeFactory.getInstance().createWorkspaceScope(includeJRE);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDefaultScope() throws JavaModelException {
 		IType type= fCompilationUnit.findPrimaryType();
 		type.getMethod("defaultMethod", new String[0]); //$NON-NLS-1$
@@ -123,8 +123,8 @@ public class WorkspaceScopeTest {
 
 		assertTrue(scope.encloses(fCompilationUnit.getParent()));
 
-		for (IPackageFragmentRoot root : fProject1.getAllPackageFragmentRoots()) {
-			for (IJavaElement fragment : root.getChildren()) {
+		for (IPackageFragmentRoot root : fProject1.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IJavaElement fragment : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!fragment.equals(fCompilationUnit.getParent())) {
 					assertFalse(scope.encloses(fragment));
 				}
@@ -156,7 +156,7 @@ public class WorkspaceScopeTest {
 	}
 
 	private void checkNoJreRoots(IJavaSearchScope scope, IJavaProject project) throws JavaModelException {
-		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (scope.encloses(root)) {
 				assertFalse(root.isExternal());
 			} else {
@@ -166,7 +166,7 @@ public class WorkspaceScopeTest {
 	}
 
 	private void checkJreRoots(IJavaSearchScope scope, IJavaProject project) throws JavaModelException {
-		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (scope.encloses(root)) {
 				assertTrue(root.isExternal());
 			} else {
@@ -176,13 +176,13 @@ public class WorkspaceScopeTest {
 	}
 
 	private void checkNoRoots(IJavaSearchScope scope, IJavaProject project) throws JavaModelException {
-		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertFalse(scope.encloses(root));
 		}
 	}
 
 	private void checkAllRoots(IJavaSearchScope scope, IJavaProject project) throws JavaModelException {
-		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(scope.encloses(root));
 		}
 	}

@@ -82,7 +82,7 @@ public class DeleteWizard extends RefactoringWizard {
 			fProcessor= processor;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected String getMessageString() {
 			int numberOfSelectedElements= numberOfSelectedElements();
 			try {
@@ -121,7 +121,7 @@ public class DeleteWizard extends RefactoringWizard {
 		 *
 		 * @see MessageWizardPage#createControl(Composite)
 		 */
-		private void addDeleteSubPackagesCheckBox() {
+		private void addDeleteSubPackagesCheckBox() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			Composite c= new Composite((Composite) getControl(), SWT.NONE);
 			GridLayout gd= new GridLayout();
@@ -138,7 +138,7 @@ public class DeleteWizard extends RefactoringWizard {
 			fDeleteSubPackagesCheckBox.setText(RefactoringMessages.DeleteWizard_also_delete_sub_packages);
 			fDeleteSubPackagesCheckBox.setSelection(selection);
 
-			fDeleteSubPackagesCheckBox.addSelectionListener(new SelectionAdapter() {
+			fDeleteSubPackagesCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent event) {
@@ -189,7 +189,7 @@ public class DeleteWizard extends RefactoringWizard {
 			super.dispose();
 		}
 
-		private String createConfirmationStringForOneElement() throws JavaModelException {
+		private String createConfirmationStringForOneElement() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement[] elements= getSelectedJavaElements();
 			if (elements.length == 1) {
 				IJavaElement element= elements[0];
@@ -233,7 +233,7 @@ public class DeleteWizard extends RefactoringWizard {
 		}
 
 		private static boolean containsLinkedPackagesOrPackageFragmentRoots(IJavaElement[] javaElements) {
-			for (IJavaElement element : javaElements) {
+			for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isLinkedPackageOrPackageFragmentRoot(element))
 					return true;
 			}
@@ -241,13 +241,13 @@ public class DeleteWizard extends RefactoringWizard {
 		}
 
 		private static boolean containsLinkedResources(IResource[] resources, IJavaElement[] javaElements) throws JavaModelException {
-			for (IJavaElement element : javaElements) {
+			for (IJavaElement element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isLinkedResource(element))
 					return true;
 				if (isDefaultPackageWithLinkedFiles(element))
 					return true;
 			}
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isLinked(resource))
 					return true;
 			}
@@ -258,7 +258,7 @@ public class DeleteWizard extends RefactoringWizard {
 			if (!JavaElementUtil.isDefaultPackage(firstElement))
 				return false;
 			IPackageFragment defaultPackage= (IPackageFragment)firstElement;
-			for (ICompilationUnit cu : defaultPackage.getCompilationUnits()) {
+			for (ICompilationUnit cu : defaultPackage.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isLinkedResource(cu)) {
 					return true;
 				}

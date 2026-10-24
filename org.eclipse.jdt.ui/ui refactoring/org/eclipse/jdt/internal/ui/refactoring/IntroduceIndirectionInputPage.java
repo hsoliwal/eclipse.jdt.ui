@@ -63,7 +63,7 @@ public class IntroduceIndirectionInputPage extends UserInputWizardPage {
 
 	private Combo fIntermediaryTypeName;
 	private static final int INTERMEDIARY_TYPE_COUNT= 10;
-	private static List<String> fgIntermediaryTypes= new ArrayList<>(INTERMEDIARY_TYPE_COUNT);
+	private static List<String> fgIntermediaryTypes= new ArrayList<>(INTERMEDIARY_TYPE_COUNT); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Constructor for IntroduceIndirectionInputPage.
@@ -93,7 +93,7 @@ public class IntroduceIndirectionInputPage extends UserInputWizardPage {
 		return textCombo;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Composite result= new Composite(parent, SWT.NONE);
 
@@ -139,18 +139,18 @@ public class IntroduceIndirectionInputPage extends UserInputWizardPage {
 		fIntermediaryMethodName.setText(getIntroduceIndirectionRefactoring().getIntermediaryMethodName());
 		fIntermediaryTypeName.setText(getIntroduceIndirectionRefactoring().getIntermediaryTypeName());
 
-		fIntermediaryMethodName.addModifyListener(unused -> validateInput());
+		fIntermediaryMethodName.addModifyListener(unused -> validateInput()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
-		enableReferencesCheckBox.addSelectionListener(new SelectionAdapter() {
+		enableReferencesCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getIntroduceIndirectionRefactoring().setEnableUpdateReferences(enableReferencesCheckBox.getSelection());
 			}
 		});
 
-		fIntermediaryTypeName.addModifyListener(unused -> validateInput());
+		fIntermediaryTypeName.addModifyListener(unused -> validateInput()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
-		browseTypes.addSelectionListener(new SelectionAdapter() {
+		browseTypes.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IType intermediaryType= chooseIntermediaryType();
@@ -177,7 +177,7 @@ public class IntroduceIndirectionInputPage extends UserInputWizardPage {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.INTRODUCE_INDIRECTION_WIZARD_PAGE);
 	}
 
-	private IType chooseIntermediaryType() {
+	private IType chooseIntermediaryType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject proj= getIntroduceIndirectionRefactoring().getProject();
 
 		if (proj == null)

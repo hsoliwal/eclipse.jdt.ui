@@ -117,7 +117,7 @@ public class ChangeExceptionHandler {
 		handle(change, exception.getStatus());
 	}
 
-	private void handle(Change change, IStatus status) {
+	private void handle(Change change, IStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (change instanceof CompositeChange) {
 			Change undo= ((CompositeChange)change).getUndoUntilException();
 			if (undo != null) {
@@ -140,8 +140,8 @@ public class ChangeExceptionHandler {
 		dialog.open();
 	}
 
-	private void performUndo(final Change undo) {
-		IWorkspaceRunnable runnable= monitor -> {
+	private void performUndo(final Change undo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		IWorkspaceRunnable runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			monitor.beginTask("", 11);  //$NON-NLS-1$
 			try {
 				undo.initializeValidationData(new NotCancelableProgressMonitor(Progress.subMonitor(monitor, 1)));
@@ -162,7 +162,7 @@ public class ChangeExceptionHandler {
 		} catch (InvocationTargetException e) {
 			ExceptionHandler.handle(e, fParent,
 				RefactoringMessages.ChangeExceptionHandler_undo_dialog_title,
-				RefactoringMessages.ChangeExceptionHandler_undo_dialog_message + fName);
+				RefactoringMessages.ChangeExceptionHandler_undo_dialog_message + fName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (InterruptedException e) {
 			// can't happen
 		}

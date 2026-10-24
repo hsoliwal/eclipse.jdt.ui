@@ -41,7 +41,7 @@ public class MarkerProperties implements IPropertySource {
 		fMarker= marker;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public AttributeDescriptor[] getPropertyDescriptors() {
 		if (fPropertyDescriptors != null)
 			return fPropertyDescriptors;
@@ -60,7 +60,7 @@ public class MarkerProperties implements IPropertySource {
 		} else {
 			fPropertyDescriptors= new AttributeDescriptor[attributes.size() + 4];
 			int i= 0;
-			for (Entry<String, Object> entry : attributes.entrySet()) {
+			for (Entry<String, Object> entry : attributes.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String key= entry.getKey();
 				Object value= entry.getValue();
 				AttributeDescriptor propertyDescriptor;
@@ -109,7 +109,7 @@ public class MarkerProperties implements IPropertySource {
 	@Override
 	public Object getPropertyValue(Object id) {
 		AttributeDescriptor[] propertyDescriptors= getPropertyDescriptors();
-		for (AttributeDescriptor descriptor : propertyDescriptors) {
+		for (AttributeDescriptor descriptor : propertyDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getId().equals(id))
 				return descriptor.getValue();
 		}
@@ -142,7 +142,7 @@ public class MarkerProperties implements IPropertySource {
 		private final Object fValue;
 
 		public AttributeDescriptor(String name, Object value) {
-			this("org.eclipse.jdt.jeview.IMarker." + name, name, value);
+			this("org.eclipse.jdt.jeview.IMarker." + name, name, value); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		protected AttributeDescriptor(String key, String name, Object value) {
@@ -165,7 +165,7 @@ public class MarkerProperties implements IPropertySource {
 			return getErrorLabel();
 		}
 
-		private String getErrorLabel() {
+		private String getErrorLabel() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int id= (Integer) super.getValue();
 			StringBuffer buf= new StringBuffer(getConstantName(id)).append(" = ");
 
@@ -202,10 +202,10 @@ public class MarkerProperties implements IPropertySource {
 
 		private static String getConstantName(int id) {
 			Field[] fields= IProblem.class.getFields();
-			for (Field f : fields) {
+			for (Field f : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					if (f.getType() == int.class && f.getInt(f) == id) {
-						return "IProblem." + f.getName();
+						return "IProblem." + f.getName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					// does not happen
@@ -218,7 +218,7 @@ public class MarkerProperties implements IPropertySource {
 
 	private static class MarkerPropertyDescriptor extends AttributeDescriptor {
 		public MarkerPropertyDescriptor(String key, Object value) {
-			super("org.eclipse.jdt.jeview.IMarker.property." + key, key, value);
+			super("org.eclipse.jdt.jeview.IMarker.property." + key, key, value); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

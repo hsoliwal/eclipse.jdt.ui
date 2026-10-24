@@ -50,7 +50,7 @@ public abstract class NonInitialTypingTest extends TextPerformanceTestCase {
 
 	protected PerformanceMeter fMeter;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setUp() throws Exception {
 		super.setUp();
 		EditorTestHelper.runEventQueue();
@@ -106,13 +106,13 @@ public abstract class NonInitialTypingTest extends TextPerformanceTestCase {
 	 *
 	 * @throws BadLocationException if the insert position can't be detected
 	 */
-	public void testTypeAMethod() throws BadLocationException {
+	public void testTypeAMethod() throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Display display= EditorTestHelper.getActiveDisplay();
 		int offset= getInsertPosition();
 
 		int warmUpRuns= getWarmUpRuns();
 		int measuredRuns= getMeasuredRuns();
-		for (int i= 0; i < warmUpRuns + measuredRuns; i++) {
+		for (int i= 0; i < warmUpRuns + measuredRuns; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fEditor.getSelectionProvider().setSelection(new TextSelection(offset, 0));
 			fEditor.getAction(ITextEditorActionConstants.SMART_ENTER_INVERSE).run();
 			EditorTestHelper.runEventQueue(display, 1000);
@@ -121,7 +121,7 @@ public abstract class NonInitialTypingTest extends TextPerformanceTestCase {
 			if (i >= warmUpRuns)
 				fMeter.start();
 
-			for (char element : METHOD) {
+			for (char element : METHOD) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				keyboardProbe.pressChar(element, display);
 				EditorTestHelper.runEventQueue();
 			}

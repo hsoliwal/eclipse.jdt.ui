@@ -57,7 +57,7 @@ public class LocalCorrectionsQuickFixTest15 extends QuickFixTest {
 
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -87,7 +87,7 @@ public class LocalCorrectionsQuickFixTest15 extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNecessaryNLSTag1() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -130,7 +130,7 @@ public class LocalCorrectionsQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNecessaryNLSTag2() throws Exception {
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_PB_NON_NLS_STRING_LITERAL, JavaCore.WARNING);
@@ -171,7 +171,7 @@ public class LocalCorrectionsQuickFixTest15 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndefinedConstructorInDefaultConstructor() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str0= """

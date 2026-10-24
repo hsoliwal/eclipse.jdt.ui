@@ -38,7 +38,7 @@ import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
  *
  * @since 3.3
  */
-public class DisableSpellCheckingProposal implements IJavaCompletionProposal {
+public class DisableSpellCheckingProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/** The invocation context */
 	private IQuickAssistInvocationContext fContext;

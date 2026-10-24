@@ -188,30 +188,30 @@ public class StatusInfo implements IStatus {
 	 * Returns a string representation of the status, suitable
 	 * for debugging purposes only.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
-		StringBuilder buf = new StringBuilder();
-		buf.append("StatusInfo "); //$NON-NLS-1$
+		StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("StatusInfo "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		switch (fSeverity) {
 			case OK:
-				buf.append("OK"); //$NON-NLS-1$
+				buf.append("OK"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case ERROR:
-				buf.append("ERROR"); //$NON-NLS-1$
+				buf.append("ERROR"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case WARNING:
-				buf.append("WARNING"); //$NON-NLS-1$
+				buf.append("WARNING"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case INFO:
-				buf.append("INFO"); //$NON-NLS-1$
+				buf.append("INFO"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			default:
-				buf.append("severity="); //$NON-NLS-1$
-				buf.append(fSeverity);
+				buf.append("severity="); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(fSeverity); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 		}
-		buf.append(": "); //$NON-NLS-1$
-		buf.append(fStatusMessage);
+		buf.append(": "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(fStatusMessage); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 }

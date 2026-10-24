@@ -33,36 +33,36 @@ public final class DebugUtils {
 	}
 
 	public static void dumpCharCharArray(String msg, char[][] o){
-		dump("DUMPING char[][]:" + msg); //$NON-NLS-1$
-		for (char[] o1 : o) {
+		dump("DUMPING char[][]:" + msg); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (char[] o1 : o) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dump(new String(o1));
 		}
 	}
 
 	public static void dumpArray(String msg, Object[] refs){
-		System.out.println("DUMPING array: "+  msg); //$NON-NLS-1$
+		System.out.println("DUMPING array: "+  msg); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (refs == null){
 			System.out.println("null"); //$NON-NLS-1$
 			return;
 		}
-		for (Object ref : refs) {
+		for (Object ref : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			System.out.println(ref.toString());
 		}
 	}
 
 	public static void dumpCollectionCollection(Collection<?> c) {
-		for (Object name : c) {
+		for (Object name : c) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dumpCollection("", (List<?>) name); //$NON-NLS-1$
 		}
 	}
 
 	public static void dumpCollection(String msg, Collection<?> c){
-		System.out.println("DUMPING collection: "+  msg); //$NON-NLS-1$
+		System.out.println("DUMPING collection: "+  msg); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (c == null){
 			System.out.println("null"); //$NON-NLS-1$
 			return;
 		}
-		for (Object name : c) {
+		for (Object name : c) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			System.out.println(name.toString());
 		}
 	}
@@ -73,47 +73,47 @@ public final class DebugUtils {
 				System.out.println("DUMPING method: null"); //$NON-NLS-1$
 				return;
 			}
-			System.out.println("DUMPING method:" +  method.getElementName() + "\n " + method.getSignature() + "\n declared in " + method.getDeclaringType().getFullyQualifiedName('.') //$NON-NLS-3$ //$NON-NLS-2$ //$NON-NLS-1$
+			System.out.println("DUMPING method:" +  method.getElementName() + "\n " + method.getSignature() + "\n declared in " + method.getDeclaringType().getFullyQualifiedName('.') //$NON-NLS-3$ //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "\nreturnType:" + method.getReturnType() ); //$NON-NLS-1$
 			dumpArray("paramTypes:", method.getParameterTypes()); //$NON-NLS-1$
 			dumpArray("exceptions:", method.getExceptionTypes()); //$NON-NLS-1$
 		}catch (JavaModelException e){
-			System.out.println("JavaModelException: "+ e.getMessage()); //$NON-NLS-1$
+			System.out.println("JavaModelException: "+ e.getMessage()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	public static void dumpIMethodList(String msg, List<?> l){
-		System.out.println("DUMPING IMethodList: "+  msg); //$NON-NLS-1$
+		System.out.println("DUMPING IMethodList: "+  msg); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (l == null){
 			System.out.println("null"); //$NON-NLS-1$
 			return;
 		}
 		Iterator<?> iter= l.iterator();
-		while(iter.hasNext()){
+		while(iter.hasNext()){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dumpIMethod((IMethod)iter.next());
 		}
 	}
 
 	public static void dumpIType(String msg, IType type){
-		System.out.println("DUMPING IType:"+ msg); //$NON-NLS-1$
-		System.out.println("exists:" + type.exists()); //$NON-NLS-1$
+		System.out.println("DUMPING IType:"+ msg); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		System.out.println("exists:" + type.exists()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		try{
-			System.out.println("correspondingResource:" + type.getCorrespondingResource()); //$NON-NLS-1$
-			System.out.println("underResource:" + type.getUnderlyingResource()); //$NON-NLS-1$
-			System.out.println("source:\n" + type.getSource()); //$NON-NLS-1$
+			System.out.println("correspondingResource:" + type.getCorrespondingResource()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("underResource:" + type.getUnderlyingResource()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("source:\n" + type.getSource()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			//System.out.println("cu.orig.under" + type.getCompilationUnit().getOriginalElement().getUnderlyingResource());
-			System.out.println("cu:" + type.getCompilationUnit().getSource());		 //$NON-NLS-1$
+			System.out.println("cu:" + type.getCompilationUnit().getSource());		 //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}catch (JavaModelException e){
-			System.out.println("JavaModelException: "+ e.getMessage()); //$NON-NLS-1$
+			System.out.println("JavaModelException: "+ e.getMessage()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}
 
 	public static void dumpIResource(String msg, IResource res){
-		System.out.println("DUMPING IResource:"+ msg); //$NON-NLS-1$
-		System.out.println("name:" + res.getFullPath().toString()); //$NON-NLS-1$
-		System.out.println("exists" + res.exists()); //$NON-NLS-1$
+		System.out.println("DUMPING IResource:"+ msg); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		System.out.println("name:" + res.getFullPath().toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		System.out.println("exists" + res.exists()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static void dump(Object o){
@@ -123,16 +123,16 @@ public final class DebugUtils {
 			dump(o.toString());
 	}
 	public static void dump(String msg){
-		System.out.println("DUMP:" + msg); //$NON-NLS-1$
+		System.out.println("DUMP:" + msg); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static void dumpImports(ICompilationUnit cu) throws JavaModelException{
 		IImportDeclaration[] imports= cu.getImports();
 		if (imports == null)
 			return;
-		DebugUtils.dump("Compilation Unit: " + cu.getElementName());	 //$NON-NLS-1$
-		for (IImportDeclaration i : imports) {
-			DebugUtils.dump("import " + i.getElementName() + " on demand: " + i.isOnDemand()); //$NON-NLS-2$ //$NON-NLS-1$
+		DebugUtils.dump("Compilation Unit: " + cu.getElementName());	 //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (IImportDeclaration i : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			DebugUtils.dump("import " + i.getElementName() + " on demand: " + i.isOnDemand()); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -141,7 +141,7 @@ public final class DebugUtils {
 		if (cus == null)
 			return;
 		//DebugUtils.dump("Package " + pack.getElementName());
-		for (ICompilationUnit cu : cus) {
+		for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dumpImports(cu);
 		}
 	}
@@ -151,7 +151,7 @@ public final class DebugUtils {
 		if (packages == null)
 			return;
 		//DebugUtils.dump("Project " + project.getElementName());
-		for (IPackageFragment p : packages) {
+		for (IPackageFragment p : packages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dumpImports(p);
 		}
 	}

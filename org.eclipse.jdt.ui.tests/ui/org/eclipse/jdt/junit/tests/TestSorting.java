@@ -48,7 +48,7 @@ public class TestSorting extends AbstractTestRunListenerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSorting() throws Exception {
 		IWorkbenchPage activePage= JUnitPlugin.getActivePage();
 		TestRunnerViewPart testRunnerViewPart= (TestRunnerViewPart)activePage.showView(TestRunnerViewPart.NAME);
@@ -87,21 +87,21 @@ public class TestSorting extends AbstractTestRunListenerTest {
 
 		assertFalse(testRunnerViewPart.getTestRunSession().isRunning());
 		testRunnerViewPart.setSortingCriterion(SortingCriterion.SORT_BY_NAME);
-		testResults= new ArrayList<>();
-		for (int i= 0; i < table.getItems().length; i++) {
+		testResults= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < table.getItems().length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String text= table.getItems()[i].getText();
 			testResults.add(i, text.substring(0, text.indexOf("_")));
 		}
 		assertArrayEquals(new String[] { "testA", "testa", "testB", "testC" }, testResults.toArray());
 
 		testRunnerViewPart.setSortingCriterion(SortingCriterion.SORT_BY_EXECUTION_TIME);
-		testResults= new ArrayList<>();
-		for (TableItem tableItem : table.getItems()) {
+		testResults= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TableItem tableItem : table.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String text= tableItem.getText();
 			testResults.add(0, text.substring(text.indexOf("(") + 1, text.length()));
 		}
 		String previousResult= null;
-		for (String testResult : testResults) {
+		for (String testResult : testResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (previousResult != null) {
 				assertTrue(previousResult.compareTo(testResult) <= 0);
 			}

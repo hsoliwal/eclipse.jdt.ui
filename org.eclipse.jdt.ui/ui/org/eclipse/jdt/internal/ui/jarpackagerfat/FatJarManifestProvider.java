@@ -55,24 +55,24 @@ public class FatJarManifestProvider implements IManifestProvider {
 		fBuilder= builder;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Manifest create(JarPackageData jarPackage) throws CoreException {
 		Manifest result;
 		Manifest ownManifest= createOwn(jarPackage);
 		setManifestClasspath(ownManifest, fBuilder.getManifestClasspath());
 		if (fBuilder.isMergeManifests()) {
-			List<ZipFile> openZips= new ArrayList<>();
+			List<ZipFile> openZips= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			try {
-				List<Manifest> otherManifests= new ArrayList<>();
-				for (Object element : jarPackage.getElements()) {
+				List<Manifest> otherManifests= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (Object element : jarPackage.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (element instanceof IPackageFragmentRoot && ((IPackageFragmentRoot) element).isArchive()) {
 						try (ZipFile zip= JarPackagerUtil.createZipFile(((IPackageFragmentRoot) element).getPath())) {
 							openZips.add(zip);
-							Enumeration<? extends ZipEntry> entries= zip.entries();
-							while (entries.hasMoreElements()) {
+							Enumeration<? extends ZipEntry> entries= zip.entries(); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
+							while (entries.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								ZipEntry entry= entries.nextElement();
 								if ("META-INF/MANIFEST.MF".equalsIgnoreCase(entry.getName())) { //$NON-NLS-1$
-									try (InputStream inputStream= zip.getInputStream(entry)) {
+									try (InputStream inputStream= zip.getInputStream(entry)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 										Manifest otherManifest= new Manifest(inputStream);
 										otherManifests.add(otherManifest);
 									} catch (IOException e) {
@@ -87,7 +87,7 @@ public class FatJarManifestProvider implements IManifestProvider {
 				}
 				result= merge(ownManifest, otherManifests);
 			} finally {
-				for (ZipFile file : openZips) {
+				for (ZipFile file : openZips) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						file.close();
 					} catch (IOException e) {
@@ -111,9 +111,9 @@ public class FatJarManifestProvider implements IManifestProvider {
 	private Manifest merge(Manifest ownManifest, List<Manifest> otherManifests) {
 		Manifest mergedManifest= new Manifest(ownManifest);
 		Map<String, Attributes> mergedEntries= mergedManifest.getEntries();
-		for (Manifest otherManifest : otherManifests) {
+		for (Manifest otherManifest : otherManifests) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Map<String, Attributes> otherEntries= otherManifest.getEntries();
-			for (Map.Entry<String, Attributes> entry : otherEntries.entrySet()) {
+			for (Map.Entry<String, Attributes> entry : otherEntries.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String attributeName = entry.getKey();
 				if (mergedEntries.containsKey(attributeName)) {
 					// TODO: WARNING
@@ -165,12 +165,12 @@ public class FatJarManifestProvider implements IManifestProvider {
 		manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, jarPackage.getManifestVersion());
 	}
 
-	private void putSealing(Manifest manifest, JarPackageData jarPackage) {
+	private void putSealing(Manifest manifest, JarPackageData jarPackage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (jarPackage.isJarSealed()) {
 			manifest.getMainAttributes().put(Attributes.Name.SEALED, SEALED_VALUE);
 			IPackageFragment[] packages= jarPackage.getPackagesToUnseal();
 			if (packages != null) {
-				for (IPackageFragment p : packages) {
+				for (IPackageFragment p : packages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Attributes attributes= new Attributes();
 					attributes.put(Attributes.Name.SEALED, UNSEALED_VALUE);
 					manifest.getEntries().put(getInManifestFormat(p), attributes);
@@ -179,7 +179,7 @@ public class FatJarManifestProvider implements IManifestProvider {
 		} else {
 			IPackageFragment[] packages= jarPackage.getPackagesToSeal();
 			if (packages != null)
-				for (IPackageFragment p : packages) {
+				for (IPackageFragment p : packages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Attributes attributes= new Attributes();
 					attributes.put(Attributes.Name.SEALED, SEALED_VALUE);
 					manifest.getEntries().put(getInManifestFormat(p), attributes);
@@ -194,7 +194,7 @@ public class FatJarManifestProvider implements IManifestProvider {
 
 	private String getInManifestFormat(IPackageFragment packageFragment) {
 		String name= packageFragment.getElementName();
-		return name.replace('.', '/') + '/';
+		return name.replace('.', '/') + '/'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private Manifest createSuppliedManifest(JarPackageData jarPackage) throws CoreException, IOException {

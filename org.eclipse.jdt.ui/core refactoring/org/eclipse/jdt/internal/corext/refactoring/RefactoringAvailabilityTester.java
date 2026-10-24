@@ -235,7 +235,7 @@ public final class RefactoringAvailabilityTester {
 		return false;
 	}
 
-	public static boolean isDeleteAvailable(final Object[] objects) {
+	public static boolean isDeleteAvailable(final Object[] objects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (objects.length != 0) {
 			if (ReorgUtils.containsOnlyWorkingSets(Arrays.asList(objects)))
 				return true;
@@ -244,12 +244,12 @@ public final class RefactoringAvailabilityTester {
 
 			if (objects.length != resources.length + elements.length)
 				return false;
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isDeleteAvailable(resource)) {
 					return false;
 				}
 			}
-			for (IJavaElement element : elements) {
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isDeleteAvailable(element)) {
 					return false;
 				}
@@ -259,8 +259,8 @@ public final class RefactoringAvailabilityTester {
 		return false;
 	}
 
-	public static boolean isExternalizeStringsAvailable(final IStructuredSelection selection) throws JavaModelException {
-		for (Object element : selection) {
+	public static boolean isExternalizeStringsAvailable(final IStructuredSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJavaElement) {
 				IJavaElement javaElement= (IJavaElement)element;
 				if (javaElement.exists() && !javaElement.isReadOnly()) {
@@ -343,7 +343,7 @@ public final class RefactoringAvailabilityTester {
 		return RefactoringAvailabilityTesterCore.isExtractSupertypeAvailable(members);
 	}
 
-	public static boolean isExtractSupertypeAvailable(final IStructuredSelection selection) throws JavaModelException {
+	public static boolean isExtractSupertypeAvailable(final IStructuredSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!selection.isEmpty()) {
 			if (selection.size() == 1) {
 				if (selection.getFirstElement() instanceof ICompilationUnit)
@@ -352,11 +352,11 @@ public final class RefactoringAvailabilityTester {
 				if (type != null)
 					return Checks.isAvailable(type) && isExtractSupertypeAvailable(new IType[] { type});
 			}
-			for (Object member : selection) {
+			for (Object member : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(member instanceof IMember))
 					return false;
 			}
-			final Set<IMember> members= new HashSet<>();
+			final Set<IMember> members= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			@SuppressWarnings("unchecked")
 			List<IMember> selectionList= (List<IMember>) (List<?>) Arrays.asList(selection.toArray());
 			members.addAll(selectionList);
@@ -383,7 +383,7 @@ public final class RefactoringAvailabilityTester {
 		return RefactoringAvailabilityTesterCore.isGeneralizeTypeAvailable(element);
 	}
 
-	public static boolean isGeneralizeTypeAvailable(final IStructuredSelection selection) throws JavaModelException {
+	public static boolean isGeneralizeTypeAvailable(final IStructuredSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.size() == 1) {
 			final Object element= selection.getFirstElement();
 			if (element instanceof IMethod) {
@@ -419,11 +419,11 @@ public final class RefactoringAvailabilityTester {
 		return RefactoringAvailabilityTesterCore.isInferTypeArgumentsAvailable(elements);
 	}
 
-	public static boolean isInferTypeArgumentsAvailable(final IStructuredSelection selection) throws JavaModelException {
+	public static boolean isInferTypeArgumentsAvailable(final IStructuredSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.isEmpty())
 			return false;
 
-		for (Object element : selection) {
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(element instanceof IJavaElement))
 				return false;
 			if (element instanceof ICompilationUnit) {
@@ -468,7 +468,7 @@ public final class RefactoringAvailabilityTester {
 		return (first instanceof IMethod) && isInlineMethodAvailable(((IMethod) first));
 	}
 
-	public static boolean isInlineMethodAvailable(final JavaTextSelection selection) throws JavaModelException {
+	public static boolean isInlineMethodAvailable(final JavaTextSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IJavaElement[] elements= selection.resolveElementAtOffset();
 		if (elements.length != 1) {
 			IJavaElement enclosingElement= selection.resolveEnclosingElement();
@@ -526,7 +526,7 @@ public final class RefactoringAvailabilityTester {
 		return false;
 	}
 
-	public static boolean isIntroduceFactoryAvailable(final JavaTextSelection selection) throws JavaModelException {
+	public static boolean isIntroduceFactoryAvailable(final JavaTextSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IJavaElement[] elements= selection.resolveElementAtOffset();
 		if (elements.length == 1 && elements[0] instanceof IMethod)
 			return isIntroduceFactoryAvailable((IMethod) elements[0]);
@@ -594,9 +594,9 @@ public final class RefactoringAvailabilityTester {
 				&& isIntroduceParameterAvailable(selection.resolveSelectedNodes(), selection.resolveCoveringNode());
 	}
 
-	public static boolean isMoveAvailable(final IResource[] resources, final IJavaElement[] elements) throws JavaModelException {
+	public static boolean isMoveAvailable(final IResource[] resources, final IJavaElement[] elements) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements != null) {
-			for (IJavaElement element : elements) {
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element == null || !element.exists())
 					return false;
 				if ((element instanceof IType) && ((IType) element).isLocal())
@@ -699,7 +699,7 @@ public final class RefactoringAvailabilityTester {
 		return RefactoringAvailabilityTesterCore.isPullUpAvailable(members);
 	}
 
-	public static boolean isPullUpAvailable(final IStructuredSelection selection) throws JavaModelException {
+	public static boolean isPullUpAvailable(final IStructuredSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!selection.isEmpty()) {
 			if (selection.size() == 1) {
 				if (selection.getFirstElement() instanceof ICompilationUnit)
@@ -708,11 +708,11 @@ public final class RefactoringAvailabilityTester {
 				if (type != null)
 					return Checks.isAvailable(type) && isPullUpAvailable(new IType[] { type});
 			}
-			for (Object member : selection) {
+			for (Object member : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(member instanceof IMember))
 					return false;
 			}
-			final Set<IMember> members= new HashSet<>();
+			final Set<IMember> members= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			@SuppressWarnings("unchecked")
 			List<IMember> selectionList= (List<IMember>) (List<?>) Arrays.asList(selection.toArray());
 			members.addAll(selectionList);
@@ -736,7 +736,7 @@ public final class RefactoringAvailabilityTester {
 		return RefactoringAvailabilityTesterCore.isPushDownAvailable(members);
 	}
 
-	public static boolean isPushDownAvailable(final IStructuredSelection selection) throws JavaModelException {
+	public static boolean isPushDownAvailable(final IStructuredSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!selection.isEmpty()) {
 			if (selection.size() == 1) {
 				if (selection.getFirstElement() instanceof ICompilationUnit)
@@ -745,11 +745,11 @@ public final class RefactoringAvailabilityTester {
 				if (type != null)
 					return isPushDownAvailable(new IType[] { type});
 			}
-			for (Object member : selection) {
+			for (Object member : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(member instanceof IMember))
 					return false;
 			}
-			final Set<IMember> members= new HashSet<>();
+			final Set<IMember> members= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			@SuppressWarnings("unchecked")
 			List<IMember> selectionList= (List<IMember>) (List<?>) Arrays.asList(selection.toArray());
 			members.addAll(selectionList);

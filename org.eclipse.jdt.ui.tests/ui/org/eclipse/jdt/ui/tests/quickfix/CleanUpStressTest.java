@@ -77,7 +77,7 @@ public class CleanUpStressTest extends CleanUpTestCase {
 	}
 
 	private void addAllCUs(IJavaElement[] children, List<IJavaElement> result) throws JavaModelException {
-		for (IJavaElement element : children) {
+		for (IJavaElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				result.add(element);
 			} else if (element instanceof IPackageFragmentRoot) {
@@ -5242,9 +5242,9 @@ public class CleanUpStressTest extends CleanUpTestCase {
         fExpectedChangesAllTests.put("junit.samples.money.Money.java", str70);
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAllCleanUps() throws Exception {
-		List<IJavaElement> cus= new ArrayList<>();
+		List<IJavaElement> cus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addAllCUs(getProject().getChildren(), cus);
 
 		enable(CleanUpConstants.MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS);
@@ -5305,14 +5305,14 @@ public class CleanUpStressTest extends CleanUpTestCase {
 
 
 //		generateTable(units);
-		for (ICompilationUnit cu : units) {
+		for (ICompilationUnit cu : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String previewContent= getNormalizedContent(new Document(cu.getBuffer().getContents()));
 			String compilationUnitName= getCompilationUnitName(cu);
 
 			String expected= fExpectedChangesAllTests.get(compilationUnitName);
 
-			assertNotNull("No expected value in table for " + compilationUnitName, expected);
-			assertEquals("Content not as expected for " + compilationUnitName, expected, previewContent);
+			assertNotNull("No expected value in table for " + compilationUnitName, expected); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			assertEquals("Content not as expected for " + compilationUnitName, expected, previewContent); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -5322,29 +5322,29 @@ public class CleanUpStressTest extends CleanUpTestCase {
 		return result.toString();
 	}
 
-	private static String getNormalizedContent(IDocument document) {
-		StringBuilder buf= new StringBuilder();
+	private static String getNormalizedContent(IDocument document) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try {
 			int selectionOffset= 0;
 			int selectionLength= document.getLength();
 			int startLine= document.getLineOfOffset(selectionOffset);
 			int endLine= document.getLineOfOffset(selectionOffset + selectionLength);
 
-			for (int i= startLine; i <= endLine; i++) {
+			for (int i= startLine; i <= endLine; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IRegion lineInfo= document.getLineInformation(i);
 				String lineContent= document.get(lineInfo.getOffset(), lineInfo.getLength());
 
-				for (int k= 0; k < lineContent.length(); k++) {
+				for (int k= 0; k < lineContent.length(); k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 	char ch= lineContent.charAt(k);
                 	if (ch == '\t') {
-                		buf.append("    "); // 4 spaces
+                		buf.append("    "); // 4 spaces //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
                 	} else {
-                		buf.append(ch);
+                		buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
                 	}
                 }
 
 				if (i != endLine) {
-					buf.append('\n');
+					buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		} catch (BadLocationException e) {

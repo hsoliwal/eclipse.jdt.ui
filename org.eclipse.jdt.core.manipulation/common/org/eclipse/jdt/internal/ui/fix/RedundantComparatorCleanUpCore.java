@@ -58,7 +58,7 @@ public class RedundantComparatorCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (isEnabled(CleanUpConstants.REDUNDANT_COMPARATOR)) {
 			result.add(MultiFixMessages.RedundantComparatorCleanUp_description);

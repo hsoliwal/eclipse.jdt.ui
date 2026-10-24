@@ -27,10 +27,10 @@ import org.eclipse.ui.dialogs.TwoPaneElementSelector;
 public class TwoPaneElementSelectorExample {
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		java.util.Random random= new java.util.Random();
 		Object[] elements= new Object[8000];
-		for (int i= 0; i < elements.length; i++)
+		for (int i= 0; i < elements.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			elements[i]= Integer.toString(random.nextInt());
 		ILabelProvider elementRenderer= new org.eclipse.jface.viewers.LabelProvider() {
 			@Override
@@ -53,6 +53,6 @@ public class TwoPaneElementSelectorExample {
 		d.open();
 
 		Object res= d.getResult();
-		System.out.println("res= "+res);
+		System.out.println("res= "+res); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

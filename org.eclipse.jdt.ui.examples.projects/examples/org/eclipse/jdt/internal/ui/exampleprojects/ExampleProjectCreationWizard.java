@@ -77,7 +77,7 @@ public class ExampleProjectCreationWizard extends Wizard implements INewWizard, 
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		if (fPage != null) {
 			ExampleProjectCreationOperation runnable= new ExampleProjectCreationOperation(fPage, new ImportOverwriteQuery());
@@ -113,7 +113,7 @@ public class ExampleProjectCreationWizard extends Wizard implements INewWizard, 
 		}
 	}
 
-	private void openResource(final IResource resource) {
+	private void openResource(final IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resource.getType() != IResource.FILE) {
 			return;
 		}
@@ -124,7 +124,7 @@ public class ExampleProjectCreationWizard extends Wizard implements INewWizard, 
 		final IWorkbenchPage activePage= window.getActivePage();
 		if (activePage != null) {
 			final Display display= getShell().getDisplay();
-			display.asyncExec(() -> {
+			display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				try {
 					IDE.openEditor(activePage, (IFile)resource, true);
 				} catch (PartInitException e) {
@@ -164,7 +164,7 @@ public class ExampleProjectCreationWizard extends Wizard implements INewWizard, 
 
 		private int openDialog(final String file) {
 			final int[] result= { IDialogConstants.CANCEL_ID };
-			getShell().getDisplay().syncExec(() -> {
+			getShell().getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				String title= ExampleProjectMessages.ExampleProjectCreationWizard_overwritequery_title;
 				String msg= MessageFormat.format(ExampleProjectMessages.ExampleProjectCreationWizard_overwritequery_message, file);
 				String[] options= {IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.YES_TO_ALL_LABEL, IDialogConstants.CANCEL_LABEL};

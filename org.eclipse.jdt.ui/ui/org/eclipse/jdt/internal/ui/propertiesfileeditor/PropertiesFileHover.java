@@ -68,7 +68,7 @@ public class PropertiesFileHover implements ITextHover, ITextHoverExtension, ITe
 	 *
 	 * @since 3.7
 	 */
-	private static final class HoverControlCreator extends AbstractReusableInformationControlCreator {
+	private static final class HoverControlCreator extends AbstractReusableInformationControlCreator { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 		/*
 		 * @see org.eclipse.jdt.internal.ui.text.java.hover.AbstractReusableInformationControlCreator#doCreateInformationControl(org.eclipse.swt.widgets.Shell)
@@ -84,7 +84,7 @@ public class PropertiesFileHover implements ITextHover, ITextHoverExtension, ITe
 	 *
 	 * @since 3.7
 	 */
-	static class PropertiesFileHoverControl extends DefaultInformationControl implements IInformationControlExtension2 {
+	static class PropertiesFileHoverControl extends DefaultInformationControl implements IInformationControlExtension2 { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 		/**
 		 * Creates an Properties File hover control with the given shell as parent.
@@ -119,7 +119,7 @@ public class PropertiesFileHover implements ITextHover, ITextHoverExtension, ITe
 	 * {@inheritDoc}
 	 * @deprecated see {@link ITextHover#getHoverInfo(ITextViewer, IRegion)}
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public String getHoverInfo(ITextViewer textViewer, IRegion hoverRegion) {
 		String hoverInfo= fTextHover.getHoverInfo(textViewer, hoverRegion);

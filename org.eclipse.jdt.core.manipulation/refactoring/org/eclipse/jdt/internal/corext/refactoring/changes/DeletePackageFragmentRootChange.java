@@ -101,7 +101,7 @@ public class DeletePackageFragmentRootChange extends AbstractDeleteChange {
 		return (IPackageFragmentRoot)JavaCore.create(fHandle);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Change doDelete(IProgressMonitor pm) throws CoreException {
 		if (! confirmDeleteIfReferenced())
 			return new NullChange();
@@ -114,8 +114,8 @@ public class DeletePackageFragmentRootChange extends AbstractDeleteChange {
 		CompositeChange result= new CompositeChange(getName());
 
 		IResourceSnapshot<IResource> rootDescription = ResourceSnapshotFactory.fromResource(rootResource);
-		HashMap<IFile, String> classpathFilesContents= new HashMap<>();
-		for (IJavaProject javaProject : JavaElementUtil.getReferencingProjects(root)) {
+		HashMap<IFile, String> classpathFilesContents= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IJavaProject javaProject : JavaElementUtil.getReferencingProjects(root)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IFile classpathFile= javaProject.getProject().getFile(".classpath"); //$NON-NLS-1$
 			if (classpathFile.exists()) {
 				classpathFilesContents.put(classpathFile, getFileContents(classpathFile));
@@ -125,7 +125,7 @@ public class DeletePackageFragmentRootChange extends AbstractDeleteChange {
 		root.delete(resourceUpdateFlags, jCoreUpdateFlags, SubMonitor.convert(pm, 1));
 
 		rootDescription.recordStateFromHistory(SubMonitor.convert(pm, 1));
-		for (Entry<IFile, String> entry : classpathFilesContents.entrySet()) {
+		for (Entry<IFile, String> entry : classpathFilesContents.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IFile file= entry.getKey();
 			String contents= entry.getValue();
 			//Restore time stamps? This should probably be some sort of UndoTextFileChange.

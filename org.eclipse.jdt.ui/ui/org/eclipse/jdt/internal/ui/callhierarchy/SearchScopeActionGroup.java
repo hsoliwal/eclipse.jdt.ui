@@ -101,7 +101,7 @@ class SearchScopeActionGroup extends ActionGroup {
 
 	private String[] getWorkingSetNames(IWorkingSet[] sets) {
 		String[] result= new String[sets.length];
-		for (int i = 0; i < sets.length; i++) {
+		for (int i = 0; i < sets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= sets[i].getName();
 		}
 		return result;
@@ -119,8 +119,8 @@ class SearchScopeActionGroup extends ActionGroup {
 		if (workingSetNames == null) {
 			return null;
 		}
-		Set<IWorkingSet> workingSets= new HashSet<>(2);
-		for (String workingSetName : workingSetNames) {
+		Set<IWorkingSet> workingSets= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (String workingSetName : workingSetNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet workingSet= getWorkingSetManager().getWorkingSet(workingSetName);
 			if (workingSet != null) {
 				workingSets.add(workingSet);
@@ -136,7 +136,7 @@ class SearchScopeActionGroup extends ActionGroup {
 	 * @param newSelection New action which should be the checked one (can be null iff <code>ignoreUnchecked == false</code>)
 	 * @param ignoreUnchecked Ignores actions which are unchecked (necessary since both the old and the new action fires).
 	 */
-	protected void setSelected(SearchScopeAction newSelection, boolean ignoreUnchecked) {
+	protected void setSelected(SearchScopeAction newSelection, boolean ignoreUnchecked) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!ignoreUnchecked || newSelection.isChecked()) {
 			if (newSelection instanceof SearchScopeWorkingSetAction) {
 				fSelectedWorkingSetNames = getWorkingSetNames(((SearchScopeWorkingSetAction) newSelection).getWorkingSets());
@@ -167,7 +167,7 @@ class SearchScopeActionGroup extends ActionGroup {
 	}
 
 	protected void fillSearchActions(IMenuManager javaSearchMM) {
-		for (Action action :  getActions()) {
+		for (Action action :  getActions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (action.isEnabled()) {
 				javaSearchMM.add(action);
 			}
@@ -182,20 +182,20 @@ class SearchScopeActionGroup extends ActionGroup {
 				IContextMenuConstants.GROUP_SEARCH);
 		javaSearchMM.setRemoveAllWhenShown(true);
 
-		javaSearchMM.addMenuListener(this::fillSearchActions);
+		javaSearchMM.addMenuListener(this::fillSearchActions); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 
 		fillSearchActions(javaSearchMM);
 		menu.appendToGroup(IContextMenuConstants.GROUP_SEARCH, javaSearchMM);
 	}
 
-	private Action[] getActions() {
-		List<Action> actions = new ArrayList<>(SearchUtil.LRU_WORKINGSET_LIST_SIZE + 4);
+	private Action[] getActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Action> actions = new ArrayList<>(SearchUtil.LRU_WORKINGSET_LIST_SIZE + 4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addAction(actions, fSearchScopeWorkspaceAction);
 		addAction(actions, fSearchScopeProjectAction);
 		addAction(actions, fSelectWorkingSetAction);
 
 		Iterator<IWorkingSet[]> iter= SearchUtil.getLRUWorkingSets().sortedIterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet[] workingSets= iter.next();
 			String description = SearchUtil.toString(workingSets);
 			SearchScopeWorkingSetAction workingSetAction = new SearchScopeWorkingSetAction(this, workingSets, description);
@@ -217,7 +217,7 @@ class SearchScopeActionGroup extends ActionGroup {
 		int checked = getCheckedActionCount(result);
 		if (checked != 1) {
 			if (checked > 1) {
-				for (Action action : result) {
+				for (Action action : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					action.setChecked(false);
 				}
 			}
@@ -228,7 +228,7 @@ class SearchScopeActionGroup extends ActionGroup {
 	private int getCheckedActionCount(Action[] result) {
 		// Ensure that exactly one action is selected
 		int checked= 0;
-		for (Action action : result) {
+		for (Action action : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (action.isChecked()) {
 				checked++;
 			}
@@ -266,9 +266,9 @@ class SearchScopeActionGroup extends ActionGroup {
 		memento.putInteger(TAG_SEARCH_SCOPE_TYPE, type);
 		if (type == SEARCH_SCOPE_TYPE_WORKING_SET) {
 			memento.putInteger(TAG_WORKING_SET_COUNT, fSelectedWorkingSetNames.length);
-			for (int i = 0; i < fSelectedWorkingSetNames.length; i++) {
+			for (int i = 0; i < fSelectedWorkingSetNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String workingSetName = fSelectedWorkingSetNames[i];
-				memento.putString(TAG_SELECTED_WORKING_SET+i, workingSetName);
+				memento.putString(TAG_SELECTED_WORKING_SET+i, workingSetName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
@@ -281,8 +281,8 @@ class SearchScopeActionGroup extends ActionGroup {
 				Integer workingSetCount= memento.getInteger(TAG_WORKING_SET_COUNT);
 				if (workingSetCount != null) {
 					workingSetNames = new String[workingSetCount.intValue()];
-					for (int i = 0; i < workingSetCount.intValue(); i++) {
-						workingSetNames[i]= memento.getString(TAG_SELECTED_WORKING_SET+i);
+					for (int i = 0; i < workingSetCount.intValue(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						workingSetNames[i]= memento.getString(TAG_SELECTED_WORKING_SET+i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}
@@ -327,11 +327,11 @@ class SearchScopeActionGroup extends ActionGroup {
 	 */
 	private boolean isSelectedWorkingSet(IWorkingSet[] workingSets) {
 		if (fSelectedWorkingSetNames != null && fSelectedWorkingSetNames.length == workingSets.length) {
-			Set<String> workingSetNames= new HashSet<>(workingSets.length);
-			for (IWorkingSet workingSet : workingSets) {
+			Set<String> workingSetNames= new HashSet<>(workingSets.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				workingSetNames.add(workingSet.getName());
 			}
-			for (String selectedWorkingSetName : fSelectedWorkingSetNames) {
+			for (String selectedWorkingSetName : fSelectedWorkingSetNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!workingSetNames.contains(selectedWorkingSetName)) {
 					return false;
 				}

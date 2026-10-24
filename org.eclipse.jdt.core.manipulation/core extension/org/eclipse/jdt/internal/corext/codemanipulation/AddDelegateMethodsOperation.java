@@ -55,7 +55,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @since 3.1
  */
-public final class AddDelegateMethodsOperation implements IWorkspaceRunnable {
+public final class AddDelegateMethodsOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/**
 	 * Represents a delegated method
@@ -78,7 +78,7 @@ public final class AddDelegateMethodsOperation implements IWorkspaceRunnable {
 	private boolean fApply= true;
 
 	/** The method binding keys for which a method was generated */
-	private final List<IMethodBinding> fCreated= new ArrayList<>();
+	private final List<IMethodBinding> fCreated= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/** The resulting text edit */
 	private TextEdit fResultingEdit= null;
@@ -151,7 +151,7 @@ public final class AddDelegateMethodsOperation implements IWorkspaceRunnable {
 	/*
 	 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor monitor) throws CoreException {
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
@@ -182,7 +182,7 @@ public final class AddDelegateMethodsOperation implements IWorkspaceRunnable {
 
 				Arrays.sort(fDelegatesToCreate, new DelegateEntryComparator());
 
-				for (DelegateEntry delegateEntry : fDelegatesToCreate) {
+				for (DelegateEntry delegateEntry : fDelegatesToCreate) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IMethodBinding delegateMethod= delegateEntry.delegateMethod;
 					IVariableBinding field= delegateEntry.field;
 					MethodDeclaration newMethod= StubUtility2Core.createDelegationStub(cu, astRewrite, importRewrite, context, delegateMethod, field, fSettings);

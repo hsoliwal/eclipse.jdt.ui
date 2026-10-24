@@ -47,7 +47,7 @@ import org.eclipse.jdt.internal.corext.util.JdtFlags;
 /**
  * Orders members in a compilation unit. A working copy must be passed.
  */
-public class SortMembersOperation implements IWorkspaceRunnable {
+public class SortMembersOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 
 	/**
@@ -65,7 +65,7 @@ public class SortMembersOperation implements IWorkspaceRunnable {
 			fMemberOrderCache= JavaManipulationPlugin.getDefault().getMembersOrderPreferenceCacheCommon();
 		}
 
-		private int category(BodyDeclaration bodyDeclaration) {
+		private int category(BodyDeclaration bodyDeclaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			switch (bodyDeclaration.getNodeType()) {
 				case ASTNode.METHOD_DECLARATION:
 					{
@@ -116,7 +116,7 @@ public class SortMembersOperation implements IWorkspaceRunnable {
 		 * @see Comparator#compare(java.lang.Object, java.lang.Object)
 		 * @see CompilationUnitSorter#sort(int, org.eclipse.jdt.core.ICompilationUnit, int[], java.util.Comparator, int, org.eclipse.core.runtime.IProgressMonitor)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(BodyDeclaration bodyDeclaration1, BodyDeclaration bodyDeclaration2) {
 			boolean preserved1= fDoNotSortFields && isSortPreserved(bodyDeclaration1);
 			boolean preserved2= fDoNotSortFields && isSortPreserved(bodyDeclaration2);
@@ -179,7 +179,7 @@ public class SortMembersOperation implements IWorkspaceRunnable {
 						int length2= parameters2.size();
 
 						int len= Math.min(length1, length2);
-						for (int i= 0; i < len; i++) {
+						for (int i= 0; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							SingleVariableDeclaration param1= parameters1.get(i);
 							SingleVariableDeclaration param2= parameters2.get(i);
 							cmp= this.fCollator.compare(buildSignature(param1.getType()), buildSignature(param2.getType()));

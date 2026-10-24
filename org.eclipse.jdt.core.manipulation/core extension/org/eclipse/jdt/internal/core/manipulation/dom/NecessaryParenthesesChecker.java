@@ -85,7 +85,7 @@ public class NecessaryParenthesesChecker {
 				|| type == ASTNode.METHOD_INVOCATION;
 	}
 
-	private static boolean locationNeedsParentheses(StructuralPropertyDescriptor locationInParent) {
+	private static boolean locationNeedsParentheses(StructuralPropertyDescriptor locationInParent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (locationInParent instanceof ChildListPropertyDescriptor && locationInParent != InfixExpression.EXTENDED_OPERANDS_PROPERTY) {
 			// e.g. argument lists of MethodInvocation, ClassInstanceCreation, dimensions of ArrayCreation ...
 			return false;
@@ -115,7 +115,7 @@ public class NecessaryParenthesesChecker {
 	/*
 	 * Do all operands in expression have same type
 	 */
-	private static boolean isAllOperandsHaveSameType(InfixExpression expression, ITypeBinding leftOperandType, ITypeBinding rightOperandType) {
+	private static boolean isAllOperandsHaveSameType(InfixExpression expression, ITypeBinding leftOperandType, ITypeBinding rightOperandType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding binding= leftOperandType;
 		if (binding == null)
 			return false;
@@ -124,7 +124,7 @@ public class NecessaryParenthesesChecker {
 		if (binding != current)
 			return false;
 
-		for (Iterator<Expression> iterator= expression.extendedOperands().iterator(); iterator.hasNext();) {
+		for (Iterator<Expression> iterator= expression.extendedOperands().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression operand= iterator.next();
 			current= operand.resolveTypeBinding();
 			if (binding != current)
@@ -182,7 +182,7 @@ public class NecessaryParenthesesChecker {
 		return "int".equals(name) || "long".equals(name) || "byte".equals(name) || "char".equals(name) || "short".equals(name); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	}
 
-	private static boolean needsParenthesesInInfixExpression(Expression expression, InfixExpression parentInfix, StructuralPropertyDescriptor locationInParent,
+	private static boolean needsParenthesesInInfixExpression(Expression expression, InfixExpression parentInfix, StructuralPropertyDescriptor locationInParent, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ITypeBinding leftOperandType) {
 		InfixExpression.Operator parentInfixOperator= parentInfix.getOperator();
 		ITypeBinding rightOperandType;
@@ -357,7 +357,7 @@ public class NecessaryParenthesesChecker {
 	 *
 	 * @since 3.9
 	 */
-	private static boolean needsParentheses(Expression expression, ASTNode parent, StructuralPropertyDescriptor locationInParent, ITypeBinding leftOperandType) {
+	private static boolean needsParentheses(Expression expression, ASTNode parent, StructuralPropertyDescriptor locationInParent, ITypeBinding leftOperandType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!expressionTypeNeedsParentheses(expression))
 			return false;
 
@@ -411,7 +411,7 @@ public class NecessaryParenthesesChecker {
 		return true;
 	}
 
-	private static boolean needsParenthesesForPrefixExpression(Expression parentExpression, PrefixExpression.Operator expressionOperator) {
+	private static boolean needsParenthesesForPrefixExpression(Expression parentExpression, PrefixExpression.Operator expressionOperator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parentExpression instanceof PrefixExpression) {
 			PrefixExpression.Operator parentOperator= ((PrefixExpression) parentExpression).getOperator();
 			if (parentOperator == PrefixExpression.Operator.PLUS &&

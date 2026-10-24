@@ -42,8 +42,8 @@ public class CPJavaProject {
     }
 
     public CPJavaProject createWorkingCopy() {
-    	List<CPListElement> newList= new ArrayList<>(fCPListElements.size());
-		for (CPListElement element : fCPListElements) {
+    	List<CPListElement> newList= new ArrayList<>(fCPListElements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CPListElement element : fCPListElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newList.add(element.copy());
 		}
 		return new CPJavaProject(fJavaProject, newList, fDefaultOutputLocation);
@@ -56,7 +56,7 @@ public class CPJavaProject {
     public IClasspathEntry[] getClasspathEntries() {
     	IClasspathEntry[] result= new IClasspathEntry[fCPListElements.size()];
     	int i= 0;
-		for (CPListElement element : fCPListElements) {
+		for (CPListElement element : fCPListElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= element.getClasspathEntry();
 			i++;
 		}

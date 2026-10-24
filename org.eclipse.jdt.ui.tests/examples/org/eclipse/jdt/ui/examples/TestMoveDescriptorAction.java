@@ -74,7 +74,7 @@ public class TestMoveDescriptorAction extends Action implements IActionDelegate 
 	public void run(IAction action) {
 		try {
 			if (fCU != null) {
-				PlatformUI.getWorkbench().getProgressService().run(true, true, monitor -> {
+				PlatformUI.getWorkbench().getProgressService().run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 					try {
 						performAction(monitor);
 					} catch (CoreException e) {
@@ -87,7 +87,7 @@ public class TestMoveDescriptorAction extends Action implements IActionDelegate 
 		}
 
 	}
-	private void performAction(IProgressMonitor monitor) throws CoreException {
+	private void performAction(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IPackageFragmentRoot root= (IPackageFragmentRoot) fCU.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 

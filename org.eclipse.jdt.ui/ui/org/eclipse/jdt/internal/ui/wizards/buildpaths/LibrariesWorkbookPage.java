@@ -122,7 +122,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return librariesAdapter;
 	}
 
-	public LibrariesWorkbookPage(CheckedListDialogField<CPListElement> classPathList, IWorkbenchPreferenceContainer pageContainer) {
+	public LibrariesWorkbookPage(CheckedListDialogField<CPListElement> classPathList, IWorkbenchPreferenceContainer pageContainer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fClassPathList= classPathList;
 		fPageContainer= pageContainer;
 		fSWTControl= null;
@@ -161,7 +161,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		if (Display.getCurrent() != null) {
 			updateLibrariesList();
 		} else {
-			Display.getDefault().asyncExec(this::updateLibrariesList);
+			Display.getDefault().asyncExec(this::updateLibrariesList); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
@@ -171,24 +171,24 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 			return;
 		}
 		List<CPListElement> cpelements= fClassPathList.getElements();
-		List<CPListElement> libelements= new ArrayList<>(cpelements.size());
+		List<CPListElement> libelements= new ArrayList<>(cpelements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (CPListElement cpe : cpelements) {
+		for (CPListElement cpe : cpelements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isEntryKind(cpe.getEntryKind())) {
 				libelements.add(cpe);
 			}
 		}
 		fLibrariesList.setElements(libelements);
 	}
-	private void updateLibrariesListWithRootNode() {
+	private void updateLibrariesListWithRootNode() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RootCPListElement rootClasspath= new RootCPListElement(fCurrJProject, NewWizardMessages.PathRootWorkbookPage_classpath,false);
 		RootCPListElement rootModulepath= new RootCPListElement(fCurrJProject,NewWizardMessages.PathRootWorkbookPage_modulepath,true);
 
 		List<CPListElement> cpelements= fClassPathList.getElements();
-		List<CPListElement> libelements= new ArrayList<>(cpelements.size());
+		List<CPListElement> libelements= new ArrayList<>(cpelements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		int size= fLibrariesList.getElements().size();
-		for (CPListElement cpe : cpelements) {
+		for (CPListElement cpe : cpelements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isEntryKind(cpe.getEntryKind())) {
 				if (size > 0) {
 					// only for update
@@ -241,7 +241,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return cpe;
 	}
 
-	private void enableDragDropSupport() {
+	private void enableDragDropSupport() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fLibrariesList.getTreeViewer() == null) {
 			return;
 		}
@@ -249,7 +249,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		int ops= DND.DROP_MOVE;
 		Transfer[] transfers= new Transfer[] { ResourceTransfer.getInstance(), FileTransfer.getInstance() };
 		fLibrariesList.getTreeViewer().addDragSupport(ops, transfers, new DragSourceListener() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void dragStart(DragSourceEvent event) {
 				IStructuredSelection ssel= (IStructuredSelection) fLibrariesList.getTreeViewer().getSelection();
 				if (ssel == null || ssel.isEmpty()) {
@@ -257,7 +257,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 				}
 				if (ssel != null) {
 					Object[] ele= ssel.toArray();
-					for (Object element : ele) {
+					for (Object element : ele) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						// dont start drag on root nodes
 						if (element instanceof RootCPListElement) {
 							event.doit= false;
@@ -266,7 +266,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 						if (element instanceof CPListElement) {
 							CPListElement cpe= (CPListElement) element;
 							List<CPListElement> elements= fLibrariesList.getElements();
-							for (CPListElement cpListElement : elements) {
+							for (CPListElement cpListElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (cpListElement instanceof RootCPListElement) {
 									RootCPListElement root= (RootCPListElement) cpListElement;
 									if (root.getChildren().contains(cpe)) {
@@ -307,14 +307,14 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		});
 
 		fLibrariesList.getTreeViewer().addDropSupport(ops, transfers, new ViewerDropAdapter(fLibrariesList.getTreeViewer()) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean performDrop(Object data) {
 				Object[] objects= (data == null) ? (Object[]) draggedItemsLibrary : (Object[]) data;
 				if (objects == null)
 					return false;
 				Object target= getCurrentTarget();
 				if (target instanceof RootCPListElement) {
-					for (Object object : objects) {
+					for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!(object instanceof CPListElement))
 							return false;
 						if(object instanceof RootCPListElement)
@@ -332,7 +332,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 								IClasspathEntry entry= cpe.getClasspathEntry();
 								IClasspathAttribute[] extraAttributes= entry.getExtraAttributes();
 								boolean hasModAttr= false;
-								for (IClasspathAttribute attr : extraAttributes) {
+								for (IClasspathAttribute attr : extraAttributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (IClasspathAttribute.MODULE.equals(attr.getName())) {
 										hasModAttr= true;
 										break;
@@ -452,7 +452,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	 * @param field the dialog field containing the button
 	 * @param index the index of the button
 	 */
-	private void libaryPageCustomButtonPressed(DialogField field, int index) {
+	private void libaryPageCustomButtonPressed(DialogField field, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPListElement[] libentries= null;
 		switch (index) {
 		case IDX_ADDJAR: /* add jar */
@@ -487,9 +487,9 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 			int nElementsChosen= libentries.length;
 			// remove duplicates
 			List<CPListElement> cplist= fLibrariesList.getElements();
-			List<CPListElement> elementsToAdd= new ArrayList<>(nElementsChosen);
+			List<CPListElement> elementsToAdd= new ArrayList<>(nElementsChosen); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (CPListElement curr : libentries) {
+			for (CPListElement curr : libentries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean contains= cplist.contains(curr);
 				if(hasRootNodes()) {
 					contains= hasCurrentElement(cplist,curr);
@@ -518,12 +518,12 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 				boolean isModuleRootExpanded= getRootExpansionState(fLibrariesList, false);
 				RootCPListElement selectedCPElement= (RootCPListElement) selectedElements.get(0);
 				if(selectedCPElement.isClassPathRootNode()) {
-					for (CPListElement cpListElement : elementsToAdd) {
+					for (CPListElement cpListElement : elementsToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						cpListElement.setAttribute(IClasspathAttribute.MODULE, null);
 					}
 					isClassRootExpanded= true;
 				} else if (selectedCPElement.isModulePathRootNode()) {
-					for (CPListElement cpListElement : elementsToAdd) {
+					for (CPListElement cpListElement : elementsToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Object attribute= cpListElement.getAttribute(IClasspathAttribute.MODULE);
 						if (attribute == null) {
 							cpListElement.setAttribute(IClasspathAttribute.MODULE, new ModuleEncapsulationDetail[0]);
@@ -559,7 +559,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 
 	private boolean hasCurrentElement(List<CPListElement> cplist, CPListElement curr) {
 		//note that the same cpelement with different attribute can be added
-		for (CPListElement cpListElement : cplist) {
+		for (CPListElement cpListElement : cplist) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(cpListElement.isRootNodeForPath()) {
 				boolean cont= ( (RootCPListElement)cpListElement).getChildren().contains(curr);
 				if(cont == true) {
@@ -577,7 +577,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	}
 
 	private void askForAddingExclusionPatternsDialog(List<CPListElement> newEntries) {
-		HashSet<CPListElement> modified= new HashSet<>();
+		HashSet<CPListElement> modified= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		List<CPListElement> existing= fClassPathList.getElements();
 		fixNestingConflicts(newEntries.toArray(new CPListElement[newEntries.size()]), existing.toArray(new CPListElement[existing.size()]), modified);
 		if (!modified.isEmpty()) {
@@ -618,7 +618,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private IPackageFragmentRoot getSelectedPackageFragmentRoot() {
+	private IPackageFragmentRoot getSelectedPackageFragmentRoot() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final List<Object> elements= fLibrariesList.getSelectedElements();
 		if (elements.size() == 1) {
 			final Object object= elements.get(0);
@@ -629,7 +629,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 					final IJavaProject project= element.getJavaProject();
 					if (project != null) {
 						try {
-							for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+							for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (entry.equals(root.getRawClasspathEntry())) {
 									return root;
 								}
@@ -644,10 +644,10 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return null;
 	}
 
-	private void removeEntry() {
+	private void removeEntry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Object> selElements= fLibrariesList.getSelectedElements();
-		HashMap<CPListElement, HashSet<String>> containerEntriesToUpdate= new HashMap<>();
-		for (int i= selElements.size() - 1; i >= 0 ; i--) {
+		HashMap<CPListElement, HashSet<String>> containerEntriesToUpdate= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (int i= selElements.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object elem= selElements.get(i);
 			if (elem instanceof CPListElementAttribute) {
 				CPListElementAttribute attrib= (CPListElementAttribute) elem;
@@ -666,7 +666,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 					CPListElement containerEntry= attrib.getParent();
 					HashSet<String> changedAttributes= containerEntriesToUpdate.get(containerEntry);
 					if (changedAttributes == null) {
-						changedAttributes= new HashSet<>();
+						changedAttributes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						containerEntriesToUpdate.put(containerEntry, changedAttributes);
 					}
 					changedAttributes.add(key); // collect the changed attributes
@@ -681,7 +681,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		} else {
 			if(hasRootNodes()) {
 				List<CPListElement> elements= fLibrariesList.getElements();
-				for (CPListElement cpListElement : elements) {
+				for (CPListElement cpListElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					((RootCPListElement)cpListElement).getChildren().removeAll(selElements);
 				}
 				fLibrariesList.getTreeViewer().remove(selElements.toArray());
@@ -693,7 +693,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 			}
 
 		}
-		for (Map.Entry<CPListElement, HashSet<String>> entry : containerEntriesToUpdate.entrySet()) {
+		for (Map.Entry<CPListElement, HashSet<String>> entry : containerEntriesToUpdate.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement curr= entry.getKey();
 			HashSet<String> attribs= entry.getValue();
 			String[] changedAttributes= attribs.toArray(new String[attribs.size()]);
@@ -702,11 +702,11 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private boolean canRemove(List<?> selElements) {
+	private boolean canRemove(List<?> selElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selElements.isEmpty()) {
 			return false;
 		}
-		for (Object elem : selElements) {
+		for (Object elem : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem instanceof CPListElementAttribute) {
 				CPListElementAttribute attrib= (CPListElementAttribute) elem;
 
@@ -752,7 +752,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	/**
 	 * Method editEntry.
 	 */
-	private void editEntry() {
+	private void editEntry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<?> selElements= fLibrariesList.getSelectedElements();
 		if (selElements.size() != 1) {
 			return;
@@ -772,12 +772,12 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private void editAttributeEntry(CPListElementAttribute elem) {
+	private void editAttributeEntry(CPListElementAttribute elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String key= elem.getKey();
 		CPListElement selElement= elem.getParent();
 
 		boolean canEditEncoding= false;
-		for (CPListElementAttribute attribute : selElement.getAllAttributes()) {
+		for (CPListElementAttribute attribute : selElement.getAllAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (CPListElement.SOURCE_ATTACHMENT_ENCODING.equals(attribute.getKey())) {
 				canEditEncoding= !attribute.isNonModifiable() && !attribute.isNotSupported();
 			}
@@ -860,7 +860,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 
 	private void updateContainerEntry(final IClasspathEntry newEntry, final String[] changedAttributes, final IJavaProject jproject, final IPath containerPath) {
 		try {
-			IWorkspaceRunnable runnable= monitor -> BuildPathSupport.modifyClasspathEntry(null, newEntry, changedAttributes, jproject, containerPath, false, monitor);
+			IWorkspaceRunnable runnable= monitor -> BuildPathSupport.modifyClasspathEntry(null, newEntry, changedAttributes, jproject, containerPath, false, monitor); //FLLDCIM: MARK — T09  LAMBDA
 			PlatformUI.getWorkbench().getProgressService().run(true, true, new WorkbenchRunnableAdapter(runnable));
 
 		} catch (InvocationTargetException e) {
@@ -872,7 +872,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private void editElementEntry(CPListElement elem) {
+	private void editElementEntry(CPListElement elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPListElement[] res= null;
 
 		switch (elem.getEntryKind()) {
@@ -883,7 +883,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 			IResource resource= elem.getResource();
 			if (resource == null) {
 				File file= elem.getPath().toFile();
-				if (file.isDirectory()) {
+				if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					res= openExternalClassFolderDialog(elem);
 				} else {
 					res= openExtJarFileDialog(elem);
@@ -912,11 +912,11 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 				curr.setAttribute(IClasspathAttribute.MODULE, attrib);
 			}
 			if (hasRootNodes()) {
-				for (int i= 0; i < fLibrariesList.getElements().size(); i++) {
+				for (int i= 0; i < fLibrariesList.getElements().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CPListElement cpe= fLibrariesList.getElement(i);
 					if (cpe.isRootNodeForPath()) {
 						if ((((RootCPListElement)cpe).getChildren().contains(elem))) {
-							for (int j= 0; j < ((RootCPListElement)cpe).getChildren().size(); j++) {
+							for (int j= 0; j < ((RootCPListElement)cpe).getChildren().size(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								// find index
 								Object obj= ((RootCPListElement) cpe).getChildren().get(j);
 								if (obj.equals(elem)) {
@@ -956,7 +956,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	 * @return 0 is no change is required, -1 if modular element is removed, +1 if non-modular element
 	 *         is removed.
 	 */
-	private RootNodeChange doesElementNeedNodeChange(CPListElement elem, CPListElement curr) {
+	private RootNodeChange doesElementNeedNodeChange(CPListElement elem, CPListElement curr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elem.getClasspathEntry().getEntryKind() != IClasspathEntry.CPE_CONTAINER)
 			return RootNodeChange.NoChange;
 		if (curr.getClasspathEntry().getEntryKind() != IClasspathEntry.CPE_CONTAINER)
@@ -1026,7 +1026,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		fLibrariesList.enableButton(IDX_ADDLIB, addEnabled);
 		fLibrariesList.enableButton(IDX_ADDVAR, addEnabled);
 	}
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean containsOnlyTopLevelEntries(List<?> selElements) {
 		if(hasRootNodes()==false) {
 			return super.containsOnlyTopLevelEntries(selElements);
@@ -1034,7 +1034,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		if (selElements.isEmpty() || selElements.size() > 1) {
 			return false;
 		}
-		for (Object elem : selElements) {
+		for (Object elem : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem instanceof CPListElement) {
 				if (!((CPListElement) elem).isRootNodeForPath()) {
 					return false;
@@ -1046,7 +1046,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return true;
 	}
 
-	private boolean canEdit(List<?> selElements) {
+	private boolean canEdit(List<?> selElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selElements.size() != 1) {
 			return false;
 		}
@@ -1086,13 +1086,13 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private void updateClasspathList() {
+	private void updateClasspathList() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		 List<CPListElement> projelements= fLibrariesList.getElements();
-		 List<CPListElement> flattenedProjElements= new ArrayList<>();
-		 for (CPListElement ele : projelements) {
+		 List<CPListElement> flattenedProjElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		 for (CPListElement ele : projelements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		 	// if root node, collect the CPList elements
 		 	if(ele.isRootNodeForPath()) {
-		 		for (Object object : ((RootCPListElement)ele).getChildren()) {
+		 		for (Object object : ((RootCPListElement)ele).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		 			if(object instanceof CPListElement) {
 		 				flattenedProjElements.add((CPListElement) object);
 		 			}
@@ -1107,7 +1107,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		int nEntries= cpelements.size();
 		// backwards, as entries will be deleted
 		int lastRemovePos= nEntries;
-		for (int i= nEntries - 1; i >= 0; i--) {
+		for (int i= nEntries - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement cpe= cpelements.get(i);
 			int kind= cpe.getEntryKind();
 			if (isEntryKind(kind)) {
@@ -1141,13 +1141,13 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	}
 
 
-	private CPListElement[] openClassFolderDialog(CPListElement existing) {
+	private CPListElement[] openClassFolderDialog(CPListElement existing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (existing == null) {
 			IPath[] selected= BuildPathDialogAccess.chooseClassFolderEntries(getShell(), fCurrJProject.getPath(), getUsedContainers(null));
 			if (selected != null) {
 				IWorkspaceRoot root= fCurrJProject.getProject().getWorkspace().getRoot();
-				ArrayList<CPListElement> res= new ArrayList<>();
-				for (IPath curr : selected) {
+				ArrayList<CPListElement> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IPath curr : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IResource resource= root.findMember(curr);
 					if (resource instanceof IContainer) {
 						CPListElement newCPLibraryElement= newCPLibraryElement(resource);
@@ -1163,15 +1163,15 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return null;
 	}
 
-	private CPListElement[] openJarFileDialog(CPListElement existing) {
+	private CPListElement[] openJarFileDialog(CPListElement existing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspaceRoot root= fCurrJProject.getProject().getWorkspace().getRoot();
 
 		if (existing == null) {
 			IPath[] selected= BuildPathDialogAccess.chooseJAREntries(getShell(), fCurrJProject.getPath(), getUsedJARFiles(null));
 			if (selected != null) {
-				ArrayList<CPListElement> res= new ArrayList<>();
+				ArrayList<CPListElement> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-				for (IPath curr : selected) {
+				for (IPath curr : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IResource resource= root.findMember(curr);
 					if (resource instanceof IFile) {
 						CPListElement newCPLibraryElement= newCPLibraryElement(resource);
@@ -1193,8 +1193,8 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return null;
 	}
 
-	private IPath[] getUsedContainers(CPListElement existing) {
-		ArrayList<IPath> res= new ArrayList<>();
+	private IPath[] getUsedContainers(CPListElement existing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IPath> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fCurrJProject.exists()) {
 			try {
 				IPath outputLocation= fCurrJProject.getOutputLocation();
@@ -1208,7 +1208,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		}
 
 		List<CPListElement> cplist= fLibrariesList.getElements();
-		for (CPListElement elem : cplist) {
+		for (CPListElement elem : cplist) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem.getEntryKind() == IClasspathEntry.CPE_LIBRARY && (elem != existing)) {
 				IResource resource= elem.getResource();
 				if (resource instanceof IContainer) {
@@ -1220,9 +1220,9 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	}
 
 	private IPath[] getUsedJARFiles(CPListElement existing) {
-		List<IPath> res= new ArrayList<>();
+		List<IPath> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<CPListElement> cplist= fLibrariesList.getElements();
-		for (CPListElement elem : cplist) {
+		for (CPListElement elem : cplist) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem.getEntryKind() == IClasspathEntry.CPE_LIBRARY && (elem != existing)) {
 				IResource resource= elem.getResource();
 				if (resource instanceof IFile) {
@@ -1237,12 +1237,12 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return new CPListElement(fCurrJProject, IClasspathEntry.CPE_LIBRARY, res.getFullPath(), res);
 	}
 
-	protected CPListElement[] openExtJarFileDialog(CPListElement existing) {
+	protected CPListElement[] openExtJarFileDialog(CPListElement existing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (existing == null) {
 			IPath[] selected= BuildPathDialogAccess.chooseExternalJAREntries(getShell());
 			if (selected != null) {
-				ArrayList<CPListElement> res= new ArrayList<>();
-				for (IPath p : selected) {
+				ArrayList<CPListElement> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IPath p : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CPListElement cpListElement= new CPListElement(fCurrJProject, IClasspathEntry.CPE_LIBRARY, p, null);
 					cpListElement.setModuleAttributeIf9OrHigher(fCurrJProject);
 					res.add(cpListElement);
@@ -1264,12 +1264,12 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return null;
 	}
 
-	private CPListElement[] openExternalClassFolderDialog(CPListElement existing) {
+	private CPListElement[] openExternalClassFolderDialog(CPListElement existing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (existing == null) {
 			IPath[] selected= BuildPathDialogAccess.chooseExternalClassFolderEntries(getShell());
 			if (selected != null) {
-				ArrayList<CPListElement> res= new ArrayList<>();
-				for (IPath p : selected) {
+				ArrayList<CPListElement> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IPath p : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CPListElement cpListElement= new CPListElement(fCurrJProject, IClasspathEntry.CPE_LIBRARY, p, null);
 					cpListElement.setModuleAttributeIf9OrHigher(fCurrJProject);
 					res.add(cpListElement);
@@ -1285,10 +1285,10 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		return null;
 	}
 
-	private CPListElement[] openVariableSelectionDialog(CPListElement existing) {
+	private CPListElement[] openVariableSelectionDialog(CPListElement existing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<CPListElement> existingElements= fLibrariesList.getElements();
-		ArrayList<IPath> existingPaths= new ArrayList<>(existingElements.size());
-		for (CPListElement elem : existingElements) {
+		ArrayList<IPath> existingPaths= new ArrayList<>(existingElements.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CPListElement elem : existingElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
 				existingPaths.add(elem.getPath());
 			}
@@ -1298,8 +1298,8 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 		if (existing == null) {
 			IPath[] paths= BuildPathDialogAccess.chooseVariableEntries(getShell(), existingPathsArray);
 			if (paths != null) {
-				ArrayList<CPListElement> result= new ArrayList<>();
-				for (IPath path : paths) {
+				ArrayList<CPListElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IPath path : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CPListElement elem= createCPVariableElement(path);
 					if (!existingElements.contains(elem)) {
 						elem.setModuleAttributeIf9OrHigher(fCurrJProject);
@@ -1320,11 +1320,11 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	private CPListElement createCPVariableElement(IPath path) {
 		CPListElement elem= new CPListElement(fCurrJProject, IClasspathEntry.CPE_VARIABLE, path, null);
 		IPath resolvedPath= JavaCore.getResolvedVariablePath(path);
-		elem.setIsMissing((resolvedPath == null) || !resolvedPath.toFile().exists());
+		elem.setIsMissing((resolvedPath == null) || !resolvedPath.toFile().exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		return elem;
 	}
 
-	private CPListElement[] openContainerSelectionDialog(CPListElement existing) {
+	private CPListElement[] openContainerSelectionDialog(CPListElement existing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean shouldAddModule= false;
 		if (this.getSelection().size() == 1) {
 			Object obj= this.getSelection().get(0);
@@ -1336,7 +1336,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 			IClasspathEntry[] created= BuildPathDialogAccess.chooseContainerEntries(getShell(), fCurrJProject, getRawClasspath());
 			if (created != null) {
 				CPListElement[] res= new CPListElement[created.length];
-				for (int i= 0; i < res.length; i++) {
+				for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					res[i]= CPListElement.create(created[i], true, fCurrJProject);
 					if (res[i].getClasspathEntry().getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 						if (!isJREContainer(res[i].getPath())) {
@@ -1368,7 +1368,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 
 	private IClasspathEntry[] getRawClasspath() {
 		IClasspathEntry[] currEntries= new IClasspathEntry[fClassPathList.getSize()];
-		for (int i= 0; i < currEntries.length; i++) {
+		for (int i= 0; i < currEntries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement curr= fClassPathList.getElement(i);
 			currEntries[i]= curr.getClasspathEntry();
 		}
@@ -1395,7 +1395,7 @@ public class LibrariesWorkbookPage extends BuildPathBasePage {
 	public void setSelection(List<?> selElements, boolean expand) {
 		fLibrariesList.selectElements(new StructuredSelection(selElements));
 		if (expand) {
-			for (Object selElement : selElements) {
+			for (Object selElement : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fLibrariesList.expandElement(selElement, 1);
 			}
 		}

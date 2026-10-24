@@ -102,7 +102,7 @@ public class DynamicValidationStateChange extends CompositeChange implements Wor
 	@Override
 	public Change perform(IProgressMonitor pm) throws CoreException {
 		final Change[] result= new Change[1];
-		IWorkspaceRunnable runnable= monitor -> result[0]= DynamicValidationStateChange.super.perform(monitor);
+		IWorkspaceRunnable runnable= monitor -> result[0]= DynamicValidationStateChange.super.perform(monitor); //FLLDCIM: MARK — T09  LAMBDA
 		JavaCore.run(runnable, fSchedulingRule, pm);
 		return result[0];
 	}
@@ -110,13 +110,13 @@ public class DynamicValidationStateChange extends CompositeChange implements Wor
 	@Override
 	protected Change createUndoChange(Change[] childUndos) {
 		DynamicValidationStateChange result= new DynamicValidationStateChange(getName(), true);
-		for (Change childUndo : childUndos) {
+		for (Change childUndo : childUndos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(childUndo);
 		}
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void workspaceChanged() {
 		long currentTime= System.currentTimeMillis();
 		if (currentTime - fTimeStamp < LIFE_TIME)
@@ -126,7 +126,7 @@ public class DynamicValidationStateChange extends CompositeChange implements Wor
 		WorkspaceTracker.INSTANCE.removeListener(this);
 		fListenerRegistered= false;
 		// clear up the children to not hang onto too much memory
-		for (final Change change : clear()) {
+		for (final Change change : clear()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ISafeRunnable() {
 				@Override
 				public void run() throws Exception {

@@ -71,12 +71,12 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 	private IJavaProject fProject;
 	private IClasspathEntry fOldClasspathEntry;
 
-	public UserLibraryWizardPage() {
+	public UserLibraryWizardPage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("UserLibraryWizardPage"); //$NON-NLS-1$
 		setTitle(NewWizardMessages.UserLibraryWizardPage_title);
 		setImageDescriptor(JavaPluginImages.DESC_WIZBAN_ADD_LIBRARY);
 		updateDescription(null);
-		fUsedPaths= new HashSet<>();
+		fUsedPaths= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fProject= createPlaceholderProject();
 
 		LibraryListAdapter adapter= new LibraryListAdapter();
@@ -93,7 +93,7 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
     private static IJavaProject createPlaceholderProject() {
         String name= "####internal"; //$NON-NLS-1$
         IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-        while (true) {
+        while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             IProject project= root.getProject(name);
             if (!project.exists()) {
                 return JavaCore.create(project);
@@ -110,24 +110,24 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 		}
 	}
 
-	private List<CPUserLibraryElement> updateLibraryList() {
-		HashSet<String> oldNames= new HashSet<>();
-		HashSet<String> oldCheckedNames= new HashSet<>();
+	private List<CPUserLibraryElement> updateLibraryList() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<String> oldNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		HashSet<String> oldCheckedNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		List<CPUserLibraryElement> oldElements= fLibrarySelector.getElements();
-		for (CPUserLibraryElement curr : oldElements) {
+		for (CPUserLibraryElement curr : oldElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			oldNames.add(curr.getName());
 			if (fLibrarySelector.isChecked(curr)) {
 				oldCheckedNames.add(curr.getName());
 			}
 		}
 
-		ArrayList<CPUserLibraryElement> entriesToCheck= new ArrayList<>();
+		ArrayList<CPUserLibraryElement> entriesToCheck= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		String[] names= JavaCore.getUserLibraryNames();
 		Arrays.sort(names, Collator.getInstance());
 
-		ArrayList<CPUserLibraryElement> elements= new ArrayList<>(names.length);
-		for (String curr : names) {
+		ArrayList<CPUserLibraryElement> elements= new ArrayList<>(names.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String curr : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath path= new Path(JavaCore.USER_LIBRARY_CONTAINER_ID).append(curr);
 			try {
 				IClasspathContainer container= JavaCore.getClasspathContainer(path, fProject);
@@ -151,7 +151,7 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 		return entriesToCheck;
 	}
 
-	private void doDialogFieldChanged(DialogField field) {
+	private void doDialogFieldChanged(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (field == fLibrarySelector) {
 			List<CPUserLibraryElement> list= fLibrarySelector.getCheckedElements();
 			if (fIsEditMode) {
@@ -160,7 +160,7 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 						fLibrarySelector.setCheckedWithoutUpdate(fEditResult, false);
 					}
 					fEditResult= list.get(0); // take the first
-					for (int i= 1; i < list.size(); i++) { // uncheck the rest
+					for (int i= 1; i < list.size(); i++) { // uncheck the rest //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fLibrarySelector.setCheckedWithoutUpdate(list.get(i), false);
 					}
 				} else if (list.size() == 1) {
@@ -178,7 +178,7 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 		} else if (fIsEditMode && nSelected > 1) {
 			return new StatusInfo(IStatus.ERROR, NewWizardMessages.UserLibraryWizardPage_error_selectonlyone);
 		}
-		for (CPUserLibraryElement curr : selected) {
+		for (CPUserLibraryElement curr : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fUsedPaths.contains(curr.getPath())) {
 				return new StatusInfo(IStatus.ERROR, NewWizardMessages.UserLibraryWizardPage_error_alreadyoncp);
 			}
@@ -186,9 +186,9 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 		return new StatusInfo();
 	}
 
-	private void doButtonPressed(int index) {
+	private void doButtonPressed(int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (index == 0) {
-			HashMap<String, String> data= new HashMap<>(3);
+			HashMap<String, String> data= new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			if (fEditResult != null) {
 				data.put(UserLibraryPreferencePage.DATA_LIBRARY_TO_SELECT, fEditResult.getName());
 			}
@@ -265,14 +265,14 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 	public IClasspathEntry[] getNewContainers() {
 		List<CPUserLibraryElement> selected= fLibrarySelector.getCheckedElements();
 		IClasspathEntry[] res= new IClasspathEntry[selected.size()];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPUserLibraryElement curr= selected.get(i);
 			res[i]= JavaCore.newContainerEntry(curr.getPath(), false);
 		}
 		return res;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setSelection(IClasspathEntry containerEntry) {
 		fOldClasspathEntry= containerEntry;
 
@@ -291,7 +291,7 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 		updateLibraryList();
 		if (selected != null) {
 			List<CPUserLibraryElement> elements= fLibrarySelector.getElements();
-			for (CPUserLibraryElement curr : elements) {
+			for (CPUserLibraryElement curr : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.getName().equals(selected)) {
 					fLibrarySelector.setChecked(curr, true);
 					return;
@@ -327,7 +327,7 @@ public class UserLibraryWizardPage extends NewElementWizardPage implements IClas
 
 	@Override
 	public void initialize(IJavaProject project, IClasspathEntry[] currentEntries) {
-		for (IClasspathEntry curr : currentEntries) {
+		for (IClasspathEntry curr : currentEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 				fUsedPaths.add(curr.getPath());
 			}

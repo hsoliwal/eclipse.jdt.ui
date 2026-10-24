@@ -155,14 +155,14 @@ public class ImportReferencesCollector extends GenericVisitor {
 					return;
 				}
 			}
-			while (node.isQualifiedName()) {
+			while (node.isQualifiedName()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= ((QualifiedName) node).getQualifier();
 			}
 			addReference((SimpleName) node);
 		}
 	}
 
-	private void possibleTypeRefFound(Name node) {
+	private void possibleTypeRefFound(Name node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node instanceof ModuleQualifiedName) {
 			ModuleQualifiedName mName= (ModuleQualifiedName) node;
 			Name name= mName.getName();
@@ -171,7 +171,7 @@ public class ImportReferencesCollector extends GenericVisitor {
 			}
 			return;
 		}
-		while (node.isQualifiedName()) {
+		while (node.isQualifiedName()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= ((QualifiedName) node).getQualifier();
 		}
 		IBinding binding= node.resolveBinding();
@@ -183,12 +183,12 @@ public class ImportReferencesCollector extends GenericVisitor {
 		}
 	}
 
-	private void possibleStaticImportFound(Name name) {
+	private void possibleStaticImportFound(Name name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fStaticImports == null || fASTRoot == null) {
 			return;
 		}
 
-		while (name.isQualifiedName()) {
+		while (name.isQualifiedName()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			name= ((QualifiedName) name).getQualifier();
 		}
 		if (!isAffected(name)) {
@@ -227,7 +227,7 @@ public class ImportReferencesCollector extends GenericVisitor {
 
 	private void doVisitChildren(List<? extends ASTNode> elements) {
 		int nElements= elements.size();
-		for (int i= 0; i < nElements; i++) {
+		for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			elements.get(i).accept(this);
 		}
 	}
@@ -403,7 +403,7 @@ public class ImportReferencesCollector extends GenericVisitor {
 	@Override
 	public boolean visit(ProvidesDirective node) {
 		possibleTypeRefFound(node.getName());
-		for (Object impl : node.implementations()) {
+		for (Object impl : node.implementations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			possibleTypeRefFound((Name) impl);
 		}
 		return false;
@@ -462,7 +462,7 @@ public class ImportReferencesCollector extends GenericVisitor {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(MethodDeclaration node) {
 		if (!isAffected(node)) {
 			return false;
@@ -489,7 +489,7 @@ public class ImportReferencesCollector extends GenericVisitor {
 			doVisitChildren(node.thrownExceptionTypes());
 		} else {
 			Iterator<Name> iter= getThrownExceptions(node).iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				typeRefFound(iter.next());
 			}
 		}
@@ -509,7 +509,7 @@ public class ImportReferencesCollector extends GenericVisitor {
 		return decl.thrownExceptions();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(TagElement node) {
 		String tagName= node.getTagName();
 		List<? extends ASTNode> list= node.fragments();
@@ -534,7 +534,7 @@ public class ImportReferencesCollector extends GenericVisitor {
 				idx++;
 			}
 		}
-		for (int i= idx; i < list.size(); i++) {
+		for (int i= idx; i < list.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			doVisitNode(list.get(i));
 		}
 		return false;

@@ -39,7 +39,7 @@ import org.eclipse.jdt.internal.junit.model.TestElement;
 /**
  * Copies a test failure stack trace to the clipboard.
  */
-public class JUnitCopyAction extends SelectionListenerAction {
+public class JUnitCopyAction extends SelectionListenerAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	private FailureTrace fView;
 
 	private final Clipboard fClipboard;
@@ -59,7 +59,7 @@ public class JUnitCopyAction extends SelectionListenerAction {
 	/*
 	 * @see IAction#run()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		String trace= fView.getTrace();
 		String source= null;
@@ -96,7 +96,7 @@ public class JUnitCopyAction extends SelectionListenerAction {
 		BufferedReader bufferedReader= new BufferedReader(stringReader);
 		String line;
 		try {
-			while ((line= bufferedReader.readLine()) != null) {
+			while ((line= bufferedReader.readLine()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				printWriter.println(line);
 			}
 		} catch (IOException e) {

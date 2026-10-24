@@ -31,7 +31,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 /**
  * A proposal for insertion of template variables.
  */
-public class TemplateVariableProposal implements ICompletionProposal {
+public class TemplateVariableProposal implements ICompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private TemplateVariableResolver fResolver;
 	private int fOffset;
@@ -61,7 +61,7 @@ public class TemplateVariableProposal implements ICompletionProposal {
 	/*
 	 * @see ICompletionProposal#apply(IDocument)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document) {
 
 		try {
@@ -70,7 +70,7 @@ public class TemplateVariableProposal implements ICompletionProposal {
 			if ("dollar".equals(type)) //$NON-NLS-1$
 				variable= "$$"; //$NON-NLS-1$
 			else if (fIncludeBrace)
-				variable= "${" + type + '}'; //$NON-NLS-1$
+				variable= "${" + type + '}'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
 				variable= type;
 			document.replace(fOffset, fLength, variable);

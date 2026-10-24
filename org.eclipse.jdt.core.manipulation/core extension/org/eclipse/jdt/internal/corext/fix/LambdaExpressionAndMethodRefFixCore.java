@@ -92,7 +92,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 			rewriteOperations= operations;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final LambdaExpression visited) {
 			ActionType actionType= ActionType.DO_NOTHING;
 			ITypeBinding classBinding= null;
@@ -164,7 +164,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 									List<Type> argumentTypes= methodInvocation.typeArguments();
 									String[] parameterTypeNames= new String[methodInvocation.arguments().size()];
 
-									for (int i= 0; i < argumentTypes.size(); i++) {
+									for (int i= 0; i < argumentTypes.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										Type argumentType= argumentTypes.get(i);
 
 										if (argumentType.resolveBinding() == null) {
@@ -174,7 +174,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 										parameterTypeNames[i]= argumentType.resolveBinding().getQualifiedName();
 									}
 
-									for (IMethodBinding declaredMethods : enclosingTypeBinding.getDeclaredMethods()) {
+									for (IMethodBinding declaredMethods : enclosingTypeBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (ASTNodes.usesGivenSignature(declaredMethods, enclosingTypeBinding.getQualifiedName(), methodInvocation.getName().getIdentifier(), parameterTypeNames)) {
 											calledType= enclosingTypeBinding;
 											break;
@@ -193,7 +193,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 									&& arguments.get(0).resolveTypeBinding().isSubTypeCompatible(calledType)) {
 								String[] remainingParams= new String[arguments.size() - 1];
 
-								for (int i= 0; i < arguments.size() - 1; i++) {
+								for (int i= 0; i < arguments.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									ITypeBinding resolveTypeBinding= arguments.get(i + 1).resolveTypeBinding();
 
 									if (resolveTypeBinding == null) {
@@ -205,7 +205,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 								}
 
 								if (valid) {
-									for (IMethodBinding declaredMethodBinding : calledType.getDeclaredMethods()) {
+									for (IMethodBinding declaredMethodBinding : calledType.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (!Modifier.isStatic(declaredMethodBinding.getModifiers())
 												&& ASTNodes.usesGivenSignature(declaredMethodBinding, calledType.getQualifiedName(), methodInvocation.getName().getIdentifier(), remainingParams)) {
 											valid= false;
@@ -255,7 +255,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 					if (isSameIdentifier(visited, 0, calledObject)) {
 						boolean valid= true;
 
-						for (int i= 0; i < arguments.size(); i++) {
+						for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ASTNode expression= ASTNodes.getUnparenthesedExpression(arguments.get(i));
 
 							if (!(expression instanceof SimpleName) || !isSameIdentifier(visited, i + 1, (SimpleName) expression)) {
@@ -277,7 +277,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 								String[] cumulativeParams= new String[arguments.size() + 1];
 								cumulativeParams[0]= klass.getQualifiedName();
 
-								for (int i= 0; i < arguments.size(); i++) {
+								for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									ITypeBinding resolveTypeBinding= arguments.get(i).resolveTypeBinding();
 
 									if (resolveTypeBinding == null) {
@@ -289,7 +289,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 								}
 
 								if (valid) {
-									for (IMethodBinding declaredMethodBinding : klass.getDeclaredMethods()) {
+									for (IMethodBinding declaredMethodBinding : klass.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (Modifier.isStatic(declaredMethodBinding.getModifiers())
 												&& ASTNodes.usesGivenSignature(declaredMethodBinding, klass.getQualifiedName(), methodInvocation.getName().getIdentifier(), cumulativeParams)) {
 											valid= false;
@@ -339,7 +339,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 		 * @return true if the parameters are obvious
 		 */
 		private boolean areSameIdentifiers(LambdaExpression node, List<Expression> arguments) {
-			for (int i= 0; i < node.parameters().size(); i++) {
+			for (int i= 0; i < node.parameters().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression expression= ASTNodes.getUnparenthesedExpression(arguments.get(i));
 
 				if (!(expression instanceof SimpleName) || !isSameIdentifier(node, i, (SimpleName) expression)) {
@@ -363,7 +363,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit unit) {
-		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		LambdaExpressionFinder finder= new LambdaExpressionFinder(rewriteOperations);
 		unit.accept(finder);
 
@@ -390,7 +390,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 			this.classBinding= classBinding;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -481,7 +481,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 			}
 		}
 
-		private ASTNode castMethodRefIfNeeded(final CompilationUnitRewrite cuRewrite, AST ast, Expression methodRef) {
+		private ASTNode castMethodRefIfNeeded(final CompilationUnitRewrite cuRewrite, AST ast, Expression methodRef) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean needCast= false;
 			ASTNode replacementNode= methodRef;
 			if (visited.getLocationInParent() == MethodInvocation.ARGUMENTS_PROPERTY) {
@@ -490,9 +490,9 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 				IMethodBinding parentBinding= parent.resolveMethodBinding().getMethodDeclaration();
 				if (parentBinding != null) {
 					ITypeBinding parentTypeBinding= parentBinding.getDeclaringClass().getErasure();
-					while (parentTypeBinding != null) {
+					while (parentTypeBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IMethodBinding[] parentTypeMethods= parentTypeBinding.getDeclaredMethods();
-						for (IMethodBinding parentTypeMethod : parentTypeMethods) {
+						for (IMethodBinding parentTypeMethod : parentTypeMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (parentTypeMethod.getName().equals(parentBinding.getName())
 									&& parentTypeMethod.getParameterTypes().length == args.size()
 									&& !parentTypeMethod.isEqualTo(parentBinding)) {
@@ -507,7 +507,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 						}
 					}
 					if (needCast) {
-						for (Expression arg : args) {
+						for (Expression arg : args) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (arg == visited) {
 								CastExpression cast= ast.newCastExpression();
 								cast.setExpression(methodRef);
@@ -528,7 +528,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 		}
 
 		private void copyParameters(final ASTRewrite rewrite, final LambdaExpression oldLambdaExpression, final LambdaExpression copyOfLambdaExpression) {
-			for (Object oldParameter : oldLambdaExpression.parameters()) {
+			for (Object oldParameter : oldLambdaExpression.parameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode copyOfParameter= ASTNodes.createMoveTarget(rewrite, (ASTNode) oldParameter);
 				copyOfLambdaExpression.parameters().add(copyOfParameter);
 			}
@@ -536,7 +536,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 			copyOfLambdaExpression.setParentheses(oldLambdaExpression.hasParentheses());
 		}
 
-		private static Type copyType(final CompilationUnitRewrite cuRewrite, final AST ast, final ASTNode node, final ITypeBinding typeBinding) {
+		private static Type copyType(final CompilationUnitRewrite cuRewrite, final AST ast, final ASTNode node, final ITypeBinding typeBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ImportRewrite importRewrite= cuRewrite.getImportRewrite();
 			ImportRewriteContext importContext= new ContextSensitiveImportRewriteContext(node, importRewrite);
 			ITypeBinding modifiedType;
@@ -562,7 +562,7 @@ public class LambdaExpressionAndMethodRefFixCore extends CompilationUnitRewriteO
 
 	public static LambdaExpressionAndMethodRefFixCore createLambdaExpressionAndMethodRefFix(ASTNode exp) {
 		CompilationUnit root= (CompilationUnit) exp.getRoot();
-		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		LambdaExpressionFinder finder= new LambdaExpressionFinder(rewriteOperations);
 		exp.accept(finder);
 		if (rewriteOperations.isEmpty()) {

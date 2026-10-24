@@ -39,7 +39,7 @@ public class OpenBytecodeReferenceAction implements IViewActionDelegate {
 			IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			activePage.showView("org.eclipse.jdt.bcoview.views.BytecodeReferenceView"); //$NON-NLS-1$
 		} catch (PartInitException e) {
-			BytecodeOutlinePlugin.error("Could not open Bytecode Reference View: " + e.getMessage(), e); //$NON-NLS-1$
+			BytecodeOutlinePlugin.error("Could not open Bytecode Reference View: " + e.getMessage(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}

@@ -117,7 +117,7 @@ public class OpenTypePerfTest extends JdtPerformanceTestCaseCommon {
 		//warm, repeated
 		joinBackgroudActivities();
 		try {
-			for (int i= 0; i < 10; i++) {
+			for (int i= 0; i < 10; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				measureOpenType("*Exception");
 			}
 		} finally {
@@ -131,7 +131,7 @@ public class OpenTypePerfTest extends JdtPerformanceTestCaseCommon {
 		//warm, repeated, many matches
 		joinBackgroudActivities();
 		try {
-			for (int i= 0; i < 10; i++) {
+			for (int i= 0; i < 10; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				measureOpenType("S");
 			}
 		} finally {
@@ -157,7 +157,7 @@ public class OpenTypePerfTest extends JdtPerformanceTestCaseCommon {
 		//warm, repeated, open SWT from history
 		joinBackgroudActivities();
 		try {
-			for (int i= 0; i < 10; i++) {
+			for (int i= 0; i < 10; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				measureOpenType("SWT", true);
 			}
 		} finally {
@@ -172,7 +172,7 @@ public class OpenTypePerfTest extends JdtPerformanceTestCaseCommon {
 		measureOpenType(pattern, false);
 	}
 
-	private void measureOpenType(String pattern, final boolean openFirst) throws Exception {
+	private void measureOpenType(String pattern, final boolean openFirst) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fShell= JavaPlugin.getActiveWorkbenchShell();
 
 		startMeasuring();
@@ -218,10 +218,10 @@ public class OpenTypePerfTest extends JdtPerformanceTestCaseCommon {
 
 		if (! openFirst) {
 			stopMeasuring();
-			fShell.getDisplay().asyncExec(() -> openTypeDialog.close());
+			fShell.getDisplay().asyncExec(() -> openTypeDialog.close()); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 		} else {
-			fShell.getDisplay().asyncExec(() -> {
+			fShell.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				openTypeDialog.getOkButton().notifyListeners(SWT.Selection, new Event());
 				stopMeasuring();
 			});

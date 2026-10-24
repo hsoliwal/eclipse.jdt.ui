@@ -22,7 +22,7 @@ import org.eclipse.jdt.internal.ui.packageview.PackageFragmentRootContainer;
  * The library container filter is a filter used to determine whether library containers are shown
  * that are empty or have all children filtered out by other filters.
  */
-public class NonEssentialEmptyLibraryContainerFilter extends NonEssentialElementsFilter {
+public class NonEssentialEmptyLibraryContainerFilter extends NonEssentialElementsFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	public NonEssentialEmptyLibraryContainerFilter() {
 		super(null);

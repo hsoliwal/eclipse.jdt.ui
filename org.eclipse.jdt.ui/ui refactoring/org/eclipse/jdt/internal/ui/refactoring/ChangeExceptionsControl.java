@@ -74,8 +74,8 @@ public class ChangeExceptionsControl extends Composite {
 			return removeMarkedAsDeleted((List<ExceptionInfo>) inputElement);
 		}
 		private ExceptionInfo[] removeMarkedAsDeleted(List<ExceptionInfo> exceptionInfos){
-			List<ExceptionInfo> result= new ArrayList<>(exceptionInfos.size());
-			for (ExceptionInfo info : exceptionInfos) {
+			List<ExceptionInfo> result= new ArrayList<>(exceptionInfos.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ExceptionInfo info : exceptionInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! info.isDeleted())
 					result.add(info);
 			}
@@ -136,7 +136,7 @@ public class ChangeExceptionsControl extends Composite {
 	public void setInput(List<ExceptionInfo> exceptionInfos) {
 		Assert.isNotNull(exceptionInfos);
 		fExceptionInfos= exceptionInfos;
-		fTableViewer.setInput(fExceptionInfos);
+		fTableViewer.setInput(fExceptionInfos); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		if (fExceptionInfos.size() > 0)
 			fTableViewer.setSelection(new StructuredSelection(fExceptionInfos.get(0)));
 	}
@@ -148,8 +148,8 @@ public class ChangeExceptionsControl extends Composite {
 		fTableViewer= new TableViewer(table);
 		fTableViewer.setUseHashlookup(true);
 		fTableViewer.setContentProvider(new ExceptionInfoContentProvider());
-		fTableViewer.setLabelProvider(new ExceptionInfoLabelProvider());
-		fTableViewer.addSelectionChangedListener(unused -> updateButtonsEnabledState());
+		fTableViewer.setLabelProvider(new ExceptionInfoLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fTableViewer.addSelectionChangedListener(unused -> updateButtonsEnabledState()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	private ExceptionInfo[] getSelectedItems() {
@@ -202,7 +202,7 @@ public class ChangeExceptionsControl extends Composite {
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(button);
 		button.setEnabled(true);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doAddException();
@@ -211,7 +211,7 @@ public class ChangeExceptionsControl extends Composite {
 		return button;
 	}
 
-	private void doAddException() {
+	private void doAddException() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType newException= chooseException();
 		if (newException == null)
 			return;
@@ -220,7 +220,7 @@ public class ChangeExceptionsControl extends Composite {
 		if (info != null) {
 			if (info.isDeleted()) {
 				info.markAsOld();
-				fTableViewer.refresh();
+				fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 			fListener.exceptionListChanged();
 			fTableViewer.getControl().setFocus();
@@ -231,7 +231,7 @@ public class ChangeExceptionsControl extends Composite {
 		info= ExceptionInfo.createInfoForAddedException(newException);
 		fExceptionInfos.add(info);
 		fListener.exceptionListChanged();
-		fTableViewer.refresh();
+		fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fTableViewer.getControl().setFocus();
 		int row= getTableItemCount() - 1;
 		getTable().setSelection(row);
@@ -239,7 +239,7 @@ public class ChangeExceptionsControl extends Composite {
 
 	}
 
-	private IType chooseException() {
+	private IType chooseException() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] elements= new IJavaElement[] { fProject.getJavaProject() };
 		final IJavaSearchScope scope= SearchEngine.createJavaSearchScope(elements);
 
@@ -268,7 +268,7 @@ public class ChangeExceptionsControl extends Composite {
 	private IStatus checkException(final IType type) throws JavaModelException {
 		ITypeHierarchy hierarchy= type.newSupertypeHierarchy(new NullProgressMonitor());
 		IType curr= type;
-		while (curr != null) {
+		while (curr != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= curr.getFullyQualifiedName();
 			if ("java.lang.Throwable".equals(name)) //$NON-NLS-1$
 				return StatusInfo.OK_STATUS;
@@ -279,23 +279,23 @@ public class ChangeExceptionsControl extends Composite {
 	}
 
 	private ExceptionInfo findExceptionInfo(IType exception) {
-		for (ExceptionInfo info : fExceptionInfos) {
+		for (ExceptionInfo info : fExceptionInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.getElement().equals(exception))
 				return info;
 		}
 		return null;
 	}
 
-	private Button createRemoveButton(Composite buttonComposite) {
+	private Button createRemoveButton(Composite buttonComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Button button= new Button(buttonComposite, SWT.PUSH);
 		button.setText(RefactoringMessages.ChangeExceptionsControl_buttons_remove);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		SWTUtil.setButtonDimensionHint(button);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int index= getTable().getSelectionIndices()[0];
-				for (ExceptionInfo s : getSelectedItems()) {
+				for (ExceptionInfo s : getSelectedItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (s.isAdded()) {
 						fExceptionInfos.remove(s);
 					} else {
@@ -305,7 +305,7 @@ public class ChangeExceptionsControl extends Composite {
 				restoreSelection(index);
 			}
 			private void restoreSelection(int index) {
-				fTableViewer.refresh();
+				fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fTableViewer.getControl().setFocus();
 				int itemCount= getTableItemCount();
 				if (itemCount != 0) {

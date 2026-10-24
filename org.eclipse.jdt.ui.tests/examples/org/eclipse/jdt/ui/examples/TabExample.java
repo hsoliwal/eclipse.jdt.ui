@@ -46,7 +46,7 @@ public class TabExample {
 		return this;
 	}
 
-	public TabExample open () {
+	public TabExample open () { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fShell= new Shell ();
 		fShell.setText("TabTest");
 		fShell.setLayout(new GridLayout());
@@ -135,7 +135,7 @@ public class TabExample {
 
 	public TabExample run () {
 		Display display= fShell.getDisplay ();
-		while (!fShell.isDisposed ()) {
+		while (!fShell.isDisposed ()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!display.readAndDispatch ()) display.sleep ();
 		}
 		return this;

@@ -79,26 +79,26 @@ public class UselessReturnCleanUp extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("public void foo() {\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("public void foo() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.REMOVE_USELESS_RETURN)) {
-			bld.append("}\n\n"); //$NON-NLS-1$
+			bld.append("}\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("    return;\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
+			bld.append("    return;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.REMOVE_USELESS_RETURN)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -121,7 +121,7 @@ public class UselessReturnCleanUp extends AbstractMultiFix {
 					return startNode == node;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(final ReturnStatement node) {
 					if (result && node.getExpression() == null && isLastStatement(node)) {
 						// do not remove a single return statement in a lambda body if it has a commmeht
@@ -141,7 +141,7 @@ public class UselessReturnCleanUp extends AbstractMultiFix {
 					return true;
 				}
 
-				private boolean isLastStatement(final Statement node) {
+				private boolean isLastStatement(final Statement node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					Statement nextStatement= ASTNodes.getNextStatement(node);
 
 					if (nextStatement == null) {
