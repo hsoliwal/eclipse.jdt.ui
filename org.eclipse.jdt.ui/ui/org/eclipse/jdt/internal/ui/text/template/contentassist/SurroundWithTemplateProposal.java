@@ -88,9 +88,11 @@ public class SurroundWithTemplateProposal extends TemplateProposal { //FLLDCIM: 
 		}
 
 		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		private static final Pattern TEMPLATE_VARIABLE_REG_EX_PATTERN = Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$
+
 		protected boolean isNewContext() {
 
-			final Pattern templateVariableRegEx= Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			final Pattern templateVariableRegEx= TEMPLATE_VARIABLE_REG_EX_PATTERN; //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 			String template= fTemplate.getPattern();
 			Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
