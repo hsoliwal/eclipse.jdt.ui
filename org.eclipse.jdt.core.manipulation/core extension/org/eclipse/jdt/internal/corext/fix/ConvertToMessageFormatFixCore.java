@@ -205,6 +205,8 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 			this.infixExpression= infixExpression;
 		}
 
+		private static final Pattern REWRITE_AST_PATTERN = Pattern.compile("\""); //$NON-NLS-1$
+
 		@Override
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			final List<String> fLiterals= new ArrayList<>();
@@ -340,7 +342,7 @@ public class ConvertToMessageFormatFixCore extends CompilationUnitRewriteOperati
 				buf.append("\"\"\""); //$NON-NLS-1$
 				buffer.append(buf.toString());
 			} else {
-				buffer.append("\"" + formatString.toString().replaceAll("\"", "\\\"") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				buffer.append("\"" + REWRITE_AST_PATTERN.matcher(formatString.toString()).replaceAll("\\\"") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 
 			for (String formatArgument : formatArguments) {

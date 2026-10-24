@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -413,6 +414,8 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 		return buf.toString();
 	}
 
+	private static final Pattern CONTEXT_NAME_PATTERN = Pattern.compile("\\?"); //$NON-NLS-1$
+
 	/**
 	 * Returns a type argument proposal for a given type binding. The proposal is:
 	 * <ul>
@@ -439,7 +442,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 
 			if (binding.isUpperbound()) {
 				// replace the wildcard ? with the type parameter name to get "E extends Bound" instead of "? extends Bound"
-				String contextName= name.replaceFirst("\\?", parameter.getElementName()); //$NON-NLS-1$
+				String contextName= CONTEXT_NAME_PATTERN.matcher(name).replaceFirst(parameter.getElementName());
 				// upper bound - the upper bound is the bound itself
 				return new TypeArgumentProposal(binding.getBound().getName(), true, contextName);
 			}

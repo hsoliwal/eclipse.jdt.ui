@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IPath;
@@ -792,17 +793,23 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 	}
 
 
+	private static final Pattern TEXT_PATTERN = Pattern.compile("^\\s"); //$NON-NLS-1$
+	private static final Pattern TEXT_PATTERN_2 = Pattern.compile("(\r\n?|\n)([ \t]*\\*)"); //$NON-NLS-1$
+
+
 	protected void handleInLineTextElement(TextElement te, boolean skipLeadingWhitespace, TagElement tagElement, ASTNode previousNode) {
 		String text= te.getText();
 		if (skipLeadingWhitespace) {
-			text= text.replaceFirst("^\\s", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			text= TEXT_PATTERN.matcher(text).replaceFirst(""); //$NON-NLS-1$
 		}
 
 		// workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=233481 :
-		text= text.replaceAll("(\r\n?|\n)([ \t]*\\*)", "$1"); //$NON-NLS-1$ //$NON-NLS-2$
+		text= TEXT_PATTERN_2.matcher(text).replaceAll("$1"); //$NON-NLS-1$
 		text= handlePreCounter(tagElement, text);
 		handleInLineText(text, previousNode);
 	}
+
+	private static final Pattern HANDLE_PRE_COUNTER_PATTERN = Pattern.compile("}\\s*</pre>"); //$NON-NLS-1$
 
 	protected String handlePreCounter(TagElement tagElement, String text) {
 		if (tagElement == null && text.equals("<pre>")) { //$NON-NLS-1$
@@ -812,7 +819,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 			if (fPreCounter == fInPreCodeCounter) {
 				fInPreCodeCounter= -1;
 			}
-		} else if (tagElement == null && fPreCounter > 0 && text.matches("}\\s*</pre>")) { //$NON-NLS-1$
+		} else if (tagElement == null && fPreCounter > 0 && HANDLE_PRE_COUNTER_PATTERN.matcher(text).matches()) {
 			// this is a temporary workaround for https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/316
 			// as the parser for @code is treating the first } it finds as the end of the code
 			// sequence but this is not the case for a <pre>{@code sequence which goes over
@@ -1003,6 +1010,8 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		return (ASTNode) fragments.get(index + 1);
 	}
 
+	private static final Pattern IS_THREE_BACK_TICK_OR_PRE_PATTERN = Pattern.compile("(?s)[\\s*/]+"); //$NON-NLS-1$
+
 	protected boolean isThreeBackTickOrPre(TagElement parent, ASTNode node) {
 		if (fPreCounter > 0) {
 			return true;
@@ -1026,7 +1035,7 @@ public class CoreJavadocAccessImpl implements IJavadocAccess {
 		int lookaheadEnd= Math.min(nodeEnd + 40, fSource.length());
 		if (nodeEnd < lookaheadEnd) {
 			String following= fSource.substring(nodeEnd, lookaheadEnd);
-			String stripped= following.replaceAll("(?s)[\\s*/]+", " ").trim(); //$NON-NLS-1$ //$NON-NLS-2$
+			String stripped= IS_THREE_BACK_TICK_OR_PRE_PATTERN.matcher(following).replaceAll(" ").trim(); //$NON-NLS-1$
 			return stripped.startsWith("```") || stripped.startsWith("<pre>"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return false;

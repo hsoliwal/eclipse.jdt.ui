@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
@@ -76,12 +77,14 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 			return Collections.singleton(FencedCodeBlock.class);
 		}
 
+		private static final Pattern RENDER_PATTERN = Pattern.compile("\\s+"); //$NON-NLS-1$
+
 		@Override
 		public void render(Node node) {
 			FencedCodeBlock codeBlock= (FencedCodeBlock) node;
 			String info= codeBlock.getInfo();
 			if (info != null) {
-				info= info.trim().split("\\s+", 2)[0]; //$NON-NLS-1$
+				info= RENDER_PATTERN.split(info.trim(), 2)[0];
 			}
 			String literal= codeBlock.getLiteral();
 			boolean isJava= info != null && JAVA_LANGUAGES.contains(info.trim().toLowerCase());
@@ -106,11 +109,14 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 		}
 	}
 
+	private static final Pattern CONTENT_PATTERN = Pattern.compile("\\\\u000[d,D]"); //$NON-NLS-1$
+	private static final Pattern CONTENT_PATTERN_2 = Pattern.compile("\\\\u000[a,A]"); //$NON-NLS-1$
+
 	@Override
 	protected String removeDocLineIntros(String textWithSlashes) {
 		// handle unicode
-		String content= textWithSlashes.replaceAll("\\\\u000[d,D]", "\r"); //$NON-NLS-1$ //$NON-NLS-2$
-		content= content.replaceAll("\\\\u000[a,A]", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		String content= CONTENT_PATTERN.matcher(textWithSlashes).replaceAll("\r"); //$NON-NLS-1$
+		content= CONTENT_PATTERN_2.matcher(content).replaceAll("\n"); //$NON-NLS-1$
 		String lineBreakGroup= "(\\r\\n?|\\n)"; //$NON-NLS-1$
 		String noBreakSpace= "[^\r\n&&\\s]"; //$NON-NLS-1$
 		// in the markdown case relevant leading whitespace is contained in TextElements, no need to preserve blanks *between* elements

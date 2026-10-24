@@ -17,6 +17,7 @@ import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -64,7 +65,6 @@ import org.eclipse.jdt.ui.text.JavaSourceViewerConfiguration;
 import org.eclipse.jdt.internal.ui.text.SmartBackspaceManager;
 import org.eclipse.jdt.internal.ui.text.java.CompletionProposalComputerRegistry;
 import org.eclipse.jdt.internal.ui.text.java.JavaFormattingContext;
-
 
 
 public class JavaSourceViewer extends ProjectionViewer implements IPropertyChangeListener {
@@ -128,6 +128,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 	 * @since 3.4
 	 */
 	private static final String BIDI_DELIMITERS= "[ \\p{Punct}&&[^_]]"; //$NON-NLS-1$
+	private static final Pattern BIDI_DELIMITERS_PATTERN = Pattern.compile(BIDI_DELIMITERS);
 
 
 	public JavaSourceViewer(Composite parent, IVerticalRuler verticalRuler, IOverviewRuler overviewRuler, boolean showAnnotationsOverview, int styles, IPreferenceStore store) {
@@ -566,7 +567,7 @@ public class JavaSourceViewer extends ProjectionViewer implements IPropertyChang
 				int partitionEnd= Math.min(lineLength, lineOffset + partition.getLength());
 				while (++lineOffset < partitionEnd) {
 					if (isMismatchingLevel(bidi.getLevelAt(lineOffset), baseLevel)
-							&& String.valueOf(lineText.charAt(lineOffset)).matches(BIDI_DELIMITERS)) {
+							&& BIDI_DELIMITERS_PATTERN.matcher(String.valueOf(lineText.charAt(lineOffset))).matches()) {
 						// For default content types, indicate a segment before
 						// a delimiting character with a mismatching embedding
 						// level.

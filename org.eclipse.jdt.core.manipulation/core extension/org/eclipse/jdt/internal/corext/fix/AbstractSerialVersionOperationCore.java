@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.text.edits.TextEditGroup;
 
 import org.eclipse.jdt.core.ICompilationUnit;
+
+import java.util.regex.Pattern;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
@@ -85,6 +87,8 @@ public abstract class AbstractSerialVersionOperationCore extends CompilationUnit
 	 */
 	protected abstract void addLinkedPositions(final ASTRewrite rewrite, final VariableDeclarationFragment fragment, final LinkedProposalModelCore positionGroups);
 
+	private static final Pattern REWRITE_AST_PATTERN = Pattern.compile("[/\\* \t\n]*"); //$NON-NLS-1$
+
 	@Override
 	public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore positionGroups) throws CoreException {
 		final ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -125,7 +129,7 @@ public abstract class AbstractSerialVersionOperationCore extends CompilationUnit
 			}
 
 			final String comment= CodeGeneration.getFieldComment(fUnit, declaration.getType().toString(), NAME_FIELD, StubUtility.getLineDelimiterUsed(fUnit));
-			if (comment != null && comment.length() > 0 && !comment.matches("[/\\* \t\n]*")) { //$NON-NLS-1$
+			if (comment != null && comment.length() > 0 && !REWRITE_AST_PATTERN.matcher(comment).matches()) {
 				final Javadoc doc= (Javadoc) rewrite.createStringPlaceholder(comment, ASTNode.JAVADOC);
 				declaration.setJavadoc(doc);
 			}

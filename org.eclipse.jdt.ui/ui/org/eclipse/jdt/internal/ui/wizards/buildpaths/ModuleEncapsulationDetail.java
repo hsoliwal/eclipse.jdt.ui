@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IPath;
@@ -108,9 +109,11 @@ public abstract class ModuleEncapsulationDetail {
 	 */
 	static class ModulePatch extends ModuleEncapsulationDetail {
 
+		private static final Pattern FROM_MULTI_STRING_PATTERN = Pattern.compile("::");
+
 		public static Collection<ModulePatch> fromMultiString(CPListElementAttribute attribElem, String values) {
 			List<ModulePatch> patches= new ArrayList<>();
-			for (String value : values.split("::")) { // see comment in #encodeFiltered(..) //$NON-NLS-1$
+			for (String value : FROM_MULTI_STRING_PATTERN.split(values)) { // see comment in #encodeFiltered(..) //$NON-NLS-1$
 				ModulePatch patch= fromString(attribElem, value);
 				if (patch != null)
 					patches.add(patch);

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import java.text.MessageFormat;
@@ -618,6 +619,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 	static class AccessiblePackage extends DetailNode<ModuleAddExpose> {
 		// separator for target modules
 		private static final String COMMA= ","; //$NON-NLS-1$
+		private static final Pattern COMMA_PATTERN = Pattern.compile(COMMA);
 
 		enum Kind { Exports, Opens;
 			ImageDescriptor getDecoration() {
@@ -663,7 +665,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 		}
 		public Object[] getTargetModules() {
 			if (fTargetModules != null && !fTargetModules.isEmpty()) {
-				String[] targets= fTargetModules.split(COMMA);
+				String[] targets= COMMA_PATTERN.split(fTargetModules);
 				Object[] result= new Object[targets.length];
 				for (int i= 0; i < targets.length; i++) {
 					result[i]= new TargetModule(this, targets[i]);
@@ -676,7 +678,7 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			if (fTargetModules == null) {
 				return false;
 			}
-			List<String> targets= new ArrayList<>(Arrays.asList(fTargetModules.split(COMMA)));
+			List<String> targets= new ArrayList<>(Arrays.asList(COMMA_PATTERN.split(fTargetModules)));
 			if (targets.remove(module)) {
 				fTargetModules= String.join(COMMA, targets);
 			}

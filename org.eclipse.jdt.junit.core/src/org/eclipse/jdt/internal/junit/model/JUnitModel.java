@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -395,6 +396,8 @@ public final class JUnitModel {
 		return replacementSession;
 	}
 
+	private static final Pattern TRIMMED_URL_PATTERN = Pattern.compile("\r\n?|\n"); //$NON-NLS-1$
+
 	/**
 	 * Imports a test run session from the given URL.
 	 *
@@ -407,7 +410,7 @@ public final class JUnitModel {
 	 */
 	public static TestRunSession importTestRunSession(String url, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		monitor.beginTask(ModelMessages.JUnitModel_importing_from_url, IProgressMonitor.UNKNOWN);
-		final String trimmedUrl= url.trim().replaceAll("\r\n?|\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		final String trimmedUrl= TRIMMED_URL_PATTERN.matcher(url.trim()).replaceAll(""); //$NON-NLS-1$
 		final TestRunHandler handler= new TestRunHandler(monitor);
 
 		final CoreException[] exception= { null };
