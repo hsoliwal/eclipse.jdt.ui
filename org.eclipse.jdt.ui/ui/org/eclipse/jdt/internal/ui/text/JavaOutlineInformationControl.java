@@ -135,10 +135,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 				try {
 					IType type= getDefiningType(element);
 					if (type != null) {
-						StringBuilder buf= new StringBuilder(super.getText(type));
-						buf.append(JavaElementLabels.CONCAT_STRING);
-						buf.append(text);
-						return buf.toString();
+						return super.getText(type) + JavaElementLabels.CONCAT_STRING + text;
 					}
 				} catch (JavaModelException e) {
 					// go with the simple label

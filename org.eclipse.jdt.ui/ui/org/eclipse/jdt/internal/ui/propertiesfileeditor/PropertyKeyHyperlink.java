@@ -459,10 +459,7 @@ public class PropertyKeyHyperlink implements IHyperlink {
 							//maybe not an eclipse style NLS string
 							String searchString;
 							if (useDoubleQuotedKey) {
-								StringBuilder buf= new StringBuilder("\""); //$NON-NLS-1$
-								buf.append(key);
-								buf.append('"');
-								searchString= buf.toString();
+								searchString= "\"" + key + '"'; //$NON-NLS-1$
 							} else
 								searchString= key;
 							ResultCollector collector= new ResultCollector(result, useDoubleQuotedKey);

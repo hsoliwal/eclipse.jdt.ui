@@ -633,15 +633,11 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 				fModuleList.refresh();
 			}
 		} else {
-			StringBuilder message= new StringBuilder(
-					MessageFormat.format(NewWizardMessages.ModuleDependenciesPage_removingModuleTransitive_message, seedModules));
-			// append sorted list minus the selected module:
-			message.append(allModulesToRemove.stream()
-					.filter(m -> !seedModules.contains(m))
-					.sorted()
-					.collect(Collectors.joining("\n\t", "\t", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			if (!confirmRemoveModule(message.toString()))
-				return;
+			if (!confirmRemoveModule(MessageFormat.format(NewWizardMessages.ModuleDependenciesPage_removingModuleTransitive_message, seedModules) + allModulesToRemove.stream()
+                    .filter(m -> !seedModules.contains(m))
+                    .sorted()
+                    .collect(Collectors.joining("\n\t", "\t", ""))))
+				return; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			fModuleList.fNames.removeAll(allModulesToRemove);
 			fModuleList.refresh();
 		}

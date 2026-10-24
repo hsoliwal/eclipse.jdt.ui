@@ -202,9 +202,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 
 		public CategoryFilterAction(String category, int count) {
 			fCategory= category;
-			StringBuilder buf = new StringBuilder();
-			buf.append('&').append(count).append(' ').append(fCategory);
-			setText(buf.toString());
+			setText("" + '&' + count + ' ' + fCategory);
 			setChecked(!fFilteredCategories.contains(fCategory));
 			setId(FILTER_CATEGORY_ACTION_ID);
 		}

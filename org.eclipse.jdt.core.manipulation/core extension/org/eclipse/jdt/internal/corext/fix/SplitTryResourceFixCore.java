@@ -116,9 +116,7 @@ public final class SplitTryResourceFixCore extends CompilationUnitRewriteOperati
 				if (copyResources) {
 					int start= root.getExtendedStartPosition(resource);
 					int length= root.getExtendedLength(resource);
-					StringBuffer buffer= new StringBuffer(prefix);
-					buffer.append(cuBuffer.getText(start, length));
-					VariableDeclarationExpression newVarExpression= (VariableDeclarationExpression) rewrite.createStringPlaceholder(buffer.toString(), ASTNode.VARIABLE_DECLARATION_EXPRESSION);
+					VariableDeclarationExpression newVarExpression= (VariableDeclarationExpression) rewrite.createStringPlaceholder(prefix + cuBuffer.getText(start, length), ASTNode.VARIABLE_DECLARATION_EXPRESSION);
 					newTryStatement.resources().add(newVarExpression);
 					rewrite.remove(resource, group);
 					prefix= "\n" + fIndent + fIndent; //$NON-NLS-1$

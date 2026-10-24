@@ -397,11 +397,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			} else {
 				ASTNode stmt= ASTNodes.getFirstAncestorOrNull(fInfix, Statement.class, FieldDeclaration.class);
 				ICompilationUnit cu= (ICompilationUnit)((CompilationUnit)fInfix.getRoot()).getJavaElement();
-				StringBuilder buffer= new StringBuilder();
-				buffer.append(cu.getBuffer().getText(stmt.getStartPosition(), fInfix.getStartPosition() - stmt.getStartPosition()));
-				buffer.append(buf.toString());
-				buffer.append(cu.getBuffer().getText(fInfix.getStartPosition() + fInfix.getLength(), stmt.getStartPosition() + stmt.getLength() - fInfix.getStartPosition() - fInfix.getLength()));
-				ASTNode newStmt= rewrite.createStringPlaceholder(buffer.toString(), stmt.getNodeType());
+				ASTNode newStmt= rewrite.createStringPlaceholder(cu.getBuffer().getText(stmt.getStartPosition(), fInfix.getStartPosition() - stmt.getStartPosition()) + buf.toString() + cu.getBuffer().getText(fInfix.getStartPosition() + fInfix.getLength(), stmt.getStartPosition() + stmt.getLength() - fInfix.getStartPosition() - fInfix.getLength()), stmt.getNodeType());
 				ASTNodes.replaceButKeepComment(rewrite, stmt, newStmt, group);
 			}
 		}
@@ -1069,13 +1065,7 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 					newStmt.setType(t);
 					ASTNodes.replaceButKeepComment(rewrite, fStatements.get(0), newStmt, group);
 				} else {
-					StringBuilder builder= new StringBuilder();
-					builder.append("String "); //$NON-NLS-1$
-					builder.append(newVarName);
-					builder.append(" = "); //$NON-NLS-1$
-					builder.append(buf.toString());
-					builder.append("; //$NON-NLS-1$"); //$NON-NLS-1$
-					VariableDeclarationStatement newStmt= (VariableDeclarationStatement) rewrite.createStringPlaceholder(builder.toString(), ASTNode.VARIABLE_DECLARATION_STATEMENT);
+					VariableDeclarationStatement newStmt= (VariableDeclarationStatement) rewrite.createStringPlaceholder("String " + newVarName + " = " + buf.toString() + "; //$NON-NLS-1$", ASTNode.VARIABLE_DECLARATION_STATEMENT); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					ASTNodes.replaceButKeepComment(rewrite, fStatements.get(0), newStmt, group);
 				}
 				for (int i= 1; i < fStatements.size(); ++i) {

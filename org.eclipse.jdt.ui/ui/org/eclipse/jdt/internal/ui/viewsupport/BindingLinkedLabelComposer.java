@@ -757,10 +757,7 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		} else if (getFlag(flags, JavaElementLabels.T_CONTAINER_QUALIFIED)) {
 			ITypeBinding declaringClass= typeBinding.getDeclaringClass();
 			if (declaringClass != null) {
-				StringBuilder buf= new StringBuilder(getTypeName(declaringClass, flags));
-				buf.append('.');
-				buf.append(typeBinding.getName());
-				return buf.toString();
+				return getTypeName(declaringClass, flags) + '.' + typeBinding.getName();
 			}
 		}
 		return typeBinding.getName();

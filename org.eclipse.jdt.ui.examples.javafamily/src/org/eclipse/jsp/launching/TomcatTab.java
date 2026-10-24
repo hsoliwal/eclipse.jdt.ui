@@ -242,20 +242,7 @@ public class TomcatTab extends AbstractLaunchConfigurationTab {
 				String home = TomcatLaunchDelegate.getCatalinaHome();
 				IPath endorsed = new Path(home).append("common").append("endorsed");  //$NON-NLS-1$//$NON-NLS-2$
 				IPath temp = new Path(home).append("temp"); //$NON-NLS-1$
-				StringBuilder args = new StringBuilder();
-				args.append("-Djava.endorsed.dirs=\""); //$NON-NLS-1$
-				args.append(endorsed.toOSString());
-				args.append("\" "); //$NON-NLS-1$
-				args.append("-Dcatalina.base=\""); //$NON-NLS-1$
-				args.append(home);
-				args.append("\" "); //$NON-NLS-1$
-				args.append("-Dcatalina.home=\""); //$NON-NLS-1$
-				args.append(home);
-				args.append("\" "); //$NON-NLS-1$
-				args.append("-Djava.io.tmpdir=\""); //$NON-NLS-1$
-				args.append(temp.toOSString());
-				args.append("\"");  //$NON-NLS-1$
-				workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, args.toString());
+				workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "-Djava.endorsed.dirs=\"" + endorsed.toOSString() + "\" " + "-Dcatalina.base=\"" + home + "\" " + "-Dcatalina.home=\"" + home + "\" " + "-Djava.io.tmpdir=\"" + temp.toOSString() + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 				workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, "start"); //$NON-NLS-1$
 			}
 		} catch (CoreException e) {

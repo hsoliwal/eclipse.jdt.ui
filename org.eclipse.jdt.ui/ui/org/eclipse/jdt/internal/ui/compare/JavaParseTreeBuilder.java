@@ -250,11 +250,7 @@ class JavaParseTreeBuilder extends ASTVisitor {
     }
 
     private String getSignature(AnnotationTypeMemberDeclaration node) {
-    	StringBuilder buffer= new StringBuilder();
-        buffer.append(node.getName().toString());
-        buffer.append('(');
-        buffer.append(')');
-        return buffer.toString();
+    	return node.getName().toString() + '(' + ')';
     }
 
 	private String getType(Type type) {

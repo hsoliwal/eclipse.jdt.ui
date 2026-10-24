@@ -3110,10 +3110,7 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		if (fTypeKind == COMPACT_TYPE) {
 			return ""; //$NON-NLS-1$
 		}
-		StringBuilder buf= new StringBuilder("public class "); //$NON-NLS-1$
-		buf.append(getTypeName());
-		buf.append("{ }"); //$NON-NLS-1$
-		return buf.toString();
+		return "public class " + getTypeName() + "{ }"; //$NON-NLS-1$ //$NON-NLS-2$
 
 
 	}

@@ -957,16 +957,11 @@ public class TypeContextChecker {
 	}
 
 	public static ITypeBinding resolveSuperClass(String superclass, IType typeHandle, StubTypeContext superClassContext) {
-		StringBuilder cuString= new StringBuilder();
-		cuString.append(superClassContext.getBeforeString());
-		cuString.append(superclass);
-		cuString.append(superClassContext.getAfterString());
-
 		try {
 			ICompilationUnit wc= typeHandle.getCompilationUnit().getWorkingCopy(new WorkingCopyOwner() {
 				/*subclass*/}, new NullProgressMonitor());
 			try {
-				wc.getBuffer().setContents(cuString.toString());
+				wc.getBuffer().setContents(superClassContext.getBeforeString() + superclass + superClassContext.getAfterString());
 				CompilationUnit compilationUnit= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(wc, true);
 				ASTNode type= NodeFinder.perform(compilationUnit, superClassContext.getBeforeString().length(), superclass.length());
 				if (type instanceof Type) {

@@ -387,10 +387,7 @@ public class CoreJavaDoc2HTMLTextReader extends SubstitutionReader {
 		int c= nextChar();
 
 		if (c != '@') {
-			StringBuilder buffer= new StringBuilder();
-			buffer.append('{');
-			buffer.append((char) c);
-			return buffer.toString();
+			return "" + '{' + (char) c;
 		}
 
 		StringBuilder buffer= new StringBuilder();

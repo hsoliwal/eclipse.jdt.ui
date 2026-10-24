@@ -536,11 +536,6 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	}
 
 	private void createPackageInfoJava(IProgressMonitor monitor) throws CoreException {
-		StringBuilder fileContent= new StringBuilder();
-		fileContent.append("package "); //$NON-NLS-1$
-		fileContent.append(fCreatedPackageFragment.getElementName());
-		fileContent.append(";"); //$NON-NLS-1$
-
-		InfoFilesUtil.createInfoJavaFile(PACKAGE_INFO_JAVA_FILENAME, fileContent.toString(), fCreatedPackageFragment,this.isAddComments(), monitor);
+		InfoFilesUtil.createInfoJavaFile(PACKAGE_INFO_JAVA_FILENAME, "package " + fCreatedPackageFragment.getElementName() + ";", fCreatedPackageFragment,this.isAddComments(), monitor); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

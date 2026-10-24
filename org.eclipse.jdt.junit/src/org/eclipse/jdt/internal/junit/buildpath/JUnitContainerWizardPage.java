@@ -221,10 +221,7 @@ public class JUnitContainerWizardPage extends NewElementWizardPage implements IC
 	}
 
 	private String getPathLabel(IPath path) {
-		StringBuilder buf= new StringBuilder(BasicElementLabels.getResourceName(path.lastSegment()));
-		buf.append(JavaElementLabels.CONCAT_STRING);
-		buf.append(BasicElementLabels.getPathLabel(path.removeLastSegments(1), true));
-		return buf.toString();
+		return BasicElementLabels.getResourceName(path.lastSegment()) + JavaElementLabels.CONCAT_STRING + BasicElementLabels.getPathLabel(path.removeLastSegments(1), true);
 	}
 
 	@Override
