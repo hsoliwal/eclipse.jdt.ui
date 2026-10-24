@@ -16,6 +16,7 @@ package org.eclipse.jdt.internal.corext.fix;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.CoreException;
 
@@ -170,6 +171,8 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 			this.oldInfixExpression= oldInfixExpression;
 		}
 
+		private static final Pattern REWRITE_AST_PATTERN = Pattern.compile(","); //$NON-NLS-1$
+
 		@Override
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			ICompilationUnit cu= cuRewrite.getCu();
@@ -305,7 +308,7 @@ public class ConvertToStringBufferFixCore extends CompilationUnitRewriteOperatio
 				linkedModel.getPositionGroup(groupID, true).addPosition(rewrite.track(bufferNameReference), true);
 
 				if (tagsCount > 0) {
-					ASTNodes.replaceAndRemoveNLSByCount(rewrite, oldInfixExpression, bufferToString.toString().replaceAll(",", ", "), tagsCount, null, cuRewrite); //$NON-NLS-1$ //$NON-NLS-2$
+					ASTNodes.replaceAndRemoveNLSByCount(rewrite, oldInfixExpression, REWRITE_AST_PATTERN.matcher(bufferToString.toString()).replaceAll(", "), tagsCount, null, cuRewrite); //$NON-NLS-1$
 				} else {
 					rewrite.replace(oldInfixExpression, bufferToString, null);
 				}

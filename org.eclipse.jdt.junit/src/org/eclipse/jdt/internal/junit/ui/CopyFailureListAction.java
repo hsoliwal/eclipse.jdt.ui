@@ -28,6 +28,8 @@ import org.eclipse.ui.PlatformUI;
 
 import org.eclipse.jdt.internal.junit.model.TestElement;
 
+import java.util.regex.Pattern;
+
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
 /**
@@ -66,6 +68,8 @@ public class CopyFailureListAction extends Action {
 		}
 	}
 
+	private static final Pattern FAILURE_TRACE_PATTERN = Pattern.compile("\\r\\n|\\r|\\n"); //$NON-NLS-1$
+
 	public String getAllFailureTraces() {
 		StringBuilder buf= new StringBuilder();
 		TestElement[] failures= fRunner.getAllFailures();
@@ -75,7 +79,7 @@ public class CopyFailureListAction extends Action {
 			buf.append(failure.getTestName()).append(lineDelim);
 			String failureTrace= failure.getTrace();
 			if (failureTrace != null) {
-				failureTrace = failureTrace.replaceAll("\\r\\n|\\r|\\n", lineDelim); //$NON-NLS-1$
+				failureTrace = FAILURE_TRACE_PATTERN.matcher(failureTrace).replaceAll(lineDelim);
 				buf.append(failureTrace);
 			}
 		}
