@@ -611,7 +611,7 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 	 * @return boolean
 	 */
 	private boolean ensureAntScriptFileIsValid(File antScriptFile) {
-		if (antScriptFile.exists() && antScriptFile.isDirectory() && fAntScriptNamesCombo.getText().length() > 0) {
+		if (antScriptFile.isDirectory() && fAntScriptNamesCombo.getText().length() > 0) {
 			setErrorMessage(FatJarPackagerMessages.FatJarPackageWizardPage_error_antScriptLocationIsDir);
 			fAntScriptNamesCombo.setFocus();
 			return false;

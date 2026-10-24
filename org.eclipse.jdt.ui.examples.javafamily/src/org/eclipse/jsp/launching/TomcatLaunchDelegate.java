@@ -70,7 +70,7 @@ public class TomcatLaunchDelegate extends JavaLaunchDelegate {
 			String home = variable.getValue();
 			if (home != null && home.length() > 0) {
 				File file = new File(home);
-				if (file.exists() && file.isDirectory()) {
+				if (file.isDirectory()) {
 					return home;
 				} else {
 					err = new Status(IStatus.ERROR, JspUIPlugin.getDefault().getBundle().getSymbolicName(), 0, MessageFormat.format(LaunchingMessages.TomcatLaunchDelegate_7, home), null);

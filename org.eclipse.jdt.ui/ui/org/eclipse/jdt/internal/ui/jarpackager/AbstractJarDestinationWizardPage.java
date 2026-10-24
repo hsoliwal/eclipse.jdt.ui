@@ -216,7 +216,7 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 	 * @return boolean
 	 */
 	protected boolean ensureTargetFileIsValid(File targetFile) {
-		if (targetFile.exists() && targetFile.isDirectory() && fDestinationNamesCombo.getText().length() > 0) {
+		if (targetFile.isDirectory() && fDestinationNamesCombo.getText().length() > 0) {
 			setErrorMessage(JarPackagerMessages.JarPackageWizardPage_error_exportDestinationMustNotBeDirectory);
 			fDestinationNamesCombo.setFocus();
 			return false;
