@@ -70,6 +70,8 @@ public class SurroundWithTemplateProposal extends TemplateProposal { //FLLDCIM: 
 
 		private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
+		private static final Pattern TEMPLATE_VARIABLE_REG_EX_PATTERN = Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$
+
 		private final Template fTemplate;
 		private final IJavaProject fCurrentProject;
 		private ASTNode fTemplateNode;
@@ -90,7 +92,7 @@ public class SurroundWithTemplateProposal extends TemplateProposal { //FLLDCIM: 
 		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected boolean isNewContext() {
 
-			final Pattern templateVariableRegEx= Pattern.compile("\\$\\{[^\\}]*\\}"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			final Pattern templateVariableRegEx= TEMPLATE_VARIABLE_REG_EX_PATTERN; //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 			String template= fTemplate.getPattern();
 			Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL

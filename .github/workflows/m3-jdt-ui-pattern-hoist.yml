@@ -1,0 +1,33 @@
+name: M3 JDT UI Pattern Hoist Parity
+on:
+  pull_request:
+    paths:
+      - 'org.eclipse.jdt.core.manipulation/**'
+      - 'org.eclipse.jdt.ui/**'
+      - 'tools/m3/PatternHoistParity.java'
+      - '.github/workflows/m3-jdt-ui-pattern-hoist.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Diff hygiene
+        run: git diff --check origin/master...HEAD
+      - name: Compile and execute Java21 parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/jdt-pattern-parity"
+          javac --release 21 -encoding UTF-8 -Xlint:all -Werror \
+            -d "$RUNNER_TEMP/jdt-pattern-parity" tools/m3/PatternHoistParity.java
+          java -cp "$RUNNER_TEMP/jdt-pattern-parity" PatternHoistParity
