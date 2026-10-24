@@ -164,11 +164,7 @@ public class Bindings {
 			Assert.isTrue("length".equals(variableBinding.getName()));//$NON-NLS-1$
 			return ARRAY_LENGTH_FIELD_BINDING_STRING;
 		}
-		StringBuilder result= new StringBuilder();
-		result.append(variableBinding.getDeclaringClass().getName());
-		result.append(':');
-		result.append(variableBinding.getName());
-		return result.toString();
+		return variableBinding.getDeclaringClass().getName() + ':' + variableBinding.getName();
 	}
 
 	private static String asString(IMethodBinding method) {
@@ -1258,9 +1254,7 @@ public class Bindings {
 		if (binding.isArray()) {
 			String elementTypeQualifiedName = getRawQualifiedName(binding.getElementType());
 			if (elementTypeQualifiedName.length() != 0) {
-				StringBuilder stringBuffer= new StringBuilder(elementTypeQualifiedName);
-				stringBuffer.append('[').append(']');
-				return stringBuffer.toString();
+				return elementTypeQualifiedName + '[' + ']';
 			} else {
 				return EMPTY;
 			}
@@ -1268,11 +1262,7 @@ public class Bindings {
 		if (binding.isMember()) {
 			String outerName= getRawQualifiedName(binding.getDeclaringClass());
 			if (outerName.length() > 0) {
-				StringBuilder buffer= new StringBuilder();
-				buffer.append(outerName);
-				buffer.append('.');
-				buffer.append(getRawName(binding));
-				return buffer.toString();
+				return outerName + '.' + getRawName(binding);
 			} else {
 				return EMPTY;
 			}

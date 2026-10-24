@@ -756,11 +756,7 @@ public class TypeInfoViewer {
 			for (int i= 0; i < chars; i++) {
 				dashes.append(SEPARATOR);
 			}
-			StringBuilder result= new StringBuilder();
-			result.append(dashes);
-			result.append(fMessage);
-			result.append(dashes);
-			return result.toString();
+			return "" + dashes + fMessage + dashes;
 		}
 		public void initialize(GC gc) {
 			fSeparatorWidth= gc.getAdvanceWidth(SEPARATOR);

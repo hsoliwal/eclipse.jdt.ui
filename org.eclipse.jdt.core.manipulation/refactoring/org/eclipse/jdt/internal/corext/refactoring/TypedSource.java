@@ -166,11 +166,7 @@ public class TypedSource {
 				return getSourceOfDeclararationNode(field, tuple.unit);
 			VariableDeclarationFragment declarationFragment= ASTNodeSearchUtil.getFieldDeclarationFragmentNode(field, tuple.node);
 			IBuffer buffer= tuple.unit.getBuffer();
-			StringBuilder buff= new StringBuilder();
-			buff.append(buffer.getText(declaration.getStartPosition(), ((ASTNode) declaration.fragments().get(0)).getStartPosition() - declaration.getStartPosition()));
-			buff.append(buffer.getText(declarationFragment.getStartPosition(), declarationFragment.getLength()));
-			buff.append(";"); //$NON-NLS-1$
-			return buff.toString();
+			return buffer.getText(declaration.getStartPosition(), ((ASTNode) declaration.fragments().get(0)).getStartPosition() - declaration.getStartPosition()) + buffer.getText(declarationFragment.getStartPosition(), declarationFragment.getLength()) + ";"; //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
 	}

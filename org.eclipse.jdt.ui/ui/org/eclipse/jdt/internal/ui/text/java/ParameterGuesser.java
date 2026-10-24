@@ -95,15 +95,7 @@ public class ParameterGuesser {
 		@Override
 		public String toString() {
 
-			StringBuilder buffer= new StringBuilder();
-			buffer.append(qualifiedTypeName);
-			buffer.append(' ');
-			buffer.append(name);
-			buffer.append(" ("); //$NON-NLS-1$
-			buffer.append(variableType);
-			buffer.append(')');
-
-			return buffer.toString();
+			return qualifiedTypeName + ' ' + name + " (" + variableType + ')'; //$NON-NLS-1$
 		}
 	}
 

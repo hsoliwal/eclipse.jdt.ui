@@ -150,11 +150,7 @@ public class AddJavaDocStubOperation implements IWorkspaceRunnable {
 						break;
 				}
 				if (comment == null) {
-					StringBuilder buf= new StringBuilder();
-					buf.append("/**").append(lineDelim); //$NON-NLS-1$
-					buf.append(" *").append(lineDelim); //$NON-NLS-1$
-					buf.append(" */").append(lineDelim); //$NON-NLS-1$
-					comment= buf.toString();
+					comment= "/**" + lineDelim + " *" + lineDelim + " */" + lineDelim; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				} else {
 					if (!comment.endsWith(lineDelim)) {
 						comment= comment + lineDelim;

@@ -372,10 +372,7 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 	 */
 	private String getSuiteMethodString(IType type) {
 		String typeName= type.getElementName();
-		StringBuilder suite= new StringBuilder("public static Test suite () {TestSuite suite= new TestSuite(" + typeName + ".class.getName());\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		suite.append(getUpdatableString());
-		suite.append("\nreturn suite;}"); //$NON-NLS-1$
-		return suite.toString();
+		return ("public static Test suite () {TestSuite suite= new TestSuite(" + typeName + ".class.getName());\n") + getUpdatableString() + "\nreturn suite;}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	private String getUpdatableString() {

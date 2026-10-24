@@ -123,12 +123,7 @@ public class PropertyKeyHyperlinkDetector extends AbstractHyperlinkDetector {
 				iter.next();
 				c= iter.current();
 				if (c == 'u') {
-					StringBuilder unicode= new StringBuilder();
-					unicode.append(iter.next());
-					unicode.append(iter.next());
-					unicode.append(iter.next());
-					unicode.append(iter.next());
-					c= (char)Integer.parseInt(unicode.toString(), 16);
+					c= (char)Integer.parseInt("" + iter.next() + iter.next() + iter.next() + iter.next(), 16);
 				}
 			}
 			result.append(c);

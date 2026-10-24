@@ -75,11 +75,7 @@ public class OverrideCompletionProposal extends JavaTypeCompletionProposal {
 		fParamTypes= paramTypes;
 		fMethodName= methodName;
 
-		StringBuilder buffer= new StringBuilder();
-		buffer.append(completionProposal);
-		buffer.append(" {};"); //$NON-NLS-1$
-
-		setReplacementString(buffer.toString());
+		setReplacementString(completionProposal + " {};"); //$NON-NLS-1$
 	}
 
 	/*

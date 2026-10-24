@@ -123,19 +123,7 @@ public final class BufferedDocumentScanner implements ICharacterScanner {
 		try {
 			return fBuffer[fOffset++];
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			StringBuilder buf= new StringBuilder();
-			buf.append("Detailed state of 'BufferedDocumentScanner:'"); //$NON-NLS-1$
-			buf.append("\n\tfOffset= "); //$NON-NLS-1$
-			buf.append(fOffset);
-			buf.append("\n\tfBufferOffset= "); //$NON-NLS-1$
-			buf.append(fBufferOffset);
-			buf.append("\n\tfBufferLength= "); //$NON-NLS-1$
-			buf.append(fBufferLength);
-			buf.append("\n\tfRangeOffset= "); //$NON-NLS-1$
-			buf.append(fRangeOffset);
-			buf.append("\n\tfRangeLength= "); //$NON-NLS-1$
-			buf.append(fRangeLength);
-			JavaManipulationPlugin.logErrorMessage(buf.toString());
+			JavaManipulationPlugin.logErrorMessage("Detailed state of 'BufferedDocumentScanner:'" + "\n\tfOffset= " + fOffset + "\n\tfBufferOffset= " + fBufferOffset + "\n\tfBufferLength= " + fBufferLength + "\n\tfRangeOffset= " + fRangeOffset + "\n\tfRangeLength= " + fRangeLength); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 			throw ex;
 		}
 	}
