@@ -19,6 +19,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -509,6 +510,8 @@ public abstract class OptionsConfigurationBlock {
 		return addCheckBox(parent, label, key, values, indent, true);
 	}
 
+	private static final Pattern GET_NAME_PATTERN = Pattern.compile("</?[aA][^>]*>"); //$NON-NLS-1$
+
 	protected Button addCheckBoxWithLink(Composite parent, final String label, Key key, String[] values, int indent, int widthHint, final SelectionListener listener) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LinkControlData data= new LinkControlData(key, values);
 
@@ -536,7 +539,8 @@ public abstract class OptionsConfigurationBlock {
 		checkBox.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 			@Override
 			public void getName(AccessibleEvent e) {
-				e.result = LegacyActionTools.removeMnemonics(label.replaceAll("</?[aA][^>]*>", "")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+				e.result = LegacyActionTools.removeMnemonics(GET_NAME_PATTERN.matcher(label).replaceAll("")); //$NON-NLS-1$
+				// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 		});
 
