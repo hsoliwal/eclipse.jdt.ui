@@ -856,15 +856,14 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 			}
 		}
 		if (!unavailableSystemModules.isEmpty()) {
-			StringBuilder message= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-			message.append(NewWizardMessages.ModuleDependenciesAdapter_addSystemModules_question); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			message.append(unavailableSystemModules.stream() //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					.map(IJavaElement::getElementName)
-					.sorted()
-					.collect(Collectors.joining("\n\t", "\t", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			int answer= MessageDialog.open(MessageDialog.QUESTION, shell,
-					NewWizardMessages.ModuleDependenciesAdapter_addSystemModule_title, message.toString(), SWT.NONE,
-					NewWizardMessages.ModuleDependenciesAdapter_add_button, IDialogConstants.CANCEL_LABEL);
+					NewWizardMessages.ModuleDependenciesAdapter_addSystemModule_title, NewWizardMessages.ModuleDependenciesAdapter_addSystemModules_question + unavailableSystemModules.stream()
+                    .map(IJavaElement::getElementName)
+                    .sorted()
+                    .collect(Collectors.joining("\n\t", "\t", "")), SWT.NONE,
+					NewWizardMessages.ModuleDependenciesAdapter_add_button, IDialogConstants.CANCEL_LABEL); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (answer == 0) {
 				try {
 					masterPage.addToSystemModules(unavailableSystemModules);
