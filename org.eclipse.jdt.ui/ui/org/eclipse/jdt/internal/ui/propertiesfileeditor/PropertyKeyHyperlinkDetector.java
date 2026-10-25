@@ -123,12 +123,9 @@ public class PropertyKeyHyperlinkDetector extends AbstractHyperlinkDetector {
 				iter.next();
 				c= iter.current();
 				if (c == 'u') {
-					StringBuilder unicode= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-					unicode.append(iter.next()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					unicode.append(iter.next()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					unicode.append(iter.next()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					unicode.append(iter.next()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					c= (char)Integer.parseInt(unicode.toString(), 16);
+					c= (char)Integer.parseInt("" + iter.next() + iter.next() + iter.next() + iter.next(), 16);
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				}
 			}
 			result.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
