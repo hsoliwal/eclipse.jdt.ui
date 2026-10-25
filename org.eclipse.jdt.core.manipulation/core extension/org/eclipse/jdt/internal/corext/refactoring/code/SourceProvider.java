@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
@@ -577,6 +578,8 @@ public class SourceProvider {
 		}
 	}
 
+	private static final Pattern TYPE_NAME_COMPONENTS_PATTERN = Pattern.compile("\\.|\\$"); //$NON-NLS-1$
+
 	private void updateTypeReferences(ASTRewrite rewriter, CallContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImportRewrite importer= context.importer;
 		for (SimpleName simpleName : fAnalyzer.getTypesToImport()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
@@ -595,7 +598,8 @@ public class SourceProvider {
 					IType[] types= context.compilationUnit.getAllTypes();
 					for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String typeName= type.getFullyQualifiedName();
-						String[] typeNameComponents= typeName.split("\\.|\\$"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+						String[] typeNameComponents= TYPE_NAME_COMPONENTS_PATTERN.split(typeName);
+						// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						if (Arrays.equals(bindingNameComponents, typeNameComponents)) {
 							return;
 						}
@@ -883,6 +887,8 @@ public class SourceProvider {
 		return result;
 	}
 
+	private static final Pattern HAS_NLS_PATTERN = Pattern.compile(".*?//\\s?\\$NON-NLS-\\d+\\$.*$"); //$NON-NLS-1$
+
 	private boolean hasNLS(Statement s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode root= s.getRoot();
 		if (root instanceof CompilationUnit) {
@@ -893,7 +899,8 @@ public class SourceProvider {
 			if (element != null && element instanceof ICompilationUnit icu) {
 				try {
 					String statement= icu.getBuffer().getText(start, length);
-					if (statement.matches(".*?//\\s?\\$NON-NLS-\\d+\\$.*$")) { //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+					if (HAS_NLS_PATTERN.matcher(statement).matches()) {
+					// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						return true;
 					}
 				} catch (IndexOutOfBoundsException | JavaModelException e) {
