@@ -201,6 +201,8 @@ public class ConvertToStringFormatFixCore extends CompilationUnitRewriteOperatio
 			this.infixExpression= infixExpression;
 		}
 
+		private static final Pattern REWRITE_AST_PATTERN = Pattern.compile("\""); //$NON-NLS-1$
+
 		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			final List<String> fLiterals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
@@ -324,7 +326,8 @@ public class ConvertToStringFormatFixCore extends CompilationUnitRewriteOperatio
 				buf.append("\"\"\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				buffer.append(buf.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buffer.append("\"" + formatString.toString().replaceAll("\"", "\\\"") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+				buffer.append("\"" + REWRITE_AST_PATTERN.matcher(formatString.toString()).replaceAll("\\\"") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 
 			for (String formatArgument : formatArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
