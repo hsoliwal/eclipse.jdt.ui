@@ -95,15 +95,9 @@ public class ParameterGuesser {
 		@Override
 		public String toString() {
 
-			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-			buffer.append(qualifiedTypeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buffer.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buffer.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buffer.append(" ("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buffer.append(variableType); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buffer.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-
-			return buffer.toString();
+			return qualifiedTypeName + ' ' + name + " (" + variableType + ')'; //$NON-NLS-1$
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		}
 	}
 
