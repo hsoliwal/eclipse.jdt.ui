@@ -123,19 +123,9 @@ public final class BufferedDocumentScanner implements ICharacterScanner {
 		try {
 			return fBuffer[fOffset++];
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-			buf.append("Detailed state of 'BufferedDocumentScanner:'"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append("\n\tfOffset= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append(fOffset); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append("\n\tfBufferOffset= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append(fBufferOffset); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append("\n\tfBufferLength= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append(fBufferLength); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append("\n\tfRangeOffset= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append(fRangeOffset); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append("\n\tfRangeLength= "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buf.append(fRangeLength); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			JavaManipulationPlugin.logErrorMessage(buf.toString());
+			JavaManipulationPlugin.logErrorMessage("Detailed state of 'BufferedDocumentScanner:'" + "\n\tfOffset= " + fOffset + "\n\tfBufferOffset= " + fBufferOffset + "\n\tfBufferLength= " + fBufferLength + "\n\tfRangeOffset= " + fRangeOffset + "\n\tfRangeLength= " + fRangeLength); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			throw ex;
 		}
 	}
