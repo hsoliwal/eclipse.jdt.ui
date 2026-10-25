@@ -75,11 +75,9 @@ public class OverrideCompletionProposal extends JavaTypeCompletionProposal { //F
 		fParamTypes= paramTypes;
 		fMethodName= methodName;
 
-		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		buffer.append(completionProposal); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buffer.append(" {};"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-
-		setReplacementString(buffer.toString());
+		setReplacementString(completionProposal + " {};"); //$NON-NLS-1$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 
 	/*
