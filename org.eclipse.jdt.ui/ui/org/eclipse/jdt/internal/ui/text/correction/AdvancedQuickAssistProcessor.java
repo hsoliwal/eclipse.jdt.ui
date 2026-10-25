@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.graphics.Image;
 
@@ -2481,6 +2482,8 @@ public class AdvancedQuickAssistProcessor implements IQuickAssistProcessor {
 		return getConvertSwitchToIfProposals(context, covering, resultingCollections, true);
 	}
 
+	private static final Pattern SOURCE_PATTERN = Pattern.compile("\r\n?|\n"); //$NON-NLS-1$
+
 	private static boolean getConvertSwitchToIfProposals(IInvocationContext context, ASTNode covering, Collection<ICommandAccess> resultingCollections, boolean preserveNPE) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final AST ast= covering.getAST();
 		final ASTRewrite rewrite= ASTRewrite.create(ast);
@@ -2616,7 +2619,8 @@ public class AdvancedQuickAssistProcessor implements IQuickAssistProcessor {
 		}
 
 		// add correction proposal
-		String source= ASTNodes.asString(switchExpression).replaceAll("\r\n?|\n", " "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		String source= SOURCE_PATTERN.matcher(ASTNodes.asString(switchExpression)).replaceAll(" "); //$NON-NLS-1$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String label= preserveNPE ? Messages.format(CorrectionMessages.AdvancedQuickAssistProcessor_convertSwitchToIf_preserveNPE, source) : CorrectionMessages.AdvancedQuickAssistProcessor_convertSwitchToIf;
 		ASTRewriteCorrectionProposal proposal= new ASTRewriteCorrectionProposal(label, context.getCompilationUnit(), rewrite, IProposalRelevance.CONVERT_SWITCH_TO_IF_ELSE);
 		proposal.setImportRewrite(importRewrite);
@@ -2923,7 +2927,8 @@ public class AdvancedQuickAssistProcessor implements IQuickAssistProcessor {
 
 				rewrite.replace(coveringNode, newIfStatement, null);
 
-				String source= ASTNodes.asString(switchExpression).replaceAll("\r\n?|\n", " "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+				String source= SOURCE_PATTERN.matcher(ASTNodes.asString(switchExpression)).replaceAll(" "); //$NON-NLS-1$
+				// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				String label= Messages.format(CorrectionMessages.AdvancedQuickAssistProcessor_convertIfElseToSwitch_handleNullArg, source);
 				ASTRewriteCorrectionProposal proposal= new ASTRewriteCorrectionProposal(label, context.getCompilationUnit(), rewrite, IProposalRelevance.CONVERT_IF_ELSE_TO_SWITCH);
 				proposal.setImportRewrite(importRewrite);
