@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IPath;
@@ -108,9 +109,12 @@ public abstract class ModuleEncapsulationDetail {
 	 */
 	static class ModulePatch extends ModuleEncapsulationDetail {
 
+		private static final Pattern FROM_MULTI_STRING_PATTERN = Pattern.compile("::");
+
 		public static Collection<ModulePatch> fromMultiString(CPListElementAttribute attribElem, String values) {
 			List<ModulePatch> patches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
-			for (String value : values.split("::")) { // see comment in #encodeFiltered(..) //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			for (String value : FROM_MULTI_STRING_PATTERN.split(values)) { // see comment in #encodeFiltered(..) //$NON-NLS-1$
+			// preserved predecessor annotation: //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				ModulePatch patch= fromString(attribElem, value);
 				if (patch != null)
 					patches.add(patch);
