@@ -135,10 +135,9 @@ public class JavaOutlineInformationControl extends AbstractInformationControl { 
 				try {
 					IType type= getDefiningType(element);
 					if (type != null) {
-						StringBuilder buf= new StringBuilder(super.getText(type)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-						buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-						buf.append(text); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-						return buf.toString();
+						return super.getText(type) + JavaElementLabels.CONCAT_STRING + text;
+						// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					}
 				} catch (JavaModelException e) {
 					// go with the simple label
