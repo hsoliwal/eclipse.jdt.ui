@@ -242,20 +242,9 @@ public class TomcatTab extends AbstractLaunchConfigurationTab {
 				String home = TomcatLaunchDelegate.getCatalinaHome();
 				IPath endorsed = new Path(home).append("common").append("endorsed");  //$NON-NLS-1$//$NON-NLS-2$
 				IPath temp = new Path(home).append("temp"); //$NON-NLS-1$
-				StringBuilder args = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-				args.append("-Djava.endorsed.dirs=\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append(endorsed.toOSString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append("\" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append("-Dcatalina.base=\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append(home); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append("\" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append("-Dcatalina.home=\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append(home); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append("\" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append("-Djava.io.tmpdir=\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append(temp.toOSString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				args.append("\"");  //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, args.toString());
+				workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "-Djava.endorsed.dirs=\"" + endorsed.toOSString() + "\" " + "-Dcatalina.base=\"" + home + "\" " + "-Dcatalina.home=\"" + home + "\" " + "-Djava.io.tmpdir=\"" + temp.toOSString() + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, "start"); //$NON-NLS-1$
 			}
 		} catch (CoreException e) {
