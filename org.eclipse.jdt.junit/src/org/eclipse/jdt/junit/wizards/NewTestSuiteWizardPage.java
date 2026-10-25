@@ -372,10 +372,9 @@ public class NewTestSuiteWizardPage extends NewTypeWizardPage {
 	 */
 	private String getSuiteMethodString(IType type) {
 		String typeName= type.getElementName();
-		StringBuilder suite= new StringBuilder("public static Test suite () {TestSuite suite= new TestSuite(" + typeName + ".class.getName());\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		suite.append(getUpdatableString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		suite.append("\nreturn suite;}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		return suite.toString();
+		return ("public static Test suite () {TestSuite suite= new TestSuite(" + typeName + ".class.getName());\n") + getUpdatableString() + "\nreturn suite;}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 
 	private String getUpdatableString() {
