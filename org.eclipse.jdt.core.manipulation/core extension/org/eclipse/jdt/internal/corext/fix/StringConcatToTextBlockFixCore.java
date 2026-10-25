@@ -397,11 +397,9 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 			} else {
 				ASTNode stmt= ASTNodes.getFirstAncestorOrNull(fInfix, Statement.class, FieldDeclaration.class);
 				ICompilationUnit cu= (ICompilationUnit)((CompilationUnit)fInfix.getRoot()).getJavaElement();
-				StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-				buffer.append(cu.getBuffer().getText(stmt.getStartPosition(), fInfix.getStartPosition() - stmt.getStartPosition())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				buffer.append(buf.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				buffer.append(cu.getBuffer().getText(fInfix.getStartPosition() + fInfix.getLength(), stmt.getStartPosition() + stmt.getLength() - fInfix.getStartPosition() - fInfix.getLength())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				ASTNode newStmt= rewrite.createStringPlaceholder(buffer.toString(), stmt.getNodeType());
+				ASTNode newStmt= rewrite.createStringPlaceholder(cu.getBuffer().getText(stmt.getStartPosition(), fInfix.getStartPosition() - stmt.getStartPosition()) + buf.toString() + cu.getBuffer().getText(fInfix.getStartPosition() + fInfix.getLength(), stmt.getStartPosition() + stmt.getLength() - fInfix.getStartPosition() - fInfix.getLength()), stmt.getNodeType());
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				ASTNodes.replaceButKeepComment(rewrite, stmt, newStmt, group);
 			}
 		}
@@ -1069,13 +1067,9 @@ public class StringConcatToTextBlockFixCore extends CompilationUnitRewriteOperat
 					newStmt.setType(t);
 					ASTNodes.replaceButKeepComment(rewrite, fStatements.get(0), newStmt, group);
 				} else {
-					StringBuilder builder= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-					builder.append("String "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					builder.append(newVarName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					builder.append(" = "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					builder.append(buf.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					builder.append("; //$NON-NLS-1$"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					VariableDeclarationStatement newStmt= (VariableDeclarationStatement) rewrite.createStringPlaceholder(builder.toString(), ASTNode.VARIABLE_DECLARATION_STATEMENT);
+					VariableDeclarationStatement newStmt= (VariableDeclarationStatement) rewrite.createStringPlaceholder("String " + newVarName + " = " + buf.toString() + "; //$NON-NLS-1$", ASTNode.VARIABLE_DECLARATION_STATEMENT); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					ASTNodes.replaceButKeepComment(rewrite, fStatements.get(0), newStmt, group);
 				}
 				for (int i= 1; i < fStatements.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
