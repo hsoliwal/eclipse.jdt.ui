@@ -250,11 +250,9 @@ class JavaParseTreeBuilder extends ASTVisitor {
     }
 
     private String getSignature(AnnotationTypeMemberDeclaration node) {
-    	StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-        buffer.append(node.getName().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-        buffer.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-        buffer.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-        return buffer.toString();
+	return node.getName().toString() + '(' + ')';
+	// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+	// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
     }
 
 	private String getType(Type type) {

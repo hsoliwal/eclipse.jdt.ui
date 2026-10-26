@@ -100,17 +100,9 @@ public class WordCorrectionProposal implements IJavaCompletionProposal { //FLLDC
 		fContext= context;
 		fRelevance= relevance;
 
-		final StringBuilder buffer= new StringBuilder(80); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-
-		buffer.append("...<br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buffer.append(getHtmlRepresentation(arguments[1])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buffer.append("<b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buffer.append(getHtmlRepresentation(fWord)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buffer.append("</b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buffer.append(getHtmlRepresentation(arguments[2])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buffer.append("<br>..."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-
-		fLine= buffer.toString();
+		fLine= "...<br>" + getHtmlRepresentation(arguments[1]) + "<b>" + getHtmlRepresentation(fWord) + "</b>" + getHtmlRepresentation(arguments[2]) + "<br>..."; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 
 	/*

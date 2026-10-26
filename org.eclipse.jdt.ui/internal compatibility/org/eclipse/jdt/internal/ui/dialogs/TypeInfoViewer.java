@@ -756,11 +756,9 @@ public class TypeInfoViewer {
 			for (int i= 0; i < chars; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				dashes.append(SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-			result.append(dashes); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			result.append(fMessage); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			result.append(dashes); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			return result.toString();
+			return "" + dashes + fMessage + dashes;
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		}
 		public void initialize(GC gc) {
 			fSeparatorWidth= gc.getAdvanceWidth(SEPARATOR);

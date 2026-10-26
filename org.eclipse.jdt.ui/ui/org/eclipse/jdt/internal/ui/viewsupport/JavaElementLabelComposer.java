@@ -18,6 +18,7 @@ package org.eclipse.jdt.internal.ui.viewsupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.jar.Attributes.Name;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IPath;
 
@@ -545,14 +546,19 @@ public class JavaElementLabelComposer extends JavaElementLabelComposerCore {
 		fgPkgNameAbbreviation= abbrs;
 	}
 
+	private static final Pattern PARSE_ABBREVIATION_PATTERN = Pattern.compile("\\s*(?:\r\n?|\n)\\s*"); //$NON-NLS-1$
+	private static final Pattern PARTS2_PATTERN = Pattern.compile("\\s*=\\s*"); //$NON-NLS-1$
+
 	public static PackageNameAbbreviation[] parseAbbreviationPattern(String pattern) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ArrayList<PackageNameAbbreviation> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String p : pattern.split("\\s*(?:\r\n?|\n)\\s*")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		for (String p : PARSE_ABBREVIATION_PATTERN.split(pattern)) {
 			String part= p.trim();
 			if (part.length() == 0)
 				continue;
-			String[] parts2= part.split("\\s*=\\s*", 2); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			String[] parts2= PARTS2_PATTERN.split(part, 2);
+			// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			// preserved predecessor annotation: //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			if (parts2.length != 2)
 				return null;
 			String prefix= parts2[0].trim();

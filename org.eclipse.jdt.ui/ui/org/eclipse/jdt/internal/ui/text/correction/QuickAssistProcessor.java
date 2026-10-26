@@ -3701,6 +3701,8 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 		return matcher.matches(); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
+	private static final Pattern CONVERT_TO_CONSTANT_NAME_PATTERN = Pattern.compile("_{2,}"); //$NON-NLS-1$
+
 	public static String convertToConstantName(String identifier) {
 		StringBuilder constantNaming= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean lastCharWasUpperCase= false;
@@ -3716,7 +3718,8 @@ public class QuickAssistProcessor implements IQuickAssistProcessor {
 				lastCharWasUpperCase= false;
 			}
 		}
-		return constantNaming.toString().replaceAll("_{2,}", "_"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		return CONVERT_TO_CONSTANT_NAME_PATTERN.matcher(constantNaming.toString()).replaceAll("_"); //$NON-NLS-1$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 }
 

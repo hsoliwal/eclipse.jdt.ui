@@ -536,11 +536,8 @@ public class NewPackageWizardPage extends NewTypeWizardPage {
 	}
 
 	private void createPackageInfoJava(IProgressMonitor monitor) throws CoreException {
-		StringBuilder fileContent= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		fileContent.append("package "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		fileContent.append(fCreatedPackageFragment.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		fileContent.append(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-
-		InfoFilesUtil.createInfoJavaFile(PACKAGE_INFO_JAVA_FILENAME, fileContent.toString(), fCreatedPackageFragment,this.isAddComments(), monitor);
+		InfoFilesUtil.createInfoJavaFile(PACKAGE_INFO_JAVA_FILENAME, "package " + fCreatedPackageFragment.getElementName() + ";", fCreatedPackageFragment,this.isAddComments(), monitor); //$NON-NLS-1$ //$NON-NLS-2$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 }

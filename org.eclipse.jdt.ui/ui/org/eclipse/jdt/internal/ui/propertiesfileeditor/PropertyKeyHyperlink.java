@@ -459,10 +459,9 @@ public class PropertyKeyHyperlink implements IHyperlink {
 							//maybe not an eclipse style NLS string
 							String searchString;
 							if (useDoubleQuotedKey) {
-								StringBuilder buf= new StringBuilder("\""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-								buf.append(key); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-								buf.append('"'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-								searchString= buf.toString();
+								searchString= "\"" + key + '"'; //$NON-NLS-1$
+								// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+								// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 							} else
 								searchString= key;
 							ResultCollector collector= new ResultCollector(result, useDoubleQuotedKey);

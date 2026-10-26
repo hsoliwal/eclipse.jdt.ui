@@ -202,9 +202,9 @@ public class CategoryFilterActionGroup extends ActionGroup {
 
 		public CategoryFilterAction(String category, int count) {
 			fCategory= category;
-			StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-			buf.append('&').append(count).append(' ').append(fCategory); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			setText(buf.toString());
+			setText("" + '&' + count + ' ' + fCategory);
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			setChecked(!fFilteredCategories.contains(fCategory));
 			setId(FILTER_CATEGORY_ACTION_ID);
 		}

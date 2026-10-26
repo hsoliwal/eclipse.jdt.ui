@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.FileTransfer;
@@ -683,6 +684,8 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 			}
 		}
 
+		private static final Pattern PARSED_TEXT_PATTERN = Pattern.compile("\r\n?|\n"); //$NON-NLS-1$
+
 		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void paste(IJavaElement[] javaElements, IResource[] resources, final IWorkingSet[] selectedWorkingSets, TransferData[] availableTypes) throws JavaModelException, InterruptedException, InvocationTargetException{
 			if (fPatchStorage != null) {
@@ -792,7 +795,8 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 								editorPart[0]= openCu(cu); //Open editor before overwriting to allow undo to restore original package declaration
 							}
 
-							parsedText= parsedText.replaceAll("\r\n?|\n", StubUtility.getLineDelimiterUsed(cu)); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+							parsedText= PARSED_TEXT_PATTERN.matcher(parsedText).replaceAll(StubUtility.getLineDelimiterUsed(cu));
+							// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 							destinationPack.createCompilationUnit(cuName, parsedText, true, Progress.subMonitor(pm, 1));
 
 							if (! alreadyExists) {

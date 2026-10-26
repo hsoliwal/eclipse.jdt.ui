@@ -221,10 +221,9 @@ public class JUnitContainerWizardPage extends NewElementWizardPage implements IC
 	}
 
 	private String getPathLabel(IPath path) {
-		StringBuilder buf= new StringBuilder(BasicElementLabels.getResourceName(path.lastSegment())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buf.append(BasicElementLabels.getPathLabel(path.removeLastSegments(1), true)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		return buf.toString();
+		return BasicElementLabels.getResourceName(path.lastSegment()) + JavaElementLabels.CONCAT_STRING + BasicElementLabels.getPathLabel(path.removeLastSegments(1), true);
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 
 	@Override

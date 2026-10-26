@@ -957,16 +957,13 @@ public class TypeContextChecker {
 	}
 
 	public static ITypeBinding resolveSuperClass(String superclass, IType typeHandle, StubTypeContext superClassContext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		StringBuilder cuString= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		cuString.append(superClassContext.getBeforeString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		cuString.append(superclass); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		cuString.append(superClassContext.getAfterString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-
 		try {
 			ICompilationUnit wc= typeHandle.getCompilationUnit().getWorkingCopy(new WorkingCopyOwner() {
 				/*subclass*/}, new NullProgressMonitor());
 			try {
-				wc.getBuffer().setContents(cuString.toString());
+				wc.getBuffer().setContents(superClassContext.getBeforeString() + superclass + superClassContext.getAfterString());
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				CompilationUnit compilationUnit= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(wc, true);
 				ASTNode type= NodeFinder.perform(compilationUnit, superClassContext.getBeforeString().length(), superclass.length());
 				if (type instanceof Type) {

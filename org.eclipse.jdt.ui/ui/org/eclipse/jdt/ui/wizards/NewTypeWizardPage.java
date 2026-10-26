@@ -3110,10 +3110,9 @@ public abstract class NewTypeWizardPage extends NewContainerWizardPage {
 		if (fTypeKind == COMPACT_TYPE) {
 			return ""; //$NON-NLS-1$
 		}
-		StringBuilder buf= new StringBuilder("public class "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		buf.append(getTypeName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		buf.append("{ }"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		return buf.toString();
+		return "public class " + getTypeName() + "{ }"; //$NON-NLS-1$ //$NON-NLS-2$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 
 	}

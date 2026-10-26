@@ -536,11 +536,9 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 
 				final char character= event.character;
 				final char closingCharacter= getPeerCharacter(character);
-				final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-				buffer.append(character); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				buffer.append(closingCharacter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-
-				document.replace(offset, length, buffer.toString());
+				document.replace(offset, length, "" + character + closingCharacter);
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 
 				BracketLevel level= new BracketLevel();

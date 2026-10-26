@@ -166,11 +166,9 @@ public class TypedSource {
 				return getSourceOfDeclararationNode(field, tuple.unit);
 			VariableDeclarationFragment declarationFragment= ASTNodeSearchUtil.getFieldDeclarationFragmentNode(field, tuple.node);
 			IBuffer buffer= tuple.unit.getBuffer();
-			StringBuilder buff= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-			buff.append(buffer.getText(declaration.getStartPosition(), ((ASTNode) declaration.fragments().get(0)).getStartPosition() - declaration.getStartPosition())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buff.append(buffer.getText(declarationFragment.getStartPosition(), declarationFragment.getLength())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			buff.append(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			return buff.toString();
+			return buffer.getText(declaration.getStartPosition(), ((ASTNode) declaration.fragments().get(0)).getStartPosition() - declaration.getStartPosition()) + buffer.getText(declarationFragment.getStartPosition(), declarationFragment.getLength()) + ";"; //$NON-NLS-1$
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		}
 		return ""; //$NON-NLS-1$
 	}

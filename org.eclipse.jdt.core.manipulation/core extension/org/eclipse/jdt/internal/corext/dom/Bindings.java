@@ -164,11 +164,9 @@ public class Bindings {
 			Assert.isTrue("length".equals(variableBinding.getName()));//$NON-NLS-1$
 			return ARRAY_LENGTH_FIELD_BINDING_STRING;
 		}
-		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-		result.append(variableBinding.getDeclaringClass().getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		result.append(':'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		result.append(variableBinding.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-		return result.toString();
+		return variableBinding.getDeclaringClass().getName() + ':' + variableBinding.getName();
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 
 	private static String asString(IMethodBinding method) {
@@ -1258,9 +1256,7 @@ public class Bindings {
 		if (binding.isArray()) {
 			String elementTypeQualifiedName = getRawQualifiedName(binding.getElementType());
 			if (elementTypeQualifiedName.length() != 0) {
-				StringBuilder stringBuffer= new StringBuilder(elementTypeQualifiedName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-				stringBuffer.append('[').append(']'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				return stringBuffer.toString();
+				return elementTypeQualifiedName + '[' + ']';
 			} else {
 				return EMPTY;
 			}
@@ -1268,11 +1264,9 @@ public class Bindings {
 		if (binding.isMember()) {
 			String outerName= getRawQualifiedName(binding.getDeclaringClass());
 			if (outerName.length() > 0) {
-				StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-				buffer.append(outerName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				buffer.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				buffer.append(getRawName(binding)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				return buffer.toString();
+				return outerName + '.' + getRawName(binding);
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			} else {
 				return EMPTY;
 			}

@@ -150,11 +150,9 @@ public class AddJavaDocStubOperation implements IWorkspaceRunnable { //FLLDCIM: 
 						break;
 				}
 				if (comment == null) {
-					StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-					buf.append("/**").append(lineDelim); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					buf.append(" *").append(lineDelim); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					buf.append(" */").append(lineDelim); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-					comment= buf.toString();
+					comment= "/**" + lineDelim + " *" + lineDelim + " */" + lineDelim; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				} else {
 					if (!comment.endsWith(lineDelim)) {
 						comment= comment + lineDelim; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT

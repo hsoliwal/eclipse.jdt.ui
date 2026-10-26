@@ -226,13 +226,9 @@ public class FatJarPackageWizardPage extends AbstractJarDestinationWizardPage {
 
 		@Override
 		public String getLaunchConfigurationName() {
-			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-
-			result.append(fLaunchConfiguration.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			result.append(" - "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-			result.append(fProjectName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-
-			return result.toString();
+			return fLaunchConfiguration.getName() + " - " + fProjectName; //$NON-NLS-1$
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		}
 
 		@Override

@@ -757,10 +757,9 @@ public class BindingLinkedLabelComposer extends JavaElementLinkedLabelComposer {
 		} else if (getFlag(flags, JavaElementLabels.T_CONTAINER_QUALIFIED)) {
 			ITypeBinding declaringClass= typeBinding.getDeclaringClass();
 			if (declaringClass != null) {
-				StringBuilder buf= new StringBuilder(getTypeName(declaringClass, flags)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-				buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				buf.append(typeBinding.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				return buf.toString();
+				return getTypeName(declaringClass, flags) + '.' + typeBinding.getName();
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			}
 		}
 		return typeBinding.getName();

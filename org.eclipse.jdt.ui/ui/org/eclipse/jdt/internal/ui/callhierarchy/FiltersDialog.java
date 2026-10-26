@@ -15,6 +15,7 @@
 package org.eclipse.jdt.internal.ui.callhierarchy;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -45,7 +46,8 @@ class FiltersDialog extends StatusDialog {
 	private static final String VALID_JAVA_NAME_BEGINNING= "A-Za-z_"; //$NON-NLS-1$
 
 	static final String METHOD_NAME_GLOB_PATTERN= "^([" + VALID_JAVA_NAME_BEGINNING + GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*)(" + DOT + "([" + VALID_JAVA_NAME_BEGINNING //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-			+ GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*))*$";//$NON-NLS-1$ //$NON-NLS-2$
+			+ GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*))*$"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Pattern METHOD_NAME_GLOB_PATTERN_COMPILED = Pattern.compile(METHOD_NAME_GLOB_PATTERN);
 
     private Label fNamesHelpText;
     private Button fFilterOnNames;
@@ -275,7 +277,8 @@ class FiltersDialog extends StatusDialog {
 	}
 
 	private boolean isValidMethodNameGlob(String input) {
-		return input != null && input.matches(METHOD_NAME_GLOB_PATTERN); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		return input != null && METHOD_NAME_GLOB_PATTERN_COMPILED.matcher(input).matches();
+		// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 

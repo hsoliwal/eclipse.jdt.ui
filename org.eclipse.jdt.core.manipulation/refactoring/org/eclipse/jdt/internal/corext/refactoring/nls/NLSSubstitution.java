@@ -106,10 +106,9 @@ public class NLSSubstitution {
 					length= length + fPrefix.length();
 				if (fKey != null)
 					length= length + fKey.length();
-				StringBuilder sb= new StringBuilder(length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
-				sb.append(fPrefix); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				sb.append(fKey); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
-				fCachedPrefixPlusKey= sb.toString();
+				fCachedPrefixPlusKey= fPrefix + fKey;
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			}
 			return fCachedPrefixPlusKey;
 		}
